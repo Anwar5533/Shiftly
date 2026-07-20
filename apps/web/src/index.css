@@ -1,0 +1,261 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Design System Tokens ─────────────────────────────────────────────────── */
+
+@layer base {
+  :root {
+    /* ─── Brand (Purple-Indigo) ─────────────────────────────── */
+    --brand-50:  248 245 255;
+    --brand-100: 237 233 255;
+    --brand-200: 221 214 254;
+    --brand-300: 196 181 253;
+    --brand-400: 167 139 250;
+    --brand-500: 139 92 246;
+    --brand-600: 124 58 237;
+    --brand-700: 109 40 217;
+    --brand-800: 91 33 182;
+    --brand-900: 76 29 149;
+    --brand-950: 46 16 101;
+
+    /* ─── Light Mode Semantic Tokens ────────────────────────── */
+    --background:           0 0% 100%;
+    --foreground:           224 71% 4%;
+
+    --card:                 0 0% 100%;
+    --card-foreground:      224 71% 4%;
+
+    --popover:              0 0% 100%;
+    --popover-foreground:   224 71% 4%;
+
+    --primary:              262 83% 58%;
+    --primary-foreground:   0 0% 100%;
+
+    --secondary:            220 14% 96%;
+    --secondary-foreground: 220 9% 46%;
+
+    --muted:                220 14% 96%;
+    --muted-foreground:     220 9% 46%;
+
+    --accent:               220 14% 96%;
+    --accent-foreground:    220 9% 15%;
+
+    --destructive:          0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success:              142 76% 36%;
+    --success-foreground:   0 0% 100%;
+
+    --warning:              38 92% 50%;
+    --warning-foreground:   0 0% 100%;
+
+    --border:               220 13% 91%;
+    --input:                220 13% 91%;
+    --ring:                 262 83% 58%;
+
+    --radius:               0.625rem;
+
+    /* ─── Elevation / Shadow ────────────────────────────────── */
+    --shadow-xs:   0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-sm:   0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-md:   0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg:   0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl:   0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    --shadow-brand: 0 4px 14px 0 rgb(139 92 246 / 0.3);
+  }
+
+  .dark {
+    /* ─── Dark Mode Semantic Tokens ─────────────────────────── */
+    --background:           224 71% 4%;
+    --foreground:           210 40% 98%;
+
+    --card:                 222 47% 7%;
+    --card-foreground:      210 40% 98%;
+
+    --popover:              222 47% 7%;
+    --popover-foreground:   210 40% 98%;
+
+    --primary:              262 83% 65%;
+    --primary-foreground:   224 71% 4%;
+
+    --secondary:            217 33% 17%;
+    --secondary-foreground: 215 20% 65%;
+
+    --muted:                217 33% 17%;
+    --muted-foreground:     215 20% 65%;
+
+    --accent:               217 33% 17%;
+    --accent-foreground:    210 40% 98%;
+
+    --destructive:          0 72% 51%;
+    --destructive-foreground: 210 40% 98%;
+
+    --success:              142 70% 45%;
+    --success-foreground:   210 40% 98%;
+
+    --warning:              38 92% 50%;
+    --warning-foreground:   224 71% 4%;
+
+    --border:               217 33% 17%;
+    --input:                217 33% 17%;
+    --ring:                 262 83% 65%;
+
+    --shadow-xs:   0 1px 2px 0 rgb(0 0 0 / 0.3);
+    --shadow-sm:   0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);
+    --shadow-md:   0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+    --shadow-lg:   0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+    --shadow-xl:   0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.4);
+    --shadow-brand: 0 4px 24px 0 rgb(139 92 246 / 0.4);
+  }
+
+  /* ─── Base Reset & Typography ───────────────────────────────── */
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Focus visible ring */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-border;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/30;
+  }
+
+  /* Selection */
+  ::selection {
+    background: hsl(var(--primary) / 0.2);
+    color: hsl(var(--foreground));
+  }
+}
+
+/* ─── Component Layer ──────────────────────────────────────────────────────── */
+
+@layer components {
+  /* Skeleton loading shimmer */
+  .skeleton {
+    @apply relative overflow-hidden bg-muted;
+    background-size: 200% 100%;
+    background-image: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 0%,
+      hsl(var(--muted-foreground) / 0.1) 50%,
+      hsl(var(--muted)) 100%
+    );
+    animation: skeleton 1.5s ease-in-out infinite;
+  }
+
+  /* Glass morphism card */
+  .glass {
+    @apply backdrop-blur-md border;
+    background: hsl(var(--card) / 0.8);
+    box-shadow: inset 0 1px 0 0 rgb(255 255 255 / 0.05);
+  }
+
+  /* Page container */
+  .page-container {
+    @apply container mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8;
+  }
+
+  /* Section header */
+  .section-header {
+    @apply flex items-center justify-between mb-6;
+  }
+
+  /* Status badge base */
+  .badge-base {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, rgb(var(--brand-500)), rgb(var(--brand-700)));
+  }
+
+  /* Animated underline link */
+  .animated-link {
+    @apply relative text-primary hover:text-primary/80 transition-colors;
+  }
+
+  .animated-link::after {
+    @apply absolute bottom-0 left-0 h-0.5 w-0 bg-primary transition-all duration-300;
+    content: '';
+  }
+
+  .animated-link:hover::after {
+    @apply w-full;
+  }
+
+  /* Input focus glow */
+  .input-glow {
+    @apply transition-shadow duration-200;
+  }
+
+  .input-glow:focus {
+    box-shadow: 0 0 0 3px hsl(var(--primary) / 0.15);
+  }
+
+  /* Card hover lift */
+  .card-hover {
+    @apply transition-all duration-200 hover:-translate-y-0.5;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .card-hover:hover {
+    box-shadow: var(--shadow-md);
+  }
+}
+
+/* ─── Utility Layer ────────────────────────────────────────────────────────── */
+
+@layer utilities {
+  /* Text balance */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* No scrollbar */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

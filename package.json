@@ -1,0 +1,51 @@
+{
+  "name": "shiftly",
+  "version": "0.1.0",
+  "private": true,
+  "description": "SHIFTLY — Enterprise Workforce Marketplace",
+  "packageManager": "pnpm@9.15.9",
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "test:unit": "turbo run test:unit",
+    "test:integration": "turbo run test:integration",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\" --ignore-path .prettierignore",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md}\" --ignore-path .prettierignore",
+    "clean": "turbo run clean && rimraf node_modules",
+    "db:generate": "pnpm --filter @shiftly/api prisma generate",
+    "db:migrate": "pnpm --filter @shiftly/api prisma migrate dev",
+    "db:migrate:deploy": "pnpm --filter @shiftly/api prisma migrate deploy",
+    "db:seed": "pnpm --filter @shiftly/api run db:seed",
+    "db:studio": "pnpm --filter @shiftly/api prisma studio"
+  },
+  "devDependencies": {
+    "turbo": "^2.3.3",
+    "prettier": "^3.3.3",
+    "rimraf": "^6.0.1",
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,md}": [
+      "prettier --write"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  }
+}
