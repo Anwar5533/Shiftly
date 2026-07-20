@@ -11,8 +11,8 @@
     "lint": "eslint src --ext .ts",
     "typecheck": "tsc --noEmit",
     "test": "jest",
-    "test:unit": "jest --testPathPattern=spec",
-    "test:integration": "jest --testPathPattern=e2e-spec --runInBand",
+    "test:unit": "jest --testPathPatterns=spec",
+    "test:integration": "jest --testPathPatterns=e2e-spec --runInBand",
     "test:cov": "jest --coverage",
     "test:watch": "jest --watch",
     "db:generate": "prisma generate",
@@ -75,6 +75,7 @@
     "@types/bcrypt": "^5.0.2",
     "@types/compression": "^1.7.5",
     "@types/express": "^5.0.6",
+    "@types/jest": "^30.0.0",
     "@types/multer": "^1.4.12",
     "@types/node": "^22.10.5",
     "@types/passport-jwt": "^4.0.1",
@@ -87,5 +88,27 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.6.3"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": ".",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "src/**/*.ts",
+      "!src/main.ts",
+      "!src/**/*.module.ts"
+    ],
+    "coverageDirectory": "./coverage",
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^@shiftly/shared-(.*)$": "<rootDir>/../../packages/shared-$1/src"
+    }
   }
 }
