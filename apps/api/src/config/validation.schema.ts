@@ -26,6 +26,8 @@ export const validationSchema = Joi.object({
   OPENAI_API_KEY: Joi.string().required(),
   CORS_ORIGINS: Joi.string().default('http://localhost:5173'),
   PLATFORM_FEE_PERCENT: Joi.number().min(0).max(100).default(10),
+  OTLP_ENDPOINT: Joi.string().uri().optional(),
+  OTLP_SERVICE_NAME: Joi.string().default('shiftly-api'),
   OTP_EXPIRE_SECONDS: Joi.number().default(300),
   OTP_MAX_ATTEMPTS: Joi.number().default(5),
 }).unknown(true);

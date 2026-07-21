@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shiftly-web
+  labels:
+    app: shiftly-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: shiftly-web
+  template:
+    metadata:
+      labels:
+        app: shiftly-web
+    spec:
+      containers:
+      - name: web
+        image: shiftly/web:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shiftly-web
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 3000
+  selector:
+    app: shiftly-web
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: shiftly-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  tls:
+  - hosts:
+    - app.shiftly.com
+    - api.shiftly.com
+    secretName: shiftly-tls
+  rules:
+  - host: app.shiftly.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: shiftly-web
+            port:
+              number: 80
+  - host: api.shiftly.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: shiftly-api
+            port:
+              number: 80

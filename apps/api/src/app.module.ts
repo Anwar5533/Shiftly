@@ -5,6 +5,10 @@ import { ConfigModule } from '@nestjs/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ScheduleModule } from '@nestjs/schedule';
 import { WinstonModule } from 'nest-winston';
+import { PrometheusModule } from '@willsoto/nestjs-prometheus';
+import { CacheModule } from '@nestjs/cache-manager';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { RetryInterceptor } from './shared/interceptors/retry.interceptor';
 import { appConfig } from './config/app.config';
 import { databaseConfig } from './config/database.config';
 import { redisConfig } from './config/redis.config';
@@ -133,11 +137,25 @@ import { AdminModule } from './modules/admin/admin.module';
     // UsersModule,
     HealthModule,
     AdminModule,
+    PrometheusModule.register({
+      path: '/metrics',
+      defaultMetrics: {
+        enabled: true,
+      },
+    }),
+    CacheModule.register({
+      isGlobal: true,
+      ttl: 5000, // 5 seconds default
+    }),
   ],
   providers: [
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: RetryInterceptor,
     },
   ],
 })

@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shiftly-api
+  labels:
+    app: shiftly-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: shiftly-api
+  template:
+    metadata:
+      labels:
+        app: shiftly-api
+    spec:
+      containers:
+      - name: api
+        image: shiftly/api:latest # To be replaced by CI
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 4000
+        envFrom:
+        - secretRef:
+            name: shiftly-api-secrets
+        livenessProbe:
+          httpGet:
+            path: /api/v1/health/live
+            port: 4000
+          initialDelaySeconds: 15
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /api/v1/health/ready
+            port: 4000
+          initialDelaySeconds: 15
+          periodSeconds: 10
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+          limits:
+            cpu: "1000m"
+            memory: "1Gi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shiftly-api
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 4000
+  selector:
+    app: shiftly-api
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: shiftly-api-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: shiftly-api
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
