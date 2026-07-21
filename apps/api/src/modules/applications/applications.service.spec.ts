@@ -13,16 +13,18 @@ describe('ApplicationsService', () => {
   let prismaService: jest.Mocked<PrismaService>;
 
   beforeEach(async () => {
-    const mockPrismaService = {
+    const mockPrismaService: any = {
       workerProfile: { findUnique: jest.fn() },
       employerProfile: { findUnique: jest.fn() },
-      job: { findUnique: jest.fn() },
+      job: { findUnique: jest.fn(), update: jest.fn() },
       jobApplication: {
         findUnique: jest.fn(),
         create: jest.fn(),
         findMany: jest.fn(),
         update: jest.fn(),
       },
+      auditLog: { create: jest.fn() },
+      $transaction: jest.fn((callback) => callback(mockPrismaService)),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -56,6 +58,10 @@ describe('ApplicationsService', () => {
       });
       (prismaService.job.findUnique as jest.Mock).mockResolvedValue({
         id: 'job1',
+        status: 'PUBLISHED',
+        deletedAt: null,
+        positionsFilled: 0,
+        positionsTotal: 10,
       });
       (prismaService.jobApplication.findUnique as jest.Mock).mockResolvedValue(
         null,

@@ -30,6 +30,10 @@ describe('LoggingInterceptor', () => {
           headers: {},
           user: { sub: 'user-123' },
         }),
+        getResponse: jest.fn().mockReturnValue({
+          statusCode: 200,
+          setHeader: jest.fn(),
+        }),
       }),
     } as unknown as ExecutionContext;
 

@@ -20,8 +20,20 @@ describe('JobsService', () => {
         create: jest.fn(),
         findMany: jest.fn(),
         count: jest.fn(),
+        update: jest.fn(),
       },
-      $transaction: jest.fn((promises) => Promise.all(promises)),
+      auditLog: {
+        create: jest.fn(),
+      },
+      $transaction: jest.fn(async (args) => {
+        if (Array.isArray(args)) {
+          return Promise.all(args);
+        }
+        if (typeof args === 'function') {
+          // Pass the prisma mock itself as the transaction object
+          return args(prisma);
+        }
+      }),
     };
 
     const module: TestingModule = await Test.createTestingModule({

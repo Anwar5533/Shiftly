@@ -40,7 +40,7 @@ describe('AuthService', () => {
         create: jest.fn(),
         findUnique: jest.fn(),
         findFirst: jest.fn(),
-        updateMany: jest.fn(),
+        updateMany: jest.fn().mockResolvedValue({ count: 1 }),
         update: jest.fn(),
       } as any,
       $transaction: jest.fn((callback) => callback(prisma)),
@@ -124,7 +124,7 @@ describe('AuthService', () => {
   describe('verifyOtp', () => {
     it('should throw BadRequestException if locked', async () => {
       redis.exists.mockResolvedValue(1);
-      await expect(service.verifyOtp('+1234567890', '123456')).rejects.toThrow(
+      await expect(service.verifyOtp('+1234567890', '123456', '127.0.0.1', 'test')).rejects.toThrow(
         BadRequestException,
       );
     });
@@ -132,7 +132,7 @@ describe('AuthService', () => {
     it('should throw BadRequestException if OTP expired', async () => {
       redis.exists.mockResolvedValue(0);
       redis.get.mockResolvedValue(null);
-      await expect(service.verifyOtp('+1234567890', '123456')).rejects.toThrow(
+      await expect(service.verifyOtp('+1234567890', '123456', '127.0.0.1', 'test')).rejects.toThrow(
         'OTP has expired',
       );
     });
@@ -142,7 +142,7 @@ describe('AuthService', () => {
       redis.get.mockResolvedValue('654321');
       redis.incr.mockResolvedValue(5);
 
-      await expect(service.verifyOtp('+1234567890', '123456')).rejects.toThrow(
+      await expect(service.verifyOtp('+1234567890', '123456', '127.0.0.1', 'test')).rejects.toThrow(
         'Too many failed attempts',
       );
       expect(redis.set).toHaveBeenCalledWith(
@@ -161,7 +161,7 @@ describe('AuthService', () => {
         role: 'WORKER',
       } as any);
 
-      const result = await service.verifyOtp('+1234567890', '123456');
+      const result = await service.verifyOtp('+1234567890', '123456', '127.0.0.1', 'test');
 
       expect(result.isNewUser).toBe(true);
       expect(result.accessToken).toBe('test-jwt-token');
@@ -176,7 +176,7 @@ describe('AuthService', () => {
         role: 'WORKER',
       } as any);
 
-      const result = await service.verifyOtp('+1234567890', '123456');
+      const result = await service.verifyOtp('+1234567890', '123456', '127.0.0.1', 'test');
 
       expect(result.isNewUser).toBe(false);
       expect(result.accessToken).toBe('test-jwt-token');
@@ -191,7 +191,7 @@ describe('AuthService', () => {
           email: 'test@test.com',
           password: 'pass',
           role: 'WORKER',
-        } as any),
+        } as any, '127.0.0.1', 'test'),
       ).rejects.toThrow(ConflictException);
     });
 
@@ -207,7 +207,7 @@ describe('AuthService', () => {
         email: 'test@test.com',
         password: 'pass',
         role: 'WORKER',
-      } as any);
+      } as any, '127.0.0.1', 'test');
       expect(result.accessToken).toBe('test-jwt-token');
     });
   });
@@ -278,9 +278,11 @@ describe('AuthService', () => {
 
   describe('logout', () => {
     it('should revoke all refresh tokens for user', async () => {
-      await service.logout('user-1');
+      const crypto = require('crypto');
+      const hashedJti = crypto.createHash('sha256').update('user-1').digest('hex');
+      await service.logout('user-1', '127.0.0.1');
       expect(prisma.session.updateMany).toHaveBeenCalledWith({
-        where: { refreshTokenJti: 'user-1' },
+        where: { refreshTokenJti: hashedJti },
         data: { isRevoked: true, revokedAt: expect.any(Date) },
       });
     });

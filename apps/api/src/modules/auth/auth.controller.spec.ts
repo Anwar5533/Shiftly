@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { ConfigService } from '@nestjs/config';
 
 describe('AuthController', () => {
   let controller: AuthController;
@@ -23,9 +24,21 @@ describe('AuthController', () => {
       send: jest.fn(),
     };
 
+    const mockConfigService = {
+      get: jest.fn().mockImplementation((key) => {
+        if (key === 'auth.cookieDomain') return 'localhost';
+        if (key === 'auth.cookieSecure') return true;
+        if (key === 'auth.cookieSameSite') return 'none';
+        return null;
+      }),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
-      providers: [{ provide: AuthService, useValue: authService }],
+      providers: [
+        { provide: AuthService, useValue: authService },
+        { provide: ConfigService, useValue: mockConfigService },
+      ],
     }).compile();
 
     controller = module.get<AuthController>(AuthController);
@@ -33,8 +46,8 @@ describe('AuthController', () => {
 
   describe('sendOtp', () => {
     it('should call authService.sendOtp', async () => {
-      await controller.sendOtp({ phone: '+1234567890' });
-      expect(authService.sendOtp).toHaveBeenCalledWith('+1234567890');
+      await controller.sendOtp({ phone: '+1234567890' }, { ip: '127.0.0.1', headers: {} } as any);
+      expect(authService.sendOtp).toHaveBeenCalledWith('+1234567890', undefined, undefined);
     });
   });
 
@@ -49,12 +62,17 @@ describe('AuthController', () => {
 
       const result = await controller.verifyOtp(
         { phone: '+1234567890', otp: '123456' },
+        { ip: '127.0.0.1', headers: { 'user-agent': 'test-agent' } } as any,
         mockRes,
       );
 
       expect(authService.verifyOtp).toHaveBeenCalledWith(
         '+1234567890',
         '123456',
+        '127.0.0.1',
+        'test-agent',
+        undefined,
+        undefined
       );
       expect(mockRes.cookie).toHaveBeenCalledWith(
         'refresh_token',
@@ -75,6 +93,7 @@ describe('AuthController', () => {
 
       const result = await controller.register(
         { email: 'test@test.com', password: 'pass', role: 'WORKER' } as any,
+        { ip: '127.0.0.1', headers: { 'user-agent': 'test-agent' } } as any,
         mockRes,
       );
 
@@ -114,8 +133,8 @@ describe('AuthController', () => {
 
   describe('logout', () => {
     it('should clear cookie and logout', async () => {
-      await controller.logout({ sessionId: 'sess-1' } as any, mockRes);
-      expect(authService.logout).toHaveBeenCalledWith('sess-1');
+      await controller.logout({ sessionId: 'sess-1', sub: 'user-1' } as any, { ip: '127.0.0.1', headers: {} } as any, mockRes);
+      expect(authService.logout).toHaveBeenCalledWith('sess-1', 'user-1', '127.0.0.1', undefined, undefined);
       expect(mockRes.clearCookie).toHaveBeenCalled();
     });
   });

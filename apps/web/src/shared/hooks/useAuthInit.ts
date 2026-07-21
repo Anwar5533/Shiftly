@@ -40,6 +40,5 @@ export function useAuthInit(): void {
     };
 
     restoreSession();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 }
