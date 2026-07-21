@@ -1,23 +1,26 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Send, Search, MoreVertical, Phone, Video } from 'lucide-react';
 import { messagingApi } from '../api/messaging.api';
-import type { MockConversation, MockMessage } from '../api/messaging.api';
+import type { Conversation, Message } from '@shiftly/shared-types';
+import { io, Socket } from 'socket.io-client';
+import { useAppSelector } from '@/app/store';
 
 export default function MessagesPage(): React.ReactElement {
-  const [conversations, setConversations] = useState<MockConversation[]>([]);
+  const { user } = useAppSelector((state) => state.auth);
+  const [conversations, setConversations] = useState<Conversation[]>([]);
   const [activeConvId, setActiveConvId] = useState<string | null>(null);
-  const [messages, setMessages] = useState<MockMessage[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [_isSending, setIsSending] = useState(false);
   const isSendingRef = useRef(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [socket, setSocket] = useState<Socket | null>(null);
 
   useEffect(() => {
     const fetchConversations = async () => {
       try {
-        const portal = localStorage.getItem('activePortal') || 'worker';
-        const data = await messagingApi.getConversations(portal);
+        const data = await messagingApi.getConversations();
         setConversations(data);
         if (data.length > 0) {
           setActiveConvId(data[0].id);
@@ -30,15 +33,48 @@ export default function MessagesPage(): React.ReactElement {
   }, []);
 
   useEffect(() => {
+    const newSocket = io(import.meta.env.VITE_API_URL || 'http://localhost:3000');
+    setSocket(newSocket);
+    return () => {
+      newSocket.close();
+    };
+  }, []);
+
+  useEffect(() => {
     if (!activeConvId) return;
     const fetchMessages = async () => {
       const data = await messagingApi.getMessages(activeConvId);
       setMessages(data);
-      await messagingApi.markAsRead(activeConvId);
-      setConversations(prev => prev.map(c => c.id === activeConvId ? { ...c, unreadCount: 0 } : c));
     };
     fetchMessages();
-  }, [activeConvId]);
+    
+    if (socket) {
+      socket.emit('joinConversation', activeConvId);
+      const handleNewMessage = (message: Message) => {
+        if (message.conversationId === activeConvId) {
+          setMessages(prev => {
+            if (prev.some(m => m.id === message.id)) return prev;
+            return [...prev, message];
+          });
+          setConversations(prev => {
+            const convs = [...prev];
+            const idx = convs.findIndex(c => c.id === activeConvId);
+            if (idx !== -1) {
+              // Update last message in conversation list
+              // (Since we don't have lastMessage on the real Conversation type yet without extra mapping,
+              // we can just force a re-render or leave it)
+            }
+            return convs;
+          });
+        }
+      };
+      socket.on('newMessage', handleNewMessage);
+      return () => {
+        socket.emit('leaveConversation', activeConvId);
+        socket.off('newMessage', handleNewMessage);
+      };
+    }
+  }, [activeConvId, socket]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -47,24 +83,17 @@ export default function MessagesPage(): React.ReactElement {
   const handleSendMessage = async (e: React.FormEvent | React.KeyboardEvent) => {
     e.preventDefault();
     const content = newMessage.trim();
-    if (!content || !activeConvId || isSendingRef.current) return;
+    if (!content || !activeConvId || isSendingRef.current || !socket || !user) return;
     
     isSendingRef.current = true;
     setIsSending(true);
-    // Clear immediately to prevent double submissions visually
     setNewMessage('');
     
     try {
-      const sentMsg = await messagingApi.sendMessage(activeConvId, content);
-      setMessages(prev => [...prev, sentMsg]);
-      setConversations(prev => {
-        const convs = [...prev];
-        const idx = convs.findIndex(c => c.id === activeConvId);
-        if (idx !== -1) {
-          convs[idx].lastMessage = sentMsg.content;
-          convs[idx].lastMessageTime = sentMsg.timestamp;
-        }
-        return convs;
+      socket.emit('sendMessage', {
+        conversationId: activeConvId,
+        senderId: user.sub,
+        content,
       });
     } finally {
       isSendingRef.current = false;
@@ -100,7 +129,14 @@ export default function MessagesPage(): React.ReactElement {
         </div>
         
         <div className="flex-1 overflow-y-auto">
-          {conversations.map(conv => (
+          {conversations.map(conv => {
+            const otherParticipant = conv.participants?.find(p => p.userId !== user?.sub)?.user;
+            const title = otherParticipant?.workerProfile 
+                ? `${otherParticipant.workerProfile.firstName} ${otherParticipant.workerProfile.lastName}`
+                : otherParticipant?.employerProfile 
+                  ? otherParticipant.employerProfile.companyName 
+                  : otherParticipant?.email || 'Unknown';
+            return (
             <button
               key={conv.id}
               onClick={() => setActiveConvId(conv.id)}
@@ -109,32 +145,23 @@ export default function MessagesPage(): React.ReactElement {
               }`}
             >
               <div className="relative">
-                {conv.otherUser.avatarUrl ? (
-                  <img src={conv.otherUser.avatarUrl} alt="" className="w-12 h-12 rounded-full object-cover border border-border" />
-                ) : (
-                  <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-lg border border-primary/20">
-                    {conv.otherUser.name.charAt(0)}
-                  </div>
-                )}
-                {conv.unreadCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-destructive text-destructive-foreground text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-card">
-                    {conv.unreadCount}
-                  </span>
-                )}
+                <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-lg border border-primary/20">
+                  {title.charAt(0).toUpperCase()}
+                </div>
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex justify-between items-baseline mb-1">
-                  <h3 className="font-semibold text-foreground truncate">{conv.otherUser.name}</h3>
+                  <h3 className="font-semibold text-foreground truncate">{title}</h3>
                   <span className="text-xs text-muted-foreground whitespace-nowrap ml-2">
-                    {new Date(conv.lastMessageTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    {new Date(conv.updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </span>
                 </div>
-                <p className={`text-sm truncate ${conv.unreadCount > 0 ? 'font-medium text-foreground' : 'text-muted-foreground'}`}>
-                  {conv.lastMessage}
+                <p className="text-sm truncate text-muted-foreground">
+                  {conv.messages?.[0]?.content || "No messages yet"}
                 </p>
               </div>
             </button>
-          ))}
+          )})}
         </div>
       </div>
 
@@ -144,11 +171,12 @@ export default function MessagesPage(): React.ReactElement {
           <div className="p-4 border-b border-border bg-card flex justify-between items-center z-10 shadow-sm">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
-                {activeConv.otherUser.name.charAt(0)}
+                {activeConv.participants?.find(p => p.userId !== user?.sub)?.user?.email?.charAt(0).toUpperCase() || 'U'}
               </div>
               <div>
-                <h3 className="font-semibold text-foreground">{activeConv.otherUser.name}</h3>
-                <p className="text-xs text-muted-foreground capitalize">{activeConv.otherUser.role.toLowerCase()}</p>
+                <h3 className="font-semibold text-foreground">
+                  {activeConv.participants?.find(p => p.userId !== user?.sub)?.user?.email || 'Unknown User'}
+                </h3>
               </div>
             </div>
             <div className="flex items-center gap-2 text-muted-foreground">
@@ -161,7 +189,7 @@ export default function MessagesPage(): React.ReactElement {
           <div className="flex-1 overflow-y-auto p-6 space-y-4 relative">
             <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at center, var(--foreground) 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
             {messages.map((msg, i) => {
-              const isMe = msg.senderId === 'me';
+              const isMe = msg.senderId === user?.sub;
               const showAvatar = i === 0 || messages[i-1].senderId !== msg.senderId;
               
               return (
@@ -169,7 +197,7 @@ export default function MessagesPage(): React.ReactElement {
                   <div className={`flex max-w-[75%] gap-2 ${isMe ? 'flex-row-reverse' : 'flex-row'}`}>
                     {!isMe && showAvatar && (
                       <div className="w-8 h-8 rounded-full bg-primary/20 flex-shrink-0 flex items-center justify-center text-primary font-bold text-xs self-end mb-1">
-                        {activeConv.otherUser.name.charAt(0)}
+                        {activeConv.participants?.find(p => p.userId !== user?.sub)?.user?.email?.charAt(0).toUpperCase() || 'U'}
                       </div>
                     )}
                     {!isMe && !showAvatar && <div className="w-8 flex-shrink-0"></div>}
@@ -185,7 +213,7 @@ export default function MessagesPage(): React.ReactElement {
                         <p className="text-[15px] leading-relaxed">{msg.content}</p>
                       </div>
                       <span className={`text-[10px] text-muted-foreground mt-1 opacity-0 group-hover:opacity-100 transition-opacity block ${isMe ? 'text-right' : 'text-left'}`}>
-                        {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </span>
                     </div>
                   </div>

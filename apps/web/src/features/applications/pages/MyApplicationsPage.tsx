@@ -1,63 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Briefcase, Building, MapPin, Calendar, Clock, ChevronRight, CheckCircle2, Clock3, XCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { applicationsApi } from '../../jobs/api/applications.api';
+import type { JobApplication } from '../../jobs/api/applications.api';
 
 export default function MyApplicationsPage(): React.ReactElement {
   const navigate = useNavigate();
-  const applications = [
-    {
-      id: 1,
-      jobId: 'job-1',
-      role: 'Warehouse Associate',
-      company: 'Amazon Fulfillment',
-      location: 'Seattle, WA',
-      appliedDate: '2026-07-18',
-      status: 'Interview Scheduled',
-      salary: '$22/hr',
-      type: 'Full-time'
-    },
-    {
-      id: 2,
-      jobId: 'job-2',
-      role: 'Delivery Driver',
-      company: 'FedEx Logistics',
-      location: 'Bellevue, WA',
-      appliedDate: '2026-07-15',
-      status: 'Under Review',
-      salary: '$24/hr',
-      type: 'Contract'
-    },
-    {
-      id: 3,
-      jobId: 'job-3',
-      role: 'Forklift Operator',
-      company: 'Home Depot',
-      location: 'Renton, WA',
-      appliedDate: '2026-07-10',
-      status: 'Rejected',
-      salary: '$26/hr',
-      type: 'Full-time'
-    },
-    {
-      id: 4,
-      jobId: 'job-1',
-      role: 'Inventory Specialist',
-      company: 'Target Distribution',
-      location: 'Kent, WA',
-      appliedDate: '2026-07-05',
-      status: 'Offered',
-      salary: '$25/hr',
-      type: 'Part-time'
-    }
-  ];
+  const [applications, setApplications] = useState<JobApplication[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchApps = async () => {
+      try {
+        const data = await applicationsApi.getMyApplications();
+        setApplications(data);
+      } catch (err) {
+        console.error('Failed to fetch my applications', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchApps();
+  }, []);
+
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'Offered':
-        return <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-500/10 text-green-500 text-sm font-medium border border-green-500/20"><CheckCircle2 className="w-4 h-4" /> Offered</span>;
-      case 'Interview Scheduled':
-        return <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 text-blue-500 text-sm font-medium border border-blue-500/20"><Calendar className="w-4 h-4" /> Interview</span>;
-      case 'Rejected':
+      case 'ACCEPTED':
+        return <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-500/10 text-green-500 text-sm font-medium border border-green-500/20"><CheckCircle2 className="w-4 h-4" /> Accepted</span>;
+      case 'SHORTLISTED':
+        return <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 text-blue-500 text-sm font-medium border border-blue-500/20"><Calendar className="w-4 h-4" /> Shortlisted</span>;
+      case 'REJECTED':
         return <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-500/10 text-red-500 text-sm font-medium border border-red-500/20"><XCircle className="w-4 h-4" /> Rejected</span>;
       default:
         return <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 text-amber-500 text-sm font-medium border border-amber-500/20"><Clock3 className="w-4 h-4" /> Under Review</span>;
@@ -74,7 +47,11 @@ export default function MyApplicationsPage(): React.ReactElement {
       </div>
 
       <div className="grid gap-4">
-        {applications.map((app) => (
+        {isLoading ? (
+          <div className="p-8 text-center text-muted-foreground">Loading applications...</div>
+        ) : applications.length === 0 ? (
+          <div className="p-8 text-center text-muted-foreground bg-card border border-border rounded-xl">You have not applied to any jobs yet.</div>
+        ) : applications.map((app) => (
           <div key={app.id} onClick={() => navigate(`/jobs/${app.jobId}`)} className="bg-card border border-border p-5 rounded-xl hover:border-primary/50 transition-colors cursor-pointer group">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               
@@ -83,17 +60,16 @@ export default function MyApplicationsPage(): React.ReactElement {
                   <Briefcase className="w-6 h-6 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">{app.role}</h3>
+                  <h3 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">{app.job?.title || 'Unknown Role'}</h3>
                   <div className="flex flex-wrap items-center gap-3 mt-1.5 text-sm text-muted-foreground">
-                    <span className="flex items-center gap-1"><Building className="w-3.5 h-3.5" /> {app.company}</span>
+                    <span className="flex items-center gap-1"><Building className="w-3.5 h-3.5" /> {app.job?.employer?.companyName || 'Unknown Company'}</span>
                     <span className="hidden md:inline text-border">•</span>
-                    <span className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5" /> {app.location}</span>
+                    <span className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5" /> {app.job?.location?.city || 'Remote'}</span>
                     <span className="hidden md:inline text-border">•</span>
-                    <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> Applied: {app.appliedDate}</span>
+                    <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> Applied: {new Date(app.appliedAt).toLocaleDateString()}</span>
                   </div>
                   <div className="flex items-center gap-2 mt-3">
-                    <span className="px-2.5 py-1 rounded-md bg-muted text-xs font-medium text-foreground">{app.type}</span>
-                    <span className="px-2.5 py-1 rounded-md bg-muted text-xs font-medium text-foreground">{app.salary}</span>
+                    <span className="px-2.5 py-1 rounded-md bg-muted text-xs font-medium text-foreground">{app.job?.jobType || 'Unknown'}</span>
                   </div>
                 </div>
               </div>

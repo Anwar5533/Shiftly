@@ -1,9 +1,33 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Search, Filter, MapPin, Briefcase, IndianRupee, X, ArrowLeft } from 'lucide-react';
+import { Search, Filter, MapPin, Briefcase, IndianRupee, X, Building } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { jobsApi } from '../api/jobs.api';
 import type { Job } from '@shiftly/shared-types';
+import { useQuery } from '@tanstack/react-query';
+import { aiApi } from '../api/ai.api';
+import { Sparkles } from 'lucide-react';
+
+const AiMatchBadge = ({ jobId }: { jobId: string }) => {
+  const { data, isLoading } = useQuery({
+    queryKey: ['ai-match', jobId],
+    queryFn: () => aiApi.getMatchScore(jobId),
+    staleTime: 60000,
+  });
+
+  if (isLoading || !data) return null;
+
+  let colorClass = 'bg-primary/10 text-primary border-primary/20';
+  if (data.score >= 90) colorClass = 'bg-green-500/10 text-green-500 border-green-500/20';
+  else if (data.score < 75) colorClass = 'bg-amber-500/10 text-amber-500 border-amber-500/20';
+
+  return (
+    <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border ${colorClass}`} title={data.reason}>
+      <Sparkles className="w-3.5 h-3.5" />
+      <span className="font-bold text-xs tracking-wide">{data.score}% Match</span>
+    </div>
+  );
+};
 
 export default function JobsListPage(): React.ReactElement {
   const navigate = useNavigate();
@@ -22,62 +46,8 @@ export default function JobsListPage(): React.ReactElement {
       setError(null);
       try {
         const response = await jobsApi.searchJobs();
-        const fetchedJobs = response.items || (response as any).data || [];
-        if (fetchedJobs.length === 0) {
-          // Inject mock jobs if database is empty for demo purposes
-          setJobs([
-            {
-              id: 'job-1',
-              employerId: 'emp-1',
-              title: 'Senior Frontend Developer',
-              description: 'We are looking for an experienced frontend developer...',
-              skillsRequired: ['React', 'TypeScript', 'Tailwind'],
-              jobType: 'PERMANENT',
-              location: { city: 'San Francisco', state: 'CA', address: '456 Tech Blvd', country: 'USA', postalCode: '94105', isRemote: false, lat: 37.7749, lng: -122.4194 },
-              salaryMin: 1500000,
-              salaryMax: 2500000,
-              salaryCurrency: 'INR',
-              salaryPeriod: 'ANNUAL',
-              status: 'PUBLISHED',
-              createdAt: new Date().toISOString(),
-              updatedAt: new Date().toISOString()
-            } as unknown as Job,
-            {
-              id: 'job-2',
-              employerId: 'emp-2',
-              title: 'Part-time Delivery Partner',
-              description: 'Join our delivery network...',
-              skillsRequired: ['Driving License', 'Smartphone'],
-              jobType: 'GIG',
-              location: { city: 'Mumbai', isRemote: false, address: '', country: '', state: '', postalCode: '', lat: 0, lng: 0 },
-              salaryMin: 200,
-              salaryMax: 500,
-              salaryCurrency: 'INR',
-              salaryPeriod: 'HOURLY',
-              status: 'PUBLISHED',
-              createdAt: new Date().toISOString(),
-              updatedAt: new Date().toISOString()
-            } as unknown as Job,
-            {
-              id: 'job-3',
-              employerId: 'emp-1',
-              title: 'Full Stack Engineer (Remote)',
-              description: 'Looking for a full stack engineer...',
-              skillsRequired: ['Node.js', 'React', 'PostgreSQL'],
-              jobType: 'PERMANENT',
-              location: { city: 'New York', state: 'NY', address: '123 Wall St', country: 'USA', postalCode: '10001', isRemote: false, lat: 40.7128, lng: -74.0060 },
-              salaryMin: 2000000,
-              salaryMax: 3500000,
-              salaryCurrency: 'INR',
-              salaryPeriod: 'ANNUAL',
-              status: 'PUBLISHED',
-              createdAt: new Date().toISOString(),
-              updatedAt: new Date().toISOString()
-            } as unknown as Job
-          ]);
-        } else {
-          setJobs(fetchedJobs);
-        }
+        const fetchedJobs = Array.isArray(response) ? response : (response?.items || []);
+        setJobs(fetchedJobs);
       } catch (err: any) {
         console.error('Failed to fetch jobs', err);
         setError('Failed to load jobs. Please try again later.');
@@ -161,16 +131,6 @@ export default function JobsListPage(): React.ReactElement {
 
   return (
     <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-      <div className="mb-6">
-        <button 
-          onClick={() => navigate(-1)} 
-          className="flex items-center gap-2 p-2 -ml-2 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors w-fit"
-          title="Go Back"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          <span className="font-medium text-sm">Back</span>
-        </button>
-      </div>
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
           <h1 className="text-3xl font-bold text-foreground tracking-tight">Find Jobs</h1>
@@ -279,47 +239,73 @@ export default function JobsListPage(): React.ReactElement {
               </button>
             </div>
           ) : (
-            filteredJobs.map((job) => (
-              <div 
-                key={job.id} 
-                onClick={() => navigate(`/jobs/${job.id}`)}
-                className="group bg-card border border-border rounded-xl p-6 shadow-sm hover:shadow-brand transition-all cursor-pointer hover:border-primary/50 relative overflow-hidden"
-              >
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-4">
-                  <div>
-                    <h2 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">{job.title}</h2>
-                    <p className="text-primary font-medium mt-1">{job.employerId} (ID)</p>
+            <motion.div 
+              initial="hidden" 
+              animate="show" 
+              variants={{
+                hidden: { opacity: 0 },
+                show: {
+                  opacity: 1,
+                  transition: {
+                    staggerChildren: 0.1
+                  }
+                }
+              }}
+              className="space-y-4"
+            >
+              {filteredJobs.map((job) => (
+                <motion.div 
+                  variants={{
+                    hidden: { opacity: 0, y: 20 },
+                    show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
+                  }}
+                  whileHover={{ scale: 1.01 }}
+                  key={job.id} 
+                  onClick={() => navigate(`/jobs/${job.id}`)}
+                  className="group bg-card border border-border rounded-xl p-6 shadow-sm hover:shadow-brand transition-all cursor-pointer hover:border-primary/50 relative overflow-hidden"
+                >
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-4">
+                    <div>
+                      <h2 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">{job.title}</h2>
+                      <div className="flex items-center gap-2 mt-1">
+                        <Building className="w-4 h-4 text-muted-foreground" />
+                        <span className="font-medium text-foreground">{(job as any).employer?.companyName || 'Employer Name'}</span>
+                      </div>
+                    </div>
+                    <div className="flex flex-col items-end gap-2">
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-muted text-muted-foreground border border-border shrink-0">
+                        {job.jobType}
+                      </span>
+                      <AiMatchBadge jobId={job.id} />
+                    </div>
                   </div>
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/20 shrink-0">
-                    {job.jobType}
-                  </span>
-                </div>
-                
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
-                  <div className="flex items-center text-sm text-muted-foreground">
-                    <MapPin className="w-4 h-4 mr-2 text-muted-foreground/70" />
-                    {job.location?.city || 'Remote'}
+                  
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
+                    <div className="flex items-center text-sm text-muted-foreground">
+                      <MapPin className="w-4 h-4 mr-2 text-muted-foreground/70" />
+                      {job.location?.city || 'Remote'}
+                    </div>
+                    <div className="flex items-center text-sm text-muted-foreground">
+                      <Briefcase className="w-4 h-4 mr-2 text-muted-foreground/70" />
+                      {job.jobType}
+                    </div>
+                    <div className="flex items-center text-sm text-muted-foreground">
+                      <IndianRupee className="w-4 h-4 mr-2 text-muted-foreground/70" />
+                      {job.salaryCurrency} {job.salaryMin} - {job.salaryMax} / {job.salaryPeriod}
+                    </div>
                   </div>
-                  <div className="flex items-center text-sm text-muted-foreground">
-                    <Briefcase className="w-4 h-4 mr-2 text-muted-foreground/70" />
-                    {job.jobType}
-                  </div>
-                  <div className="flex items-center text-sm text-muted-foreground">
-                    <IndianRupee className="w-4 h-4 mr-2 text-muted-foreground/70" />
-                    {job.salaryCurrency} {job.salaryMin} - {job.salaryMax} / {job.salaryPeriod}
-                  </div>
-                </div>
 
-                <div className="flex justify-between items-center pt-4 border-t border-border">
-                  <span className="text-xs font-medium text-muted-foreground">
-                    Posted {new Date(job.createdAt).toLocaleDateString()}
-                  </span>
-                  <button className="h-9 px-4 bg-primary/10 text-primary font-semibold rounded-md hover:bg-primary hover:text-primary-foreground transition-all duration-300">
-                    View Details
-                  </button>
-                </div>
-              </div>
-            ))
+                  <div className="flex justify-between items-center pt-4 border-t border-border">
+                    <span className="text-xs font-medium text-muted-foreground">
+                      Posted {new Date(job.createdAt).toLocaleDateString()}
+                    </span>
+                    <button className="h-9 px-4 bg-primary/10 text-primary font-semibold rounded-md hover:bg-primary hover:text-primary-foreground transition-all duration-300">
+                      View Details
+                    </button>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
           )}
         </div>
       </div>

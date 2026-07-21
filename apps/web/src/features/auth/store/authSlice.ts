@@ -11,7 +11,7 @@ interface AuthState {
 const initialState: AuthState = {
   user: null,
   isAuthenticated: false,
-  isLoading: false, // temporarily false until auth check is implemented
+  isLoading: true, // true on startup — resolves after silent token refresh in useAuthInit
 };
 
 const authSlice = createSlice({

@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException, ForbiddenException, InternalServerErrorException } from '@nestjs/common';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
 import { CreateJobDto } from './dto/create-job.dto';
+import { UpdateJobDto } from './dto/update-job.dto';
 import { SearchJobsDto } from './dto/search-jobs.dto';
 import { JobStatus, Prisma } from '@prisma/client';
 
@@ -34,7 +35,7 @@ export class JobsService {
   }
 
   async searchJobs(searchDto: SearchJobsDto) {
-    const { query, jobType, status, city, minSalary, page = 1, limit = 10 } = searchDto;
+    const { query, jobType, status, city, minSalary, employerId, page = 1, limit = 10 } = searchDto;
     
     const where: Prisma.JobWhereInput = {};
 
@@ -47,6 +48,10 @@ export class JobsService {
 
     if (jobType) {
       where.jobType = jobType;
+    }
+
+    if (employerId) {
+      where.employerId = employerId;
     }
 
     if (status) {
@@ -149,6 +154,76 @@ export class JobsService {
     return this.prisma.job.update({
       where: { id: jobId },
       data: { status: JobStatus.FILLED },
+    });
+  }
+
+  async updateJob(userId: string, jobId: string, updateDto: UpdateJobDto) {
+    const employer = await this.prisma.employerProfile.findUnique({
+      where: { userId },
+    });
+
+    if (!employer) {
+      throw new ForbiddenException('Only employers can update jobs');
+    }
+
+    const job = await this.prisma.job.findUnique({ where: { id: jobId } });
+
+    if (!job) {
+      throw new NotFoundException('Job not found');
+    }
+
+    if (job.employerId !== employer.id) {
+      throw new ForbiddenException('You do not have permission to update this job');
+    }
+
+    return this.prisma.job.update({
+      where: { id: jobId },
+      data: updateDto as any,
+    });
+  }
+
+  async deleteJob(userId: string, jobId: string) {
+    const employer = await this.prisma.employerProfile.findUnique({
+      where: { userId },
+    });
+
+    if (!employer) {
+      throw new ForbiddenException('Only employers can delete jobs');
+    }
+
+    const job = await this.prisma.job.findUnique({ where: { id: jobId } });
+
+    if (!job) {
+      throw new NotFoundException('Job not found');
+    }
+
+    if (job.employerId !== employer.id) {
+      throw new ForbiddenException('You do not have permission to delete this job');
+    }
+
+    return this.prisma.job.update({
+      where: { id: jobId },
+      data: { deletedAt: new Date(), status: JobStatus.ARCHIVED },
+    });
+  }
+
+  async getMyJobs(userId: string) {
+    const employer = await this.prisma.employerProfile.findUnique({
+      where: { userId },
+    });
+
+    if (!employer) {
+      throw new ForbiddenException('Only employers can view their jobs');
+    }
+
+    return this.prisma.job.findMany({
+      where: { employerId: employer.id, deletedAt: null },
+      orderBy: { createdAt: 'desc' },
+      include: {
+        applications: {
+          select: { id: true }
+        }
+      }
     });
   }
 }

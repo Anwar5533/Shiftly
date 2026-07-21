@@ -1,0 +1,26 @@
+import api from '@/shared/lib/api';
+
+export interface ReferralCodeData {
+  id: string;
+  userId: string;
+  code: string;
+}
+
+export interface ReferralStatsData {
+  totalReferrals: number;
+  activeReferrals: number;
+  totalEarned: number;
+  currency: string;
+}
+
+export const referralsApi = {
+  getReferralCode: async (): Promise<ReferralCodeData> => {
+    const { data } = await api.get('/referrals/code');
+    return data;
+  },
+
+  getReferralStats: async (): Promise<ReferralStatsData> => {
+    const { data } = await api.get('/referrals/stats');
+    return data;
+  },
+};

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { MapPin, Briefcase, IndianRupee, Clock, ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { MapPin, Clock, ArrowLeft, CheckCircle2, Building, IndianRupee } from 'lucide-react';
 import { jobsApi } from '../api/jobs.api';
+import { applicationsApi } from '../api/applications.api';
 import type { Job } from '@shiftly/shared-types';
 
 export default function JobDetailPage(): React.ReactElement {
@@ -11,6 +12,8 @@ export default function JobDetailPage(): React.ReactElement {
   const [job, setJob] = useState<Job | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isApplying, setIsApplying] = useState(false);
+  const [applySuccess, setApplySuccess] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -30,6 +33,24 @@ export default function JobDetailPage(): React.ReactElement {
     
     fetchJob();
   }, [id]);
+
+  const handleApply = async () => {
+    if (!id) return;
+    setIsApplying(true);
+    try {
+      await applicationsApi.applyToJob({ jobId: id, coverLetter: 'Interested in this role' });
+      setApplySuccess(true);
+    } catch (err: any) {
+      console.error('Failed to apply', err);
+      if (err?.response?.data?.message) {
+        alert(`Error: ${err.response.data.message}`);
+      } else {
+        alert('Failed to apply. Please try again.');
+      }
+    } finally {
+      setIsApplying(false);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -72,10 +93,14 @@ export default function JobDetailPage(): React.ReactElement {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             <div>
               <h1 className="text-3xl font-bold text-foreground mb-2">{job.title}</h1>
-              <p className="text-lg text-primary font-medium">{job.employerId} (ID)</p>
+              <p className="text-lg text-primary font-medium">{job.employer?.companyName || job.employerId}</p>
             </div>
-            <button className="w-full md:w-auto h-12 px-8 bg-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-colors shadow-sm">
-              Apply for this Job
+            <button 
+              onClick={handleApply}
+              disabled={isApplying || applySuccess}
+              className="w-full md:w-auto h-12 px-8 bg-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-colors shadow-sm disabled:opacity-50"
+            >
+              {isApplying ? 'Applying...' : applySuccess ? 'Applied Successfully' : 'Apply for this Job'}
             </button>
           </div>
 
@@ -84,14 +109,14 @@ export default function JobDetailPage(): React.ReactElement {
               <MapPin className="w-5 h-5 mr-3 text-muted-foreground/70 mt-0.5" />
               <div>
                 <p className="text-xs text-muted-foreground/70 font-medium uppercase tracking-wider">Location</p>
-                <p className="text-sm font-medium text-foreground">{job.location?.city || 'Remote'}</p>
+                <p className="text-sm font-medium text-foreground">{(job as any).location?.city || 'Remote'}</p>
               </div>
             </div>
             <div className="flex items-start text-muted-foreground">
-              <Briefcase className="w-5 h-5 mr-3 text-muted-foreground/70 mt-0.5" />
+              <Building className="w-5 h-5 text-muted-foreground mt-0.5" />
               <div>
-                <p className="text-xs text-muted-foreground/70 font-medium uppercase tracking-wider">Job Type</p>
-                <p className="text-sm font-medium text-foreground">{job.jobType}</p>
+                <h3 className="font-semibold text-foreground">{(job as any).employer?.companyName || 'Employer Name'}</h3>
+                <p className="text-sm text-muted-foreground">Logistics & Supply Chain</p>
               </div>
             </div>
             <div className="flex items-start text-muted-foreground">
@@ -99,7 +124,7 @@ export default function JobDetailPage(): React.ReactElement {
               <div>
                 <p className="text-xs text-muted-foreground/70 font-medium uppercase tracking-wider">Salary</p>
                 <p className="text-sm font-medium text-foreground">
-                  {job.salaryCurrency} {job.salaryMin} - {job.salaryMax} / {job.salaryPeriod}
+                  {(job as any).salaryCurrency} {(job as any).salaryMin} - {(job as any).salaryMax} / {(job as any).salaryPeriod}
                 </p>
               </div>
             </div>
@@ -108,7 +133,7 @@ export default function JobDetailPage(): React.ReactElement {
               <div>
                 <p className="text-xs text-muted-foreground/70 font-medium uppercase tracking-wider">Posted</p>
                 <p className="text-sm font-medium text-foreground">
-                  {new Date(job.createdAt).toLocaleDateString()}
+                  {new Date((job as any).createdAt).toLocaleDateString()}
                 </p>
               </div>
             </div>
@@ -125,11 +150,11 @@ export default function JobDetailPage(): React.ReactElement {
           <div className="mt-8">
             <h2 className="text-xl font-bold text-foreground mb-4">Required Skills</h2>
             <div className="flex flex-wrap gap-2">
-              {job.skillsRequired && job.skillsRequired.length > 0 ? (
-                job.skillsRequired.map(skill => (
-                  <span key={skill} className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-muted text-foreground">
+              {(job as any).skills && (job as any).skills.length > 0 ? (
+                (job as any).skills.map((skillRef: any) => (
+                  <span key={skillRef.skill?.id || skillRef.skillId} className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-muted text-foreground">
                     <CheckCircle2 className="w-3 h-3 mr-1.5 text-primary" />
-                    {skill}
+                    {skillRef.skill?.name || skillRef.skillId}
                   </span>
                 ))
               ) : (

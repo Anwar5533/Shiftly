@@ -2,10 +2,17 @@ import React from 'react';
 import { Target, Users, IndianRupee, Award, ChevronRight } from 'lucide-react';
 import { useAppSelector } from '@/app/store';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { recruiterApi } from '@/features/profile/api/recruiter.api';
 
 export default function RecruiterDashboard(): React.ReactElement {
   const { user } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
+
+  const { data: stats, isLoading } = useQuery({
+    queryKey: ['recruiter-dashboard-stats'],
+    queryFn: () => recruiterApi.getDashboardStats(),
+  });
 
   return (
     <div className="space-y-6">
@@ -33,7 +40,9 @@ export default function RecruiterDashboard(): React.ReactElement {
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">Placements</p>
-              <h3 className="text-2xl font-bold text-foreground">34</h3>
+              <h3 className="text-2xl font-bold text-foreground">
+                {isLoading ? '...' : stats?.placements || 0}
+              </h3>
             </div>
           </div>
         </div>
@@ -45,7 +54,9 @@ export default function RecruiterDashboard(): React.ReactElement {
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">Active Candidates</p>
-              <h3 className="text-2xl font-bold text-foreground">128</h3>
+              <h3 className="text-2xl font-bold text-foreground">
+                {isLoading ? '...' : stats?.totalApplications || 0}
+              </h3>
             </div>
           </div>
         </div>
@@ -56,8 +67,10 @@ export default function RecruiterDashboard(): React.ReactElement {
               <IndianRupee className="w-6 h-6" />
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Commission Est.</p>
-              <h3 className="text-2xl font-bold text-foreground">₹10.5L</h3>
+              <p className="text-sm font-medium text-muted-foreground">Active Jobs</p>
+              <h3 className="text-2xl font-bold text-foreground">
+                {isLoading ? '...' : stats?.activeJobs || 0}
+              </h3>
             </div>
           </div>
         </div>
@@ -69,7 +82,9 @@ export default function RecruiterDashboard(): React.ReactElement {
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">Success Rate</p>
-              <h3 className="text-2xl font-bold text-foreground">68%</h3>
+              <h3 className="text-2xl font-bold text-foreground">
+                {isLoading ? '...' : `${stats?.successRate || 0}%`}
+              </h3>
             </div>
           </div>
         </div>

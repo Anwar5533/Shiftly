@@ -19,6 +19,8 @@ export interface User {
   isPhoneVerified: boolean;
   createdAt: string;
   updatedAt: string;
+  workerProfile?: WorkerProfile;
+  employerProfile?: EmployerProfile;
 }
 
 export interface AuthTokens {
@@ -56,6 +58,12 @@ export type ApplicationStatus =
   | 'WITHDRAWN'
   | 'COMPLETED';
 
+export type TimesheetStatus =
+  | 'PENDING'
+  | 'SUBMITTED'
+  | 'APPROVED'
+  | 'REJECTED';
+
 export interface JobLocation {
   lat: number;
   lng: number;
@@ -89,6 +97,8 @@ export interface Job {
   aiMatchScore?: number;
   createdAt: string;
   updatedAt: string;
+  employer?: EmployerProfile;
+  timesheet?: Timesheet;
 }
 
 export interface JobApplication {
@@ -99,6 +109,20 @@ export interface JobApplication {
   coverLetter: string | null;
   aiScore: number | null;
   appliedAt: string;
+  updatedAt: string;
+}
+
+export interface Timesheet {
+  id: string;
+  shiftId: string;
+  status: TimesheetStatus;
+  hoursWorked: number;
+  notes?: string;
+  submittedAt?: string;
+  approvedAt?: string;
+  rejectedAt?: string;
+  rejectionReason?: string;
+  createdAt: string;
   updatedAt: string;
 }
 
@@ -281,12 +305,20 @@ export interface Notification {
 
 export interface Conversation {
   id: string;
-  participants: string[];
-  jobId: string | null;
-  lastMessage: Message | null;
-  unreadCount: number;
+  jobId?: string;
   createdAt: string;
   updatedAt: string;
+  job?: Job;
+  participants?: ConversationParticipant[];
+  messages?: Message[];
+}
+
+export interface ConversationParticipant {
+  conversationId: string;
+  userId: string;
+  lastReadAt?: string;
+  joinedAt: string;
+  user?: User;
 }
 
 export interface Message {
@@ -294,9 +326,9 @@ export interface Message {
   conversationId: string;
   senderId: string;
   content: string;
-  attachments: MessageAttachment[];
-  isRead: boolean;
+  isDeleted: boolean;
   createdAt: string;
+  sender?: User;
 }
 
 export interface MessageAttachment {

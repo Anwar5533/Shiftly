@@ -1,10 +1,14 @@
 import React from 'react';
 import { ShieldCheck, AlertTriangle, Users, Server, Activity } from 'lucide-react';
 
+import { useQuery } from '@tanstack/react-query';
+import { adminApi } from '@/features/admin/api/admin.api';
+
 export default function AdminDashboard(): React.ReactElement {
-
-
-  return (
+  const { data: stats, isLoading } = useQuery({
+    queryKey: ['admin-stats'],
+    queryFn: () => adminApi.getDashboardStats(),
+  });  return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
@@ -25,8 +29,8 @@ export default function AdminDashboard(): React.ReactElement {
             <div>
               <p className="text-sm font-medium text-muted-foreground">API Status</p>
               <h3 className="text-xl font-bold text-green-500 flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
-                Healthy
+                <span className={`w-2.5 h-2.5 rounded-full ${stats?.isApiHealthy ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}></span>
+                {isLoading ? '...' : (stats?.isApiHealthy ? 'Healthy' : 'Down')}
               </h3>
             </div>
           </div>
@@ -39,7 +43,9 @@ export default function AdminDashboard(): React.ReactElement {
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">Active Users</p>
-              <h3 className="text-2xl font-bold text-foreground">14,230</h3>
+              <h3 className="text-2xl font-bold text-foreground">
+                {isLoading ? '...' : stats?.activeUsers || 0}
+              </h3>
             </div>
           </div>
         </div>
@@ -51,7 +57,9 @@ export default function AdminDashboard(): React.ReactElement {
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">Jobs Processed</p>
-              <h3 className="text-2xl font-bold text-foreground">42k</h3>
+              <h3 className="text-2xl font-bold text-foreground">
+                {isLoading ? '...' : stats?.jobsProcessed || 0}
+              </h3>
             </div>
           </div>
         </div>
@@ -63,7 +71,9 @@ export default function AdminDashboard(): React.ReactElement {
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">Pending KYC</p>
-              <h3 className="text-2xl font-bold text-foreground">84</h3>
+              <h3 className="text-2xl font-bold text-foreground">
+                {isLoading ? '...' : stats?.pendingKyc || 0}
+              </h3>
             </div>
           </div>
         </div>
@@ -75,7 +85,7 @@ export default function AdminDashboard(): React.ReactElement {
           <div className="p-6 border-b border-border flex items-center justify-between">
             <h2 className="text-lg font-semibold text-foreground">KYC Queue</h2>
             <span className="bg-yellow-500/10 text-yellow-600 text-xs font-semibold px-2.5 py-0.5 rounded-full">
-              84 Pending
+              {stats?.pendingKyc || 0} Pending
             </span>
           </div>
           <div className="flex-1 overflow-auto">

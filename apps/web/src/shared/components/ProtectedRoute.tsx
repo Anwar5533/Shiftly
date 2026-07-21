@@ -13,6 +13,8 @@ export function ProtectedRoute({ children, roles }: ProtectedRouteProps): React.
   const { isAuthenticated, isLoading, user } = useAppSelector((state) => state.auth);
   const location = useLocation();
 
+  // While the silent token refresh is in progress, show a loading screen
+  // to prevent a flash redirect to /login on page refresh
   if (isLoading) {
     return <PageLoader />;
   }
@@ -27,3 +29,4 @@ export function ProtectedRoute({ children, roles }: ProtectedRouteProps): React.
 
   return <>{children}</>;
 }
+

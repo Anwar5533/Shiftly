@@ -1,49 +1,13 @@
 import React from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { ShieldAlert, Info, AlertTriangle, Terminal, Filter, RefreshCw } from 'lucide-react';
+import { auditApi } from '../api/audit.api';
 
 export default function SystemLogsPage(): React.ReactElement {
-  const logs = [
-    {
-      id: 'LOG-9921',
-      timestamp: '2026-07-20 10:14:22',
-      level: 'ERROR',
-      service: 'auth-service',
-      message: 'Failed login attempt - Invalid credentials',
-      ip: '192.168.1.45'
-    },
-    {
-      id: 'LOG-9920',
-      timestamp: '2026-07-20 10:12:05',
-      level: 'INFO',
-      service: 'billing-api',
-      message: 'Successfully processed invoice INV-2026-042',
-      ip: 'Internal'
-    },
-    {
-      id: 'LOG-9919',
-      timestamp: '2026-07-20 10:05:11',
-      level: 'WARNING',
-      service: 'notification-worker',
-      message: 'High latency detected in email delivery queue (>2000ms)',
-      ip: 'Internal'
-    },
-    {
-      id: 'LOG-9918',
-      timestamp: '2026-07-20 09:55:00',
-      level: 'CRITICAL',
-      service: 'payment-gateway',
-      message: 'Connection timeout to Stripe API. Retrying...',
-      ip: 'Internal'
-    },
-    {
-      id: 'LOG-9917',
-      timestamp: '2026-07-20 09:42:18',
-      level: 'INFO',
-      service: 'user-service',
-      message: 'New employer account registered: TechCorp Inc.',
-      ip: '203.0.113.88'
-    }
-  ];
+  const { data: logs = [], isLoading, refetch } = useQuery({
+    queryKey: ['system-logs'],
+    queryFn: auditApi.getLogs
+  });
 
   const getLevelStyle = (level: string) => {
     switch (level) {
@@ -67,8 +31,11 @@ export default function SystemLogsPage(): React.ReactElement {
           <button className="bg-muted text-foreground px-4 py-2 rounded-lg font-medium hover:bg-muted/80 flex items-center justify-center gap-2 transition-colors">
             <Filter className="w-4 h-4" /> Filter Logs
           </button>
-          <button className="bg-primary text-primary-foreground px-4 py-2 rounded-lg font-medium hover:bg-primary/90 flex items-center justify-center gap-2 transition-colors">
-            <RefreshCw className="w-4 h-4" /> Live Tail
+          <button 
+            onClick={() => refetch()}
+            className="bg-primary text-primary-foreground px-4 py-2 rounded-lg font-medium hover:bg-primary/90 flex items-center justify-center gap-2 transition-colors"
+          >
+            <RefreshCw className="w-4 h-4" /> Refresh Logs
           </button>
         </div>
       </div>
@@ -86,21 +53,27 @@ export default function SystemLogsPage(): React.ReactElement {
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {logs.map((log) => {
-                const style = getLevelStyle(log.level);
+              {isLoading ? (
+                <tr><td colSpan={5} className="p-4 text-center text-muted-foreground">Loading logs...</td></tr>
+              ) : logs.length === 0 ? (
+                <tr><td colSpan={5} className="p-4 text-center text-muted-foreground">No logs found.</td></tr>
+              ) : logs.map((log: any) => {
+                const style = getLevelStyle(log.severity);
                 const Icon = style.icon;
                 return (
                   <tr key={log.id} className="hover:bg-muted/10 transition-colors">
-                    <td className="p-4 text-muted-foreground whitespace-nowrap">{log.timestamp}</td>
+                    <td className="p-4 text-muted-foreground whitespace-nowrap">
+                      {new Date(log.timestamp).toLocaleString()}
+                    </td>
                     <td className="p-4">
                       <div className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-md border ${style.bg} ${style.color}`}>
                         <Icon className="w-3.5 h-3.5" />
-                        <span className="font-semibold text-xs tracking-wider">{log.level}</span>
+                        <span className="font-semibold text-xs tracking-wider">{log.severity}</span>
                       </div>
                     </td>
-                    <td className="p-4 text-primary/80 font-medium">{log.service}</td>
-                    <td className="p-4 text-foreground">{log.message}</td>
-                    <td className="p-4 text-muted-foreground">{log.ip}</td>
+                    <td className="p-4 text-primary/80 font-medium">{log.actorEmail || 'System'}</td>
+                    <td className="p-4 text-foreground">{log.action} - {log.target}</td>
+                    <td className="p-4 text-muted-foreground">{log.ip || 'Internal'}</td>
                   </tr>
                 );
               })}

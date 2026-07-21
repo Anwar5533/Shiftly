@@ -4,6 +4,7 @@ import { useAppSelector, useAppDispatch } from '@/app/store';
 import { clearUser } from '@/features/auth/store/authSlice';
 import { authApi } from '@/features/auth/api/auth.api';
 import { clearAccessToken } from '@/shared/lib/api';
+import { useQuery } from '@tanstack/react-query';
 import {
   LogOut,
   Briefcase,
@@ -23,16 +24,18 @@ import {
   PlusCircle,
   Users,
   CreditCard,
-  Video,
   BarChart,
   Activity,
   DollarSign,
-  ChevronDown
+  ChevronDown,
+  CheckCircle,
+  MessageSquare
 } from 'lucide-react';
-import { profileApi } from '@/features/profile/api/profile.api';
-import type { WorkerProfile } from '@shiftly/shared-types';
 import { setTheme } from '@/shared/store/uiSlice';
 import { AnimatePresence, motion } from 'framer-motion';
+import { workerApi } from '@/features/profile/api/worker.api';
+import { employerApi } from '@/features/profile/api/employer.api';
+import { recruiterApi } from '@/features/profile/api/recruiter.api';
 
 export function DashboardLayout(): React.ReactElement {
   const navigate = useNavigate();
@@ -44,7 +47,52 @@ export function DashboardLayout(): React.ReactElement {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
-  const [userProfile, setUserProfile] = useState<WorkerProfile | null>(null);
+  const [activePortal, setActivePortal] = useState<string>(
+    () => localStorage.getItem('activePortal') || user?.role.toLowerCase() || 'worker'
+  );
+
+  const { data: workerProfile } = useQuery({
+    queryKey: ['worker-profile', user?.sub],
+    queryFn: () => workerApi.getProfile(),
+    enabled: user?.role === 'WORKER',
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const { data: employerProfile } = useQuery({
+    queryKey: ['employer-profile', user?.sub],
+    queryFn: () => employerApi.getProfile(),
+    enabled: user?.role === 'EMPLOYER',
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const { data: recruiterProfile } = useQuery({
+    queryKey: ['recruiter-profile', user?.sub],
+    queryFn: () => recruiterApi.getProfile(),
+    enabled: user?.role === 'RECRUITER',
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const userProfile = workerProfile || employerProfile || recruiterProfile;
+
+  const getInitials = () => {
+    if (userProfile) {
+      if (user?.role === 'EMPLOYER') return (userProfile as any).companyName?.[0] || 'C';
+      const first = (userProfile as any).firstName?.[0] || '';
+      const last = (userProfile as any).lastName?.[0] || '';
+      if (first || last) return `${first}${last}`.toUpperCase();
+    }
+    return user?.email?.[0]?.toUpperCase() || 'U';
+  };
+
+  const getFullName = () => {
+    if (userProfile) {
+      if (user?.role === 'EMPLOYER') return (userProfile as any).companyName || 'Company';
+      const first = (userProfile as any).firstName || '';
+      const last = (userProfile as any).lastName || '';
+      if (first || last) return `${first} ${last}`.trim();
+    }
+    return user?.email || 'User';
+  };
 
   React.useEffect(() => {
     if (location.pathname.startsWith('/dashboard/')) {
@@ -54,21 +102,6 @@ export function DashboardLayout(): React.ReactElement {
       }
     }
   }, [location.pathname]);
-
-  React.useEffect(() => {
-    // Fetch profile to get real firstName for the avatar initial
-    const fetchProfile = async () => {
-      if (user?.role === 'WORKER') {
-        try {
-          const data = await profileApi.getProfile();
-          setUserProfile(data);
-        } catch (err) {
-          // Ignore
-        }
-      }
-    };
-    fetchProfile();
-  }, [user]);
 
   const handleLogout = async () => {
     try {
@@ -82,10 +115,8 @@ export function DashboardLayout(): React.ReactElement {
     }
   };
 
-  const activePortal = localStorage.getItem('activePortal') || user?.role.toLowerCase() || 'worker';
-  
   const baseItems = [
-    { label: 'Messages', path: '/messages', icon: <Bell className="w-5 h-5" /> },
+    { label: 'AI Assistant', path: '/chat', icon: <MessageSquare className="w-5 h-5" /> },
     { label: 'Profile', path: `/profile/${user?.role.toLowerCase()}/${user?.sub}`, icon: <UserCircle className="w-5 h-5" /> },
     { label: 'Settings', path: '/settings', icon: <Settings className="w-5 h-5" /> },
   ];
@@ -98,6 +129,7 @@ export function DashboardLayout(): React.ReactElement {
         { label: 'Post a Job', path: '/jobs/post', icon: <PlusCircle className="w-5 h-5" /> },
         { label: 'Manage Jobs', path: '/jobs/manage', icon: <FileText className="w-5 h-5" /> },
         { label: 'Applicants', path: '/applicants', icon: <Users className="w-5 h-5" /> },
+        { label: 'Timesheet Approvals', path: '/timesheet-approvals', icon: <CheckCircle className="w-5 h-5" /> },
         { label: 'Billing', path: '/billing', icon: <CreditCard className="w-5 h-5" /> },
         ...baseItems
       ];
@@ -106,9 +138,9 @@ export function DashboardLayout(): React.ReactElement {
       navItems = [
         { label: 'Dashboard', path: '/dashboard/recruiter', icon: <Briefcase className="w-5 h-5" /> },
         { label: 'Find Candidates', path: '/candidates', icon: <Search className="w-5 h-5" /> },
-        { label: 'Open Reqs', path: '/jobs/requisitions', icon: <FileText className="w-5 h-5" /> },
-        { label: 'Interviews', path: '/interviews', icon: <Video className="w-5 h-5" /> },
-        { label: 'Earnings', path: '/wallet', icon: <Wallet className="w-5 h-5" /> },
+        { label: 'Requisitions', path: '/jobs/requisitions', icon: <FileText className="w-5 h-5" /> },
+        { label: 'Timesheet Approvals', path: '/timesheet-approvals', icon: <CheckCircle className="w-5 h-5" /> },
+        { label: 'Wallet', path: '/wallet', icon: <Wallet className="w-5 h-5" /> },
         ...baseItems
       ];
       break;
@@ -271,7 +303,7 @@ export function DashboardLayout(): React.ReactElement {
       {/* Main Content */}
       <main className="flex-1 flex flex-col min-w-0">
         {/* Topbar */}
-        <header className="h-16 border-b border-border bg-card flex items-center justify-between px-4 md:px-8 z-10 sticky top-0">
+        <header className="h-16 border-b border-border bg-card/70 backdrop-blur-md flex items-center justify-between px-4 md:px-8 z-10 sticky top-0">
           <div className="flex items-center">
             <button 
               onClick={() => setIsMobileMenuOpen(true)}
@@ -303,10 +335,12 @@ export function DashboardLayout(): React.ReactElement {
             <div className="hidden md:flex items-center border-l border-border pl-4 ml-4">
               <select 
                 className="bg-transparent text-sm text-muted-foreground capitalize font-medium focus:outline-none cursor-pointer hover:text-foreground transition-colors"
-                value={localStorage.getItem('activePortal') || user?.role.toLowerCase() || 'worker'}
+                value={activePortal}
                 onChange={(e) => {
-                  localStorage.setItem('activePortal', e.target.value);
-                  navigate(`/dashboard/${e.target.value}`);
+                  const newPortal = e.target.value;
+                  localStorage.setItem('activePortal', newPortal);
+                  setActivePortal(newPortal);
+                  navigate(`/dashboard/${newPortal}`);
                 }}
               >
                 <option value="worker">Worker Portal</option>
@@ -376,7 +410,7 @@ export function DashboardLayout(): React.ReactElement {
               >
                 <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30 hover:ring-2 hover:ring-primary/50 transition-all cursor-pointer relative">
                   <span className="text-sm font-semibold text-primary uppercase">
-                    {userProfile?.firstName?.charAt(0) || user?.email?.charAt(0) || 'U'}
+                    {getInitials()}
                   </span>
                   <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-card rounded-full"></div>
                 </div>
@@ -393,10 +427,12 @@ export function DashboardLayout(): React.ReactElement {
                     className="absolute right-0 mt-2 w-56 rounded-xl bg-card border border-border shadow-lg py-2 z-50"
                   >
                     <div className="px-4 py-2 border-b border-border mb-2">
-                      <p className="text-sm font-medium text-foreground truncate">
-                        {userProfile ? `${userProfile.firstName} ${userProfile.lastName}` : (user?.email || 'User')}
-                      </p>
-                      <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+                      <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold">
+                        {getInitials()}
+                      </div>
+                      <span className="font-medium text-sm hidden sm:block">
+                        {getFullName()}
+                      </span>
                     </div>
                     
                     <button
@@ -441,10 +477,19 @@ export function DashboardLayout(): React.ReactElement {
         </header>
 
         {/* Page Content */}
-        <div className="flex-1 overflow-auto p-4 md:p-8 relative">
-          <div className="max-w-7xl mx-auto h-full">
-            <Outlet />
-          </div>
+        <div className="flex-1 overflow-auto p-4 md:p-8 relative bg-muted/20">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={location.pathname}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+              className="max-w-7xl mx-auto h-full"
+            >
+              <Outlet />
+            </motion.div>
+          </AnimatePresence>
         </div>
       </main>
     </div>

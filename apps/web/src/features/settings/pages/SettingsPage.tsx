@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Bell, Lock, User, CreditCard, Shield } from 'lucide-react';
+import { Bell, Lock, User, CreditCard, Shield, Gift, Copy, Check } from 'lucide-react';
 import { useAppSelector } from '@/app/store';
-
+import { useQuery } from '@tanstack/react-query';
+import { referralsApi } from '../api/referrals.api';
 export default function SettingsPage(): React.ReactElement {
   const { user } = useAppSelector((state) => state.auth);
   const [activeTab, setActiveTab] = useState('account');
@@ -17,11 +18,33 @@ export default function SettingsPage(): React.ReactElement {
     marketing: false
   });
 
+  const { data: refCode } = useQuery({
+    queryKey: ['referral-code'],
+    queryFn: referralsApi.getReferralCode,
+    enabled: activeTab === 'referrals',
+  });
+
+  const { data: refStats } = useQuery({
+    queryKey: ['referral-stats'],
+    queryFn: referralsApi.getReferralStats,
+    enabled: activeTab === 'referrals',
+  });
+
+  const [copied, setCopied] = useState(false);
+  const handleCopyCode = () => {
+    if (refCode) {
+      navigator.clipboard.writeText(refCode.code);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
   const tabs = [
     { id: 'account', label: 'Account', icon: <User className="w-4 h-4" /> },
     { id: 'notifications', label: 'Notifications', icon: <Bell className="w-4 h-4" /> },
     { id: 'security', label: 'Security', icon: <Lock className="w-4 h-4" /> },
     { id: 'billing', label: 'Billing', icon: <CreditCard className="w-4 h-4" /> },
+    { id: 'referrals', label: 'Referrals', icon: <Gift className="w-4 h-4" /> },
   ];
 
   const handleSaveAccount = () => {
@@ -208,6 +231,47 @@ export default function SettingsPage(): React.ReactElement {
                   >
                     Add Payment Method
                   </button>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'referrals' && (
+              <div className="space-y-6">
+                <h3 className="text-lg font-semibold text-foreground mb-4">Refer & Earn</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                  <div className="bg-muted/30 p-4 rounded-xl border border-border">
+                    <p className="text-sm text-muted-foreground mb-1">Total Earned</p>
+                    <p className="text-2xl font-bold text-foreground">
+                      {refStats ? `${refStats.totalEarned} ${refStats.currency}` : '...'}
+                    </p>
+                  </div>
+                  <div className="bg-muted/30 p-4 rounded-xl border border-border">
+                    <p className="text-sm text-muted-foreground mb-1">Total Referrals</p>
+                    <p className="text-2xl font-bold text-foreground">{refStats?.totalReferrals ?? '...'}</p>
+                  </div>
+                  <div className="bg-muted/30 p-4 rounded-xl border border-border">
+                    <p className="text-sm text-muted-foreground mb-1">Active Referrals</p>
+                    <p className="text-2xl font-bold text-foreground">{refStats?.activeReferrals ?? '...'}</p>
+                  </div>
+                </div>
+
+                <div className="p-6 bg-primary/5 rounded-xl border border-primary/20">
+                  <h4 className="font-medium text-foreground mb-2">Your Referral Code</h4>
+                  <p className="text-sm text-muted-foreground mb-4">Share this code with your friends and earn a bonus when they sign up and complete their first shift.</p>
+                  <div className="flex items-center gap-2 max-w-sm">
+                    <input 
+                      type="text" 
+                      readOnly 
+                      value={refCode?.code || 'Loading...'} 
+                      className="w-full p-2.5 bg-background border border-input rounded-md text-foreground font-mono text-center tracking-wider" 
+                    />
+                    <button 
+                      onClick={handleCopyCode}
+                      className="p-2.5 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+                    >
+                      {copied ? <Check className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
+                    </button>
+                  </div>
                 </div>
               </div>
             )}

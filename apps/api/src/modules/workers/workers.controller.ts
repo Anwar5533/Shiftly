@@ -20,6 +20,13 @@ export class WorkersController {
     return this.workersService.getProfile(userId);
   }
 
+  @Get('dashboard')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.WORKER)
+  getDashboardStats(@CurrentUser('sub') userId: string) {
+    return this.workersService.getDashboardStats(userId);
+  }
+
   @Patch('profile')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.WORKER)

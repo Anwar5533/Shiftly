@@ -314,7 +314,7 @@ export class AuthService {
       },
     });
 
-    return { accessToken, refreshToken, expiresIn: 900 };
+    return { accessToken, refreshToken, expiresIn: 18000 };
   }
 
   private validateUserStatus(user: User): void {

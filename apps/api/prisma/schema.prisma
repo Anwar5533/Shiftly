@@ -16,88 +16,87 @@ datasource db {
 // ─── ENUMS ───────────────────────────────────────────────────────────────────
 
 enum UserRole {
-
   WORKER
   EMPLOYER
   RECRUITER
   ADMIN
   SUPER_ADMIN
+
   @@schema("identity")
 }
 
 enum UserStatus {
-
   ACTIVE
   SUSPENDED
   PENDING_KYC
   PENDING_VERIFICATION
   DELETED
+
   @@schema("identity")
 }
 
 enum JobType {
-
   SHIFT
   PERMANENT
   GIG
+
   @@schema("jobs")
 }
 
 enum JobStatus {
-
   DRAFT
   PUBLISHED
   FILLED
   CANCELLED
   ARCHIVED
   EXPIRED
+
   @@schema("jobs")
 }
 
 enum ApplicationStatus {
-
   PENDING
   SHORTLISTED
   ACCEPTED
   REJECTED
   WITHDRAWN
   COMPLETED
+
   @@schema("jobs")
 }
 
 enum SalaryPeriod {
-
   HOURLY
   DAILY
   WEEKLY
   MONTHLY
   ANNUAL
   FIXED
+
   @@schema("jobs")
 }
 
 enum AvailabilityType {
-
   FULL_TIME
   PART_TIME
   WEEKENDS
   FLEXIBLE
+
   @@schema("workers")
 }
 
 enum EmployeeCountRange {
-
   RANGE_1_10
   RANGE_11_50
   RANGE_51_200
   RANGE_201_500
   RANGE_501_1000
   RANGE_1000_PLUS
+
   @@schema("employers")
 }
 
 enum TransactionType {
-
   TOPUP
   WITHDRAWAL
   ESCROW_LOCK
@@ -105,40 +104,40 @@ enum TransactionType {
   ESCROW_REFUND
   PLATFORM_FEE
   REFERRAL_BONUS
+
   @@schema("payments")
 }
 
 enum TransactionStatus {
-
   PENDING
   COMPLETED
   FAILED
   REVERSED
+
   @@schema("payments")
 }
 
 enum EscrowStatus {
-
   LOCKED
   RELEASED
   DISPUTED
   REFUNDED
+
   @@schema("payments")
 }
 
 enum KycStatus {
-
   NOT_STARTED
   PENDING
   UNDER_REVIEW
   APPROVED
   REJECTED
   EXPIRED
+
   @@schema("kyc")
 }
 
 enum DocumentType {
-
   PASSPORT
   NATIONAL_ID
   DRIVERS_LICENSE
@@ -146,28 +145,28 @@ enum DocumentType {
   PROOF_OF_ADDRESS
   BUSINESS_REGISTRATION
   RESUME
+
   @@schema("kyc")
 }
 
 enum DocumentStatus {
-
   PENDING
   APPROVED
   REJECTED
+
   @@schema("kyc")
 }
 
 enum NotificationChannel {
-
   EMAIL
   SMS
   PUSH
   IN_APP
+
   @@schema("notifications")
 }
 
 enum NotificationType {
-
   JOB_MATCH
   APPLICATION_UPDATE
   SHIFT_REMINDER
@@ -177,56 +176,65 @@ enum NotificationType {
   CHAT_MESSAGE
   REVIEW_RECEIVED
   SYSTEM_ALERT
+
   @@schema("notifications")
 }
 
 enum SubscriptionPlan {
-
   FREE
   BASIC
   PRO
   ENTERPRISE
+
   @@schema("subscriptions")
 }
 
 enum SubscriptionStatus {
-
   ACTIVE
   CANCELLED
   PAST_DUE
   TRIALING
   EXPIRED
+
   @@schema("subscriptions")
 }
 
 enum ReviewTarget {
-
   WORKER
   EMPLOYER
+
   @@schema("reviews")
 }
 
 enum DisputeStatus {
-
   OPEN
   UNDER_REVIEW
   RESOLVED
   CLOSED
+
   @@schema("payments")
 }
 
 enum ShiftStatus {
-
   SCHEDULED
   IN_PROGRESS
   COMPLETED
   CANCELLED
   NO_SHOW
+
+  @@schema("jobs")
+}
+
+enum TimesheetStatus {
+  PENDING
+  SUBMITTED
+  APPROVED
+  REJECTED
+
   @@schema("jobs")
 }
 
 enum AuditAction {
-
   CREATE
   UPDATE
   DELETE
@@ -238,61 +246,62 @@ enum AuditAction {
   RESTORE
   PUBLISH
   CANCEL
+
   @@schema("audit")
 }
 
 // ─── IDENTITY SCHEMA ─────────────────────────────────────────────────────────
 
 model User {
-  id                  String     @id @default(uuid()) @db.Uuid
-  email               String?    @unique
-  phone               String?    @unique
-  passwordHash        String?
-  role                UserRole
-  status              UserStatus @default(PENDING_VERIFICATION)
-  isEmailVerified     Boolean    @default(false)
-  isPhoneVerified     Boolean    @default(false)
-  lastLoginAt         DateTime?
-  loginCount          Int        @default(0)
-  createdAt           DateTime   @default(now())
-  updatedAt           DateTime   @updatedAt
-  deletedAt           DateTime?
+  id              String     @id @default(uuid()) @db.Uuid
+  email           String?    @unique
+  phone           String?    @unique
+  passwordHash    String?
+  role            UserRole
+  status          UserStatus @default(PENDING_VERIFICATION)
+  isEmailVerified Boolean    @default(false)
+  isPhoneVerified Boolean    @default(false)
+  lastLoginAt     DateTime?
+  loginCount      Int        @default(0)
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  deletedAt       DateTime?
 
   // Relations
-  workerProfile       WorkerProfile?
-  employerProfile     EmployerProfile?
-  recruiterProfile    RecruiterProfile?
-  sessions            Session[]
-  otpTokens           OtpToken[]
-  wallet              Wallet?
-  notifications       Notification[]
+  workerProfile            WorkerProfile?
+  employerProfile          EmployerProfile?
+  recruiterProfile         RecruiterProfile?
+  sessions                 Session[]
+  otpTokens                OtpToken[]
+  wallet                   Wallet?
+  notifications            Notification[]
   conversationParticipants ConversationParticipant[]
-  sentMessages        Message[]
-  kycDocuments        KycDocument[]
-  kycRequest          KycRequest?
-  referralCode        ReferralCode?
-  referredBy          String?    @db.Uuid
-  referrer            User?      @relation("Referrals", fields: [referredBy], references: [id])
-  referrals           User[]     @relation("Referrals")
-  subscription        Subscription?
-  auditLogs           AuditLog[]
-  reviewsGiven        Review[]   @relation("ReviewsGiven")
-  reviewsReceived     Review[]   @relation("ReviewsReceived")
-  pushTokens          PushToken[]
+  sentMessages             Message[]
+  kycDocuments             KycDocument[]
+  kycRequest               KycRequest?
+  referralCode             ReferralCode?
+  referredBy               String?                   @db.Uuid
+  referrer                 User?                     @relation("Referrals", fields: [referredBy], references: [id])
+  referrals                User[]                    @relation("Referrals")
+  subscription             Subscription?
+  auditLogs                AuditLog[]
+  reviewsGiven             Review[]                  @relation("ReviewsGiven")
+  reviewsReceived          Review[]                  @relation("ReviewsReceived")
+  pushTokens               PushToken[]
 
   @@map("users")
   @@schema("identity")
 }
 
 model Session {
-  id              String   @id @default(uuid()) @db.Uuid
-  userId          String   @db.Uuid
-  refreshTokenJti String   @unique
+  id              String    @id @default(uuid()) @db.Uuid
+  userId          String    @db.Uuid
+  refreshTokenJti String    @unique
   userAgent       String?
   ipAddress       String?
-  isRevoked       Boolean  @default(false)
+  isRevoked       Boolean   @default(false)
   expiresAt       DateTime
-  createdAt       DateTime @default(now())
+  createdAt       DateTime  @default(now())
   revokedAt       DateTime?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -304,14 +313,14 @@ model Session {
 }
 
 model OtpToken {
-  id          String   @id @default(uuid()) @db.Uuid
-  userId      String?  @db.Uuid
-  phone       String
-  code        String
-  attempts    Int      @default(0)
-  isUsed      Boolean  @default(false)
-  expiresAt   DateTime
-  createdAt   DateTime @default(now())
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String?  @db.Uuid
+  phone     String
+  code      String
+  attempts  Int      @default(0)
+  isUsed    Boolean  @default(false)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
 
   user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
 
@@ -324,7 +333,7 @@ model PushToken {
   id        String   @id @default(uuid()) @db.Uuid
   userId    String   @db.Uuid
   token     String   @unique
-  platform  String   // ios | android | web
+  platform  String // ios | android | web
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -344,7 +353,7 @@ model WorkerProfile {
   lastName        String
   bio             String?
   avatarUrl       String?
-  location        Json             // JobLocation object
+  location        Json // JobLocation object
   experienceYears Int              @default(0)
   availability    AvailabilityType @default(FLEXIBLE)
   hourlyRate      Decimal?         @db.Decimal(10, 2)
@@ -361,11 +370,11 @@ model WorkerProfile {
   updatedAt       DateTime         @updatedAt
 
   // Relations
-  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  skills          WorkerSkill[]
-  certifications  WorkerCertification[]
-  applications    JobApplication[]
-  shifts          Shift[]
+  user           User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  skills         WorkerSkill[]
+  certifications WorkerCertification[]
+  applications   JobApplication[]
+  shifts         Shift[]
 
   @@index([userId])
   @@map("worker_profiles")
@@ -373,26 +382,26 @@ model WorkerProfile {
 }
 
 model Skill {
-  id          String        @id @default(uuid()) @db.Uuid
-  name        String        @unique
-  category    String
-  createdAt   DateTime      @default(now())
-  workers     WorkerSkill[]
-  jobs        JobSkill[]
+  id        String        @id @default(uuid()) @db.Uuid
+  name      String        @unique
+  category  String
+  createdAt DateTime      @default(now())
+  workers   WorkerSkill[]
+  jobs      JobSkill[]
 
   @@map("skills")
   @@schema("workers")
 }
 
 model WorkerSkill {
-  workerId    String        @db.Uuid
-  skillId     String        @db.Uuid
-  yearsExp    Int           @default(0)
-  proficiency String        @default("INTERMEDIATE") // BEGINNER | INTERMEDIATE | EXPERT
-  addedAt     DateTime      @default(now())
+  workerId    String   @db.Uuid
+  skillId     String   @db.Uuid
+  yearsExp    Int      @default(0)
+  proficiency String   @default("INTERMEDIATE") // BEGINNER | INTERMEDIATE | EXPERT
+  addedAt     DateTime @default(now())
 
-  worker      WorkerProfile @relation(fields: [workerId], references: [id], onDelete: Cascade)
-  skill       Skill         @relation(fields: [skillId], references: [id])
+  worker WorkerProfile @relation(fields: [workerId], references: [id], onDelete: Cascade)
+  skill  Skill         @relation(fields: [skillId], references: [id])
 
   @@id([workerId, skillId])
   @@map("worker_skills")
@@ -400,16 +409,16 @@ model WorkerSkill {
 }
 
 model WorkerCertification {
-  id           String        @id @default(uuid()) @db.Uuid
-  workerId     String        @db.Uuid
-  name         String
-  issuer       String
-  issueDate    DateTime
-  expiryDate   DateTime?
-  documentUrl  String?
-  isVerified   Boolean       @default(false)
+  id          String    @id @default(uuid()) @db.Uuid
+  workerId    String    @db.Uuid
+  name        String
+  issuer      String
+  issueDate   DateTime
+  expiryDate  DateTime?
+  documentUrl String?
+  isVerified  Boolean   @default(false)
 
-  worker       WorkerProfile @relation(fields: [workerId], references: [id], onDelete: Cascade)
+  worker WorkerProfile @relation(fields: [workerId], references: [id], onDelete: Cascade)
 
   @@index([workerId])
   @@map("worker_certifications")
@@ -419,25 +428,25 @@ model WorkerCertification {
 // ─── EMPLOYERS SCHEMA ─────────────────────────────────────────────────────────
 
 model EmployerProfile {
-  id              String             @id @default(uuid()) @db.Uuid
-  userId          String             @unique @db.Uuid
-  companyName     String
-  industry        String
-  logoUrl         String?
-  website         String?
-  description     String?
-  location        Json               // JobLocation object
-  employeeCount   EmployeeCountRange @default(RANGE_1_10)
-  rating          Decimal            @default(0) @db.Decimal(3, 2)
-  totalReviews    Int                @default(0)
-  isVerified      Boolean            @default(false)
-  kycStatus       KycStatus          @default(NOT_STARTED)
-  createdAt       DateTime           @default(now())
-  updatedAt       DateTime           @updatedAt
+  id            String             @id @default(uuid()) @db.Uuid
+  userId        String             @unique @db.Uuid
+  companyName   String
+  industry      String
+  logoUrl       String?
+  website       String?
+  description   String?
+  location      Json // JobLocation object
+  employeeCount EmployeeCountRange @default(RANGE_1_10)
+  rating        Decimal            @default(0) @db.Decimal(3, 2)
+  totalReviews  Int                @default(0)
+  isVerified    Boolean            @default(false)
+  kycStatus     KycStatus          @default(NOT_STARTED)
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
 
-  user            User               @relation(fields: [userId], references: [id], onDelete: Cascade)
-  jobs            Job[]
-  departments     Department[]
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobs        Job[]
+  departments Department[]
 
   @@index([userId])
   @@map("employer_profiles")
@@ -445,14 +454,14 @@ model EmployerProfile {
 }
 
 model Department {
-  id          String          @id @default(uuid()) @db.Uuid
-  employerId  String          @db.Uuid
-  name        String
-  headCount   Int             @default(0)
-  createdAt   DateTime        @default(now())
+  id         String   @id @default(uuid()) @db.Uuid
+  employerId String   @db.Uuid
+  name       String
+  headCount  Int      @default(0)
+  createdAt  DateTime @default(now())
 
-  employer    EmployerProfile @relation(fields: [employerId], references: [id], onDelete: Cascade)
-  jobs        Job[]
+  employer EmployerProfile @relation(fields: [employerId], references: [id], onDelete: Cascade)
+  jobs     Job[]
 
   @@index([employerId])
   @@map("departments")
@@ -462,25 +471,25 @@ model Department {
 // ─── RECRUITERS SCHEMA ────────────────────────────────────────────────────────
 
 model RecruiterProfile {
-  id              String   @id @default(uuid()) @db.Uuid
-  userId          String   @unique @db.Uuid
+  id              String    @id @default(uuid()) @db.Uuid
+  userId          String    @unique @db.Uuid
   firstName       String
   lastName        String
   agencyName      String?
   bio             String?
   avatarUrl       String?
   specialisations String[]
-  placements      Int      @default(0)
-  successRate     Decimal  @default(0) @db.Decimal(5, 2)
-  rating          Decimal  @default(0) @db.Decimal(3, 2)
-  totalReviews    Int      @default(0)
-  isVerified      Boolean  @default(false)
+  placements      Int       @default(0)
+  successRate     Decimal   @default(0) @db.Decimal(5, 2)
+  rating          Decimal   @default(0) @db.Decimal(3, 2)
+  totalReviews    Int       @default(0)
+  isVerified      Boolean   @default(false)
   kycStatus       KycStatus @default(NOT_STARTED)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  jobs            Job[]    @relation("RecruiterJobs")
+  user User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobs Job[] @relation("RecruiterJobs")
 
   @@index([userId])
   @@map("recruiter_profiles")
@@ -490,45 +499,45 @@ model RecruiterProfile {
 // ─── JOBS SCHEMA ─────────────────────────────────────────────────────────────
 
 model Job {
-  id                      String          @id @default(uuid()) @db.Uuid
-  employerId              String          @db.Uuid
-  recruiterId             String?         @db.Uuid
-  departmentId            String?         @db.Uuid
-  title                   String
-  description             String
-  aiOptimisedDescription  String?
-  jobType                 JobType
-  status                  JobStatus       @default(DRAFT)
-  location                Json            // JobLocation object
-  isRemote                Boolean         @default(false)
-  salaryMin               Decimal         @db.Decimal(12, 2)
-  salaryMax               Decimal         @db.Decimal(12, 2)
-  salaryCurrency          String          @default("INR") @db.VarChar(3)
-  salaryPeriod            SalaryPeriod    @default(HOURLY)
-  startDate               DateTime
-  endDate                 DateTime?
-  shiftDurationHours      Decimal?        @db.Decimal(4, 2)
-  positionsTotal          Int             @default(1)
-  positionsFilled         Int             @default(0)
-  applicationDeadline     DateTime?
-  viewCount               Int             @default(0)
-  applicationCount        Int             @default(0)
-  publishedAt             DateTime?
-  expiresAt               DateTime?
-  createdAt               DateTime        @default(now())
-  updatedAt               DateTime        @updatedAt
-  deletedAt               DateTime?
+  id                     String       @id @default(uuid()) @db.Uuid
+  employerId             String       @db.Uuid
+  recruiterId            String?      @db.Uuid
+  departmentId           String?      @db.Uuid
+  title                  String
+  description            String
+  aiOptimisedDescription String?
+  jobType                JobType
+  status                 JobStatus    @default(DRAFT)
+  location               Json // JobLocation object
+  isRemote               Boolean      @default(false)
+  salaryMin              Decimal      @db.Decimal(12, 2)
+  salaryMax              Decimal      @db.Decimal(12, 2)
+  salaryCurrency         String       @default("INR") @db.VarChar(3)
+  salaryPeriod           SalaryPeriod @default(HOURLY)
+  startDate              DateTime
+  endDate                DateTime?
+  shiftDurationHours     Decimal?     @db.Decimal(4, 2)
+  positionsTotal         Int          @default(1)
+  positionsFilled        Int          @default(0)
+  applicationDeadline    DateTime?
+  viewCount              Int          @default(0)
+  applicationCount       Int          @default(0)
+  publishedAt            DateTime?
+  expiresAt              DateTime?
+  createdAt              DateTime     @default(now())
+  updatedAt              DateTime     @updatedAt
+  deletedAt              DateTime?
 
   // Relations
-  employer                EmployerProfile @relation(fields: [employerId], references: [id])
-  recruiter               RecruiterProfile? @relation("RecruiterJobs", fields: [recruiterId], references: [id])
-  department              Department?     @relation(fields: [departmentId], references: [id])
-  skills                  JobSkill[]
-  applications            JobApplication[]
-  shifts                  Shift[]
-  escrowLocks             EscrowLock[]
-  reviews                 Review[]
-  conversations           Conversation[]
+  employer      EmployerProfile   @relation(fields: [employerId], references: [id])
+  recruiter     RecruiterProfile? @relation("RecruiterJobs", fields: [recruiterId], references: [id])
+  department    Department?       @relation(fields: [departmentId], references: [id])
+  skills        JobSkill[]
+  applications  JobApplication[]
+  shifts        Shift[]
+  escrowLocks   EscrowLock[]
+  reviews       Review[]
+  conversations Conversation[]
 
   @@index([employerId])
   @@index([status])
@@ -539,12 +548,12 @@ model Job {
 }
 
 model JobSkill {
-  jobId       String @db.Uuid
-  skillId     String @db.Uuid
-  isRequired  Boolean @default(true)
+  jobId      String  @db.Uuid
+  skillId    String  @db.Uuid
+  isRequired Boolean @default(true)
 
-  job         Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
-  skill       Skill  @relation(fields: [skillId], references: [id])
+  job   Job   @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  skill Skill @relation(fields: [skillId], references: [id])
 
   @@id([jobId, skillId])
   @@map("job_skills")
@@ -558,15 +567,15 @@ model JobApplication {
   status       ApplicationStatus @default(PENDING)
   coverLetter  String?
   aiScore      Decimal?          @db.Decimal(5, 2)
-  aiBreakdown  Json?             // MatchBreakdown object
+  aiBreakdown  Json? // MatchBreakdown object
   employerNote String?
   appliedAt    DateTime          @default(now())
   updatedAt    DateTime          @updatedAt
 
-  job          Job               @relation(fields: [jobId], references: [id])
-  worker       WorkerProfile     @relation(fields: [workerId], references: [id])
-  escrowLock   EscrowLock?
-  shift        Shift?
+  job        Job           @relation(fields: [jobId], references: [id])
+  worker     WorkerProfile @relation(fields: [workerId], references: [id])
+  escrowLock EscrowLock?
+  shift      Shift?
 
   @@unique([jobId, workerId])
   @@index([jobId])
@@ -577,26 +586,27 @@ model JobApplication {
 }
 
 model Shift {
-  id              String      @id @default(uuid()) @db.Uuid
-  jobId           String      @db.Uuid
-  applicationId   String      @unique @db.Uuid
-  workerId        String      @db.Uuid
-  status          ShiftStatus @default(SCHEDULED)
-  scheduledStart  DateTime
-  scheduledEnd    DateTime
-  actualStart     DateTime?
-  actualEnd       DateTime?
-  clockInLocation Json?
+  id               String      @id @default(uuid()) @db.Uuid
+  jobId            String      @db.Uuid
+  applicationId    String      @unique @db.Uuid
+  workerId         String      @db.Uuid
+  status           ShiftStatus @default(SCHEDULED)
+  scheduledStart   DateTime
+  scheduledEnd     DateTime
+  actualStart      DateTime?
+  actualEnd        DateTime?
+  clockInLocation  Json?
   clockOutLocation Json?
-  hoursWorked     Decimal?    @db.Decimal(6, 2)
-  overtimeHours   Decimal?    @db.Decimal(6, 2)
-  notes           String?
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
+  hoursWorked      Decimal?    @db.Decimal(6, 2)
+  overtimeHours    Decimal?    @db.Decimal(6, 2)
+  notes            String?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
 
-  job             Job         @relation(fields: [jobId], references: [id])
-  application     JobApplication @relation(fields: [applicationId], references: [id])
-  worker          WorkerProfile @relation(fields: [workerId], references: [id])
+  job         Job            @relation(fields: [jobId], references: [id])
+  application JobApplication @relation(fields: [applicationId], references: [id])
+  worker      WorkerProfile  @relation(fields: [workerId], references: [id])
+  timesheet   Timesheet?
 
   @@index([jobId])
   @@index([workerId])
@@ -605,42 +615,62 @@ model Shift {
   @@schema("jobs")
 }
 
+model Timesheet {
+  id              String          @id @default(uuid()) @db.Uuid
+  shiftId         String          @unique @db.Uuid
+  status          TimesheetStatus @default(PENDING)
+  hoursWorked     Decimal         @db.Decimal(6, 2)
+  notes           String?
+  submittedAt     DateTime?
+  approvedAt      DateTime?
+  rejectedAt      DateTime?
+  rejectionReason String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  shift Shift @relation(fields: [shiftId], references: [id], onDelete: Cascade)
+
+  @@index([status])
+  @@map("timesheets")
+  @@schema("jobs")
+}
+
 // ─── PAYMENTS SCHEMA ──────────────────────────────────────────────────────────
 
 model Wallet {
-  id            String        @id @default(uuid()) @db.Uuid
-  userId        String        @unique @db.Uuid
-  balance       Decimal       @default(0) @db.Decimal(12, 2)
-  escrowBalance Decimal       @default(0) @db.Decimal(12, 2)
-  currency      String        @default("INR") @db.VarChar(3)
-  isFrozen      Boolean       @default(false)
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  id            String   @id @default(uuid()) @db.Uuid
+  userId        String   @unique @db.Uuid
+  balance       Decimal  @default(0) @db.Decimal(12, 2)
+  escrowBalance Decimal  @default(0) @db.Decimal(12, 2)
+  currency      String   @default("INR") @db.VarChar(3)
+  isFrozen      Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
-  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  transactions  Transaction[]
-  escrowLocks   EscrowLock[]
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+  escrowLocks  EscrowLock[]
 
   @@map("wallets")
   @@schema("payments")
 }
 
 model Transaction {
-  id              String            @id @default(uuid()) @db.Uuid
-  walletId        String            @db.Uuid
-  type            TransactionType
-  amount          Decimal           @db.Decimal(12, 2)
-  currency        String            @db.VarChar(3)
-  status          TransactionStatus @default(PENDING)
-  referenceId     String?
-  externalTxnId   String?
-  description     String
-  metadata        Json?
-  idempotencyKey  String?           @unique
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
+  id             String            @id @default(uuid()) @db.Uuid
+  walletId       String            @db.Uuid
+  type           TransactionType
+  amount         Decimal           @db.Decimal(12, 2)
+  currency       String            @db.VarChar(3)
+  status         TransactionStatus @default(PENDING)
+  referenceId    String?
+  externalTxnId  String?
+  description    String
+  metadata       Json?
+  idempotencyKey String?           @unique
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
 
-  wallet          Wallet            @relation(fields: [walletId], references: [id])
+  wallet Wallet @relation(fields: [walletId], references: [id])
 
   @@index([walletId])
   @@index([status])
@@ -650,20 +680,20 @@ model Transaction {
 }
 
 model EscrowLock {
-  id            String       @id @default(uuid()) @db.Uuid
-  walletId      String       @db.Uuid
-  jobId         String       @db.Uuid
-  applicationId String       @unique @db.Uuid
-  amount        Decimal      @db.Decimal(12, 2)
-  currency      String       @db.VarChar(3)
-  status        EscrowStatus @default(LOCKED)
-  lockedAt      DateTime     @default(now())
+  id            String         @id @default(uuid()) @db.Uuid
+  walletId      String         @db.Uuid
+  jobId         String         @db.Uuid
+  applicationId String         @unique @db.Uuid
+  amount        Decimal        @db.Decimal(12, 2)
+  currency      String         @db.VarChar(3)
+  status        EscrowStatus   @default(LOCKED)
+  lockedAt      DateTime       @default(now())
   releasedAt    DateTime?
   dispute       EscrowDispute?
 
-  wallet        Wallet       @relation(fields: [walletId], references: [id])
-  job           Job          @relation(fields: [jobId], references: [id])
-  application   JobApplication @relation(fields: [applicationId], references: [id])
+  wallet      Wallet         @relation(fields: [walletId], references: [id])
+  job         Job            @relation(fields: [jobId], references: [id])
+  application JobApplication @relation(fields: [applicationId], references: [id])
 
   @@index([walletId])
   @@index([status])
@@ -672,18 +702,18 @@ model EscrowLock {
 }
 
 model EscrowDispute {
-  id          String        @id @default(uuid()) @db.Uuid
-  escrowId    String        @unique @db.Uuid
-  raisedById  String        @db.Uuid
-  reason      String
-  evidence    String?
-  status      DisputeStatus @default(OPEN)
-  resolution  String?
-  resolvedById String?      @db.Uuid
-  createdAt   DateTime      @default(now())
-  resolvedAt  DateTime?
+  id           String        @id @default(uuid()) @db.Uuid
+  escrowId     String        @unique @db.Uuid
+  raisedById   String        @db.Uuid
+  reason       String
+  evidence     String?
+  status       DisputeStatus @default(OPEN)
+  resolution   String?
+  resolvedById String?       @db.Uuid
+  createdAt    DateTime      @default(now())
+  resolvedAt   DateTime?
 
-  escrow      EscrowLock    @relation(fields: [escrowId], references: [id])
+  escrow EscrowLock @relation(fields: [escrowId], references: [id])
 
   @@map("escrow_disputes")
   @@schema("payments")
@@ -692,14 +722,14 @@ model EscrowDispute {
 // ─── MESSAGING SCHEMA ─────────────────────────────────────────────────────────
 
 model Conversation {
-  id          String                   @id @default(uuid()) @db.Uuid
-  jobId       String?                  @db.Uuid
-  createdAt   DateTime                 @default(now())
-  updatedAt   DateTime                 @updatedAt
+  id        String   @id @default(uuid()) @db.Uuid
+  jobId     String?  @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  job         Job?                     @relation(fields: [jobId], references: [id])
+  job          Job?                      @relation(fields: [jobId], references: [id])
   participants ConversationParticipant[]
-  messages    Message[]
+  messages     Message[]
 
   @@index([updatedAt])
   @@map("conversations")
@@ -707,13 +737,13 @@ model Conversation {
 }
 
 model ConversationParticipant {
-  conversationId  String       @db.Uuid
-  userId          String       @db.Uuid
-  lastReadAt      DateTime?
-  joinedAt        DateTime     @default(now())
+  conversationId String    @db.Uuid
+  userId         String    @db.Uuid
+  lastReadAt     DateTime?
+  joinedAt       DateTime  @default(now())
 
-  conversation    Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  user            User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([conversationId, userId])
   @@index([userId])
@@ -722,16 +752,16 @@ model ConversationParticipant {
 }
 
 model Message {
-  id             String              @id @default(uuid()) @db.Uuid
-  conversationId String              @db.Uuid
-  senderId       String              @db.Uuid
+  id             String   @id @default(uuid()) @db.Uuid
+  conversationId String   @db.Uuid
+  senderId       String   @db.Uuid
   content        String
-  isDeleted      Boolean             @default(false)
-  createdAt      DateTime            @default(now())
+  isDeleted      Boolean  @default(false)
+  createdAt      DateTime @default(now())
 
-  conversation   Conversation        @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  sender         User                @relation(fields: [senderId], references: [id])
-  attachments    MessageAttachment[]
+  conversation Conversation        @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender       User                @relation(fields: [senderId], references: [id])
+  attachments  MessageAttachment[]
 
   @@index([conversationId, createdAt])
   @@index([senderId])
@@ -748,7 +778,7 @@ model MessageAttachment {
   mimeType  String
   createdAt DateTime @default(now())
 
-  message   Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  message Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
 
   @@map("message_attachments")
   @@schema("messaging")
@@ -757,18 +787,18 @@ model MessageAttachment {
 // ─── NOTIFICATIONS SCHEMA ─────────────────────────────────────────────────────
 
 model Notification {
-  id         String              @id @default(uuid()) @db.Uuid
-  userId     String              @db.Uuid
-  type       NotificationType
-  channel    NotificationChannel
-  title      String
-  body       String
-  data       Json                @default("{}")
-  isRead     Boolean             @default(false)
-  readAt     DateTime?
-  createdAt  DateTime            @default(now())
+  id        String              @id @default(uuid()) @db.Uuid
+  userId    String              @db.Uuid
+  type      NotificationType
+  channel   NotificationChannel
+  title     String
+  body      String
+  data      Json                @default("{}")
+  isRead    Boolean             @default(false)
+  readAt    DateTime?
+  createdAt DateTime            @default(now())
 
-  user       User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, isRead])
   @@index([createdAt])
@@ -779,20 +809,20 @@ model Notification {
 // ─── REVIEWS SCHEMA ───────────────────────────────────────────────────────────
 
 model Review {
-  id          String       @id @default(uuid()) @db.Uuid
-  jobId       String       @db.Uuid
-  reviewerId  String       @db.Uuid
-  revieweeId  String       @db.Uuid
-  targetType  ReviewTarget
-  rating      Int          // 1-5
-  comment     String?
-  isPublic    Boolean      @default(true)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  id         String       @id @default(uuid()) @db.Uuid
+  jobId      String       @db.Uuid
+  reviewerId String       @db.Uuid
+  revieweeId String       @db.Uuid
+  targetType ReviewTarget
+  rating     Int // 1-5
+  comment    String?
+  isPublic   Boolean      @default(true)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
 
-  job         Job          @relation(fields: [jobId], references: [id])
-  reviewer    User         @relation("ReviewsGiven", fields: [reviewerId], references: [id])
-  reviewee    User         @relation("ReviewsReceived", fields: [revieweeId], references: [id])
+  job      Job  @relation(fields: [jobId], references: [id])
+  reviewer User @relation("ReviewsGiven", fields: [reviewerId], references: [id])
+  reviewee User @relation("ReviewsReceived", fields: [revieweeId], references: [id])
 
   @@unique([jobId, reviewerId, revieweeId])
   @@index([revieweeId])
@@ -803,16 +833,16 @@ model Review {
 // ─── KYC SCHEMA ──────────────────────────────────────────────────────────────
 
 model KycRequest {
-  id              String     @id @default(uuid()) @db.Uuid
-  userId          String     @unique @db.Uuid
-  status          KycStatus  @default(PENDING)
-  submittedAt     DateTime   @default(now())
+  id              String    @id @default(uuid()) @db.Uuid
+  userId          String    @unique @db.Uuid
+  status          KycStatus @default(PENDING)
+  submittedAt     DateTime  @default(now())
   reviewedAt      DateTime?
-  reviewedById    String?    @db.Uuid
+  reviewedById    String?   @db.Uuid
   rejectionReason String?
   notes           String?
 
-  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([status])
   @@map("kyc_requests")
@@ -820,18 +850,18 @@ model KycRequest {
 }
 
 model KycDocument {
-  id               String         @id @default(uuid()) @db.Uuid
-  userId           String         @db.Uuid
-  type             DocumentType
-  fileUrl          String
-  fileName         String
-  fileSize         Int
-  status           DocumentStatus @default(PENDING)
-  rejectionReason  String?
-  uploadedAt       DateTime       @default(now())
-  reviewedAt       DateTime?
+  id              String         @id @default(uuid()) @db.Uuid
+  userId          String         @db.Uuid
+  type            DocumentType
+  fileUrl         String
+  fileName        String
+  fileSize        Int
+  status          DocumentStatus @default(PENDING)
+  rejectionReason String?
+  uploadedAt      DateTime       @default(now())
+  reviewedAt      DateTime?
 
-  user             User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@map("kyc_documents")
@@ -841,30 +871,30 @@ model KycDocument {
 // ─── REFERRALS SCHEMA ─────────────────────────────────────────────────────────
 
 model ReferralCode {
-  id          String          @id @default(uuid()) @db.Uuid
-  userId      String          @unique @db.Uuid
-  code        String          @unique
-  usageCount  Int             @default(0)
-  createdAt   DateTime        @default(now())
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String   @unique @db.Uuid
+  code       String   @unique
+  usageCount Int      @default(0)
+  createdAt  DateTime @default(now())
 
-  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  events      ReferralEvent[]
+  user   User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  events ReferralEvent[]
 
   @@map("referral_codes")
   @@schema("referrals")
 }
 
 model ReferralEvent {
-  id            String      @id @default(uuid()) @db.Uuid
-  referralCodeId String     @db.Uuid
-  referredUserId String     @db.Uuid
-  commission    Decimal     @db.Decimal(10, 2)
-  currency      String      @db.VarChar(3)
-  isPaid        Boolean     @default(false)
-  paidAt        DateTime?
-  createdAt     DateTime    @default(now())
+  id             String    @id @default(uuid()) @db.Uuid
+  referralCodeId String    @db.Uuid
+  referredUserId String    @db.Uuid
+  commission     Decimal   @db.Decimal(10, 2)
+  currency       String    @db.VarChar(3)
+  isPaid         Boolean   @default(false)
+  paidAt         DateTime?
+  createdAt      DateTime  @default(now())
 
-  referralCode  ReferralCode @relation(fields: [referralCodeId], references: [id])
+  referralCode ReferralCode @relation(fields: [referralCodeId], references: [id])
 
   @@index([referralCodeId])
   @@map("referral_events")
@@ -874,18 +904,18 @@ model ReferralEvent {
 // ─── SUBSCRIPTIONS SCHEMA ─────────────────────────────────────────────────────
 
 model Subscription {
-  id                   String             @id @default(uuid()) @db.Uuid
-  userId               String             @unique @db.Uuid
-  plan                 SubscriptionPlan   @default(FREE)
-  status               SubscriptionStatus @default(ACTIVE)
-  currentPeriodStart   DateTime           @default(now())
-  currentPeriodEnd     DateTime
-  cancelAtPeriodEnd    Boolean            @default(false)
+  id                     String             @id @default(uuid()) @db.Uuid
+  userId                 String             @unique @db.Uuid
+  plan                   SubscriptionPlan   @default(FREE)
+  status                 SubscriptionStatus @default(ACTIVE)
+  currentPeriodStart     DateTime           @default(now())
+  currentPeriodEnd       DateTime
+  cancelAtPeriodEnd      Boolean            @default(false)
   externalSubscriptionId String?
-  createdAt            DateTime           @default(now())
-  updatedAt            DateTime           @updatedAt
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @updatedAt
 
-  user                 User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("subscriptions")
   @@schema("subscriptions")
@@ -894,19 +924,19 @@ model Subscription {
 // ─── AUDIT SCHEMA ─────────────────────────────────────────────────────────────
 
 model AuditLog {
-  id          String      @id @default(uuid()) @db.Uuid
-  actorId     String      @db.Uuid
-  action      AuditAction
+  id           String      @id @default(uuid()) @db.Uuid
+  actorId      String      @db.Uuid
+  action       AuditAction
   resourceType String
-  resourceId  String
-  oldValues   Json?
-  newValues   Json?
-  ipAddress   String?
-  userAgent   String?
-  metadata    Json?
-  createdAt   DateTime    @default(now())
+  resourceId   String
+  oldValues    Json?
+  newValues    Json?
+  ipAddress    String?
+  userAgent    String?
+  metadata     Json?
+  createdAt    DateTime    @default(now())
 
-  actor       User        @relation(fields: [actorId], references: [id])
+  actor User @relation(fields: [actorId], references: [id])
 
   @@index([actorId])
   @@index([resourceType, resourceId])
@@ -918,34 +948,34 @@ model AuditLog {
 // ─── KNOWLEDGE BASE SCHEMA ────────────────────────────────────────────────────
 
 model KbCategory {
-  id          String      @id @default(uuid()) @db.Uuid
-  name        String      @unique
-  slug        String      @unique
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String   @unique
+  slug        String   @unique
   description String?
-  sortOrder   Int         @default(0)
-  createdAt   DateTime    @default(now())
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
 
-  articles    KbArticle[]
+  articles KbArticle[]
 
   @@map("kb_categories")
   @@schema("knowledge_base")
 }
 
 model KbArticle {
-  id          String     @id @default(uuid()) @db.Uuid
-  categoryId  String     @db.Uuid
+  id          String    @id @default(uuid()) @db.Uuid
+  categoryId  String    @db.Uuid
   title       String
-  slug        String     @unique
+  slug        String    @unique
   content     String
   excerpt     String?
   tags        String[]
-  viewCount   Int        @default(0)
-  isPublished Boolean    @default(false)
+  viewCount   Int       @default(0)
+  isPublished Boolean   @default(false)
   publishedAt DateTime?
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
-  category    KbCategory @relation(fields: [categoryId], references: [id])
+  category KbCategory @relation(fields: [categoryId], references: [id])
 
   @@index([slug])
   @@index([isPublished])

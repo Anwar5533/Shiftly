@@ -55,6 +55,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "compression": "^1.7.4",
+    "cookie-parser": "^1.4.7",
     "date-fns": "^4.1.0",
     "decimal.js": "^10.4.3",
     "express": "^5.2.1",
@@ -69,6 +70,7 @@
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
+    "socket.io": "^4.8.3",
     "uuid": "^11.0.3",
     "winston": "^3.17.0",
     "zod": "^3.23.8"
@@ -79,6 +81,7 @@
     "@nestjs/testing": "^10.4.15",
     "@types/bcrypt": "^5.0.2",
     "@types/compression": "^1.7.5",
+    "@types/cookie-parser": "^1.4.10",
     "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",
     "@types/multer": "^1.4.12",

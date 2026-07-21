@@ -21,29 +21,33 @@ import { RedisModule } from './infrastructure/redis/redis.module';
 import { AuthModule } from './modules/auth/auth.module';
 // import { UsersModule } from './modules/users/users.module';
 import { WorkersModule } from './modules/workers/workers.module';
-// import { EmployersModule } from './modules/employers/employers.module';
-// import { RecruitersModule } from './modules/recruiters/recruiters.module';
+import { EmployersModule } from './modules/employers/employers.module';
+import { RecruitersModule } from './modules/recruiters/recruiters.module';
 import { JobsModule } from './modules/jobs/jobs.module';
 import { PaymentsModule } from './modules/payments/payments.module';
-// import { ApplicationsModule } from './modules/applications/applications.module';
-// import { ShiftsModule } from './modules/shifts/shifts.module';
+import { ApplicationsModule } from './modules/applications/applications.module';
+import { MessagingModule } from './modules/messaging/messaging.module';
+import { ShiftsModule } from './modules/shifts/shifts.module';
 // import { PaymentsModule } from './modules/payments/payments.module';
 // import { WalletModule } from './modules/wallet/wallet.module';
 // import { EscrowModule } from './modules/escrow/escrow.module';
-// import { ChatModule } from './modules/chat/chat.module';
-// import { NotificationsModule } from './modules/notifications/notifications.module';
-// import { ReviewsModule } from './modules/reviews/reviews.module';
-// import { KycModule } from './modules/kyc/kyc.module';
-// import { DocumentsModule } from './modules/documents/documents.module';
-// import { SearchModule } from './modules/search/search.module';
-// import { AiModule } from './modules/ai/ai.module';
-// import { AnalyticsModule } from './modules/analytics/analytics.module';
-// import { AdminModule } from './modules/admin/admin.module';
+import { ChatModule } from './modules/chat/chat.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
+import { ReviewsModule } from './modules/reviews/reviews.module';
+import { WalletsModule } from './modules/payments/wallets/wallets.module';
+import { TransactionsModule } from './modules/payments/transactions/transactions.module';
+import { EscrowModule } from './modules/payments/escrow/escrow.module';
+import { KycModule } from './modules/kyc/kyc.module';
+import { DocumentsModule } from './modules/documents/documents.module';
+import { SearchModule } from './modules/search/search.module';
+import { AiModule } from './modules/ai/ai.module';
+import { AnalyticsModule } from './modules/analytics/analytics.module';
+import { ReferralsModule } from './modules/referrals/referrals.module';
+import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
 // import { AuditModule } from './modules/audit/audit.module';
-// import { ReferralsModule } from './modules/referrals/referrals.module';
-// import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
-// import { KnowledgeBaseModule } from './modules/knowledge-base/knowledge-base.module';
+import { KnowledgeBaseModule } from './modules/knowledge-base/knowledge-base.module';
 import { HealthModule } from './modules/health/health.module';
+import { AdminModule } from './modules/admin/admin.module';
 
 @Module({
   imports: [
@@ -97,28 +101,30 @@ import { HealthModule } from './modules/health/health.module';
     AuthModule,
     // UsersModule,
     WorkersModule,
-    // EmployersModule,
-    // RecruitersModule,
+    EmployersModule,
+    RecruitersModule,
     JobsModule,
-    // ApplicationsModule,
-    // ShiftsModule,
+    ApplicationsModule,
+    ShiftsModule,
     PaymentsModule,
+    MessagingModule,
     // WalletModule,
     // EscrowModule,
-    // ChatModule,
-    // NotificationsModule,
-    // ReviewsModule,
-    // KycModule,
-    // DocumentsModule,
-    // SearchModule,
-    // AiModule,
-    // AnalyticsModule,
-    // AdminModule,
+    ChatModule,
+    NotificationsModule,
+    ReviewsModule,
+    KycModule,
+    DocumentsModule,
+    SearchModule,
+    AiModule,
+    AnalyticsModule,
+    SubscriptionsModule,
+    ReferralsModule,
     // AuditModule,
-    // ReferralsModule,
-    // SubscriptionsModule,
-    // KnowledgeBaseModule,
+    KnowledgeBaseModule,
+    // UsersModule,
     HealthModule,
+    AdminModule,
   ],
 })
 export class AppModule {}

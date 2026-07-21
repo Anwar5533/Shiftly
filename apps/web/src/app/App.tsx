@@ -7,14 +7,25 @@ import { store } from './store';
 import { queryClient } from '@/shared/lib/query-client';
 import { router } from './router';
 import { ThemeProvider } from '@/shared/components/ThemeProvider';
+import { useAuthInit } from '@/shared/hooks/useAuthInit';
+
+/**
+ * Inner component so it can use Redux hooks (must be inside <Provider>)
+ */
+function AppInner(): React.ReactElement {
+  useAuthInit(); // Silently restores auth session on page refresh
+  return (
+    <ThemeProvider>
+      <RouterProvider router={router} />
+    </ThemeProvider>
+  );
+}
 
 export function App(): React.ReactElement {
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
-        <ThemeProvider>
-          <RouterProvider router={router} />
-        </ThemeProvider>
+        <AppInner />
         {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />}
       </QueryClientProvider>
     </Provider>

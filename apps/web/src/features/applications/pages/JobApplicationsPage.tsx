@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { applicationsApi } from '../api/applications.api';
-import type { MockApplication, ApplicationStatus } from '../api/applications.api';
-import { User, Star, Briefcase, ChevronDown, Check, X, Filter } from 'lucide-react';
+import { applicationsApi } from '../../jobs/api/applications.api';
+import type { JobApplication } from '../../jobs/api/applications.api';
+import { User, Star, Briefcase, BookmarkPlus, Check, X, Filter } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
+
+type ApplicationStatus = 'PENDING' | 'SHORTLISTED' | 'ACCEPTED' | 'REJECTED' | 'WITHDRAWN' | 'COMPLETED';
 
 export default function JobApplicationsPage(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   
-  const [applications, setApplications] = useState<MockApplication[]>([]);
+  const [applications, setApplications] = useState<JobApplication[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   
   // Status filter state
@@ -22,7 +24,7 @@ export default function JobApplicationsPage(): React.ReactElement {
     const fetchApps = async () => {
       try {
         setIsLoading(true);
-        const data = await applicationsApi.getApplicationsByJobId(id);
+        const data = await applicationsApi.getApplicationsForJob(id);
         setApplications(data);
       } catch (err) {
         console.error('Failed to load applications.', err);
@@ -37,7 +39,7 @@ export default function JobApplicationsPage(): React.ReactElement {
   const handleUpdateStatus = async (applicationId: string, newStatus: ApplicationStatus) => {
     try {
       setUpdatingId(applicationId);
-      const updatedApp = await applicationsApi.updateApplicationStatus(applicationId, newStatus);
+      const updatedApp = await applicationsApi.updateApplicationStatus(applicationId, { status: newStatus });
       setApplications(prev => prev.map(app => app.id === applicationId ? updatedApp : app));
     } catch (err) {
       alert('Failed to update status');
@@ -50,7 +52,7 @@ export default function JobApplicationsPage(): React.ReactElement {
     statusFilter === 'ALL' || app.status === statusFilter
   );
 
-  const getStatusBadgeColor = (status: ApplicationStatus) => {
+  const getStatusBadgeColor = (status: string) => {
     switch (status) {
       case 'PENDING': return 'bg-yellow-500/10 text-yellow-600 border-yellow-500/20';
       case 'SHORTLISTED': return 'bg-blue-500/10 text-blue-600 border-blue-500/20';
@@ -126,18 +128,18 @@ export default function JobApplicationsPage(): React.ReactElement {
                     >
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          {app.worker.avatarUrl ? (
+                          {app.worker?.avatarUrl ? (
                             <img src={app.worker.avatarUrl} alt="" className="w-10 h-10 rounded-full object-cover" />
                           ) : (
                             <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
-                              {app.worker.firstName.charAt(0)}{app.worker.lastName.charAt(0)}
+                              {app.worker?.firstName?.charAt(0)}{app.worker?.lastName?.charAt(0)}
                             </div>
                           )}
                           <div>
-                            <span className="font-medium text-foreground block">{app.worker.firstName} {app.worker.lastName}</span>
+                            <span className="font-medium text-foreground block">{app.worker?.firstName} {app.worker?.lastName}</span>
                             <div className="flex items-center text-xs text-muted-foreground mt-0.5">
                               <Star className="w-3 h-3 text-yellow-500 mr-1" />
-                              {app.worker.rating}
+                              {app.worker?.rating || 0}
                             </div>
                           </div>
                         </div>
@@ -145,7 +147,7 @@ export default function JobApplicationsPage(): React.ReactElement {
                       <td className="px-6 py-4">
                         <div className="flex items-center text-muted-foreground">
                           <Briefcase className="w-4 h-4 mr-2" />
-                          {app.worker.experienceYears} Years
+                          {app.worker?.experienceYears || 0} Years
                         </div>
                       </td>
                       <td className="px-6 py-4 text-muted-foreground">
@@ -165,17 +167,17 @@ export default function JobApplicationsPage(): React.ReactElement {
                               <>
                                 <button 
                                   onClick={() => handleUpdateStatus(app.id, 'SHORTLISTED')}
-                                  className="p-2 bg-blue-500/10 text-blue-600 hover:bg-blue-500/20 rounded-md transition-colors"
-                                  title="Shortlist"
+                                  className="flex items-center gap-1.5 px-2.5 py-1.5 bg-blue-500/10 text-blue-500 hover:bg-blue-500/20 rounded-md transition-colors text-xs font-medium border border-blue-500/20"
+                                  title="Shortlist candidate"
                                 >
-                                  <ChevronDown className="w-4 h-4" /> {/* Just an icon for now, ideally an arrow up or similar */}
+                                  <BookmarkPlus className="w-3.5 h-3.5" /> Shortlist
                                 </button>
                                 <button 
                                   onClick={() => handleUpdateStatus(app.id, 'REJECTED')}
-                                  className="p-2 bg-red-500/10 text-red-600 hover:bg-red-500/20 rounded-md transition-colors"
-                                  title="Reject"
+                                  className="flex items-center gap-1.5 px-2.5 py-1.5 bg-red-500/10 text-red-500 hover:bg-red-500/20 rounded-md transition-colors text-xs font-medium border border-red-500/20"
+                                  title="Reject candidate"
                                 >
-                                  <X className="w-4 h-4" />
+                                  <X className="w-3.5 h-3.5" /> Reject
                                 </button>
                               </>
                             )}
@@ -183,17 +185,17 @@ export default function JobApplicationsPage(): React.ReactElement {
                               <>
                                 <button 
                                   onClick={() => handleUpdateStatus(app.id, 'ACCEPTED')}
-                                  className="p-2 bg-green-500/10 text-green-600 hover:bg-green-500/20 rounded-md transition-colors"
-                                  title="Accept"
+                                  className="flex items-center gap-1.5 px-2.5 py-1.5 bg-green-500/10 text-green-500 hover:bg-green-500/20 rounded-md transition-colors text-xs font-medium border border-green-500/20"
+                                  title="Accept candidate"
                                 >
-                                  <Check className="w-4 h-4" />
+                                  <Check className="w-3.5 h-3.5" /> Accept
                                 </button>
                                 <button 
                                   onClick={() => handleUpdateStatus(app.id, 'REJECTED')}
-                                  className="p-2 bg-red-500/10 text-red-600 hover:bg-red-500/20 rounded-md transition-colors"
-                                  title="Reject"
+                                  className="flex items-center gap-1.5 px-2.5 py-1.5 bg-red-500/10 text-red-500 hover:bg-red-500/20 rounded-md transition-colors text-xs font-medium border border-red-500/20"
+                                  title="Reject candidate"
                                 >
-                                  <X className="w-4 h-4" />
+                                  <X className="w-3.5 h-3.5" /> Reject
                                 </button>
                               </>
                             )}

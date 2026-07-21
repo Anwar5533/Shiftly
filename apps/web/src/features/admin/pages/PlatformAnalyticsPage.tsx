@@ -1,17 +1,19 @@
 import React from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Legend } from 'recharts';
 import { Users, Briefcase, Activity, TrendingUp } from 'lucide-react';
+import { analyticsApi } from '../api/analytics.api';
 
 export default function PlatformAnalyticsPage(): React.ReactElement {
-  const userGrowthData = [
-    { name: 'Jan', workers: 4000, employers: 240 },
-    { name: 'Feb', workers: 4500, employers: 280 },
-    { name: 'Mar', workers: 5200, employers: 350 },
-    { name: 'Apr', workers: 6100, employers: 410 },
-    { name: 'May', workers: 7500, employers: 490 },
-    { name: 'Jun', workers: 8900, employers: 580 },
-    { name: 'Jul', workers: 10400, employers: 680 },
-  ];
+  const { data: statsData, isLoading: isStatsLoading } = useQuery({
+    queryKey: ['analytics-stats'],
+    queryFn: analyticsApi.getStats
+  });
+
+  const { data: revenueData = [], isLoading: isRevenueLoading } = useQuery({
+    queryKey: ['analytics-revenue'],
+    queryFn: analyticsApi.getRevenue
+  });
 
   const jobCategoryData = [
     { name: 'Warehouse', jobs: 420 },
@@ -22,11 +24,15 @@ export default function PlatformAnalyticsPage(): React.ReactElement {
   ];
 
   const stats = [
-    { label: 'Total Active Users', value: '11.2k', change: '+18%', icon: Users, color: 'text-blue-500' },
-    { label: 'Active Job Postings', value: '1,380', change: '+12%', icon: Briefcase, color: 'text-purple-500' },
-    { label: 'Matches Made', value: '8,492', change: '+24%', icon: TrendingUp, color: 'text-green-500' },
-    { label: 'Platform Uptime', value: '99.9%', change: '+0.1%', icon: Activity, color: 'text-amber-500' },
+    { label: 'Total Active Users', value: statsData?.totalUsers || 0, change: statsData?.activeUsersGrowth || '0%', icon: Users, color: 'text-blue-500' },
+    { label: 'Active Job Postings', value: statsData?.activeJobs || 0, change: statsData?.jobsGrowth || '0%', icon: Briefcase, color: 'text-purple-500' },
+    { label: 'Completed Shifts', value: statsData?.completedShifts || 0, change: statsData?.shiftsGrowth || '0%', icon: TrendingUp, color: 'text-green-500' },
+    { label: 'Gross Volume', value: `$${statsData?.grossPaymentVolume?.toLocaleString() || 0}`, change: statsData?.volumeGrowth || '0%', icon: Activity, color: 'text-amber-500' },
   ];
+
+  if (isStatsLoading || isRevenueLoading) {
+    return <div className="p-12 text-center text-muted-foreground">Loading analytics...</div>;
+  }
 
   return (
     <div className="space-y-6">
@@ -62,18 +68,14 @@ export default function PlatformAnalyticsPage(): React.ReactElement {
         
         {/* Main Growth Chart */}
         <div className="lg:col-span-2 bg-card border border-border rounded-xl p-5 shadow-sm">
-          <h2 className="font-semibold text-lg text-foreground mb-4">User Growth Trend</h2>
+          <h2 className="font-semibold text-lg text-foreground mb-4">Revenue Growth Trend (Gross Volume)</h2>
           <div className="h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={userGrowthData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+              <AreaChart data={revenueData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                 <defs>
-                  <linearGradient id="colorWorkers" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
-                    <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
-                  </linearGradient>
-                  <linearGradient id="colorEmployers" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.3}/>
-                    <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0}/>
+                  <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="#333" opacity={0.2} vertical={false} />
@@ -84,8 +86,7 @@ export default function PlatformAnalyticsPage(): React.ReactElement {
                   itemStyle={{ color: 'hsl(var(--foreground))' }}
                 />
                 <Legend />
-                <Area type="monotone" dataKey="workers" stroke="#3b82f6" strokeWidth={2} fillOpacity={1} fill="url(#colorWorkers)" />
-                <Area type="monotone" dataKey="employers" stroke="#8b5cf6" strokeWidth={2} fillOpacity={1} fill="url(#colorEmployers)" />
+                <Area type="monotone" dataKey="value" stroke="#10b981" strokeWidth={2} fillOpacity={1} fill="url(#colorValue)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>

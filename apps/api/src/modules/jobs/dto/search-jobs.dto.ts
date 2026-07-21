@@ -20,6 +20,10 @@ export class SearchJobsDto {
   city?: string;
 
   @IsOptional()
+  @IsString()
+  employerId?: string;
+
+  @IsOptional()
   @IsNumber()
   @Type(() => Number)
   minSalary?: number;

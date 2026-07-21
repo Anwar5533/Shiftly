@@ -6,6 +6,7 @@ import { ConfigService } from '@nestjs/config';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import helmet from 'helmet';
 import * as compression from 'compression';
+import * as cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
 import { GlobalExceptionFilter } from './shared/filters/global-exception.filter';
 import { TransformInterceptor } from './shared/interceptors/transform.interceptor';
@@ -34,6 +35,7 @@ async function bootstrap(): Promise<void> {
     }),
   );
   app.use(compression());
+  app.use(cookieParser());
 
   // ─── CORS ─────────────────────────────────────────────────────────────────
   app.enableCors({

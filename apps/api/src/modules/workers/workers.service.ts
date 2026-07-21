@@ -106,4 +106,45 @@ export class WorkersService {
       },
     });
   }
+
+  async getDashboardStats(userId: string) {
+    const profile = await this.prisma.workerProfile.findUnique({
+      where: { userId },
+      include: {
+        _count: {
+          select: {
+            applications: true,
+            shifts: true,
+          }
+        }
+      }
+    });
+
+    if (!profile) {
+      throw new NotFoundException('Worker profile not found');
+    }
+
+    const completion = this.calculateProfileCompletion(profile);
+
+    return {
+      totalEarnings: 0, // Placeholder until payments module is linked
+      activeApplications: profile._count.applications,
+      completedShifts: profile._count.shifts,
+      profileCompletion: completion,
+      rating: profile.rating,
+    };
+  }
+
+  private calculateProfileCompletion(profile: any): number {
+    let score = 0;
+    const totalFields = 5;
+    
+    if (profile.firstName && profile.lastName) score += 1;
+    if (profile.bio) score += 1;
+    if (profile.avatarUrl) score += 1;
+    if (profile.experienceYears > 0) score += 1;
+    if (profile.hourlyRate) score += 1;
+
+    return Math.round((score / totalFields) * 100);
+  }
 }

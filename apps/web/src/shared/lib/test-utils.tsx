@@ -16,7 +16,7 @@ const createTestQueryClient = () =>
   });
 
 const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
-  const testQueryClient = createTestQueryClient();
+  const [testQueryClient] = React.useState(() => createTestQueryClient());
   return (
     <Provider store={store}>
       <QueryClientProvider client={testQueryClient}>
