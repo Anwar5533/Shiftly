@@ -112,7 +112,7 @@ export default function EmployerDashboard(): React.ReactElement {
                   </td>
                   <td className="px-6 py-4 text-right">
                     <button 
-                      onClick={() => navigate(`/jobs/job_${i}/applications`)}
+                      onClick={() => navigate(`/jobs/job-${i}/applications`)}
                       className="text-primary hover:underline font-medium"
                     >
                       View Applications

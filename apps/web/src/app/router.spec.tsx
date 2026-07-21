@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { render } from '@testing-library/react';
+// testing-library removed
 import { router } from './router';
 
 describe('router', () => {

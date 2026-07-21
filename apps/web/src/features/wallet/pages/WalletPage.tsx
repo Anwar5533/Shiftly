@@ -42,7 +42,8 @@ export default function WalletPage(): React.ReactElement {
           userId: 'mock-user',
           balance: 15450,
           currency: 'INR',
-          createdAt: new Date().toISOString(),
+          isFrozen: false,
+          escrowBalance: 0,
           updatedAt: new Date().toISOString(),
         });
         setTransactions([
@@ -56,7 +57,6 @@ export default function WalletPage(): React.ReactElement {
             description: 'Wallet top up',
             currency: 'INR',
             createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
           }
         ]);
       }

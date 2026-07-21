@@ -17,10 +17,10 @@ export default function RecruiterDashboard(): React.ReactElement {
           <p className="text-muted-foreground mt-1">Here's an overview of your candidate pipeline.</p>
         </div>
         <button 
-          onClick={() => navigate('/jobs')}
+          onClick={() => navigate('/candidates')}
           className="bg-primary text-primary-foreground px-4 py-2 rounded-lg font-medium hover:bg-primary/90 transition-colors shadow-sm"
         >
-          Sourcing Hub
+          Find Candidates
         </button>
       </div>
 
@@ -105,7 +105,7 @@ export default function RecruiterDashboard(): React.ReactElement {
         <div className="bg-card border border-border rounded-2xl shadow-sm overflow-hidden flex flex-col">
           <div className="p-6 border-b border-border flex items-center justify-between">
             <h2 className="text-lg font-semibold text-foreground">Hot Reqs</h2>
-            <button className="text-sm text-primary font-medium hover:underline">View all</button>
+            <button onClick={() => navigate('/jobs')} className="text-sm text-primary font-medium hover:underline">View all</button>
           </div>
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {[1, 2, 3].map((i) => (
@@ -117,7 +117,7 @@ export default function RecruiterDashboard(): React.ReactElement {
                 <p className="text-sm text-muted-foreground mb-3">St. Jude's Medical Center</p>
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-muted-foreground">Fee: <span className="font-semibold text-foreground">15%</span></span>
-                  <button onClick={() => navigate('/jobs')} className="text-primary font-medium hover:underline flex items-center">
+                  <button onClick={() => navigate(`/jobs/job-${i}`)} className="text-primary font-medium hover:underline flex items-center">
                     Source <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>

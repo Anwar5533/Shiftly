@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import notificationsReducer, {
   setNotifications,
   addNotification,
@@ -16,9 +16,12 @@ describe('notificationsSlice', () => {
   const mockNotification1: Notification = {
     id: '1',
     userId: 'u1',
-    type: 'SYSTEM',
+    type: 'SYSTEM_ALERT',
     title: 'Test 1',
-    message: 'Message 1',
+    body: 'Message 1',
+    channel: 'IN_APP',
+    data: {},
+    readAt: null,
     isRead: false,
     createdAt: new Date().toISOString(),
   };
@@ -26,9 +29,12 @@ describe('notificationsSlice', () => {
   const mockNotification2: Notification = {
     id: '2',
     userId: 'u1',
-    type: 'SYSTEM',
+    type: 'SYSTEM_ALERT',
     title: 'Test 2',
-    message: 'Message 2',
+    body: 'Message 2',
+    channel: 'IN_APP',
+    data: {},
+    readAt: null,
     isRead: true,
     createdAt: new Date().toISOString(),
   };

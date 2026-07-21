@@ -68,13 +68,13 @@ export default function WorkerDashboard(): React.ReactElement {
         <div className="lg:col-span-2 bg-card border border-border rounded-2xl shadow-sm overflow-hidden">
           <div className="p-6 border-b border-border flex items-center justify-between">
             <h2 className="text-lg font-semibold text-foreground">Upcoming Shifts</h2>
-            <button className="text-sm text-primary font-medium hover:underline flex items-center gap-1">
+            <button onClick={() => navigate('/jobs')} className="text-sm text-primary font-medium hover:underline flex items-center gap-1">
               View all <ChevronRight className="w-4 h-4" />
             </button>
           </div>
           <div className="divide-y divide-border">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="p-6 flex items-center justify-between hover:bg-muted/30 transition-colors">
+              <div key={i} onClick={() => navigate(`/jobs/job-${i}`)} className="p-6 flex items-center justify-between hover:bg-muted/30 transition-colors cursor-pointer">
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-lg bg-muted flex flex-col items-center justify-center">
                     <span className="text-xs font-medium text-muted-foreground uppercase">Oct</span>
@@ -103,7 +103,7 @@ export default function WorkerDashboard(): React.ReactElement {
           <h2 className="text-lg font-semibold text-foreground mb-4">Recommended for you</h2>
           <div className="space-y-4">
             {[1, 2].map((i) => (
-              <div key={i} className="group p-4 border border-border rounded-xl hover:border-primary/50 transition-colors cursor-pointer">
+              <div key={i} onClick={() => navigate(`/jobs/job-${i}`)} className="group p-4 border border-border rounded-xl hover:border-primary/50 transition-colors cursor-pointer">
                 <div className="flex justify-between items-start mb-2">
                   <h4 className="font-medium text-foreground group-hover:text-primary transition-colors">Forklift Operator</h4>
                   <span className="text-sm font-semibold text-foreground">₹1,800/hr</span>

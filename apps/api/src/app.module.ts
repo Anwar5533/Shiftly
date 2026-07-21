@@ -50,6 +50,7 @@ import { HealthModule } from './modules/health/health.module';
     // ─── Configuration ───────────────────────────────────────────────────
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: process.env.APP_ENV ? `.env.${process.env.APP_ENV}` : '.env',
       load: [appConfig, databaseConfig, redisConfig, kafkaConfig, awsConfig, jwtConfig],
       validationSchema,
       validationOptions: {

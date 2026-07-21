@@ -9,7 +9,7 @@ export default function MessagesPage(): React.ReactElement {
   const [messages, setMessages] = useState<MockMessage[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const [isSending, setIsSending] = useState(false);
+  const [_isSending, setIsSending] = useState(false);
   const isSendingRef = useRef(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 

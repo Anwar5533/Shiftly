@@ -44,10 +44,10 @@ export default function JobDetailPage(): React.ReactElement {
       <div className="max-w-4xl mx-auto py-16 px-4 text-center">
         <button 
           className="mb-6 mx-auto flex items-center px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors bg-transparent border-none cursor-pointer rounded-md hover:bg-muted"
-          onClick={() => navigate('/jobs')}
+          onClick={() => navigate(-1)}
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Jobs
+          Back
         </button>
         <div className="bg-card border border-dashed border-border rounded-xl py-12">
           <p className="text-destructive font-medium text-lg">{error || 'Job not found'}</p>
@@ -60,10 +60,10 @@ export default function JobDetailPage(): React.ReactElement {
     <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
       <button 
         className="mb-6 -ml-4 flex items-center px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors bg-transparent border-none cursor-pointer rounded-md hover:bg-muted"
-        onClick={() => navigate('/jobs')}
+        onClick={() => navigate(-1)}
       >
         <ArrowLeft className="w-4 h-4 mr-2" />
-        Back to Jobs
+        Back
       </button>
 
       <div className="bg-card rounded-2xl shadow-sm border border-border overflow-hidden">

@@ -5,6 +5,11 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
+    "build:dev": "nest build",
+    "build:test": "nest build",
+    "build:performance": "nest build",
+    "build:modeloffice": "nest build",
+    "build:production": "nest build",
     "dev": "nest start --watch",
     "start": "node dist/apps/api/src/main",
     "start:prod": "node dist/apps/api/src/main",

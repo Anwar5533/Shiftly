@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, MoreHorizontal, CheckCircle2, XCircle, Clock, Filter, Search } from 'lucide-react';
+import { MoreHorizontal, CheckCircle2, XCircle, Clock, Filter, Search } from 'lucide-react';
 
 export default function UsersManagementPage(): React.ReactElement {
   const users = [

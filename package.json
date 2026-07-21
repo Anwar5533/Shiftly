@@ -11,6 +11,11 @@
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
+    "build:dev": "turbo run build:dev",
+    "build:test": "turbo run build:test",
+    "build:performance": "turbo run build:performance",
+    "build:modeloffice": "turbo run build:modeloffice",
+    "build:production": "turbo run build:production",
     "test": "turbo run test",
     "test:unit": "turbo run test:unit",
     "test:integration": "turbo run test:integration",

@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-export function PageLoader(): React.ReactElement {
+export function PageLoader({ fullScreen = true }: { fullScreen?: boolean } = {}): React.ReactElement {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background">
+    <div className={`${fullScreen ? 'fixed inset-0 z-50' : 'flex-1 h-full w-full min-h-[400px]'} flex items-center justify-center bg-background`}>
       <motion.div
         className="flex flex-col items-center gap-4"
         initial={{ opacity: 0, scale: 0.8 }}

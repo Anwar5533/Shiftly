@@ -6,6 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:dev": "tsc -b && vite build --mode dev",
+    "build:test": "tsc -b && vite build --mode test",
+    "build:performance": "tsc -b && vite build --mode performance",
+    "build:modeloffice": "tsc -b && vite build --mode modeloffice",
+    "build:production": "tsc -b && vite build --mode production",
     "preview": "vite preview",
     "lint": "eslint src --ext .ts,.tsx",
     "typecheck": "tsc --noEmit",

@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import api, { setAccessToken, getAccessToken, clearAccessToken } from './api';
 
 describe('API Token Store', () => {

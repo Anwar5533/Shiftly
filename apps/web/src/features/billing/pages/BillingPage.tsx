@@ -1,5 +1,5 @@
 import React from 'react';
-import { CreditCard, Download, ExternalLink, Receipt, CheckCircle2 } from 'lucide-react';
+import { CreditCard, Download, Receipt, CheckCircle2 } from 'lucide-react';
 
 export default function BillingPage(): React.ReactElement {
   const invoices = [

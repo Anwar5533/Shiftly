@@ -1,5 +1,5 @@
 import React from 'react';
-import { Briefcase, Users, Eye, MoreHorizontal, Plus, Search, Filter } from 'lucide-react';
+import { Plus, Search, Filter, Users, Eye, MoreHorizontal } from 'lucide-react';
 
 export default function ManageJobsPage(): React.ReactElement {
   const jobs = [

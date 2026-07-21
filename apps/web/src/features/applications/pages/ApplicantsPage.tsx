@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Phone, Calendar, Star, MoreVertical, FileText } from 'lucide-react';
+import { Mail, Calendar, Star, MoreVertical, FileText } from 'lucide-react';
 
 export default function ApplicantsPage(): React.ReactElement {
   const applicants = [

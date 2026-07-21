@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import uiReducer, { setTheme, toggleSidebar, setSidebarMobileOpen } from './uiSlice';
 
 describe('uiSlice', () => {

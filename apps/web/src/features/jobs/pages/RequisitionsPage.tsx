@@ -1,5 +1,5 @@
 import React from 'react';
-import { Target, Users, Clock, Building, ChevronRight, Briefcase } from 'lucide-react';
+import { Target, Clock, Building, ChevronRight, Briefcase } from 'lucide-react';
 
 export default function RequisitionsPage(): React.ReactElement {
   const requisitions = [

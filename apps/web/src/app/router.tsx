@@ -43,34 +43,13 @@ const PlatformAnalyticsPage = lazy(() => import('@/features/admin/pages/Platform
 const SystemLogsPage = lazy(() => import('@/features/admin/pages/SystemLogsPage'));
 const FinancialsPage = lazy(() => import('@/features/admin/pages/FinancialsPage'));
 
-import ComingSoonPage from '@/shared/components/ComingSoonPage';
-
 const wrap = (Component: any) => (
-  <Suspense fallback={<PageLoader />}>
+  <Suspense fallback={<PageLoader fullScreen={false} />}>
     <Component />
   </Suspense>
 );
 
 export const router = createBrowserRouter([
-  // ─── Public job routes ──────────────────────────────────────────────────
-  {
-    path: '/jobs',
-    errorElement: <ErrorBoundaryPage />,
-    children: [
-      { index: true, element: wrap(JobsListPage) },
-      { path: ':id', element: wrap(JobDetailPage) },
-      { path: ':id/applications', element: (
-          <ProtectedRoute>
-            <DashboardLayout />
-          </ProtectedRoute>
-        ), 
-        children: [
-          { index: true, element: wrap(JobApplicationsPage) }
-        ]
-      },
-    ],
-  },
-
   // ─── Auth routes (public) ──────────────────────────────────────────────
   {
     element: <AuthLayout />,
@@ -107,6 +86,9 @@ export const router = createBrowserRouter([
       { path: '/dashboard/employer', element: wrap(EmployerDashboard) },
       { path: '/dashboard/recruiter', element: wrap(RecruiterDashboard) },
       { path: '/dashboard/admin', element: wrap(AdminDashboard) },
+      { path: '/jobs', element: wrap(JobsListPage) },
+      { path: '/jobs/:id', element: wrap(JobDetailPage) },
+      { path: '/jobs/:id/applications', element: wrap(JobApplicationsPage) },
       { path: '/jobs/post', element: wrap(PostJobPage) },
       { path: '/jobs/manage', element: wrap(ManageJobsPage) },
       { path: '/jobs/requisitions', element: wrap(RequisitionsPage) },

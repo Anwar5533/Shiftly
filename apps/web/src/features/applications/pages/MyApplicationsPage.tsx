@@ -1,10 +1,13 @@
 import React from 'react';
 import { Briefcase, Building, MapPin, Calendar, Clock, ChevronRight, CheckCircle2, Clock3, XCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export default function MyApplicationsPage(): React.ReactElement {
+  const navigate = useNavigate();
   const applications = [
     {
       id: 1,
+      jobId: 'job-1',
       role: 'Warehouse Associate',
       company: 'Amazon Fulfillment',
       location: 'Seattle, WA',
@@ -15,6 +18,7 @@ export default function MyApplicationsPage(): React.ReactElement {
     },
     {
       id: 2,
+      jobId: 'job-2',
       role: 'Delivery Driver',
       company: 'FedEx Logistics',
       location: 'Bellevue, WA',
@@ -25,6 +29,7 @@ export default function MyApplicationsPage(): React.ReactElement {
     },
     {
       id: 3,
+      jobId: 'job-3',
       role: 'Forklift Operator',
       company: 'Home Depot',
       location: 'Renton, WA',
@@ -35,6 +40,7 @@ export default function MyApplicationsPage(): React.ReactElement {
     },
     {
       id: 4,
+      jobId: 'job-1',
       role: 'Inventory Specialist',
       company: 'Target Distribution',
       location: 'Kent, WA',
@@ -69,7 +75,7 @@ export default function MyApplicationsPage(): React.ReactElement {
 
       <div className="grid gap-4">
         {applications.map((app) => (
-          <div key={app.id} className="bg-card border border-border p-5 rounded-xl hover:border-primary/50 transition-colors cursor-pointer group">
+          <div key={app.id} onClick={() => navigate(`/jobs/${app.jobId}`)} className="bg-card border border-border p-5 rounded-xl hover:border-primary/50 transition-colors cursor-pointer group">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               
               <div className="flex items-start gap-4">
@@ -94,7 +100,7 @@ export default function MyApplicationsPage(): React.ReactElement {
 
               <div className="flex items-center justify-between md:flex-col md:items-end gap-3 md:gap-4 mt-4 md:mt-0">
                 {getStatusBadge(app.status)}
-                <button className="text-sm font-medium text-primary hover:text-primary/80 flex items-center gap-1 group-hover:underline">
+                <button onClick={(e) => { e.stopPropagation(); navigate(`/jobs/${app.jobId}`); }} className="text-sm font-medium text-primary hover:text-primary/80 flex items-center gap-1 group-hover:underline">
                   View Details <ChevronRight className="w-4 h-4" />
                 </button>
               </div>

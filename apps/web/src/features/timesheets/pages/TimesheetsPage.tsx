@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Clock, Calendar, CheckCircle, AlertCircle, FileText, ChevronDown } from 'lucide-react';
 
 export default function TimesheetsPage(): React.ReactElement {
+  const [isClockedIn, setIsClockedIn] = useState(false);
+
   const timesheets = [
     {
       id: 1,
@@ -29,6 +31,15 @@ export default function TimesheetsPage(): React.ReactElement {
     },
   ];
 
+  const handleClockInOut = () => {
+    setIsClockedIn(!isClockedIn);
+    alert(isClockedIn ? 'You have successfully clocked out.' : 'You have successfully clocked in!');
+  };
+
+  const handleDownload = (period: string) => {
+    alert(`Downloading timesheet for ${period}...`);
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -36,8 +47,11 @@ export default function TimesheetsPage(): React.ReactElement {
           <h1 className="text-2xl font-bold text-foreground tracking-tight">Timesheets</h1>
           <p className="text-muted-foreground mt-1">Review your logged hours and payment statuses.</p>
         </div>
-        <button className="bg-primary text-primary-foreground px-4 py-2 rounded-lg font-medium hover:bg-primary/90 flex items-center justify-center gap-2 transition-colors">
-          <Clock className="w-4 h-4" /> Clock In
+        <button 
+          onClick={handleClockInOut}
+          className={`${isClockedIn ? 'bg-destructive hover:bg-destructive/90 text-destructive-foreground' : 'bg-primary hover:bg-primary/90 text-primary-foreground'} px-4 py-2 rounded-lg font-medium flex items-center justify-center gap-2 transition-colors`}
+        >
+          <Clock className="w-4 h-4" /> {isClockedIn ? 'Clock Out' : 'Clock In'}
         </button>
       </div>
 
@@ -113,7 +127,11 @@ export default function TimesheetsPage(): React.ReactElement {
                     </span>
                   </td>
                   <td className="p-4 text-right">
-                    <button className="p-1.5 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-md transition-colors">
+                    <button 
+                      onClick={() => handleDownload(ts.period)}
+                      title="View Document"
+                      className="p-1.5 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-md transition-colors"
+                    >
                       <FileText className="w-4 h-4" />
                     </button>
                   </td>

@@ -31,25 +31,25 @@ export default function JobsListPage(): React.ReactElement {
               employerId: 'emp-1',
               title: 'Senior Frontend Developer',
               description: 'We are looking for an experienced frontend developer...',
-              requirements: ['React', 'TypeScript', 'Tailwind'],
+              skillsRequired: ['React', 'TypeScript', 'Tailwind'],
               jobType: 'PERMANENT',
-              location: { city: 'Bangalore', isRemote: false, addressLine1: '', country: '', state: '', zipCode: '' },
+              location: { city: 'San Francisco', state: 'CA', address: '456 Tech Blvd', country: 'USA', postalCode: '94105', isRemote: false, lat: 37.7749, lng: -122.4194 },
               salaryMin: 1500000,
               salaryMax: 2500000,
               salaryCurrency: 'INR',
-              salaryPeriod: 'YEARLY',
+              salaryPeriod: 'ANNUAL',
               status: 'PUBLISHED',
               createdAt: new Date().toISOString(),
               updatedAt: new Date().toISOString()
-            },
+            } as unknown as Job,
             {
               id: 'job-2',
               employerId: 'emp-2',
               title: 'Part-time Delivery Partner',
               description: 'Join our delivery network...',
-              requirements: ['Driving License', 'Smartphone'],
+              skillsRequired: ['Driving License', 'Smartphone'],
               jobType: 'GIG',
-              location: { city: 'Mumbai', isRemote: false, addressLine1: '', country: '', state: '', zipCode: '' },
+              location: { city: 'Mumbai', isRemote: false, address: '', country: '', state: '', postalCode: '', lat: 0, lng: 0 },
               salaryMin: 200,
               salaryMax: 500,
               salaryCurrency: 'INR',
@@ -57,23 +57,23 @@ export default function JobsListPage(): React.ReactElement {
               status: 'PUBLISHED',
               createdAt: new Date().toISOString(),
               updatedAt: new Date().toISOString()
-            },
+            } as unknown as Job,
             {
               id: 'job-3',
               employerId: 'emp-1',
               title: 'Full Stack Engineer (Remote)',
               description: 'Looking for a full stack engineer...',
-              requirements: ['Node.js', 'React', 'PostgreSQL'],
+              skillsRequired: ['Node.js', 'React', 'PostgreSQL'],
               jobType: 'PERMANENT',
-              location: { city: 'Remote', isRemote: true, addressLine1: '', country: '', state: '', zipCode: '' },
+              location: { city: 'New York', state: 'NY', address: '123 Wall St', country: 'USA', postalCode: '10001', isRemote: false, lat: 40.7128, lng: -74.0060 },
               salaryMin: 2000000,
               salaryMax: 3500000,
               salaryCurrency: 'INR',
-              salaryPeriod: 'YEARLY',
+              salaryPeriod: 'ANNUAL',
               status: 'PUBLISHED',
               createdAt: new Date().toISOString(),
               updatedAt: new Date().toISOString()
-            }
+            } as unknown as Job
           ]);
         } else {
           setJobs(fetchedJobs);

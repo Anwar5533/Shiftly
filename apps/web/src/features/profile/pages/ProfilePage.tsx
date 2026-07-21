@@ -48,19 +48,20 @@ export default function ProfilePage(): React.ReactElement {
         location: {
           city: 'Bangalore',
           state: 'Karnataka',
-          addressLine1: '',
+          address: '',
           country: 'India',
-          zipCode: ''
+          postalCode: '',
+          lat: 0,
+          lng: 0
         },
         skills: ['Management', 'Communication', 'Operations'],
         hourlyRate: 15,
+        currency: 'USD',
         rating: 4.8,
         totalReviews: 24,
-        isAvailable: true,
-        isVerified: true,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
-      };
+      } as unknown as WorkerProfile;
       
       setProfile(fallbackProfile);
       setBio(fallbackProfile.bio || '');
@@ -68,7 +69,7 @@ export default function ProfilePage(): React.ReactElement {
       setFirstName(fallbackProfile.firstName || '');
       setLastName(fallbackProfile.lastName || '');
       setEmail(user?.email || '');
-      setPhone(user?.phone || '');
+      setPhone((user as any)?.phone || '');
       setError(null);
     } catch (err) {
       console.error('Failed to fetch profile', err);
@@ -263,7 +264,7 @@ export default function ProfilePage(): React.ReactElement {
                       className="mt-1 w-full p-2 bg-background border border-input rounded-md text-foreground focus:ring-2 focus:ring-primary focus:outline-none"
                     />
                   ) : (
-                    <p className="text-foreground">{phone || user?.phone || 'Not provided'}</p>
+                    <p className="text-foreground">{phone || (user as any)?.phone || 'Not provided'}</p>
                   )}
                 </div>
               </div>

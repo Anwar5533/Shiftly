@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar as CalendarIcon, Clock, Video, User, Briefcase, CheckCircle, XCircle } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, Video, User, Briefcase } from 'lucide-react';
 
 export default function InterviewsPage(): React.ReactElement {
   const interviews = [

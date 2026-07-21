@@ -43,6 +43,7 @@ export function DashboardLayout(): React.ReactElement {
   
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [userProfile, setUserProfile] = useState<WorkerProfile | null>(null);
 
   React.useEffect(() => {
@@ -317,10 +318,55 @@ export function DashboardLayout(): React.ReactElement {
           </div>
 
           <div className="flex items-center space-x-4">
-            <NavLink to="/notifications" className="p-2 text-muted-foreground hover:text-foreground relative">
-              <Bell className="w-5 h-5" />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-destructive rounded-full border-2 border-card"></span>
-            </NavLink>
+            <div className="relative">
+              <button 
+                onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
+                className="p-2 text-muted-foreground hover:text-foreground relative focus:outline-none"
+              >
+                <Bell className="w-5 h-5" />
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-destructive rounded-full border-2 border-card"></span>
+              </button>
+              
+              <AnimatePresence>
+                {isNotificationsOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute right-0 mt-2 w-80 rounded-xl bg-card border border-border shadow-lg py-2 z-50 overflow-hidden"
+                  >
+                    <div className="px-4 py-3 border-b border-border flex justify-between items-center">
+                      <h3 className="font-semibold text-foreground">Notifications</h3>
+                      <span className="text-xs font-medium bg-primary/10 text-primary px-2 py-0.5 rounded-full">2 New</span>
+                    </div>
+                    
+                    <div className="max-h-64 overflow-y-auto">
+                      <div className="px-4 py-3 hover:bg-muted/50 transition-colors border-b border-border/50 cursor-pointer">
+                        <p className="text-sm font-medium text-foreground">Your shift was approved</p>
+                        <p className="text-xs text-muted-foreground mt-1">Amazon Fulfillment • 2 hours ago</p>
+                      </div>
+                      <div className="px-4 py-3 hover:bg-muted/50 transition-colors border-b border-border/50 cursor-pointer">
+                        <p className="text-sm font-medium text-foreground">New job match: Forklift Operator</p>
+                        <p className="text-xs text-muted-foreground mt-1">Home Depot • 5 hours ago</p>
+                      </div>
+                    </div>
+                    
+                    <div className="p-2">
+                      <button
+                        onClick={() => {
+                          setIsNotificationsOpen(false);
+                          navigate('/notifications');
+                        }}
+                        className="w-full text-center px-4 py-2 text-sm text-primary font-medium hover:bg-primary/10 rounded-md transition-colors"
+                      >
+                        View all notifications
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
             
             {/* Profile Dropdown */}
             <div className="relative">
