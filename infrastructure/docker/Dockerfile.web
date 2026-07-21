@@ -1,0 +1,42 @@
+FROM node:22-alpine AS base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+
+FROM base AS builder
+RUN apk update && apk add --no-cache libc6-compat
+WORKDIR /app
+RUN pnpm install turbo --global
+COPY . .
+RUN turbo prune @shiftly/web --docker
+
+FROM base AS installer
+RUN apk update && apk add --no-cache libc6-compat
+WORKDIR /app
+COPY .gitignore .gitignore
+COPY --from=builder /app/out/json/ .
+COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+RUN pnpm install --frozen-lockfile
+
+COPY --from=builder /app/out/full/ .
+# React/Vite builds need these args to not fail on linting during prod build
+ENV CI=true
+RUN pnpm turbo run build --filter=@shiftly/web...
+
+FROM base AS runner
+WORKDIR /app
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+# Assuming it's a Vite SPA built to dist, we use a simple static server like serve
+# Wait, this repo might be Vite (dist) or Next.js.
+# Let's check package.json in apps/web.
+# For now I will install `serve` globally and serve the dist folder.
+RUN pnpm install -g serve
+COPY --from=installer --chown=nextjs:nodejs /app/apps/web/dist ./dist
+
+USER nextjs
+EXPOSE 3000
+ENV PORT=3000
+CMD ["serve", "-s", "dist", "-l", "3000"]

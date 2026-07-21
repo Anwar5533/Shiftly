@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import {
   MoreHorizontal,
@@ -81,13 +81,13 @@ export default function UsersManagementPage(): React.ReactElement {
 
   const roles = ['All', 'Worker', 'Employer', 'Recruiter', 'Admin'];
 
-  const filteredUsers = users.filter((u) => {
+  const filteredUsers = useMemo(() => users.filter((u) => {
     const matchesSearch =
       u.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       u.email.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesRole = roleFilter === 'All' || u.role === roleFilter;
     return matchesSearch && matchesRole;
-  });
+  }), [users, searchQuery, roleFilter]);
 
   const handleSuspend = (userId: string) => {
     setUsers((prev) =>

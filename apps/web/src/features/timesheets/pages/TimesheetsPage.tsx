@@ -1,4 +1,5 @@
 import React from 'react';
+import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Clock, Calendar, AlertCircle, FileText } from 'lucide-react';
 import { shiftsApi } from '../../jobs/api/shifts.api';
@@ -15,14 +16,15 @@ export default function TimesheetsPage(): React.ReactElement {
     alert(`Downloading timesheet doc... (mock)`);
   };
 
-  const totalApprovedHours = timesheets
+  const totalApprovedHours = useMemo(() => timesheets
     .filter((ts) => ts.status === 'APPROVED' || ts.status === 'PAID')
-    .reduce((acc, ts) => acc + Number(ts.hoursWorked || 0), 0);
+    .reduce((acc, ts) => acc + Number(ts.hoursWorked || 0), 0), [timesheets]);
 
-  const pendingCount = timesheets.filter(
+  const pendingCount = useMemo(() => timesheets.filter(
     (ts) => ts.status === 'PENDING' || ts.status === 'SUBMITTED',
-  ).length;
-  const actionRequiredCount = timesheets.filter((ts) => ts.status === 'REJECTED').length;
+  ).length, [timesheets]);
+  
+  const actionRequiredCount = useMemo(() => timesheets.filter((ts) => ts.status === 'REJECTED').length, [timesheets]);
 
   return (
     <div className="space-y-6">
