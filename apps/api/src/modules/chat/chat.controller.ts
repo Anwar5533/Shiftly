@@ -9,7 +9,9 @@ export class ChatController {
   constructor(private readonly chatService: ChatService) {}
 
   @Post('message')
-  async sendMessage(@Body() body: { prompt: string; history?: AssistantMessage[] }) {
+  async sendMessage(
+    @Body() body: { prompt: string; history?: AssistantMessage[] },
+  ) {
     return this.chatService.sendMessage(body.prompt, body.history);
   }
 }

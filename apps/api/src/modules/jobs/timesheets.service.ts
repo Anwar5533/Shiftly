@@ -1,4 +1,10 @@
-import { Injectable, NotFoundException, BadRequestException, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+  ForbiddenException,
+  Logger,
+} from '@nestjs/common';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
 import { EscrowService } from '../payments/escrow/escrow.service';
 import { TimesheetStatus } from '@shiftly/shared-types';
@@ -9,10 +15,15 @@ export class TimesheetsService {
 
   constructor(
     private readonly prisma: PrismaService,
-    private readonly escrowService: EscrowService
+    private readonly escrowService: EscrowService,
   ) {}
 
-  async submitTimesheet(shiftId: string, workerId: string, hoursWorked: number, notes?: string) {
+  async submitTimesheet(
+    shiftId: string,
+    workerId: string,
+    hoursWorked: number,
+    notes?: string,
+  ) {
     const shift = await this.prisma.shift.findUnique({
       where: { id: shiftId },
       include: { timesheet: true },
@@ -23,7 +34,7 @@ export class TimesheetsService {
     }
 
     if (shift.workerId !== workerId) {
-      throw new Error('Not authorized to submit timesheet for this shift');
+      throw new ForbiddenException('Not authorized to submit timesheet for this shift');
     }
 
     if (shift.timesheet) {
@@ -66,13 +77,13 @@ export class TimesheetsService {
                 user: {
                   select: {
                     email: true,
-                  }
-                }
-              }
+                  },
+                },
+              },
             },
             job: true,
-          }
-        }
+          },
+        },
       },
       orderBy: {
         updatedAt: 'desc',
@@ -92,7 +103,7 @@ export class TimesheetsService {
 
     if (!timesheet) throw new NotFoundException('Timesheet not found');
     if (timesheet.shift.job.employerId !== employerId) {
-      throw new Error('Not authorized to approve this timesheet');
+      throw new ForbiddenException('Not authorized to approve this timesheet');
     }
 
     const updatedTimesheet = await this.prisma.timesheet.update({
@@ -106,13 +117,20 @@ export class TimesheetsService {
     try {
       await this.escrowService.releaseFunds(updatedTimesheet.id);
     } catch (error) {
-      this.logger.error(`Failed to release escrow funds for timesheet ${timesheetId}:`, error);
+      this.logger.error(
+        `Failed to release escrow funds for timesheet ${timesheetId}:`,
+        error,
+      );
     }
 
     return updatedTimesheet;
   }
 
-  async rejectTimesheet(timesheetId: string, employerId: string, rejectionReason: string) {
+  async rejectTimesheet(
+    timesheetId: string,
+    employerId: string,
+    rejectionReason: string,
+  ) {
     const timesheet = await this.prisma.timesheet.findUnique({
       where: { id: timesheetId },
       include: { shift: { include: { job: true } } },
@@ -120,7 +138,7 @@ export class TimesheetsService {
 
     if (!timesheet) throw new NotFoundException('Timesheet not found');
     if (timesheet.shift.job.employerId !== employerId) {
-      throw new Error('Not authorized to reject this timesheet');
+      throw new ForbiddenException('Not authorized to reject this timesheet');
     }
 
     return this.prisma.timesheet.update({

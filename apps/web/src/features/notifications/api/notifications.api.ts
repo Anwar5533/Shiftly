@@ -14,5 +14,5 @@ export const notificationsApi = {
   clearAll: async () => {
     const response = await api.delete('/notifications');
     return response.data;
-  }
+  },
 };

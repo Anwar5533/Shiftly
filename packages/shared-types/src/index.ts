@@ -3,11 +3,7 @@
 export type UserRole = 'WORKER' | 'EMPLOYER' | 'RECRUITER' | 'ADMIN' | 'SUPER_ADMIN';
 
 export type UserStatus =
-  | 'ACTIVE'
-  | 'SUSPENDED'
-  | 'PENDING_KYC'
-  | 'PENDING_VERIFICATION'
-  | 'DELETED';
+  'ACTIVE' | 'SUSPENDED' | 'PENDING_KYC' | 'PENDING_VERIFICATION' | 'DELETED';
 
 export interface User {
   id: string;
@@ -42,27 +38,12 @@ export interface JwtPayload {
 
 export type JobType = 'SHIFT' | 'PERMANENT' | 'GIG';
 
-export type JobStatus =
-  | 'DRAFT'
-  | 'PUBLISHED'
-  | 'FILLED'
-  | 'CANCELLED'
-  | 'ARCHIVED'
-  | 'EXPIRED';
+export type JobStatus = 'DRAFT' | 'PUBLISHED' | 'FILLED' | 'CANCELLED' | 'ARCHIVED' | 'EXPIRED';
 
 export type ApplicationStatus =
-  | 'PENDING'
-  | 'SHORTLISTED'
-  | 'ACCEPTED'
-  | 'REJECTED'
-  | 'WITHDRAWN'
-  | 'COMPLETED';
+  'PENDING' | 'SHORTLISTED' | 'ACCEPTED' | 'REJECTED' | 'WITHDRAWN' | 'COMPLETED';
 
-export type TimesheetStatus =
-  | 'PENDING'
-  | 'SUBMITTED'
-  | 'APPROVED'
-  | 'REJECTED';
+export type TimesheetStatus = 'PENDING' | 'SUBMITTED' | 'APPROVED' | 'REJECTED';
 
 export interface JobLocation {
   lat: number;
@@ -171,13 +152,7 @@ export interface EmployerProfile {
   updatedAt: string;
 }
 
-export type EmployeeCountRange =
-  | '1-10'
-  | '11-50'
-  | '51-200'
-  | '201-500'
-  | '501-1000'
-  | '1000+';
+export type EmployeeCountRange = '1-10' | '11-50' | '51-200' | '201-500' | '501-1000' | '1000+';
 
 // ─── Payment Types ────────────────────────────────────────────────────────────
 
@@ -231,12 +206,7 @@ export interface EscrowLock {
 // ─── KYC Types ────────────────────────────────────────────────────────────────
 
 export type KycStatus =
-  | 'NOT_STARTED'
-  | 'PENDING'
-  | 'UNDER_REVIEW'
-  | 'APPROVED'
-  | 'REJECTED'
-  | 'EXPIRED';
+  'NOT_STARTED' | 'PENDING' | 'UNDER_REVIEW' | 'APPROVED' | 'REJECTED' | 'EXPIRED';
 
 export type DocumentType =
   | 'PASSPORT'

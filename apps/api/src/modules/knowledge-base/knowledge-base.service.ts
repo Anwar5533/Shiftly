@@ -30,15 +30,17 @@ export class KnowledgeBaseService {
       where: { slug },
       include: { category: true },
     });
-    
+
     if (article) {
       // Increment view count in background
-      this.prisma.kbArticle.update({
-        where: { id: article.id },
-        data: { viewCount: { increment: 1 } },
-      }).catch(console.error);
+      this.prisma.kbArticle
+        .update({
+          where: { id: article.id },
+          data: { viewCount: { increment: 1 } },
+        })
+        .catch(console.error);
     }
-    
+
     return article;
   }
 }

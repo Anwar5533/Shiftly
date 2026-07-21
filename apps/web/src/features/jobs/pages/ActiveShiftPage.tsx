@@ -20,7 +20,7 @@ export default function ActiveShiftPage(): React.ReactElement {
     setIsLoading(true);
     try {
       const shifts = await shiftsApi.getMyShifts();
-      const currentShift = shifts.find(s => s.id === id);
+      const currentShift = shifts.find((s) => s.id === id);
       if (currentShift) {
         setShift(currentShift);
       } else {
@@ -69,19 +69,19 @@ export default function ActiveShiftPage(): React.ReactElement {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center py-20">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      <div className="flex items-center justify-center py-20">
+        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-primary"></div>
       </div>
     );
   }
 
   if (error || !shift) {
     return (
-      <div className="max-w-3xl mx-auto py-16 px-4 text-center">
-        <div className="bg-card border border-dashed border-border rounded-xl py-12">
-          <p className="text-destructive font-medium text-lg">{error || 'Shift not found'}</p>
-          <button 
-            className="mt-4 px-4 py-2 bg-muted text-foreground rounded-lg"
+      <div className="mx-auto max-w-3xl px-4 py-16 text-center">
+        <div className="rounded-xl border border-dashed border-border bg-card py-12">
+          <p className="text-lg font-medium text-destructive">{error || 'Shift not found'}</p>
+          <button
+            className="mt-4 rounded-lg bg-muted px-4 py-2 text-foreground"
             onClick={() => navigate(-1)}
           >
             Go Back
@@ -92,45 +92,53 @@ export default function ActiveShiftPage(): React.ReactElement {
   }
 
   return (
-    <div className="max-w-3xl mx-auto py-8 px-4 sm:px-6">
-      <button 
-        className="mb-6 -ml-2 flex items-center px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors bg-transparent rounded-md hover:bg-muted"
+    <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
+      <button
+        className="-ml-2 mb-6 flex items-center rounded-md bg-transparent px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
         onClick={() => navigate('/dashboard')}
       >
-        <ArrowLeft className="w-4 h-4 mr-2" />
+        <ArrowLeft className="mr-2 h-4 w-4" />
         Back to Dashboard
       </button>
 
-      <div className="bg-card rounded-2xl shadow-sm border border-border overflow-hidden">
-        <div className="p-8 border-b border-border">
-          <div className="flex justify-between items-start mb-4">
+      <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+        <div className="border-b border-border p-8">
+          <div className="mb-4 flex items-start justify-between">
             <div>
               <h1 className="text-2xl font-bold text-foreground">{shift.job?.title || 'Shift'}</h1>
-              <p className="text-muted-foreground font-medium flex items-center gap-2 mt-1">
-                <MapPin className="w-4 h-4" /> {shift.job?.employer?.companyName || 'Employer'}
+              <p className="mt-1 flex items-center gap-2 font-medium text-muted-foreground">
+                <MapPin className="h-4 w-4" /> {shift.job?.employer?.companyName || 'Employer'}
               </p>
             </div>
-            <span className={`px-3 py-1 text-sm font-bold rounded-full ${
-              shift.status === 'IN_PROGRESS' ? 'bg-primary/10 text-primary border border-primary/20 animate-pulse' : 
-              shift.status === 'COMPLETED' ? 'bg-green-500/10 text-green-600 border border-green-500/20' : 
-              'bg-muted text-muted-foreground'
-            }`}>
+            <span
+              className={`rounded-full px-3 py-1 text-sm font-bold ${
+                shift.status === 'IN_PROGRESS'
+                  ? 'animate-pulse border border-primary/20 bg-primary/10 text-primary'
+                  : shift.status === 'COMPLETED'
+                    ? 'border border-green-500/20 bg-green-500/10 text-green-600'
+                    : 'bg-muted text-muted-foreground'
+              }`}
+            >
               {shift.status.replace('_', ' ')}
             </span>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 mt-6 p-4 bg-muted/50 rounded-xl">
+          <div className="mt-6 grid grid-cols-2 gap-4 rounded-xl bg-muted/50 p-4">
             <div>
-              <p className="text-xs text-muted-foreground uppercase font-bold tracking-wider mb-1">Scheduled Start</p>
-              <p className="font-medium text-foreground flex items-center gap-2">
-                <Clock className="w-4 h-4 text-muted-foreground" />
+              <p className="mb-1 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                Scheduled Start
+              </p>
+              <p className="flex items-center gap-2 font-medium text-foreground">
+                <Clock className="h-4 w-4 text-muted-foreground" />
                 {new Date(shift.scheduledStart).toLocaleString()}
               </p>
             </div>
             <div>
-              <p className="text-xs text-muted-foreground uppercase font-bold tracking-wider mb-1">Scheduled End</p>
-              <p className="font-medium text-foreground flex items-center gap-2">
-                <Clock className="w-4 h-4 text-muted-foreground" />
+              <p className="mb-1 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                Scheduled End
+              </p>
+              <p className="flex items-center gap-2 font-medium text-foreground">
+                <Clock className="h-4 w-4 text-muted-foreground" />
                 {new Date(shift.scheduledEnd).toLocaleString()}
               </p>
             </div>
@@ -139,81 +147,91 @@ export default function ActiveShiftPage(): React.ReactElement {
 
         <div className="p-8">
           {shift.status === 'SCHEDULED' && (
-            <div className="text-center py-8">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-                <Play className="w-8 h-8 text-primary ml-1" />
+            <div className="py-8 text-center">
+              <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+                <Play className="ml-1 h-8 w-8 text-primary" />
               </div>
-              <h2 className="text-xl font-bold mb-2">Ready to start your shift?</h2>
-              <p className="text-muted-foreground mb-8 max-w-md mx-auto">Make sure you are at the correct location before clocking in.</p>
-              
-              <button 
+              <h2 className="mb-2 text-xl font-bold">Ready to start your shift?</h2>
+              <p className="mx-auto mb-8 max-w-md text-muted-foreground">
+                Make sure you are at the correct location before clocking in.
+              </p>
+
+              <button
                 onClick={handleClockIn}
                 disabled={isProcessing}
-                className="w-full sm:w-auto px-12 py-4 bg-primary text-primary-foreground font-bold rounded-xl hover:bg-primary/90 transition-all shadow-md shadow-primary/20 disabled:opacity-50 text-lg flex items-center justify-center gap-3 mx-auto"
+                className="mx-auto flex w-full items-center justify-center gap-3 rounded-xl bg-primary px-12 py-4 text-lg font-bold text-primary-foreground shadow-md shadow-primary/20 transition-all hover:bg-primary/90 disabled:opacity-50 sm:w-auto"
               >
-                <Play className="w-5 h-5 fill-current" />
+                <Play className="h-5 w-5 fill-current" />
                 {isProcessing ? 'Processing...' : 'Clock In Now'}
               </button>
             </div>
           )}
 
           {shift.status === 'IN_PROGRESS' && (
-            <div className="text-center py-8">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-500/10 mb-4 animate-pulse">
-                <Clock className="w-8 h-8 text-red-500" />
+            <div className="py-8 text-center">
+              <div className="mb-4 inline-flex h-16 w-16 animate-pulse items-center justify-center rounded-full bg-red-500/10">
+                <Clock className="h-8 w-8 text-red-500" />
               </div>
-              <h2 className="text-xl font-bold mb-2 text-foreground">Shift in Progress</h2>
-              <p className="text-muted-foreground mb-6">You clocked in at {new Date(shift.actualStart!).toLocaleTimeString()}</p>
-              
-              <div className="max-w-md mx-auto mb-8 text-left">
-                <label className="block text-sm font-medium text-foreground mb-2 flex items-center gap-2">
-                  <FileText className="w-4 h-4 text-muted-foreground" /> Add Notes (Optional)
+              <h2 className="mb-2 text-xl font-bold text-foreground">Shift in Progress</h2>
+              <p className="mb-6 text-muted-foreground">
+                You clocked in at {new Date(shift.actualStart).toLocaleTimeString()}
+              </p>
+
+              <div className="mx-auto mb-8 max-w-md text-left">
+                <label className="mb-2 block flex items-center gap-2 text-sm font-medium text-foreground">
+                  <FileText className="h-4 w-4 text-muted-foreground" /> Add Notes (Optional)
                 </label>
-                <textarea 
+                <textarea
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="Enter any notes about this shift..."
-                  className="w-full h-24 p-3 rounded-lg border border-input bg-background focus:ring-2 focus:ring-primary outline-none resize-none"
+                  className="h-24 w-full resize-none rounded-lg border border-input bg-background p-3 outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
 
-              <button 
+              <button
                 onClick={handleClockOut}
                 disabled={isProcessing}
-                className="w-full sm:w-auto px-12 py-4 bg-red-500 text-white font-bold rounded-xl hover:bg-red-600 transition-all shadow-md shadow-red-500/20 disabled:opacity-50 text-lg flex items-center justify-center gap-3 mx-auto"
+                className="mx-auto flex w-full items-center justify-center gap-3 rounded-xl bg-red-500 px-12 py-4 text-lg font-bold text-white shadow-md shadow-red-500/20 transition-all hover:bg-red-600 disabled:opacity-50 sm:w-auto"
               >
-                <Square className="w-5 h-5 fill-current" />
+                <Square className="h-5 w-5 fill-current" />
                 {isProcessing ? 'Processing...' : 'Clock Out'}
               </button>
             </div>
           )}
 
           {shift.status === 'COMPLETED' && (
-            <div className="text-center py-8">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-500/10 mb-4">
-                <CheckCircle2 className="w-8 h-8 text-green-500" />
+            <div className="py-8 text-center">
+              <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-green-500/10">
+                <CheckCircle2 className="h-8 w-8 text-green-500" />
               </div>
-              <h2 className="text-2xl font-bold text-foreground mb-2">Shift Completed</h2>
-              <p className="text-muted-foreground mb-8">Great job! Your hours have been logged.</p>
-              
-              <div className="grid grid-cols-2 gap-4 max-w-md mx-auto text-left mb-8">
-                <div className="p-4 rounded-xl border border-border bg-muted/30">
-                  <p className="text-xs text-muted-foreground uppercase font-bold tracking-wider mb-1">Clock In</p>
-                  <p className="font-medium">{new Date(shift.actualStart!).toLocaleTimeString()}</p>
+              <h2 className="mb-2 text-2xl font-bold text-foreground">Shift Completed</h2>
+              <p className="mb-8 text-muted-foreground">Great job! Your hours have been logged.</p>
+
+              <div className="mx-auto mb-8 grid max-w-md grid-cols-2 gap-4 text-left">
+                <div className="rounded-xl border border-border bg-muted/30 p-4">
+                  <p className="mb-1 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    Clock In
+                  </p>
+                  <p className="font-medium">{new Date(shift.actualStart).toLocaleTimeString()}</p>
                 </div>
-                <div className="p-4 rounded-xl border border-border bg-muted/30">
-                  <p className="text-xs text-muted-foreground uppercase font-bold tracking-wider mb-1">Clock Out</p>
-                  <p className="font-medium">{new Date(shift.actualEnd!).toLocaleTimeString()}</p>
+                <div className="rounded-xl border border-border bg-muted/30 p-4">
+                  <p className="mb-1 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    Clock Out
+                  </p>
+                  <p className="font-medium">{new Date(shift.actualEnd).toLocaleTimeString()}</p>
                 </div>
-                <div className="col-span-2 p-4 rounded-xl border border-primary/20 bg-primary/5 text-center">
-                  <p className="text-xs text-primary uppercase font-bold tracking-wider mb-1">Total Hours</p>
+                <div className="col-span-2 rounded-xl border border-primary/20 bg-primary/5 p-4 text-center">
+                  <p className="mb-1 text-xs font-bold uppercase tracking-wider text-primary">
+                    Total Hours
+                  </p>
                   <p className="text-2xl font-bold text-primary">{shift.hoursWorked}h</p>
                 </div>
               </div>
 
-              <button 
+              <button
                 onClick={() => navigate('/dashboard/worker')}
-                className="px-8 py-3 bg-card border border-input text-foreground font-medium rounded-lg hover:bg-muted transition-colors"
+                className="rounded-lg border border-input bg-card px-8 py-3 font-medium text-foreground transition-colors hover:bg-muted"
               >
                 Return to Dashboard
               </button>

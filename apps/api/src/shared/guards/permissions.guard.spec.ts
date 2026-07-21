@@ -14,7 +14,7 @@ describe('PermissionsGuard', () => {
 
   describe('canActivate', () => {
     let mockContext: ExecutionContext;
-    
+
     beforeEach(() => {
       mockContext = {
         getHandler: jest.fn(),
@@ -28,7 +28,7 @@ describe('PermissionsGuard', () => {
     it('should return true if no permissions are required', () => {
       jest.spyOn(reflector, 'getAllAndOverride').mockReturnValue(null);
       expect(guard.canActivate(mockContext)).toBe(true);
-      
+
       jest.spyOn(reflector, 'getAllAndOverride').mockReturnValue([]);
       expect(guard.canActivate(mockContext)).toBe(true);
     });
@@ -36,25 +36,33 @@ describe('PermissionsGuard', () => {
     it('should throw ForbiddenException if user has no permissions', () => {
       jest.spyOn(reflector, 'getAllAndOverride').mockReturnValue(['READ_USER']);
       expect(() => guard.canActivate(mockContext)).toThrow(ForbiddenException);
-      expect(() => guard.canActivate(mockContext)).toThrow('Insufficient permissions');
+      expect(() => guard.canActivate(mockContext)).toThrow(
+        'Insufficient permissions',
+      );
     });
 
     it('should return true if user has all required permissions', () => {
-      jest.spyOn(reflector, 'getAllAndOverride').mockReturnValue(['READ_USER', 'WRITE_USER']);
+      jest
+        .spyOn(reflector, 'getAllAndOverride')
+        .mockReturnValue(['READ_USER', 'WRITE_USER']);
       (mockContext.switchToHttp().getRequest as jest.Mock).mockReturnValue({
-        user: { permissions: ['READ_USER', 'WRITE_USER', 'DELETE_USER'] }
+        user: { permissions: ['READ_USER', 'WRITE_USER', 'DELETE_USER'] },
       });
       expect(guard.canActivate(mockContext)).toBe(true);
     });
 
     it('should throw ForbiddenException with missing permissions if user lacks some', () => {
-      jest.spyOn(reflector, 'getAllAndOverride').mockReturnValue(['READ_USER', 'WRITE_USER', 'DELETE_USER']);
+      jest
+        .spyOn(reflector, 'getAllAndOverride')
+        .mockReturnValue(['READ_USER', 'WRITE_USER', 'DELETE_USER']);
       (mockContext.switchToHttp().getRequest as jest.Mock).mockReturnValue({
-        user: { permissions: ['READ_USER'] }
+        user: { permissions: ['READ_USER'] },
       });
-      
+
       expect(() => guard.canActivate(mockContext)).toThrow(ForbiddenException);
-      expect(() => guard.canActivate(mockContext)).toThrow('Insufficient permissions. Missing: WRITE_USER, DELETE_USER');
+      expect(() => guard.canActivate(mockContext)).toThrow(
+        'Insufficient permissions. Missing: WRITE_USER, DELETE_USER',
+      );
     });
   });
 });

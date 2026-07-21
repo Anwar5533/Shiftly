@@ -5,7 +5,11 @@ import { ThemeProvider } from './ThemeProvider';
 describe('ThemeProvider', () => {
   it('renders without crashing', () => {
     // Basic render test to ensure component mounts and to cover its execution path
-    const { container } = customRender(<ThemeProvider><div /></ThemeProvider>);
+    const { container } = customRender(
+      <ThemeProvider>
+        <div />
+      </ThemeProvider>,
+    );
     expect(container).toBeInTheDocument();
   });
 });

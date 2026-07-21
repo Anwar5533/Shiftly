@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException, ForbiddenException, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
 import { CreateJobDto } from './dto/create-job.dto';
 import { UpdateJobDto } from './dto/update-job.dto';
@@ -35,8 +40,17 @@ export class JobsService {
   }
 
   async searchJobs(searchDto: SearchJobsDto) {
-    const { query, jobType, status, city, minSalary, employerId, page = 1, limit = 10 } = searchDto;
-    
+    const {
+      query,
+      jobType,
+      status,
+      city,
+      minSalary,
+      employerId,
+      page = 1,
+      limit = 10,
+    } = searchDto;
+
     const where: Prisma.JobWhereInput = {};
 
     if (query) {
@@ -84,8 +98,8 @@ export class JobsService {
               companyName: true,
               logoUrl: true,
               industry: true,
-            }
-          }
+            },
+          },
         },
         skip,
         take: limit,
@@ -115,13 +129,13 @@ export class JobsService {
             logoUrl: true,
             industry: true,
             rating: true,
-          }
+          },
         },
         skills: {
           include: {
-            skill: true
-          }
-        }
+            skill: true,
+          },
+        },
       },
     });
 
@@ -148,7 +162,9 @@ export class JobsService {
     }
 
     if (job.employerId !== employer.id) {
-      throw new ForbiddenException('You do not have permission to close this job');
+      throw new ForbiddenException(
+        'You do not have permission to close this job',
+      );
     }
 
     return this.prisma.job.update({
@@ -173,7 +189,9 @@ export class JobsService {
     }
 
     if (job.employerId !== employer.id) {
-      throw new ForbiddenException('You do not have permission to update this job');
+      throw new ForbiddenException(
+        'You do not have permission to update this job',
+      );
     }
 
     return this.prisma.job.update({
@@ -198,7 +216,9 @@ export class JobsService {
     }
 
     if (job.employerId !== employer.id) {
-      throw new ForbiddenException('You do not have permission to delete this job');
+      throw new ForbiddenException(
+        'You do not have permission to delete this job',
+      );
     }
 
     return this.prisma.job.update({
@@ -221,9 +241,9 @@ export class JobsService {
       orderBy: { createdAt: 'desc' },
       include: {
         applications: {
-          select: { id: true }
-        }
-      }
+          select: { id: true },
+        },
+      },
     });
   }
 }

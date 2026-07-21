@@ -9,5 +9,5 @@ export const analyticsApi = {
   getRevenue: async (): Promise<any[]> => {
     const { data } = await api.get('/analytics/revenue');
     return data;
-  }
+  },
 };

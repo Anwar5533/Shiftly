@@ -64,9 +64,7 @@ export default function RegisterPage(): React.ReactElement {
       {/* Header */}
       <div className="space-y-2">
         <h1 className="text-2xl font-bold tracking-tight text-foreground">Create an account</h1>
-        <p className="text-muted-foreground text-sm">
-          Join SHIFTLY to find work or hire talent
-        </p>
+        <p className="text-sm text-muted-foreground">Join SHIFTLY to find work or hire talent</p>
       </div>
 
       {/* Role Selection */}
@@ -74,25 +72,25 @@ export default function RegisterPage(): React.ReactElement {
         <button
           type="button"
           onClick={() => setRole('WORKER')}
-          className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all duration-200 ${
+          className={`flex flex-col items-center justify-center rounded-xl border-2 p-4 transition-all duration-200 ${
             role === 'WORKER'
               ? 'border-primary bg-primary/5 text-primary'
               : 'border-border bg-background text-muted-foreground hover:border-primary/50'
           }`}
         >
-          <UserCircle className="h-6 w-6 mb-2" />
+          <UserCircle className="mb-2 h-6 w-6" />
           <span className="text-sm font-semibold">I'm a Worker</span>
         </button>
         <button
           type="button"
           onClick={() => setRole('EMPLOYER')}
-          className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all duration-200 ${
+          className={`flex flex-col items-center justify-center rounded-xl border-2 p-4 transition-all duration-200 ${
             role === 'EMPLOYER' || role === 'RECRUITER'
               ? 'border-primary bg-primary/5 text-primary'
               : 'border-border bg-background text-muted-foreground hover:border-primary/50'
           }`}
         >
-          <Building2 className="h-6 w-6 mb-2" />
+          <Building2 className="mb-2 h-6 w-6" />
           <span className="text-sm font-semibold">I'm an Employer</span>
         </button>
       </div>
@@ -161,13 +159,13 @@ export default function RegisterPage(): React.ReactElement {
               id="password"
               type={showPassword ? 'text' : 'password'}
               placeholder="Create a strong password"
-              className="input-glow w-full rounded-lg border border-input bg-background px-4 pr-10 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-ring focus:outline-none"
+              className="input-glow w-full rounded-lg border border-input bg-background px-4 py-2.5 pr-10 text-sm text-foreground placeholder:text-muted-foreground focus:border-ring focus:outline-none"
               {...form.register('password')}
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
             >
               {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </button>
@@ -178,7 +176,7 @@ export default function RegisterPage(): React.ReactElement {
         </div>
 
         {serverError && (
-          <div className="rounded-lg bg-destructive/10 border border-destructive/20 px-4 py-3">
+          <div className="rounded-lg border border-destructive/20 bg-destructive/10 px-4 py-3">
             <p className="text-sm text-destructive">{serverError}</p>
           </div>
         )}
@@ -186,7 +184,7 @@ export default function RegisterPage(): React.ReactElement {
         <button
           type="submit"
           disabled={registerMutation.isPending}
-          className="w-full flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-brand transition-all hover:bg-primary/90 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-brand transition-all hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-lg active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50"
         >
           {registerMutation.isPending ? (
             <>
@@ -201,16 +199,25 @@ export default function RegisterPage(): React.ReactElement {
           )}
         </button>
 
-        <p className="text-xs text-center text-muted-foreground px-4">
+        <p className="px-4 text-center text-xs text-muted-foreground">
           By clicking create account, you agree to our{' '}
-          <Link to="/terms" className="underline hover:text-foreground">Terms of Service</Link> and{' '}
-          <Link to="/privacy" className="underline hover:text-foreground">Privacy Policy</Link>.
+          <Link to="/terms" className="underline hover:text-foreground">
+            Terms of Service
+          </Link>{' '}
+          and{' '}
+          <Link to="/privacy" className="underline hover:text-foreground">
+            Privacy Policy
+          </Link>
+          .
         </p>
       </motion.form>
 
       <div className="text-center text-sm">
         <span className="text-muted-foreground">Already have an account? </span>
-        <Link to="/login" className="text-primary font-semibold hover:text-primary/80 transition-colors">
+        <Link
+          to="/login"
+          className="font-semibold text-primary transition-colors hover:text-primary/80"
+        >
           Sign in
         </Link>
       </div>

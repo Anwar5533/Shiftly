@@ -58,5 +58,5 @@ export const shiftsApi = {
   rejectTimesheet: async (timesheetId: string, reason: string): Promise<any> => {
     const response = await api.put(`/shifts/timesheets/${timesheetId}/reject`, { reason });
     return response.data.data;
-  }
+  },
 };

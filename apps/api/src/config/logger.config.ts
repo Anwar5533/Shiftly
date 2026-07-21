@@ -15,11 +15,7 @@ const developmentFormat = combine(
   }),
 );
 
-const productionFormat = combine(
-  timestamp(),
-  errors({ stack: true }),
-  json(),
-);
+const productionFormat = combine(timestamp(), errors({ stack: true }), json());
 
 export function createWinstonConfig(): WinstonModuleOptions {
   const isProduction = process.env.NODE_ENV === 'production';

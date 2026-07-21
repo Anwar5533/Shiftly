@@ -12,9 +12,7 @@ describe('WebhooksController', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [WebhooksController],
-      providers: [
-        { provide: WalletService, useValue: walletService },
-      ],
+      providers: [{ provide: WalletService, useValue: walletService }],
     }).compile();
 
     controller = module.get<WebhooksController>(WebhooksController);
@@ -22,7 +20,9 @@ describe('WebhooksController', () => {
 
   describe('handleRazorpayWebhook', () => {
     it('should throw BadRequestException if signature is missing', async () => {
-      await expect(controller.handleRazorpayWebhook('', {})).rejects.toThrow(BadRequestException);
+      await expect(controller.handleRazorpayWebhook('', {})).rejects.toThrow(
+        BadRequestException,
+      );
     });
 
     it('should handle payment.captured event', async () => {
@@ -35,7 +35,10 @@ describe('WebhooksController', () => {
         },
       };
 
-      const result = await controller.handleRazorpayWebhook('signature', payload);
+      const result = await controller.handleRazorpayWebhook(
+        'signature',
+        payload,
+      );
       expect(result).toEqual({ received: true });
     });
 
@@ -44,7 +47,10 @@ describe('WebhooksController', () => {
         event: 'payment.failed',
       };
 
-      const result = await controller.handleRazorpayWebhook('signature', payload);
+      const result = await controller.handleRazorpayWebhook(
+        'signature',
+        payload,
+      );
       expect(result).toEqual({ received: true });
     });
   });

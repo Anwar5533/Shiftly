@@ -50,10 +50,14 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
       if (typeof exceptionResponse === 'string') {
         message = exceptionResponse;
-      } else if (typeof exceptionResponse === 'object' && exceptionResponse !== null) {
+      } else if (
+        typeof exceptionResponse === 'object' &&
+        exceptionResponse !== null
+      ) {
         const resp = exceptionResponse as Record<string, unknown>;
         message = (resp['message'] as string) ?? message;
-        errorCode = (resp['error'] as string) ?? this.getErrorCodeFromStatus(statusCode);
+        errorCode =
+          (resp['error'] as string) ?? this.getErrorCodeFromStatus(statusCode);
 
         // Handle class-validator ValidationPipe errors
         if (Array.isArray(resp['message'])) {
@@ -110,18 +114,28 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       },
     };
 
-    response.status(statusCode).set('X-Request-ID', requestId).json(errorResponse);
+    response
+      .status(statusCode)
+      .set('X-Request-ID', requestId)
+      .json(errorResponse);
   }
 
   private getErrorCodeFromStatus(status: number): string {
     switch (status) {
-      case 400: return ERROR_CODES.VALIDATION_ERROR;
-      case 401: return ERROR_CODES.UNAUTHORIZED;
-      case 403: return ERROR_CODES.FORBIDDEN;
-      case 404: return ERROR_CODES.NOT_FOUND;
-      case 409: return ERROR_CODES.CONFLICT;
-      case 429: return ERROR_CODES.RATE_LIMIT_EXCEEDED;
-      default: return ERROR_CODES.INTERNAL_SERVER_ERROR;
+      case 400:
+        return ERROR_CODES.VALIDATION_ERROR;
+      case 401:
+        return ERROR_CODES.UNAUTHORIZED;
+      case 403:
+        return ERROR_CODES.FORBIDDEN;
+      case 404:
+        return ERROR_CODES.NOT_FOUND;
+      case 409:
+        return ERROR_CODES.CONFLICT;
+      case 429:
+        return ERROR_CODES.RATE_LIMIT_EXCEEDED;
+      default:
+        return ERROR_CODES.INTERNAL_SERVER_ERROR;
     }
   }
 }

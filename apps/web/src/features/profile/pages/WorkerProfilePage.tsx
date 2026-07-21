@@ -14,7 +14,7 @@ export default function WorkerProfilePage(): React.ReactElement {
   const [error, setError] = useState<string | null>(null);
 
   const [profile, setProfile] = useState<WorkerProfile | null>(null);
-  
+
   // Form states
   const [bio, setBio] = useState('');
   const [locationCity, setLocationCity] = useState('');
@@ -54,7 +54,7 @@ export default function WorkerProfilePage(): React.ReactElement {
           country: 'India',
           postalCode: '',
           lat: 0,
-          lng: 0
+          lng: 0,
         },
         skills: ['Management', 'Communication', 'Operations'],
         hourlyRate: 15,
@@ -62,9 +62,9 @@ export default function WorkerProfilePage(): React.ReactElement {
         rating: 4.8,
         totalReviews: 24,
         createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
+        updatedAt: new Date().toISOString(),
       } as unknown as WorkerProfile;
-      
+
       setProfile(fallbackProfile);
       setBio(fallbackProfile.bio || '');
       setLocationCity(fallbackProfile.location?.city || '');
@@ -97,7 +97,7 @@ export default function WorkerProfilePage(): React.ReactElement {
           location: {
             ...profile.location,
             city: locationCity,
-          }
+          },
         });
         await fetchProfile(); // refresh data
         queryClient.invalidateQueries({ queryKey: ['worker-profile', user?.sub] });
@@ -111,7 +111,7 @@ export default function WorkerProfilePage(): React.ReactElement {
         location: {
           ...profile.location,
           city: locationCity,
-        }
+        },
       });
       // In a real app we would update the Redux user state for email/phone too
       setIsEditing(false);
@@ -125,16 +125,16 @@ export default function WorkerProfilePage(): React.ReactElement {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-[calc(100vh-200px)]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-primary"></div>
       </div>
     );
   }
 
   if (error && !profile) {
     return (
-      <div className="max-w-5xl mx-auto py-16 px-4 text-center">
-        <p className="text-destructive font-medium">{error}</p>
+      <div className="mx-auto max-w-5xl px-4 py-16 text-center">
+        <p className="font-medium text-destructive">{error}</p>
       </div>
     );
   }
@@ -142,99 +142,109 @@ export default function WorkerProfilePage(): React.ReactElement {
   if (!profile) return null;
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6">
-      <div className="flex justify-between items-center">
+    <div className="mx-auto max-w-5xl space-y-6">
+      <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-foreground tracking-tight">My Profile</h1>
-          <p className="text-muted-foreground mt-1">Manage your personal information and preferences.</p>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">My Profile</h1>
+          <p className="mt-1 text-muted-foreground">
+            Manage your personal information and preferences.
+          </p>
         </div>
-        <button 
-          onClick={() => isEditing ? handleSave() : setIsEditing(true)}
-          className="px-4 py-2 bg-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-colors shadow-sm"
+        <button
+          onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
+          className="rounded-lg bg-primary px-4 py-2 font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
         >
           {isEditing ? 'Save Changes' : 'Edit Profile'}
         </button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Left Column: Avatar & Basic Info */}
-        <div className="lg:col-span-1 space-y-6">
-          <div className="bg-card border border-border rounded-2xl p-6 shadow-sm flex flex-col items-center text-center">
-            <div className="w-32 h-32 rounded-full bg-primary/20 border-4 border-primary/30 flex items-center justify-center mb-4 overflow-hidden relative group">
-              <span className="text-5xl font-bold text-primary uppercase">
+        <div className="space-y-6 lg:col-span-1">
+          <div className="flex flex-col items-center rounded-2xl border border-border bg-card p-6 text-center shadow-sm">
+            <div className="group relative mb-4 flex h-32 w-32 items-center justify-center overflow-hidden rounded-full border-4 border-primary/30 bg-primary/20">
+              <span className="text-5xl font-bold uppercase text-primary">
                 {profile.firstName.charAt(0)}
               </span>
               {isEditing && (
-                <div className="absolute inset-0 bg-background/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                <div className="absolute inset-0 flex cursor-pointer items-center justify-center bg-background/80 opacity-0 transition-opacity group-hover:opacity-100">
                   <span className="text-sm font-medium text-primary">Change Photo</span>
                 </div>
               )}
             </div>
-            
+
             {isEditing ? (
-              <div className="flex gap-2 mb-2 w-full px-4">
+              <div className="mb-2 flex w-full gap-2 px-4">
                 <input
                   type="text"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                   placeholder="First Name"
-                  className="w-1/2 p-2 bg-background border border-input rounded-md text-foreground focus:ring-2 focus:ring-primary focus:outline-none text-center"
+                  className="w-1/2 rounded-md border border-input bg-background p-2 text-center text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                 />
                 <input
                   type="text"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                   placeholder="Last Name"
-                  className="w-1/2 p-2 bg-background border border-input rounded-md text-foreground focus:ring-2 focus:ring-primary focus:outline-none text-center"
+                  className="w-1/2 rounded-md border border-input bg-background p-2 text-center text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
             ) : (
-              <h2 className="text-xl font-bold text-foreground">{profile.firstName} {profile.lastName}</h2>
+              <h2 className="text-xl font-bold text-foreground">
+                {profile.firstName} {profile.lastName}
+              </h2>
             )}
-            
-            <p className="text-primary font-medium mb-4 capitalize">Worker</p>
-            
-            <div className="flex gap-4 w-full">
-              <div className="flex-1 bg-muted p-3 rounded-xl">
+
+            <p className="mb-4 font-medium capitalize text-primary">Worker</p>
+
+            <div className="flex w-full gap-4">
+              <div className="flex-1 rounded-xl bg-muted p-3">
                 <p className="text-2xl font-bold text-foreground">{profile.rating || 0}</p>
-                <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider mt-1">Rating</p>
+                <p className="mt-1 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  Rating
+                </p>
               </div>
-              <div className="flex-1 bg-muted p-3 rounded-xl">
+              <div className="flex-1 rounded-xl bg-muted p-3">
                 <p className="text-2xl font-bold text-foreground">{profile.totalReviews || 0}</p>
-                <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider mt-1">Reviews</p>
+                <p className="mt-1 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  Reviews
+                </p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Right Column: Details */}
-        <div className="lg:col-span-2 space-y-6">
-          <div className="bg-card border border-border rounded-2xl p-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-foreground mb-6 flex items-center gap-2">
-              <User className="w-5 h-5 text-primary" />
+        <div className="space-y-6 lg:col-span-2">
+          <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+            <h3 className="mb-6 flex items-center gap-2 text-lg font-semibold text-foreground">
+              <User className="h-5 w-5 text-primary" />
               About Me
             </h3>
             {isEditing ? (
-              <textarea 
-                className="w-full h-32 p-3 bg-background border border-input rounded-md text-foreground focus:ring-2 focus:ring-primary focus:outline-none resize-none"
+              <textarea
+                className="h-32 w-full resize-none rounded-md border border-input bg-background p-3 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                 value={bio}
-                onChange={e => setBio(e.target.value)}
+                onChange={(e) => setBio(e.target.value)}
                 placeholder="Write a short bio about yourself..."
               />
             ) : (
-              <p className="text-muted-foreground leading-relaxed">{profile.bio || 'No bio provided.'}</p>
+              <p className="leading-relaxed text-muted-foreground">
+                {profile.bio || 'No bio provided.'}
+              </p>
             )}
           </div>
 
-          <div className="bg-card border border-border rounded-2xl p-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-foreground mb-6 flex items-center gap-2">
-              <Shield className="w-5 h-5 text-primary" />
+          <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+            <h3 className="mb-6 flex items-center gap-2 text-lg font-semibold text-foreground">
+              <Shield className="h-5 w-5 text-primary" />
               Contact Information
             </h3>
             <div className="space-y-4">
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center shrink-0">
-                  <Mail className="w-4 h-4 text-muted-foreground" />
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-muted">
+                  <Mail className="h-4 w-4 text-muted-foreground" />
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-medium text-muted-foreground">Email Address</p>
@@ -244,17 +254,17 @@ export default function WorkerProfilePage(): React.ReactElement {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="e.g. name@example.com"
-                      className="mt-1 w-full p-2 bg-background border border-input rounded-md text-foreground focus:ring-2 focus:ring-primary focus:outline-none"
+                      className="mt-1 w-full rounded-md border border-input bg-background p-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                   ) : (
                     <p className="text-foreground">{email || user?.email || 'N/A'}</p>
                   )}
                 </div>
               </div>
-              
+
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center shrink-0">
-                  <Phone className="w-4 h-4 text-muted-foreground" />
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-muted">
+                  <Phone className="h-4 w-4 text-muted-foreground" />
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-medium text-muted-foreground">Phone Number</p>
@@ -264,27 +274,29 @@ export default function WorkerProfilePage(): React.ReactElement {
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       placeholder="e.g. +1 (555) 000-0000"
-                      className="mt-1 w-full p-2 bg-background border border-input rounded-md text-foreground focus:ring-2 focus:ring-primary focus:outline-none"
+                      className="mt-1 w-full rounded-md border border-input bg-background p-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                   ) : (
-                    <p className="text-foreground">{phone || (user as any)?.phone || 'Not provided'}</p>
+                    <p className="text-foreground">
+                      {phone || (user as any)?.phone || 'Not provided'}
+                    </p>
                   )}
                 </div>
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center shrink-0">
-                  <MapPin className="w-4 h-4 text-muted-foreground" />
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-muted">
+                  <MapPin className="h-4 w-4 text-muted-foreground" />
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-medium text-muted-foreground">Location</p>
                   {isEditing ? (
-                    <input 
-                      type="text" 
-                      value={locationCity} 
-                      onChange={e => setLocationCity(e.target.value)}
+                    <input
+                      type="text"
+                      value={locationCity}
+                      onChange={(e) => setLocationCity(e.target.value)}
                       placeholder="e.g. Bangalore"
-                      className="mt-1 w-full p-2 bg-background border border-input rounded-md text-foreground focus:ring-2 focus:ring-primary focus:outline-none" 
+                      className="mt-1 w-full rounded-md border border-input bg-background p-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                   ) : (
                     <p className="text-foreground">{profile.location?.city || 'No location set'}</p>
@@ -294,26 +306,33 @@ export default function WorkerProfilePage(): React.ReactElement {
             </div>
           </div>
 
-          <div className="bg-card border border-border rounded-2xl p-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-foreground mb-6 flex items-center gap-2">
-              <Award className="w-5 h-5 text-primary" />
+          <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+            <h3 className="mb-6 flex items-center gap-2 text-lg font-semibold text-foreground">
+              <Award className="h-5 w-5 text-primary" />
               Skills & Certifications
             </h3>
             <div className="flex flex-wrap gap-2">
               {profile.skills && profile.skills.length > 0 ? (
-                profile.skills.map(skill => (
-                  <span key={skill} className="px-3 py-1.5 bg-muted text-foreground font-medium rounded-full text-sm flex items-center gap-2">
+                profile.skills.map((skill) => (
+                  <span
+                    key={skill}
+                    className="flex items-center gap-2 rounded-full bg-muted px-3 py-1.5 text-sm font-medium text-foreground"
+                  >
                     {skill}
-                    {isEditing && <button className="text-muted-foreground hover:text-destructive">&times;</button>}
+                    {isEditing && (
+                      <button className="text-muted-foreground hover:text-destructive">
+                        &times;
+                      </button>
+                    )}
                   </span>
                 ))
               ) : (
                 <span className="text-sm text-muted-foreground">No skills added yet.</span>
               )}
               {isEditing && (
-                <button 
+                <button
                   onClick={() => alert('Skill addition UI would open here')}
-                  className="px-3 py-1.5 bg-background border border-dashed border-input text-muted-foreground hover:text-foreground font-medium rounded-full text-sm transition-colors"
+                  className="rounded-full border border-dashed border-input bg-background px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
                 >
                   + Add Skill
                 </button>

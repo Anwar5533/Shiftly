@@ -16,9 +16,7 @@ describe('JobsController', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [JobsController],
-      providers: [
-        { provide: JobsService, useValue: jobsService },
-      ],
+      providers: [{ provide: JobsService, useValue: jobsService }],
     }).compile();
 
     controller = module.get<JobsController>(JobsController);
@@ -27,13 +25,15 @@ describe('JobsController', () => {
   describe('createJob', () => {
     it('should call createJob', async () => {
       await controller.createJob('user-1', { title: 'Test' } as any);
-      expect(jobsService.createJob).toHaveBeenCalledWith('user-1', { title: 'Test' });
+      expect(jobsService.createJob).toHaveBeenCalledWith('user-1', {
+        title: 'Test',
+      });
     });
   });
 
   describe('searchJobs', () => {
     it('should call searchJobs', async () => {
-      await controller.searchJobs({ query: 'dev' } as any);
+      await controller.searchJobs({ query: 'dev' });
       expect(jobsService.searchJobs).toHaveBeenCalledWith({ query: 'dev' });
     });
   });

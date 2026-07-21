@@ -39,32 +39,41 @@ export default function WorkerDashboard(): React.ReactElement {
     queryFn: () => jobsApi.searchJobs({ page: 1, limit: 3 }),
   });
 
-  const upcomingShifts = shifts?.filter(shift => shift.status === 'SCHEDULED' || shift.status === 'IN_PROGRESS').slice(0, 3) || [];
+  const upcomingShifts =
+    shifts
+      ?.filter((shift) => shift.status === 'SCHEDULED' || shift.status === 'IN_PROGRESS')
+      .slice(0, 3) || [];
   const recommendedJobs = recommendedResponse?.items || [];
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-foreground tracking-tight">
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">
             Welcome back, {user?.email?.split('@')[0] || 'Worker'}
           </h1>
-          <p className="text-muted-foreground mt-1">Here is what is happening with your shifts today.</p>
+          <p className="mt-1 text-muted-foreground">
+            Here is what is happening with your shifts today.
+          </p>
         </div>
-        <button 
+        <button
           onClick={() => navigate('/jobs')}
-          className="bg-primary text-primary-foreground px-4 py-2 rounded-lg font-medium hover:bg-primary/90 transition-colors shadow-sm"
+          className="rounded-lg bg-primary px-4 py-2 font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
         >
           Find Shifts
         </button>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <motion.div whileHover={{ scale: 1.02 }} transition={{ type: "spring", stiffness: 300 }} className="bg-card border border-border p-6 rounded-2xl shadow-sm">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <motion.div
+          whileHover={{ scale: 1.02 }}
+          transition={{ type: 'spring', stiffness: 300 }}
+          className="rounded-2xl border border-border bg-card p-6 shadow-sm"
+        >
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-primary/10 rounded-xl text-primary">
-              <IndianRupee className="w-6 h-6" />
+            <div className="rounded-xl bg-primary/10 p-3 text-primary">
+              <IndianRupee className="h-6 w-6" />
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">Total Earnings</p>
@@ -75,10 +84,14 @@ export default function WorkerDashboard(): React.ReactElement {
           </div>
         </motion.div>
 
-        <motion.div whileHover={{ scale: 1.02 }} transition={{ type: "spring", stiffness: 300 }} className="bg-card border border-border p-6 rounded-2xl shadow-sm">
+        <motion.div
+          whileHover={{ scale: 1.02 }}
+          transition={{ type: 'spring', stiffness: 300 }}
+          className="rounded-2xl border border-border bg-card p-6 shadow-sm"
+        >
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-accent rounded-xl text-accent-foreground">
-              <Briefcase className="w-6 h-6" />
+            <div className="rounded-xl bg-accent p-3 text-accent-foreground">
+              <Briefcase className="h-6 w-6" />
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">Active Applications</p>
@@ -89,10 +102,14 @@ export default function WorkerDashboard(): React.ReactElement {
           </div>
         </motion.div>
 
-        <motion.div whileHover={{ scale: 1.02 }} transition={{ type: "spring", stiffness: 300 }} className="bg-card border border-border p-6 rounded-2xl shadow-sm">
+        <motion.div
+          whileHover={{ scale: 1.02 }}
+          transition={{ type: 'spring', stiffness: 300 }}
+          className="rounded-2xl border border-border bg-card p-6 shadow-sm"
+        >
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-secondary rounded-xl text-secondary-foreground">
-              <Calendar className="w-6 h-6" />
+            <div className="rounded-xl bg-secondary p-3 text-secondary-foreground">
+              <Calendar className="h-6 w-6" />
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">Completed Shifts</p>
@@ -104,27 +121,38 @@ export default function WorkerDashboard(): React.ReactElement {
         </motion.div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Upcoming Shifts */}
-        <div className="lg:col-span-2 bg-card border border-border rounded-2xl shadow-sm overflow-hidden">
-          <div className="p-6 border-b border-border flex items-center justify-between">
+        <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm lg:col-span-2">
+          <div className="flex items-center justify-between border-b border-border p-6">
             <h2 className="text-lg font-semibold text-foreground">Upcoming Shifts</h2>
-            <button onClick={() => navigate('/jobs')} className="text-sm text-primary font-medium hover:underline flex items-center gap-1">
-              View all <ChevronRight className="w-4 h-4" />
+            <button
+              onClick={() => navigate('/jobs')}
+              className="flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+            >
+              View all <ChevronRight className="h-4 w-4" />
             </button>
           </div>
           <div className="divide-y divide-border">
             {isLoadingApps ? (
               <div className="p-6 text-center text-muted-foreground">Loading shifts...</div>
             ) : upcomingShifts.length === 0 ? (
-              <div className="p-6 text-center text-muted-foreground">No upcoming confirmed shifts.</div>
+              <div className="p-6 text-center text-muted-foreground">
+                No upcoming confirmed shifts.
+              </div>
             ) : (
               upcomingShifts.map((shift: any) => (
-                <div key={shift.id} onClick={() => navigate(`/shifts/${shift.id}`)} className="p-6 flex items-center justify-between hover:bg-muted/30 transition-colors cursor-pointer">
+                <div
+                  key={shift.id}
+                  onClick={() => navigate(`/shifts/${shift.id}`)}
+                  className="flex cursor-pointer items-center justify-between p-6 transition-colors hover:bg-muted/30"
+                >
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-lg bg-muted flex flex-col items-center justify-center">
-                      <span className="text-xs font-medium text-muted-foreground uppercase">
-                        {new Date(shift.scheduledStart).toLocaleString('default', { month: 'short' })}
+                    <div className="flex h-12 w-12 flex-col items-center justify-center rounded-lg bg-muted">
+                      <span className="text-xs font-medium uppercase text-muted-foreground">
+                        {new Date(shift.scheduledStart).toLocaleString('default', {
+                          month: 'short',
+                        })}
                       </span>
                       <span className="text-lg font-bold text-foreground">
                         {new Date(shift.scheduledStart).getDate() || '--'}
@@ -132,17 +160,23 @@ export default function WorkerDashboard(): React.ReactElement {
                     </div>
                     <div>
                       <h4 className="font-semibold text-foreground">{shift.job?.title}</h4>
-                      <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
-                        <Briefcase className="w-3.5 h-3.5" /> {shift.job?.employer?.companyName || 'Employer'}
+                      <p className="mt-1 flex items-center gap-1 text-sm text-muted-foreground">
+                        <Briefcase className="h-3.5 w-3.5" />{' '}
+                        {shift.job?.employer?.companyName || 'Employer'}
                       </p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${shift.status === 'IN_PROGRESS' ? 'bg-primary/10 text-primary border border-primary/20 animate-pulse' : 'bg-green-500/10 text-green-600'}`}>
+                    <span
+                      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${shift.status === 'IN_PROGRESS' ? 'animate-pulse border border-primary/20 bg-primary/10 text-primary' : 'bg-green-500/10 text-green-600'}`}
+                    >
                       {shift.status.replace('_', ' ')}
                     </span>
-                    <p className="text-sm text-muted-foreground mt-2">
-                      {new Date(shift.scheduledStart).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    <p className="mt-2 text-sm text-muted-foreground">
+                      {new Date(shift.scheduledStart).toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
                     </p>
                   </div>
                 </div>
@@ -152,29 +186,41 @@ export default function WorkerDashboard(): React.ReactElement {
         </div>
 
         {/* Recommended Jobs */}
-        <div className="bg-card border border-border rounded-2xl shadow-sm p-6">
-          <h2 className="text-lg font-semibold text-foreground mb-4">Recommended for you</h2>
+        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+          <h2 className="mb-4 text-lg font-semibold text-foreground">Recommended for you</h2>
           <div className="space-y-4">
             {isLoadingJobs ? (
-              <div className="text-center text-muted-foreground py-4">Loading...</div>
+              <div className="py-4 text-center text-muted-foreground">Loading...</div>
             ) : recommendedJobs.length === 0 ? (
-              <div className="text-center text-muted-foreground py-4">No recommendations yet.</div>
+              <div className="py-4 text-center text-muted-foreground">No recommendations yet.</div>
             ) : (
               recommendedJobs.map((job: any) => (
-                <div key={job.id} onClick={() => navigate(`/jobs/${job.id}`)} className="group p-4 border border-border rounded-xl hover:border-primary/50 transition-colors cursor-pointer">
-                  <div className="flex justify-between items-start mb-2">
-                    <h4 className="font-medium text-foreground group-hover:text-primary transition-colors">{job.title}</h4>
+                <div
+                  key={job.id}
+                  onClick={() => navigate(`/jobs/${job.id}`)}
+                  className="group cursor-pointer rounded-xl border border-border p-4 transition-colors hover:border-primary/50"
+                >
+                  <div className="mb-2 flex items-start justify-between">
+                    <h4 className="font-medium text-foreground transition-colors group-hover:text-primary">
+                      {job.title}
+                    </h4>
                     <span className="text-sm font-semibold text-foreground">
-                      {job.salaryCurrency === 'INR' ? '₹' : job.salaryCurrency === 'USD' ? '$' : job.salaryCurrency}
+                      {job.salaryCurrency === 'INR'
+                        ? '₹'
+                        : job.salaryCurrency === 'USD'
+                          ? '₹'
+                          : job.salaryCurrency}
                       {job.salaryMax}/{job.salaryPeriod === 'HOURLY' ? 'hr' : 'mo'}
                     </span>
                   </div>
-                  <p className="text-xs text-muted-foreground line-clamp-2">
-                    {job.description}
-                  </p>
+                  <p className="line-clamp-2 text-xs text-muted-foreground">{job.description}</p>
                   <div className="mt-3 flex gap-2">
-                    <span className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded-md">{job.location?.city || 'Remote'}</span>
-                    <span className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded-md">{job.jobType}</span>
+                    <span className="rounded-md bg-muted px-2 py-1 text-xs text-muted-foreground">
+                      {job.location?.city || 'Remote'}
+                    </span>
+                    <span className="rounded-md bg-muted px-2 py-1 text-xs text-muted-foreground">
+                      {job.jobType}
+                    </span>
                   </div>
                 </div>
               ))

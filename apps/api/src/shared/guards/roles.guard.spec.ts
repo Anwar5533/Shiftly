@@ -15,7 +15,7 @@ describe('RolesGuard', () => {
 
   describe('canActivate', () => {
     let mockContext: ExecutionContext;
-    
+
     beforeEach(() => {
       mockContext = {
         getHandler: jest.fn(),
@@ -29,34 +29,42 @@ describe('RolesGuard', () => {
     it('should return true if no roles are required', () => {
       jest.spyOn(reflector, 'getAllAndOverride').mockReturnValue(null);
       expect(guard.canActivate(mockContext)).toBe(true);
-      
+
       jest.spyOn(reflector, 'getAllAndOverride').mockReturnValue([]);
       expect(guard.canActivate(mockContext)).toBe(true);
     });
 
     it('should throw ForbiddenException if user object is not present', () => {
       jest.spyOn(reflector, 'getAllAndOverride').mockReturnValue(['ADMIN']);
-      (mockContext.switchToHttp().getRequest as jest.Mock).mockReturnValue({ user: null });
+      (mockContext.switchToHttp().getRequest as jest.Mock).mockReturnValue({
+        user: null,
+      });
       expect(() => guard.canActivate(mockContext)).toThrow(ForbiddenException);
       expect(() => guard.canActivate(mockContext)).toThrow('Access denied');
     });
 
     it('should return true if user has required role', () => {
-      jest.spyOn(reflector, 'getAllAndOverride').mockReturnValue(['ADMIN', 'MANAGER']);
+      jest
+        .spyOn(reflector, 'getAllAndOverride')
+        .mockReturnValue(['ADMIN', 'MANAGER']);
       (mockContext.switchToHttp().getRequest as jest.Mock).mockReturnValue({
-        user: { role: 'ADMIN' }
+        user: { role: 'ADMIN' },
       });
       expect(guard.canActivate(mockContext)).toBe(true);
     });
 
     it('should throw ForbiddenException with role details if user lacks role', () => {
-      jest.spyOn(reflector, 'getAllAndOverride').mockReturnValue(['ADMIN', 'MANAGER']);
+      jest
+        .spyOn(reflector, 'getAllAndOverride')
+        .mockReturnValue(['ADMIN', 'MANAGER']);
       (mockContext.switchToHttp().getRequest as jest.Mock).mockReturnValue({
-        user: { role: 'WORKER' }
+        user: { role: 'WORKER' },
       });
-      
+
       expect(() => guard.canActivate(mockContext)).toThrow(ForbiddenException);
-      expect(() => guard.canActivate(mockContext)).toThrow(`Access denied. Required role: ADMIN or MANAGER. Your role: WORKER`);
+      expect(() => guard.canActivate(mockContext)).toThrow(
+        `Access denied. Required role: ADMIN or MANAGER. Your role: WORKER`,
+      );
     });
   });
 });

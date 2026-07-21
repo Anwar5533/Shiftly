@@ -10,9 +10,14 @@ export class EscrowController {
   @Post('lock')
   async lockFunds(
     @Request() req: any,
-    @Body() body: { jobId: string; applicationId: string; amount: number }
+    @Body() body: { jobId: string; applicationId: string; amount: number },
   ) {
     // Only employers can lock funds manually for testing, otherwise done via ApplicationsService
-    return this.escrowService.lockFunds(req.user.id, body.jobId, body.applicationId, body.amount);
+    return this.escrowService.lockFunds(
+      req.user.id,
+      body.jobId,
+      body.applicationId,
+      body.amount,
+    );
   }
 }

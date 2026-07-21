@@ -1,4 +1,11 @@
-import { Controller, Get, Post, Body, UseGuards, Request } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { SubscriptionsService } from './subscriptions.service';
 import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 import { RolesGuard } from '../../shared/guards/roles.guard';
@@ -24,10 +31,7 @@ export class SubscriptionsController {
 
   @Post('upgrade')
   @Roles('EMPLOYER', 'RECRUITER')
-  async upgradePlan(
-    @Request() req: any,
-    @Body('plan') plan: SubscriptionPlan,
-  ) {
+  async upgradePlan(@Request() req: any, @Body('plan') plan: SubscriptionPlan) {
     return this.subscriptionsService.upgradePlan(req.user.userId, plan);
   }
 }

@@ -16,7 +16,7 @@ export default function ProfilePage(): React.ReactElement {
   if (user.role === 'WORKER') {
     return <WorkerProfilePage />;
   }
-  
+
   if (user.role === 'EMPLOYER') {
     return <EmployerProfilePage />;
   }
@@ -27,7 +27,7 @@ export default function ProfilePage(): React.ReactElement {
 
   // Fallback for unknown roles
   return (
-    <div className="flex items-center justify-center h-[50vh]">
+    <div className="flex h-[50vh] items-center justify-center">
       <p className="text-muted-foreground">Profile view not implemented for this role.</p>
     </div>
   );

@@ -14,7 +14,16 @@ describe('authSlice', () => {
   });
 
   it('should handle setUser', () => {
-    const userPayload = { userId: '1', role: 'WORKER', email: 'test@example.com', sub: '1', permissions: [], sessionId: '', iat: 0, exp: 0 } as unknown as JwtPayload;
+    const userPayload = {
+      userId: '1',
+      role: 'WORKER',
+      email: 'test@example.com',
+      sub: '1',
+      permissions: [],
+      sessionId: '',
+      iat: 0,
+      exp: 0,
+    } as unknown as JwtPayload;
     const actual = authReducer(initialState, setUser(userPayload));
     expect(actual.user).toEqual(userPayload);
     expect(actual.isAuthenticated).toBe(true);
@@ -23,7 +32,16 @@ describe('authSlice', () => {
 
   it('should handle clearUser', () => {
     const loggedInState = {
-      user: { userId: '1', role: 'EMPLOYER', email: 'test@example.com', sub: '1', permissions: [], sessionId: '', iat: 0, exp: 0 } as JwtPayload,
+      user: {
+        userId: '1',
+        role: 'EMPLOYER',
+        email: 'test@example.com',
+        sub: '1',
+        permissions: [],
+        sessionId: '',
+        iat: 0,
+        exp: 0,
+      } as JwtPayload,
       isAuthenticated: true,
       isLoading: true,
     };

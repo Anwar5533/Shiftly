@@ -1,4 +1,9 @@
-import { Injectable, Logger, BadRequestException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../../../infrastructure/database/prisma.service';
 import { TransactionsService } from '../transactions/transactions.service';
 import { WalletsService } from '../wallets/wallets.service';
@@ -13,7 +18,12 @@ export class EscrowService {
     private readonly walletsService: WalletsService,
   ) {}
 
-  async lockFunds(employerId: string, jobId: string, applicationId: string, amount: number) {
+  async lockFunds(
+    employerId: string,
+    jobId: string,
+    applicationId: string,
+    amount: number,
+  ) {
     if (amount <= 0) {
       throw new BadRequestException('Escrow amount must be positive');
     }
@@ -22,17 +32,23 @@ export class EscrowService {
       const employerWallet = await this.walletsService.getWallet(employerId);
 
       if (Number(employerWallet.balance) < amount) {
-        throw new BadRequestException('Insufficient balance to lock funds for this job');
+        throw new BadRequestException(
+          'Insufficient balance to lock funds for this job',
+        );
       }
 
       // Decrement main balance, increment escrow balance
-      await tx.wallet.update({
+      const updatedEmployerWallet = await tx.wallet.update({
         where: { id: employerWallet.id },
         data: {
           balance: { decrement: amount },
           escrowBalance: { increment: amount },
         },
       });
+
+      if (Number(updatedEmployerWallet.balance) < 0) {
+        throw new BadRequestException('Insufficient balance to lock funds for this job');
+      }
 
       // Create EscrowLock
       const escrowLock = await tx.escrowLock.create({
@@ -103,12 +119,16 @@ export class EscrowService {
       const releaseAmount = Number(escrowLock.amount);
 
       // Decrement employer escrow balance
-      await tx.wallet.update({
+      const updatedEmployerWallet = await tx.wallet.update({
         where: { id: employerWallet.id },
         data: {
           escrowBalance: { decrement: releaseAmount },
         },
       });
+      
+      if (Number(updatedEmployerWallet.escrowBalance) < 0) {
+        throw new BadRequestException('Insufficient escrow balance for release');
+      }
 
       // Increment worker balance
       await tx.wallet.update({

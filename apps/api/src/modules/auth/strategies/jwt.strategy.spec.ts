@@ -20,7 +20,9 @@ describe('JwtStrategy', () => {
           provide: AuthService,
           useValue: {
             validateUser: jest.fn(),
-            validateJwtPayload: jest.fn().mockResolvedValue({ id: '1', role: 'WORKER' }),
+            validateJwtPayload: jest
+              .fn()
+              .mockResolvedValue({ id: '1', role: 'WORKER' }),
           },
         },
       ],

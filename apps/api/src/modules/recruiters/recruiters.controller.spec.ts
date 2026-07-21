@@ -15,9 +15,7 @@ describe('RecruitersController', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [RecruitersController],
-      providers: [
-        { provide: RecruitersService, useValue: mockService },
-      ],
+      providers: [{ provide: RecruitersService, useValue: mockService }],
     }).compile();
 
     controller = module.get<RecruitersController>(RecruitersController);
@@ -36,10 +34,17 @@ describe('RecruitersController', () => {
   });
 
   it('should call updateProfile', async () => {
-    service.updateProfile.mockResolvedValue({ id: '1', firstName: 'Jane' } as any);
-    const result = await controller.updateProfile('user1', { firstName: 'Jane' });
+    service.updateProfile.mockResolvedValue({
+      id: '1',
+      firstName: 'Jane',
+    } as any);
+    const result = await controller.updateProfile('user1', {
+      firstName: 'Jane',
+    });
     expect(result).toEqual({ id: '1', firstName: 'Jane' });
-    expect(service.updateProfile).toHaveBeenCalledWith('user1', { firstName: 'Jane' });
+    expect(service.updateProfile).toHaveBeenCalledWith('user1', {
+      firstName: 'Jane',
+    });
   });
 
   it('should call getDashboardStats', async () => {

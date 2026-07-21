@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { ConfigModule } from '@nestjs/config';
-import { ThrottlerModule } from '@nestjs/throttler';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ScheduleModule } from '@nestjs/schedule';
 import { WinstonModule } from 'nest-winston';
@@ -55,7 +56,14 @@ import { AdminModule } from './modules/admin/admin.module';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: process.env.APP_ENV ? `.env.${process.env.APP_ENV}` : '.env',
-      load: [appConfig, databaseConfig, redisConfig, kafkaConfig, awsConfig, jwtConfig],
+      load: [
+        appConfig,
+        databaseConfig,
+        redisConfig,
+        kafkaConfig,
+        awsConfig,
+        jwtConfig,
+      ],
       validationSchema,
       validationOptions: {
         allowUnknown: false,
@@ -125,6 +133,12 @@ import { AdminModule } from './modules/admin/admin.module';
     // UsersModule,
     HealthModule,
     AdminModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
   ],
 })
 export class AppModule {}

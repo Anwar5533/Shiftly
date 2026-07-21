@@ -24,7 +24,7 @@ export interface UpdateJobData extends Partial<CreateJobData> {
 
 export const jobsApi = {
   searchJobs: async (params?: Record<string, any>): Promise<any> => {
-    const response = await api.get('/search/jobs', { params });
+    const response = await api.get('/jobs/search', { params });
     return response.data.data;
   },
 
@@ -51,7 +51,7 @@ export const jobsApi = {
   deleteJob: async (id: string): Promise<void> => {
     await api.delete(`/jobs/${id}`);
   },
-  
+
   closeJob: async (id: string): Promise<Job> => {
     const response = await api.patch(`/jobs/${id}/close`);
     return response.data.data;

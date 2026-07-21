@@ -20,28 +20,28 @@ describe('Decorators', () => {
   describe('CurrentUser Decorator', () => {
     it('should extract the whole user object if no data is provided', () => {
       const factory = getParamDecoratorFactory(CurrentUser);
-      
+
       const mockUser = { sub: '123', email: 'test@test.com' };
       const ctx = {
         switchToHttp: () => ({
           getRequest: () => ({ user: mockUser }),
         }),
       } as unknown as ExecutionContext;
-      
+
       const result = factory(null, ctx);
       expect(result).toBe(mockUser);
     });
-    
+
     it('should extract a specific field if data is provided', () => {
       const factory = getParamDecoratorFactory(CurrentUser, 'email');
-      
+
       const mockUser = { sub: '123', email: 'test@test.com' };
       const ctx = {
         switchToHttp: () => ({
           getRequest: () => ({ user: mockUser }),
         }),
       } as unknown as ExecutionContext;
-      
+
       const result = factory('email', ctx);
       expect(result).toBe('test@test.com');
     });
@@ -53,8 +53,11 @@ describe('Decorators', () => {
         @RequirePermissions('READ_USER')
         testMethod() {}
       }
-      
-      const permissions = Reflect.getMetadata(PERMISSIONS_KEY, TestClass.prototype.testMethod);
+
+      const permissions = Reflect.getMetadata(
+        PERMISSIONS_KEY,
+        TestClass.prototype.testMethod,
+      );
       expect(permissions).toEqual(['READ_USER']);
     });
   });
@@ -65,8 +68,11 @@ describe('Decorators', () => {
         @Public()
         testMethod() {}
       }
-      
-      const isPublic = Reflect.getMetadata(IS_PUBLIC_KEY, TestClass.prototype.testMethod);
+
+      const isPublic = Reflect.getMetadata(
+        IS_PUBLIC_KEY,
+        TestClass.prototype.testMethod,
+      );
       expect(isPublic).toBe(true);
     });
   });
@@ -74,11 +80,14 @@ describe('Decorators', () => {
   describe('Roles', () => {
     it('should set roles metadata', () => {
       class TestClass {
-        @Roles('ADMIN' as UserRole, 'WORKER' as UserRole)
+        @Roles('ADMIN', 'WORKER')
         testMethod() {}
       }
-      
-      const roles = Reflect.getMetadata(ROLES_KEY, TestClass.prototype.testMethod);
+
+      const roles = Reflect.getMetadata(
+        ROLES_KEY,
+        TestClass.prototype.testMethod,
+      );
       expect(roles).toEqual(['ADMIN', 'WORKER']);
     });
   });

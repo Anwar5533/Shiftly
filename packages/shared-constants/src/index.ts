@@ -299,11 +299,7 @@ export const PAGINATION = {
 export const FILE_UPLOAD = {
   MAX_SIZE_BYTES: 10 * 1024 * 1024, // 10MB
   ALLOWED_IMAGE_TYPES: ['image/jpeg', 'image/png', 'image/webp'] as const,
-  ALLOWED_DOCUMENT_TYPES: [
-    'application/pdf',
-    'image/jpeg',
-    'image/png',
-  ] as const,
+  ALLOWED_DOCUMENT_TYPES: ['application/pdf', 'image/jpeg', 'image/png'] as const,
   ALLOWED_RESUME_TYPES: [
     'application/pdf',
     'application/msword',

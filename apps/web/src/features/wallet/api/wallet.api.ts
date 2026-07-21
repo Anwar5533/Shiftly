@@ -6,7 +6,7 @@ export const walletApi = {
     const response = await api.get('/wallets/me');
     return response.data.data;
   },
-  
+
   getTransactions: async (): Promise<Transaction[]> => {
     const response = await api.get('/wallets/me/transactions');
     return response.data.data ?? [];
@@ -20,5 +20,5 @@ export const walletApi = {
   withdraw: async (amount: number): Promise<Wallet> => {
     const response = await api.post('/wallets/withdraw', { amount });
     return response.data.data;
-  }
+  },
 };

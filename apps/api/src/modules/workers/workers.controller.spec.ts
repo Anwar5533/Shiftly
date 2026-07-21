@@ -16,9 +16,7 @@ describe('WorkersController', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [WorkersController],
-      providers: [
-        { provide: WorkersService, useValue: workersService },
-      ],
+      providers: [{ provide: WorkersService, useValue: workersService }],
     }).compile();
 
     controller = module.get<WorkersController>(WorkersController);
@@ -33,22 +31,29 @@ describe('WorkersController', () => {
 
   describe('updateProfile', () => {
     it('should call updateProfile', async () => {
-      await controller.updateProfile('user-1', { firstName: 'Test' } as any);
-      expect(workersService.updateProfile).toHaveBeenCalledWith('user-1', { firstName: 'Test' });
+      await controller.updateProfile('user-1', { firstName: 'Test' });
+      expect(workersService.updateProfile).toHaveBeenCalledWith('user-1', {
+        firstName: 'Test',
+      });
     });
   });
 
   describe('addSkill', () => {
     it('should call addSkill', async () => {
       await controller.addSkill('user-1', { skillName: 'React' } as any);
-      expect(workersService.addSkill).toHaveBeenCalledWith('user-1', { skillName: 'React' });
+      expect(workersService.addSkill).toHaveBeenCalledWith('user-1', {
+        skillName: 'React',
+      });
     });
   });
 
   describe('removeSkill', () => {
     it('should call removeSkill', async () => {
       await controller.removeSkill('user-1', 'skill-1');
-      expect(workersService.removeSkill).toHaveBeenCalledWith('user-1', 'skill-1');
+      expect(workersService.removeSkill).toHaveBeenCalledWith(
+        'user-1',
+        'skill-1',
+      );
     });
   });
 

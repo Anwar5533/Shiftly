@@ -24,25 +24,27 @@ export function ReviewModal({ jobId, revieweeId, targetType, isOpen, onClose }: 
     },
     onError: (err: any) => {
       alert(err.response?.data?.message || 'Failed to submit review');
-    }
+    },
   });
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm p-4">
-      <div className="bg-card w-full max-w-md rounded-2xl shadow-xl border border-border p-6 relative animate-in fade-in zoom-in-95 duration-200">
-        <button 
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 p-4 backdrop-blur-sm">
+      <div className="relative w-full max-w-md rounded-2xl border border-border bg-card p-6 shadow-xl duration-200 animate-in fade-in zoom-in-95">
+        <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 text-muted-foreground hover:bg-muted rounded-full transition-colors"
+          className="absolute right-4 top-4 rounded-full p-2 text-muted-foreground transition-colors hover:bg-muted"
         >
-          <X className="w-5 h-5" />
+          <X className="h-5 w-5" />
         </button>
 
-        <h2 className="text-xl font-bold text-foreground mb-2">Leave a Review</h2>
-        <p className="text-sm text-muted-foreground mb-6">Rate your experience and leave a comment.</p>
+        <h2 className="mb-2 text-xl font-bold text-foreground">Leave a Review</h2>
+        <p className="mb-6 text-sm text-muted-foreground">
+          Rate your experience and leave a comment.
+        </p>
 
-        <div className="flex gap-2 justify-center mb-6">
+        <div className="mb-6 flex justify-center gap-2">
           {[1, 2, 3, 4, 5].map((star) => (
             <button
               key={star}
@@ -54,18 +56,20 @@ export function ReviewModal({ jobId, revieweeId, targetType, isOpen, onClose }: 
               onMouseLeave={() => setHoverRating(0)}
               onClick={() => setRating(star)}
             >
-              <Star className="w-8 h-8 fill-current" />
+              <Star className="h-8 w-8 fill-current" />
             </button>
           ))}
         </div>
 
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-foreground mb-1">Comment (optional)</label>
-            <textarea 
+            <label className="mb-1 block text-sm font-medium text-foreground">
+              Comment (optional)
+            </label>
+            <textarea
               value={comment}
               onChange={(e) => setComment(e.target.value)}
-              className="w-full h-24 bg-background border border-input rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none"
+              className="h-24 w-full resize-none rounded-xl border border-input bg-background px-4 py-3 text-sm transition-all focus:border-primary focus:ring-2 focus:ring-primary/20"
               placeholder="How was the experience?"
             />
           </div>
@@ -73,7 +77,7 @@ export function ReviewModal({ jobId, revieweeId, targetType, isOpen, onClose }: 
           <button
             onClick={() => submitReviewMutation.mutate()}
             disabled={rating === 0 || submitReviewMutation.isPending}
-            className="w-full bg-primary text-primary-foreground py-3 rounded-xl font-semibold shadow-sm hover:bg-primary/90 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 disabled:opacity-50"
           >
             {submitReviewMutation.isPending ? 'Submitting...' : 'Submit Review'}
           </button>

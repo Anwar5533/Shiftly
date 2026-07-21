@@ -1,4 +1,5 @@
-export type ApplicationStatus = 'PENDING' | 'SHORTLISTED' | 'ACCEPTED' | 'REJECTED' | 'WITHDRAWN' | 'COMPLETED';
+export type ApplicationStatus =
+  'PENDING' | 'SHORTLISTED' | 'ACCEPTED' | 'REJECTED' | 'WITHDRAWN' | 'COMPLETED';
 
 export interface MockApplication {
   id: string;
@@ -16,7 +17,7 @@ export interface MockApplication {
 }
 
 // Simulated in-memory store for applications
-let mockApplications: MockApplication[] = [
+const mockApplications: MockApplication[] = [
   {
     id: 'app_1',
     jobId: 'job_1', // We will assume this is the ID of a mock job
@@ -29,7 +30,7 @@ let mockApplications: MockApplication[] = [
       avatarUrl: null,
       experienceYears: 4,
       rating: 4.8,
-    }
+    },
   },
   {
     id: 'app_2',
@@ -43,7 +44,7 @@ let mockApplications: MockApplication[] = [
       avatarUrl: null,
       experienceYears: 6,
       rating: 4.9,
-    }
+    },
   },
   {
     id: 'app_3',
@@ -57,27 +58,30 @@ let mockApplications: MockApplication[] = [
       avatarUrl: null,
       experienceYears: 2,
       rating: 4.2,
-    }
-  }
+    },
+  },
 ];
 
 export const applicationsApi = {
   getApplicationsByJobId: async (_jobId: string): Promise<MockApplication[]> => {
     // Simulate network delay
-    await new Promise(resolve => setTimeout(resolve, 600));
+    await new Promise((resolve) => setTimeout(resolve, 600));
     // If the mock job doesn't match, we still return the mock list just so we have data to see
-    return mockApplications; 
+    return mockApplications;
   },
 
-  updateApplicationStatus: async (applicationId: string, status: ApplicationStatus): Promise<MockApplication> => {
-    await new Promise(resolve => setTimeout(resolve, 400));
-    
-    const appIndex = mockApplications.findIndex(a => a.id === applicationId);
+  updateApplicationStatus: async (
+    applicationId: string,
+    status: ApplicationStatus,
+  ): Promise<MockApplication> => {
+    await new Promise((resolve) => setTimeout(resolve, 400));
+
+    const appIndex = mockApplications.findIndex((a) => a.id === applicationId);
     if (appIndex === -1) throw new Error('Application not found');
-    
+
     const updatedApp = { ...mockApplications[appIndex], status };
     mockApplications[appIndex] = updatedApp;
-    
+
     return updatedApp;
-  }
+  },
 };

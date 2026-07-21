@@ -52,7 +52,13 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
-      exclude: ['src/shared/components/ui/**', 'src/shared/types/**', 'src/main.tsx', 'src/vite-env.d.ts', '.eslintrc.cjs'],
+      exclude: [
+        'src/shared/components/ui/**',
+        'src/shared/types/**',
+        'src/main.tsx',
+        'src/vite-env.d.ts',
+        '.eslintrc.cjs',
+      ],
     },
   },
 });

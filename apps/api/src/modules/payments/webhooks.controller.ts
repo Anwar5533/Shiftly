@@ -1,4 +1,10 @@
-import { Controller, Post, Body, Headers, BadRequestException } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Headers,
+  BadRequestException,
+} from '@nestjs/common';
 import { WalletService } from './services/wallet.service';
 import { Public } from '../../shared/decorators/public.decorator';
 
@@ -21,11 +27,11 @@ export class WebhooksController {
 
     if (event === 'payment.captured') {
       const paymentEntity = payload.payload.payment.entity;
-      
+
       // We would lookup the transaction by reference ID or order ID,
       // verify amount, and then fulfill the top-up/wallet update.
       console.log('Payment Captured:', paymentEntity);
-      
+
       // Return 200 OK so Razorpay knows we received it
       return { received: true };
     }

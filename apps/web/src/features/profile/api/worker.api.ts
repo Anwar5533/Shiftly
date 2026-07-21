@@ -20,7 +20,12 @@ export const workerApi = {
     return response.data.data;
   },
 
-  addSkill: async (skillData: { skillName: string; category: string; yearsExp: number; proficiency: string }) => {
+  addSkill: async (skillData: {
+    skillName: string;
+    category: string;
+    yearsExp: number;
+    proficiency: string;
+  }) => {
     const response = await api.post<ApiResponse<any>>('/workers/skills', skillData);
     return response.data.data;
   },
@@ -33,5 +38,5 @@ export const workerApi = {
   getDashboardStats: async (): Promise<WorkerDashboardStats> => {
     const response = await api.get<ApiResponse<WorkerDashboardStats>>('/workers/dashboard');
     return response.data.data;
-  }
+  },
 };

@@ -20,7 +20,7 @@ type PostJobFormValues = z.infer<typeof postJobSchema>;
 
 export default function PostJobPage(): React.ReactElement {
   const navigate = useNavigate();
-  
+
   const {
     register,
     handleSubmit,
@@ -68,15 +68,17 @@ export default function PostJobPage(): React.ReactElement {
   };
 
   return (
-    <div className="max-w-3xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-foreground tracking-tight">Post a New Job</h1>
-        <p className="text-muted-foreground mt-1">Fill out the details below to publish your job listing.</p>
+        <h1 className="text-3xl font-bold tracking-tight text-foreground">Post a New Job</h1>
+        <p className="mt-1 text-muted-foreground">
+          Fill out the details below to publish your job listing.
+        </p>
       </div>
 
-      <div className="bg-card rounded-2xl shadow-sm border border-border p-8">
+      <div className="rounded-2xl border border-border bg-card p-8 shadow-sm">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div className="space-y-2 md:col-span-2">
               <label className="text-sm font-medium text-foreground">Job Title</label>
               <input
@@ -92,7 +94,7 @@ export default function PostJobPage(): React.ReactElement {
               <label className="text-sm font-medium text-foreground">Job Type</label>
               <select
                 {...register('jobType')}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary input-glow"
+                className="input-glow flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               >
                 <option value="PERMANENT">Permanent</option>
                 <option value="SHIFT">Shift / Hourly</option>
@@ -109,7 +111,9 @@ export default function PostJobPage(): React.ReactElement {
                 placeholder="e.g. Bangalore"
                 className={`flex h-10 w-full rounded-md border bg-background px-3 py-2 text-sm text-foreground ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${errors.locationCity ? 'border-destructive' : 'border-input'} input-glow`}
               />
-              {errors.locationCity && <p className="text-sm text-red-500">{errors.locationCity.message}</p>}
+              {errors.locationCity && (
+                <p className="text-sm text-red-500">{errors.locationCity.message}</p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -120,7 +124,9 @@ export default function PostJobPage(): React.ReactElement {
                 placeholder="e.g. 1500000"
                 className={`flex h-10 w-full rounded-md border bg-background px-3 py-2 text-sm text-foreground ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${errors.salaryMin ? 'border-destructive' : 'border-input'} input-glow`}
               />
-              {errors.salaryMin && <p className="text-sm text-red-500">{errors.salaryMin.message}</p>}
+              {errors.salaryMin && (
+                <p className="text-sm text-red-500">{errors.salaryMin.message}</p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -131,14 +137,16 @@ export default function PostJobPage(): React.ReactElement {
                 placeholder="e.g. 2500000"
                 className={`flex h-10 w-full rounded-md border bg-background px-3 py-2 text-sm text-foreground ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${errors.salaryMax ? 'border-destructive' : 'border-input'} input-glow`}
               />
-              {errors.salaryMax && <p className="text-sm text-red-500">{errors.salaryMax.message}</p>}
+              {errors.salaryMax && (
+                <p className="text-sm text-red-500">{errors.salaryMax.message}</p>
+              )}
             </div>
 
             <div className="space-y-2">
               <label className="text-sm font-medium text-foreground">Salary Period</label>
               <select
                 {...register('salaryPeriod')}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary input-glow"
+                className="input-glow flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               >
                 <option value="ANNUAL">Per Annum</option>
                 <option value="MONTHLY">Per Month</option>
@@ -154,17 +162,19 @@ export default function PostJobPage(): React.ReactElement {
                 {...register('description')}
                 rows={6}
                 placeholder="Describe the responsibilities, requirements, and benefits..."
-                className={`flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary resize-y input-glow ${errors.description ? 'border-destructive' : 'border-input'}`}
+                className={`input-glow flex w-full resize-y rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${errors.description ? 'border-destructive' : 'border-input'}`}
               />
-              {errors.description && <p className="text-sm text-red-500">{errors.description.message}</p>}
+              {errors.description && (
+                <p className="text-sm text-red-500">{errors.description.message}</p>
+              )}
             </div>
           </div>
 
-          <div className="pt-4 flex justify-end">
-            <button 
-              type="submit" 
-              disabled={isSubmitting} 
-              className="h-12 px-8 bg-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+          <div className="flex justify-end pt-4">
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="h-12 rounded-lg bg-primary px-8 font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isSubmitting ? 'Posting...' : 'Publish Job'}
             </button>

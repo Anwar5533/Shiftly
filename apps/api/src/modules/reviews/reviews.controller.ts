@@ -1,4 +1,12 @@
-import { Controller, Post, Get, Body, Param, UseGuards, Request } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Body,
+  Param,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { ReviewsService } from './reviews.service';
 import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 
@@ -10,7 +18,14 @@ export class ReviewsController {
   @Post()
   async createReview(
     @Request() req: any,
-    @Body() body: { jobId: string; revieweeId: string; targetType: any; rating: number; comment?: string }
+    @Body()
+    body: {
+      jobId: string;
+      revieweeId: string;
+      targetType: any;
+      rating: number;
+      comment?: string;
+    },
   ) {
     return this.reviewsService.createReview({
       reviewerId: req.user.id,

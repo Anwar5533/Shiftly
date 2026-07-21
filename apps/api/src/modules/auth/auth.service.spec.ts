@@ -5,7 +5,11 @@ import { ConfigService } from '@nestjs/config';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
 import { RedisService } from '../../infrastructure/redis/redis.service';
-import { BadRequestException, UnauthorizedException, ConflictException } from '@nestjs/common';
+import {
+  BadRequestException,
+  UnauthorizedException,
+  ConflictException,
+} from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
 jest.mock('bcrypt');
@@ -93,7 +97,9 @@ describe('AuthService', () => {
   describe('sendOtp', () => {
     it('should throw BadRequestException if account is locked', async () => {
       redis.exists.mockResolvedValue(1);
-      await expect(service.sendOtp('+1234567890')).rejects.toThrow(BadRequestException);
+      await expect(service.sendOtp('+1234567890')).rejects.toThrow(
+        BadRequestException,
+      );
     });
 
     it('should send OTP and store it in redis and db', async () => {
@@ -102,22 +108,33 @@ describe('AuthService', () => {
 
       await service.sendOtp('+1234567890');
 
-      expect(redis.set).toHaveBeenCalledWith('otp:+1234567890', expect.any(String), 300);
+      expect(redis.set).toHaveBeenCalledWith(
+        'otp:+1234567890',
+        expect.any(String),
+        300,
+      );
       expect(prisma.otpToken.create).toHaveBeenCalled();
-      expect(eventEmitter.emit).toHaveBeenCalledWith('notification.send-sms', expect.any(Object));
+      expect(eventEmitter.emit).toHaveBeenCalledWith(
+        'notification.send-sms',
+        expect.any(Object),
+      );
     });
   });
 
   describe('verifyOtp', () => {
     it('should throw BadRequestException if locked', async () => {
       redis.exists.mockResolvedValue(1);
-      await expect(service.verifyOtp('+1234567890', '123456')).rejects.toThrow(BadRequestException);
+      await expect(service.verifyOtp('+1234567890', '123456')).rejects.toThrow(
+        BadRequestException,
+      );
     });
 
     it('should throw BadRequestException if OTP expired', async () => {
       redis.exists.mockResolvedValue(0);
       redis.get.mockResolvedValue(null);
-      await expect(service.verifyOtp('+1234567890', '123456')).rejects.toThrow('OTP has expired');
+      await expect(service.verifyOtp('+1234567890', '123456')).rejects.toThrow(
+        'OTP has expired',
+      );
     });
 
     it('should throw BadRequestException if OTP is incorrect and lock if attempts exceed', async () => {
@@ -125,18 +142,27 @@ describe('AuthService', () => {
       redis.get.mockResolvedValue('654321');
       redis.incr.mockResolvedValue(5);
 
-      await expect(service.verifyOtp('+1234567890', '123456')).rejects.toThrow('Too many failed attempts');
-      expect(redis.set).toHaveBeenCalledWith('otp:lockout:+1234567890', '1', 900);
+      await expect(service.verifyOtp('+1234567890', '123456')).rejects.toThrow(
+        'Too many failed attempts',
+      );
+      expect(redis.set).toHaveBeenCalledWith(
+        'otp:lockout:+1234567890',
+        '1',
+        900,
+      );
     });
 
     it('should verify OTP successfully and create a new user if not exists', async () => {
       redis.exists.mockResolvedValue(0);
       redis.get.mockResolvedValue('123456');
       prisma.user.findUnique.mockResolvedValue(null);
-      prisma.user.create.mockResolvedValue({ id: 'user-1', role: 'WORKER' } as any);
+      prisma.user.create.mockResolvedValue({
+        id: 'user-1',
+        role: 'WORKER',
+      } as any);
 
       const result = await service.verifyOtp('+1234567890', '123456');
-      
+
       expect(result.isNewUser).toBe(true);
       expect(result.accessToken).toBe('test-jwt-token');
       expect(redis.del).toHaveBeenCalledWith('otp:+1234567890');
@@ -145,10 +171,13 @@ describe('AuthService', () => {
     it('should verify OTP successfully for existing user', async () => {
       redis.exists.mockResolvedValue(0);
       redis.get.mockResolvedValue('123456');
-      prisma.user.findUnique.mockResolvedValue({ id: 'user-1', role: 'WORKER' } as any);
+      prisma.user.findUnique.mockResolvedValue({
+        id: 'user-1',
+        role: 'WORKER',
+      } as any);
 
       const result = await service.verifyOtp('+1234567890', '123456');
-      
+
       expect(result.isNewUser).toBe(false);
       expect(result.accessToken).toBe('test-jwt-token');
     });
@@ -157,15 +186,28 @@ describe('AuthService', () => {
   describe('registerWithEmail', () => {
     it('should throw ConflictException if user already exists', async () => {
       prisma.user.findUnique.mockResolvedValue({ id: '1' } as any);
-      await expect(service.registerWithEmail({ email: 'test@test.com', password: 'pass', role: 'WORKER' } as any)).rejects.toThrow(ConflictException);
+      await expect(
+        service.registerWithEmail({
+          email: 'test@test.com',
+          password: 'pass',
+          role: 'WORKER',
+        } as any),
+      ).rejects.toThrow(ConflictException);
     });
 
     it('should register successfully', async () => {
       prisma.user.findUnique.mockResolvedValue(null);
       (bcrypt.hash as jest.Mock).mockResolvedValue('hashed-pw');
-      prisma.user.create.mockResolvedValue({ id: 'user-1', role: 'WORKER' } as any);
+      prisma.user.create.mockResolvedValue({
+        id: 'user-1',
+        role: 'WORKER',
+      } as any);
 
-      const result = await service.registerWithEmail({ email: 'test@test.com', password: 'pass', role: 'WORKER' } as any);
+      const result = await service.registerWithEmail({
+        email: 'test@test.com',
+        password: 'pass',
+        role: 'WORKER',
+      } as any);
       expect(result.accessToken).toBe('test-jwt-token');
     });
   });
@@ -173,33 +215,61 @@ describe('AuthService', () => {
   describe('loginWithEmail', () => {
     it('should throw UnauthorizedException for non-existent user', async () => {
       prisma.user.findUnique.mockResolvedValue(null);
-      await expect(service.loginWithEmail('test@test.com', 'pass', {} as any, {} as any)).rejects.toThrow(UnauthorizedException);
+      await expect(
+        service.loginWithEmail('test@test.com', 'pass', {} as any, {} as any),
+      ).rejects.toThrow(UnauthorizedException);
     });
 
     it('should throw UnauthorizedException for wrong password', async () => {
-      prisma.user.findUnique.mockResolvedValue({ id: '1', passwordHash: 'hash' } as any);
+      prisma.user.findUnique.mockResolvedValue({
+        id: '1',
+        passwordHash: 'hash',
+      } as any);
       (bcrypt.compare as jest.Mock).mockResolvedValue(false);
-      await expect(service.loginWithEmail('test@test.com', 'pass', {} as any, {} as any)).rejects.toThrow(UnauthorizedException);
+      await expect(
+        service.loginWithEmail('test@test.com', 'pass', {} as any, {} as any),
+      ).rejects.toThrow(UnauthorizedException);
     });
 
     it('should login successfully', async () => {
-      prisma.user.findUnique.mockResolvedValue({ id: '1', passwordHash: 'hash', role: 'WORKER' } as any);
+      prisma.user.findUnique.mockResolvedValue({
+        id: '1',
+        passwordHash: 'hash',
+        role: 'WORKER',
+      } as any);
       (bcrypt.compare as jest.Mock).mockResolvedValue(true);
-      const result = await service.loginWithEmail('test@test.com', 'pass', {} as any, {} as any);
+      const result = await service.loginWithEmail(
+        'test@test.com',
+        'pass',
+        {} as any,
+        {} as any,
+      );
       expect(result.accessToken).toBe('test-jwt-token');
     });
   });
 
   describe('refreshTokens', () => {
     it('should throw UnauthorizedException if token invalid', async () => {
-      jwt.verify.mockImplementation(() => { throw new Error('invalid token'); });
-      await expect(service.refreshTokens('bad-token')).rejects.toThrow(UnauthorizedException);
+      jwt.verify.mockImplementation(() => {
+        throw new Error('invalid token');
+      });
+      await expect(service.refreshTokens('bad-token')).rejects.toThrow(
+        UnauthorizedException,
+      );
     });
 
     it('should refresh token successfully', async () => {
       jwt.verify.mockReturnValue({ sessionId: 'sess-1' });
-      prisma.session.findFirst.mockResolvedValue({ userId: 'user-1', isRevoked: false, expiresAt: new Date(Date.now() + 10000), user: { id: 'user-1', status: 'ACTIVE' } });
-      prisma.user.findUnique.mockResolvedValue({ id: 'user-1', role: 'WORKER' } as any);
+      prisma.session.findFirst.mockResolvedValue({
+        userId: 'user-1',
+        isRevoked: false,
+        expiresAt: new Date(Date.now() + 10000),
+        user: { id: 'user-1', status: 'ACTIVE' },
+      });
+      prisma.user.findUnique.mockResolvedValue({
+        id: 'user-1',
+        role: 'WORKER',
+      } as any);
 
       const result = await service.refreshTokens('test-refresh-token');
       expect(result.accessToken).toBe('test-jwt-token');

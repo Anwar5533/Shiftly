@@ -1,4 +1,12 @@
-import { Controller, Post, Get, Patch, Body, Param, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Patch,
+  Body,
+  Param,
+  UseGuards,
+} from '@nestjs/common';
 import { ApplicationsService } from './applications.service';
 import { CreateApplicationDto } from './dto/create-application.dto';
 import { UpdateApplicationStatusDto } from './dto/update-application-status.dto';
@@ -50,6 +58,10 @@ export class ApplicationsController {
     @Param('id') applicationId: string,
     @Body() updateDto: UpdateApplicationStatusDto,
   ) {
-    return this.applicationsService.updateApplicationStatus(userId, applicationId, updateDto);
+    return this.applicationsService.updateApplicationStatus(
+      userId,
+      applicationId,
+      updateDto,
+    );
   }
 }

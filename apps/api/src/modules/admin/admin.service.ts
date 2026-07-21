@@ -9,16 +9,18 @@ export class AdminService {
   async getDashboardStats() {
     const [activeUsers, jobsProcessed, pendingKyc] = await Promise.all([
       this.prisma.user.count({ where: { status: 'ACTIVE' } }),
-      this.prisma.job.count({ where: { status: { in: [JobStatus.PUBLISHED, JobStatus.ARCHIVED] } } }),
+      this.prisma.job.count({
+        where: { status: { in: [JobStatus.PUBLISHED, JobStatus.ARCHIVED] } },
+      }),
       // Simulate pending KYC count for now until we have a KYC module
-      Promise.resolve(Math.floor(Math.random() * 20) + 5)
+      Promise.resolve(Math.floor(Math.random() * 20) + 5),
     ]);
 
     return {
       activeUsers,
       jobsProcessed,
       pendingKyc,
-      isApiHealthy: true
+      isApiHealthy: true,
     };
   }
 }

@@ -1,5 +1,16 @@
 import React, { useState } from 'react';
-import { Mail, Calendar, Star, MoreVertical, FileText, X, MessageSquare, Clock, User } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import {
+  Mail,
+  Calendar,
+  Star,
+  MoreVertical,
+  FileText,
+  X,
+  MessageSquare,
+  Clock,
+  User,
+} from 'lucide-react';
 
 interface Applicant {
   id: number;
@@ -21,19 +32,60 @@ export default function ApplicantsPage(): React.ReactElement {
   const [scheduleTime, setScheduleTime] = useState('');
 
   const applicants: Applicant[] = [
-    { id: 1, name: 'Michael Chen', role: 'Senior Frontend Developer', applied: '2 hours ago', stage: 'Interview', matchScore: 94, avatar: 'M', email: 'michael.chen@example.com' },
-    { id: 2, name: 'Sarah Jenkins', role: 'Warehouse Manager', applied: '1 day ago', stage: 'Screening', matchScore: 88, avatar: 'S', email: 'sarah.j@example.com' },
-    { id: 3, name: 'David Rodriguez', role: 'Senior Frontend Developer', applied: '2 days ago', stage: 'Offer', matchScore: 97, avatar: 'D', email: 'd.rodriguez@example.com' },
-    { id: 4, name: 'Emily Watson', role: 'Delivery Driver', applied: '3 days ago', stage: 'Rejected', matchScore: 45, avatar: 'E', email: 'emily.watson@example.com' },
+    {
+      id: 1,
+      name: 'Michael Chen',
+      role: 'Senior Frontend Developer',
+      applied: '2 hours ago',
+      stage: 'Interview',
+      matchScore: 94,
+      avatar: 'M',
+      email: 'michael.chen@example.com',
+    },
+    {
+      id: 2,
+      name: 'Sarah Jenkins',
+      role: 'Warehouse Manager',
+      applied: '1 day ago',
+      stage: 'Screening',
+      matchScore: 88,
+      avatar: 'S',
+      email: 'sarah.j@example.com',
+    },
+    {
+      id: 3,
+      name: 'David Rodriguez',
+      role: 'Senior Frontend Developer',
+      applied: '2 days ago',
+      stage: 'Offer',
+      matchScore: 97,
+      avatar: 'D',
+      email: 'd.rodriguez@example.com',
+    },
+    {
+      id: 4,
+      name: 'Emily Watson',
+      role: 'Delivery Driver',
+      applied: '3 days ago',
+      stage: 'Rejected',
+      matchScore: 45,
+      avatar: 'E',
+      email: 'emily.watson@example.com',
+    },
   ];
 
   const getStageColor = (stage: string) => {
     switch (stage) {
-      case 'Screening': return 'bg-blue-500/10 text-blue-500 border-blue-500/20';
-      case 'Interview': return 'bg-purple-500/10 text-purple-500 border-purple-500/20';
-      case 'Offer': return 'bg-green-500/10 text-green-500 border-green-500/20';
-      case 'Rejected': return 'bg-red-500/10 text-red-500 border-red-500/20';
-      default: return 'bg-muted text-muted-foreground border-border';
+      case 'Screening':
+        return 'bg-blue-500/10 text-blue-500 border-blue-500/20';
+      case 'Interview':
+        return 'bg-purple-500/10 text-purple-500 border-purple-500/20';
+      case 'Offer':
+        return 'bg-green-500/10 text-green-500 border-green-500/20';
+      case 'Rejected':
+        return 'bg-red-500/10 text-red-500 border-red-500/20';
+      default:
+        return 'bg-muted text-muted-foreground border-border';
     }
   };
 
@@ -59,67 +111,78 @@ export default function ApplicantsPage(): React.ReactElement {
 
   const handleScheduleInterview = () => {
     if (!scheduleDate || !scheduleTime) return;
-    alert(`Interview scheduled with ${selectedApplicant?.name} on ${scheduleDate} at ${scheduleTime}`);
+    alert(
+      `Interview scheduled with ${selectedApplicant?.name} on ${scheduleDate} at ${scheduleTime}`,
+    );
     closeModal();
   };
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div>
-          <h1 className="text-2xl font-bold text-foreground tracking-tight">Applicants</h1>
-          <p className="text-muted-foreground mt-1">Review and manage candidates across all active jobs.</p>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">Applicants</h1>
+          <p className="mt-1 text-muted-foreground">
+            Review and manage candidates across all active jobs.
+          </p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {applicants.map((app) => (
-          <div key={app.id} className="bg-card border border-border rounded-xl p-5 hover:shadow-md transition-shadow relative group">
+          <div
+            key={app.id}
+            className={`group relative rounded-xl border border-border bg-card p-5 transition-shadow hover:shadow-md ${
+              menuOpen === app.id ? 'z-30' : 'z-10'
+            }`}
+          >
             {/* 3-dots menu */}
-            <div className="absolute top-4 right-4">
+            <div className="absolute right-4 top-4">
               <button
-                className="p-1.5 text-muted-foreground hover:bg-muted rounded-md opacity-0 group-hover:opacity-100 transition-opacity"
+                className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-muted"
                 onClick={() => setMenuOpen(menuOpen === app.id ? null : app.id)}
               >
-                <MoreVertical className="w-5 h-5" />
+                <MoreVertical className="h-5 w-5" />
               </button>
               {menuOpen === app.id && (
-                <div className="absolute right-0 top-8 z-20 bg-card border border-border rounded-lg shadow-lg py-1 w-40">
+                <div className="absolute right-0 top-8 z-20 w-40 rounded-lg border border-border bg-card py-1 shadow-lg">
                   <button
-                    className="w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-muted transition-colors text-foreground"
+                    className="flex w-full items-center gap-2 px-3 py-2 text-sm text-foreground transition-colors hover:bg-muted"
                     onClick={() => openModal(app, 'message')}
                   >
-                    <MessageSquare className="w-4 h-4 text-primary" /> Send Message
+                    <MessageSquare className="h-4 w-4 text-primary" /> Send Message
                   </button>
                   <button
-                    className="w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-muted transition-colors text-foreground"
+                    className="flex w-full items-center gap-2 px-3 py-2 text-sm text-foreground transition-colors hover:bg-muted"
                     onClick={() => openModal(app, 'schedule')}
                   >
-                    <Clock className="w-4 h-4 text-amber-500" /> Schedule Interview
+                    <Clock className="h-4 w-4 text-amber-500" /> Schedule Interview
                   </button>
                   <button
-                    className="w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-muted transition-colors text-foreground"
+                    className="flex w-full items-center gap-2 px-3 py-2 text-sm text-foreground transition-colors hover:bg-muted"
                     onClick={() => openModal(app, 'resume')}
                   >
-                    <FileText className="w-4 h-4 text-blue-500" /> View Resume
+                    <FileText className="h-4 w-4 text-blue-500" /> View Resume
                   </button>
-                  <div className="border-t border-border my-1" />
-                  <button className="w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-muted transition-colors text-red-500">
-                    <User className="w-4 h-4" /> Reject Candidate
+                  <div className="my-1 border-t border-border" />
+                  <button className="flex w-full items-center gap-2 px-3 py-2 text-sm text-red-500 transition-colors hover:bg-muted">
+                    <User className="h-4 w-4" /> Reject Candidate
                   </button>
                 </div>
               )}
             </div>
-            
+
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-lg border border-primary/20 shrink-0">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-primary/20 bg-primary/10 text-lg font-bold text-primary">
                 {app.avatar}
               </div>
               <div>
-                <h3 className="font-semibold text-lg text-foreground">{app.name}</h3>
-                <p className="text-sm text-muted-foreground line-clamp-1">{app.role}</p>
-                <div className="flex items-center gap-2 mt-2">
-                  <span className={`px-2 py-0.5 rounded-full text-xs font-medium border ${getStageColor(app.stage)}`}>
+                <h3 className="text-lg font-semibold text-foreground">{app.name}</h3>
+                <p className="line-clamp-1 text-sm text-muted-foreground">{app.role}</p>
+                <div className="mt-2 flex items-center gap-2">
+                  <span
+                    className={`rounded-full border px-2 py-0.5 text-xs font-medium ${getStageColor(app.stage)}`}
+                  >
                     {app.stage}
                   </span>
                   <span className="text-xs text-muted-foreground">• {app.applied}</span>
@@ -127,36 +190,36 @@ export default function ApplicantsPage(): React.ReactElement {
               </div>
             </div>
 
-            <div className="mt-5 pt-4 border-t border-border/50 grid grid-cols-2 gap-4">
+            <div className="mt-5 grid grid-cols-2 gap-4 border-t border-border/50 pt-4">
               <div className="flex flex-col">
-                <span className="text-xs text-muted-foreground mb-1">Match Score</span>
+                <span className="mb-1 text-xs text-muted-foreground">Match Score</span>
                 <div className="flex items-center gap-1.5 font-medium text-foreground">
-                  <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
+                  <Star className="h-4 w-4 fill-amber-500 text-amber-500" />
                   {app.matchScore}%
                 </div>
               </div>
               <div className="flex flex-col items-end justify-center">
                 <div className="flex items-center gap-2">
                   <button
-                    className="p-2 bg-muted rounded-lg text-muted-foreground hover:text-primary transition-colors"
+                    className="rounded-lg bg-muted p-2 text-muted-foreground transition-colors hover:text-primary"
                     title="Send Message"
                     onClick={() => openModal(app, 'message')}
                   >
-                    <Mail className="w-4 h-4" />
+                    <Mail className="h-4 w-4" />
                   </button>
                   <button
-                    className="p-2 bg-muted rounded-lg text-muted-foreground hover:text-primary transition-colors"
+                    className="rounded-lg bg-muted p-2 text-muted-foreground transition-colors hover:text-primary"
                     title="Schedule Interview"
                     onClick={() => openModal(app, 'schedule')}
                   >
-                    <Calendar className="w-4 h-4" />
+                    <Calendar className="h-4 w-4" />
                   </button>
                   <button
-                    className="p-2 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors"
+                    className="rounded-lg bg-primary/10 p-2 text-primary transition-colors hover:bg-primary/20"
                     title="View Resume"
                     onClick={() => openModal(app, 'resume')}
                   >
-                    <FileText className="w-4 h-4" />
+                    <FileText className="h-4 w-4" />
                   </button>
                 </div>
               </div>
@@ -166,17 +229,20 @@ export default function ApplicantsPage(): React.ReactElement {
       </div>
 
       {/* Modals */}
-      {modalType && selectedApplicant && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-          <div className="bg-card border border-border rounded-2xl shadow-2xl w-full max-w-md">
-            <div className="flex items-center justify-between p-5 border-b border-border">
+      {modalType && selectedApplicant && createPortal(
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+          <div className="w-full max-w-md rounded-2xl border border-border bg-card shadow-2xl">
+            <div className="flex items-center justify-between border-b border-border p-5">
               <h2 className="text-lg font-semibold text-foreground">
                 {modalType === 'message' && `Message ${selectedApplicant.name}`}
                 {modalType === 'schedule' && `Schedule Interview — ${selectedApplicant.name}`}
                 {modalType === 'resume' && `Resume — ${selectedApplicant.name}`}
               </h2>
-              <button onClick={closeModal} className="p-1.5 hover:bg-muted rounded-md text-muted-foreground">
-                <X className="w-5 h-5" />
+              <button
+                onClick={closeModal}
+                className="rounded-md p-1.5 text-muted-foreground hover:bg-muted"
+              >
+                <X className="h-5 w-5" />
               </button>
             </div>
 
@@ -184,26 +250,28 @@ export default function ApplicantsPage(): React.ReactElement {
               {modalType === 'message' && (
                 <div className="space-y-4">
                   <div>
-                    <label className="text-sm font-medium text-foreground block mb-1">To</label>
+                    <label className="mb-1 block text-sm font-medium text-foreground">To</label>
                     <input
-                      className="w-full bg-muted border border-input rounded-lg px-3 py-2 text-sm text-foreground"
+                      className="w-full rounded-lg border border-input bg-muted px-3 py-2 text-sm text-foreground"
                       value={selectedApplicant.email}
                       readOnly
                     />
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-foreground block mb-1">Message</label>
+                    <label className="mb-1 block text-sm font-medium text-foreground">
+                      Message
+                    </label>
                     <textarea
-                      className="w-full bg-background border border-input rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+                      className="w-full resize-none rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                       rows={5}
                       placeholder="Type your message here..."
                       value={messageText}
-                      onChange={e => setMessageText(e.target.value)}
+                      onChange={(e) => setMessageText(e.target.value)}
                     />
                   </div>
                   <button
                     onClick={handleSendMessage}
-                    className="w-full bg-primary text-primary-foreground py-2.5 rounded-lg font-medium hover:bg-primary/90 transition-colors"
+                    className="w-full rounded-lg bg-primary py-2.5 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
                   >
                     Send Message
                   </button>
@@ -213,27 +281,29 @@ export default function ApplicantsPage(): React.ReactElement {
               {modalType === 'schedule' && (
                 <div className="space-y-4">
                   <div>
-                    <label className="text-sm font-medium text-foreground block mb-1">Date</label>
+                    <label className="mb-1 block text-sm font-medium text-foreground">Date</label>
                     <input
                       type="date"
-                      className="w-full bg-background border border-input rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                      className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                       value={scheduleDate}
-                      onChange={e => setScheduleDate(e.target.value)}
+                      onChange={(e) => setScheduleDate(e.target.value)}
                       min={new Date().toISOString().split('T')[0]}
                     />
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-foreground block mb-1">Time</label>
+                    <label className="mb-1 block text-sm font-medium text-foreground">Time</label>
                     <input
                       type="time"
-                      className="w-full bg-background border border-input rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                      className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                       value={scheduleTime}
-                      onChange={e => setScheduleTime(e.target.value)}
+                      onChange={(e) => setScheduleTime(e.target.value)}
                     />
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-foreground block mb-1">Interview Type</label>
-                    <select className="w-full bg-background border border-input rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary">
+                    <label className="mb-1 block text-sm font-medium text-foreground">
+                      Interview Type
+                    </label>
+                    <select className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary">
                       <option>Video Call</option>
                       <option>Phone Call</option>
                       <option>In Person</option>
@@ -241,7 +311,7 @@ export default function ApplicantsPage(): React.ReactElement {
                   </div>
                   <button
                     onClick={handleScheduleInterview}
-                    className="w-full bg-primary text-primary-foreground py-2.5 rounded-lg font-medium hover:bg-primary/90 transition-colors"
+                    className="w-full rounded-lg bg-primary py-2.5 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
                   >
                     Schedule Interview
                   </button>
@@ -250,21 +320,23 @@ export default function ApplicantsPage(): React.ReactElement {
 
               {modalType === 'resume' && (
                 <div className="space-y-4">
-                  <div className="bg-muted/50 border border-border rounded-xl p-8 text-center">
-                    <FileText className="w-16 h-16 text-muted-foreground mx-auto mb-3 opacity-50" />
-                    <p className="text-foreground font-medium">{selectedApplicant.name}_Resume.pdf</p>
-                    <p className="text-sm text-muted-foreground mt-1">PDF Document • 2.4 MB</p>
+                  <div className="rounded-xl border border-border bg-muted/50 p-8 text-center">
+                    <FileText className="mx-auto mb-3 h-16 w-16 text-muted-foreground opacity-50" />
+                    <p className="font-medium text-foreground">
+                      {selectedApplicant.name}_Resume.pdf
+                    </p>
+                    <p className="mt-1 text-sm text-muted-foreground">PDF Document • 2.4 MB</p>
                   </div>
                   <div className="flex gap-3">
                     <button
                       onClick={() => alert('Opening resume preview...')}
-                      className="flex-1 bg-primary/10 text-primary py-2.5 rounded-lg font-medium hover:bg-primary/20 transition-colors"
+                      className="flex-1 rounded-lg bg-primary/10 py-2.5 font-medium text-primary transition-colors hover:bg-primary/20"
                     >
                       Preview
                     </button>
                     <button
                       onClick={() => alert('Downloading resume...')}
-                      className="flex-1 bg-primary text-primary-foreground py-2.5 rounded-lg font-medium hover:bg-primary/90 transition-colors"
+                      className="flex-1 rounded-lg bg-primary py-2.5 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
                     >
                       Download
                     </button>
@@ -274,7 +346,7 @@ export default function ApplicantsPage(): React.ReactElement {
             </div>
           </div>
         </div>
-      )}
+      , document.body)}
 
       {/* Backdrop click to close menu */}
       {menuOpen !== null && (

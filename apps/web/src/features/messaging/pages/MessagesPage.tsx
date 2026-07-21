@@ -47,18 +47,18 @@ export default function MessagesPage(): React.ReactElement {
       setMessages(data);
     };
     fetchMessages();
-    
+
     if (socket) {
       socket.emit('joinConversation', activeConvId);
       const handleNewMessage = (message: Message) => {
         if (message.conversationId === activeConvId) {
-          setMessages(prev => {
-            if (prev.some(m => m.id === message.id)) return prev;
+          setMessages((prev) => {
+            if (prev.some((m) => m.id === message.id)) return prev;
             return [...prev, message];
           });
-          setConversations(prev => {
+          setConversations((prev) => {
             const convs = [...prev];
-            const idx = convs.findIndex(c => c.id === activeConvId);
+            const idx = convs.findIndex((c) => c.id === activeConvId);
             if (idx !== -1) {
               // Update last message in conversation list
               // (Since we don't have lastMessage on the real Conversation type yet without extra mapping,
@@ -84,11 +84,11 @@ export default function MessagesPage(): React.ReactElement {
     e.preventDefault();
     const content = newMessage.trim();
     if (!content || !activeConvId || isSendingRef.current || !socket || !user) return;
-    
+
     isSendingRef.current = true;
     setIsSending(true);
     setNewMessage('');
-    
+
     try {
       socket.emit('sendMessage', {
         conversationId: activeConvId,
@@ -101,119 +101,154 @@ export default function MessagesPage(): React.ReactElement {
     }
   };
 
-  const activeConv = conversations.find(c => c.id === activeConvId);
+  const activeConv = conversations.find((c) => c.id === activeConvId);
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center py-20 h-[calc(100vh-120px)]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      <div className="flex h-[calc(100vh-120px)] items-center justify-center py-20">
+        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-primary"></div>
       </div>
     );
   }
 
   return (
-    <div className="bg-card border border-border rounded-2xl shadow-sm overflow-hidden flex h-[calc(100vh-140px)] max-h-[800px]">
-      
+    <div className="flex h-[calc(100vh-140px)] max-h-[800px] overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
       {/* Conversations List (Left Pane) */}
-      <div className="w-full md:w-80 lg:w-96 border-r border-border flex flex-col bg-background/50">
-        <div className="p-4 border-b border-border bg-card">
-          <h2 className="text-xl font-bold text-foreground mb-4">Messages</h2>
+      <div className="flex w-full flex-col border-r border-border bg-background/50 md:w-80 lg:w-96">
+        <div className="border-b border-border bg-card p-4">
+          <h2 className="mb-4 text-xl font-bold text-foreground">Messages</h2>
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <input 
-              type="text" 
-              placeholder="Search messages..." 
-              className="w-full pl-9 pr-4 py-2 bg-muted border border-input rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="Search messages..."
+              className="w-full rounded-lg border border-input bg-muted py-2 pl-9 pr-4 text-sm transition-all focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
         </div>
-        
+
         <div className="flex-1 overflow-y-auto">
-          {conversations.map(conv => {
-            const otherParticipant = conv.participants?.find(p => p.userId !== user?.sub)?.user;
-            const title = otherParticipant?.workerProfile 
-                ? `${otherParticipant.workerProfile.firstName} ${otherParticipant.workerProfile.lastName}`
-                : otherParticipant?.employerProfile 
-                  ? otherParticipant.employerProfile.companyName 
-                  : otherParticipant?.email || 'Unknown';
+          {conversations.map((conv) => {
+            const otherParticipant = conv.participants?.find((p) => p.userId !== user?.sub)?.user;
+            const title = otherParticipant?.workerProfile
+              ? `${otherParticipant.workerProfile.firstName} ${otherParticipant.workerProfile.lastName}`
+              : otherParticipant?.employerProfile
+                ? otherParticipant.employerProfile.companyName
+                : otherParticipant?.email || 'Unknown';
             return (
-            <button
-              key={conv.id}
-              onClick={() => setActiveConvId(conv.id)}
-              className={`w-full text-left p-4 flex items-center gap-4 transition-colors border-b border-border/50 hover:bg-muted ${
-                activeConvId === conv.id ? 'bg-primary/5 border-l-4 border-l-primary' : 'border-l-4 border-l-transparent'
-              }`}
-            >
-              <div className="relative">
-                <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-lg border border-primary/20">
-                  {title.charAt(0).toUpperCase()}
+              <button
+                key={conv.id}
+                onClick={() => setActiveConvId(conv.id)}
+                className={`flex w-full items-center gap-4 border-b border-border/50 p-4 text-left transition-colors hover:bg-muted ${
+                  activeConvId === conv.id
+                    ? 'border-l-4 border-l-primary bg-primary/5'
+                    : 'border-l-4 border-l-transparent'
+                }`}
+              >
+                <div className="relative">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full border border-primary/20 bg-primary/20 text-lg font-bold text-primary">
+                    {title.charAt(0).toUpperCase()}
+                  </div>
                 </div>
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex justify-between items-baseline mb-1">
-                  <h3 className="font-semibold text-foreground truncate">{title}</h3>
-                  <span className="text-xs text-muted-foreground whitespace-nowrap ml-2">
-                    {new Date(conv.updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </span>
+                <div className="min-w-0 flex-1">
+                  <div className="mb-1 flex items-baseline justify-between">
+                    <h3 className="truncate font-semibold text-foreground">{title}</h3>
+                    <span className="ml-2 whitespace-nowrap text-xs text-muted-foreground">
+                      {new Date(conv.updatedAt).toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
+                    </span>
+                  </div>
+                  <p className="truncate text-sm text-muted-foreground">
+                    {conv.messages?.[0]?.content || 'No messages yet'}
+                  </p>
                 </div>
-                <p className="text-sm truncate text-muted-foreground">
-                  {conv.messages?.[0]?.content || "No messages yet"}
-                </p>
-              </div>
-            </button>
-          )})}
+              </button>
+            );
+          })}
         </div>
       </div>
 
       {/* Chat Area (Right Pane) */}
       {activeConv ? (
-        <div className="hidden md:flex flex-1 flex-col bg-background/30 relative">
-          <div className="p-4 border-b border-border bg-card flex justify-between items-center z-10 shadow-sm">
+        <div className="relative hidden flex-1 flex-col bg-background/30 md:flex">
+          <div className="z-10 flex items-center justify-between border-b border-border bg-card p-4 shadow-sm">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
-                {activeConv.participants?.find(p => p.userId !== user?.sub)?.user?.email?.charAt(0).toUpperCase() || 'U'}
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/20 font-bold text-primary">
+                {activeConv.participants
+                  ?.find((p) => p.userId !== user?.sub)
+                  ?.user?.email?.charAt(0)
+                  .toUpperCase() || 'U'}
               </div>
               <div>
                 <h3 className="font-semibold text-foreground">
-                  {activeConv.participants?.find(p => p.userId !== user?.sub)?.user?.email || 'Unknown User'}
+                  {activeConv.participants?.find((p) => p.userId !== user?.sub)?.user?.email ||
+                    'Unknown User'}
                 </h3>
               </div>
             </div>
             <div className="flex items-center gap-2 text-muted-foreground">
-              <button className="p-2 hover:bg-muted hover:text-foreground rounded-full transition-colors"><Phone className="w-5 h-5" /></button>
-              <button className="p-2 hover:bg-muted hover:text-foreground rounded-full transition-colors"><Video className="w-5 h-5" /></button>
-              <button className="p-2 hover:bg-muted hover:text-foreground rounded-full transition-colors"><MoreVertical className="w-5 h-5" /></button>
+              <button className="rounded-full p-2 transition-colors hover:bg-muted hover:text-foreground">
+                <Phone className="h-5 w-5" />
+              </button>
+              <button className="rounded-full p-2 transition-colors hover:bg-muted hover:text-foreground">
+                <Video className="h-5 w-5" />
+              </button>
+              <button className="rounded-full p-2 transition-colors hover:bg-muted hover:text-foreground">
+                <MoreVertical className="h-5 w-5" />
+              </button>
             </div>
           </div>
-          
-          <div className="flex-1 overflow-y-auto p-6 space-y-4 relative">
-            <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at center, var(--foreground) 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
+
+          <div className="relative flex-1 space-y-4 overflow-y-auto p-6">
+            <div
+              className="pointer-events-none absolute inset-0 opacity-[0.03]"
+              style={{
+                backgroundImage:
+                  'radial-gradient(circle at center, var(--foreground) 1px, transparent 1px)',
+                backgroundSize: '24px 24px',
+              }}
+            ></div>
             {messages.map((msg, i) => {
               const isMe = msg.senderId === user?.sub;
-              const showAvatar = i === 0 || messages[i-1].senderId !== msg.senderId;
-              
+              const showAvatar = i === 0 || messages[i - 1].senderId !== msg.senderId;
+
               return (
-                <div key={msg.id} className={`flex ${isMe ? 'justify-end' : 'justify-start'} group`}>
-                  <div className={`flex max-w-[75%] gap-2 ${isMe ? 'flex-row-reverse' : 'flex-row'}`}>
+                <div
+                  key={msg.id}
+                  className={`flex ${isMe ? 'justify-end' : 'justify-start'} group`}
+                >
+                  <div
+                    className={`flex max-w-[75%] gap-2 ${isMe ? 'flex-row-reverse' : 'flex-row'}`}
+                  >
                     {!isMe && showAvatar && (
-                      <div className="w-8 h-8 rounded-full bg-primary/20 flex-shrink-0 flex items-center justify-center text-primary font-bold text-xs self-end mb-1">
-                        {activeConv.participants?.find(p => p.userId !== user?.sub)?.user?.email?.charAt(0).toUpperCase() || 'U'}
+                      <div className="mb-1 flex h-8 w-8 flex-shrink-0 items-center justify-center self-end rounded-full bg-primary/20 text-xs font-bold text-primary">
+                        {activeConv.participants
+                          ?.find((p) => p.userId !== user?.sub)
+                          ?.user?.email?.charAt(0)
+                          .toUpperCase() || 'U'}
                       </div>
                     )}
                     {!isMe && !showAvatar && <div className="w-8 flex-shrink-0"></div>}
-                    
+
                     <div>
-                      <div 
-                        className={`px-4 py-2.5 rounded-2xl relative shadow-sm ${
-                          isMe 
-                            ? 'bg-primary text-primary-foreground rounded-br-sm' 
-                            : 'bg-card border border-border text-foreground rounded-bl-sm'
+                      <div
+                        className={`relative rounded-2xl px-4 py-2.5 shadow-sm ${
+                          isMe
+                            ? 'rounded-br-sm bg-primary text-primary-foreground'
+                            : 'rounded-bl-sm border border-border bg-card text-foreground'
                         }`}
                       >
                         <p className="text-[15px] leading-relaxed">{msg.content}</p>
                       </div>
-                      <span className={`text-[10px] text-muted-foreground mt-1 opacity-0 group-hover:opacity-100 transition-opacity block ${isMe ? 'text-right' : 'text-left'}`}>
-                        {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      <span
+                        className={`mt-1 block text-[10px] text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 ${isMe ? 'text-right' : 'text-left'}`}
+                      >
+                        {new Date(msg.createdAt).toLocaleTimeString([], {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
                       </span>
                     </div>
                   </div>
@@ -222,14 +257,14 @@ export default function MessagesPage(): React.ReactElement {
             })}
             <div ref={messagesEndRef} />
           </div>
-          
-          <div className="p-4 bg-card border-t border-border shadow-[0_-4px_20px_-10px_rgba(0,0,0,0.1)]">
-            <form onSubmit={handleSendMessage} className="flex items-end gap-2 relative">
-              <textarea 
+
+          <div className="border-t border-border bg-card p-4 shadow-[0_-4px_20px_-10px_rgba(0,0,0,0.1)]">
+            <form onSubmit={handleSendMessage} className="relative flex items-end gap-2">
+              <textarea
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 placeholder="Type your message..."
-                className="flex-1 max-h-32 min-h-[48px] bg-muted border border-input rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none leading-relaxed text-foreground"
+                className="max-h-32 min-h-[48px] flex-1 resize-none rounded-xl border border-input bg-muted px-4 py-3 text-sm leading-relaxed text-foreground focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
@@ -237,22 +272,22 @@ export default function MessagesPage(): React.ReactElement {
                   }
                 }}
               />
-              <button 
+              <button
                 type="submit"
                 disabled={!newMessage.trim()}
-                className="h-12 w-12 bg-primary text-primary-foreground rounded-xl flex items-center justify-center hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm shadow-brand flex-shrink-0"
+                className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-brand shadow-sm transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                <Send className="w-5 h-5 ml-1" />
+                <Send className="ml-1 h-5 w-5" />
               </button>
             </form>
           </div>
         </div>
       ) : (
-        <div className="hidden md:flex flex-1 flex-col items-center justify-center bg-background/50 text-muted-foreground">
-          <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
-            <Send className="w-8 h-8 text-muted-foreground/50" />
+        <div className="hidden flex-1 flex-col items-center justify-center bg-background/50 text-muted-foreground md:flex">
+          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted">
+            <Send className="h-8 w-8 text-muted-foreground/50" />
           </div>
-          <p className="font-medium text-lg text-foreground">Your Messages</p>
+          <p className="text-lg font-medium text-foreground">Your Messages</p>
           <p className="text-sm">Select a conversation to start chatting</p>
         </div>
       )}

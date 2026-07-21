@@ -81,25 +81,25 @@ export default function LoginPage(): React.ReactElement {
   };
 
   const serverError =
-    (sendOtpMutation.error as { response?: { data?: { error?: { message?: string } } } })?.response?.data?.error?.message ??
-    (loginEmailMutation.error as { response?: { data?: { error?: { message?: string } } } })?.response?.data?.error?.message;
+    (sendOtpMutation.error as { response?: { data?: { error?: { message?: string } } } })?.response
+      ?.data?.error?.message ??
+    (loginEmailMutation.error as { response?: { data?: { error?: { message?: string } } } })
+      ?.response?.data?.error?.message;
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="space-y-2">
         <h1 className="text-2xl font-bold tracking-tight text-foreground">Welcome back</h1>
-        <p className="text-muted-foreground text-sm">
-          Sign in to continue to SHIFTLY
-        </p>
+        <p className="text-sm text-muted-foreground">Sign in to continue to SHIFTLY</p>
       </div>
 
       {/* Mode Toggle */}
-      <div className="flex rounded-lg border border-border p-1 gap-1 bg-muted/50">
+      <div className="flex gap-1 rounded-lg border border-border bg-muted/50 p-1">
         <button
           type="button"
           onClick={() => setMode('phone')}
-          className={`flex-1 flex items-center justify-center gap-2 rounded-md py-2 text-sm font-medium transition-all duration-200 ${
+          className={`flex flex-1 items-center justify-center gap-2 rounded-md py-2 text-sm font-medium transition-all duration-200 ${
             mode === 'phone'
               ? 'bg-background text-foreground shadow-sm'
               : 'text-muted-foreground hover:text-foreground'
@@ -111,7 +111,7 @@ export default function LoginPage(): React.ReactElement {
         <button
           type="button"
           onClick={() => setMode('email')}
-          className={`flex-1 flex items-center justify-center gap-2 rounded-md py-2 text-sm font-medium transition-all duration-200 ${
+          className={`flex flex-1 items-center justify-center gap-2 rounded-md py-2 text-sm font-medium transition-all duration-200 ${
             mode === 'email'
               ? 'bg-background text-foreground shadow-sm'
               : 'text-muted-foreground hover:text-foreground'
@@ -141,14 +141,14 @@ export default function LoginPage(): React.ReactElement {
                 Phone number
               </label>
               <div className="relative">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Phone className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <input
                   id="phone"
                   type="tel"
                   autoComplete="tel"
                   autoFocus
                   placeholder="+91 98765 43210"
-                  className="input-glow w-full rounded-lg border border-input bg-background pl-10 pr-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-ring focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                  className="input-glow w-full rounded-lg border border-input bg-background py-2.5 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:border-ring focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                   {...phoneForm.register('phone')}
                 />
               </div>
@@ -160,7 +160,7 @@ export default function LoginPage(): React.ReactElement {
             </div>
 
             {serverError && mode === 'phone' && (
-              <div className="rounded-lg bg-destructive/10 border border-destructive/20 px-4 py-3">
+              <div className="rounded-lg border border-destructive/20 bg-destructive/10 px-4 py-3">
                 <p className="text-sm text-destructive">{serverError}</p>
               </div>
             )}
@@ -168,7 +168,7 @@ export default function LoginPage(): React.ReactElement {
             <button
               type="submit"
               disabled={sendOtpMutation.isPending}
-              className="w-full flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-brand transition-all hover:bg-primary/90 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+              className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-brand transition-all hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-lg active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"
             >
               {sendOtpMutation.isPending ? (
                 <>
@@ -183,7 +183,7 @@ export default function LoginPage(): React.ReactElement {
               )}
             </button>
 
-            <p className="text-xs text-center text-muted-foreground">
+            <p className="text-center text-xs text-muted-foreground">
               We'll send a 6-digit code to verify your number
             </p>
           </motion.form>
@@ -204,14 +204,14 @@ export default function LoginPage(): React.ReactElement {
                 Email address
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <input
                   id="email"
                   type="email"
                   autoComplete="email"
                   autoFocus
                   placeholder="name@company.com"
-                  className="input-glow w-full rounded-lg border border-input bg-background pl-10 pr-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-ring focus:outline-none"
+                  className="input-glow w-full rounded-lg border border-input bg-background py-2.5 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:border-ring focus:outline-none"
                   {...emailForm.register('email')}
                 />
               </div>
@@ -229,7 +229,7 @@ export default function LoginPage(): React.ReactElement {
                 </label>
                 <button
                   type="button"
-                  className="text-xs text-primary hover:text-primary/80 transition-colors"
+                  className="text-xs text-primary transition-colors hover:text-primary/80"
                 >
                   Forgot password?
                 </button>
@@ -240,13 +240,13 @@ export default function LoginPage(): React.ReactElement {
                   type={showPassword ? 'text' : 'password'}
                   autoComplete="current-password"
                   placeholder="••••••••"
-                  className="input-glow w-full rounded-lg border border-input bg-background px-4 pr-10 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-ring focus:outline-none"
+                  className="input-glow w-full rounded-lg border border-input bg-background px-4 py-2.5 pr-10 text-sm text-foreground placeholder:text-muted-foreground focus:border-ring focus:outline-none"
                   {...emailForm.register('password')}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -260,7 +260,7 @@ export default function LoginPage(): React.ReactElement {
             </div>
 
             {serverError && mode === 'email' && (
-              <div className="rounded-lg bg-destructive/10 border border-destructive/20 px-4 py-3">
+              <div className="rounded-lg border border-destructive/20 bg-destructive/10 px-4 py-3">
                 <p className="text-sm text-destructive">{serverError}</p>
               </div>
             )}
@@ -268,7 +268,7 @@ export default function LoginPage(): React.ReactElement {
             <button
               type="submit"
               disabled={loginEmailMutation.isPending}
-              className="w-full flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-brand transition-all hover:bg-primary/90 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-brand transition-all hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-lg active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {loginEmailMutation.isPending ? (
                 <>
@@ -299,7 +299,7 @@ export default function LoginPage(): React.ReactElement {
       {/* Register link */}
       <Link
         to="/register"
-        className="flex items-center justify-center w-full rounded-lg border border-input bg-background px-4 py-2.5 text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+        className="flex w-full items-center justify-center rounded-lg border border-input bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
       >
         Create an account
       </Link>

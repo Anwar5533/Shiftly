@@ -23,10 +23,7 @@ describe('WalletService', () => {
     };
 
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        WalletService,
-        { provide: PrismaService, useValue: prisma },
-      ],
+      providers: [WalletService, { provide: PrismaService, useValue: prisma }],
     }).compile();
 
     service = module.get<WalletService>(WalletService);
@@ -35,7 +32,10 @@ describe('WalletService', () => {
   describe('getBalance', () => {
     it('should create wallet if not found', async () => {
       prisma.wallet.findUnique.mockResolvedValue(null);
-      prisma.wallet.create.mockResolvedValue({ id: 'wallet-1', balance: new Decimal(0) });
+      prisma.wallet.create.mockResolvedValue({
+        id: 'wallet-1',
+        balance: new Decimal(0),
+      });
 
       const result = await service.getBalance('user-1');
       expect(prisma.wallet.create).toHaveBeenCalled();
@@ -43,7 +43,10 @@ describe('WalletService', () => {
     });
 
     it('should return existing wallet', async () => {
-      prisma.wallet.findUnique.mockResolvedValue({ id: 'wallet-1', balance: new Decimal(100) });
+      prisma.wallet.findUnique.mockResolvedValue({
+        id: 'wallet-1',
+        balance: new Decimal(100),
+      });
 
       const result = await service.getBalance('user-1');
       expect(prisma.wallet.create).not.toHaveBeenCalled();
@@ -61,14 +64,25 @@ describe('WalletService', () => {
 
   describe('topup', () => {
     it('should add funds to wallet', async () => {
-      prisma.wallet.findUnique.mockResolvedValue({ id: 'wallet-1', balance: new Decimal(0) });
+      prisma.wallet.findUnique.mockResolvedValue({
+        id: 'wallet-1',
+        balance: new Decimal(0),
+      });
       prisma.transaction.create.mockResolvedValue({ id: 'tx-1' });
-      prisma.wallet.update.mockResolvedValue({ id: 'wallet-1', balance: new Decimal(100) });
+      prisma.wallet.update.mockResolvedValue({
+        id: 'wallet-1',
+        balance: new Decimal(100),
+      });
 
-      const result = await service.topup('user-1', { amount: 100, currency: 'INR' });
-      expect(prisma.transaction.create).toHaveBeenCalledWith(expect.objectContaining({
-        data: expect.objectContaining({ type: TransactionType.TOPUP }),
-      }));
+      const result = await service.topup('user-1', {
+        amount: 100,
+        currency: 'INR',
+      });
+      expect(prisma.transaction.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({ type: TransactionType.TOPUP }),
+        }),
+      );
       expect(prisma.wallet.update).toHaveBeenCalled();
       expect(result.id).toBe('tx-1');
     });
@@ -76,19 +90,35 @@ describe('WalletService', () => {
 
   describe('withdraw', () => {
     it('should throw BadRequestException if insufficient balance', async () => {
-      prisma.wallet.findUnique.mockResolvedValue({ id: 'wallet-1', balance: new Decimal(50) });
-      await expect(service.withdraw('user-1', { amount: 100, bankAccountId: 'bank-1' })).rejects.toThrow(BadRequestException);
+      prisma.wallet.findUnique.mockResolvedValue({
+        id: 'wallet-1',
+        balance: new Decimal(50),
+      });
+      await expect(
+        service.withdraw('user-1', { amount: 100, bankAccountId: 'bank-1' }),
+      ).rejects.toThrow(BadRequestException);
     });
 
     it('should deduct funds and create withdrawal transaction', async () => {
-      prisma.wallet.findUnique.mockResolvedValue({ id: 'wallet-1', balance: new Decimal(200) });
+      prisma.wallet.findUnique.mockResolvedValue({
+        id: 'wallet-1',
+        balance: new Decimal(200),
+      });
       prisma.transaction.create.mockResolvedValue({ id: 'tx-1' });
-      prisma.wallet.update.mockResolvedValue({ id: 'wallet-1', balance: new Decimal(100) });
+      prisma.wallet.update.mockResolvedValue({
+        id: 'wallet-1',
+        balance: new Decimal(100),
+      });
 
-      const result = await service.withdraw('user-1', { amount: 100, bankAccountId: 'bank-1' });
-      expect(prisma.transaction.create).toHaveBeenCalledWith(expect.objectContaining({
-        data: expect.objectContaining({ type: TransactionType.WITHDRAWAL }),
-      }));
+      const result = await service.withdraw('user-1', {
+        amount: 100,
+        bankAccountId: 'bank-1',
+      });
+      expect(prisma.transaction.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({ type: TransactionType.WITHDRAWAL }),
+        }),
+      );
       expect(prisma.wallet.update).toHaveBeenCalled();
       expect(result.id).toBe('tx-1');
     });

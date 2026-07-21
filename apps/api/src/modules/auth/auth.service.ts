@@ -33,7 +33,8 @@ interface OtpVerifyResult extends TokenSet {
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
   private readonly OTP_KEY = (phone: string) => `otp:${phone}`;
-  private readonly OTP_ATTEMPTS_KEY = (phone: string) => `otp:attempts:${phone}`;
+  private readonly OTP_ATTEMPTS_KEY = (phone: string) =>
+    `otp:attempts:${phone}`;
   private readonly LOCKOUT_KEY = (phone: string) => `otp:lockout:${phone}`;
 
   constructor(
@@ -57,7 +58,9 @@ export class AuthService {
 
     // Generate 6-digit OTP (Static '123456' for local development, random otherwise)
     const isDev = process.env.NODE_ENV !== 'production';
-    const otp = isDev ? '123456' : Math.floor(100000 + Math.random() * 900000).toString();
+    const otp = isDev
+      ? '123456'
+      : Math.floor(100000 + Math.random() * 900000).toString();
     const expirySeconds = this.config.get<number>('app.otpExpireSeconds', 300);
 
     // Store OTP in Redis
@@ -78,20 +81,26 @@ export class AuthService {
       message: `Your SHIFTLY verification code is: ${otp}. Valid for 5 minutes. Do not share this code.`,
     });
 
-    this.logger.log(`OTP sent to ${phone.slice(0, 6)}**** (DEV ONLY: OTP is ${otp})`);
+    this.logger.log(
+      `OTP sent to ${phone.slice(0, 6)}**** (DEV ONLY: OTP is ${otp})`,
+    );
   }
 
   async verifyOtp(phone: string, otp: string): Promise<OtpVerifyResult> {
     // Check lockout
     const isLocked = await this.redis.exists(this.LOCKOUT_KEY(phone));
     if (isLocked) {
-      throw new BadRequestException('Account temporarily locked due to too many failed attempts.');
+      throw new BadRequestException(
+        'Account temporarily locked due to too many failed attempts.',
+      );
     }
 
     // Validate OTP from Redis
     const storedOtp = await this.redis.get(this.OTP_KEY(phone));
     if (!storedOtp) {
-      throw new BadRequestException('OTP has expired. Please request a new one.');
+      throw new BadRequestException(
+        'OTP has expired. Please request a new one.',
+      );
     }
 
     if (storedOtp !== otp) {
@@ -136,13 +145,18 @@ export class AuthService {
               plan: 'FREE',
               status: 'ACTIVE',
               currentPeriodStart: new Date(),
-              currentPeriodEnd: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+              currentPeriodEnd: new Date(
+                Date.now() + 365 * 24 * 60 * 60 * 1000,
+              ),
             },
           },
         },
       });
 
-      this.eventEmitter.emit('auth.user-registered', new UserRegisteredEvent(user));
+      this.eventEmitter.emit(
+        'auth.user-registered',
+        new UserRegisteredEvent(user),
+      );
     }
 
     this.validateUserStatus(user);
@@ -182,12 +196,23 @@ export class AuthService {
           },
         },
         ...(dto.role === 'EMPLOYER'
-          ? { employerProfile: { create: { companyName: '', industry: '', location: {} } } }
-          : { recruiterProfile: { create: { firstName: dto.firstName, lastName: dto.lastName } } }),
+          ? {
+              employerProfile: {
+                create: { companyName: '', industry: '', location: {} },
+              },
+            }
+          : {
+              recruiterProfile: {
+                create: { firstName: dto.firstName, lastName: dto.lastName },
+              },
+            }),
       },
     });
 
-    this.eventEmitter.emit('auth.user-registered', new UserRegisteredEvent(user));
+    this.eventEmitter.emit(
+      'auth.user-registered',
+      new UserRegisteredEvent(user),
+    );
 
     return this.generateTokens(user);
   }
@@ -230,7 +255,9 @@ export class AuthService {
         secret: this.config.get<string>('jwt.refreshTokenSecret'),
       });
     } catch {
-      throw new UnauthorizedException('Invalid or expired refresh token. Please log in again.');
+      throw new UnauthorizedException(
+        'Invalid or expired refresh token. Please log in again.',
+      );
     }
 
     // Validate session still exists and not revoked
@@ -264,7 +291,9 @@ export class AuthService {
   // ─── JWT Strategy Validation ───────────────────────────────────────────────
 
   async validateJwtPayload(payload: JwtPayload): Promise<User | null> {
-    const user = await this.prisma.user.findUnique({ where: { id: payload.sub } });
+    const user = await this.prisma.user.findUnique({
+      where: { id: payload.sub },
+    });
     if (!user || user.status === 'DELETED' || user.status === 'SUSPENDED') {
       return null;
     }
@@ -284,7 +313,7 @@ export class AuthService {
     const accessPayload: Omit<JwtPayload, 'iat' | 'exp'> = {
       sub: user.id,
       email: user.email,
-      role: user.role as JwtPayload['role'],
+      role: user.role,
       permissions,
       sessionId: jti,
     };

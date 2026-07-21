@@ -5,7 +5,14 @@ import { PrismaService } from '../../infrastructure/database/prisma.service';
 export class ReviewsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createReview(data: { jobId: string; reviewerId: string; revieweeId: string; targetType: any; rating: number; comment?: string }) {
+  async createReview(data: {
+    jobId: string;
+    reviewerId: string;
+    revieweeId: string;
+    targetType: any;
+    rating: number;
+    comment?: string;
+  }) {
     const { jobId, reviewerId, revieweeId, targetType, rating, comment } = data;
 
     // Optional: check if shift/job is completed
@@ -20,7 +27,9 @@ export class ReviewsService {
     });
 
     if (existingReview) {
-      throw new BadRequestException('Review already exists for this job between these users');
+      throw new BadRequestException(
+        'Review already exists for this job between these users',
+      );
     }
 
     return this.prisma.review.create({
@@ -51,8 +60,8 @@ export class ReviewsService {
           select: {
             id: true,
             title: true,
-          }
-        }
+          },
+        },
       },
       orderBy: { createdAt: 'desc' },
     });

@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+} from '@nestjs/common';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
 import { UpdateWorkerProfileDto } from './dto/update-worker-profile.dto';
 import { AddWorkerSkillDto } from './dto/add-worker-skill.dto';
@@ -41,14 +45,16 @@ export class WorkersService {
       },
       include: {
         skills: {
-          include: { skill: true }
-        }
-      }
+          include: { skill: true },
+        },
+      },
     });
   }
 
   async addSkill(userId: string, skillDto: AddWorkerSkillDto) {
-    const profile = await this.prisma.workerProfile.findUnique({ where: { userId } });
+    const profile = await this.prisma.workerProfile.findUnique({
+      where: { userId },
+    });
     if (!profile) {
       throw new NotFoundException('Worker profile not found');
     }
@@ -92,7 +98,9 @@ export class WorkersService {
   }
 
   async removeSkill(userId: string, skillId: string) {
-    const profile = await this.prisma.workerProfile.findUnique({ where: { userId } });
+    const profile = await this.prisma.workerProfile.findUnique({
+      where: { userId },
+    });
     if (!profile) {
       throw new NotFoundException('Worker profile not found');
     }
@@ -115,9 +123,9 @@ export class WorkersService {
           select: {
             applications: true,
             shifts: true,
-          }
-        }
-      }
+          },
+        },
+      },
     });
 
     if (!profile) {
@@ -138,7 +146,7 @@ export class WorkersService {
   private calculateProfileCompletion(profile: any): number {
     let score = 0;
     const totalFields = 5;
-    
+
     if (profile.firstName && profile.lastName) score += 1;
     if (profile.bio) score += 1;
     if (profile.avatarUrl) score += 1;

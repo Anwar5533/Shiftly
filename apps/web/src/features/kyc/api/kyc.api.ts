@@ -1,12 +1,12 @@
 import api from '@/shared/lib/api';
 
-export type DocumentTypeEnum = 
-  | 'PASSPORT' 
-  | 'NATIONAL_ID' 
-  | 'DRIVERS_LICENSE' 
-  | 'RESIDENCE_PERMIT' 
-  | 'PROOF_OF_ADDRESS' 
-  | 'BUSINESS_REGISTRATION' 
+export type DocumentTypeEnum =
+  | 'PASSPORT'
+  | 'NATIONAL_ID'
+  | 'DRIVERS_LICENSE'
+  | 'RESIDENCE_PERMIT'
+  | 'PROOF_OF_ADDRESS'
+  | 'BUSINESS_REGISTRATION'
   | 'RESUME';
 
 export interface DocumentUploadResponse {
@@ -30,7 +30,7 @@ export const kycApi = {
   uploadDocument: async (file: File): Promise<DocumentUploadResponse> => {
     const formData = new FormData();
     formData.append('file', file);
-    
+
     const response = await api.post<DocumentUploadResponse>('/documents/upload', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',

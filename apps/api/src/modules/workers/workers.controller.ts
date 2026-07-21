@@ -1,4 +1,13 @@
-import { Controller, Get, Patch, Post, Delete, Body, Param, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Patch,
+  Post,
+  Delete,
+  Body,
+  Param,
+  UseGuards,
+} from '@nestjs/common';
 import { WorkersService } from './workers.service';
 import { UpdateWorkerProfileDto } from './dto/update-worker-profile.dto';
 import { AddWorkerSkillDto } from './dto/add-worker-skill.dto';

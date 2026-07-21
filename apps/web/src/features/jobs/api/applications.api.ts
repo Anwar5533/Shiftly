@@ -42,7 +42,10 @@ export const applicationsApi = {
     return response.data.data;
   },
 
-  updateApplicationStatus: async (id: string, statusData: UpdateApplicationStatusData): Promise<JobApplication> => {
+  updateApplicationStatus: async (
+    id: string,
+    statusData: UpdateApplicationStatusData,
+  ): Promise<JobApplication> => {
     const response = await api.patch(`/applications/${id}/status`, statusData);
     return response.data.data;
   },

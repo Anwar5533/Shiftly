@@ -1,4 +1,13 @@
-import { IsString, IsNotEmpty, IsEnum, IsNumber, IsOptional, IsBoolean, IsDateString, IsObject } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsEnum,
+  IsNumber,
+  IsOptional,
+  IsBoolean,
+  IsDateString,
+  IsObject,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 import { JobType, SalaryPeriod } from '@prisma/client';
 

@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from '../../../infrastructure/database/prisma.service';
 import { TopupWalletDto } from '../dto/topup-wallet.dto';
 import { WithdrawFundsDto } from '../dto/withdraw-funds.dto';

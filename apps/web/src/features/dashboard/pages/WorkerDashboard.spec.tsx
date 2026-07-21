@@ -9,25 +9,25 @@ import * as jobsApi from '../../jobs/api/jobs.api';
 vi.mock('../../profile/api/worker.api', () => ({
   workerApi: {
     getDashboardStats: vi.fn(),
-  }
+  },
 }));
 
 vi.mock('../../jobs/api/applications.api', () => ({
   applicationsApi: {
     getMyApplications: vi.fn(),
-  }
+  },
 }));
 
 vi.mock('../../jobs/api/jobs.api', () => ({
   jobsApi: {
     searchJobs: vi.fn(),
-  }
+  },
 }));
 
 vi.mock('../../jobs/api/shifts.api', () => ({
   shiftsApi: {
     getMyShifts: vi.fn(),
-  }
+  },
 }));
 
 import * as shiftsApi from '../../jobs/api/shifts.api';
@@ -38,11 +38,14 @@ describe('WorkerDashboard', () => {
     (workerApi.workerApi.getDashboardStats as any).mockResolvedValue({
       totalEarnings: 1500,
       completedShifts: 10,
-      activeApplications: 2
+      activeApplications: 2,
     });
     (applicationsApi.applicationsApi.getMyApplications as any).mockResolvedValue([]);
     (shiftsApi.shiftsApi.getMyShifts as any).mockResolvedValue([]);
-    (jobsApi.jobsApi.searchJobs as any).mockResolvedValue({ items: [], pagination: { total: 0, page: 1, limit: 10 } });
+    (jobsApi.jobsApi.searchJobs as any).mockResolvedValue({
+      items: [],
+      pagination: { total: 0, page: 1, limit: 10 },
+    });
   });
 
   it('renders without crashing', () => {
@@ -52,7 +55,7 @@ describe('WorkerDashboard', () => {
 
   it('renders stats correctly', async () => {
     customRender(<WorkerDashboard />);
-    
+
     expect(await screen.findByText('₹1500')).toBeInTheDocument();
     expect(await screen.findByText('10')).toBeInTheDocument();
     expect(await screen.findByText('2')).toBeInTheDocument();
@@ -71,14 +74,14 @@ describe('WorkerDashboard', () => {
           employer: { companyName: 'Test Company' },
           startDate: '2023-10-25T09:00:00.000Z',
           startTime: '09:00 AM',
-          endTime: '05:00 PM'
-        }
-      }
+          endTime: '05:00 PM',
+        },
+      },
     ];
     (shiftsApi.shiftsApi.getMyShifts as any).mockResolvedValue(mockShifts);
 
     customRender(<WorkerDashboard />);
-    
+
     expect(await screen.findByText('Test Job Shift')).toBeInTheDocument();
     expect(screen.getByText('Test Company')).toBeInTheDocument();
   });
@@ -94,19 +97,19 @@ describe('WorkerDashboard', () => {
           salaryMax: 15,
           salaryPeriod: 'HOURLY',
           jobType: 'FULL_TIME',
-          location: { city: 'New York' }
-        }
+          location: { city: 'New York' },
+        },
       ],
       pagination: {
         total: 1,
         page: 1,
-        limit: 10
-      }
+        limit: 10,
+      },
     };
     (jobsApi.jobsApi.searchJobs as any).mockResolvedValue(mockJobs);
 
     customRender(<WorkerDashboard />);
-    
+
     expect(await screen.findByText('Warehouse Associate Role')).toBeInTheDocument();
     expect(screen.getByText('₹15/hr')).toBeInTheDocument();
   });

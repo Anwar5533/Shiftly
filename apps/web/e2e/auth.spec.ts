@@ -3,10 +3,10 @@ import { test, expect } from '@playwright/test';
 test.describe('Authentication Flow', () => {
   test('should render login page with phone and email modes', async ({ page }) => {
     await page.goto('/login');
-    
+
     // Expect a title "to contain" a substring.
     await expect(page).toHaveTitle(/Shiftly/i);
-    
+
     // Check that phone and email tabs exist
     await expect(page.locator('text=Phone OTP')).toBeVisible();
     await expect(page.locator('text=Email')).toBeVisible();
@@ -22,9 +22,9 @@ test.describe('Authentication Flow', () => {
 
   test('should navigate to registration page', async ({ page }) => {
     await page.goto('/login');
-    
+
     await page.click('text=Create an account');
-    
+
     await expect(page).toHaveURL(/.*register/);
     await expect(page.locator('h1', { hasText: 'Create an account' })).toBeVisible();
   });

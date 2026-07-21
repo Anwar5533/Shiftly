@@ -41,5 +41,5 @@ export const employerApi = {
   getDashboardStats: async (): Promise<EmployerDashboardStats> => {
     const response = await api.get<ApiResponse<EmployerDashboardStats>>('/employers/dashboard');
     return response.data.data;
-  }
+  },
 };

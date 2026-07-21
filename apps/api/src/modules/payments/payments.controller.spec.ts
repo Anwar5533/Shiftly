@@ -48,29 +48,46 @@ describe('PaymentsController', () => {
 
   describe('topupWallet', () => {
     it('should call topup', async () => {
-      await controller.topupWallet('user-1', { amount: 100, currency: 'INR' } as any);
-      expect(walletService.topup).toHaveBeenCalledWith('user-1', { amount: 100, currency: 'INR' });
+      await controller.topupWallet('user-1', {
+        amount: 100,
+        currency: 'INR',
+      });
+      expect(walletService.topup).toHaveBeenCalledWith('user-1', {
+        amount: 100,
+        currency: 'INR',
+      });
     });
   });
 
   describe('withdrawFunds', () => {
     it('should call withdraw', async () => {
-      await controller.withdrawFunds('user-1', { amount: 100, bankAccountId: 'bank-1' } as any);
-      expect(walletService.withdraw).toHaveBeenCalledWith('user-1', { amount: 100, bankAccountId: 'bank-1' });
+      await controller.withdrawFunds('user-1', {
+        amount: 100,
+        bankAccountId: 'bank-1',
+      });
+      expect(walletService.withdraw).toHaveBeenCalledWith('user-1', {
+        amount: 100,
+        bankAccountId: 'bank-1',
+      });
     });
   });
 
   describe('createEscrow', () => {
     it('should call createEscrow', async () => {
       await controller.createEscrow('emp-1', { amount: 100 } as any);
-      expect(escrowService.createEscrow).toHaveBeenCalledWith('emp-1', { amount: 100 });
+      expect(escrowService.createEscrow).toHaveBeenCalledWith('emp-1', {
+        amount: 100,
+      });
     });
   });
 
   describe('releaseEscrow', () => {
     it('should call releaseEscrow', async () => {
       await controller.releaseEscrow('emp-1', 'escrow-1');
-      expect(escrowService.releaseEscrow).toHaveBeenCalledWith('emp-1', 'escrow-1');
+      expect(escrowService.releaseEscrow).toHaveBeenCalledWith(
+        'emp-1',
+        'escrow-1',
+      );
     });
   });
 });

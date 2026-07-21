@@ -111,13 +111,13 @@ export default function OtpPage(): React.ReactElement {
       <div className="space-y-2">
         <button
           onClick={() => navigate('/login', { replace: true })}
-          className="flex items-center text-xs font-medium text-muted-foreground hover:text-foreground transition-colors mb-4"
+          className="mb-4 flex items-center text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
         >
           <ArrowLeft className="mr-1 h-3 w-3" />
           Back to login
         </button>
         <h1 className="text-2xl font-bold tracking-tight text-foreground">Verify your number</h1>
-        <p className="text-muted-foreground text-sm">
+        <p className="text-sm text-muted-foreground">
           We sent a 6-digit code to <span className="font-semibold text-foreground">{phone}</span>
         </p>
       </div>
@@ -137,7 +137,7 @@ export default function OtpPage(): React.ReactElement {
               onChange={(e) => handleChange(e, index)}
               onKeyDown={(e) => handleKeyDown(e, index)}
               onPaste={handlePaste}
-              className="input-glow w-12 h-14 text-center text-xl font-bold rounded-lg border border-input bg-background text-foreground focus:border-ring focus:outline-none transition-all"
+              className="input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"
               autoFocus={index === 0}
               disabled={verifyOtpMutation.isPending}
             />
@@ -145,7 +145,7 @@ export default function OtpPage(): React.ReactElement {
         </div>
 
         {serverError && (
-          <div className="rounded-lg bg-destructive/10 border border-destructive/20 px-4 py-3">
+          <div className="rounded-lg border border-destructive/20 bg-destructive/10 px-4 py-3">
             <p className="text-sm text-destructive">{serverError}</p>
           </div>
         )}
@@ -153,7 +153,7 @@ export default function OtpPage(): React.ReactElement {
         <button
           type="submit"
           disabled={otp.join('').length !== 6 || verifyOtpMutation.isPending}
-          className="w-full flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-brand transition-all hover:bg-primary/90 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-brand transition-all hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-lg active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"
         >
           {verifyOtpMutation.isPending ? (
             <>
@@ -173,12 +173,12 @@ export default function OtpPage(): React.ReactElement {
       <div className="text-center text-sm">
         <span className="text-muted-foreground">Didn't receive the code? </span>
         {countdown > 0 ? (
-          <span className="text-foreground font-medium">Resend in {countdown}s</span>
+          <span className="font-medium text-foreground">Resend in {countdown}s</span>
         ) : (
           <button
             onClick={() => resendOtpMutation.mutate()}
             disabled={resendOtpMutation.isPending}
-            className="text-primary font-semibold hover:text-primary/80 transition-colors disabled:opacity-50"
+            className="font-semibold text-primary transition-colors hover:text-primary/80 disabled:opacity-50"
           >
             {resendOtpMutation.isPending ? 'Sending...' : 'Resend OTP'}
           </button>

@@ -40,7 +40,7 @@ export class RecruitersService {
         _count: {
           select: {
             jobs: true,
-          }
+          },
         },
         jobs: {
           select: {
@@ -48,18 +48,18 @@ export class RecruitersService {
               select: {
                 applications: true,
                 shifts: true,
-              }
-            }
-          }
-        }
-      }
+              },
+            },
+          },
+        },
+      },
     });
 
     if (!profile) {
       throw new NotFoundException('Recruiter profile not found');
     }
 
-    let activeJobsCount = profile._count.jobs;
+    const activeJobsCount = profile._count.jobs;
     let totalApplications = 0;
     let totalShifts = 0;
 
@@ -84,11 +84,12 @@ export class RecruitersService {
   private calculateProfileCompletion(profile: any): number {
     let score = 0;
     const totalFields = 4;
-    
+
     if (profile.firstName) score += 1;
     if (profile.agencyName) score += 1;
     if (profile.bio) score += 1;
-    if (profile.specialisations && profile.specialisations.length > 0) score += 1;
+    if (profile.specialisations && profile.specialisations.length > 0)
+      score += 1;
 
     return Math.round((score / totalFields) * 100);
   }

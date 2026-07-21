@@ -11,7 +11,7 @@ export default function EmployerProfilePage(): React.ReactElement {
   const [error, setError] = useState<string | null>(null);
 
   const [profile, setProfile] = useState<EmployerProfile | null>(null);
-  
+
   // Form states
   const [companyName, setCompanyName] = useState('');
   const [industry, setIndustry] = useState('');
@@ -88,16 +88,16 @@ export default function EmployerProfilePage(): React.ReactElement {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-[calc(100vh-200px)]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      <div className="flex h-[calc(100vh-200px)] items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-primary"></div>
       </div>
     );
   }
 
   if (error && !profile) {
     return (
-      <div className="max-w-5xl mx-auto py-16 px-4 text-center">
-        <p className="text-destructive font-medium">{error}</p>
+      <div className="mx-auto max-w-5xl px-4 py-16 text-center">
+        <p className="font-medium text-destructive">{error}</p>
       </div>
     );
   }
@@ -105,96 +105,104 @@ export default function EmployerProfilePage(): React.ReactElement {
   if (!profile) return null;
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6">
-      <div className="flex justify-between items-center">
+    <div className="mx-auto max-w-5xl space-y-6">
+      <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-foreground tracking-tight">Company Profile</h1>
-          <p className="text-muted-foreground mt-1">Manage your employer information and branding.</p>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">Company Profile</h1>
+          <p className="mt-1 text-muted-foreground">
+            Manage your employer information and branding.
+          </p>
         </div>
-        <button 
-          onClick={() => isEditing ? handleSave() : setIsEditing(true)}
-          className="px-4 py-2 bg-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-colors shadow-sm"
+        <button
+          onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
+          className="rounded-lg bg-primary px-4 py-2 font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
         >
           {isEditing ? 'Save Changes' : 'Edit Profile'}
         </button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-1 space-y-6">
-          <div className="bg-card border border-border rounded-2xl p-6 shadow-sm flex flex-col items-center text-center">
-            <div className="w-32 h-32 rounded-2xl bg-primary/10 border-4 border-primary/20 flex items-center justify-center mb-4 overflow-hidden relative group">
-              <Building2 className="w-16 h-16 text-primary/60" />
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="space-y-6 lg:col-span-1">
+          <div className="flex flex-col items-center rounded-2xl border border-border bg-card p-6 text-center shadow-sm">
+            <div className="group relative mb-4 flex h-32 w-32 items-center justify-center overflow-hidden rounded-2xl border-4 border-primary/20 bg-primary/10">
+              <Building2 className="h-16 w-16 text-primary/60" />
               {isEditing && (
-                <div className="absolute inset-0 bg-background/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                <div className="absolute inset-0 flex cursor-pointer items-center justify-center bg-background/80 opacity-0 transition-opacity group-hover:opacity-100">
                   <span className="text-sm font-medium text-primary">Upload Logo</span>
                 </div>
               )}
             </div>
-            
+
             {isEditing ? (
-              <div className="space-y-3 w-full">
+              <div className="w-full space-y-3">
                 <input
                   type="text"
                   value={companyName}
                   onChange={(e) => setCompanyName(e.target.value)}
                   placeholder="Company Name"
-                  className="w-full p-2 bg-background border border-input rounded-md text-foreground focus:ring-2 focus:ring-primary focus:outline-none text-center"
+                  className="w-full rounded-md border border-input bg-background p-2 text-center text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                 />
                 <input
                   type="text"
                   value={industry}
                   onChange={(e) => setIndustry(e.target.value)}
                   placeholder="Industry (e.g. Retail)"
-                  className="w-full p-2 bg-background border border-input rounded-md text-foreground focus:ring-2 focus:ring-primary focus:outline-none text-center"
+                  className="w-full rounded-md border border-input bg-background p-2 text-center text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
             ) : (
               <>
                 <h2 className="text-xl font-bold text-foreground">{profile.companyName}</h2>
-                <p className="text-muted-foreground font-medium mb-4">{profile.industry}</p>
+                <p className="mb-4 font-medium text-muted-foreground">{profile.industry}</p>
               </>
             )}
-            
-            <div className="flex gap-4 w-full mt-2">
-              <div className="flex-1 bg-muted p-3 rounded-xl">
+
+            <div className="mt-2 flex w-full gap-4">
+              <div className="flex-1 rounded-xl bg-muted p-3">
                 <p className="text-2xl font-bold text-foreground">{profile.rating || 0}</p>
-                <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider mt-1">Rating</p>
+                <p className="mt-1 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  Rating
+                </p>
               </div>
-              <div className="flex-1 bg-muted p-3 rounded-xl">
+              <div className="flex-1 rounded-xl bg-muted p-3">
                 <p className="text-2xl font-bold text-foreground">{profile.totalReviews || 0}</p>
-                <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider mt-1">Reviews</p>
+                <p className="mt-1 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  Reviews
+                </p>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="lg:col-span-2 space-y-6">
-          <div className="bg-card border border-border rounded-2xl p-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-foreground mb-6 flex items-center gap-2">
-              <Building2 className="w-5 h-5 text-primary" />
+        <div className="space-y-6 lg:col-span-2">
+          <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+            <h3 className="mb-6 flex items-center gap-2 text-lg font-semibold text-foreground">
+              <Building2 className="h-5 w-5 text-primary" />
               About Company
             </h3>
             {isEditing ? (
-              <textarea 
-                className="w-full h-32 p-3 bg-background border border-input rounded-md text-foreground focus:ring-2 focus:ring-primary focus:outline-none resize-none"
+              <textarea
+                className="h-32 w-full resize-none rounded-md border border-input bg-background p-3 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                 value={description}
-                onChange={e => setDescription(e.target.value)}
+                onChange={(e) => setDescription(e.target.value)}
                 placeholder="Describe your company..."
               />
             ) : (
-              <p className="text-muted-foreground leading-relaxed">{profile.description || 'No company description provided.'}</p>
+              <p className="leading-relaxed text-muted-foreground">
+                {profile.description || 'No company description provided.'}
+              </p>
             )}
           </div>
 
-          <div className="bg-card border border-border rounded-2xl p-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-foreground mb-6 flex items-center gap-2">
-              <Building2 className="w-5 h-5 text-primary" />
+          <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+            <h3 className="mb-6 flex items-center gap-2 text-lg font-semibold text-foreground">
+              <Building2 className="h-5 w-5 text-primary" />
               Company Details
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center shrink-0">
-                  <Star className="w-4 h-4 text-muted-foreground" />
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-muted">
+                  <Star className="h-4 w-4 text-muted-foreground" />
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-medium text-muted-foreground">Website</p>
@@ -204,37 +212,37 @@ export default function EmployerProfilePage(): React.ReactElement {
                       value={website}
                       onChange={(e) => setWebsite(e.target.value)}
                       placeholder="https://..."
-                      className="mt-1 w-full p-2 bg-background border border-input rounded-md text-foreground focus:ring-2 focus:ring-primary focus:outline-none"
+                      className="mt-1 w-full rounded-md border border-input bg-background p-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                   ) : (
                     <p className="text-foreground">{website || 'Not provided'}</p>
                   )}
                 </div>
               </div>
-              
+
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center shrink-0">
-                  <MapPin className="w-4 h-4 text-muted-foreground" />
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-muted">
+                  <MapPin className="h-4 w-4 text-muted-foreground" />
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-medium text-muted-foreground">Headquarters</p>
                   {isEditing ? (
-                    <input 
-                      type="text" 
-                      value={locationCity} 
-                      onChange={e => setLocationCity(e.target.value)}
+                    <input
+                      type="text"
+                      value={locationCity}
+                      onChange={(e) => setLocationCity(e.target.value)}
                       placeholder="City"
-                      className="mt-1 w-full p-2 bg-background border border-input rounded-md text-foreground focus:ring-2 focus:ring-primary focus:outline-none" 
+                      className="mt-1 w-full rounded-md border border-input bg-background p-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                   ) : (
                     <p className="text-foreground">{profile.location?.city || 'No location set'}</p>
                   )}
                 </div>
               </div>
-              
+
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center shrink-0">
-                  <Star className="w-4 h-4 text-muted-foreground" />
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-muted">
+                  <Star className="h-4 w-4 text-muted-foreground" />
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-medium text-muted-foreground">Contact Email</p>
@@ -243,8 +251,8 @@ export default function EmployerProfilePage(): React.ReactElement {
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center shrink-0">
-                  <Users className="w-4 h-4 text-muted-foreground" />
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-muted">
+                  <Users className="h-4 w-4 text-muted-foreground" />
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-medium text-muted-foreground">Company Size</p>
@@ -254,24 +262,28 @@ export default function EmployerProfilePage(): React.ReactElement {
             </div>
           </div>
 
-          <div className="bg-card border border-border rounded-2xl p-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-foreground mb-6 flex items-center gap-2">
-              <Building2 className="w-5 h-5 text-primary" />
+          <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+            <h3 className="mb-6 flex items-center gap-2 text-lg font-semibold text-foreground">
+              <Building2 className="h-5 w-5 text-primary" />
               Departments
             </h3>
             <div className="flex flex-wrap gap-2">
               {(profile as any).departments && (profile as any).departments.length > 0 ? (
                 (profile as any).departments.map((dept: any) => (
-                  <div key={dept.id} className="p-4 border border-border rounded-xl">
+                  <div key={dept.id} className="rounded-xl border border-border p-4">
                     {dept.name}
-                    {isEditing && <button className="text-muted-foreground hover:text-destructive">&times;</button>}
+                    {isEditing && (
+                      <button className="text-muted-foreground hover:text-destructive">
+                        &times;
+                      </button>
+                    )}
                   </div>
                 ))
               ) : (
                 <span className="text-sm text-muted-foreground">No departments added yet.</span>
               )}
               {isEditing && (
-                <button 
+                <button
                   onClick={async () => {
                     const name = prompt('Enter department name:');
                     if (name) {
@@ -285,7 +297,7 @@ export default function EmployerProfilePage(): React.ReactElement {
                       }
                     }
                   }}
-                  className="px-3 py-1.5 bg-background border border-dashed border-input text-muted-foreground hover:text-foreground font-medium rounded-full text-sm transition-colors"
+                  className="rounded-full border border-dashed border-input bg-background px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
                 >
                   + Add Department
                 </button>

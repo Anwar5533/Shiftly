@@ -25,7 +25,9 @@ async function bootstrap(): Promise<void> {
   const config = app.get(ConfigService);
   const port = config.get<number>('app.port', 3001);
   const nodeEnv = config.get<string>('app.nodeEnv', 'development');
-  const corsOrigins = config.get<string[]>('app.corsOrigins', ['http://localhost:5173']);
+  const corsOrigins = config.get<string[]>('app.corsOrigins', [
+    'http://localhost:5173',
+  ]);
 
   // ─── Security ─────────────────────────────────────────────────────────────
   app.use(
@@ -42,7 +44,12 @@ async function bootstrap(): Promise<void> {
     origin: corsOrigins,
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
     credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Request-ID', 'Idempotency-Key'],
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+      'X-Request-ID',
+      'Idempotency-Key',
+    ],
     exposedHeaders: ['X-Request-ID'],
   });
 
@@ -118,8 +125,14 @@ async function bootstrap(): Promise<void> {
 
   // ─── Start Server ─────────────────────────────────────────────────────────
   await app.listen(port, '0.0.0.0');
-  logger.log(`🚀 SHIFTLY API running on http://localhost:${port}/api/v1`, 'Bootstrap');
-  logger.log(`📚 Swagger docs at http://localhost:${port}/api/docs`, 'Bootstrap');
+  logger.log(
+    `🚀 SHIFTLY API running on http://localhost:${port}/api/v1`,
+    'Bootstrap',
+  );
+  logger.log(
+    `📚 Swagger docs at http://localhost:${port}/api/docs`,
+    'Bootstrap',
+  );
   logger.log(`🌍 Environment: ${nodeEnv}`, 'Bootstrap');
 }
 

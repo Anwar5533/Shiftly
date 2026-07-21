@@ -10,7 +10,7 @@ export class SubscriptionsService {
     const subscription = await this.prisma.subscription.findUnique({
       where: { userId },
     });
-    
+
     if (!subscription) {
       // Return a default free plan if none exists
       return {
@@ -19,7 +19,9 @@ export class SubscriptionsService {
         plan: SubscriptionPlan.FREE,
         status: SubscriptionStatus.ACTIVE,
         currentPeriodStart: new Date(),
-        currentPeriodEnd: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
+        currentPeriodEnd: new Date(
+          new Date().setFullYear(new Date().getFullYear() + 1),
+        ),
         stripeSubscriptionId: null,
         stripeCustomerId: null,
       };
@@ -32,9 +34,27 @@ export class SubscriptionsService {
     // In a real app, this would fetch from Stripe or the DB
     // Returning mock data to fulfill frontend UI
     return [
-      { id: 'INV-2026-042', date: 'Jul 01, 2026', amount: '$499.00', status: 'Paid', plan: 'Enterprise Monthly' },
-      { id: 'INV-2026-038', date: 'Jun 01, 2026', amount: '$499.00', status: 'Paid', plan: 'Enterprise Monthly' },
-      { id: 'INV-2026-031', date: 'May 01, 2026', amount: '$499.00', status: 'Paid', plan: 'Enterprise Monthly' },
+      {
+        id: 'INV-2026-042',
+        date: 'Jul 01, 2026',
+        amount: '$499.00',
+        status: 'Paid',
+        plan: 'Enterprise Monthly',
+      },
+      {
+        id: 'INV-2026-038',
+        date: 'Jun 01, 2026',
+        amount: '$499.00',
+        status: 'Paid',
+        plan: 'Enterprise Monthly',
+      },
+      {
+        id: 'INV-2026-031',
+        date: 'May 01, 2026',
+        amount: '$499.00',
+        status: 'Paid',
+        plan: 'Enterprise Monthly',
+      },
     ];
   }
 
@@ -50,7 +70,9 @@ export class SubscriptionsService {
         plan,
         status: SubscriptionStatus.ACTIVE,
         currentPeriodStart: new Date(),
-        currentPeriodEnd: new Date(new Date().setMonth(new Date().getMonth() + 1)),
+        currentPeriodEnd: new Date(
+          new Date().setMonth(new Date().getMonth() + 1),
+        ),
       },
     });
 

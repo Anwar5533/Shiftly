@@ -29,7 +29,7 @@ import {
   DollarSign,
   ChevronDown,
   CheckCircle,
-  MessageSquare
+  MessageSquare,
 } from 'lucide-react';
 import { setTheme } from '@/shared/store/uiSlice';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -43,12 +43,12 @@ export function DashboardLayout(): React.ReactElement {
   const location = useLocation();
   const { user } = useAppSelector((state) => state.auth);
   const { theme } = useAppSelector((state) => state.ui);
-  
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [activePortal, setActivePortal] = useState<string>(
-    () => localStorage.getItem('activePortal') || user?.role.toLowerCase() || 'worker'
+    () => localStorage.getItem('activePortal') || user?.role.toLowerCase() || 'worker',
   );
 
   const { data: workerProfile } = useQuery({
@@ -116,76 +116,108 @@ export function DashboardLayout(): React.ReactElement {
   };
 
   const baseItems = [
-    { label: 'AI Assistant', path: '/chat', icon: <MessageSquare className="w-5 h-5" /> },
-    { label: 'Profile', path: `/profile/${user?.role.toLowerCase()}/${user?.sub}`, icon: <UserCircle className="w-5 h-5" /> },
-    { label: 'Settings', path: '/settings', icon: <Settings className="w-5 h-5" /> },
+    { label: 'AI Assistant', path: '/chat', icon: <MessageSquare className="h-5 w-5" /> },
+    {
+      label: 'Profile',
+      path: `/profile/${user?.role.toLowerCase()}/${user?.sub}`,
+      icon: <UserCircle className="h-5 w-5" />,
+    },
+    { label: 'Settings', path: '/settings', icon: <Settings className="h-5 w-5" /> },
   ];
 
   let navItems = [];
   switch (activePortal) {
     case 'employer':
       navItems = [
-        { label: 'Dashboard', path: '/dashboard/employer', icon: <Briefcase className="w-5 h-5" /> },
-        { label: 'Post a Job', path: '/jobs/post', icon: <PlusCircle className="w-5 h-5" /> },
-        { label: 'Manage Jobs', path: '/jobs/manage', icon: <FileText className="w-5 h-5" /> },
-        { label: 'Applicants', path: '/applicants', icon: <Users className="w-5 h-5" /> },
-        { label: 'Timesheet Approvals', path: '/timesheet-approvals', icon: <CheckCircle className="w-5 h-5" /> },
-        { label: 'Billing', path: '/billing', icon: <CreditCard className="w-5 h-5" /> },
-        ...baseItems
+        {
+          label: 'Dashboard',
+          path: '/dashboard/employer',
+          icon: <Briefcase className="h-5 w-5" />,
+        },
+        { label: 'Post a Job', path: '/jobs/post', icon: <PlusCircle className="h-5 w-5" /> },
+        { label: 'Manage Jobs', path: '/jobs/manage', icon: <FileText className="h-5 w-5" /> },
+        { label: 'Applicants', path: '/applicants', icon: <Users className="h-5 w-5" /> },
+        {
+          label: 'Timesheet Approvals',
+          path: '/timesheet-approvals',
+          icon: <CheckCircle className="h-5 w-5" />,
+        },
+        { label: 'Billing', path: '/billing', icon: <CreditCard className="h-5 w-5" /> },
+        ...baseItems,
       ];
       break;
     case 'recruiter':
       navItems = [
-        { label: 'Dashboard', path: '/dashboard/recruiter', icon: <Briefcase className="w-5 h-5" /> },
-        { label: 'Find Candidates', path: '/candidates', icon: <Search className="w-5 h-5" /> },
-        { label: 'Requisitions', path: '/jobs/requisitions', icon: <FileText className="w-5 h-5" /> },
-        { label: 'Timesheet Approvals', path: '/timesheet-approvals', icon: <CheckCircle className="w-5 h-5" /> },
-        { label: 'Wallet', path: '/wallet', icon: <Wallet className="w-5 h-5" /> },
-        ...baseItems
+        {
+          label: 'Dashboard',
+          path: '/dashboard/recruiter',
+          icon: <Briefcase className="h-5 w-5" />,
+        },
+        { label: 'Find Candidates', path: '/candidates', icon: <Search className="h-5 w-5" /> },
+        {
+          label: 'Requisitions',
+          path: '/jobs/requisitions',
+          icon: <FileText className="h-5 w-5" />,
+        },
+        {
+          label: 'Timesheet Approvals',
+          path: '/timesheet-approvals',
+          icon: <CheckCircle className="h-5 w-5" />,
+        },
+        { label: 'Wallet', path: '/wallet', icon: <Wallet className="h-5 w-5" /> },
+        ...baseItems,
       ];
       break;
     case 'admin':
       navItems = [
-        { label: 'Dashboard', path: '/dashboard/admin', icon: <Briefcase className="w-5 h-5" /> },
-        { label: 'User Management', path: '/admin/users', icon: <Users className="w-5 h-5" /> },
-        { label: 'Analytics', path: '/admin/analytics', icon: <BarChart className="w-5 h-5" /> },
-        { label: 'System Logs', path: '/admin/logs', icon: <Activity className="w-5 h-5" /> },
-        { label: 'Financials', path: '/admin/financials', icon: <DollarSign className="w-5 h-5" /> },
-        ...baseItems
+        { label: 'Dashboard', path: '/dashboard/admin', icon: <Briefcase className="h-5 w-5" /> },
+        { label: 'User Management', path: '/admin/users', icon: <Users className="h-5 w-5" /> },
+        { label: 'Analytics', path: '/admin/analytics', icon: <BarChart className="h-5 w-5" /> },
+        { label: 'System Logs', path: '/admin/logs', icon: <Activity className="h-5 w-5" /> },
+        {
+          label: 'Financials',
+          path: '/admin/financials',
+          icon: <DollarSign className="h-5 w-5" />,
+        },
+        ...baseItems,
       ];
       break;
     default:
       navItems = [
-        { label: 'Dashboard', path: '/dashboard/worker', icon: <Briefcase className="w-5 h-5" /> },
-        { label: 'Find Jobs', path: '/jobs', icon: <Search className="w-5 h-5" /> },
-        { label: 'My Applications', path: '/applications/my', icon: <FileText className="w-5 h-5" /> },
-        { label: 'Timesheets', path: '/timesheets', icon: <Clock className="w-5 h-5" /> },
-        { label: 'Wallet', path: '/wallet', icon: <Wallet className="w-5 h-5" /> },
-        ...baseItems
+        { label: 'Dashboard', path: '/dashboard/worker', icon: <Briefcase className="h-5 w-5" /> },
+        { label: 'Find Jobs', path: '/jobs', icon: <Search className="h-5 w-5" /> },
+        {
+          label: 'My Applications',
+          path: '/applications/my',
+          icon: <FileText className="h-5 w-5" />,
+        },
+        { label: 'Timesheets', path: '/timesheets', icon: <Clock className="h-5 w-5" /> },
+        { label: 'Wallet', path: '/wallet', icon: <Wallet className="h-5 w-5" /> },
+        ...baseItems,
       ];
       break;
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex">
+    <div className="flex min-h-screen bg-background text-foreground">
       {/* Sidebar (Desktop) */}
-      <aside className="hidden md:flex flex-col w-64 border-r border-border bg-card">
-        <div className="p-6 flex items-center space-x-3">
-          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-brand">
-            <span className="text-primary-foreground font-bold text-lg">S</span>
+      <aside className="hidden w-64 flex-col border-r border-border bg-card md:flex">
+        <div className="flex items-center space-x-3 p-6">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary shadow-brand">
+            <span className="text-lg font-bold text-primary-foreground">S</span>
           </div>
           <span className="text-xl font-bold tracking-tight">SHIFTLY</span>
         </div>
 
-        <nav className="flex-1 px-4 space-y-1 mt-4">
+        <nav className="mt-4 flex-1 space-y-1 px-4">
           {navItems.map((item) => (
             <NavLink
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
-                `flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-colors ${
+                `flex items-center space-x-3 rounded-lg px-3 py-2.5 transition-colors ${
                   isActive
-                    ? 'bg-primary/10 text-primary font-medium'
+                    ? 'bg-primary/10 font-medium text-primary'
                     : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
                 }`
               }
@@ -196,25 +228,34 @@ export function DashboardLayout(): React.ReactElement {
           ))}
         </nav>
 
-        <div className="p-4 mt-auto">
-          <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50 mb-4">
+        <div className="mt-auto p-4">
+          <div className="mb-4 flex items-center justify-between rounded-lg bg-muted/50 p-3">
             <div className="flex space-x-2">
-              <button onClick={() => dispatch(setTheme('light'))} className={`p-1.5 rounded-md ${theme === 'light' ? 'bg-background shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}>
-                <Sun className="w-4 h-4" />
+              <button
+                onClick={() => dispatch(setTheme('light'))}
+                className={`rounded-md p-1.5 ${theme === 'light' ? 'bg-background shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}
+              >
+                <Sun className="h-4 w-4" />
               </button>
-              <button onClick={() => dispatch(setTheme('dark'))} className={`p-1.5 rounded-md ${theme === 'dark' ? 'bg-background shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}>
-                <Moon className="w-4 h-4" />
+              <button
+                onClick={() => dispatch(setTheme('dark'))}
+                className={`rounded-md p-1.5 ${theme === 'dark' ? 'bg-background shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}
+              >
+                <Moon className="h-4 w-4" />
               </button>
-              <button onClick={() => dispatch(setTheme('system'))} className={`p-1.5 rounded-md ${theme === 'system' ? 'bg-background shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}>
-                <Laptop className="w-4 h-4" />
+              <button
+                onClick={() => dispatch(setTheme('system'))}
+                className={`rounded-md p-1.5 ${theme === 'system' ? 'bg-background shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}
+              >
+                <Laptop className="h-4 w-4" />
               </button>
             </div>
           </div>
           <button
             onClick={handleLogout}
-            className="w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors"
+            className="flex w-full items-center space-x-3 rounded-lg px-3 py-2.5 text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
           >
-            <LogOut className="w-5 h-5" />
+            <LogOut className="h-5 w-5" />
             <span>Sign out</span>
           </button>
         </div>
@@ -224,45 +265,45 @@ export function DashboardLayout(): React.ReactElement {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <>
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 md:hidden" 
+              className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm md:hidden"
             />
-            <motion.div 
+            <motion.div
               initial={{ x: '-100%' }}
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed inset-y-0 left-0 w-64 bg-card border-r border-border shadow-2xl z-50 flex flex-col md:hidden"
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-border bg-card shadow-2xl md:hidden"
             >
-              <div className="p-6 flex items-center justify-between">
+              <div className="flex items-center justify-between p-6">
                 <div className="flex items-center space-x-3">
-                  <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-brand">
-                    <span className="text-primary-foreground font-bold text-lg">S</span>
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary shadow-brand">
+                    <span className="text-lg font-bold text-primary-foreground">S</span>
                   </div>
                   <span className="text-xl font-bold tracking-tight">SHIFTLY</span>
                 </div>
-                <button 
+                <button
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="p-2 -mr-2 text-muted-foreground hover:text-foreground"
+                  className="-mr-2 p-2 text-muted-foreground hover:text-foreground"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="h-5 w-5" />
                 </button>
               </div>
 
-              <nav className="flex-1 px-4 space-y-1 mt-4">
+              <nav className="mt-4 flex-1 space-y-1 px-4">
                 {navItems.map((item) => (
                   <NavLink
                     key={item.path}
                     to={item.path}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={({ isActive }) =>
-                      `flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-colors ${
+                      `flex items-center space-x-3 rounded-lg px-3 py-2.5 transition-colors ${
                         isActive
-                          ? 'bg-primary/10 text-primary font-medium'
+                          ? 'bg-primary/10 font-medium text-primary'
                           : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
                       }`
                     }
@@ -273,25 +314,34 @@ export function DashboardLayout(): React.ReactElement {
                 ))}
               </nav>
 
-              <div className="p-4 mt-auto">
-                <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50 mb-4">
+              <div className="mt-auto p-4">
+                <div className="mb-4 flex items-center justify-between rounded-lg bg-muted/50 p-3">
                   <div className="flex space-x-2">
-                    <button onClick={() => dispatch(setTheme('light'))} className={`p-1.5 rounded-md ${theme === 'light' ? 'bg-background shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}>
-                      <Sun className="w-4 h-4" />
+                    <button
+                      onClick={() => dispatch(setTheme('light'))}
+                      className={`rounded-md p-1.5 ${theme === 'light' ? 'bg-background shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}
+                    >
+                      <Sun className="h-4 w-4" />
                     </button>
-                    <button onClick={() => dispatch(setTheme('dark'))} className={`p-1.5 rounded-md ${theme === 'dark' ? 'bg-background shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}>
-                      <Moon className="w-4 h-4" />
+                    <button
+                      onClick={() => dispatch(setTheme('dark'))}
+                      className={`rounded-md p-1.5 ${theme === 'dark' ? 'bg-background shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}
+                    >
+                      <Moon className="h-4 w-4" />
                     </button>
-                    <button onClick={() => dispatch(setTheme('system'))} className={`p-1.5 rounded-md ${theme === 'system' ? 'bg-background shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}>
-                      <Laptop className="w-4 h-4" />
+                    <button
+                      onClick={() => dispatch(setTheme('system'))}
+                      className={`rounded-md p-1.5 ${theme === 'system' ? 'bg-background shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}
+                    >
+                      <Laptop className="h-4 w-4" />
                     </button>
                   </div>
                 </div>
                 <button
                   onClick={handleLogout}
-                  className="w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors"
+                  className="flex w-full items-center space-x-3 rounded-lg px-3 py-2.5 text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
                 >
-                  <LogOut className="w-5 h-5" />
+                  <LogOut className="h-5 w-5" />
                   <span>Sign out</span>
                 </button>
               </div>
@@ -301,17 +351,17 @@ export function DashboardLayout(): React.ReactElement {
       </AnimatePresence>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col min-w-0">
+      <main className="flex min-w-0 flex-1 flex-col">
         {/* Topbar */}
-        <header className="h-16 border-b border-border bg-card/70 backdrop-blur-md flex items-center justify-between px-4 md:px-8 z-10 sticky top-0">
+        <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b border-border bg-card/70 px-4 backdrop-blur-md md:px-8">
           <div className="flex items-center">
-            <button 
+            <button
               onClick={() => setIsMobileMenuOpen(true)}
-              className="md:hidden p-2 -ml-2 mr-2 text-muted-foreground hover:text-foreground"
+              className="-ml-2 mr-2 p-2 text-muted-foreground hover:text-foreground md:hidden"
             >
-              <Menu className="w-6 h-6" />
+              <Menu className="h-6 w-6" />
             </button>
-            
+
             {/* Universal Back Button (Hidden ONLY on the main dashboard home pages) */}
             {!(
               location.pathname === '/dashboard' ||
@@ -321,20 +371,20 @@ export function DashboardLayout(): React.ReactElement {
               location.pathname === '/dashboard/admin' ||
               location.pathname === '/'
             ) && (
-              <button 
-                onClick={() => navigate(-1)} 
-                className="flex items-center gap-2 p-2 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+              <button
+                onClick={() => navigate(-1)}
+                className="flex items-center gap-2 rounded-md p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 title="Go Back"
               >
-                <ArrowLeft className="w-5 h-5" />
-                <span className="hidden md:inline font-medium text-sm">Back</span>
+                <ArrowLeft className="h-5 w-5" />
+                <span className="hidden text-sm font-medium md:inline">Back</span>
               </button>
             )}
 
             <span className="ml-4 text-lg font-bold md:hidden">SHIFTLY</span>
-            <div className="hidden md:flex items-center border-l border-border pl-4 ml-4">
-              <select 
-                className="bg-transparent text-sm text-muted-foreground capitalize font-medium focus:outline-none cursor-pointer hover:text-foreground transition-colors"
+            <div className="ml-4 hidden items-center border-l border-border pl-4 md:flex">
+              <select
+                className="cursor-pointer bg-transparent text-sm font-medium capitalize text-muted-foreground transition-colors hover:text-foreground focus:outline-none"
                 value={activePortal}
                 onChange={(e) => {
                   const newPortal = e.target.value;
@@ -353,14 +403,14 @@ export function DashboardLayout(): React.ReactElement {
 
           <div className="flex items-center space-x-4">
             <div className="relative">
-              <button 
+              <button
                 onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
-                className="p-2 text-muted-foreground hover:text-foreground relative focus:outline-none"
+                className="relative p-2 text-muted-foreground hover:text-foreground focus:outline-none"
               >
-                <Bell className="w-5 h-5" />
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-destructive rounded-full border-2 border-card"></span>
+                <Bell className="h-5 w-5" />
+                <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full border-2 border-card bg-destructive"></span>
               </button>
-              
+
               <AnimatePresence>
                 {isNotificationsOpen && (
                   <motion.div
@@ -368,31 +418,41 @@ export function DashboardLayout(): React.ReactElement {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute right-0 mt-2 w-80 rounded-xl bg-card border border-border shadow-lg py-2 z-50 overflow-hidden"
+                    className="absolute right-0 z-50 mt-2 w-80 overflow-hidden rounded-xl border border-border bg-card py-2 shadow-lg"
                   >
-                    <div className="px-4 py-3 border-b border-border flex justify-between items-center">
+                    <div className="flex items-center justify-between border-b border-border px-4 py-3">
                       <h3 className="font-semibold text-foreground">Notifications</h3>
-                      <span className="text-xs font-medium bg-primary/10 text-primary px-2 py-0.5 rounded-full">2 New</span>
+                      <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
+                        2 New
+                      </span>
                     </div>
-                    
+
                     <div className="max-h-64 overflow-y-auto">
-                      <div className="px-4 py-3 hover:bg-muted/50 transition-colors border-b border-border/50 cursor-pointer">
-                        <p className="text-sm font-medium text-foreground">Your shift was approved</p>
-                        <p className="text-xs text-muted-foreground mt-1">Amazon Fulfillment • 2 hours ago</p>
+                      <div className="cursor-pointer border-b border-border/50 px-4 py-3 transition-colors hover:bg-muted/50">
+                        <p className="text-sm font-medium text-foreground">
+                          Your shift was approved
+                        </p>
+                        <p className="mt-1 text-xs text-muted-foreground">
+                          Amazon Fulfillment • 2 hours ago
+                        </p>
                       </div>
-                      <div className="px-4 py-3 hover:bg-muted/50 transition-colors border-b border-border/50 cursor-pointer">
-                        <p className="text-sm font-medium text-foreground">New job match: Forklift Operator</p>
-                        <p className="text-xs text-muted-foreground mt-1">Home Depot • 5 hours ago</p>
+                      <div className="cursor-pointer border-b border-border/50 px-4 py-3 transition-colors hover:bg-muted/50">
+                        <p className="text-sm font-medium text-foreground">
+                          New job match: Forklift Operator
+                        </p>
+                        <p className="mt-1 text-xs text-muted-foreground">
+                          Home Depot • 5 hours ago
+                        </p>
                       </div>
                     </div>
-                    
+
                     <div className="p-2">
                       <button
                         onClick={() => {
                           setIsNotificationsOpen(false);
                           navigate('/notifications');
                         }}
-                        className="w-full text-center px-4 py-2 text-sm text-primary font-medium hover:bg-primary/10 rounded-md transition-colors"
+                        className="w-full rounded-md px-4 py-2 text-center text-sm font-medium text-primary transition-colors hover:bg-primary/10"
                       >
                         View all notifications
                       </button>
@@ -401,20 +461,20 @@ export function DashboardLayout(): React.ReactElement {
                 )}
               </AnimatePresence>
             </div>
-            
+
             {/* Profile Dropdown */}
             <div className="relative">
-              <button 
+              <button
                 onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
                 className="flex items-center gap-2 focus:outline-none"
               >
-                <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30 hover:ring-2 hover:ring-primary/50 transition-all cursor-pointer relative">
-                  <span className="text-sm font-semibold text-primary uppercase">
+                <div className="relative flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-primary/30 bg-primary/20 transition-all hover:ring-2 hover:ring-primary/50">
+                  <span className="text-sm font-semibold uppercase text-primary">
                     {getInitials()}
                   </span>
-                  <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-card rounded-full"></div>
+                  <div className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-card bg-green-500"></div>
                 </div>
-                <ChevronDown className="w-4 h-4 text-muted-foreground hidden sm:block" />
+                <ChevronDown className="hidden h-4 w-4 text-muted-foreground sm:block" />
               </button>
 
               <AnimatePresence>
@@ -424,49 +484,49 @@ export function DashboardLayout(): React.ReactElement {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute right-0 mt-2 w-56 rounded-xl bg-card border border-border shadow-lg py-2 z-50"
+                    className="absolute right-0 z-50 mt-2 w-56 rounded-xl border border-border bg-card py-2 shadow-lg"
                   >
-                    <div className="px-4 py-2 border-b border-border mb-2">
-                      <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold">
+                    <div className="mb-2 border-b border-border px-4 py-2">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary font-bold text-primary-foreground">
                         {getInitials()}
                       </div>
-                      <span className="font-medium text-sm hidden sm:block">
-                        {getFullName()}
-                      </span>
+                      <span className="hidden text-sm font-medium sm:block">{getFullName()}</span>
                     </div>
-                    
+
                     <button
                       onClick={() => {
                         setIsProfileDropdownOpen(false);
-                        navigate(`/profile/${user?.role.toLowerCase() || 'worker'}/${user?.sub || 'mock-id'}`);
+                        navigate(
+                          `/profile/${user?.role.toLowerCase() || 'worker'}/${user?.sub || 'mock-id'}`,
+                        );
                       }}
-                      className="w-full text-left px-4 py-2 text-sm text-foreground hover:bg-muted transition-colors flex items-center gap-2"
+                      className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-foreground transition-colors hover:bg-muted"
                     >
-                      <UserCircle className="w-4 h-4 text-muted-foreground" />
+                      <UserCircle className="h-4 w-4 text-muted-foreground" />
                       View Profile
                     </button>
-                    
+
                     <button
                       onClick={() => {
                         setIsProfileDropdownOpen(false);
                         navigate('/settings');
                       }}
-                      className="w-full text-left px-4 py-2 text-sm text-foreground hover:bg-muted transition-colors flex items-center gap-2"
+                      className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-foreground transition-colors hover:bg-muted"
                     >
-                      <Settings className="w-4 h-4 text-muted-foreground" />
+                      <Settings className="h-4 w-4 text-muted-foreground" />
                       Settings
                     </button>
 
-                    <div className="h-px bg-border my-2"></div>
-                    
+                    <div className="my-2 h-px bg-border"></div>
+
                     <button
                       onClick={() => {
                         setIsProfileDropdownOpen(false);
                         handleLogout();
                       }}
-                      className="w-full text-left px-4 py-2 text-sm text-destructive hover:bg-destructive/10 transition-colors flex items-center gap-2"
+                      className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-destructive transition-colors hover:bg-destructive/10"
                     >
-                      <LogOut className="w-4 h-4" />
+                      <LogOut className="h-4 w-4" />
                       Sign Out
                     </button>
                   </motion.div>
@@ -477,7 +537,7 @@ export function DashboardLayout(): React.ReactElement {
         </header>
 
         {/* Page Content */}
-        <div className="flex-1 overflow-auto p-4 md:p-8 relative bg-muted/20">
+        <div className="relative flex-1 overflow-auto bg-muted/20 p-4 md:p-8">
           <AnimatePresence mode="wait">
             <motion.div
               key={location.pathname}
@@ -485,7 +545,7 @@ export function DashboardLayout(): React.ReactElement {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
-              className="max-w-7xl mx-auto h-full"
+              className="mx-auto h-full max-w-7xl"
             >
               <Outlet />
             </motion.div>
@@ -495,4 +555,3 @@ export function DashboardLayout(): React.ReactElement {
     </div>
   );
 }
-

@@ -5,15 +5,18 @@ import { ErrorBoundaryPage } from './ErrorBoundaryPage';
 
 describe('ErrorBoundaryPage', () => {
   it('renders without crashing', () => {
-    const router = createMemoryRouter([
+    const router = createMemoryRouter(
+      [
+        {
+          path: '/',
+          element: <div>Home</div>,
+          errorElement: <ErrorBoundaryPage />,
+        },
+      ],
       {
-        path: '/',
-        element: <div>Home</div>,
-        errorElement: <ErrorBoundaryPage />,
-      }
-    ], {
-      initialEntries: ['/error'],
-    });
+        initialEntries: ['/error'],
+      },
+    );
     const { container } = render(<RouterProvider router={router} />);
     expect(container).toBeInTheDocument();
   });

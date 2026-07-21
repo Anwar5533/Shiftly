@@ -10,5 +10,5 @@ export const messagingApi = {
   getMessages: async (conversationId: string): Promise<Message[]> => {
     const { data } = await api.get(`/messaging/conversations/${conversationId}/messages`);
     return data;
-  }
+  },
 };

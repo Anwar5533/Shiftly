@@ -1,4 +1,14 @@
-import { Controller, Post, Get, Body, Param, UseGuards, Query, Patch, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Body,
+  Param,
+  UseGuards,
+  Query,
+  Patch,
+  Delete,
+} from '@nestjs/common';
 import { JobsService } from './jobs.service';
 import { CreateJobDto } from './dto/create-job.dto';
 import { UpdateJobDto } from './dto/update-job.dto';
@@ -17,7 +27,10 @@ export class JobsController {
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.EMPLOYER)
-  createJob(@CurrentUser('sub') userId: string, @Body() createJobDto: CreateJobDto) {
+  createJob(
+    @CurrentUser('sub') userId: string,
+    @Body() createJobDto: CreateJobDto,
+  ) {
     return this.jobsService.createJob(userId, createJobDto);
   }
 
@@ -61,10 +74,7 @@ export class JobsController {
   @Delete(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.EMPLOYER)
-  deleteJob(
-    @Param('id') id: string,
-    @CurrentUser('sub') userId: string,
-  ) {
+  deleteJob(@Param('id') id: string, @CurrentUser('sub') userId: string) {
     return this.jobsService.deleteJob(userId, id);
   }
 }

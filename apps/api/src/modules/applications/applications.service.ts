@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException, ForbiddenException, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+  ConflictException,
+} from '@nestjs/common';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
 import { CreateApplicationDto } from './dto/create-application.dto';
 import { UpdateApplicationStatusDto } from './dto/update-application-status.dto';
@@ -16,7 +21,9 @@ export class ApplicationsService {
       throw new ForbiddenException('Only workers can apply for jobs');
     }
 
-    const job = await this.prisma.job.findUnique({ where: { id: createDto.jobId } });
+    const job = await this.prisma.job.findUnique({
+      where: { id: createDto.jobId },
+    });
     if (!job) {
       throw new NotFoundException('Job not found');
     }
@@ -26,8 +33,8 @@ export class ApplicationsService {
         jobId_workerId: {
           jobId: createDto.jobId,
           workerId: worker.id,
-        }
-      }
+        },
+      },
     });
 
     if (existingApp) {
@@ -58,12 +65,12 @@ export class ApplicationsService {
         job: {
           include: {
             employer: {
-              select: { companyName: true, logoUrl: true }
-            }
-          }
-        }
+              select: { companyName: true, logoUrl: true },
+            },
+          },
+        },
       },
-      orderBy: { appliedAt: 'desc' }
+      orderBy: { appliedAt: 'desc' },
     });
   }
 
@@ -77,13 +84,15 @@ export class ApplicationsService {
     }
 
     const job = await this.prisma.job.findUnique({ where: { id: jobId } });
-    
+
     if (!job) {
       throw new NotFoundException('Job not found');
     }
 
     if (job.employerId !== employer.id) {
-      throw new ForbiddenException('You do not have permission to view these applications');
+      throw new ForbiddenException(
+        'You do not have permission to view these applications',
+      );
     }
 
     return this.prisma.jobApplication.findMany({
@@ -95,11 +104,11 @@ export class ApplicationsService {
             lastName: true,
             avatarUrl: true,
             rating: true,
-            skills: { include: { skill: true } }
-          }
-        }
+            skills: { include: { skill: true } },
+          },
+        },
       },
-      orderBy: { appliedAt: 'desc' }
+      orderBy: { appliedAt: 'desc' },
     });
   }
 
@@ -109,7 +118,9 @@ export class ApplicationsService {
     });
 
     if (!employer) {
-      throw new ForbiddenException('Only employers can view their recent applications');
+      throw new ForbiddenException(
+        'Only employers can view their recent applications',
+      );
     }
 
     return this.prisma.jobApplication.findMany({
@@ -120,31 +131,37 @@ export class ApplicationsService {
             firstName: true,
             lastName: true,
             avatarUrl: true,
-          }
+          },
         },
         job: {
           select: {
             title: true,
-          }
-        }
+          },
+        },
       },
       orderBy: { appliedAt: 'desc' },
       take: 5,
     });
   }
 
-  async updateApplicationStatus(userId: string, applicationId: string, updateDto: UpdateApplicationStatusDto) {
+  async updateApplicationStatus(
+    userId: string,
+    applicationId: string,
+    updateDto: UpdateApplicationStatusDto,
+  ) {
     const employer = await this.prisma.employerProfile.findUnique({
       where: { userId },
     });
 
     if (!employer) {
-      throw new ForbiddenException('Only employers can update application status');
+      throw new ForbiddenException(
+        'Only employers can update application status',
+      );
     }
 
     const application = await this.prisma.jobApplication.findUnique({
       where: { id: applicationId },
-      include: { job: true }
+      include: { job: true },
     });
 
     if (!application) {
@@ -152,7 +169,9 @@ export class ApplicationsService {
     }
 
     if (application.job.employerId !== employer.id) {
-      throw new ForbiddenException('You do not have permission to update this application');
+      throw new ForbiddenException(
+        'You do not have permission to update this application',
+      );
     }
 
     if (updateDto.status === 'ACCEPTED' && application.status !== 'ACCEPTED') {
@@ -165,8 +184,12 @@ export class ApplicationsService {
           },
         });
 
-        const scheduledEnd = application.job.endDate || 
-          new Date(application.job.startDate.getTime() + (Number(application.job.shiftDurationHours) || 8) * 3600000);
+        const scheduledEnd =
+          application.job.endDate ||
+          new Date(
+            application.job.startDate.getTime() +
+              (Number(application.job.shiftDurationHours) || 8) * 3600000,
+          );
 
         await tx.shift.create({
           data: {
@@ -175,13 +198,13 @@ export class ApplicationsService {
             workerId: application.workerId,
             scheduledStart: application.job.startDate,
             scheduledEnd: scheduledEnd,
-          }
+          },
         });
 
         // Also update positionsFilled
         await tx.job.update({
           where: { id: application.jobId },
-          data: { positionsFilled: { increment: 1 } }
+          data: { positionsFilled: { increment: 1 } },
         });
 
         return updated;

@@ -12,7 +12,12 @@ export const profileApi = {
     return res.data.data;
   },
 
-  addSkill: async (data: { skillName: string; category: string; yearsExp: number; proficiency: string }) => {
+  addSkill: async (data: {
+    skillName: string;
+    category: string;
+    yearsExp: number;
+    proficiency: string;
+  }) => {
     const res = await api.post<ApiResponse<any>>('/workers/skills', data);
     return res.data.data;
   },

@@ -8,30 +8,34 @@ import { ErrorBoundaryPage } from '@/shared/components/ErrorBoundaryPage';
 
 // ─── Lazy-loaded pages ────────────────────────────────────────────────────────
 
-const LoginPage          = lazy(() => import('@/features/auth/pages/LoginPage'));
-const RegisterPage       = lazy(() => import('@/features/auth/pages/RegisterPage'));
-const OtpPage            = lazy(() => import('@/features/auth/pages/OtpPage'));
-const OnboardingPage     = lazy(() => import('@/features/onboarding/pages/OnboardingPage'));
+const LoginPage = lazy(() => import('@/features/auth/pages/LoginPage'));
+const RegisterPage = lazy(() => import('@/features/auth/pages/RegisterPage'));
+const OtpPage = lazy(() => import('@/features/auth/pages/OtpPage'));
+const OnboardingPage = lazy(() => import('@/features/onboarding/pages/OnboardingPage'));
 
-const WorkerDashboard    = lazy(() => import('@/features/dashboard/pages/WorkerDashboard'));
-const EmployerDashboard  = lazy(() => import('@/features/dashboard/pages/EmployerDashboard'));
+const WorkerDashboard = lazy(() => import('@/features/dashboard/pages/WorkerDashboard'));
+const EmployerDashboard = lazy(() => import('@/features/dashboard/pages/EmployerDashboard'));
 const RecruiterDashboard = lazy(() => import('@/features/dashboard/pages/RecruiterDashboard'));
-const AdminDashboard     = lazy(() => import('@/features/dashboard/pages/AdminDashboard'));
+const AdminDashboard = lazy(() => import('@/features/dashboard/pages/AdminDashboard'));
 
-const JobsListPage       = lazy(() => import('@/features/jobs/pages/JobsListPage'));
-const JobDetailPage      = lazy(() => import('@/features/jobs/pages/JobDetailPage'));
-const PostJobPage        = lazy(() => import('@/features/jobs/pages/PostJobPage'));
-const ActiveShiftPage    = lazy(() => import('@/features/jobs/pages/ActiveShiftPage'));
+const JobsListPage = lazy(() => import('@/features/jobs/pages/JobsListPage'));
+const JobDetailPage = lazy(() => import('@/features/jobs/pages/JobDetailPage'));
+const PostJobPage = lazy(() => import('@/features/jobs/pages/PostJobPage'));
+const ActiveShiftPage = lazy(() => import('@/features/jobs/pages/ActiveShiftPage'));
 const JobApplicationsPage = lazy(() => import('@/features/applications/pages/JobApplicationsPage'));
 
-const MessagesPage       = lazy(() => import('@/features/messaging/pages/MessagesPage'));
-const MessagingPage      = lazy(() => import('@/features/messaging/pages/MessagingPage').then(module => ({ default: module.MessagingPage })));
+const MessagesPage = lazy(() => import('@/features/messaging/pages/MessagesPage'));
+const MessagingPage = lazy(() =>
+  import('@/features/messaging/pages/MessagingPage').then((module) => ({
+    default: module.MessagingPage,
+  })),
+);
 
-const ProfilePage        = lazy(() => import('@/features/profile/pages/ProfilePage'));
-const WalletPage         = lazy(() => import('@/features/wallet/pages/WalletPage'));
-const SettingsPage       = lazy(() => import('@/features/settings/pages/SettingsPage'));
-const VerificationPage   = lazy(() => import('@/features/kyc/pages/VerificationPage'));
-const NotificationsPage  = lazy(() => import('@/features/notifications/pages/NotificationsPage'));
+const ProfilePage = lazy(() => import('@/features/profile/pages/ProfilePage'));
+const WalletPage = lazy(() => import('@/features/wallet/pages/WalletPage'));
+const SettingsPage = lazy(() => import('@/features/settings/pages/SettingsPage'));
+const VerificationPage = lazy(() => import('@/features/kyc/pages/VerificationPage'));
+const NotificationsPage = lazy(() => import('@/features/notifications/pages/NotificationsPage'));
 
 const ManageJobsPage = lazy(() => import('@/features/jobs/pages/ManageJobsPage'));
 const RequisitionsPage = lazy(() => import('@/features/jobs/pages/RequisitionsPage'));
@@ -40,7 +44,11 @@ const ApplicantsPage = lazy(() => import('@/features/applications/pages/Applican
 const CandidatesPage = lazy(() => import('@/features/candidates/pages/CandidatesPage'));
 const InterviewsPage = lazy(() => import('@/features/interviews/pages/InterviewsPage'));
 const TimesheetsPage = lazy(() => import('@/features/timesheets/pages/TimesheetsPage'));
-const TimesheetApprovalPage = lazy(() => import('@/features/timesheets/pages/TimesheetApprovalPage').then(module => ({ default: module.TimesheetApprovalPage })));
+const TimesheetApprovalPage = lazy(() =>
+  import('@/features/timesheets/pages/TimesheetApprovalPage').then((module) => ({
+    default: module.TimesheetApprovalPage,
+  })),
+);
 const BillingPage = lazy(() => import('@/features/billing/pages/BillingPage'));
 const UsersManagementPage = lazy(() => import('@/features/admin/pages/UsersManagementPage'));
 const PlatformAnalyticsPage = lazy(() => import('@/features/admin/pages/PlatformAnalyticsPage'));
@@ -60,20 +68,16 @@ export const router = createBrowserRouter([
     element: <AuthLayout />,
     errorElement: <ErrorBoundaryPage />,
     children: [
-      { path: '/login',       element: wrap(LoginPage) },
-      { path: '/register',    element: wrap(RegisterPage) },
-      { path: '/verify-otp',  element: wrap(OtpPage) },
+      { path: '/login', element: wrap(LoginPage) },
+      { path: '/register', element: wrap(RegisterPage) },
+      { path: '/verify-otp', element: wrap(OtpPage) },
     ],
   },
 
   // ─── Onboarding (authenticated, no shell) ─────────────────────────────
   {
     path: '/onboarding',
-    element: (
-      <ProtectedRoute>
-        {wrap(OnboardingPage)}
-      </ProtectedRoute>
-    ),
+    element: <ProtectedRoute>{wrap(OnboardingPage)}</ProtectedRoute>,
   },
 
   // ─── Main application shell ────────────────────────────────────────────

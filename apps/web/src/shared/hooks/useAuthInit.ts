@@ -14,10 +14,15 @@ import api from '@/shared/lib/api';
 import { jwtDecode } from '@/features/auth/utils/jwt';
 import type { JwtPayload } from '@shiftly/shared-types';
 
+let isInitialized = false;
+
 export function useAuthInit(): void {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    if (isInitialized) return;
+    isInitialized = true;
+
     const restoreSession = async () => {
       dispatch(setLoading(true));
       try {
@@ -35,6 +40,6 @@ export function useAuthInit(): void {
     };
 
     restoreSession();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 }

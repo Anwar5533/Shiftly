@@ -41,9 +41,11 @@ export default function NotificationsPage(): React.ReactElement {
   };
 
   const markAllAsRead = () => {
-    notifications.filter(n => !n.isRead).forEach(n => {
-      markAsReadMutation.mutate(n.id);
-    });
+    notifications
+      .filter((n) => !n.isRead)
+      .forEach((n) => {
+        markAsReadMutation.mutate(n.id);
+      });
   };
 
   const removeNotification = (id: string) => {
@@ -51,14 +53,18 @@ export default function NotificationsPage(): React.ReactElement {
     console.log(`Removing notification ${id}`);
   };
 
-  const unreadCount = notifications.filter(n => !n.isRead).length;
+  const unreadCount = notifications.filter((n) => !n.isRead).length;
 
   const getIcon = (type: NotificationType) => {
     switch (type) {
-      case 'success': return <CheckCircle2 className="w-5 h-5 text-emerald-500" />;
-      case 'warning': return <AlertTriangle className="w-5 h-5 text-amber-500" />;
-      case 'info': return <Info className="w-5 h-5 text-blue-500" />;
-      default: return <Bell className="w-5 h-5 text-muted-foreground" />;
+      case 'success':
+        return <CheckCircle2 className="h-5 w-5 text-emerald-500" />;
+      case 'warning':
+        return <AlertTriangle className="h-5 w-5 text-amber-500" />;
+      case 'info':
+        return <Info className="h-5 w-5 text-blue-500" />;
+      default:
+        return <Bell className="h-5 w-5 text-muted-foreground" />;
     }
   };
 
@@ -67,7 +73,7 @@ export default function NotificationsPage(): React.ReactElement {
     const date = new Date(dateString);
     const now = new Date();
     const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-    
+
     if (diffInSeconds < 60) return `${diffInSeconds}s ago`;
     if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
     if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
@@ -75,86 +81,92 @@ export default function NotificationsPage(): React.ReactElement {
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+    <div className="mx-auto max-w-4xl">
+      <div className="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <div>
-          <h1 className="text-3xl font-bold text-foreground tracking-tight flex items-center gap-3">
+          <h1 className="flex items-center gap-3 text-3xl font-bold tracking-tight text-foreground">
             Notifications
             {unreadCount > 0 && (
-              <span className="bg-primary text-primary-foreground text-sm py-1 px-3 rounded-full font-medium">
+              <span className="rounded-full bg-primary px-3 py-1 text-sm font-medium text-primary-foreground">
                 {unreadCount} new
               </span>
             )}
           </h1>
-          <p className="text-muted-foreground mt-1">Stay updated on your shifts, payments, and account alerts.</p>
+          <p className="mt-1 text-muted-foreground">
+            Stay updated on your shifts, payments, and account alerts.
+          </p>
         </div>
-        
+
         {unreadCount > 0 && (
           <div className="flex gap-2">
-            <button 
+            <button
               onClick={clearAll}
-              className="px-4 py-2 text-destructive font-medium rounded-lg hover:bg-destructive/10 transition-colors text-sm"
+              className="rounded-lg px-4 py-2 text-sm font-medium text-destructive transition-colors hover:bg-destructive/10"
             >
               Clear all
             </button>
-            <button 
+            <button
               onClick={markAllAsRead}
-              className="flex items-center gap-2 px-4 py-2 bg-muted text-foreground font-medium rounded-lg hover:bg-muted/80 transition-colors shadow-sm text-sm"
+              className="flex items-center gap-2 rounded-lg bg-muted px-4 py-2 text-sm font-medium text-foreground shadow-sm transition-colors hover:bg-muted/80"
             >
-              <Check className="w-4 h-4" />
+              <Check className="h-4 w-4" />
               Mark all as read
             </button>
           </div>
         )}
       </div>
 
-      <div className="bg-card border border-border rounded-2xl shadow-sm overflow-hidden">
+      <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
         {isLoading ? (
           <div className="p-12 text-center text-muted-foreground">Loading notifications...</div>
         ) : notifications.length === 0 ? (
-          <div className="p-12 text-center flex flex-col items-center">
-            <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
-              <Bell className="w-8 h-8 text-muted-foreground opacity-50" />
+          <div className="flex flex-col items-center p-12 text-center">
+            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted">
+              <Bell className="h-8 w-8 text-muted-foreground opacity-50" />
             </div>
             <h3 className="text-lg font-medium text-foreground">You're all caught up!</h3>
-            <p className="text-muted-foreground mt-1">No new notifications right now.</p>
+            <p className="mt-1 text-muted-foreground">No new notifications right now.</p>
           </div>
         ) : (
           <div className="divide-y divide-border">
             {notifications.map((notification) => (
-              <div 
-                key={notification.id} 
-                className={`p-5 flex gap-4 transition-colors hover:bg-muted/30 relative group ${!notification.isRead ? 'bg-primary/5' : ''}`}
+              <div
+                key={notification.id}
+                className={`group relative flex gap-4 p-5 transition-colors hover:bg-muted/30 ${!notification.isRead ? 'bg-primary/5' : ''}`}
               >
                 {!notification.isRead && (
-                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+                  <div className="absolute bottom-0 left-0 top-0 w-1 bg-primary"></div>
                 )}
-                
-                <div className="shrink-0 mt-1 bg-background border border-border p-2 rounded-full shadow-sm">
+
+                <div className="mt-1 shrink-0 rounded-full border border-border bg-background p-2 shadow-sm">
                   {getIcon(notification.type)}
                 </div>
-                
-                <div className="flex-1 min-w-0">
-                  <div className="flex justify-between items-start gap-4">
-                    <h4 className={`text-base font-semibold ${!notification.isRead ? 'text-foreground' : 'text-foreground/80'}`}>
+
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-start justify-between gap-4">
+                    <h4
+                      className={`text-base font-semibold ${!notification.isRead ? 'text-foreground' : 'text-foreground/80'}`}
+                    >
                       {notification.title}
                     </h4>
-                    <span className="text-xs font-medium text-muted-foreground shrink-0 flex items-center gap-1 bg-muted px-2 py-1 rounded-md">
-                      <Clock className="w-3 h-3" />
+                    <span className="flex shrink-0 items-center gap-1 rounded-md bg-muted px-2 py-1 text-xs font-medium text-muted-foreground">
+                      <Clock className="h-3 w-3" />
                       {getTimeAgo(notification.createdAt)}
                     </span>
                   </div>
-                  <p className={`mt-1 text-sm ${!notification.isRead ? 'text-foreground/90' : 'text-muted-foreground'}`}>
+                  <p
+                    className={`mt-1 text-sm ${!notification.isRead ? 'text-foreground/90' : 'text-muted-foreground'}`}
+                  >
                     {notification.body}
                   </p>
                 </div>
 
-                <button 
+                <button
                   onClick={() => removeNotification(notification.id)}
-                  className="opacity-0 group-hover:opacity-100 transition-opacity p-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-md h-fit"
+                  className="h-fit rounded-md p-2 text-muted-foreground opacity-0 transition-opacity hover:bg-destructive/10 hover:text-destructive group-hover:opacity-100"
                   title="Dismiss"
                 >
-                  <X className="w-4 h-4" />
+                  <X className="h-4 w-4" />
                 </button>
               </div>
             ))}

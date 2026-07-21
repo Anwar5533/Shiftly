@@ -66,7 +66,7 @@ api.interceptors.response.use(
   async (error: AxiosError) => {
     const originalRequest = error.config as AxiosRequestConfig & { _retry?: boolean };
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (error.response?.status === 401 && !originalRequest._retry && originalRequest.url !== '/auth/refresh-token') {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
@@ -82,9 +82,7 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const response = await api.post<{ data: { accessToken: string } }>(
-          '/auth/refresh-token',
-        );
+        const response = await api.post<{ data: { accessToken: string } }>('/auth/refresh-token');
         const newToken = response.data.data.accessToken;
         setAccessToken(newToken);
         processQueue(null, newToken);

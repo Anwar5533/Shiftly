@@ -12,7 +12,7 @@ describe('RecruitersService', () => {
       recruiterProfile: {
         findUnique: jest.fn(),
         upsert: jest.fn(),
-      }
+      },
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -33,35 +33,47 @@ describe('RecruitersService', () => {
   describe('getProfile', () => {
     it('should return profile if found', async () => {
       const mockProfile = { id: '1', userId: 'user1' };
-      (prismaService.recruiterProfile.findUnique as jest.Mock).mockResolvedValue(mockProfile);
+      (
+        prismaService.recruiterProfile.findUnique as jest.Mock
+      ).mockResolvedValue(mockProfile);
 
       const result = await service.getProfile('user1');
       expect(result).toEqual(mockProfile);
     });
 
     it('should throw NotFoundException if profile not found', async () => {
-      (prismaService.recruiterProfile.findUnique as jest.Mock).mockResolvedValue(null);
-      await expect(service.getProfile('user1')).rejects.toThrow(NotFoundException);
+      (
+        prismaService.recruiterProfile.findUnique as jest.Mock
+      ).mockResolvedValue(null);
+      await expect(service.getProfile('user1')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
   describe('updateProfile', () => {
     it('should upsert profile', async () => {
       const mockProfile = { id: '1', userId: 'user1', firstName: 'Jane' };
-      (prismaService.recruiterProfile.upsert as jest.Mock).mockResolvedValue(mockProfile);
+      (prismaService.recruiterProfile.upsert as jest.Mock).mockResolvedValue(
+        mockProfile,
+      );
 
-      const result = await service.updateProfile('user1', { firstName: 'Jane' });
+      const result = await service.updateProfile('user1', {
+        firstName: 'Jane',
+      });
       expect(result).toEqual(mockProfile);
-      expect(prismaService.recruiterProfile.upsert).toHaveBeenCalledWith(expect.objectContaining({
-        where: { userId: 'user1' }
-      }));
+      expect(prismaService.recruiterProfile.upsert).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { userId: 'user1' },
+        }),
+      );
     });
   });
 
   describe('getDashboardStats', () => {
     it('should calculate dashboard stats', async () => {
-      const mockProfile = { 
-        id: '1', 
+      const mockProfile = {
+        id: '1',
         userId: 'user1',
         placements: 10,
         successRate: 95.5,
@@ -70,18 +82,22 @@ describe('RecruitersService', () => {
         _count: { jobs: 5 },
         jobs: [
           { _count: { applications: 3, shifts: 1 } },
-          { _count: { applications: 2, shifts: 4 } }
-        ]
+          { _count: { applications: 2, shifts: 4 } },
+        ],
       };
-      (prismaService.recruiterProfile.findUnique as jest.Mock).mockResolvedValue(mockProfile);
+      (
+        prismaService.recruiterProfile.findUnique as jest.Mock
+      ).mockResolvedValue(mockProfile);
 
       const result = await service.getDashboardStats('user1');
-      expect(result).toEqual(expect.objectContaining({
-        activeJobs: 5,
-        totalApplications: 5,
-        totalShifts: 5,
-        placements: 10,
-      }));
+      expect(result).toEqual(
+        expect.objectContaining({
+          activeJobs: 5,
+          totalApplications: 5,
+          totalShifts: 5,
+          placements: 10,
+        }),
+      );
     });
   });
 });

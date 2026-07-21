@@ -166,9 +166,7 @@ export const updateEmployerProfileSchema = z.object({
   website: z.string().url().optional().nullable(),
   description: z.string().max(2000).optional().nullable(),
   location: jobLocationSchema.partial().optional(),
-  employeeCount: z
-    .enum(['1-10', '11-50', '51-200', '201-500', '501-1000', '1000+'])
-    .optional(),
+  employeeCount: z.enum(['1-10', '11-50', '51-200', '201-500', '501-1000', '1000+']).optional(),
 });
 
 export type UpdateEmployerProfileDto = z.infer<typeof updateEmployerProfileSchema>;

@@ -22,7 +22,7 @@ describe('PrismaService', () => {
 
     service = module.get<PrismaService>(PrismaService);
     configService = module.get<ConfigService>(ConfigService);
-    
+
     // Mock the connect/disconnect functions of PrismaClient
     service.$connect = jest.fn();
     service.$disconnect = jest.fn();
@@ -41,24 +41,28 @@ describe('PrismaService', () => {
     it('should log slow queries', () => {
       // We can manually call the event handler if we spy on it during a new instantiation
       // Or we can just spy on PrismaClient.prototype.$on before instantiation
-      const onSpy = jest.spyOn(require('@prisma/client').PrismaClient.prototype, '$on').mockImplementation();
-      
+      const onSpy = jest
+        .spyOn(require('@prisma/client').PrismaClient.prototype, '$on')
+        .mockImplementation();
+
       const newService = new PrismaService(configService);
       expect(onSpy).toHaveBeenCalledWith('query', expect.any(Function));
-      
+
       const callback = onSpy.mock.calls[0][1] as any;
-      
+
       // Spy on logger
-      const loggerSpy = jest.spyOn((newService as any).logger, 'warn').mockImplementation();
-      
+      const loggerSpy = jest
+        .spyOn((newService as any).logger, 'warn')
+        .mockImplementation();
+
       // Trigger with fast query
       callback({ query: 'SELECT 1', duration: 50 });
       expect(loggerSpy).not.toHaveBeenCalled();
-      
+
       // Trigger with slow query
       callback({ query: 'SELECT 1', duration: 150 });
       expect(loggerSpy).toHaveBeenCalledWith('Slow query (150ms): SELECT 1');
-      
+
       onSpy.mockRestore();
     });
   });
@@ -70,7 +74,9 @@ describe('PrismaService', () => {
     });
 
     it('should throw an error if connection fails', async () => {
-      (service.$connect as jest.Mock).mockRejectedValueOnce(new Error('Connection failed'));
+      (service.$connect as jest.Mock).mockRejectedValueOnce(
+        new Error('Connection failed'),
+      );
       await expect(service.onModuleInit()).rejects.toThrow('Connection failed');
     });
   });
@@ -86,9 +92,9 @@ describe('PrismaService', () => {
     it('should set deletedAt for a given model and id', async () => {
       const mockUpdate = jest.fn();
       (service as any).user = { update: mockUpdate };
-      
+
       await service.softDelete('user', '123');
-      
+
       expect(mockUpdate).toHaveBeenCalledWith({
         where: { id: '123' },
         data: { deletedAt: expect.any(Date) },
@@ -105,7 +111,7 @@ describe('PrismaService', () => {
       });
 
       const result = await service.executeTransaction(mockFn);
-      
+
       expect(mockFn).toHaveBeenCalledWith(mockTx);
       expect(result).toBe('result');
     });

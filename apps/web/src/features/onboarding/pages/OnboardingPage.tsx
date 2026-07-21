@@ -61,8 +61,13 @@ export default function OnboardingPage(): React.ReactElement {
     // Validate current step fields before proceeding
     let fieldsToValidate: string[] = [];
     if (currentStep === 0) fieldsToValidate = ['personal.bio', 'personal.dateOfBirth'];
-    if (currentStep === 1) fieldsToValidate = ['professional.industry', 'professional.skills', 'professional.experienceYears'];
-    
+    if (currentStep === 1)
+      fieldsToValidate = [
+        'professional.industry',
+        'professional.skills',
+        'professional.experienceYears',
+      ];
+
     const isValid = await form.trigger(fieldsToValidate as any);
     if (isValid) {
       setCurrentStep((prev) => Math.min(prev + 1, STEPS.length - 1));
@@ -79,7 +84,7 @@ export default function OnboardingPage(): React.ReactElement {
       // TODO: Call API to complete onboarding
       console.log('Submitting onboarding data:', data);
       await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate API call
-      
+
       // Redirect to dashboard based on role
       navigate('/dashboard', { replace: true });
     } catch (error) {
@@ -90,38 +95,46 @@ export default function OnboardingPage(): React.ReactElement {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
-      <div className="w-full max-w-2xl bg-card rounded-2xl shadow-xl border border-border overflow-hidden">
-        
+    <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
+      <div className="w-full max-w-2xl overflow-hidden rounded-2xl border border-border bg-card shadow-xl">
         {/* Header */}
-        <div className="bg-primary/5 p-6 border-b border-border text-center">
+        <div className="border-b border-border bg-primary/5 p-6 text-center">
           <h1 className="text-2xl font-bold text-foreground">Welcome to SHIFTLY</h1>
-          <p className="text-muted-foreground text-sm mt-1">Let's get your profile set up so you can get started.</p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Let's get your profile set up so you can get started.
+          </p>
         </div>
 
         {/* Step Indicator */}
         <div className="px-8 pt-8">
-          <div className="flex items-center justify-between relative">
-            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-0.5 bg-border -z-10" />
-            <div 
-              className="absolute left-0 top-1/2 -translate-y-1/2 h-0.5 bg-primary -z-10 transition-all duration-500" 
+          <div className="relative flex items-center justify-between">
+            <div className="absolute left-0 top-1/2 -z-10 h-0.5 w-full -translate-y-1/2 bg-border" />
+            <div
+              className="absolute left-0 top-1/2 -z-10 h-0.5 -translate-y-1/2 bg-primary transition-all duration-500"
               style={{ width: `${(currentStep / (STEPS.length - 1)) * 100}%` }}
             />
-            
+
             {STEPS.map((step, index) => {
               const StepIcon = step.icon;
               const isActive = index === currentStep;
               const isCompleted = index < currentStep;
-              
+
               return (
                 <div key={step.id} className="flex flex-col items-center gap-2 bg-card px-2">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-colors ${
-                    isActive ? 'border-primary bg-primary text-primary-foreground shadow-brand' :
-                    isCompleted ? 'border-primary bg-primary/10 text-primary' : 'border-border bg-muted text-muted-foreground'
-                  }`}>
-                    {isCompleted ? <Check className="w-5 h-5" /> : <StepIcon className="w-5 h-5" />}
+                  <div
+                    className={`flex h-10 w-10 items-center justify-center rounded-full border-2 transition-colors ${
+                      isActive
+                        ? 'border-primary bg-primary text-primary-foreground shadow-brand'
+                        : isCompleted
+                          ? 'border-primary bg-primary/10 text-primary'
+                          : 'border-border bg-muted text-muted-foreground'
+                    }`}
+                  >
+                    {isCompleted ? <Check className="h-5 w-5" /> : <StepIcon className="h-5 w-5" />}
                   </div>
-                  <span className={`text-xs font-medium ${isActive ? 'text-foreground' : 'text-muted-foreground'}`}>
+                  <span
+                    className={`text-xs font-medium ${isActive ? 'text-foreground' : 'text-muted-foreground'}`}
+                  >
                     {step.title}
                   </span>
                 </div>
@@ -146,11 +159,13 @@ export default function OnboardingPage(): React.ReactElement {
                   <div className="space-y-4">
                     <h2 className="text-lg font-semibold text-foreground">Personal Details</h2>
                     <div className="space-y-2">
-                      <label className="text-sm font-medium text-foreground">A short bio about yourself</label>
+                      <label className="text-sm font-medium text-foreground">
+                        A short bio about yourself
+                      </label>
                       <textarea
                         {...form.register('personal.bio')}
                         placeholder="I am a hardworking professional..."
-                        className="w-full rounded-lg border border-input bg-background px-4 py-2 text-sm text-foreground focus:border-primary focus:ring-1 focus:ring-primary outline-none min-h-[100px] resize-none"
+                        className="min-h-[100px] w-full resize-none rounded-lg border border-input bg-background px-4 py-2 text-sm text-foreground outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                       />
                     </div>
                     <div className="space-y-2">
@@ -158,7 +173,7 @@ export default function OnboardingPage(): React.ReactElement {
                       <input
                         type="date"
                         {...form.register('personal.dateOfBirth')}
-                        className="w-full rounded-lg border border-input bg-background px-4 py-2 text-sm text-foreground focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                        className="w-full rounded-lg border border-input bg-background px-4 py-2 text-sm text-foreground outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                       />
                     </div>
                   </div>
@@ -175,12 +190,16 @@ export default function OnboardingPage(): React.ReactElement {
                   className="space-y-4"
                 >
                   <div className="space-y-4">
-                    <h2 className="text-lg font-semibold text-foreground">Professional Experience</h2>
+                    <h2 className="text-lg font-semibold text-foreground">
+                      Professional Experience
+                    </h2>
                     <div className="space-y-2">
-                      <label className="text-sm font-medium text-foreground">Primary Industry</label>
+                      <label className="text-sm font-medium text-foreground">
+                        Primary Industry
+                      </label>
                       <select
                         {...form.register('professional.industry')}
-                        className="w-full rounded-lg border border-input bg-background px-4 py-2 text-sm text-foreground focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                        className="w-full rounded-lg border border-input bg-background px-4 py-2 text-sm text-foreground outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                       >
                         <option value="">Select industry...</option>
                         <option value="hospitality">Hospitality</option>
@@ -189,28 +208,36 @@ export default function OnboardingPage(): React.ReactElement {
                         <option value="healthcare">Healthcare</option>
                       </select>
                       {form.formState.errors.professional?.industry && (
-                        <p className="text-xs text-destructive">{form.formState.errors.professional.industry.message}</p>
+                        <p className="text-xs text-destructive">
+                          {form.formState.errors.professional.industry.message}
+                        </p>
                       )}
                     </div>
                     <div className="space-y-2">
-                      <label className="text-sm font-medium text-foreground">Skills (comma separated)</label>
+                      <label className="text-sm font-medium text-foreground">
+                        Skills (comma separated)
+                      </label>
                       <input
                         type="text"
                         placeholder="e.g. Forklift, Inventory, Customer Service"
                         {...form.register('professional.skills')}
-                        className="w-full rounded-lg border border-input bg-background px-4 py-2 text-sm text-foreground focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                        className="w-full rounded-lg border border-input bg-background px-4 py-2 text-sm text-foreground outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                       />
                       {form.formState.errors.professional?.skills && (
-                        <p className="text-xs text-destructive">{form.formState.errors.professional.skills.message}</p>
+                        <p className="text-xs text-destructive">
+                          {form.formState.errors.professional.skills.message}
+                        </p>
                       )}
                     </div>
                     <div className="space-y-2">
-                      <label className="text-sm font-medium text-foreground">Years of Experience</label>
+                      <label className="text-sm font-medium text-foreground">
+                        Years of Experience
+                      </label>
                       <input
                         type="number"
                         min="0"
                         {...form.register('professional.experienceYears', { valueAsNumber: true })}
-                        className="w-full rounded-lg border border-input bg-background px-4 py-2 text-sm text-foreground focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                        className="w-full rounded-lg border border-input bg-background px-4 py-2 text-sm text-foreground outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                       />
                     </div>
                   </div>
@@ -227,17 +254,21 @@ export default function OnboardingPage(): React.ReactElement {
                   className="space-y-4"
                 >
                   <div className="space-y-4">
-                    <h2 className="text-lg font-semibold text-foreground">Where are you located?</h2>
+                    <h2 className="text-lg font-semibold text-foreground">
+                      Where are you located?
+                    </h2>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <label className="text-sm font-medium text-foreground">City</label>
                         <input
                           type="text"
                           {...form.register('location.city')}
-                          className="w-full rounded-lg border border-input bg-background px-4 py-2 text-sm text-foreground focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                          className="w-full rounded-lg border border-input bg-background px-4 py-2 text-sm text-foreground outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                         />
                         {form.formState.errors.location?.city && (
-                          <p className="text-xs text-destructive">{form.formState.errors.location.city.message}</p>
+                          <p className="text-xs text-destructive">
+                            {form.formState.errors.location.city.message}
+                          </p>
                         )}
                       </div>
                       <div className="space-y-2">
@@ -245,10 +276,12 @@ export default function OnboardingPage(): React.ReactElement {
                         <input
                           type="text"
                           {...form.register('location.state')}
-                          className="w-full rounded-lg border border-input bg-background px-4 py-2 text-sm text-foreground focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                          className="w-full rounded-lg border border-input bg-background px-4 py-2 text-sm text-foreground outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                         />
-                         {form.formState.errors.location?.state && (
-                          <p className="text-xs text-destructive">{form.formState.errors.location.state.message}</p>
+                        {form.formState.errors.location?.state && (
+                          <p className="text-xs text-destructive">
+                            {form.formState.errors.location.state.message}
+                          </p>
                         )}
                       </div>
                     </div>
@@ -257,11 +290,13 @@ export default function OnboardingPage(): React.ReactElement {
                       <input
                         type="text"
                         {...form.register('location.pincode')}
-                        className="w-full rounded-lg border border-input bg-background px-4 py-2 text-sm text-foreground focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                        className="w-full rounded-lg border border-input bg-background px-4 py-2 text-sm text-foreground outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                       />
-                       {form.formState.errors.location?.pincode && (
-                          <p className="text-xs text-destructive">{form.formState.errors.location.pincode.message}</p>
-                        )}
+                      {form.formState.errors.location?.pincode && (
+                        <p className="text-xs text-destructive">
+                          {form.formState.errors.location.pincode.message}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </motion.div>
@@ -269,33 +304,37 @@ export default function OnboardingPage(): React.ReactElement {
             </AnimatePresence>
 
             {/* Navigation Buttons */}
-            <div className="flex items-center justify-between pt-6 mt-6 border-t border-border">
+            <div className="mt-6 flex items-center justify-between border-t border-border pt-6">
               <button
                 type="button"
                 onClick={prevStep}
                 disabled={currentStep === 0 || isSubmitting}
-                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors disabled:opacity-0"
+                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground disabled:opacity-0"
               >
-                <ChevronLeft className="w-4 h-4" />
+                <ChevronLeft className="h-4 w-4" />
                 Back
               </button>
-              
+
               {currentStep < STEPS.length - 1 ? (
                 <button
                   type="button"
                   onClick={nextStep}
-                  className="flex items-center gap-2 px-6 py-2 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors shadow-sm"
+                  className="flex items-center gap-2 rounded-lg bg-primary px-6 py-2 font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
                 >
                   Continue
-                  <ChevronRight className="w-4 h-4" />
+                  <ChevronRight className="h-4 w-4" />
                 </button>
               ) : (
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex items-center gap-2 px-6 py-2 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors shadow-brand disabled:opacity-50"
+                  className="flex items-center gap-2 rounded-lg bg-primary px-6 py-2 font-medium text-primary-foreground shadow-brand transition-colors hover:bg-primary/90 disabled:opacity-50"
                 >
-                  {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
+                  {isSubmitting ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Check className="h-4 w-4" />
+                  )}
                   Complete Profile
                 </button>
               )}

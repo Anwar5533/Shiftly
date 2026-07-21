@@ -6,7 +6,9 @@ type ZodDtoClass<T> = new () => T;
  * Creates a class from a Zod schema for use with class-validator/class-transformer.
  * Strips unknown keys (whitelist) and parses input through Zod.
  */
-export function createZodDto<T extends object>(schema: ZodSchema<T>): ZodDtoClass<T> {
+export function createZodDto<T extends object>(
+  schema: ZodSchema<T>,
+): ZodDtoClass<T> {
   class ZodDto {
     static schema = schema;
 

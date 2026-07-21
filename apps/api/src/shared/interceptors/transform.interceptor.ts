@@ -19,8 +19,14 @@ export interface SuccessResponse<T> {
 }
 
 @Injectable()
-export class TransformInterceptor<T> implements NestInterceptor<T, SuccessResponse<T>> {
-  intercept(context: ExecutionContext, next: CallHandler<T>): Observable<SuccessResponse<T>> {
+export class TransformInterceptor<T> implements NestInterceptor<
+  T,
+  SuccessResponse<T>
+> {
+  intercept(
+    context: ExecutionContext,
+    next: CallHandler<T>,
+  ): Observable<SuccessResponse<T>> {
     const request = context.switchToHttp().getRequest<Request>();
     const response = context.switchToHttp().getResponse<Response>();
     const requestId = (request.headers['x-request-id'] as string) ?? uuidv4();

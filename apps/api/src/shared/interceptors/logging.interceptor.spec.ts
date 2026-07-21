@@ -36,7 +36,7 @@ describe('LoggingInterceptor', () => {
     mockCallHandler = {
       handle: jest.fn().mockReturnValue(of('test-response')),
     };
-    
+
     // Mock Date.now for predictable duration
     jest.spyOn(Date, 'now').mockReturnValue(1000);
   });
@@ -57,11 +57,13 @@ describe('LoggingInterceptor', () => {
         expect(val).toBe('test-response');
         expect(mockLogger.debug).toHaveBeenCalledWith(
           '→ GET /test',
-          expect.stringContaining('"userId":"user-123","requestId":"test-uuid"')
+          expect.stringContaining(
+            '"userId":"user-123","requestId":"test-uuid"',
+          ),
         );
         expect(mockLogger.log).toHaveBeenCalledWith(
           '← GET /test [50ms]',
-          expect.stringContaining('"duration":50')
+          expect.stringContaining('"duration":50'),
         );
         done();
       },
@@ -84,7 +86,7 @@ describe('LoggingInterceptor', () => {
         expect(mockLogger.debug).toHaveBeenCalled();
         expect(mockLogger.error).toHaveBeenCalledWith(
           '← GET /test [20ms] ERROR',
-          expect.stringContaining('"duration":20')
+          expect.stringContaining('"duration":20'),
         );
         done();
       },

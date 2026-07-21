@@ -25,9 +25,7 @@ describe('AuthController', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
-      providers: [
-        { provide: AuthService, useValue: authService },
-      ],
+      providers: [{ provide: AuthService, useValue: authService }],
     }).compile();
 
     controller = module.get<AuthController>(AuthController);
@@ -49,10 +47,20 @@ describe('AuthController', () => {
         isNewUser: false,
       });
 
-      const result = await controller.verifyOtp({ phone: '+1234567890', otp: '123456' }, mockRes);
-      
-      expect(authService.verifyOtp).toHaveBeenCalledWith('+1234567890', '123456');
-      expect(mockRes.cookie).toHaveBeenCalledWith('refresh_token', 'refresh', expect.any(Object));
+      const result = await controller.verifyOtp(
+        { phone: '+1234567890', otp: '123456' },
+        mockRes,
+      );
+
+      expect(authService.verifyOtp).toHaveBeenCalledWith(
+        '+1234567890',
+        '123456',
+      );
+      expect(mockRes.cookie).toHaveBeenCalledWith(
+        'refresh_token',
+        'refresh',
+        expect.any(Object),
+      );
       expect(result.accessToken).toBe('access');
     });
   });
@@ -65,8 +73,11 @@ describe('AuthController', () => {
         expiresIn: 3600,
       });
 
-      const result = await controller.register({ email: 'test@test.com', password: 'pass', role: 'WORKER' } as any, mockRes);
-      
+      const result = await controller.register(
+        { email: 'test@test.com', password: 'pass', role: 'WORKER' } as any,
+        mockRes,
+      );
+
       expect(authService.registerWithEmail).toHaveBeenCalled();
       expect(mockRes.cookie).toHaveBeenCalled();
       expect(result.accessToken).toBe('access');
@@ -81,8 +92,12 @@ describe('AuthController', () => {
         expiresIn: 3600,
       });
 
-      const result = await controller.login({ email: 'test@test.com', password: 'pass' } as any, { ip: '127.0.0.1', headers: {} } as any, mockRes);
-      
+      const result = await controller.login(
+        { email: 'test@test.com', password: 'pass' },
+        { ip: '127.0.0.1', headers: {} } as any,
+        mockRes,
+      );
+
       expect(authService.loginWithEmail).toHaveBeenCalled();
       expect(mockRes.cookie).toHaveBeenCalled();
       expect(result.accessToken).toBe('access');
@@ -91,7 +106,9 @@ describe('AuthController', () => {
 
   describe('refreshToken', () => {
     it('should throw error if cookie not present', async () => {
-      await expect(controller.refreshToken({ cookies: {} } as any, mockRes)).rejects.toThrow();
+      await expect(
+        controller.refreshToken({ cookies: {} } as any, mockRes),
+      ).rejects.toThrow();
     });
   });
 

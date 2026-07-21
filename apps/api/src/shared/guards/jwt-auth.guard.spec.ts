@@ -35,7 +35,9 @@ describe('JwtAuthGuard', () => {
       } as unknown as ExecutionContext;
 
       // Mock the super.canActivate method
-      const superCanActivateSpy = jest.spyOn(Object.getPrototypeOf(guard), 'canActivate').mockReturnValue(true);
+      const superCanActivateSpy = jest
+        .spyOn(Object.getPrototypeOf(guard), 'canActivate')
+        .mockReturnValue(true);
 
       const result = guard.canActivate(context);
       expect(result).toBe(true);
@@ -56,8 +58,12 @@ describe('JwtAuthGuard', () => {
     });
 
     it('should throw UnauthorizedException if no user', () => {
-      expect(() => guard.handleRequest(new Error('test'), null)).toThrow('test');
-      expect(() => guard.handleRequest(null as unknown as Error, null)).toThrow('Authentication required. Please log in.');
+      expect(() => guard.handleRequest(new Error('test'), null)).toThrow(
+        'test',
+      );
+      expect(() => guard.handleRequest(null as unknown as Error, null)).toThrow(
+        'Authentication required. Please log in.',
+      );
     });
   });
 });

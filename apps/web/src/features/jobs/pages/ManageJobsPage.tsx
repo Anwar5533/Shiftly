@@ -29,13 +29,13 @@ export default function ManageJobsPage(): React.ReactElement {
   }, []);
 
   const toggleStatus = (status: string) => {
-    setSelectedStatuses(prev =>
-      prev.includes(status) ? prev.filter(s => s !== status) : [...prev, status]
+    setSelectedStatuses((prev) =>
+      prev.includes(status) ? prev.filter((s) => s !== status) : [...prev, status],
     );
   };
 
   const filteredJobs = useMemo(() => {
-    return jobs.filter(job => {
+    return jobs.filter((job) => {
       const matchesSearch = job.title.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesStatus = selectedStatuses.length === 0 || selectedStatuses.includes(job.status);
       return matchesSearch && matchesStatus;
@@ -44,64 +44,68 @@ export default function ManageJobsPage(): React.ReactElement {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div>
-          <h1 className="text-2xl font-bold text-foreground tracking-tight">Manage Jobs</h1>
-          <p className="text-muted-foreground mt-1">View and manage your current job postings.</p>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">Manage Jobs</h1>
+          <p className="mt-1 text-muted-foreground">View and manage your current job postings.</p>
         </div>
-        <button 
+        <button
           onClick={() => navigate('/jobs/post')}
-          className="bg-primary text-primary-foreground px-4 py-2 rounded-lg font-medium hover:bg-primary/90 flex items-center justify-center gap-2 transition-colors"
+          className="flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
         >
-          <Plus className="w-4 h-4" /> Post New Job
+          <Plus className="h-4 w-4" /> Post New Job
         </button>
       </div>
 
-      <div className="bg-card border border-border rounded-xl shadow-sm overflow-visible">
-        <div className="p-4 border-b border-border flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="relative max-w-sm w-full">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <input 
-              type="text" 
+      <div className="overflow-visible rounded-xl border border-border bg-card shadow-sm">
+        <div className="flex flex-col justify-between gap-4 border-b border-border p-4 sm:flex-row sm:items-center">
+          <div className="relative w-full max-w-sm">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <input
+              type="text"
               placeholder="Search jobs..."
               value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 bg-muted/50 border border-input rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-foreground"
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full rounded-lg border border-input bg-muted/50 py-2 pl-9 pr-4 text-sm text-foreground transition-all focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
-          <div className="relative">
+          <div className="relative z-50">
             <button
               onClick={() => setShowFilter(!showFilter)}
-              className="flex items-center gap-2 px-3 py-2 border border-input rounded-lg text-sm font-medium hover:bg-muted transition-colors text-foreground"
+              className="flex items-center gap-2 rounded-lg border border-input px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
             >
-              <Filter className="w-4 h-4" /> Filter
+              <Filter className="h-4 w-4" /> Filter
               {selectedStatuses.length > 0 && (
-                <span className="ml-1 bg-primary/10 text-primary text-xs px-1.5 py-0.5 rounded-full">
+                <span className="ml-1 rounded-full bg-primary/10 px-1.5 py-0.5 text-xs text-primary">
                   {selectedStatuses.length}
                 </span>
               )}
             </button>
             {showFilter && (
-              <div className="absolute right-0 top-10 z-20 bg-card border border-border rounded-lg shadow-lg py-2 w-44">
-                <p className="px-3 py-1 text-xs font-semibold text-muted-foreground uppercase tracking-wide">Status</p>
-                {STATUS_OPTIONS.map(status => (
+              <div className="absolute right-0 top-10 z-20 w-44 rounded-lg border border-border bg-card py-2 shadow-lg">
+                <p className="px-3 py-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                  Status
+                </p>
+                {STATUS_OPTIONS.map((status) => (
                   <button
                     key={status}
                     onClick={() => toggleStatus(status)}
-                    className="w-full flex items-center justify-between px-3 py-2 text-sm hover:bg-muted transition-colors text-foreground"
+                    className="flex w-full items-center justify-between px-3 py-2 text-sm text-foreground transition-colors hover:bg-muted"
                   >
                     <span>{status}</span>
-                    {selectedStatuses.includes(status) && <CheckCircle2 className="w-4 h-4 text-primary" />}
+                    {selectedStatuses.includes(status) && (
+                      <CheckCircle2 className="h-4 w-4 text-primary" />
+                    )}
                   </button>
                 ))}
                 {selectedStatuses.length > 0 && (
                   <>
-                    <div className="border-t border-border my-1" />
+                    <div className="my-1 border-t border-border" />
                     <button
                       onClick={() => setSelectedStatuses([])}
-                      className="w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-muted transition-colors text-red-500"
+                      className="flex w-full items-center gap-2 px-3 py-2 text-sm text-red-500 transition-colors hover:bg-muted"
                     >
-                      <X className="w-3 h-3" /> Clear Filters
+                      <X className="h-3 w-3" /> Clear Filters
                     </button>
                   </>
                 )}
@@ -109,21 +113,23 @@ export default function ManageJobsPage(): React.ReactElement {
             )}
           </div>
         </div>
-        
+
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+          <table className="w-full border-collapse text-left">
             <thead>
-              <tr className="bg-muted/30 text-sm text-muted-foreground border-b border-border">
+              <tr className="border-b border-border bg-muted/30 text-sm text-muted-foreground">
                 <th className="p-4 font-medium">Job Title</th>
                 <th className="p-4 font-medium">Status</th>
                 <th className="p-4 font-medium">Candidates</th>
-                <th className="p-4 font-medium text-right">Actions</th>
+                <th className="p-4 text-right font-medium">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
               {isLoading ? (
                 <tr>
-                  <td colSpan={4} className="p-8 text-center text-muted-foreground">Loading...</td>
+                  <td colSpan={4} className="p-8 text-center text-muted-foreground">
+                    Loading...
+                  </td>
                 </tr>
               ) : filteredJobs.length === 0 ? (
                 <tr>
@@ -133,38 +139,46 @@ export default function ManageJobsPage(): React.ReactElement {
                 </tr>
               ) : (
                 filteredJobs.map((job) => (
-                  <tr 
-                    key={job.id} 
-                    className="hover:bg-muted/10 transition-colors group cursor-pointer"
+                  <tr
+                    key={job.id}
+                    className="group cursor-pointer transition-colors hover:bg-muted/10"
                     onClick={() => navigate(`/jobs/${job.id}/applications`)}
                   >
                     <td className="p-4">
                       <div className="font-semibold text-foreground">{job.title}</div>
-                      <div className="text-sm text-muted-foreground mt-1">{job.jobType} • {job.location?.city || 'Remote'}</div>
+                      <div className="mt-1 text-sm text-muted-foreground">
+                        {job.jobType} • {job.location?.city || 'Remote'}
+                      </div>
                     </td>
                     <td className="p-4">
-                      <span className={`px-2.5 py-1 rounded-full text-xs font-medium border ${
-                        job.status === 'PUBLISHED' ? 'bg-green-500/10 text-green-500 border-green-500/20' :
-                        job.status === 'DRAFT' ? 'bg-muted text-muted-foreground border-border' :
-                        job.status === 'CANCELLED' ? 'bg-red-500/10 text-red-500 border-red-500/20' :
-                        'bg-amber-500/10 text-amber-500 border-amber-500/20'
-                      }`}>
+                      <span
+                        className={`rounded-full border px-2.5 py-1 text-xs font-medium ${
+                          job.status === 'PUBLISHED'
+                            ? 'border-green-500/20 bg-green-500/10 text-green-500'
+                            : job.status === 'DRAFT'
+                              ? 'border-border bg-muted text-muted-foreground'
+                              : job.status === 'CANCELLED'
+                                ? 'border-red-500/20 bg-red-500/10 text-red-500'
+                                : 'border-amber-500/20 bg-amber-500/10 text-amber-500'
+                        }`}
+                      >
                         {job.status}
                       </span>
                     </td>
                     <td className="p-4">
                       <div className="flex items-center gap-4">
                         <div className="flex items-center gap-1.5 text-sm font-medium text-foreground">
-                          <Users className="w-4 h-4 text-muted-foreground" /> {(job as any).applications?.length || 0}
+                          <Users className="h-4 w-4 text-muted-foreground" />{' '}
+                          {(job as any).applications?.length || 0}
                         </div>
                         <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                          <Eye className="w-4 h-4" /> {(job as any).viewCount || 0}
+                          <Eye className="h-4 w-4" /> {(job as any).viewCount || 0}
                         </div>
                       </div>
                     </td>
-                    <td className="p-4 text-right" onClick={e => e.stopPropagation()}>
-                      <button className="p-2 text-muted-foreground hover:text-foreground rounded-md hover:bg-muted transition-colors">
-                        <MoreHorizontal className="w-5 h-5" />
+                    <td className="p-4 text-right" onClick={(e) => e.stopPropagation()}>
+                      <button className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
+                        <MoreHorizontal className="h-5 w-5" />
                       </button>
                     </td>
                   </tr>
@@ -176,9 +190,7 @@ export default function ManageJobsPage(): React.ReactElement {
       </div>
 
       {/* Click away to close filter */}
-      {showFilter && (
-        <div className="fixed inset-0 z-10" onClick={() => setShowFilter(false)} />
-      )}
+      {showFilter && <div className="fixed inset-0 z-10" onClick={() => setShowFilter(false)} />}
     </div>
   );
 }

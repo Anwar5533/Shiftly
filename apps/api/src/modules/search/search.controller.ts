@@ -4,7 +4,7 @@ import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 import { RolesGuard } from '../../shared/guards/roles.guard';
 import { Roles } from '../../shared/decorators/roles.decorator';
 
-@Controller('search')
+@Controller({ path: 'search', version: '1' })
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class SearchController {
   constructor(private readonly searchService: SearchService) {}
@@ -14,7 +14,7 @@ export class SearchController {
   async searchJobs(
     @Query('q') query: string,
     @Query('category') category?: string,
-    @Query('minPayRate') minPayRate?: string
+    @Query('minPayRate') minPayRate?: string,
   ) {
     return this.searchService.searchJobs(query, { category, minPayRate });
   }

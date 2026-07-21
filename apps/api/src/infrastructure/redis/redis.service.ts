@@ -1,4 +1,9 @@
-import { Injectable, OnModuleInit, OnModuleDestroy, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  OnModuleInit,
+  OnModuleDestroy,
+  Logger,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import Redis from 'ioredis';
 
@@ -60,7 +65,11 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
     }
   }
 
-  async setNx(key: string, value: string, ttlSeconds: number): Promise<boolean> {
+  async setNx(
+    key: string,
+    value: string,
+    ttlSeconds: number,
+  ): Promise<boolean> {
     const result = await this.client.set(key, value, 'EX', ttlSeconds, 'NX');
     return result === 'OK';
   }

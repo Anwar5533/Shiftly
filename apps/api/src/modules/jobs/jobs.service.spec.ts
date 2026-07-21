@@ -1,7 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { JobsService } from './jobs.service';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
-import { ForbiddenException, InternalServerErrorException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { JobStatus } from '@prisma/client';
 
 describe('JobsService', () => {
@@ -22,10 +25,7 @@ describe('JobsService', () => {
     };
 
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        JobsService,
-        { provide: PrismaService, useValue: prisma },
-      ],
+      providers: [JobsService, { provide: PrismaService, useValue: prisma }],
     }).compile();
 
     service = module.get<JobsService>(JobsService);
@@ -34,13 +34,17 @@ describe('JobsService', () => {
   describe('createJob', () => {
     it('should throw ForbiddenException if user is not employer', async () => {
       prisma.employerProfile.findUnique.mockResolvedValue(null);
-      await expect(service.createJob('user-1', {} as any)).rejects.toThrow(ForbiddenException);
+      await expect(service.createJob('user-1', {} as any)).rejects.toThrow(
+        ForbiddenException,
+      );
     });
 
     it('should throw InternalServerErrorException if creation fails', async () => {
       prisma.employerProfile.findUnique.mockResolvedValue({ id: 'emp-1' });
       prisma.job.create.mockRejectedValue(new Error());
-      await expect(service.createJob('user-1', {} as any)).rejects.toThrow(InternalServerErrorException);
+      await expect(service.createJob('user-1', {} as any)).rejects.toThrow(
+        InternalServerErrorException,
+      );
     });
 
     it('should create job', async () => {
@@ -79,19 +83,23 @@ describe('JobsService', () => {
       const result = await service.searchJobs({
         page: 2,
         limit: 5,
-      } as any);
+      });
 
-      expect(prisma.job.findMany).toHaveBeenCalledWith(expect.objectContaining({
-        skip: 5,
-        take: 5,
-      }));
+      expect(prisma.job.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          skip: 5,
+          take: 5,
+        }),
+      );
     });
   });
 
   describe('getJobById', () => {
     it('should throw NotFoundException if job not found', async () => {
       prisma.job.findUnique = jest.fn().mockResolvedValue(null);
-      await expect(service.getJobById('job-1')).rejects.toThrow(require('@nestjs/common').NotFoundException);
+      await expect(service.getJobById('job-1')).rejects.toThrow(
+        require('@nestjs/common').NotFoundException,
+      );
     });
 
     it('should return job if found', async () => {
@@ -104,25 +112,37 @@ describe('JobsService', () => {
   describe('closeJob', () => {
     it('should throw ForbiddenException if user is not employer', async () => {
       prisma.employerProfile.findUnique.mockResolvedValue(null);
-      await expect(service.closeJob('user-1', 'job-1')).rejects.toThrow(require('@nestjs/common').ForbiddenException);
+      await expect(service.closeJob('user-1', 'job-1')).rejects.toThrow(
+        require('@nestjs/common').ForbiddenException,
+      );
     });
 
     it('should throw NotFoundException if job not found', async () => {
       prisma.employerProfile.findUnique.mockResolvedValue({ id: 'emp-1' });
       prisma.job.findUnique = jest.fn().mockResolvedValue(null);
-      await expect(service.closeJob('user-1', 'job-1')).rejects.toThrow(require('@nestjs/common').NotFoundException);
+      await expect(service.closeJob('user-1', 'job-1')).rejects.toThrow(
+        require('@nestjs/common').NotFoundException,
+      );
     });
 
     it('should throw ForbiddenException if job employerId does not match user employerId', async () => {
       prisma.employerProfile.findUnique.mockResolvedValue({ id: 'emp-1' });
-      prisma.job.findUnique = jest.fn().mockResolvedValue({ id: 'job-1', employerId: 'emp-2' });
-      await expect(service.closeJob('user-1', 'job-1')).rejects.toThrow(require('@nestjs/common').ForbiddenException);
+      prisma.job.findUnique = jest
+        .fn()
+        .mockResolvedValue({ id: 'job-1', employerId: 'emp-2' });
+      await expect(service.closeJob('user-1', 'job-1')).rejects.toThrow(
+        require('@nestjs/common').ForbiddenException,
+      );
     });
 
     it('should update job status to FILLED', async () => {
       prisma.employerProfile.findUnique.mockResolvedValue({ id: 'emp-1' });
-      prisma.job.findUnique = jest.fn().mockResolvedValue({ id: 'job-1', employerId: 'emp-1' });
-      prisma.job.update = jest.fn().mockResolvedValue({ id: 'job-1', status: 'FILLED' });
+      prisma.job.findUnique = jest
+        .fn()
+        .mockResolvedValue({ id: 'job-1', employerId: 'emp-1' });
+      prisma.job.update = jest
+        .fn()
+        .mockResolvedValue({ id: 'job-1', status: 'FILLED' });
 
       const result = await service.closeJob('user-1', 'job-1');
       expect(prisma.job.update).toHaveBeenCalledWith({

@@ -9,7 +9,14 @@ export class TransactionsService {
 
   async createTransaction(data: {
     walletId: string;
-    type: 'TOPUP' | 'WITHDRAWAL' | 'ESCROW_LOCK' | 'ESCROW_RELEASE' | 'ESCROW_REFUND' | 'PLATFORM_FEE' | 'REFERRAL_BONUS';
+    type:
+      | 'TOPUP'
+      | 'WITHDRAWAL'
+      | 'ESCROW_LOCK'
+      | 'ESCROW_RELEASE'
+      | 'ESCROW_REFUND'
+      | 'PLATFORM_FEE'
+      | 'REFERRAL_BONUS';
     amount: number;
     currency?: string;
     status?: 'PENDING' | 'COMPLETED' | 'FAILED' | 'REVERSED';

@@ -17,9 +17,7 @@ describe('ApplicationsController', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ApplicationsController],
-      providers: [
-        { provide: ApplicationsService, useValue: mockService },
-      ],
+      providers: [{ provide: ApplicationsService, useValue: mockService }],
     }).compile();
 
     controller = module.get<ApplicationsController>(ApplicationsController);
@@ -38,9 +36,16 @@ describe('ApplicationsController', () => {
   });
 
   it('should call updateApplicationStatus', async () => {
-    service.updateApplicationStatus.mockResolvedValue({ id: '1', status: ApplicationStatus.ACCEPTED } as any);
-    const result = await controller.updateApplicationStatus('user1', '1', { status: ApplicationStatus.ACCEPTED });
+    service.updateApplicationStatus.mockResolvedValue({
+      id: '1',
+      status: ApplicationStatus.ACCEPTED,
+    } as any);
+    const result = await controller.updateApplicationStatus('user1', '1', {
+      status: ApplicationStatus.ACCEPTED,
+    });
     expect(result).toEqual({ id: '1', status: ApplicationStatus.ACCEPTED });
-    expect(service.updateApplicationStatus).toHaveBeenCalledWith('user1', '1', { status: ApplicationStatus.ACCEPTED });
+    expect(service.updateApplicationStatus).toHaveBeenCalledWith('user1', '1', {
+      status: ApplicationStatus.ACCEPTED,
+    });
   });
 });

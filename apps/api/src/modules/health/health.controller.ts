@@ -46,7 +46,9 @@ export class HealthController {
   @Get('ready')
   @Public()
   @HealthCheck()
-  @ApiOperation({ summary: 'Kubernetes readiness probe — checks all dependencies' })
+  @ApiOperation({
+    summary: 'Kubernetes readiness probe — checks all dependencies',
+  })
   async readiness(): Promise<HealthCheckResult> {
     return this.health.check([
       async () => this.prismaHealth.pingCheck('database', this.prisma),

@@ -1,4 +1,9 @@
-import { Injectable, Logger, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from '../../../infrastructure/database/prisma.service';
 import { TransactionsService } from '../transactions/transactions.service';
 
@@ -92,6 +97,10 @@ export class WalletsService {
           balance: { decrement: amount },
         },
       });
+
+      if (Number(updatedWallet.balance) < 0) {
+        throw new BadRequestException('Insufficient balance');
+      }
 
       await this.transactionsService.createTransaction({
         walletId: wallet.id,

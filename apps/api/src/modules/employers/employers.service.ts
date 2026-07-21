@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+} from '@nestjs/common';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
 import { UpdateEmployerProfileDto } from './dto/update-employer-profile.dto';
 import { AddDepartmentDto } from './dto/add-department.dto';
@@ -34,12 +38,14 @@ export class EmployersService {
       },
       include: {
         departments: true,
-      }
+      },
     });
   }
 
   async addDepartment(userId: string, departmentDto: AddDepartmentDto) {
-    const profile = await this.prisma.employerProfile.findUnique({ where: { userId } });
+    const profile = await this.prisma.employerProfile.findUnique({
+      where: { userId },
+    });
     if (!profile) {
       throw new NotFoundException('Employer profile not found');
     }
@@ -48,7 +54,7 @@ export class EmployersService {
       where: {
         employerId: profile.id,
         name: departmentDto.name,
-      }
+      },
     });
 
     if (existingDepartment) {
@@ -60,18 +66,20 @@ export class EmployersService {
         employerId: profile.id,
         name: departmentDto.name,
         headCount: 0,
-      }
+      },
     });
   }
 
   async getDepartments(userId: string) {
-    const profile = await this.prisma.employerProfile.findUnique({ where: { userId } });
+    const profile = await this.prisma.employerProfile.findUnique({
+      where: { userId },
+    });
     if (!profile) {
       throw new NotFoundException('Employer profile not found');
     }
 
     return this.prisma.department.findMany({
-      where: { employerId: profile.id }
+      where: { employerId: profile.id },
     });
   }
 
@@ -83,7 +91,7 @@ export class EmployersService {
           select: {
             jobs: true,
             departments: true,
-          }
+          },
         },
         jobs: {
           select: {
@@ -91,18 +99,18 @@ export class EmployersService {
               select: {
                 applications: true,
                 shifts: true,
-              }
-            }
-          }
-        }
-      }
+              },
+            },
+          },
+        },
+      },
     });
 
     if (!profile) {
       throw new NotFoundException('Employer profile not found');
     }
 
-    let activeJobsCount = profile._count.jobs;
+    const activeJobsCount = profile._count.jobs;
     let totalApplications = 0;
     let totalShifts = 0;
 
@@ -127,7 +135,7 @@ export class EmployersService {
   private calculateProfileCompletion(profile: any): number {
     let score = 0;
     const totalFields = 4;
-    
+
     if (profile.companyName) score += 1;
     if (profile.industry) score += 1;
     if (profile.logoUrl) score += 1;

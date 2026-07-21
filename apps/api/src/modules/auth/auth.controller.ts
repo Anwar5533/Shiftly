@@ -8,6 +8,7 @@ import {
   Req,
   Delete,
   Version,
+  UnauthorizedException,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -46,7 +47,9 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Send OTP to phone number' })
   @ApiOkResponse({ description: 'OTP sent successfully' })
-  async sendOtp(@Body() dto: SendOtpDto): Promise<{ message: string; expiresIn: number }> {
+  async sendOtp(
+    @Body() dto: SendOtpDto,
+  ): Promise<{ message: string; expiresIn: number }> {
     await this.authService.sendOtp(dto.phone);
     return {
       message: 'OTP sent successfully',
@@ -76,7 +79,9 @@ export class AuthController {
 
   @Post('register')
   @Public()
-  @ApiOperation({ summary: 'Register with email and password (Employer/Recruiter)' })
+  @ApiOperation({
+    summary: 'Register with email and password (Employer/Recruiter)',
+  })
   @ApiCreatedResponse({ description: 'User registered successfully' })
   async register(
     @Body() dto: RegisterEmailDto,
@@ -120,7 +125,7 @@ export class AuthController {
   ): Promise<{ accessToken: string; expiresIn: number }> {
     const refreshToken = req.cookies?.['refresh_token'] as string | undefined;
     if (!refreshToken) {
-      throw new Error('Refresh token not found');
+      throw new UnauthorizedException('Refresh token not found');
     }
     const result = await this.authService.refreshTokens(refreshToken);
     res.cookie('refresh_token', result.refreshToken, COOKIE_OPTIONS);

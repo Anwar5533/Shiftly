@@ -31,8 +31,10 @@ describe('TransformInterceptor', () => {
     mockCallHandler = {
       handle: jest.fn().mockReturnValue(of({ data: 'test' })),
     };
-    
-    jest.spyOn(global.Date.prototype, 'toISOString').mockReturnValue('2026-07-20T00:00:00.000Z');
+
+    jest
+      .spyOn(global.Date.prototype, 'toISOString')
+      .mockReturnValue('2026-07-20T00:00:00.000Z');
   });
 
   afterEach(() => {
@@ -42,7 +44,10 @@ describe('TransformInterceptor', () => {
   it('should transform response to SuccessResponse format', (done) => {
     interceptor.intercept(mockExecutionContext, mockCallHandler).subscribe({
       next: (val) => {
-        expect(mockResponse.setHeader).toHaveBeenCalledWith('X-Request-ID', 'test-uuid');
+        expect(mockResponse.setHeader).toHaveBeenCalledWith(
+          'X-Request-ID',
+          'test-uuid',
+        );
         expect(val).toEqual({
           success: true,
           data: { data: 'test' },
@@ -55,15 +60,18 @@ describe('TransformInterceptor', () => {
       },
     });
   });
-  
+
   it('should use existing x-request-id header if present', (done) => {
     mockExecutionContext.switchToHttp().getRequest = jest.fn().mockReturnValue({
       headers: { 'x-request-id': 'existing-uuid' },
     });
-    
+
     interceptor.intercept(mockExecutionContext, mockCallHandler).subscribe({
       next: (val) => {
-        expect(mockResponse.setHeader).toHaveBeenCalledWith('X-Request-ID', 'existing-uuid');
+        expect(mockResponse.setHeader).toHaveBeenCalledWith(
+          'X-Request-ID',
+          'existing-uuid',
+        );
         expect(val.meta.requestId).toBe('existing-uuid');
         done();
       },

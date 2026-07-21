@@ -1,4 +1,12 @@
-import { Controller, Post, Body, Param, Get, UseGuards, Request } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Param,
+  Get,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { TimesheetsService } from './timesheets.service';
 import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 import { RolesGuard } from '../../shared/guards/roles.guard';
@@ -15,13 +23,18 @@ export class TimesheetsController {
   async submitTimesheet(
     @Param('shiftId') shiftId: string,
     @Body() body: { hoursWorked: number; notes?: string },
-    @Request() req: any
+    @Request() req: any,
   ) {
     // Assuming the user's worker profile ID is not direct, but we use the user's ID to find their worker profile.
-    // However, in shifts, workerId refers to the worker profile ID. 
+    // However, in shifts, workerId refers to the worker profile ID.
     // In previous files (e.g. shifts.controller.ts), req.user.profileId might be used.
     // For simplicity, we assume `req.user.profileId` or we lookup the worker.
-    return this.timesheetsService.submitTimesheet(shiftId, req.user.profileId, body.hoursWorked, body.notes);
+    return this.timesheetsService.submitTimesheet(
+      shiftId,
+      req.user.profileId,
+      body.hoursWorked,
+      body.notes,
+    );
   }
 
   @Get('employer')
@@ -41,8 +54,12 @@ export class TimesheetsController {
   async rejectTimesheet(
     @Param('id') id: string,
     @Body() body: { rejectionReason: string },
-    @Request() req: any
+    @Request() req: any,
   ) {
-    return this.timesheetsService.rejectTimesheet(id, req.user.profileId, body.rejectionReason);
+    return this.timesheetsService.rejectTimesheet(
+      id,
+      req.user.profileId,
+      body.rejectionReason,
+    );
   }
 }

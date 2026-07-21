@@ -17,9 +17,7 @@ describe('EmployersController', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [EmployersController],
-      providers: [
-        { provide: EmployersService, useValue: mockService },
-      ],
+      providers: [{ provide: EmployersService, useValue: mockService }],
     }).compile();
 
     controller = module.get<EmployersController>(EmployersController);
@@ -38,16 +36,33 @@ describe('EmployersController', () => {
   });
 
   it('should call updateProfile', async () => {
-    service.updateProfile.mockResolvedValue({ id: '1', companyName: 'Corp' } as any);
-    const result = await controller.updateProfile('user1', { companyName: 'Corp' });
+    service.updateProfile.mockResolvedValue({
+      id: '1',
+      companyName: 'Corp',
+    } as any);
+    const result = await controller.updateProfile('user1', {
+      companyName: 'Corp',
+    });
     expect(result).toEqual({ id: '1', companyName: 'Corp' });
-    expect(service.updateProfile).toHaveBeenCalledWith('user1', { companyName: 'Corp' });
+    expect(service.updateProfile).toHaveBeenCalledWith('user1', {
+      companyName: 'Corp',
+    });
   });
 
   it('should call addDepartment', async () => {
-    service.addDepartment.mockResolvedValue({ id: '1', name: 'HR', headCount: 0, employerId: 'emp1' } as any);
+    service.addDepartment.mockResolvedValue({
+      id: '1',
+      name: 'HR',
+      headCount: 0,
+      employerId: 'emp1',
+    } as any);
     const result = await controller.addDepartment('user1', { name: 'HR' });
-    expect(result).toEqual({ id: '1', name: 'HR', headCount: 0, employerId: 'emp1' });
+    expect(result).toEqual({
+      id: '1',
+      name: 'HR',
+      headCount: 0,
+      employerId: 'emp1',
+    });
     expect(service.addDepartment).toHaveBeenCalledWith('user1', { name: 'HR' });
   });
 });

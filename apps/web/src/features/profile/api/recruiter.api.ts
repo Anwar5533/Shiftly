@@ -35,9 +35,9 @@ export const recruiterApi = {
     const { data } = await api.patch('/recruiters/profile', profileData);
     return data;
   },
-  
+
   getDashboardStats: async () => {
     const { data } = await api.get('/recruiters/dashboard');
     return data;
-  }
+  },
 };

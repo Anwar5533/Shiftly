@@ -18,7 +18,7 @@ const mockCandidates: Candidate[] = [
     experience: '5 years',
     skills: ['Supply Chain', 'Inventory Management', 'SAP'],
     status: 'Open to Offers',
-    rating: 4.8
+    rating: 4.8,
   },
   {
     id: 'c-2',
@@ -28,7 +28,7 @@ const mockCandidates: Candidate[] = [
     experience: '8 years',
     skills: ['Long-haul', 'Hazmat Endorsed', 'Route Planning'],
     status: 'Actively Looking',
-    rating: 4.9
+    rating: 4.9,
   },
   {
     id: 'c-3',
@@ -38,7 +38,7 @@ const mockCandidates: Candidate[] = [
     experience: '4 years',
     skills: ['Team Leadership', 'OSHA Certified', 'Forklift'],
     status: 'Passive',
-    rating: 4.5
+    rating: 4.5,
   },
   {
     id: 'c-4',
@@ -48,22 +48,23 @@ const mockCandidates: Candidate[] = [
     experience: '3 years',
     skills: ['Data Analysis', 'Excel', 'Process Optimization'],
     status: 'Actively Looking',
-    rating: 4.7
-  }
+    rating: 4.7,
+  },
 ];
 
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const candidatesApi = {
   searchCandidates: async (query?: string): Promise<Candidate[]> => {
     await delay(500);
     if (!query) return mockCandidates;
-    
+
     const lowerQuery = query.toLowerCase();
-    return mockCandidates.filter(c => 
-      c.name.toLowerCase().includes(lowerQuery) || 
-      c.title.toLowerCase().includes(lowerQuery) ||
-      c.skills.some(s => s.toLowerCase().includes(lowerQuery))
+    return mockCandidates.filter(
+      (c) =>
+        c.name.toLowerCase().includes(lowerQuery) ||
+        c.title.toLowerCase().includes(lowerQuery) ||
+        c.skills.some((s) => s.toLowerCase().includes(lowerQuery)),
     );
-  }
+  },
 };

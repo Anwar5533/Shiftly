@@ -17,9 +17,9 @@ describe('uiSlice', () => {
   it('should return the initial state from localStorage if available', () => {
     localStorage.setItem('theme', 'dark');
     localStorage.setItem('sidebar-collapsed', 'true');
-    // Note: since uiSlice is already evaluated during import, 
-    // it will pick up the initial values at that time. 
-    // To test initial state reading from localStorage properly, we test the actions 
+    // Note: since uiSlice is already evaluated during import,
+    // it will pick up the initial values at that time.
+    // To test initial state reading from localStorage properly, we test the actions
     // which write to localStorage, or we can just assert default fallback.
   });
 

@@ -1,4 +1,12 @@
-import { Controller, Post, Param, Body, UseGuards, Request, Get } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Param,
+  Body,
+  UseGuards,
+  Request,
+  Get,
+} from '@nestjs/common';
 import { ShiftsService } from './shifts.service';
 import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 import { RolesGuard } from '../../shared/guards/roles.guard';
@@ -20,7 +28,7 @@ export class ShiftsController {
   clockIn(
     @Request() req: any,
     @Param('id') id: string,
-    @Body('location') location: any
+    @Body('location') location: any,
   ) {
     return this.shiftsService.clockIn(req.user.id, id, location);
   }
@@ -31,7 +39,7 @@ export class ShiftsController {
     @Request() req: any,
     @Param('id') id: string,
     @Body('location') location: any,
-    @Body('notes') notes?: string
+    @Body('notes') notes?: string,
   ) {
     return this.shiftsService.clockOut(req.user.id, id, location, notes);
   }

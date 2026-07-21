@@ -44,7 +44,10 @@ describe('notificationsSlice', () => {
   });
 
   it('should handle setNotifications', () => {
-    const actual = notificationsReducer(initialState, setNotifications([mockNotification1, mockNotification2]));
+    const actual = notificationsReducer(
+      initialState,
+      setNotifications([mockNotification1, mockNotification2]),
+    );
     expect(actual.items.length).toBe(2);
     expect(actual.unreadCount).toBe(1);
   });
@@ -62,21 +65,27 @@ describe('notificationsSlice', () => {
   });
 
   it('should handle markAsRead', () => {
-    const stateWithNotifications = notificationsReducer(initialState, setNotifications([mockNotification1]));
-    
+    const stateWithNotifications = notificationsReducer(
+      initialState,
+      setNotifications([mockNotification1]),
+    );
+
     vi.useFakeTimers();
     vi.setSystemTime(new Date('2026-07-20T12:00:00Z'));
-    
+
     const actual = notificationsReducer(stateWithNotifications, markAsRead('1'));
     expect(actual.items[0].isRead).toBe(true);
     expect(actual.items[0].readAt).toBe('2026-07-20T12:00:00.000Z');
     expect(actual.unreadCount).toBe(0);
-    
+
     vi.useRealTimers();
   });
 
   it('should handle markAsRead for non-existent notification', () => {
-    const stateWithNotifications = notificationsReducer(initialState, setNotifications([mockNotification1]));
+    const stateWithNotifications = notificationsReducer(
+      initialState,
+      setNotifications([mockNotification1]),
+    );
     const actual = notificationsReducer(stateWithNotifications, markAsRead('invalid-id'));
     expect(actual).toEqual(stateWithNotifications);
   });
@@ -84,17 +93,17 @@ describe('notificationsSlice', () => {
   it('should handle markAllAsRead', () => {
     const stateWithNotifications = notificationsReducer(
       initialState,
-      setNotifications([mockNotification1, { ...mockNotification2, isRead: false, id: '3' }])
+      setNotifications([mockNotification1, { ...mockNotification2, isRead: false, id: '3' }]),
     );
-    
+
     vi.useFakeTimers();
     vi.setSystemTime(new Date('2026-07-20T12:00:00Z'));
-    
+
     const actual = notificationsReducer(stateWithNotifications, markAllAsRead());
     expect(actual.items.every((n) => n.isRead === true)).toBe(true);
     expect(actual.items.every((n) => n.readAt === '2026-07-20T12:00:00.000Z')).toBe(true);
     expect(actual.unreadCount).toBe(0);
-    
+
     vi.useRealTimers();
   });
 });

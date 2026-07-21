@@ -1,9 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-export function PageLoader({ fullScreen = true }: { fullScreen?: boolean } = {}): React.ReactElement {
+export function PageLoader({
+  fullScreen = true,
+}: { fullScreen?: boolean } = {}): React.ReactElement {
   return (
-    <div className={`${fullScreen ? 'fixed inset-0 z-50' : 'flex-1 h-full w-full min-h-[400px]'} flex items-center justify-center bg-background`}>
+    <div
+      className={`${fullScreen ? 'fixed inset-0 z-50' : 'h-full min-h-[400px] w-full flex-1'} flex items-center justify-center bg-background`}
+    >
       <motion.div
         className="flex flex-col items-center gap-4"
         initial={{ opacity: 0, scale: 0.8 }}
@@ -19,13 +23,10 @@ export function PageLoader({ fullScreen = true }: { fullScreen?: boolean } = {})
             xmlns="http://www.w3.org/2000/svg"
             aria-hidden="true"
           >
-            <path
-              d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"
-              fill="currentColor"
-            />
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="currentColor" />
           </svg>
           {/* Pulse ring */}
-          <div className="absolute inset-0 rounded-xl animate-pulse-glow opacity-50" />
+          <div className="absolute inset-0 animate-pulse-glow rounded-xl opacity-50" />
         </div>
 
         {/* Spinner dots */}

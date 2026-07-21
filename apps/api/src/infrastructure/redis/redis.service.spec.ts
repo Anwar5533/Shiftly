@@ -64,17 +64,24 @@ describe('RedisService', () => {
   describe('Events and Retry Strategy', () => {
     it('should attach error and reconnecting listeners', () => {
       expect(client.on).toHaveBeenCalledWith('error', expect.any(Function));
-      expect(client.on).toHaveBeenCalledWith('reconnecting', expect.any(Function));
+      expect(client.on).toHaveBeenCalledWith(
+        'reconnecting',
+        expect.any(Function),
+      );
     });
 
     it('should trigger error listener', () => {
-      const errorFn = client.on.mock.calls.find((call: any) => call[0] === 'error')[1];
+      const errorFn = client.on.mock.calls.find(
+        (call: any) => call[0] === 'error',
+      )[1];
       errorFn(new Error('test error'));
       // We could spy on Logger, but at least we cover the lines
     });
 
     it('should trigger reconnecting listener', () => {
-      const reconnectFn = client.on.mock.calls.find((call: any) => call[0] === 'reconnecting')[1];
+      const reconnectFn = client.on.mock.calls.find(
+        (call: any) => call[0] === 'reconnecting',
+      )[1];
       reconnectFn();
       // Cover lines
     });
@@ -85,7 +92,7 @@ describe('RedisService', () => {
       const RedisMock = require('ioredis').default;
       const options = RedisMock.mock.calls[0][0];
       const retryStrategy = options.retryStrategy;
-      
+
       expect(retryStrategy(11)).toBeNull();
       expect(retryStrategy(2)).toBe(200);
       expect(retryStrategy(50)).toBeNull();
@@ -198,7 +205,12 @@ describe('RedisService', () => {
 
     it('setJson should stringify and set', async () => {
       await service.setJson('key', { test: 'value' }, 3600);
-      expect(client.set).toHaveBeenCalledWith('key', '{"test":"value"}', 'EX', 3600);
+      expect(client.set).toHaveBeenCalledWith(
+        'key',
+        '{"test":"value"}',
+        'EX',
+        3600,
+      );
     });
   });
 

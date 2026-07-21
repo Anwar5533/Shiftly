@@ -40,26 +40,32 @@ export default function EmployerDashboard(): React.ReactElement {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-foreground tracking-tight">
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">
             Welcome back, {user?.email?.split('@')[0] || 'Employer'}
           </h1>
-          <p className="text-muted-foreground mt-1">Here's an overview of your hiring operations.</p>
+          <p className="mt-1 text-muted-foreground">
+            Here's an overview of your hiring operations.
+          </p>
         </div>
-        <button 
+        <button
           onClick={() => navigate('/jobs/post')}
-          className="bg-primary text-primary-foreground px-4 py-2 rounded-lg font-medium hover:bg-primary/90 transition-colors shadow-sm flex items-center gap-2"
+          className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="h-4 w-4" />
           Post a Job
         </button>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <motion.div whileHover={{ scale: 1.02 }} transition={{ type: "spring", stiffness: 300 }} className="bg-card border border-border p-6 rounded-2xl shadow-sm">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
+        <motion.div
+          whileHover={{ scale: 1.02 }}
+          transition={{ type: 'spring', stiffness: 300 }}
+          className="rounded-2xl border border-border bg-card p-6 shadow-sm"
+        >
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-primary/10 rounded-xl text-primary">
-              <FileText className="w-6 h-6" />
+            <div className="rounded-xl bg-primary/10 p-3 text-primary">
+              <FileText className="h-6 w-6" />
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">Active Jobs</p>
@@ -70,10 +76,14 @@ export default function EmployerDashboard(): React.ReactElement {
           </div>
         </motion.div>
 
-        <motion.div whileHover={{ scale: 1.02 }} transition={{ type: "spring", stiffness: 300 }} className="bg-card border border-border p-6 rounded-2xl shadow-sm">
+        <motion.div
+          whileHover={{ scale: 1.02 }}
+          transition={{ type: 'spring', stiffness: 300 }}
+          className="rounded-2xl border border-border bg-card p-6 shadow-sm"
+        >
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-accent rounded-xl text-accent-foreground">
-              <Users className="w-6 h-6" />
+            <div className="rounded-xl bg-accent p-3 text-accent-foreground">
+              <Users className="h-6 w-6" />
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">Total Applicants</p>
@@ -84,10 +94,14 @@ export default function EmployerDashboard(): React.ReactElement {
           </div>
         </motion.div>
 
-        <motion.div whileHover={{ scale: 1.02 }} transition={{ type: "spring", stiffness: 300 }} className="bg-card border border-border p-6 rounded-2xl shadow-sm">
+        <motion.div
+          whileHover={{ scale: 1.02 }}
+          transition={{ type: 'spring', stiffness: 300 }}
+          className="rounded-2xl border border-border bg-card p-6 shadow-sm"
+        >
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-secondary rounded-xl text-secondary-foreground">
-              <Activity className="w-6 h-6" />
+            <div className="rounded-xl bg-secondary p-3 text-secondary-foreground">
+              <Activity className="h-6 w-6" />
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">Completed Shifts</p>
@@ -98,10 +112,14 @@ export default function EmployerDashboard(): React.ReactElement {
           </div>
         </motion.div>
 
-        <motion.div whileHover={{ scale: 1.02 }} transition={{ type: "spring", stiffness: 300 }} className="bg-card border border-border p-6 rounded-2xl shadow-sm">
+        <motion.div
+          whileHover={{ scale: 1.02 }}
+          transition={{ type: 'spring', stiffness: 300 }}
+          className="rounded-2xl border border-border bg-card p-6 shadow-sm"
+        >
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-green-500/10 rounded-xl text-green-500">
-              <TrendingUp className="w-6 h-6" />
+            <div className="rounded-xl bg-green-500/10 p-3 text-green-500">
+              <TrendingUp className="h-6 w-6" />
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">Departments</p>
@@ -114,19 +132,19 @@ export default function EmployerDashboard(): React.ReactElement {
       </div>
 
       {/* Recent Applications */}
-      <div className="bg-card border border-border rounded-2xl shadow-sm overflow-hidden">
-        <div className="p-6 border-b border-border">
+      <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+        <div className="border-b border-border p-6">
           <h2 className="text-lg font-semibold text-foreground">Recent Applications</h2>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left">
-            <thead className="bg-muted/50 text-muted-foreground uppercase text-xs">
+          <table className="w-full text-left text-sm">
+            <thead className="bg-muted/50 text-xs uppercase text-muted-foreground">
               <tr>
                 <th className="px-6 py-4 font-medium">Candidate</th>
                 <th className="px-6 py-4 font-medium">Applied For</th>
                 <th className="px-6 py-4 font-medium">Applied On</th>
                 <th className="px-6 py-4 font-medium">Status</th>
-                <th className="px-6 py-4 font-medium text-right">Action</th>
+                <th className="px-6 py-4 text-right font-medium">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -144,10 +162,10 @@ export default function EmployerDashboard(): React.ReactElement {
                 </tr>
               ) : (
                 recentApplications?.map((app: any) => (
-                  <tr key={app.id} className="hover:bg-muted/30 transition-colors">
+                  <tr key={app.id} className="transition-colors hover:bg-muted/30">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-medium">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/20 font-medium text-primary">
                           {app.worker?.firstName?.[0] || 'C'}
                         </div>
                         <span className="font-medium text-foreground">
@@ -160,18 +178,22 @@ export default function EmployerDashboard(): React.ReactElement {
                       {new Date(app.appliedAt).toLocaleDateString()}
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`inline-flex items-center px-2 py-1 rounded-md text-xs font-medium ${
-                        app.status === 'ACCEPTED' ? 'bg-green-500/10 text-green-500' :
-                        app.status === 'REJECTED' ? 'bg-red-500/10 text-red-500' :
-                        'bg-yellow-500/10 text-yellow-500'
-                      }`}>
+                      <span
+                        className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ${
+                          app.status === 'ACCEPTED'
+                            ? 'bg-green-500/10 text-green-500'
+                            : app.status === 'REJECTED'
+                              ? 'bg-red-500/10 text-red-500'
+                              : 'bg-yellow-500/10 text-yellow-500'
+                        }`}
+                      >
                         {app.status}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <button 
+                      <button
                         onClick={() => navigate(`/jobs/${app.jobId}/applications`)}
-                        className="text-primary hover:underline font-medium"
+                        className="font-medium text-primary hover:underline"
                       >
                         View Applications
                       </button>
