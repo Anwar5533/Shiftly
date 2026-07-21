@@ -18,7 +18,7 @@ export default function ManageJobsPage(): React.ReactElement {
     const fetchMyJobs = async () => {
       try {
         const data = await jobsApi.getMyJobs();
-        setJobs(data);
+        setJobs(data.items);
       } catch (err) {
         console.error('Failed to fetch my jobs', err);
       } finally {

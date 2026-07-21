@@ -1,5 +1,15 @@
 import api from '@/shared/lib/api';
 
+export interface PaginatedResponse<T> {
+  items: T[];
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+}
+
 export interface JobApplication {
   id: string;
   jobId: string;
@@ -27,13 +37,13 @@ export const applicationsApi = {
     return response.data.data;
   },
 
-  getMyApplications: async (): Promise<JobApplication[]> => {
-    const response = await api.get('/applications/my-applications');
+  getMyApplications: async (page = 1, limit = 10): Promise<PaginatedResponse<JobApplication>> => {
+    const response = await api.get('/applications/my-applications', { params: { page, limit } });
     return response.data.data;
   },
 
-  getApplicationsForJob: async (jobId: string): Promise<JobApplication[]> => {
-    const response = await api.get(`/applications/job/${jobId}`);
+  getApplicationsForJob: async (jobId: string, page = 1, limit = 10): Promise<PaginatedResponse<JobApplication>> => {
+    const response = await api.get(`/applications/job/${jobId}`, { params: { page, limit } });
     return response.data.data;
   },
 

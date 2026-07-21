@@ -8,4 +8,9 @@ export const appConfig = registerAs('app', () => ({
   platformFeePercent: parseFloat(process.env.PLATFORM_FEE_PERCENT ?? '10'),
   otpExpireSeconds: parseInt(process.env.OTP_EXPIRE_SECONDS ?? '300', 10),
   otpMaxAttempts: parseInt(process.env.OTP_MAX_ATTEMPTS ?? '5', 10),
+  enableStaticOtp: process.env.ENABLE_STATIC_OTP === 'true',
+  cookieDomain: process.env.COOKIE_DOMAIN,
+  cookieSecure:
+    process.env.COOKIE_SECURE === 'true' ||
+    process.env.NODE_ENV === 'production',
 }));

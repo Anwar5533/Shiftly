@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { throwError } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -16,13 +16,22 @@ export class LoggingInterceptor implements NestInterceptor {
   constructor(private readonly logger: Logger) {}
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
-    const request = context.switchToHttp().getRequest<Request>();
+    const ctx = context.switchToHttp();
+    const request = ctx.getRequest<Request>();
+    const response = ctx.getResponse<Response>();
     const { method, url, ip } = request;
     const userId = (request as Request & { user?: { sub: string } }).user?.sub;
+    
+    const correlationId = (request.headers['x-correlation-id'] as string) ?? uuidv4();
     const requestId = (request.headers['x-request-id'] as string) ?? uuidv4();
+    
+    // Set headers on response
+    response.setHeader('X-Request-Id', requestId);
+    response.setHeader('X-Correlation-Id', correlationId);
+
     const startTime = Date.now();
 
-    const logContext = { method, url, ip, userId, requestId };
+    const logContext = { method, url, ip, userId, requestId, correlationId };
 
     this.logger.debug(`→ ${method} ${url}`, JSON.stringify(logContext));
 

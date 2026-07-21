@@ -40,7 +40,7 @@ describe('WorkerDashboard', () => {
       completedShifts: 10,
       activeApplications: 2,
     });
-    (applicationsApi.applicationsApi.getMyApplications as any).mockResolvedValue([]);
+    (applicationsApi.applicationsApi.getMyApplications as any).mockResolvedValue({ items: [] });
     (shiftsApi.shiftsApi.getMyShifts as any).mockResolvedValue([]);
     (jobsApi.jobsApi.searchJobs as any).mockResolvedValue({
       items: [],

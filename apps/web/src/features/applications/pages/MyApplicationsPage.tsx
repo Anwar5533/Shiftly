@@ -23,7 +23,7 @@ export default function MyApplicationsPage(): React.ReactElement {
     const fetchApps = async () => {
       try {
         const data = await applicationsApi.getMyApplications();
-        setApplications(data);
+        setApplications(data.items);
       } catch (err) {
         console.error('Failed to fetch my applications', err);
       } finally {

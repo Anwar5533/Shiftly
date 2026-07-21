@@ -7,6 +7,7 @@ import {
 import { PrismaService } from '../../../infrastructure/database/prisma.service';
 import { TransactionsService } from '../transactions/transactions.service';
 import { WalletsService } from '../wallets/wallets.service';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class EscrowService {
@@ -28,8 +29,8 @@ export class EscrowService {
       throw new BadRequestException('Escrow amount must be positive');
     }
 
-    return this.prisma.$transaction(async (tx: any) => {
-      const employerWallet = await this.walletsService.getWallet(employerId);
+    return this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+      const employerWallet = await this.walletsService.getWallet(employerId, tx);
 
       if (Number(employerWallet.balance) < amount) {
         throw new BadRequestException(
@@ -77,7 +78,7 @@ export class EscrowService {
 
   async releaseFunds(timesheetId: string) {
     // When timesheet is approved, we need to release funds from employer's escrow to worker's balance
-    return this.prisma.$transaction(async (tx: any) => {
+    return this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       const timesheet = await tx.timesheet.findUnique({
         where: { id: timesheetId },
         include: {
@@ -98,8 +99,8 @@ export class EscrowService {
 
       // Find the escrow lock associated with this job
       // Realistically we need the applicationId, but for our MVP let's find the first escrow lock for this job+wallet
-      const employerWallet = await this.walletsService.getWallet(employerId);
-      const workerWallet = await this.walletsService.getWallet(workerId);
+      const employerWallet = await this.walletsService.getWallet(employerId, tx);
+      const workerWallet = await this.walletsService.getWallet(workerId, tx);
 
       const escrowLock = await tx.escrowLock.findFirst({
         where: {

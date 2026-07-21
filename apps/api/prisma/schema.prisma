@@ -290,6 +290,7 @@ model User {
   pushTokens               PushToken[]
 
   @@index([role, status])
+  @@index([deletedAt])
   @@map("users")
   @@schema("identity")
 }
@@ -541,9 +542,12 @@ model Job {
   conversations Conversation[]
 
   @@index([employerId])
+  @@index([employerId, status])
   @@index([status])
+  @@index([status, jobType])
   @@index([jobType])
   @@index([createdAt])
+  @@index([deletedAt])
   @@map("jobs")
   @@schema("jobs")
 }
@@ -582,6 +586,7 @@ model JobApplication {
   @@index([jobId])
   @@index([workerId])
   @@index([status])
+  @@index([jobId, status])
   @@map("job_applications")
   @@schema("jobs")
 }
@@ -675,6 +680,8 @@ model Transaction {
   wallet Wallet @relation(fields: [walletId], references: [id])
 
   @@index([walletId])
+  @@index([walletId, status])
+  @@index([walletId, createdAt(sort: Desc)])
   @@index([status])
   @@index([createdAt])
   @@map("transactions")
@@ -699,6 +706,8 @@ model EscrowLock {
 
   @@index([walletId])
   @@index([status])
+  @@index([jobId, status])
+  @@index([walletId, status])
   @@map("escrow_locks")
   @@schema("payments")
 }

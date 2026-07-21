@@ -25,15 +25,28 @@ export class JobsService {
     }
 
     try {
-      const job = await this.prisma.job.create({
-        data: {
-          ...createJobDto,
-          employerId: employer.id,
-          status: JobStatus.PUBLISHED, // Auto-publish for now, could be DRAFT
-          publishedAt: new Date(),
-        },
+      return await this.prisma.$transaction(async (tx) => {
+        const job = await tx.job.create({
+          data: {
+            ...createJobDto,
+            employerId: employer.id,
+            status: JobStatus.PUBLISHED, // Auto-publish for now, could be DRAFT
+            publishedAt: new Date(),
+          },
+        });
+
+        await tx.auditLog.create({
+          data: {
+            actorId: userId,
+            action: 'CREATE',
+            resourceType: 'Job',
+            resourceId: job.id,
+            newValues: createJobDto as any,
+          },
+        });
+
+        return job;
       });
-      return job;
     } catch (error) {
       throw new InternalServerErrorException('Failed to create job');
     }
@@ -139,7 +152,7 @@ export class JobsService {
       },
     });
 
-    if (!job) {
+    if (!job || job.deletedAt) {
       throw new NotFoundException('Job not found');
     }
 
@@ -157,7 +170,7 @@ export class JobsService {
 
     const job = await this.prisma.job.findUnique({ where: { id: jobId } });
 
-    if (!job) {
+    if (!job || job.deletedAt) {
       throw new NotFoundException('Job not found');
     }
 
@@ -167,9 +180,27 @@ export class JobsService {
       );
     }
 
-    return this.prisma.job.update({
-      where: { id: jobId },
-      data: { status: JobStatus.FILLED },
+    if (job.status === JobStatus.FILLED || job.status === JobStatus.ARCHIVED) {
+      throw new ForbiddenException('Job is already closed or archived');
+    }
+
+    return this.prisma.$transaction(async (tx) => {
+      const updatedJob = await tx.job.update({
+        where: { id: jobId },
+        data: { status: JobStatus.FILLED },
+      });
+
+      await tx.auditLog.create({
+        data: {
+          actorId: userId,
+          action: 'UPDATE',
+          resourceType: 'Job',
+          resourceId: jobId,
+          newValues: { status: JobStatus.FILLED },
+        },
+      });
+
+      return updatedJob;
     });
   }
 
@@ -184,7 +215,7 @@ export class JobsService {
 
     const job = await this.prisma.job.findUnique({ where: { id: jobId } });
 
-    if (!job) {
+    if (!job || job.deletedAt) {
       throw new NotFoundException('Job not found');
     }
 
@@ -194,9 +225,23 @@ export class JobsService {
       );
     }
 
-    return this.prisma.job.update({
-      where: { id: jobId },
-      data: updateDto as any,
+    return this.prisma.$transaction(async (tx) => {
+      const updatedJob = await tx.job.update({
+        where: { id: jobId },
+        data: updateDto as any,
+      });
+
+      await tx.auditLog.create({
+        data: {
+          actorId: userId,
+          action: 'UPDATE',
+          resourceType: 'Job',
+          resourceId: jobId,
+          newValues: updateDto as any,
+        },
+      });
+
+      return updatedJob;
     });
   }
 
@@ -211,7 +256,7 @@ export class JobsService {
 
     const job = await this.prisma.job.findUnique({ where: { id: jobId } });
 
-    if (!job) {
+    if (!job || job.deletedAt) {
       throw new NotFoundException('Job not found');
     }
 
@@ -221,13 +266,26 @@ export class JobsService {
       );
     }
 
-    return this.prisma.job.update({
-      where: { id: jobId },
-      data: { deletedAt: new Date(), status: JobStatus.ARCHIVED },
+    return this.prisma.$transaction(async (tx) => {
+      const updatedJob = await tx.job.update({
+        where: { id: jobId },
+        data: { deletedAt: new Date(), status: JobStatus.ARCHIVED },
+      });
+
+      await tx.auditLog.create({
+        data: {
+          actorId: userId,
+          action: 'DELETE',
+          resourceType: 'Job',
+          resourceId: jobId,
+        },
+      });
+
+      return updatedJob;
     });
   }
 
-  async getMyJobs(userId: string) {
+  async getMyJobs(userId: string, page: number = 1, limit: number = 10) {
     const employer = await this.prisma.employerProfile.findUnique({
       where: { userId },
     });
@@ -236,14 +294,33 @@ export class JobsService {
       throw new ForbiddenException('Only employers can view their jobs');
     }
 
-    return this.prisma.job.findMany({
-      where: { employerId: employer.id, deletedAt: null },
-      orderBy: { createdAt: 'desc' },
-      include: {
-        applications: {
-          select: { id: true },
+    const skip = (page - 1) * limit;
+
+    const [jobs, total] = await this.prisma.$transaction([
+      this.prisma.job.findMany({
+        where: { employerId: employer.id, deletedAt: null },
+        orderBy: { createdAt: 'desc' },
+        skip,
+        take: limit,
+        include: {
+          applications: {
+            select: { id: true },
+          },
         },
+      }),
+      this.prisma.job.count({
+        where: { employerId: employer.id, deletedAt: null },
+      }),
+    ]);
+
+    return {
+      items: jobs,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
       },
-    });
+    };
   }
 }

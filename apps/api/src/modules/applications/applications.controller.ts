@@ -6,10 +6,12 @@ import {
   Body,
   Param,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { ApplicationsService } from './applications.service';
 import { CreateApplicationDto } from './dto/create-application.dto';
 import { UpdateApplicationStatusDto } from './dto/update-application-status.dto';
+import { PaginationDto } from '../../shared/dto/pagination.dto';
 import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 import { RolesGuard } from '../../shared/guards/roles.guard';
 import { Roles } from '../../shared/decorators/roles.decorator';
@@ -32,8 +34,11 @@ export class ApplicationsController {
 
   @Get('my-applications')
   @Roles(UserRole.WORKER)
-  getMyApplications(@CurrentUser('sub') userId: string) {
-    return this.applicationsService.getMyApplications(userId);
+  getMyApplications(
+    @CurrentUser('sub') userId: string,
+    @Query() query: PaginationDto,
+  ) {
+    return this.applicationsService.getMyApplications(userId, query.page, query.limit);
   }
 
   @Get('recent')
@@ -47,8 +52,9 @@ export class ApplicationsController {
   getApplicationsForJob(
     @CurrentUser('sub') userId: string,
     @Param('jobId') jobId: string,
+    @Query() query: PaginationDto,
   ) {
-    return this.applicationsService.getApplicationsForJob(userId, jobId);
+    return this.applicationsService.getApplicationsForJob(userId, jobId, query.page, query.limit);
   }
 
   @Patch(':id/status')

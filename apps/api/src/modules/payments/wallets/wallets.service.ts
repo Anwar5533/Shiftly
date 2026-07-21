@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../../../infrastructure/database/prisma.service';
 import { TransactionsService } from '../transactions/transactions.service';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class WalletsService {
@@ -16,13 +17,15 @@ export class WalletsService {
     private readonly transactionsService: TransactionsService,
   ) {}
 
-  async getWallet(userId: string) {
-    let wallet = await this.prisma.wallet.findUnique({
+  async getWallet(userId: string, tx?: Prisma.TransactionClient) {
+    const client = tx || this.prisma;
+    
+    let wallet = await client.wallet.findUnique({
       where: { userId },
     });
 
     if (!wallet) {
-      wallet = await this.prisma.wallet.create({
+      wallet = await client.wallet.create({
         data: {
           userId,
           balance: 0,
@@ -45,7 +48,7 @@ export class WalletsService {
       throw new BadRequestException('Top up amount must be greater than 0');
     }
 
-    return this.prisma.$transaction(async (tx: any) => {
+    return this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       const wallet = await tx.wallet.findUnique({
         where: { userId },
       });
@@ -78,7 +81,7 @@ export class WalletsService {
       throw new BadRequestException('Withdraw amount must be greater than 0');
     }
 
-    return this.prisma.$transaction(async (tx: any) => {
+    return this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       const wallet = await tx.wallet.findUnique({
         where: { userId },
       });

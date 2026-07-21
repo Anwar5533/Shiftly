@@ -1,5 +1,6 @@
 import api from '@/shared/lib/api';
 import type { Job } from '@shiftly/shared-types';
+import type { PaginatedResponse } from './applications.api';
 
 export interface CreateJobData {
   title: string;
@@ -28,8 +29,8 @@ export const jobsApi = {
     return response.data.data;
   },
 
-  getMyJobs: async (): Promise<Job[]> => {
-    const response = await api.get('/jobs/my-jobs');
+  getMyJobs: async (page = 1, limit = 10): Promise<PaginatedResponse<Job>> => {
+    const response = await api.get('/jobs/my-jobs', { params: { page, limit } });
     return response.data.data;
   },
 

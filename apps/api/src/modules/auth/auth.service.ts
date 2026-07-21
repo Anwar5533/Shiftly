@@ -9,6 +9,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
+import * as crypto from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
 import { RedisService } from '../../infrastructure/redis/redis.service';
@@ -47,7 +48,11 @@ export class AuthService {
 
   // ─── OTP ───────────────────────────────────────────────────────────────────
 
-  async sendOtp(phone: string): Promise<void> {
+  async sendOtp(
+    phone: string,
+    requestId?: string,
+    correlationId?: string,
+  ): Promise<void> {
     // Check lockout
     const isLocked = await this.redis.exists(this.LOCKOUT_KEY(phone));
     if (isLocked) {
@@ -56,11 +61,17 @@ export class AuthService {
       );
     }
 
-    // Generate 6-digit OTP (Static '123456' for local development, random otherwise)
+    // Generate 6-digit OTP (Static '123456' for local development if enabled, random otherwise)
     const isDev = process.env.NODE_ENV !== 'production';
-    const otp = isDev
-      ? '123456'
-      : Math.floor(100000 + Math.random() * 900000).toString();
+    const enableStaticOtp = this.config.get<boolean>(
+      'app.enableStaticOtp',
+      false,
+    );
+
+    const otp =
+      isDev && enableStaticOtp
+        ? '123456'
+        : Math.floor(100000 + Math.random() * 900000).toString();
     const expirySeconds = this.config.get<number>('app.otpExpireSeconds', 300);
 
     // Store OTP in Redis
@@ -82,11 +93,25 @@ export class AuthService {
     });
 
     this.logger.log(
-      `OTP sent to ${phone.slice(0, 6)}**** (DEV ONLY: OTP is ${otp})`,
+      JSON.stringify({
+        event: 'AUTH_OTP_SENT',
+        phone: `${phone.slice(0, 6)}****`,
+        isStatic: isDev && enableStaticOtp,
+        requestId,
+        correlationId,
+        timestamp: new Date().toISOString(),
+      }),
     );
   }
 
-  async verifyOtp(phone: string, otp: string): Promise<OtpVerifyResult> {
+  async verifyOtp(
+    phone: string,
+    otp: string,
+    ipAddress: string,
+    userAgent: string,
+    requestId?: string,
+    correlationId?: string,
+  ): Promise<OtpVerifyResult> {
     // Check lockout
     const isLocked = await this.redis.exists(this.LOCKOUT_KEY(phone));
     if (isLocked) {
@@ -161,13 +186,31 @@ export class AuthService {
 
     this.validateUserStatus(user);
 
-    const tokens = await this.generateTokens(user);
+    const tokens = await this.generateTokens(user, ipAddress, userAgent);
+
+    this.logger.log(
+      JSON.stringify({
+        event: 'AUTH_OTP_VERIFIED',
+        userId: user.id,
+        ipAddress,
+        requestId,
+        correlationId,
+        timestamp: new Date().toISOString(),
+      }),
+    );
+
     return { ...tokens, isNewUser };
   }
 
   // ─── Email/Password ────────────────────────────────────────────────────────
 
-  async registerWithEmail(dto: RegisterEmailDto): Promise<TokenSet> {
+  async registerWithEmail(
+    dto: RegisterEmailDto,
+    ipAddress: string,
+    userAgent: string,
+    requestId?: string,
+    correlationId?: string,
+  ): Promise<TokenSet> {
     const existing = await this.prisma.user.findUnique({
       where: { email: dto.email },
     });
@@ -214,7 +257,19 @@ export class AuthService {
       new UserRegisteredEvent(user),
     );
 
-    return this.generateTokens(user);
+    this.logger.log(
+      JSON.stringify({
+        event: 'AUTH_REGISTERED',
+        userId: user.id,
+        role: user.role,
+        ipAddress,
+        requestId,
+        correlationId,
+        timestamp: new Date().toISOString(),
+      }),
+    );
+
+    return this.generateTokens(user, ipAddress, userAgent);
   }
 
   async loginWithEmail(
@@ -222,15 +277,38 @@ export class AuthService {
     password: string,
     ipAddress: string,
     userAgent: string,
+    requestId?: string,
+    correlationId?: string,
   ): Promise<TokenSet> {
     const user = await this.prisma.user.findUnique({ where: { email } });
 
     if (!user?.passwordHash) {
+      this.logger.warn(
+        JSON.stringify({
+          event: 'AUTH_LOGIN_FAILED',
+          reason: 'User not found or no password hash',
+          ipAddress,
+          requestId,
+          correlationId,
+          timestamp: new Date().toISOString(),
+        }),
+      );
       throw new UnauthorizedException('Invalid email or password.');
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
     if (!isPasswordValid) {
+      this.logger.warn(
+        JSON.stringify({
+          event: 'AUTH_LOGIN_FAILED',
+          reason: 'Invalid password',
+          userId: user.id,
+          ipAddress,
+          requestId,
+          correlationId,
+          timestamp: new Date().toISOString(),
+        }),
+      );
       throw new UnauthorizedException('Invalid email or password.');
     }
 
@@ -242,12 +320,29 @@ export class AuthService {
       data: { lastLoginAt: new Date(), loginCount: { increment: 1 } },
     });
 
+    this.logger.log(
+      JSON.stringify({
+        event: 'AUTH_LOGIN_SUCCESS',
+        userId: user.id,
+        ipAddress,
+        requestId,
+        correlationId,
+        timestamp: new Date().toISOString(),
+      }),
+    );
+
     return this.generateTokens(user, ipAddress, userAgent);
   }
 
   // ─── Token Management ──────────────────────────────────────────────────────
 
-  async refreshTokens(refreshToken: string): Promise<TokenSet> {
+  async refreshTokens(
+    refreshToken: string,
+    ipAddress?: string,
+    userAgent?: string,
+    requestId?: string,
+    correlationId?: string,
+  ): Promise<TokenSet> {
     let payload: JwtPayload;
 
     try {
@@ -260,32 +355,103 @@ export class AuthService {
       );
     }
 
+    const hashedJti = crypto
+      .createHash('sha256')
+      .update(payload.sessionId)
+      .digest('hex');
+
     // Validate session still exists and not revoked
     const session = await this.prisma.session.findFirst({
-      where: { refreshTokenJti: payload.sessionId, isRevoked: false },
+      where: { refreshTokenJti: hashedJti },
       include: { user: true },
     });
 
-    if (!session || session.expiresAt < new Date()) {
+    if (!session) {
+      throw new UnauthorizedException('Session expired. Please log in again.');
+    }
+
+    if (session.isRevoked) {
+      // Token reuse detected! Revoke all sessions for this user.
+      await this.prisma.session.updateMany({
+        where: { userId: session.userId },
+        data: { isRevoked: true, revokedAt: new Date() },
+      });
+      this.logger.warn(
+        JSON.stringify({
+          event: 'AUTH_TOKEN_REUSE_DETECTED',
+          userId: session.userId,
+          ipAddress,
+          requestId,
+          correlationId,
+          timestamp: new Date().toISOString(),
+        }),
+      );
+      throw new UnauthorizedException(
+        'Security alert: Token reuse detected. All sessions revoked.',
+      );
+    }
+
+    if (session.expiresAt < new Date()) {
       throw new UnauthorizedException('Session expired. Please log in again.');
     }
 
     this.validateUserStatus(session.user);
 
-    // Rotate: revoke old session, create new one
-    await this.prisma.session.update({
-      where: { id: session.id },
-      data: { isRevoked: true, revokedAt: new Date() },
+    // Rotate: revoke old session, create new one in a transaction
+    const newTokens = await this.prisma.$transaction(async (tx) => {
+      await tx.session.update({
+        where: { id: session.id },
+        data: { isRevoked: true, revokedAt: new Date() },
+      });
+
+      return this.generateTokens(
+        session.user,
+        ipAddress || session.ipAddress || undefined,
+        userAgent || session.userAgent || undefined,
+        tx,
+      );
     });
 
-    return this.generateTokens(session.user);
+    this.logger.log(
+      JSON.stringify({
+        event: 'AUTH_SESSION_REFRESHED',
+        userId: session.userId,
+        ipAddress,
+        requestId,
+        correlationId,
+        timestamp: new Date().toISOString(),
+      }),
+    );
+
+    return newTokens;
   }
 
-  async logout(sessionId: string): Promise<void> {
+  async logout(
+    sessionId: string,
+    userId: string,
+    ipAddress?: string,
+    requestId?: string,
+    correlationId?: string,
+  ): Promise<void> {
+    const hashedJti = crypto
+      .createHash('sha256')
+      .update(sessionId)
+      .digest('hex');
     await this.prisma.session.updateMany({
-      where: { refreshTokenJti: sessionId },
+      where: { refreshTokenJti: hashedJti },
       data: { isRevoked: true, revokedAt: new Date() },
     });
+
+    this.logger.log(
+      JSON.stringify({
+        event: 'AUTH_LOGOUT',
+        userId,
+        ipAddress,
+        requestId,
+        correlationId,
+        timestamp: new Date().toISOString(),
+      }),
+    );
   }
 
   // ─── JWT Strategy Validation ───────────────────────────────────────────────
@@ -306,6 +472,7 @@ export class AuthService {
     user: User,
     ipAddress?: string,
     userAgent?: string,
+    tx: any = this.prisma,
   ): Promise<TokenSet> {
     const jti = uuidv4();
     const permissions = ROLE_PERMISSIONS[user.role] ?? [];
@@ -332,11 +499,45 @@ export class AuthService {
       ),
     ]);
 
+    const hashedJti = crypto.createHash('sha256').update(jti).digest('hex');
+
+    // Revoke previous session from the exact same device footprint to avoid unbounded zombie sessions
+    if (ipAddress && userAgent) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+      const revoked = await tx.session.updateMany({
+        where: {
+          userId: user.id,
+          ipAddress,
+          userAgent,
+          isRevoked: false,
+        },
+        data: {
+          isRevoked: true,
+          revokedAt: new Date(),
+        },
+      });
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      if (revoked.count > 0) {
+        this.logger.log(
+          JSON.stringify({
+            event: 'AUTH_SESSION_REVOKED_PER_DEVICE',
+            userId: user.id,
+            ipAddress,
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+            count: revoked.count,
+            timestamp: new Date().toISOString(),
+          }),
+        );
+      }
+    }
+
     // Persist session
-    await this.prisma.session.create({
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+    await tx.session.create({
       data: {
         userId: user.id,
-        refreshTokenJti: jti,
+        refreshTokenJti: hashedJti,
         ipAddress,
         userAgent,
         expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),

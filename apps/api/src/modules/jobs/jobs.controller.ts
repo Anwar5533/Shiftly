@@ -13,6 +13,7 @@ import { JobsService } from './jobs.service';
 import { CreateJobDto } from './dto/create-job.dto';
 import { UpdateJobDto } from './dto/update-job.dto';
 import { SearchJobsDto } from './dto/search-jobs.dto';
+import { PaginationDto } from '../../shared/dto/pagination.dto';
 import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 import { RolesGuard } from '../../shared/guards/roles.guard';
 import { Roles } from '../../shared/decorators/roles.decorator';
@@ -37,8 +38,11 @@ export class JobsController {
   @Get('my-jobs')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.EMPLOYER)
-  getMyJobs(@CurrentUser('sub') userId: string) {
-    return this.jobsService.getMyJobs(userId);
+  getMyJobs(
+    @CurrentUser('sub') userId: string,
+    @Query() query: PaginationDto,
+  ) {
+    return this.jobsService.getMyJobs(userId, query.page, query.limit);
   }
 
   @Get('search')

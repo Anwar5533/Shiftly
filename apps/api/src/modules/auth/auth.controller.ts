@@ -7,9 +7,10 @@ import {
   Res,
   Req,
   Delete,
-  Version,
   UnauthorizedException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { Throttle } from '@nestjs/throttler';
 import {
   ApiTags,
   ApiOperation,
@@ -27,30 +28,42 @@ import { Public } from '../../shared/decorators/public.decorator';
 import { CurrentUser } from '../../shared/decorators/current-user.decorator';
 import { JwtPayload } from '@shiftly/shared-types';
 
-const COOKIE_OPTIONS = {
-  httpOnly: true,
-  secure: process.env.NODE_ENV === 'production',
-  sameSite: 'strict' as const,
-  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-  path: '/api/v1/auth',
-};
-
 @ApiTags('Auth')
 @Controller({ path: 'auth', version: '1' })
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly config: ConfigService,
+  ) {}
+
+  private getCookieOptions() {
+    return {
+      httpOnly: true,
+      secure: this.config.get<boolean>('app.cookieSecure', true),
+      sameSite: 'strict' as const,
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      path: '/api/v1/auth',
+      domain: this.config.get<string>('app.cookieDomain'),
+    };
+  }
 
   // ─── OTP Flow ─────────────────────────────────────────────────────────────
 
   @Post('otp/send')
   @Public()
+  @Throttle({ default: { limit: 3, ttl: 60000 } })
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Send OTP to phone number' })
   @ApiOkResponse({ description: 'OTP sent successfully' })
   async sendOtp(
     @Body() dto: SendOtpDto,
+    @Req() req: Request,
   ): Promise<{ message: string; expiresIn: number }> {
-    await this.authService.sendOtp(dto.phone);
+    await this.authService.sendOtp(
+      dto.phone,
+      req.headers['x-request-id'] as string,
+      req.headers['x-correlation-id'] as string,
+    );
     return {
       message: 'OTP sent successfully',
       expiresIn: 300,
@@ -59,15 +72,24 @@ export class AuthController {
 
   @Post('otp/verify')
   @Public()
+  @Throttle({ default: { limit: 5, ttl: 60000 } })
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Verify OTP and receive access token' })
   @ApiOkResponse({ description: 'OTP verified, tokens issued' })
   async verifyOtp(
     @Body() dto: VerifyOtpDto,
+    @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
   ): Promise<{ accessToken: string; expiresIn: number; isNewUser: boolean }> {
-    const result = await this.authService.verifyOtp(dto.phone, dto.otp);
-    res.cookie('refresh_token', result.refreshToken, COOKIE_OPTIONS);
+    const result = await this.authService.verifyOtp(
+      dto.phone,
+      dto.otp,
+      req.ip ?? '',
+      req.headers['user-agent'] ?? '',
+      req.headers['x-request-id'] as string,
+      req.headers['x-correlation-id'] as string,
+    );
+    res.cookie('refresh_token', result.refreshToken, this.getCookieOptions());
     return {
       accessToken: result.accessToken,
       expiresIn: result.expiresIn,
@@ -85,15 +107,23 @@ export class AuthController {
   @ApiCreatedResponse({ description: 'User registered successfully' })
   async register(
     @Body() dto: RegisterEmailDto,
+    @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
   ): Promise<{ accessToken: string; expiresIn: number }> {
-    const result = await this.authService.registerWithEmail(dto);
-    res.cookie('refresh_token', result.refreshToken, COOKIE_OPTIONS);
+    const result = await this.authService.registerWithEmail(
+      dto,
+      req.ip ?? '',
+      req.headers['user-agent'] ?? '',
+      req.headers['x-request-id'] as string,
+      req.headers['x-correlation-id'] as string,
+    );
+    res.cookie('refresh_token', result.refreshToken, this.getCookieOptions());
     return { accessToken: result.accessToken, expiresIn: result.expiresIn };
   }
 
   @Post('login')
   @Public()
+  @Throttle({ default: { limit: 5, ttl: 60000 } })
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Login with email and password' })
   @ApiOkResponse({ description: 'Login successful' })
@@ -107,8 +137,10 @@ export class AuthController {
       dto.password,
       req.ip ?? '',
       req.headers['user-agent'] ?? '',
+      req.headers['x-request-id'] as string,
+      req.headers['x-correlation-id'] as string,
     );
-    res.cookie('refresh_token', result.refreshToken, COOKIE_OPTIONS);
+    res.cookie('refresh_token', result.refreshToken, this.getCookieOptions());
     return { accessToken: result.accessToken, expiresIn: result.expiresIn };
   }
 
@@ -116,6 +148,7 @@ export class AuthController {
 
   @Post('refresh-token')
   @Public()
+  @Throttle({ default: { limit: 10, ttl: 60000 } })
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Refresh access token using refresh token cookie' })
   @ApiOkResponse({ description: 'New tokens issued' })
@@ -127,20 +160,34 @@ export class AuthController {
     if (!refreshToken) {
       throw new UnauthorizedException('Refresh token not found');
     }
-    const result = await this.authService.refreshTokens(refreshToken);
-    res.cookie('refresh_token', result.refreshToken, COOKIE_OPTIONS);
+    const result = await this.authService.refreshTokens(
+      refreshToken,
+      req.ip ?? '',
+      req.headers['user-agent'] ?? '',
+      req.headers['x-request-id'] as string,
+      req.headers['x-correlation-id'] as string,
+    );
+    res.cookie('refresh_token', result.refreshToken, this.getCookieOptions());
     return { accessToken: result.accessToken, expiresIn: result.expiresIn };
   }
 
   @Delete('session')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @Throttle({ default: { limit: 5, ttl: 60000 } })
   @ApiBearerAuth('JWT')
   @ApiOperation({ summary: 'Logout — revoke current session' })
   async logout(
     @CurrentUser() user: JwtPayload,
+    @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
   ): Promise<void> {
-    await this.authService.logout(user.sessionId);
+    await this.authService.logout(
+      user.sessionId,
+      user.sub,
+      req.ip ?? '',
+      req.headers['x-request-id'] as string,
+      req.headers['x-correlation-id'] as string,
+    );
     res.clearCookie('refresh_token', { path: '/api/v1/auth' });
   }
 }

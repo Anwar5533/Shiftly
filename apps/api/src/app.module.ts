@@ -9,6 +9,7 @@ import { PrometheusModule } from '@willsoto/nestjs-prometheus';
 import { CacheModule } from '@nestjs/cache-manager';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { RetryInterceptor } from './shared/interceptors/retry.interceptor';
+import { IdempotencyInterceptor } from './shared/interceptors/idempotency.interceptor';
 import { appConfig } from './config/app.config';
 import { databaseConfig } from './config/database.config';
 import { redisConfig } from './config/redis.config';
@@ -156,6 +157,10 @@ import { AdminModule } from './modules/admin/admin.module';
     {
       provide: APP_INTERCEPTOR,
       useClass: RetryInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: IdempotencyInterceptor,
     },
   ],
 })

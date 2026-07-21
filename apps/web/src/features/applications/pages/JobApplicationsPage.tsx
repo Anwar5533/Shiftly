@@ -26,7 +26,7 @@ export default function JobApplicationsPage(): React.ReactElement {
       try {
         setIsLoading(true);
         const data = await applicationsApi.getApplicationsForJob(id);
-        setApplications(data);
+        setApplications(data.items);
       } catch (err) {
         console.error('Failed to load applications.', err);
       } finally {
