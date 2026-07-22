@@ -51,6 +51,7 @@
       "outputs": []
     },
     "lint": {
+      "dependsOn": ["^build", "db:generate"],
       "inputs": ["$TURBO_DEFAULT$", ".eslintrc*", "eslint.config.*"]
     },
     "typecheck": {
