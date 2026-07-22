@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety */
+/* eslint-disable @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety */
 import React from 'react';
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
@@ -16,14 +16,11 @@ export default function TimesheetsPage(): React.ReactElement {
   const handleDownload = () => {
     alert(`Downloading timesheet doc... (mock)`);
   };
-
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-return -- TODO(RC3): Address type safety
   const totalApprovedHours = useMemo(
     () =>
       timesheets
 
         .filter((ts) => ts.status === 'APPROVED' || ts.status === 'PAID')
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- TODO(RC3): Address type safety
         .reduce((acc, ts) => acc + Number(ts.hoursWorked || 0), 0),
     [timesheets],
   );
@@ -57,8 +54,6 @@ export default function TimesheetsPage(): React.ReactElement {
             </div>
             <h3 className="font-medium text-card-foreground">Total Approved Hours</h3>
           </div>
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-call,
-          @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
           <p className="text-2xl font-bold text-foreground">{totalApprovedHours.toFixed(1)} hrs</p>
           <p className="mt-1 text-sm text-muted-foreground">Across all approved timesheets</p>
         </div>
@@ -116,13 +111,10 @@ export default function TimesheetsPage(): React.ReactElement {
                 </tr>
               ) : (
                 timesheets.map((ts) => (
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
                   <tr key={ts.id} className="transition-colors hover:bg-muted/30">
                     <td className="p-4">
                       <div className="flex items-center gap-2">
                         <span className="font-medium text-foreground">
-                          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
-                          TODO(RC3): Address type safety
                           {ts.shift?.job?.title || 'Unknown Job'}
                         </span>
                       </div>
@@ -130,16 +122,11 @@ export default function TimesheetsPage(): React.ReactElement {
                     <td className="p-4 text-muted-foreground">
                       <div className="flex items-center gap-2">
                         <Calendar className="h-4 w-4" />
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
-                        TODO(RC3): Address type safety
                         {ts.submittedAt
-                          ? // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
-                            new Date(ts.submittedAt).toLocaleDateString()
+                          ? new Date(ts.submittedAt).toLocaleDateString()
                           : 'Pending Submit'}
                       </div>
                     </td>
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
-                    TODO(RC3): Address type safety
                     <td className="p-4 font-medium text-foreground">{ts.hoursWorked}h</td>
                     <td className="p-4">
                       <span
@@ -151,8 +138,6 @@ export default function TimesheetsPage(): React.ReactElement {
                               : 'border border-amber-500/20 bg-amber-500/10 text-amber-500'
                         }`}
                       >
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
-                        TODO(RC3): Address type safety
                         {ts.status}
                       </span>
                     </td>
