@@ -24,7 +24,6 @@
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\" --ignore-path .prettierignore",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md}\" --ignore-path .prettierignore",
     "clean": "turbo run clean && rimraf node_modules",
-    "postinstall": "pnpm run db:generate",
     "db:generate": "pnpm --filter @shiftly/api run db:generate",
     "db:migrate": "pnpm --filter @shiftly/api prisma migrate dev",
     "db:migrate:deploy": "pnpm --filter @shiftly/api prisma migrate deploy",

@@ -20,6 +20,7 @@
     "test:integration": "pnpm exec jest --testPathPatterns=e2e-spec --runInBand --passWithNoTests",
     "test:cov": "pnpm exec jest --coverage",
     "test:watch": "pnpm exec jest --watch",
+    "postinstall": "pnpm run db:generate",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:migrate:deploy": "prisma migrate deploy",
