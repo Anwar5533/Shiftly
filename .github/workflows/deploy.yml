@@ -3,10 +3,10 @@ name: SHIFTLY CD
 on:
   push:
     branches:
-      - deploy-dev
-      - deploy-uat
-      - deploy-mo
-      - deploy-prod
+      - release-dev
+      - release-uat
+      - release-mo
+      - release-prod
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -16,7 +16,7 @@ jobs:
   # ─── Deploy to DEV ──────────────────────────────────────────────────────────
   deploy-dev:
     name: Deploy to DEV
-    if: github.event_name == 'push' && github.ref == 'refs/heads/deploy-dev'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/release-dev'
     runs-on: ubuntu-latest
     environment: dev
     steps:
@@ -29,7 +29,7 @@ jobs:
   # ─── Deploy to UAT ──────────────────────────────────────────────────────────
   deploy-uat:
     name: Deploy to UAT
-    if: github.event_name == 'push' && github.ref == 'refs/heads/deploy-uat'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/release-uat'
     runs-on: ubuntu-latest
     environment: uat
     steps:
@@ -42,7 +42,7 @@ jobs:
   # ─── Deploy to MO (Model Office) ────────────────────────────────────────────
   deploy-mo:
     name: Deploy to MO
-    if: github.event_name == 'push' && github.ref == 'refs/heads/deploy-mo'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/release-mo'
     runs-on: ubuntu-latest
     environment: mo
     steps:
@@ -55,7 +55,7 @@ jobs:
   # ─── Deploy to PROD ─────────────────────────────────────────────────────────
   deploy-prod:
     name: Deploy to PROD
-    if: github.event_name == 'push' && github.ref == 'refs/heads/deploy-prod'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/release-prod'
     runs-on: ubuntu-latest
     environment: prod
     steps:
