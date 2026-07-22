@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- TODO(RC3): */
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { MapPin, Clock, ArrowLeft, Play, Square, FileText, CheckCircle2 } from 'lucide-react';
@@ -28,8 +27,8 @@ export default function ActiveShiftPage(): React.ReactElement {
         setError('Shift not found or you do not have permission.');
       }
     } catch (_error: unknown) {
-      const err = _error as any;
-      setError(err.response?.data?.message as string || 'Failed to load shift.');
+      const err = _error as import('axios').AxiosError<{ message?: string }>;
+      setError(err.response?.data?.message || 'Failed to load shift.');
     } finally {
       setIsLoading(false);
     }
@@ -48,7 +47,7 @@ export default function ActiveShiftPage(): React.ReactElement {
       const updatedShift = await shiftsApi.clockIn(shift.id, { city: 'Worker Location' });
       setShift(updatedShift);
     } catch (_error: unknown) {
-      const err = _error as any;
+      const err = _error as import('axios').AxiosError<{ message?: string }>;
       alert(err.response?.data?.message || 'Failed to clock in');
     } finally {
       setIsProcessing(false);
@@ -64,7 +63,7 @@ export default function ActiveShiftPage(): React.ReactElement {
       setShift(updatedShift);
       alert('Shift completed and timesheet submitted successfully!');
     } catch (_error: unknown) {
-      const err = _error as any;
+      const err = _error as import('axios').AxiosError<{ message?: string }>;
       alert(err.response?.data?.message || 'Failed to clock out');
     } finally {
       setIsProcessing(false);

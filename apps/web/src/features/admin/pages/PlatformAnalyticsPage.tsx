@@ -15,6 +15,17 @@ import {
 import { Users, Briefcase, Activity, TrendingUp } from 'lucide-react';
 import { analyticsApi } from '../api/analytics.api';
 
+interface StatsData {
+  totalUsers: number;
+  activeUsersGrowth: string;
+  activeJobs: number;
+  jobsGrowth: string;
+  completedShifts: number;
+  shiftsGrowth: string;
+  grossPaymentVolume: number;
+  volumeGrowth: string;
+}
+
 export default function PlatformAnalyticsPage(): React.ReactElement {
   const { data: statsData, isLoading: isStatsLoading } = useQuery({
     queryKey: ['analytics-stats'],
@@ -37,29 +48,29 @@ export default function PlatformAnalyticsPage(): React.ReactElement {
   const stats = [
     {
       label: 'Total Active Users',
-      value: (statsData as any)?.totalUsers || 0,
-      change: (statsData as any)?.activeUsersGrowth || '0%',
+      value: (statsData as StatsData)?.totalUsers || 0,
+      change: (statsData as StatsData)?.activeUsersGrowth || '0%',
       icon: Users,
       color: 'text-blue-500',
     },
     {
       label: 'Active Job Postings',
-      value: (statsData as any)?.activeJobs || 0,
-      change: (statsData as any)?.jobsGrowth || '0%',
+      value: (statsData as StatsData)?.activeJobs || 0,
+      change: (statsData as StatsData)?.jobsGrowth || '0%',
       icon: Briefcase,
       color: 'text-purple-500',
     },
     {
       label: 'Completed Shifts',
-      value: (statsData as any)?.completedShifts || 0,
-      change: (statsData as any)?.shiftsGrowth || '0%',
+      value: (statsData as StatsData)?.completedShifts || 0,
+      change: (statsData as StatsData)?.shiftsGrowth || '0%',
       icon: TrendingUp,
       color: 'text-green-500',
     },
     {
       label: 'Gross Volume',
-      value: `₹${Number((statsData as any)?.grossPaymentVolume || 0).toLocaleString()}`,
-      change: (statsData as any)?.volumeGrowth || '0%',
+      value: `₹${Number((statsData as StatsData)?.grossPaymentVolume || 0).toLocaleString()}`,
+      change: (statsData as StatsData)?.volumeGrowth || '0%',
       icon: Activity,
       color: 'text-amber-500',
     },

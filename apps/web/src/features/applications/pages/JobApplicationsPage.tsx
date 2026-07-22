@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call -- TODO(RC3): */
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { applicationsApi } from '../../jobs/api/applications.api';

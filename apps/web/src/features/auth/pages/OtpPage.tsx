@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- TODO(RC3): */
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';

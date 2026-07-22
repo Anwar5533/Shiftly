@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): */
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { ShieldAlert, Info, AlertTriangle, Terminal, Filter, RefreshCw } from 'lucide-react';

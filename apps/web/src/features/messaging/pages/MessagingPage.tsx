@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-misused-promises -- TODO(RC3): */
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, Bot } from 'lucide-react';
 import { chatApi } from '../api/chat.api';
@@ -41,7 +40,7 @@ export function MessagingPage() {
     try {
       const response = await chatApi.sendMessage(userMsg.content, messages);
       setMessages((prev) => [...prev, response]);
-    } catch (_error) {
+    } catch (_err) {
       //       console.error('Failed to get AI response', _error);
       setMessages((prev) => [
         ...prev,

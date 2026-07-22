@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- TODO(RC3): */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render as customRender } from '../../../shared/lib/test-utils.tsx';
 import WorkerDashboard from './WorkerDashboard';

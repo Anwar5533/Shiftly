@@ -63,7 +63,7 @@ export default function PostJobPage(): React.ReactElement {
       const newJob = await jobsApi.createJob(createData);
       void navigate(`/jobs/${newJob.id}`);
     } catch (_error: any) {
-      const err = _error as any;
+      const err = _error as import('axios').AxiosError<{ error?: { message?: string } }>;
       console.error('Failed to post job', err);
       alert(err.response?.data?.error?.message || 'Failed to post job');
     }

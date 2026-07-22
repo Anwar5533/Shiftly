@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-misused-promises -- TODO(RC3): */
 import React, { useState, useEffect, useRef } from 'react';
 import { Send, Search, MoreVertical, Phone, Video } from 'lucide-react';
 import { messagingApi } from '../api/messaging.api';

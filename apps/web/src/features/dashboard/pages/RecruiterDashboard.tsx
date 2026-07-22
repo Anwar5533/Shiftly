@@ -12,7 +12,7 @@ export default function RecruiterDashboard(): React.ReactElement {
 
   const { data: stats, isLoading } = useQuery<{ placements: number; totalApplications: number; activeJobs: number; successRate: number }>({
     queryKey: ['recruiter-dashboard-stats'],
-    queryFn: () => recruiterApi.getDashboardStats() as Promise<any>,
+    queryFn: () => recruiterApi.getDashboardStats() as Promise<{ placements: number; totalApplications: number; activeJobs: number; successRate: number }>,
   });
 
   return (

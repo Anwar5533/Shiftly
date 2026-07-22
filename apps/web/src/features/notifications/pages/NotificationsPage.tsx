@@ -40,7 +40,7 @@ export default function NotificationsPage(): React.ReactElement {
     void clearAllMutation.mutate();
   };
 
-  const notificationsList = (notifications as Notification[]) || [];
+  const notificationsList = notifications || [];
   const markAllAsRead = () => {
     notificationsList
       .filter((n) => !n.isRead)

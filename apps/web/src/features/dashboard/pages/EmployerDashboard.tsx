@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument -- TODO(RC3): */
 import React, { useState, useEffect } from 'react';
 import { Users, FileText, Activity, TrendingUp, Plus } from 'lucide-react';
 import { useAppSelector } from '@/app/store';
