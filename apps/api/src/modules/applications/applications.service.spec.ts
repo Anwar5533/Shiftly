@@ -25,14 +25,14 @@ describe('ApplicationsService', () => {
         update: jest.fn(),
       },
       auditLog: { create: jest.fn() },
-// eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call -- TODO(RC3): Address type safety
       $transaction: jest.fn((callback) => callback(mockPrismaService)),
     };
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ApplicationsService,
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
         { provide: PrismaService, useValue: mockPrismaService },
       ],
     }).compile();

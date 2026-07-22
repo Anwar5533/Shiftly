@@ -24,7 +24,7 @@ export function ReviewModal({ jobId, revieweeId, targetType, isOpen, onClose }: 
       onClose();
     },
     onError: (err: any) => {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       alert(err.response?.data?.message || 'Failed to submit review');
     },
   });

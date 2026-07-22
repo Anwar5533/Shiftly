@@ -32,7 +32,7 @@ export class TimesheetsController {
     // For simplicity, we assume `req.user.profileId` or we lookup the worker.
     return this.timesheetsService.submitTimesheet(
       shiftId,
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       req.user.profileId,
       body.hoursWorked,
       body.notes,
@@ -42,14 +42,14 @@ export class TimesheetsController {
   @Get('employer')
   @Roles('EMPLOYER')
   async getEmployerTimesheets(@Request() req: any) {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     return this.timesheetsService.getTimesheetsForEmployer(req.user.profileId);
   }
 
   @Post(':id/approve')
   @Roles('EMPLOYER')
   async approveTimesheet(@Param('id') id: string, @Request() req: any) {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     return this.timesheetsService.approveTimesheet(id, req.user.profileId);
   }
 
@@ -62,7 +62,7 @@ export class TimesheetsController {
   ) {
     return this.timesheetsService.rejectTimesheet(
       id,
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       req.user.profileId,
       body.rejectionReason,
     );

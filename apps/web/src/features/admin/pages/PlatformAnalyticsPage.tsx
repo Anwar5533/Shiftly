@@ -16,7 +16,7 @@ import { Users, Briefcase, Activity, TrendingUp } from 'lucide-react';
 import { analyticsApi } from '../api/analytics.api';
 
 export default function PlatformAnalyticsPage(): React.ReactElement {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
   const { data: statsData, isLoading: isStatsLoading } = useQuery({
     queryKey: ['analytics-stats'],
     queryFn: analyticsApi.getStats,
@@ -38,36 +38,36 @@ export default function PlatformAnalyticsPage(): React.ReactElement {
   const stats = [
     {
       label: 'Total Active Users',
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       value: statsData?.totalUsers || 0,
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       change: statsData?.activeUsersGrowth || '0%',
       icon: Users,
       color: 'text-blue-500',
     },
     {
       label: 'Active Job Postings',
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       value: statsData?.activeJobs || 0,
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       change: statsData?.jobsGrowth || '0%',
       icon: Briefcase,
       color: 'text-purple-500',
     },
     {
       label: 'Completed Shifts',
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       value: statsData?.completedShifts || 0,
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       change: statsData?.shiftsGrowth || '0%',
       icon: TrendingUp,
       color: 'text-green-500',
     },
     {
       label: 'Gross Volume',
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       value: `₹${statsData?.grossPaymentVolume?.toLocaleString() || 0}`,
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       change: statsData?.volumeGrowth || '0%',
       icon: Activity,
       color: 'text-amber-500',

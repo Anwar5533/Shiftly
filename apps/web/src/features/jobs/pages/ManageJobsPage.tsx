@@ -26,7 +26,7 @@ export default function ManageJobsPage(): React.ReactElement {
         setIsLoading(false);
       }
     };
-// eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
     fetchMyJobs();
   }, []);
 
@@ -170,12 +170,14 @@ export default function ManageJobsPage(): React.ReactElement {
                     <td className="p-4">
                       <div className="flex items-center gap-4">
                         <div className="flex items-center gap-1.5 text-sm font-medium text-foreground">
-                          <Users className="h-4 w-4 text-muted-foreground" />{' '}
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+                          <Users className="h-4 w-4 text-muted-foreground" /> //
+                          eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
+                          TODO(RC3): Address type safety
                           {(job as any).applications?.length || 0}
                         </div>
                         <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+                          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
+                          TODO(RC3): Address type safety
                           <Eye className="h-4 w-4" /> {(job as any).viewCount || 0}
                         </div>
                       </div>

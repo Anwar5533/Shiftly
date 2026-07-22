@@ -63,7 +63,7 @@ describe('RecruitersService', () => {
         firstName: 'Jane',
       });
       expect(result).toEqual(mockProfile);
-// eslint-disable-next-line @typescript-eslint/unbound-method -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/unbound-method -- TODO(RC3): Address type safety
       expect(prismaService.recruiterProfile.upsert).toHaveBeenCalledWith(
         expect.objectContaining({
           where: { userId: 'user1' },

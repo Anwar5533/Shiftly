@@ -28,13 +28,13 @@ export const workerApi = {
     proficiency: string;
   }) => {
     const response = await api.post<ApiResponse<any>>('/workers/skills', skillData);
-// eslint-disable-next-line @typescript-eslint/no-unsafe-return -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- TODO(RC3): Address type safety
     return response.data.data;
   },
 
   removeSkill: async (skillId: string) => {
     const response = await api.delete<ApiResponse<any>>(`/workers/skills/${skillId}`);
-// eslint-disable-next-line @typescript-eslint/no-unsafe-return -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- TODO(RC3): Address type safety
     return response.data.data;
   },
 

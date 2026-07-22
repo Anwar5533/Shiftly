@@ -31,7 +31,7 @@ export class AnalyticsService {
     };
   }
 
-// eslint-disable-next-line @typescript-eslint/require-await -- TODO(RC3): Address type safety
+  // eslint-disable-next-line @typescript-eslint/require-await -- TODO(RC3): Address type safety
   async getRevenueOverTime() {
     // Mock data for charts
     return [

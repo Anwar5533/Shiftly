@@ -10,7 +10,7 @@ export default function RecruiterDashboard(): React.ReactElement {
   const { user } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
   const { data: stats, isLoading } = useQuery({
     queryKey: ['recruiter-dashboard-stats'],
     queryFn: () => recruiterApi.getDashboardStats(),
@@ -45,7 +45,8 @@ export default function RecruiterDashboard(): React.ReactElement {
             <div>
               <p className="text-sm font-medium text-muted-foreground">Placements</p>
               <h3 className="text-2xl font-bold text-foreground">
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3):
+                Address type safety
                 {isLoading ? '...' : stats?.placements || 0}
               </h3>
             </div>
@@ -60,7 +61,8 @@ export default function RecruiterDashboard(): React.ReactElement {
             <div>
               <p className="text-sm font-medium text-muted-foreground">Active Candidates</p>
               <h3 className="text-2xl font-bold text-foreground">
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3):
+                Address type safety
                 {isLoading ? '...' : stats?.totalApplications || 0}
               </h3>
             </div>
@@ -75,7 +77,8 @@ export default function RecruiterDashboard(): React.ReactElement {
             <div>
               <p className="text-sm font-medium text-muted-foreground">Active Jobs</p>
               <h3 className="text-2xl font-bold text-foreground">
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3):
+                Address type safety
                 {isLoading ? '...' : stats?.activeJobs || 0}
               </h3>
             </div>
@@ -90,7 +93,8 @@ export default function RecruiterDashboard(): React.ReactElement {
             <div>
               <p className="text-sm font-medium text-muted-foreground">Success Rate</p>
               <h3 className="text-2xl font-bold text-foreground">
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3):
+                Address type safety
                 {isLoading ? '...' : `${stats?.successRate || 0}%`}
               </h3>
             </div>

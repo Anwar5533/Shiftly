@@ -38,7 +38,7 @@ export class ShiftsService {
       data: {
         status: 'IN_PROGRESS',
         actualStart: new Date(),
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
         clockInLocation: location || {},
       },
       include: {
@@ -87,7 +87,7 @@ export class ShiftsService {
       data: {
         status: 'COMPLETED',
         actualEnd: actualEnd,
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
         clockOutLocation: location || {},
         hoursWorked: parseFloat(hoursWorked.toFixed(2)),
         notes: notes,

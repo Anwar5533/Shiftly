@@ -29,7 +29,7 @@ export class ReviewsController {
     },
   ) {
     return this.reviewsService.createReview({
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       reviewerId: req.user.id,
       ...body,
     });

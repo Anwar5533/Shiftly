@@ -12,7 +12,7 @@ export default function RecruiterProfilePage(): React.ReactElement {
   const [isLoading, setIsLoading] = useState(false);
 
   const { data: profile, refetch: fetchProfile } = useQuery({
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     queryKey: ['recruiter-profile', (user as any)?.id || (user as any)?.sub],
     queryFn: () => recruiterApi.getProfile(),
   });

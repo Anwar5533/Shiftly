@@ -19,25 +19,25 @@ export class ShiftsController {
 
   @Get('my')
   async getMyShifts(@Request() req: any) {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     return this.shiftsService.getMyShifts(req.user.id);
   }
 
   @Get('my-timesheets')
   async getMyTimesheets(@Request() req: any) {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     return this.shiftsService.getMyTimesheets(req.user.id);
   }
 
   @Get('employer/timesheets')
   async getEmployerTimesheets(@Request() req: any) {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     return this.shiftsService.getTimesheetsForEmployer(req.user.id);
   }
 
   @Get(':id')
   async getShift(@Param('id') id: string, @Request() req: any) {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     return this.shiftsService.getShiftById(id, req.user.id);
   }
 
@@ -47,7 +47,7 @@ export class ShiftsController {
     @Request() req: any,
     @Body() body: any,
   ) {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     return this.shiftsService.clockIn(id, req.user.id, body.location);
   }
 
@@ -57,7 +57,7 @@ export class ShiftsController {
     @Request() req: any,
     @Body() body: any,
   ) {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     return this.shiftsService.clockOut(id, req.user.id, body.location);
   }
 
@@ -69,7 +69,7 @@ export class ShiftsController {
   ) {
     return this.shiftsService.submitTimesheet(
       id,
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       req.user.id,
       body.notes || '',
     );
@@ -77,7 +77,7 @@ export class ShiftsController {
 
   @Put('timesheets/:id/approve')
   async approveTimesheet(@Param('id') id: string, @Request() req: any) {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     return this.shiftsService.approveTimesheet(id, req.user.id);
   }
 
@@ -87,7 +87,7 @@ export class ShiftsController {
     @Request() req: any,
     @Body() body: { reason: string },
   ) {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     return this.shiftsService.rejectTimesheet(id, req.user.id, body.reason);
   }
 }

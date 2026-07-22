@@ -22,7 +22,7 @@ describe('JwtAuthGuard', () => {
       } as unknown as ExecutionContext;
 
       expect(guard.canActivate(context)).toBe(true);
-// eslint-disable-next-line @typescript-eslint/unbound-method -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/unbound-method -- TODO(RC3): Address type safety
       expect(reflector.getAllAndOverride).toHaveBeenCalledWith(IS_PUBLIC_KEY, [
         context.getHandler(),
         context.getClass(),

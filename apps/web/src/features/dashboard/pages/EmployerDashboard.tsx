@@ -28,7 +28,7 @@ export default function EmployerDashboard(): React.ReactElement {
         setIsLoading(false);
       }
     };
-// eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
     fetchStats();
   }, [user]);
 
@@ -164,45 +164,47 @@ export default function EmployerDashboard(): React.ReactElement {
                 </tr>
               ) : (
                 recentApplications?.map((app: any) => (
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
                   <tr key={app.id} className="transition-colors hover:bg-muted/30">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/20 font-medium text-primary">
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+                          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
+                          TODO(RC3): Address type safety
                           {app.worker?.firstName?.[0] || 'C'}
                         </div>
                         <span className="font-medium text-foreground">
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+                          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
+                          TODO(RC3): Address type safety
                           {app.worker?.firstName} {app.worker?.lastName}
                         </span>
                       </div>
                     </td>
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
+                    TODO(RC3): Address type safety
                     <td className="px-6 py-4 text-muted-foreground">{app.job?.title}</td>
                     <td className="px-6 py-4 text-muted-foreground">
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+                      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,
+                      @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
                       {new Date(app.appliedAt).toLocaleDateString()}
                     </td>
                     <td className="px-6 py-4">
                       <span
                         className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ${
- 
                           app.status === 'ACCEPTED'
                             ? 'bg-green-500/10 text-green-500'
- 
                             : app.status === 'REJECTED'
                               ? 'bg-red-500/10 text-red-500'
                               : 'bg-yellow-500/10 text-yellow-500'
                         }`}
                       >
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+                        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
+                        TODO(RC3): Address type safety
                         {app.status}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-right">
                       <button
- 
                         onClick={() => navigate(`/jobs/${app.jobId}/applications`)}
                         className="font-medium text-primary hover:underline"
                       >

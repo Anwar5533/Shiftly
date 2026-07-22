@@ -39,8 +39,11 @@ export class ApplicationsController {
     @CurrentUser('sub') userId: string,
     @Query() query: PaginationDto,
   ) {
- 
-    return this.applicationsService.getMyApplications(userId, query.page, query.limit);
+    return this.applicationsService.getMyApplications(
+      userId,
+      query.page,
+      query.limit,
+    );
   }
 
   @Get('recent')
@@ -56,8 +59,12 @@ export class ApplicationsController {
     @Param('jobId') jobId: string,
     @Query() query: PaginationDto,
   ) {
- 
-    return this.applicationsService.getApplicationsForJob(userId, jobId, query.page, query.limit);
+    return this.applicationsService.getApplicationsForJob(
+      userId,
+      jobId,
+      query.page,
+      query.limit,
+    );
   }
 
   @Patch(':id/status')

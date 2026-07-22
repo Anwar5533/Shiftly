@@ -28,7 +28,7 @@ export default function ActiveShiftPage(): React.ReactElement {
         setError('Shift not found or you do not have permission.');
       }
     } catch (err: any) {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       setError(err.response?.data?.message || 'Failed to load shift.');
     } finally {
       setIsLoading(false);
@@ -37,7 +37,7 @@ export default function ActiveShiftPage(): React.ReactElement {
 
   useEffect(() => {
     if (id && user?.role === 'WORKER') {
-// eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
       fetchShift();
     }
   }, [id, user]);
@@ -49,7 +49,7 @@ export default function ActiveShiftPage(): React.ReactElement {
       const updatedShift = await shiftsApi.clockIn(shift.id, { city: 'Worker Location' });
       setShift(updatedShift);
     } catch (err: any) {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       alert(err.response?.data?.message || 'Failed to clock in');
     } finally {
       setIsProcessing(false);
@@ -65,7 +65,7 @@ export default function ActiveShiftPage(): React.ReactElement {
       setShift(updatedShift);
       alert('Shift completed and timesheet submitted successfully!');
     } catch (err: any) {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       alert(err.response?.data?.message || 'Failed to clock out');
     } finally {
       setIsProcessing(false);
@@ -162,7 +162,7 @@ export default function ActiveShiftPage(): React.ReactElement {
               </p>
 
               <button
-// eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO(RC3): Address type safety
+                // eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO(RC3): Address type safety
                 onClick={handleClockIn}
                 disabled={isProcessing}
                 className="mx-auto flex w-full items-center justify-center gap-3 rounded-xl bg-primary px-12 py-4 text-lg font-bold text-primary-foreground shadow-md shadow-primary/20 transition-all hover:bg-primary/90 disabled:opacity-50 sm:w-auto"
@@ -196,7 +196,7 @@ export default function ActiveShiftPage(): React.ReactElement {
               </div>
 
               <button
-// eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO(RC3): Address type safety
+                // eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO(RC3): Address type safety
                 onClick={handleClockOut}
                 disabled={isProcessing}
                 className="mx-auto flex w-full items-center justify-center gap-3 rounded-xl bg-red-500 px-12 py-4 text-lg font-bold text-white shadow-md shadow-red-500/20 transition-all hover:bg-red-600 disabled:opacity-50 sm:w-auto"

@@ -31,25 +31,24 @@ export class MessagingGateway
     private readonly configService: ConfigService,
   ) {}
 
-// eslint-disable-next-line @typescript-eslint/require-await -- TODO(RC3): Address type safety
+  // eslint-disable-next-line @typescript-eslint/require-await -- TODO(RC3): Address type safety
   async handleConnection(client: Socket) {
     try {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
       const token =
         client.handshake.auth?.token ||
         client.handshake.headers?.authorization?.split(' ')[1];
- 
-        
+
       if (!token) {
         throw new Error('No token provided');
       }
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
       const payload = this.jwtService.verify<JwtPayload>(token, {
         secret: this.configService.get<string>('jwt.accessTokenSecret'),
       });
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       client.data.userId = payload.sub;
       console.log(`Client connected: ${client.id} (User: ${payload.sub})`);
     } catch (error) {
@@ -67,7 +66,7 @@ export class MessagingGateway
     @MessageBody() conversationId: string,
     @ConnectedSocket() client: Socket,
   ) {
-// eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
     client.join(conversationId);
   }
 
@@ -76,7 +75,7 @@ export class MessagingGateway
     @MessageBody() conversationId: string,
     @ConnectedSocket() client: Socket,
   ) {
-// eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
     client.leave(conversationId);
   }
 
@@ -87,7 +86,7 @@ export class MessagingGateway
     @ConnectedSocket() client: Socket,
   ) {
     const { conversationId, content } = payload;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     const senderId = client.data.userId;
 
     if (!senderId) {
@@ -97,7 +96,7 @@ export class MessagingGateway
 
     const message = await this.messagingService.sendMessage(
       conversationId,
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
       senderId,
       content,
     );

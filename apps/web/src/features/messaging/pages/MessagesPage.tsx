@@ -30,12 +30,12 @@ export default function MessagesPage(): React.ReactElement {
         setIsLoading(false);
       }
     };
-// eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
     fetchConversations();
   }, []);
 
   useEffect(() => {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
     const newSocket = io(import.meta.env.VITE_API_URL || 'http://localhost:3000');
     setSocket(newSocket);
     return () => {
@@ -49,7 +49,7 @@ export default function MessagesPage(): React.ReactElement {
       const data = await messagingApi.getMessages(activeConvId);
       setMessages(data);
     };
-// eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
     fetchMessages();
 
     if (socket) {
@@ -84,7 +84,7 @@ export default function MessagesPage(): React.ReactElement {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-// eslint-disable-next-line @typescript-eslint/require-await -- TODO(RC3): Address type safety
+  // eslint-disable-next-line @typescript-eslint/require-await -- TODO(RC3): Address type safety
   const handleSendMessage = async (e: React.FormEvent | React.KeyboardEvent) => {
     e.preventDefault();
     const content = newMessage.trim();
@@ -264,7 +264,8 @@ export default function MessagesPage(): React.ReactElement {
           </div>
 
           <div className="border-t border-border bg-card p-4 shadow-[0_-4px_20px_-10px_rgba(0,0,0,0.1)]">
-// eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO(RC3): Address type safety
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO(RC3): Address
+            type safety
             <form onSubmit={handleSendMessage} className="relative flex items-end gap-2">
               <textarea
                 value={newMessage}
@@ -274,7 +275,7 @@ export default function MessagesPage(): React.ReactElement {
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
-// eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
+                    // eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
                     handleSendMessage(e);
                   }
                 }}

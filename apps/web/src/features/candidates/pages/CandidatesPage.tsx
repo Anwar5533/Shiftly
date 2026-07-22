@@ -25,7 +25,7 @@ export default function CandidatesPage(): React.ReactElement {
     };
 
     const timeoutId = setTimeout(() => {
-// eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
       fetchCandidates();
     }, 300);
     return () => clearTimeout(timeoutId);
@@ -182,41 +182,44 @@ export default function CandidatesPage(): React.ReactElement {
       )}
 
       {/* Message Modal */}
-      {modalType === 'message' && selectedCandidate && createPortal(
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-md rounded-2xl border border-border bg-card shadow-2xl">
-            <div className="flex items-center justify-between border-b border-border p-5">
-              <h2 className="text-lg font-semibold text-foreground">
-                Message {selectedCandidate.name}
-              </h2>
-              <button
-                onClick={closeModal}
-                className="rounded-md p-1.5 text-muted-foreground hover:bg-muted"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-            <div className="space-y-4 p-5">
-              <div>
-                <label className="mb-1 block text-sm font-medium text-foreground">Message</label>
-                <textarea
-                  className="w-full resize-none rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                  rows={5}
-                  placeholder={`Hi ${selectedCandidate.name}, I'm interested in discussing a potential opportunity...`}
-                  value={messageText}
-                  onChange={(e) => setMessageText(e.target.value)}
-                />
+      {modalType === 'message' &&
+        selectedCandidate &&
+        createPortal(
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+            <div className="w-full max-w-md rounded-2xl border border-border bg-card shadow-2xl">
+              <div className="flex items-center justify-between border-b border-border p-5">
+                <h2 className="text-lg font-semibold text-foreground">
+                  Message {selectedCandidate.name}
+                </h2>
+                <button
+                  onClick={closeModal}
+                  className="rounded-md p-1.5 text-muted-foreground hover:bg-muted"
+                >
+                  <X className="h-5 w-5" />
+                </button>
               </div>
-              <button
-                onClick={handleSendMessage}
-                className="w-full rounded-lg bg-primary py-2.5 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-              >
-                Send Message
-              </button>
+              <div className="space-y-4 p-5">
+                <div>
+                  <label className="mb-1 block text-sm font-medium text-foreground">Message</label>
+                  <textarea
+                    className="w-full resize-none rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    rows={5}
+                    placeholder={`Hi ${selectedCandidate.name}, I'm interested in discussing a potential opportunity...`}
+                    value={messageText}
+                    onChange={(e) => setMessageText(e.target.value)}
+                  />
+                </div>
+                <button
+                  onClick={handleSendMessage}
+                  className="w-full rounded-lg bg-primary py-2.5 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                >
+                  Send Message
+                </button>
+              </div>
             </div>
-          </div>
-        </div>
-      , document.body)}
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }

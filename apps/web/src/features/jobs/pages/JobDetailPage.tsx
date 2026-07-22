@@ -32,7 +32,7 @@ export default function JobDetailPage(): React.ReactElement {
       }
     };
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
     fetchJob();
   }, [id]);
 
@@ -44,9 +44,8 @@ export default function JobDetailPage(): React.ReactElement {
       setApplySuccess(true);
     } catch (err: any) {
       console.error('Failed to apply', err);
- 
+
       if (err?.response?.data?.message) {
- 
         alert(`Error: ${err.response.data.message}`);
       } else {
         alert('Failed to apply. Please try again.');
@@ -102,7 +101,7 @@ export default function JobDetailPage(): React.ReactElement {
               </p>
             </div>
             <button
-// eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO(RC3): Address type safety
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO(RC3): Address type safety
               onClick={handleApply}
               disabled={isApplying || applySuccess}
               className="h-12 w-full rounded-lg bg-primary px-8 font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 disabled:opacity-50 md:w-auto"
@@ -123,7 +122,8 @@ export default function JobDetailPage(): React.ReactElement {
                   Location
                 </p>
                 <p className="text-sm font-medium text-foreground">
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
+                  TODO(RC3): Address type safety
                   {(job as any).location?.city || 'Remote'}
                 </p>
               </div>
@@ -132,7 +132,8 @@ export default function JobDetailPage(): React.ReactElement {
               <Building className="mt-0.5 h-5 w-5 text-muted-foreground" />
               <div>
                 <h3 className="font-semibold text-foreground">
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
+                  TODO(RC3): Address type safety
                   {(job as any).employer?.companyName || 'Employer Name'}
                 </h3>
                 <p className="text-sm text-muted-foreground">Logistics & Supply Chain</p>
@@ -145,10 +146,11 @@ export default function JobDetailPage(): React.ReactElement {
                   Salary
                 </p>
                 <p className="text-sm font-medium text-foreground">
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
+                  TODO(RC3): Address type safety
                   {(job as any).salaryCurrency} {(job as any).salaryMin} - {(job as any).salaryMax}{' '}
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
-                  / {(job as any).salaryPeriod}
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
+                  TODO(RC3): Address type safety / {(job as any).salaryPeriod}
                 </p>
               </div>
             </div>
@@ -159,7 +161,8 @@ export default function JobDetailPage(): React.ReactElement {
                   Posted
                 </p>
                 <p className="text-sm font-medium text-foreground">
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,
+                  @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
                   {new Date((job as any).createdAt).toLocaleDateString()}
                 </p>
               </div>
@@ -177,17 +180,19 @@ export default function JobDetailPage(): React.ReactElement {
           <div className="mt-8">
             <h2 className="mb-4 text-xl font-bold text-foreground">Required Skills</h2>
             <div className="flex flex-wrap gap-2">
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3):
+              Address type safety
               {(job as any).skills && (job as any).skills.length > 0 ? (
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call -- TODO(RC3): Address type safety
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-call -- TODO(RC3): Address type safety
                 (job as any).skills.map((skillRef: any) => (
                   <span
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
                     key={skillRef.skill?.id || skillRef.skillId}
                     className="inline-flex items-center rounded-full bg-muted px-3 py-1 text-sm font-medium text-foreground"
                   >
                     <CheckCircle2 className="mr-1.5 h-3 w-3 text-primary" />
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
+                    TODO(RC3): Address type safety
                     {skillRef.skill?.name || skillRef.skillId}
                   </span>
                 ))

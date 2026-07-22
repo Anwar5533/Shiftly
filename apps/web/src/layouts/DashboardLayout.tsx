@@ -77,11 +77,11 @@ export function DashboardLayout(): React.ReactElement {
 
   const getInitials = () => {
     if (userProfile) {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-return -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- TODO(RC3): Address type safety
       if (user?.role === 'EMPLOYER') return (userProfile as any).companyName?.[0] || 'C';
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
       const first = (userProfile as any).firstName?.[0] || '';
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
       const last = (userProfile as any).lastName?.[0] || '';
       if (first || last) return `${first}${last}`.toUpperCase();
     }
@@ -90,11 +90,11 @@ export function DashboardLayout(): React.ReactElement {
 
   const getFullName = () => {
     if (userProfile) {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-return -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- TODO(RC3): Address type safety
       if (user?.role === 'EMPLOYER') return (userProfile as any).companyName || 'Company';
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
       const first = (userProfile as any).firstName || '';
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
       const last = (userProfile as any).lastName || '';
       if (first || last) return `${first} ${last}`.trim();
     }
@@ -132,7 +132,7 @@ export function DashboardLayout(): React.ReactElement {
     { label: 'Settings', path: '/settings', icon: <Settings className="h-5 w-5" /> },
   ];
 
-// eslint-disable-next-line no-useless-assignment -- TODO(RC3): Address type safety
+  // eslint-disable-next-line no-useless-assignment -- TODO(RC3): Address type safety
   let navItems = [];
   switch (activePortal) {
     case 'employer':
@@ -220,9 +220,9 @@ export function DashboardLayout(): React.ReactElement {
         <nav className="mt-4 flex-1 space-y-1 px-4">
           {navItems.map((item) => (
             <NavLink
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
               key={item.path}
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
               to={item.path}
               className={({ isActive }) =>
                 `flex items-center space-x-3 rounded-lg px-3 py-2.5 transition-colors ${
@@ -232,9 +232,11 @@ export function DashboardLayout(): React.ReactElement {
                 }`
               }
             >
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3):
+              Address type safety
               {item.icon}
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3):
+              Address type safety
               <span>{item.label}</span>
             </NavLink>
           ))}
@@ -264,7 +266,7 @@ export function DashboardLayout(): React.ReactElement {
             </div>
           </div>
           <button
-// eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO(RC3): Address type safety
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO(RC3): Address type safety
             onClick={handleLogout}
             className="flex w-full items-center space-x-3 rounded-lg px-3 py-2.5 text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
           >
@@ -310,9 +312,9 @@ export function DashboardLayout(): React.ReactElement {
               <nav className="mt-4 flex-1 space-y-1 px-4">
                 {navItems.map((item) => (
                   <NavLink
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
                     key={item.path}
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
                     to={item.path}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={({ isActive }) =>
@@ -323,9 +325,11 @@ export function DashboardLayout(): React.ReactElement {
                       }`
                     }
                   >
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
+                    TODO(RC3): Address type safety
                     {item.icon}
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
+                    TODO(RC3): Address type safety
                     <span>{item.label}</span>
                   </NavLink>
                 ))}
@@ -355,7 +359,7 @@ export function DashboardLayout(): React.ReactElement {
                   </div>
                 </div>
                 <button
-// eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO(RC3): Address type safety
+                  // eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO(RC3): Address type safety
                   onClick={handleLogout}
                   className="flex w-full items-center space-x-3 rounded-lg px-3 py-2.5 text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
                 >
@@ -540,7 +544,7 @@ export function DashboardLayout(): React.ReactElement {
                     <button
                       onClick={() => {
                         setIsProfileDropdownOpen(false);
-// eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
+                        // eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
                         handleLogout();
                       }}
                       className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-destructive transition-colors hover:bg-destructive/10"

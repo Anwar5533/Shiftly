@@ -33,7 +33,7 @@ export default function SettingsPage(): React.ReactElement {
   const [copied, setCopied] = useState(false);
   const handleCopyCode = () => {
     if (refCode) {
-// eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
       navigator.clipboard.writeText(refCode.code);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);

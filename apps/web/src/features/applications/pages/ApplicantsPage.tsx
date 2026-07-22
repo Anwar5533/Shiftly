@@ -229,124 +229,127 @@ export default function ApplicantsPage(): React.ReactElement {
       </div>
 
       {/* Modals */}
-      {modalType && selectedApplicant && createPortal(
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-md rounded-2xl border border-border bg-card shadow-2xl">
-            <div className="flex items-center justify-between border-b border-border p-5">
-              <h2 className="text-lg font-semibold text-foreground">
-                {modalType === 'message' && `Message ${selectedApplicant.name}`}
-                {modalType === 'schedule' && `Schedule Interview — ${selectedApplicant.name}`}
-                {modalType === 'resume' && `Resume — ${selectedApplicant.name}`}
-              </h2>
-              <button
-                onClick={closeModal}
-                className="rounded-md p-1.5 text-muted-foreground hover:bg-muted"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
+      {modalType &&
+        selectedApplicant &&
+        createPortal(
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+            <div className="w-full max-w-md rounded-2xl border border-border bg-card shadow-2xl">
+              <div className="flex items-center justify-between border-b border-border p-5">
+                <h2 className="text-lg font-semibold text-foreground">
+                  {modalType === 'message' && `Message ${selectedApplicant.name}`}
+                  {modalType === 'schedule' && `Schedule Interview — ${selectedApplicant.name}`}
+                  {modalType === 'resume' && `Resume — ${selectedApplicant.name}`}
+                </h2>
+                <button
+                  onClick={closeModal}
+                  className="rounded-md p-1.5 text-muted-foreground hover:bg-muted"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
 
-            <div className="p-5">
-              {modalType === 'message' && (
-                <div className="space-y-4">
-                  <div>
-                    <label className="mb-1 block text-sm font-medium text-foreground">To</label>
-                    <input
-                      className="w-full rounded-lg border border-input bg-muted px-3 py-2 text-sm text-foreground"
-                      value={selectedApplicant.email}
-                      readOnly
-                    />
-                  </div>
-                  <div>
-                    <label className="mb-1 block text-sm font-medium text-foreground">
-                      Message
-                    </label>
-                    <textarea
-                      className="w-full resize-none rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                      rows={5}
-                      placeholder="Type your message here..."
-                      value={messageText}
-                      onChange={(e) => setMessageText(e.target.value)}
-                    />
-                  </div>
-                  <button
-                    onClick={handleSendMessage}
-                    className="w-full rounded-lg bg-primary py-2.5 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-                  >
-                    Send Message
-                  </button>
-                </div>
-              )}
-
-              {modalType === 'schedule' && (
-                <div className="space-y-4">
-                  <div>
-                    <label className="mb-1 block text-sm font-medium text-foreground">Date</label>
-                    <input
-                      type="date"
-                      className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                      value={scheduleDate}
-                      onChange={(e) => setScheduleDate(e.target.value)}
-                      min={new Date().toISOString().split('T')[0]}
-                    />
-                  </div>
-                  <div>
-                    <label className="mb-1 block text-sm font-medium text-foreground">Time</label>
-                    <input
-                      type="time"
-                      className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                      value={scheduleTime}
-                      onChange={(e) => setScheduleTime(e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <label className="mb-1 block text-sm font-medium text-foreground">
-                      Interview Type
-                    </label>
-                    <select className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary">
-                      <option>Video Call</option>
-                      <option>Phone Call</option>
-                      <option>In Person</option>
-                    </select>
-                  </div>
-                  <button
-                    onClick={handleScheduleInterview}
-                    className="w-full rounded-lg bg-primary py-2.5 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-                  >
-                    Schedule Interview
-                  </button>
-                </div>
-              )}
-
-              {modalType === 'resume' && (
-                <div className="space-y-4">
-                  <div className="rounded-xl border border-border bg-muted/50 p-8 text-center">
-                    <FileText className="mx-auto mb-3 h-16 w-16 text-muted-foreground opacity-50" />
-                    <p className="font-medium text-foreground">
-                      {selectedApplicant.name}_Resume.pdf
-                    </p>
-                    <p className="mt-1 text-sm text-muted-foreground">PDF Document • 2.4 MB</p>
-                  </div>
-                  <div className="flex gap-3">
+              <div className="p-5">
+                {modalType === 'message' && (
+                  <div className="space-y-4">
+                    <div>
+                      <label className="mb-1 block text-sm font-medium text-foreground">To</label>
+                      <input
+                        className="w-full rounded-lg border border-input bg-muted px-3 py-2 text-sm text-foreground"
+                        value={selectedApplicant.email}
+                        readOnly
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-1 block text-sm font-medium text-foreground">
+                        Message
+                      </label>
+                      <textarea
+                        className="w-full resize-none rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                        rows={5}
+                        placeholder="Type your message here..."
+                        value={messageText}
+                        onChange={(e) => setMessageText(e.target.value)}
+                      />
+                    </div>
                     <button
-                      onClick={() => alert('Opening resume preview...')}
-                      className="flex-1 rounded-lg bg-primary/10 py-2.5 font-medium text-primary transition-colors hover:bg-primary/20"
+                      onClick={handleSendMessage}
+                      className="w-full rounded-lg bg-primary py-2.5 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
                     >
-                      Preview
-                    </button>
-                    <button
-                      onClick={() => alert('Downloading resume...')}
-                      className="flex-1 rounded-lg bg-primary py-2.5 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-                    >
-                      Download
+                      Send Message
                     </button>
                   </div>
-                </div>
-              )}
+                )}
+
+                {modalType === 'schedule' && (
+                  <div className="space-y-4">
+                    <div>
+                      <label className="mb-1 block text-sm font-medium text-foreground">Date</label>
+                      <input
+                        type="date"
+                        className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                        value={scheduleDate}
+                        onChange={(e) => setScheduleDate(e.target.value)}
+                        min={new Date().toISOString().split('T')[0]}
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-1 block text-sm font-medium text-foreground">Time</label>
+                      <input
+                        type="time"
+                        className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                        value={scheduleTime}
+                        onChange={(e) => setScheduleTime(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-1 block text-sm font-medium text-foreground">
+                        Interview Type
+                      </label>
+                      <select className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary">
+                        <option>Video Call</option>
+                        <option>Phone Call</option>
+                        <option>In Person</option>
+                      </select>
+                    </div>
+                    <button
+                      onClick={handleScheduleInterview}
+                      className="w-full rounded-lg bg-primary py-2.5 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                    >
+                      Schedule Interview
+                    </button>
+                  </div>
+                )}
+
+                {modalType === 'resume' && (
+                  <div className="space-y-4">
+                    <div className="rounded-xl border border-border bg-muted/50 p-8 text-center">
+                      <FileText className="mx-auto mb-3 h-16 w-16 text-muted-foreground opacity-50" />
+                      <p className="font-medium text-foreground">
+                        {selectedApplicant.name}_Resume.pdf
+                      </p>
+                      <p className="mt-1 text-sm text-muted-foreground">PDF Document • 2.4 MB</p>
+                    </div>
+                    <div className="flex gap-3">
+                      <button
+                        onClick={() => alert('Opening resume preview...')}
+                        className="flex-1 rounded-lg bg-primary/10 py-2.5 font-medium text-primary transition-colors hover:bg-primary/20"
+                      >
+                        Preview
+                      </button>
+                      <button
+                        onClick={() => alert('Downloading resume...')}
+                        className="flex-1 rounded-lg bg-primary py-2.5 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                      >
+                        Download
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        </div>
-      , document.body)}
+          </div>,
+          document.body,
+        )}
 
       {/* Backdrop click to close menu */}
       {menuOpen !== null && (

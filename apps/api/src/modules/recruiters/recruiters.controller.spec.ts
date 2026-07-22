@@ -28,16 +28,16 @@ describe('RecruitersController', () => {
   });
 
   it('should call getProfile', async () => {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
     service.getProfile.mockResolvedValue({ id: '1' } as any);
     const result = await controller.getProfile('user1');
     expect(result).toEqual({ id: '1' });
-// eslint-disable-next-line @typescript-eslint/unbound-method -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/unbound-method -- TODO(RC3): Address type safety
     expect(service.getProfile).toHaveBeenCalledWith('user1');
   });
 
   it('should call updateProfile', async () => {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
     service.updateProfile.mockResolvedValue({
       id: '1',
       firstName: 'Jane',
@@ -46,18 +46,18 @@ describe('RecruitersController', () => {
       firstName: 'Jane',
     });
     expect(result).toEqual({ id: '1', firstName: 'Jane' });
-// eslint-disable-next-line @typescript-eslint/unbound-method -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/unbound-method -- TODO(RC3): Address type safety
     expect(service.updateProfile).toHaveBeenCalledWith('user1', {
       firstName: 'Jane',
     });
   });
 
   it('should call getDashboardStats', async () => {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
     service.getDashboardStats.mockResolvedValue({ activeJobs: 5 } as any);
     const result = await controller.getDashboardStats('user1');
     expect(result).toEqual({ activeJobs: 5 });
-// eslint-disable-next-line @typescript-eslint/unbound-method -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/unbound-method -- TODO(RC3): Address type safety
     expect(service.getDashboardStats).toHaveBeenCalledWith('user1');
   });
 });

@@ -15,13 +15,12 @@ export class RetryInterceptor implements NestInterceptor {
   private readonly logger = new Logger(RetryInterceptor.name);
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
     const req = context.switchToHttp().getRequest();
- 
-    
+
     // Only retry idempotent methods
     const idempotentMethods = ['GET', 'HEAD', 'OPTIONS', 'PUT', 'DELETE'];
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     const isIdempotent = idempotentMethods.includes(req.method.toUpperCase());
 
     return next.handle().pipe(
@@ -31,10 +30,14 @@ export class RetryInterceptor implements NestInterceptor {
       retry({
         count: isIdempotent ? 2 : 0,
         delay: (error, retryCount) => {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
-          if (error instanceof TimeoutError || (error.status && error.status >= 500)) {
- 
-            this.logger.warn(`Request failed (Attempt ${retryCount}), retrying...`);
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+          if (
+            error instanceof TimeoutError ||
+            (error.status && error.status >= 500)
+          ) {
+            this.logger.warn(
+              `Request failed (Attempt ${retryCount}), retrying...`,
+            );
             return new Observable((subscriber) => {
               setTimeout(() => {
                 subscriber.next(true);
@@ -42,7 +45,7 @@ export class RetryInterceptor implements NestInterceptor {
               }, 1000 * retryCount); // Exponential-ish backoff
             });
           }
-// eslint-disable-next-line @typescript-eslint/no-unsafe-return -- TODO(RC3): Address type safety
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- TODO(RC3): Address type safety
           return throwError(() => error);
         },
       }),
@@ -50,7 +53,7 @@ export class RetryInterceptor implements NestInterceptor {
         if (err instanceof TimeoutError) {
           return throwError(() => new RequestTimeoutException());
         }
-// eslint-disable-next-line @typescript-eslint/no-unsafe-return -- TODO(RC3): Address type safety
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- TODO(RC3): Address type safety
         return throwError(() => err);
       }),
     );

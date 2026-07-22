@@ -24,7 +24,7 @@ describe('WalletService', () => {
     };
 
     const module: TestingModule = await Test.createTestingModule({
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
       providers: [WalletService, { provide: PrismaService, useValue: prisma }],
     }).compile();
 
@@ -33,29 +33,29 @@ describe('WalletService', () => {
 
   describe('getBalance', () => {
     it('should create wallet if not found', async () => {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.wallet.findUnique.mockResolvedValue(null);
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.wallet.create.mockResolvedValue({
         id: 'wallet-1',
         balance: new Decimal(0),
       });
 
       const result = await service.getBalance('user-1');
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       expect(prisma.wallet.create).toHaveBeenCalled();
       expect(result.id).toBe('wallet-1');
     });
 
     it('should return existing wallet', async () => {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.wallet.findUnique.mockResolvedValue({
         id: 'wallet-1',
         balance: new Decimal(100),
       });
 
       const result = await service.getBalance('user-1');
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       expect(prisma.wallet.create).not.toHaveBeenCalled();
       expect(result.balance.toNumber()).toBe(100);
     });
@@ -63,7 +63,7 @@ describe('WalletService', () => {
 
   describe('getTransactions', () => {
     it('should return transactions', async () => {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.transaction.findMany.mockResolvedValue([{ id: 'tx-1' }]);
       const result = await service.getTransactions('user-1');
       expect(result.length).toBe(1);
@@ -72,14 +72,14 @@ describe('WalletService', () => {
 
   describe('topup', () => {
     it('should add funds to wallet', async () => {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.wallet.findUnique.mockResolvedValue({
         id: 'wallet-1',
         balance: new Decimal(0),
       });
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.transaction.create.mockResolvedValue({ id: 'tx-1' });
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.wallet.update.mockResolvedValue({
         id: 'wallet-1',
         balance: new Decimal(100),
@@ -89,14 +89,14 @@ describe('WalletService', () => {
         amount: 100,
         currency: 'INR',
       });
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       expect(prisma.transaction.create).toHaveBeenCalledWith(
         expect.objectContaining({
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
           data: expect.objectContaining({ type: TransactionType.TOPUP }),
         }),
       );
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       expect(prisma.wallet.update).toHaveBeenCalled();
       expect(result.id).toBe('tx-1');
     });
@@ -104,7 +104,7 @@ describe('WalletService', () => {
 
   describe('withdraw', () => {
     it('should throw BadRequestException if insufficient balance', async () => {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.wallet.findUnique.mockResolvedValue({
         id: 'wallet-1',
         balance: new Decimal(50),
@@ -115,14 +115,14 @@ describe('WalletService', () => {
     });
 
     it('should deduct funds and create withdrawal transaction', async () => {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.wallet.findUnique.mockResolvedValue({
         id: 'wallet-1',
         balance: new Decimal(200),
       });
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.transaction.create.mockResolvedValue({ id: 'tx-1' });
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.wallet.update.mockResolvedValue({
         id: 'wallet-1',
         balance: new Decimal(100),
@@ -132,14 +132,14 @@ describe('WalletService', () => {
         amount: 100,
         bankAccountId: 'bank-1',
       });
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       expect(prisma.transaction.create).toHaveBeenCalledWith(
         expect.objectContaining({
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
           data: expect.objectContaining({ type: TransactionType.WITHDRAWAL }),
         }),
       );
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       expect(prisma.wallet.update).toHaveBeenCalled();
       expect(result.id).toBe('tx-1');
     });

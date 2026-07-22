@@ -30,16 +30,16 @@ describe('EmployersController', () => {
   });
 
   it('should call getProfile', async () => {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
     service.getProfile.mockResolvedValue({ id: '1' } as any);
     const result = await controller.getProfile('user1');
     expect(result).toEqual({ id: '1' });
-// eslint-disable-next-line @typescript-eslint/unbound-method -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/unbound-method -- TODO(RC3): Address type safety
     expect(service.getProfile).toHaveBeenCalledWith('user1');
   });
 
   it('should call updateProfile', async () => {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
     service.updateProfile.mockResolvedValue({
       id: '1',
       companyName: 'Corp',
@@ -48,14 +48,14 @@ describe('EmployersController', () => {
       companyName: 'Corp',
     });
     expect(result).toEqual({ id: '1', companyName: 'Corp' });
-// eslint-disable-next-line @typescript-eslint/unbound-method -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/unbound-method -- TODO(RC3): Address type safety
     expect(service.updateProfile).toHaveBeenCalledWith('user1', {
       companyName: 'Corp',
     });
   });
 
   it('should call addDepartment', async () => {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
     service.addDepartment.mockResolvedValue({
       id: '1',
       name: 'HR',
@@ -69,7 +69,7 @@ describe('EmployersController', () => {
       headCount: 0,
       employerId: 'emp1',
     });
-// eslint-disable-next-line @typescript-eslint/unbound-method -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/unbound-method -- TODO(RC3): Address type safety
     expect(service.addDepartment).toHaveBeenCalledWith('user1', { name: 'HR' });
   });
 });

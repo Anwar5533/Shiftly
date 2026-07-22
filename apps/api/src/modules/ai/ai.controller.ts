@@ -13,7 +13,7 @@ export class AiController {
   @Get('match/:jobId')
   @Roles('WORKER')
   async getMatchScore(@Request() req: any, @Param('jobId') jobId: string) {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     return this.aiService.calculateMatchScore(req.user.userId, jobId);
   }
 }

@@ -39,11 +39,7 @@ export class JobsController {
   @Get('my-jobs')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.EMPLOYER)
- 
-  getMyJobs(
-    @CurrentUser('sub') userId: string,
-    @Query() query: PaginationDto,
-  ) {
+  getMyJobs(@CurrentUser('sub') userId: string, @Query() query: PaginationDto) {
     return this.jobsService.getMyJobs(userId, query.page, query.limit);
   }
 

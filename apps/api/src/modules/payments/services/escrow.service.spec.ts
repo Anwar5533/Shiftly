@@ -31,9 +31,9 @@ describe('EscrowService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         EscrowService,
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
         { provide: WalletService, useValue: walletService },
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
         { provide: PrismaService, useValue: prisma },
       ],
     }).compile();
@@ -43,7 +43,7 @@ describe('EscrowService', () => {
 
   describe('createEscrow', () => {
     it('should throw BadRequestException if insufficient balance', async () => {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       walletService.getBalance.mockResolvedValue({
         id: 'wallet-1',
         balance: new Decimal(50),
@@ -58,14 +58,14 @@ describe('EscrowService', () => {
     });
 
     it('should deduct from wallet and create escrow', async () => {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       walletService.getBalance.mockResolvedValue({
         id: 'wallet-1',
         balance: new Decimal(200),
       });
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.wallet.update.mockResolvedValue({ id: 'wallet-1' });
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.escrowLock.create.mockResolvedValue({ id: 'escrow-1' });
 
       const result = await service.createEscrow('emp-1', {
@@ -73,9 +73,9 @@ describe('EscrowService', () => {
         applicationId: 'app-1',
         amount: 100,
       });
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       expect(prisma.wallet.update).toHaveBeenCalled();
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       expect(prisma.escrowLock.create).toHaveBeenCalled();
       expect(result.id).toBe('escrow-1');
     });
@@ -83,7 +83,7 @@ describe('EscrowService', () => {
 
   describe('releaseEscrow', () => {
     it('should throw NotFoundException if escrow not found', async () => {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.escrowLock.findUnique.mockResolvedValue(null);
       await expect(service.releaseEscrow('emp-1', 'escrow-1')).rejects.toThrow(
         NotFoundException,
@@ -91,7 +91,7 @@ describe('EscrowService', () => {
     });
 
     it('should throw BadRequestException if wrong employer', async () => {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.escrowLock.findUnique.mockResolvedValue({
         id: 'escrow-1',
         wallet: { userId: 'emp-2' },
@@ -102,7 +102,7 @@ describe('EscrowService', () => {
     });
 
     it('should throw BadRequestException if escrow is not LOCKED', async () => {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.escrowLock.findUnique.mockResolvedValue({
         id: 'escrow-1',
         wallet: { userId: 'emp-1' },
@@ -114,7 +114,7 @@ describe('EscrowService', () => {
     });
 
     it('should release escrow and add to worker wallet', async () => {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.escrowLock.findUnique.mockResolvedValue({
         id: 'escrow-1',
         wallet: { userId: 'emp-1' },
@@ -122,20 +122,20 @@ describe('EscrowService', () => {
         amount: new Decimal(100),
         application: { workerId: 'worker-1' },
       });
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.escrowLock.update.mockResolvedValue({ id: 'escrow-1' });
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       walletService.getBalance.mockResolvedValue({
         id: 'wallet-2',
         balance: new Decimal(0),
       });
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.wallet.update.mockResolvedValue({ id: 'wallet-2' });
 
       const result = await service.releaseEscrow('emp-1', 'escrow-1');
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       expect(prisma.escrowLock.update).toHaveBeenCalled();
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       expect(prisma.wallet.update).toHaveBeenCalled();
       expect(result.message).toBe('Escrow released successfully');
     });

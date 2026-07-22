@@ -35,8 +35,9 @@ export class TimesheetsService {
     }
 
     if (shift.workerId !== workerId) {
- 
-      throw new ForbiddenException('Not authorized to submit timesheet for this shift');
+      throw new ForbiddenException(
+        'Not authorized to submit timesheet for this shift',
+      );
     }
 
     if (shift.timesheet) {

@@ -22,13 +22,11 @@ export class LoggingInterceptor implements NestInterceptor {
     const response = ctx.getResponse<Response>();
     const { method, url, ip } = request;
     const userId = (request as Request & { user?: { sub: string } }).user?.sub;
- 
-    
- 
-    const correlationId = (request.headers['x-correlation-id'] as string) ?? uuidv4();
+
+    const correlationId =
+      (request.headers['x-correlation-id'] as string) ?? uuidv4();
     const requestId = (request.headers['x-request-id'] as string) ?? uuidv4();
- 
-    
+
     // Set headers on response
     response.setHeader('X-Request-Id', requestId);
     response.setHeader('X-Correlation-Id', correlationId);

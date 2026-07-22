@@ -6,9 +6,9 @@ export const chatApi = {
     prompt: string,
     history: AssistantMessage[] = [],
   ): Promise<AssistantMessage> => {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
     const { data } = await api.post('/chat/message', { prompt, history });
-// eslint-disable-next-line @typescript-eslint/no-unsafe-return -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- TODO(RC3): Address type safety
     return data;
   },
 };

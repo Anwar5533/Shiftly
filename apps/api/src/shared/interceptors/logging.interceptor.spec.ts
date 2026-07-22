@@ -14,7 +14,7 @@ describe('LoggingInterceptor', () => {
   let mockCallHandler: any;
 
   beforeEach(() => {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
     mockLogger = {
       debug: jest.fn(),
       log: jest.fn(),
@@ -58,18 +58,18 @@ describe('LoggingInterceptor', () => {
       return nowCount === 1 ? 1000 : 1050; // 50ms duration
     });
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
     interceptor.intercept(mockExecutionContext, mockCallHandler).subscribe({
       next: (val) => {
         expect(val).toBe('test-response');
-// eslint-disable-next-line @typescript-eslint/unbound-method -- TODO(RC3): Address type safety
+        // eslint-disable-next-line @typescript-eslint/unbound-method -- TODO(RC3): Address type safety
         expect(mockLogger.debug).toHaveBeenCalledWith(
           '→ GET /test',
           expect.stringContaining(
             '"userId":"user-123","requestId":"test-uuid"',
           ),
         );
-// eslint-disable-next-line @typescript-eslint/unbound-method -- TODO(RC3): Address type safety
+        // eslint-disable-next-line @typescript-eslint/unbound-method -- TODO(RC3): Address type safety
         expect(mockLogger.log).toHaveBeenCalledWith(
           '← GET /test [50ms]',
           expect.stringContaining('"duration":50'),
@@ -81,7 +81,7 @@ describe('LoggingInterceptor', () => {
 
   it('should log incoming request and error response', (done) => {
     const error = new Error('test-error');
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     mockCallHandler.handle.mockReturnValue(throwError(() => error));
 
     let nowCount = 0;
@@ -90,13 +90,13 @@ describe('LoggingInterceptor', () => {
       return nowCount === 1 ? 1000 : 1020; // 20ms duration
     });
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
     interceptor.intercept(mockExecutionContext, mockCallHandler).subscribe({
       error: (err) => {
         expect(err).toBe(error);
-// eslint-disable-next-line @typescript-eslint/unbound-method -- TODO(RC3): Address type safety
+        // eslint-disable-next-line @typescript-eslint/unbound-method -- TODO(RC3): Address type safety
         expect(mockLogger.debug).toHaveBeenCalled();
-// eslint-disable-next-line @typescript-eslint/unbound-method -- TODO(RC3): Address type safety
+        // eslint-disable-next-line @typescript-eslint/unbound-method -- TODO(RC3): Address type safety
         expect(mockLogger.error).toHaveBeenCalledWith(
           '← GET /test [20ms] ERROR',
           expect.stringContaining('"duration":20'),

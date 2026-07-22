@@ -7,7 +7,7 @@ vi.mock('../api/messaging.api', () => ({
     getConversations: vi.fn().mockResolvedValue([]),
     sendMessage: vi.fn(),
     getMessages: vi.fn().mockResolvedValue([]),
-  }
+  },
 }));
 
 describe('MessagesPage', () => {

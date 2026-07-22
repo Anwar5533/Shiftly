@@ -200,135 +200,150 @@ export default function RequisitionsPage(): React.ReactElement {
       </div>
 
       {/* New Requisition Modal */}
-      {showNewModal && createPortal(
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-md rounded-2xl border border-border bg-card shadow-2xl">
-            <div className="flex items-center justify-between border-b border-border p-5">
-              <h2 className="text-lg font-semibold text-foreground">Create New Requisition</h2>
-              <button
-                onClick={() => setShowNewModal(false)}
-                className="rounded-md p-1.5 text-muted-foreground hover:bg-muted"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-            <div className="space-y-4 p-5">
-              <div>
-                <label className="mb-1 block text-sm font-medium text-foreground">
-                  Job Title *
-                </label>
-                <input
-                  className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="e.g. Senior Software Engineer"
-                  value={newTitle}
-                  onChange={(e) => setNewTitle(e.target.value)}
-                />
+      {showNewModal &&
+        createPortal(
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+            <div className="w-full max-w-md rounded-2xl border border-border bg-card shadow-2xl">
+              <div className="flex items-center justify-between border-b border-border p-5">
+                <h2 className="text-lg font-semibold text-foreground">Create New Requisition</h2>
+                <button
+                  onClick={() => setShowNewModal(false)}
+                  className="rounded-md p-1.5 text-muted-foreground hover:bg-muted"
+                >
+                  <X className="h-5 w-5" />
+                </button>
               </div>
-              <div>
-                <label className="mb-1 block text-sm font-medium text-foreground">Company *</label>
-                <input
-                  className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="e.g. TechCorp Inc."
-                  value={newCompany}
-                  onChange={(e) => setNewCompany(e.target.value)}
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-4 p-5">
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-foreground">Openings</label>
+                  <label className="mb-1 block text-sm font-medium text-foreground">
+                    Job Title *
+                  </label>
                   <input
-                    type="number"
-                    min="1"
                     className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                    value={newOpenings}
-                    onChange={(e) => setNewOpenings(e.target.value)}
+                    placeholder="e.g. Senior Software Engineer"
+                    value={newTitle}
+                    onChange={(e) => setNewTitle(e.target.value)}
                   />
                 </div>
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-foreground">Priority</label>
-                  <select
+                  <label className="mb-1 block text-sm font-medium text-foreground">
+                    Company *
+                  </label>
+                  <input
                     className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                    value={newPriority}
-                    onChange={(e) => setNewPriority(e.target.value)}
-                  >
-                    <option>High</option>
-                    <option>Medium</option>
-                    <option>Low</option>
-                  </select>
+                    placeholder="e.g. TechCorp Inc."
+                    value={newCompany}
+                    onChange={(e) => setNewCompany(e.target.value)}
+                  />
                 </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="mb-1 block text-sm font-medium text-foreground">
+                      Openings
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                      className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                      value={newOpenings}
+                      onChange={(e) => setNewOpenings(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1 block text-sm font-medium text-foreground">
+                      Priority
+                    </label>
+                    <select
+                      className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                      value={newPriority}
+                      onChange={(e) => setNewPriority(e.target.value)}
+                    >
+                      <option>High</option>
+                      <option>Medium</option>
+                      <option>Low</option>
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <label className="mb-1 block text-sm font-medium text-foreground">
+                    Hiring Manager *
+                  </label>
+                  <input
+                    className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="Full name"
+                    value={newHM}
+                    onChange={(e) => setNewHM(e.target.value)}
+                  />
+                </div>
+                <button
+                  onClick={handleCreate}
+                  className="w-full rounded-lg bg-primary py-2.5 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                >
+                  Create Requisition
+                </button>
               </div>
-              <div>
-                <label className="mb-1 block text-sm font-medium text-foreground">
-                  Hiring Manager *
-                </label>
-                <input
-                  className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="Full name"
-                  value={newHM}
-                  onChange={(e) => setNewHM(e.target.value)}
-                />
-              </div>
-              <button
-                onClick={handleCreate}
-                className="w-full rounded-lg bg-primary py-2.5 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-              >
-                Create Requisition
-              </button>
             </div>
-          </div>
-        </div>
-      , document.body)}
+          </div>,
+          document.body,
+        )}
 
       {/* View Details Modal */}
-      {showViewModal && selectedReq && createPortal(
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-md rounded-2xl border border-border bg-card shadow-2xl">
-            <div className="flex items-center justify-between border-b border-border p-5">
-              <h2 className="text-lg font-semibold text-foreground">
-                {selectedReq.id} — {selectedReq.title}
-              </h2>
-              <button
-                onClick={() => setShowViewModal(false)}
-                className="rounded-md p-1.5 text-muted-foreground hover:bg-muted"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-            <div className="space-y-4 p-5">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="rounded-lg bg-muted/50 p-3">
-                  <p className="mb-1 text-xs text-muted-foreground">Company</p>
-                  <p className="text-sm font-medium text-foreground">{selectedReq.company}</p>
-                </div>
-                <div className="rounded-lg bg-muted/50 p-3">
-                  <p className="mb-1 text-xs text-muted-foreground">Hiring Manager</p>
-                  <p className="text-sm font-medium text-foreground">{selectedReq.hiringManager}</p>
-                </div>
-                <div className="rounded-lg bg-muted/50 p-3">
-                  <p className="mb-1 text-xs text-muted-foreground">Positions</p>
-                  <p className="text-sm font-medium text-foreground">
-                    {selectedReq.filled} / {selectedReq.openings} Filled
-                  </p>
-                </div>
-                <div className="rounded-lg bg-muted/50 p-3">
-                  <p className="mb-1 text-xs text-muted-foreground">Days Open</p>
-                  <p className="text-sm font-medium text-foreground">{selectedReq.daysOpen} days</p>
-                </div>
+      {showViewModal &&
+        selectedReq &&
+        createPortal(
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+            <div className="w-full max-w-md rounded-2xl border border-border bg-card shadow-2xl">
+              <div className="flex items-center justify-between border-b border-border p-5">
+                <h2 className="text-lg font-semibold text-foreground">
+                  {selectedReq.id} — {selectedReq.title}
+                </h2>
+                <button
+                  onClick={() => setShowViewModal(false)}
+                  className="rounded-md p-1.5 text-muted-foreground hover:bg-muted"
+                >
+                  <X className="h-5 w-5" />
+                </button>
               </div>
-              <p className="rounded-lg border border-border bg-muted/30 p-4 text-sm text-muted-foreground">
-                No candidates have been linked to this requisition yet. Go to the{' '}
-                <strong>Job Applications</strong> page to view and manage candidates.
-              </p>
-              <button
-                onClick={() => setShowViewModal(false)}
-                className="w-full rounded-lg bg-muted py-2.5 font-medium text-foreground transition-colors hover:bg-muted/80"
-              >
-                Close
-              </button>
+              <div className="space-y-4 p-5">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="rounded-lg bg-muted/50 p-3">
+                    <p className="mb-1 text-xs text-muted-foreground">Company</p>
+                    <p className="text-sm font-medium text-foreground">{selectedReq.company}</p>
+                  </div>
+                  <div className="rounded-lg bg-muted/50 p-3">
+                    <p className="mb-1 text-xs text-muted-foreground">Hiring Manager</p>
+                    <p className="text-sm font-medium text-foreground">
+                      {selectedReq.hiringManager}
+                    </p>
+                  </div>
+                  <div className="rounded-lg bg-muted/50 p-3">
+                    <p className="mb-1 text-xs text-muted-foreground">Positions</p>
+                    <p className="text-sm font-medium text-foreground">
+                      {selectedReq.filled} / {selectedReq.openings} Filled
+                    </p>
+                  </div>
+                  <div className="rounded-lg bg-muted/50 p-3">
+                    <p className="mb-1 text-xs text-muted-foreground">Days Open</p>
+                    <p className="text-sm font-medium text-foreground">
+                      {selectedReq.daysOpen} days
+                    </p>
+                  </div>
+                </div>
+                <p className="rounded-lg border border-border bg-muted/30 p-4 text-sm text-muted-foreground">
+                  No candidates have been linked to this requisition yet. Go to the{' '}
+                  <strong>Job Applications</strong> page to view and manage candidates.
+                </p>
+                <button
+                  onClick={() => setShowViewModal(false)}
+                  className="w-full rounded-lg bg-muted py-2.5 font-medium text-foreground transition-colors hover:bg-muted/80"
+                >
+                  Close
+                </button>
+              </div>
             </div>
-          </div>
-        </div>
-      , document.body)}
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }

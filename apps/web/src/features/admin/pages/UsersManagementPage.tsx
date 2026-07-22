@@ -81,13 +81,17 @@ export default function UsersManagementPage(): React.ReactElement {
 
   const roles = ['All', 'Worker', 'Employer', 'Recruiter', 'Admin'];
 
-  const filteredUsers = useMemo(() => users.filter((u) => {
-    const matchesSearch =
-      u.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      u.email.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesRole = roleFilter === 'All' || u.role === roleFilter;
-    return matchesSearch && matchesRole;
-  }), [users, searchQuery, roleFilter]);
+  const filteredUsers = useMemo(
+    () =>
+      users.filter((u) => {
+        const matchesSearch =
+          u.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          u.email.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesRole = roleFilter === 'All' || u.role === roleFilter;
+        return matchesSearch && matchesRole;
+      }),
+    [users, searchQuery, roleFilter],
+  );
 
   const handleSuspend = (userId: string) => {
     setUsers((prev) =>
@@ -304,52 +308,54 @@ export default function UsersManagementPage(): React.ReactElement {
       </div>
 
       {/* View User Modal */}
-      {viewUser && createPortal(
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-md rounded-2xl border border-border bg-card shadow-2xl">
-            <div className="flex items-center justify-between border-b border-border p-5">
-              <h2 className="text-lg font-semibold text-foreground">User Profile</h2>
-              <button
-                onClick={() => setViewUser(null)}
-                className="rounded-md p-1.5 text-muted-foreground hover:bg-muted"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-            <div className="space-y-4 p-5">
-              <div className="flex items-center gap-4">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full border border-primary/20 bg-primary/10 text-2xl font-bold text-primary">
-                  {viewUser.name.charAt(0)}
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-foreground">{viewUser.name}</h3>
-                  <p className="text-sm text-muted-foreground">{viewUser.email}</p>
-                </div>
+      {viewUser &&
+        createPortal(
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+            <div className="w-full max-w-md rounded-2xl border border-border bg-card shadow-2xl">
+              <div className="flex items-center justify-between border-b border-border p-5">
+                <h2 className="text-lg font-semibold text-foreground">User Profile</h2>
+                <button
+                  onClick={() => setViewUser(null)}
+                  className="rounded-md p-1.5 text-muted-foreground hover:bg-muted"
+                >
+                  <X className="h-5 w-5" />
+                </button>
               </div>
-              <div className="grid grid-cols-2 gap-3">
-                {[
-                  { label: 'User ID', value: viewUser.id },
-                  { label: 'Role', value: viewUser.role },
-                  { label: 'Status', value: viewUser.status },
-                  { label: 'Registered', value: viewUser.registered },
-                  { label: 'Last Login', value: viewUser.lastLogin },
-                ].map((item) => (
-                  <div key={item.label} className="rounded-lg bg-muted/50 p-3">
-                    <p className="mb-0.5 text-xs text-muted-foreground">{item.label}</p>
-                    <p className="text-sm font-medium text-foreground">{item.value}</p>
+              <div className="space-y-4 p-5">
+                <div className="flex items-center gap-4">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full border border-primary/20 bg-primary/10 text-2xl font-bold text-primary">
+                    {viewUser.name.charAt(0)}
                   </div>
-                ))}
+                  <div>
+                    <h3 className="text-xl font-bold text-foreground">{viewUser.name}</h3>
+                    <p className="text-sm text-muted-foreground">{viewUser.email}</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    { label: 'User ID', value: viewUser.id },
+                    { label: 'Role', value: viewUser.role },
+                    { label: 'Status', value: viewUser.status },
+                    { label: 'Registered', value: viewUser.registered },
+                    { label: 'Last Login', value: viewUser.lastLogin },
+                  ].map((item) => (
+                    <div key={item.label} className="rounded-lg bg-muted/50 p-3">
+                      <p className="mb-0.5 text-xs text-muted-foreground">{item.label}</p>
+                      <p className="text-sm font-medium text-foreground">{item.value}</p>
+                    </div>
+                  ))}
+                </div>
+                <button
+                  onClick={() => setViewUser(null)}
+                  className="w-full rounded-lg bg-muted py-2.5 font-medium text-foreground transition-colors hover:bg-muted/80"
+                >
+                  Close
+                </button>
               </div>
-              <button
-                onClick={() => setViewUser(null)}
-                className="w-full rounded-lg bg-muted py-2.5 font-medium text-foreground transition-colors hover:bg-muted/80"
-              >
-                Close
-              </button>
             </div>
-          </div>
-        </div>
-      , document.body)}
+          </div>,
+          document.body,
+        )}
 
       {/* Click away to close menu */}
       {(openMenuId || showFilterPanel) && (

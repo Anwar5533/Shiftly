@@ -42,7 +42,7 @@ export class JobsService {
             action: 'CREATE',
             resourceType: 'Job',
             resourceId: job.id,
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
             newValues: createJobDto as any,
           },
         });
@@ -230,7 +230,7 @@ export class JobsService {
     return this.prisma.$transaction(async (tx) => {
       const updatedJob = await tx.job.update({
         where: { id: jobId },
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
         data: updateDto as any,
       });
 
@@ -240,7 +240,7 @@ export class JobsService {
           action: 'UPDATE',
           resourceType: 'Job',
           resourceId: jobId,
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
           newValues: updateDto as any,
         },
       });

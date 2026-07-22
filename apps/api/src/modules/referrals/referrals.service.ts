@@ -25,7 +25,7 @@ export class ReferralsService {
     return code;
   }
 
-// eslint-disable-next-line @typescript-eslint/require-await -- TODO(RC3): Address type safety
+  // eslint-disable-next-line @typescript-eslint/require-await -- TODO(RC3): Address type safety
   async getReferralStats(userId: string) {
     // Return mock stats
     return {

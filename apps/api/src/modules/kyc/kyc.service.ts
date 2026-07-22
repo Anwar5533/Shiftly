@@ -68,7 +68,7 @@ export class KycService {
     }
 
     // Simulate auto-approval after a delay (mocking the Admin KYC process for phase 8)
-// eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO(RC3): Address type safety
     setTimeout(() => this.autoApproveKyc(userId), 15000);
 
     return { message: 'KYC submitted successfully', documents: createdDocs };

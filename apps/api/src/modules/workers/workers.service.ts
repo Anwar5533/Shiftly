@@ -35,14 +35,14 @@ export class WorkersService {
   async updateProfile(userId: string, updateDto: UpdateWorkerProfileDto) {
     return this.prisma.workerProfile.upsert({
       where: { userId },
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
       update: updateDto as any,
       create: {
         userId,
         firstName: updateDto.firstName || 'Worker',
         lastName: updateDto.lastName || 'Profile',
         bio: updateDto.bio || null,
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
         location: updateDto.location ? (updateDto.location as any) : {},
         // Defaults handles the rest
       },
@@ -150,15 +150,15 @@ export class WorkersService {
     let score = 0;
     const totalFields = 5;
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     if (profile.firstName && profile.lastName) score += 1;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     if (profile.bio) score += 1;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     if (profile.avatarUrl) score += 1;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     if (profile.experienceYears > 0) score += 1;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     if (profile.hourlyRate) score += 1;
 
     return Math.round((score / totalFields) * 100);

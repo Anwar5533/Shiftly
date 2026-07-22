@@ -131,7 +131,7 @@ export default function LoginPage(): React.ReactElement {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 12 }}
             transition={{ duration: 0.2 }}
-// eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO(RC3): Address type safety
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO(RC3): Address type safety
             onSubmit={phoneForm.handleSubmit(handlePhoneSubmit)}
             className="space-y-4"
             aria-label="Phone OTP login form"
@@ -195,7 +195,7 @@ export default function LoginPage(): React.ReactElement {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -12 }}
             transition={{ duration: 0.2 }}
-// eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO(RC3): Address type safety
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO(RC3): Address type safety
             onSubmit={emailForm.handleSubmit(handleEmailSubmit)}
             className="space-y-4"
             aria-label="Email login form"

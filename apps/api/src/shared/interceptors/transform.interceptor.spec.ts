@@ -43,10 +43,10 @@ describe('TransformInterceptor', () => {
   });
 
   it('should transform response to SuccessResponse format', (done) => {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
     interceptor.intercept(mockExecutionContext, mockCallHandler).subscribe({
       next: (val) => {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
         expect(mockResponse.setHeader).toHaveBeenCalledWith(
           'X-Request-ID',
           'test-uuid',
@@ -69,10 +69,10 @@ describe('TransformInterceptor', () => {
       headers: { 'x-request-id': 'existing-uuid' },
     });
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
     interceptor.intercept(mockExecutionContext, mockCallHandler).subscribe({
       next: (val) => {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
         expect(mockResponse.setHeader).toHaveBeenCalledWith(
           'X-Request-ID',
           'existing-uuid',

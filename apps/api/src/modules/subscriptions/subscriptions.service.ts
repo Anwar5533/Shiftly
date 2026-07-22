@@ -31,7 +31,7 @@ export class SubscriptionsService {
     return subscription;
   }
 
-// eslint-disable-next-line @typescript-eslint/require-await -- TODO(RC3): Address type safety
+  // eslint-disable-next-line @typescript-eslint/require-await -- TODO(RC3): Address type safety
   async getInvoices(userId: string) {
     // In a real app, this would fetch from Stripe or the DB
     // Returning mock data to fulfill frontend UI

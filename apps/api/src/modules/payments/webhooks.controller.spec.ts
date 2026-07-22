@@ -13,7 +13,7 @@ describe('WebhooksController', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [WebhooksController],
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
       providers: [{ provide: WalletService, useValue: walletService }],
     }).compile();
 

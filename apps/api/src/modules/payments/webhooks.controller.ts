@@ -15,7 +15,7 @@ export class WebhooksController {
 
   @Post('razorpay')
   @Public()
-// eslint-disable-next-line @typescript-eslint/require-await -- TODO(RC3): Address type safety
+  // eslint-disable-next-line @typescript-eslint/require-await -- TODO(RC3): Address type safety
   async handleRazorpayWebhook(
     @Headers('x-razorpay-signature') signature: string,
     @Body() payload: any,
@@ -25,11 +25,11 @@ export class WebhooksController {
     }
 
     // In a real app, verify signature using crypto module and razorpay webhook secret
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     const event = payload.event;
 
     if (event === 'payment.captured') {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       const paymentEntity = payload.payload.payment.entity;
 
       // We would lookup the transaction by reference ID or order ID,

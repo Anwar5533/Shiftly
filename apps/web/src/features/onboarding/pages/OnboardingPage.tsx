@@ -69,7 +69,7 @@ export default function OnboardingPage(): React.ReactElement {
         'professional.experienceYears',
       ];
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
     const isValid = await form.trigger(fieldsToValidate as any);
     if (isValid) {
       setCurrentStep((prev) => Math.min(prev + 1, STEPS.length - 1));
@@ -147,7 +147,8 @@ export default function OnboardingPage(): React.ReactElement {
 
         {/* Form Content */}
         <div className="p-8">
-// eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO(RC3): Address type safety
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO(RC3): Address
+          type safety
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <AnimatePresence mode="wait">
               {currentStep === 0 && (
@@ -321,7 +322,7 @@ export default function OnboardingPage(): React.ReactElement {
               {currentStep < STEPS.length - 1 ? (
                 <button
                   type="button"
- 
+
                   onClick={nextStep}
                   className="flex items-center gap-2 rounded-lg bg-primary px-6 py-2 font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
                 >

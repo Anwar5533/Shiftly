@@ -104,7 +104,7 @@ export default function OtpPage(): React.ReactElement {
     }
   };
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
   const serverError = (verifyOtpMutation.error as any)?.response?.data?.error?.message;
 
   return (

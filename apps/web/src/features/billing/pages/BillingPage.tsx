@@ -52,13 +52,13 @@ export default function BillingPage(): React.ReactElement {
   const upgradeMutation = useMutation({
     mutationFn: (plan: string) => subscriptionsApi.upgradePlan(plan),
     onSuccess: () => {
-// eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
       queryClient.invalidateQueries({ queryKey: ['subscription'] });
       setShowUpgradeModal(false);
       alert('Plan upgraded successfully!');
     },
     onError: (err: any) => {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       alert(err.response?.data?.message || 'Failed to upgrade plan. Please try again.');
     },
   });
@@ -240,159 +240,165 @@ export default function BillingPage(): React.ReactElement {
       </div>
 
       {/* Add Payment Modal */}
-      {showAddPayment && createPortal(
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-md rounded-2xl border border-border bg-card shadow-2xl">
-            <div className="flex items-center justify-between border-b border-border p-5">
-              <h2 className="text-lg font-semibold text-foreground">Add Payment Method</h2>
-              <button
-                onClick={() => setShowAddPayment(false)}
-                className="rounded-md p-1.5 text-muted-foreground hover:bg-muted"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-            <div className="space-y-4 p-5">
-              <div>
-                <label className="mb-1 block text-sm font-medium text-foreground">
-                  Cardholder Name
-                </label>
-                <input
-                  className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="Full name on card"
-                  value={cardName}
-                  onChange={(e) => setCardName(e.target.value)}
-                />
+      {showAddPayment &&
+        createPortal(
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+            <div className="w-full max-w-md rounded-2xl border border-border bg-card shadow-2xl">
+              <div className="flex items-center justify-between border-b border-border p-5">
+                <h2 className="text-lg font-semibold text-foreground">Add Payment Method</h2>
+                <button
+                  onClick={() => setShowAddPayment(false)}
+                  className="rounded-md p-1.5 text-muted-foreground hover:bg-muted"
+                >
+                  <X className="h-5 w-5" />
+                </button>
               </div>
-              <div>
-                <label className="mb-1 block text-sm font-medium text-foreground">
-                  Card Number
-                </label>
-                <input
-                  className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="1234 5678 9012 3456"
-                  maxLength={19}
-                  value={cardNumber}
-                  onChange={(e) =>
-                    setCardNumber(
-                      e.target.value
-                        .replace(/[^0-9 ]/g, '')
-                        .replace(/(.{4})/g, '$1 ')
-                        .trim(),
-                    )
-                  }
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-4 p-5">
                 <div>
                   <label className="mb-1 block text-sm font-medium text-foreground">
-                    Expiry Date
+                    Cardholder Name
                   </label>
                   <input
                     className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="MM/YY"
-                    maxLength={5}
-                    value={cardExpiry}
-                    onChange={(e) => setCardExpiry(e.target.value)}
+                    placeholder="Full name on card"
+                    value={cardName}
+                    onChange={(e) => setCardName(e.target.value)}
                   />
                 </div>
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-foreground">CVV</label>
+                  <label className="mb-1 block text-sm font-medium text-foreground">
+                    Card Number
+                  </label>
                   <input
-                    type="password"
                     className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="•••"
-                    maxLength={4}
-                    value={cardCVV}
-                    onChange={(e) => setCardCVV(e.target.value.replace(/\D/g, ''))}
+                    placeholder="1234 5678 9012 3456"
+                    maxLength={19}
+                    value={cardNumber}
+                    onChange={(e) =>
+                      setCardNumber(
+                        e.target.value
+                          .replace(/[^0-9 ]/g, '')
+                          .replace(/(.{4})/g, '$1 ')
+                          .trim(),
+                      )
+                    }
                   />
                 </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="mb-1 block text-sm font-medium text-foreground">
+                      Expiry Date
+                    </label>
+                    <input
+                      className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                      placeholder="MM/YY"
+                      maxLength={5}
+                      value={cardExpiry}
+                      onChange={(e) => setCardExpiry(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1 block text-sm font-medium text-foreground">CVV</label>
+                    <input
+                      type="password"
+                      className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                      placeholder="•••"
+                      maxLength={4}
+                      value={cardCVV}
+                      onChange={(e) => setCardCVV(e.target.value.replace(/\D/g, ''))}
+                    />
+                  </div>
+                </div>
+                <button
+                  onClick={handleAddPayment}
+                  className="w-full rounded-lg bg-primary py-2.5 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                >
+                  Add Card
+                </button>
               </div>
-              <button
-                onClick={handleAddPayment}
-                className="w-full rounded-lg bg-primary py-2.5 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-              >
-                Add Card
-              </button>
             </div>
-          </div>
-        </div>
-      , document.body)}
+          </div>,
+          document.body,
+        )}
 
       {/* Upgrade Modal */}
-      {showUpgradeModal && createPortal(
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-lg rounded-2xl border border-border bg-card shadow-2xl">
-            <div className="flex items-center justify-between border-b border-border p-5">
-              <h2 className="text-lg font-semibold text-foreground">Choose a Plan</h2>
-              <button
-                onClick={() => setShowUpgradeModal(false)}
-                className="rounded-md p-1.5 text-muted-foreground hover:bg-muted"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-            <div className="space-y-3 p-5">
-              {PLANS.filter((p) => p.id !== currentPlan).map((plan) => (
-                <div
-                  key={plan.id}
-                  className={`border-2 ${plan.color} flex items-center justify-between rounded-xl p-4`}
+      {showUpgradeModal &&
+        createPortal(
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+            <div className="w-full max-w-lg rounded-2xl border border-border bg-card shadow-2xl">
+              <div className="flex items-center justify-between border-b border-border p-5">
+                <h2 className="text-lg font-semibold text-foreground">Choose a Plan</h2>
+                <button
+                  onClick={() => setShowUpgradeModal(false)}
+                  className="rounded-md p-1.5 text-muted-foreground hover:bg-muted"
                 >
-                  <div>
-                    <h3 className="font-semibold text-foreground">{plan.name}</h3>
-                    <p className="mt-0.5 text-sm text-muted-foreground">{plan.description}</p>
-                    <p className="mt-2 text-lg font-bold text-primary">
-                      {plan.price}
-                      <span className="text-sm font-normal text-muted-foreground"> /month</span>
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => upgradeMutation.mutate(plan.id)}
-                    disabled={upgradeMutation.isPending}
-                    className="ml-4 shrink-0 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+              <div className="space-y-3 p-5">
+                {PLANS.filter((p) => p.id !== currentPlan).map((plan) => (
+                  <div
+                    key={plan.id}
+                    className={`border-2 ${plan.color} flex items-center justify-between rounded-xl p-4`}
                   >
-                    {upgradeMutation.isPending ? 'Upgrading...' : 'Upgrade'}
-                  </button>
-                </div>
-              ))}
+                    <div>
+                      <h3 className="font-semibold text-foreground">{plan.name}</h3>
+                      <p className="mt-0.5 text-sm text-muted-foreground">{plan.description}</p>
+                      <p className="mt-2 text-lg font-bold text-primary">
+                        {plan.price}
+                        <span className="text-sm font-normal text-muted-foreground"> /month</span>
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => upgradeMutation.mutate(plan.id)}
+                      disabled={upgradeMutation.isPending}
+                      className="ml-4 shrink-0 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
+                    >
+                      {upgradeMutation.isPending ? 'Upgrading...' : 'Upgrade'}
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        </div>
-      , document.body)}
+          </div>,
+          document.body,
+        )}
 
       {/* Cancel Modal */}
-      {showCancelModal && createPortal(
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-md rounded-2xl border border-border bg-card shadow-2xl">
-            <div className="flex items-center gap-3 border-b border-border p-5">
-              <div className="rounded-lg bg-red-500/10 p-2">
-                <AlertCircle className="h-5 w-5 text-red-500" />
+      {showCancelModal &&
+        createPortal(
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+            <div className="w-full max-w-md rounded-2xl border border-border bg-card shadow-2xl">
+              <div className="flex items-center gap-3 border-b border-border p-5">
+                <div className="rounded-lg bg-red-500/10 p-2">
+                  <AlertCircle className="h-5 w-5 text-red-500" />
+                </div>
+                <h2 className="text-lg font-semibold text-foreground">Cancel Subscription</h2>
               </div>
-              <h2 className="text-lg font-semibold text-foreground">Cancel Subscription</h2>
-            </div>
-            <div className="p-5">
-              <p className="text-sm text-muted-foreground">
-                Are you sure you want to cancel your subscription? You will lose access to premium
-                features at the end of the billing period.
-              </p>
-              <div className="mt-6 flex gap-3">
-                <button
-                  onClick={() => setShowCancelModal(false)}
-                  className="flex-1 rounded-lg bg-muted py-2.5 font-medium text-foreground transition-colors hover:bg-muted/80"
-                >
-                  Keep Plan
-                </button>
-                <button
-                  onClick={handleCancel}
-                  className="flex-1 rounded-lg bg-red-500 py-2.5 font-medium text-white transition-colors hover:bg-red-600"
-                >
-                  Yes, Cancel
-                </button>
+              <div className="p-5">
+                <p className="text-sm text-muted-foreground">
+                  Are you sure you want to cancel your subscription? You will lose access to premium
+                  features at the end of the billing period.
+                </p>
+                <div className="mt-6 flex gap-3">
+                  <button
+                    onClick={() => setShowCancelModal(false)}
+                    className="flex-1 rounded-lg bg-muted py-2.5 font-medium text-foreground transition-colors hover:bg-muted/80"
+                  >
+                    Keep Plan
+                  </button>
+                  <button
+                    onClick={handleCancel}
+                    className="flex-1 rounded-lg bg-red-500 py-2.5 font-medium text-white transition-colors hover:bg-red-600"
+                  >
+                    Yes, Cancel
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      , document.body)}
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }

@@ -17,7 +17,7 @@ describe('JobsController', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [JobsController],
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
       providers: [{ provide: JobsService, useValue: jobsService }],
     }).compile();
 
@@ -26,9 +26,9 @@ describe('JobsController', () => {
 
   describe('createJob', () => {
     it('should call createJob', async () => {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
       await controller.createJob('user-1', { title: 'Test' } as any);
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       expect(jobsService.createJob).toHaveBeenCalledWith('user-1', {
         title: 'Test',
       });
@@ -38,7 +38,7 @@ describe('JobsController', () => {
   describe('searchJobs', () => {
     it('should call searchJobs', async () => {
       await controller.searchJobs({ query: 'dev' });
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       expect(jobsService.searchJobs).toHaveBeenCalledWith({ query: 'dev' });
     });
   });
@@ -46,7 +46,7 @@ describe('JobsController', () => {
   describe('getJobById', () => {
     it('should call getJobById', async () => {
       await controller.getJobById('job-1');
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       expect(jobsService.getJobById).toHaveBeenCalledWith('job-1');
     });
   });
@@ -54,7 +54,7 @@ describe('JobsController', () => {
   describe('closeJob', () => {
     it('should call closeJob', async () => {
       await controller.closeJob('user-1', 'job-1');
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       expect(jobsService.closeJob).toHaveBeenCalledWith('user-1', 'job-1');
     });
   });

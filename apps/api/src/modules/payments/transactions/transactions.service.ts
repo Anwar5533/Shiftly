@@ -8,7 +8,7 @@ export class TransactionsService {
 
   constructor(private readonly prisma: PrismaService) {}
 
-// eslint-disable-next-line @typescript-eslint/require-await -- TODO(RC3): Address type safety
+  // eslint-disable-next-line @typescript-eslint/require-await -- TODO(RC3): Address type safety
   async createTransaction(data: {
     walletId: string;
     type:
@@ -25,9 +25,9 @@ export class TransactionsService {
     description: string;
     tx?: any; // For prisma interactive transactions
   }) {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
     const db = data.tx || this.prisma;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     return db.transaction.create({
       data: {
         walletId: data.walletId,
