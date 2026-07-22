@@ -3,21 +3,10 @@ name: SHIFTLY CD
 on:
   push:
     branches:
-      - develop       # Automatically deploy to DEV when merged to develop
-      - 'release/**'  # Automatically deploy to UAT when pushing to a release branch
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Environment to deploy to'
-        required: true
-        type: choice
-        options:
-          - mo
-          - prod
-      image_tag:
-        description: 'Docker image tag (e.g. ci-abc1234) to deploy'
-        required: true
-        type: string
+      - deploy-dev
+      - deploy-uat
+      - deploy-mo
+      - deploy-prod
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -27,7 +16,7 @@ jobs:
   # ─── Deploy to DEV ──────────────────────────────────────────────────────────
   deploy-dev:
     name: Deploy to DEV
-    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/deploy-dev'
     runs-on: ubuntu-latest
     environment: dev
     steps:
@@ -40,7 +29,7 @@ jobs:
   # ─── Deploy to UAT ──────────────────────────────────────────────────────────
   deploy-uat:
     name: Deploy to UAT
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/release/')
+    if: github.event_name == 'push' && github.ref == 'refs/heads/deploy-uat'
     runs-on: ubuntu-latest
     environment: uat
     steps:
@@ -53,27 +42,25 @@ jobs:
   # ─── Deploy to MO (Model Office) ────────────────────────────────────────────
   deploy-mo:
     name: Deploy to MO
-    # Optional: We restrict MO deployment so it can only be triggered from a release branch
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'mo' && startsWith(github.ref, 'refs/heads/release/')
+    if: github.event_name == 'push' && github.ref == 'refs/heads/deploy-mo'
     runs-on: ubuntu-latest
     environment: mo
     steps:
       - name: Deploy to MO Environment
         run: |
           echo "Deploying to MO environment..."
-          echo "Image tag: ${{ github.event.inputs.image_tag }}"
+          echo "Image tag: ci-${{ github.sha }}"
           # TODO: Insert your container deployment command here.
 
   # ─── Deploy to PROD ─────────────────────────────────────────────────────────
   deploy-prod:
     name: Deploy to PROD
-    # Optional: We restrict PROD deployment so it can only be triggered from a release branch
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'prod' && startsWith(github.ref, 'refs/heads/release/')
+    if: github.event_name == 'push' && github.ref == 'refs/heads/deploy-prod'
     runs-on: ubuntu-latest
     environment: prod
     steps:
       - name: Deploy to PROD Environment
         run: |
           echo "Deploying to PROD environment..."
-          echo "Image tag: ${{ github.event.inputs.image_tag }}"
+          echo "Image tag: ci-${{ github.sha }}"
           # TODO: Insert your container deployment command here.
