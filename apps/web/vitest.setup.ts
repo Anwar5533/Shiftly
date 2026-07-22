@@ -39,6 +39,6 @@ vi.mock('axios', () => {
         request: { use: vi.fn(), eject: vi.fn() },
         response: { use: vi.fn(), eject: vi.fn() },
       },
-    }
-  }
+    },
+  };
 });
