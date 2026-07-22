@@ -25,7 +25,6 @@ export default function CandidatesPage(): React.ReactElement {
     };
 
     const timeoutId = setTimeout(() => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
       fetchCandidates();
     }, 300);
     return () => clearTimeout(timeoutId);

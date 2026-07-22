@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- TODO(RC3): Address type safety */
+/* eslint-disable @typescript-eslint/no-explicit-any -- TODO(RC3): */
 import api from '@/shared/lib/api';
 import type { WorkerProfile, ApiResponse } from '@shiftly/shared-types';
 
@@ -28,13 +28,11 @@ export const workerApi = {
     proficiency: string;
   }) => {
     const response = await api.post<ApiResponse<any>>('/workers/skills', skillData);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- TODO(RC3): Address type safety
     return response.data.data;
   },
 
   removeSkill: async (skillId: string) => {
     const response = await api.delete<ApiResponse<any>>(`/workers/skills/${skillId}`);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- TODO(RC3): Address type safety
     return response.data.data;
   },
 

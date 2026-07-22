@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access -- TODO(RC3): */
 import React, { useEffect, useState } from 'react';
 import {
   Briefcase,
@@ -31,7 +31,6 @@ export default function MyApplicationsPage(): React.ReactElement {
         setIsLoading(false);
       }
     };
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
     fetchApps();
   }, []);
 
@@ -96,20 +95,14 @@ export default function MyApplicationsPage(): React.ReactElement {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-foreground transition-colors group-hover:text-primary">
-                      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
-                      TODO(RC3): Address type safety
                       {app.job?.title || 'Unknown Role'}
                     </h3>
                     <div className="mt-1.5 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
                       <span className="flex items-center gap-1">
-                        <Building className="h-3.5 w-3.5" /> // eslint-disable-next-line
-                        @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
-                        {app.job?.employer?.companyName || 'Unknown Company'}
+                        <Building className="h-3.5 w-3.5" />                        {app.job?.employer?.companyName || 'Unknown Company'}
                       </span>
                       <span className="hidden text-border md:inline">•</span>
                       <span className="flex items-center gap-1">
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
-                        TODO(RC3): Address type safety
                         <MapPin className="h-3.5 w-3.5" /> {app.job?.location?.city || 'Remote'}
                       </span>
                       <span className="hidden text-border md:inline">•</span>
@@ -120,8 +113,6 @@ export default function MyApplicationsPage(): React.ReactElement {
                     </div>
                     <div className="mt-3 flex items-center gap-2">
                       <span className="rounded-md bg-muted px-2.5 py-1 text-xs font-medium text-foreground">
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
-                        TODO(RC3): Address type safety
                         {app.job?.jobType || 'Unknown'}
                       </span>
                     </div>

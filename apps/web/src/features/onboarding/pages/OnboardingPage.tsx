@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-misused-promises -- TODO(RC3): Address type safety */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-misused-promises -- TODO(RC3): */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -69,7 +69,6 @@ export default function OnboardingPage(): React.ReactElement {
         'professional.experienceYears',
       ];
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
     const isValid = await form.trigger(fieldsToValidate as any);
     if (isValid) {
       setCurrentStep((prev) => Math.min(prev + 1, STEPS.length - 1));
@@ -147,7 +146,6 @@ export default function OnboardingPage(): React.ReactElement {
 
         {/* Form Content */}
         <div className="p-8">
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO(RC3): Address
           type safety
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <AnimatePresence mode="wait">

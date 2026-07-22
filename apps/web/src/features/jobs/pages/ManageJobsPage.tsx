@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): */
 import React, { useEffect, useState, useMemo } from 'react';
 import { Plus, Search, Filter, Users, Eye, MoreHorizontal, X, CheckCircle2 } from 'lucide-react';
 import { jobsApi } from '../api/jobs.api';
@@ -26,7 +26,6 @@ export default function ManageJobsPage(): React.ReactElement {
         setIsLoading(false);
       }
     };
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
     fetchMyJobs();
   }, []);
 
@@ -147,8 +146,10 @@ export default function ManageJobsPage(): React.ReactElement {
                     onClick={() => navigate(`/jobs/${job.id}/applications`)}
                   >
                     <td className="p-4">
-                      <div className="font-semibold text-foreground">{job.title}</div>
-                      <div className="mt-1 text-sm text-muted-foreground">
+                      <div className="font-semibold text-foreground max-w-[200px] md:max-w-[400px] truncate" title={job.title}>
+                        {job.title}
+                      </div>
+                      <div className="mt-1 text-sm text-muted-foreground max-w-[200px] md:max-w-[400px] truncate">
                         {job.jobType} • {job.location?.city || 'Remote'}
                       </div>
                     </td>
@@ -170,14 +171,10 @@ export default function ManageJobsPage(): React.ReactElement {
                     <td className="p-4">
                       <div className="flex items-center gap-4">
                         <div className="flex items-center gap-1.5 text-sm font-medium text-foreground">
-                          <Users className="h-4 w-4 text-muted-foreground" /> //
-                          eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
-                          TODO(RC3): Address type safety
+                          <Users className="h-4 w-4 text-muted-foreground" />
                           {(job as any).applications?.length || 0}
                         </div>
                         <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
-                          TODO(RC3): Address type safety
                           <Eye className="h-4 w-4" /> {(job as any).viewCount || 0}
                         </div>
                       </div>

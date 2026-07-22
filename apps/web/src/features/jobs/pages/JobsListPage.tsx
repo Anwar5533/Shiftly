@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): */
 import React, { useState, useMemo, useEffect } from 'react';
 import { Search, Filter, MapPin, Briefcase, IndianRupee, X, Building } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -49,11 +49,8 @@ export default function JobsListPage(): React.ReactElement {
       setIsLoading(true);
       setError(null);
       try {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
         const response = await jobsApi.searchJobs();
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
         const fetchedJobs = Array.isArray(response) ? response : response?.items || [];
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
         setJobs(fetchedJobs);
       } catch (err: any) {
         console.error('Failed to fetch jobs', err);
@@ -62,7 +59,6 @@ export default function JobsListPage(): React.ReactElement {
         setIsLoading(false);
       }
     };
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
     fetchJobs();
   }, []);
 
@@ -318,8 +314,6 @@ export default function JobsListPage(): React.ReactElement {
                       <div className="mt-1 flex items-center gap-2">
                         <Building className="h-4 w-4 text-muted-foreground" />
                         <span className="font-medium text-foreground">
-                          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
-                          TODO(RC3): Address type safety
                           {(job as any).employer?.companyName || 'Employer Name'}
                         </span>
                       </div>

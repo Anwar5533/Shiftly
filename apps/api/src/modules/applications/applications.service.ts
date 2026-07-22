@@ -76,6 +76,27 @@ export class ApplicationsService {
     });
   }
 
+  async checkApplicationStatus(userId: string, jobId: string) {
+    const worker = await this.prisma.workerProfile.findUnique({
+      where: { userId },
+    });
+
+    if (!worker) {
+      return { applied: false };
+    }
+
+    const existingApp = await this.prisma.jobApplication.findUnique({
+      where: {
+        jobId_workerId: {
+          jobId,
+          workerId: worker.id,
+        },
+      },
+    });
+
+    return { applied: !!existingApp, applicationId: existingApp?.id };
+  }
+
   async getMyApplications(
     userId: string,
     page: number = 1,

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument -- TODO(RC3): */
 import { useState } from 'react';
 import { ArrowUpRight, ArrowDownLeft, Clock, Wallet as WalletIcon, Lock } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -32,9 +32,7 @@ export default function WalletPage() {
   const topUpMutation = useMutation({
     mutationFn: (amount: number) => walletApi.topUp(amount),
     onSuccess: () => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
       queryClient.invalidateQueries({ queryKey: ['wallet'] });
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
       queryClient.invalidateQueries({ queryKey: ['transactions'] });
       setTopUpAmount('');
       alert('Top up successful!');
@@ -47,9 +45,7 @@ export default function WalletPage() {
   const withdrawMutation = useMutation({
     mutationFn: (amount: number) => walletApi.withdraw(amount),
     onSuccess: () => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
       queryClient.invalidateQueries({ queryKey: ['wallet'] });
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
       queryClient.invalidateQueries({ queryKey: ['transactions'] });
       setWithdrawAmount('');
       alert('Withdrawal successful!');
@@ -155,7 +151,6 @@ export default function WalletPage() {
               ) : (
                 transactions.map((tx: any) => (
                   <div
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
                     key={tx.id}
                     className="flex items-center justify-between p-4 transition-colors hover:bg-muted/30"
                   >
@@ -171,8 +166,6 @@ export default function WalletPage() {
                                 : 'bg-muted text-muted-foreground'
                         }`}
                       >
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
-                        TODO(RC3): Address type safety
                         {tx.type === 'TOPUP' || tx.type === 'ESCROW_RELEASE' ? (
                           <ArrowDownLeft className="h-5 w-5" />
                         ) : tx.type === 'WITHDRAWAL' ? (
@@ -182,12 +175,9 @@ export default function WalletPage() {
                         )}
                       </div>
                       <div>
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
-                        TODO(RC3): Address type safety
                         <p className="font-medium text-foreground">{tx.description}</p>
                         <p className="mt-0.5 flex items-center gap-1 text-sm text-muted-foreground">
                           <Clock className="h-3 w-3" />
-                          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,
                           @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type
                           safety
                           {format(new Date(tx.createdAt), 'MMM d, h:mm a')}
@@ -202,11 +192,7 @@ export default function WalletPage() {
                             : 'text-foreground'
                         }`}
                       >
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
-                        TODO(RC3): Address type safety
                         {tx.type === 'TOPUP' || tx.type === 'ESCROW_RELEASE' ? '+' : '-'}
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
-                        TODO(RC3): Address type safety
                         {formatINR(Number(tx.amount))}
                       </p>
                       <p
@@ -218,8 +204,6 @@ export default function WalletPage() {
                               : 'text-red-500'
                         }`}
                       >
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
-                        TODO(RC3): Address type safety
                         {tx.status}
                       </p>
                     </div>

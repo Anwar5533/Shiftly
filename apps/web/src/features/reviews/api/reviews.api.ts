@@ -9,13 +9,11 @@ export const reviewsApi = {
     comment?: string;
   }) => {
     const response = await api.post('/reviews', data);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- TODO(RC3): Address type safety
     return response.data;
   },
 
   getUserReviews: async (userId: string) => {
     const response = await api.get(`/reviews/user/${userId}`);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- TODO(RC3): Address type safety
     return response.data;
   },
 };

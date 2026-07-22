@@ -56,7 +56,6 @@ api.interceptors.request.use(
     }
     return config;
   },
-  // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors -- TODO(RC3): Address type safety
   (error) => Promise.reject(error),
 );
 
@@ -77,7 +76,6 @@ api.interceptors.response.use(
           failedQueue.push({ resolve, reject });
         }).then((token) => {
           if (originalRequest.headers && token) {
-            // eslint-disable-next-line @typescript-eslint/no-base-to-string -- TODO(RC3): Address type safety
             originalRequest.headers['Authorization'] = `Bearer ${String(token)}`;
           }
           return api(originalRequest);
@@ -102,7 +100,6 @@ api.interceptors.response.use(
         clearAccessToken();
         // Redirect to login
         window.location.href = '/login';
-        // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors -- TODO(RC3): Address type safety
         return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;

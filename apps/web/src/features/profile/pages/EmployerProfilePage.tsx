@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unused-vars -- TODO(RC3): Address type safety */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unused-vars -- TODO(RC3): */
 import React, { useState, useEffect } from 'react';
 import { Building2, MapPin, Users, Star } from 'lucide-react';
 import { useAppSelector } from '@/app/store';
@@ -37,7 +37,6 @@ export default function EmployerProfilePage(): React.ReactElement {
       // Fallback if needed for development, similar to worker
       const mockProfile: any = {
         id: 'emp-1',
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
         userId: (user as any)?.id || (user as any)?.sub || 'u-1',
         companyName: 'Acme Logistics',
         description: 'A leading retail company looking for shift workers.',
@@ -49,17 +48,11 @@ export default function EmployerProfilePage(): React.ReactElement {
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       };
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
       setProfile(mockProfile);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
       setCompanyName(mockProfile.companyName);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
       setIndustry(mockProfile.industry);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
       setDescription(mockProfile.description || '');
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
       setWebsite(mockProfile.website || '');
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
       setLocationCity(mockProfile.location?.city || '');
       setEmail(user?.email || '');
       setError(null);
@@ -70,7 +63,6 @@ export default function EmployerProfilePage(): React.ReactElement {
 
   useEffect(() => {
     if (user?.role === 'EMPLOYER') {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
       fetchProfile();
     }
   }, [user]);
@@ -124,7 +116,6 @@ export default function EmployerProfilePage(): React.ReactElement {
           </p>
         </div>
         <button
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO(RC3): Address type safety
           onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
           className="rounded-lg bg-primary px-4 py-2 font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
         >
@@ -279,15 +270,9 @@ export default function EmployerProfilePage(): React.ReactElement {
               Departments
             </h3>
             <div className="flex flex-wrap gap-2">
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3):
-              Address type safety
               {(profile as any).departments && (profile as any).departments.length > 0 ? (
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-call -- TODO(RC3): Address type safety
                 (profile as any).departments.map((dept: any) => (
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
                   <div key={dept.id} className="rounded-xl border border-border p-4">
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
-                    TODO(RC3): Address type safety
                     {dept.name}
                     {isEditing && (
                       <button className="text-muted-foreground hover:text-destructive">
@@ -301,7 +286,6 @@ export default function EmployerProfilePage(): React.ReactElement {
               )}
               {isEditing && (
                 <button
-                  // eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO(RC3): Address type safety
                   onClick={async () => {
                     const name = prompt('Enter department name:');
                     if (name) {

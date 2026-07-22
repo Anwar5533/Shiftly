@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): */
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { ShieldAlert, Info, AlertTriangle, Terminal, Filter, RefreshCw } from 'lucide-react';
@@ -51,7 +51,6 @@ export default function SystemLogsPage(): React.ReactElement {
             <Filter className="h-4 w-4" /> Filter Logs
           </button>
           <button
-            // eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO(RC3): Address type safety
             onClick={() => refetch()}
             className="flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
@@ -90,11 +89,8 @@ export default function SystemLogsPage(): React.ReactElement {
                   const style = getLevelStyle(log.severity);
                   const Icon = style.icon;
                   return (
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
                     <tr key={log.id} className="transition-colors hover:bg-muted/10">
                       <td className="whitespace-nowrap p-4 text-muted-foreground">
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,
-                        @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
                         {new Date(log.timestamp).toLocaleString()}
                       </td>
                       <td className="p-4">
@@ -103,24 +99,16 @@ export default function SystemLogsPage(): React.ReactElement {
                         >
                           <Icon className="h-3.5 w-3.5" />
                           <span className="text-xs font-semibold tracking-wider">
-                            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-                            -- TODO(RC3): Address type safety
-                            {log.severity}
+                            -- TODO(RC3):                            {log.severity}
                           </span>
                         </div>
                       </td>
                       <td className="p-4 font-medium text-primary/80">
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
-                        TODO(RC3): Address type safety
                         {log.actorEmail || 'System'}
                       </td>
                       <td className="p-4 text-foreground">
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
-                        TODO(RC3): Address type safety
                         {log.action} - {log.target}
                       </td>
-                      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access --
-                      TODO(RC3): Address type safety
                       <td className="p-4 text-muted-foreground">{log.ip || 'Internal'}</td>
                     </tr>
                   );

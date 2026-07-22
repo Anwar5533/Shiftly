@@ -175,6 +175,13 @@ export class AuthService {
               ),
             },
           },
+          workerProfile: {
+            create: {
+              firstName: 'New',
+              lastName: 'Worker',
+              location: { city: 'Bangalore', country: 'India' },
+            },
+          },
         },
       });
 

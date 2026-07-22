@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): */
 import React from 'react';
 import { useRouteError } from 'react-router-dom';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
 
 export function ErrorBoundaryPage(): React.ReactElement {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
   const error = useRouteError() as any;
   console.error('Unhandled route error:', error);
 
@@ -21,8 +20,6 @@ export function ErrorBoundaryPage(): React.ReactElement {
           </p>
           {import.meta.env.DEV && error && (
             <pre className="mt-4 max-h-40 overflow-auto rounded-lg bg-muted p-4 text-left text-xs text-muted-foreground">
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3):
-              Address type safety
               {error.message || error.statusText || String(error)}
             </pre>
           )}

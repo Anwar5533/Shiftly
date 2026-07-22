@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-misused-promises -- TODO(RC3): Address type safety */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-misused-promises -- TODO(RC3): */
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -64,7 +64,6 @@ export default function PostJobPage(): React.ReactElement {
       navigate(`/jobs/${newJob.id}`);
     } catch (error: any) {
       console.error('Failed to post job', error);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       alert(error.response?.data?.error?.message || 'Failed to post job');
     }
   };
@@ -79,13 +78,13 @@ export default function PostJobPage(): React.ReactElement {
       </div>
 
       <div className="rounded-2xl border border-border bg-card p-8 shadow-sm">
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO(RC3): Address
         type safety
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div className="space-y-2 md:col-span-2">
-              <label className="text-sm font-medium text-foreground">Job Title</label>
+              <label htmlFor="title" className="text-sm font-medium text-foreground">Job Title</label>
               <input
+                id="title"
                 type="text"
                 {...register('title')}
                 placeholder="e.g. Senior Frontend Developer"
@@ -95,8 +94,9 @@ export default function PostJobPage(): React.ReactElement {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">Job Type</label>
+              <label htmlFor="jobType" className="text-sm font-medium text-foreground">Job Type</label>
               <select
+                id="jobType"
                 {...register('jobType')}
                 className="input-glow flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               >
@@ -108,8 +108,9 @@ export default function PostJobPage(): React.ReactElement {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">City</label>
+              <label htmlFor="locationCity" className="text-sm font-medium text-foreground">City</label>
               <input
+                id="locationCity"
                 type="text"
                 {...register('locationCity')}
                 placeholder="e.g. Bangalore"
@@ -121,8 +122,9 @@ export default function PostJobPage(): React.ReactElement {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">Min Salary</label>
+              <label htmlFor="salaryMin" className="text-sm font-medium text-foreground">Min Salary</label>
               <input
+                id="salaryMin"
                 type="number"
                 {...register('salaryMin')}
                 placeholder="e.g. 1500000"
@@ -134,8 +136,9 @@ export default function PostJobPage(): React.ReactElement {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">Max Salary</label>
+              <label htmlFor="salaryMax" className="text-sm font-medium text-foreground">Max Salary</label>
               <input
+                id="salaryMax"
                 type="number"
                 {...register('salaryMax')}
                 placeholder="e.g. 2500000"
@@ -147,8 +150,9 @@ export default function PostJobPage(): React.ReactElement {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">Salary Period</label>
+              <label htmlFor="salaryPeriod" className="text-sm font-medium text-foreground">Salary Period</label>
               <select
+                id="salaryPeriod"
                 {...register('salaryPeriod')}
                 className="input-glow flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               >
@@ -161,8 +165,9 @@ export default function PostJobPage(): React.ReactElement {
             </div>
 
             <div className="space-y-2 md:col-span-2">
-              <label className="text-sm font-medium text-foreground">Job Description</label>
+              <label htmlFor="description" className="text-sm font-medium text-foreground">Job Description</label>
               <textarea
+                id="description"
                 {...register('description')}
                 rows={6}
                 placeholder="Describe the responsibilities, requirements, and benefits..."

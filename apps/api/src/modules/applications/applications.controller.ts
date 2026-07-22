@@ -45,6 +45,15 @@ export class ApplicationsController {
     );
   }
 
+  @Get('check/:jobId')
+  @Roles(UserRole.WORKER)
+  checkApplicationStatus(
+    @CurrentUser('sub') userId: string,
+    @Param('jobId') jobId: string,
+  ) {
+    return this.applicationsService.checkApplicationStatus(userId, jobId);
+  }
+
   @Get('recent')
   @Roles(UserRole.EMPLOYER)
   getRecentApplications(@CurrentUser('sub') userId: string) {
