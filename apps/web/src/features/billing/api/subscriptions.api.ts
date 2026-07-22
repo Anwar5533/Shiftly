@@ -1,4 +1,5 @@
 import api from '@/shared/lib/api';
+import { ApiResponse } from "@shiftly/shared-types";
 
 export interface SubscriptionData {
   id: string;
@@ -19,17 +20,17 @@ export interface InvoiceData {
 
 export const subscriptionsApi = {
   getCurrentSubscription: async (): Promise<SubscriptionData> => {
-    const { data } = await api.get('/subscriptions/current');
+    const { data } = await api.get<ApiResponse<SubscriptionData>>('/subscriptions/current');
     return data;
   },
 
   getInvoices: async (): Promise<InvoiceData[]> => {
-    const { data } = await api.get('/subscriptions/invoices');
+    const { data } = await api.get<ApiResponse<InvoiceData[]>>('/subscriptions/invoices');
     return data;
   },
 
   upgradePlan: async (plan: string): Promise<SubscriptionData> => {
-    const { data } = await api.post('/subscriptions/upgrade', { plan });
+    const { data } = await api.post<ApiResponse<SubscriptionData>>('/subscriptions/upgrade', { plan });
     return data;
   },
 };

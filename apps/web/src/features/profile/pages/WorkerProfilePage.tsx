@@ -37,7 +37,8 @@ export default function WorkerProfilePage(): React.ReactElement {
           setLocationCity(data.location?.city || '');
           setError(null);
           return;
-        } catch (err) {
+        } catch (_error) {
+          const err = _error as import('axios').AxiosError<Record<string, unknown>>;
           console.warn('Backend profile fetch failed, using fallback mock');
         }
       }
@@ -73,10 +74,11 @@ export default function WorkerProfilePage(): React.ReactElement {
       setFirstName(fallbackProfile.firstName || '');
       setLastName(fallbackProfile.lastName || '');
       setEmail(user?.email || '');
-      setPhone((user as any)?.phone || '');
+      setPhone((user as unknown as Record<string, unknown>)?.phone as string || '');
       setError(null);
-    } catch (err) {
-      console.error('Failed to fetch profile', err);
+    } catch (_error) {
+      const err = _error as import('axios').AxiosError<Record<string, unknown>>;
+      console.error('Failed to fetch profile', _error);
       setError('Failed to load profile data.');
     } finally {
       setIsLoading(false);
@@ -84,7 +86,7 @@ export default function WorkerProfilePage(): React.ReactElement {
   };
 
   useEffect(() => {
-    fetchProfile();
+    void fetchProfile();
   }, [user]);
 
   const handleSave = async () => {
@@ -102,7 +104,7 @@ export default function WorkerProfilePage(): React.ReactElement {
           },
         });
         await fetchProfile(); // refresh data
-        queryClient.invalidateQueries({ queryKey: ['worker-profile', user?.sub] });
+        void queryClient.invalidateQueries({ queryKey: ['worker-profile', user?.sub] });
       }
       // Update local state to simulate save for all roles
       setProfile({
@@ -117,10 +119,11 @@ export default function WorkerProfilePage(): React.ReactElement {
       });
       // In a real app we would update the Redux user state for email/phone too
       setIsEditing(false);
-    } catch (err: any) {
-      console.error('Failed to update profile', err);
+    } catch (_error: any) {
+      const err = _error as import('axios').AxiosError<Record<string, unknown>>;
+      console.error('Failed to update profile', _error);
 
-      alert(err.response?.data?.error?.message || 'Failed to save changes');
+      alert((err.response?.data as Record<string, any>)?.error?.message || 'Failed to save changes');
     } finally {
       setIsLoading(false);
     }
@@ -154,7 +157,7 @@ export default function WorkerProfilePage(): React.ReactElement {
           </p>
         </div>
         <button
-          onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
+          onClick={() => { if (isEditing) { void handleSave(); } else { setIsEditing(true); } }}
           className="rounded-lg bg-primary px-4 py-2 font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
         >
           {isEditing ? 'Save Changes' : 'Edit Profile'}

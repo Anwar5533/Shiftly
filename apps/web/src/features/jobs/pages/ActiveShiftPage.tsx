@@ -27,8 +27,9 @@ export default function ActiveShiftPage(): React.ReactElement {
       } else {
         setError('Shift not found or you do not have permission.');
       }
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to load shift.');
+    } catch (_error: any) {
+      const err = _error as import('axios').AxiosError<Record<string, unknown>>;
+      setError(_error.response?.data?.message || 'Failed to load shift.');
     } finally {
       setIsLoading(false);
     }
@@ -36,7 +37,7 @@ export default function ActiveShiftPage(): React.ReactElement {
 
   useEffect(() => {
     if (id && user?.role === 'WORKER') {
-      fetchShift();
+      void fetchShift();
     }
   }, [id, user]);
 
@@ -46,8 +47,9 @@ export default function ActiveShiftPage(): React.ReactElement {
     try {
       const updatedShift = await shiftsApi.clockIn(shift.id, { city: 'Worker Location' });
       setShift(updatedShift);
-    } catch (err: any) {
-      alert(err.response?.data?.message || 'Failed to clock in');
+    } catch (_error: any) {
+      const err = _error as import('axios').AxiosError<Record<string, unknown>>;
+      alert(_error.response?.data?.message || 'Failed to clock in');
     } finally {
       setIsProcessing(false);
     }
@@ -61,8 +63,9 @@ export default function ActiveShiftPage(): React.ReactElement {
       await shiftsApi.submitTimesheet(shift.id, notes);
       setShift(updatedShift);
       alert('Shift completed and timesheet submitted successfully!');
-    } catch (err: any) {
-      alert(err.response?.data?.message || 'Failed to clock out');
+    } catch (_error: any) {
+      const err = _error as import('axios').AxiosError<Record<string, unknown>>;
+      alert(_error.response?.data?.message || 'Failed to clock out');
     } finally {
       setIsProcessing(false);
     }

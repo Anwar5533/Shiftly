@@ -21,8 +21,9 @@ export default function WorkerDashboard(): React.ReactElement {
       try {
         const data = await workerApi.getDashboardStats();
         setStats(data);
-      } catch (error) {
-        console.error('Failed to fetch stats', error);
+      } catch (_error) {
+        const error = _error as import('axios').AxiosError<Record<string, unknown>>;
+        console.error('Failed to fetch stats', _error);
       } finally {
         setIsLoading(false);
       }

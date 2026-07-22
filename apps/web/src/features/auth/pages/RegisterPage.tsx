@@ -50,12 +50,12 @@ export default function RegisterPage(): React.ReactElement {
       setAccessToken(data.accessToken);
       const payload = jwtDecode<JwtPayload>(data.accessToken);
       dispatch(setUser(payload));
-      navigate('/onboarding', { replace: true });
+      void navigate('/onboarding', { replace: true });
     },
   });
 
   const onSubmit = (data: RegisterForm) => {
-    registerMutation.mutate(data);
+    void registerMutation.mutate(data);
   };
 
   const serverError = (registerMutation.error as any)?.response?.data?.error?.message;

@@ -1,4 +1,5 @@
 import api from '@/shared/lib/api';
+import { ApiResponse } from "@shiftly/shared-types";
 
 export interface AdminDashboardStats {
   activeUsers: number;
@@ -9,7 +10,7 @@ export interface AdminDashboardStats {
 
 export const adminApi = {
   getDashboardStats: async (): Promise<AdminDashboardStats> => {
-    const response = await api.get('/admin/stats');
+    const response = await api.get<ApiResponse<AdminDashboardStats>>('/admin/stats');
     return response.data;
   },
 };

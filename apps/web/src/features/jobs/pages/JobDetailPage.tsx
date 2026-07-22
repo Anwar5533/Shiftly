@@ -26,8 +26,9 @@ export default function JobDetailPage(): React.ReactElement {
       try {
         const data = await jobsApi.getJobById(id);
         setJob(data);
-      } catch (err: any) {
-        console.error('Failed to fetch job', err);
+      } catch (_error: any) {
+        const err = _error as import('axios').AxiosError<Record<string, unknown>>;
+        console.error('Failed to fetch job', _error);
         setError('Failed to load job details. The job might not exist.');
       } finally {
         setIsLoading(false);
@@ -38,12 +39,13 @@ export default function JobDetailPage(): React.ReactElement {
       try {
         const res = await applicationsApi.checkApplication(id);
         if (res.applied) setApplySuccess(true);
-      } catch (err) {
-        console.error('Failed to check application status', err);
+      } catch (_error) {
+        const err = _error as import('axios').AxiosError<Record<string, unknown>>;
+        console.error('Failed to check application status', _error);
       }
     };
 
-    fetchJob();
+    void fetchJob();
     if (user?.role === 'WORKER') {
       checkApplied();
     }
@@ -55,13 +57,14 @@ export default function JobDetailPage(): React.ReactElement {
     try {
       await applicationsApi.applyToJob({ jobId: id, coverLetter: 'Interested in this role' });
       setApplySuccess(true);
-    } catch (err: any) {
-      console.error('Failed to apply', err);
+    } catch (_error: any) {
+      const err = _error as import('axios').AxiosError<Record<string, unknown>>;
+      console.error('Failed to apply', _error);
 
-      if (err?.response?.data?.error?.message) {
-        alert(`Error: ${err.response.data.error.message}`);
-      } else if (err?.response?.data?.message) {
-        alert(`Error: ${err.response.data.message}`);
+      if (_error?.response?.data?.error?.message) {
+        alert(`Error: ${_error.response.data.error.message}`);
+      } else if (_error?.response?.data?.message) {
+        alert(`Error: ${_error.response.data.message}`);
       } else {
         alert('Failed to apply. Please try again.');
       }

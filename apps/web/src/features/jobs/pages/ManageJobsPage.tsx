@@ -20,13 +20,14 @@ export default function ManageJobsPage(): React.ReactElement {
       try {
         const data = await jobsApi.getMyJobs();
         setJobs(data.items);
-      } catch (err) {
-        console.error('Failed to fetch my jobs', err);
+      } catch (_error) {
+        const err = _error as import('axios').AxiosError<Record<string, unknown>>;
+        console.error('Failed to fetch my jobs', _error);
       } finally {
         setIsLoading(false);
       }
     };
-    fetchMyJobs();
+    void fetchMyJobs();
   }, []);
 
   const toggleStatus = (status: string) => {

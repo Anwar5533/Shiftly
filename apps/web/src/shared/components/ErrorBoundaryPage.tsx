@@ -4,7 +4,7 @@ import { useRouteError } from 'react-router-dom';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
 
 export function ErrorBoundaryPage(): React.ReactElement {
-  const error = useRouteError() as any;
+  const error = useRouteError() as Error & { statusText?: string };
   console.error('Unhandled route error:', error);
 
   return (
@@ -20,7 +20,7 @@ export function ErrorBoundaryPage(): React.ReactElement {
           </p>
           {import.meta.env.DEV && error && (
             <pre className="mt-4 max-h-40 overflow-auto rounded-lg bg-muted p-4 text-left text-xs text-muted-foreground">
-              {error.message || error.statusText || String(error)}
+              {error?.message || error?.statusText || String(error)}
             </pre>
           )}
         </div>

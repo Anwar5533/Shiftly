@@ -1,4 +1,5 @@
 import api from '../../../shared/lib/api';
+import type { ApiResponse } from '@shiftly/shared-types';
 
 export const reviewsApi = {
   createReview: async (data: {
@@ -8,12 +9,12 @@ export const reviewsApi = {
     rating: number;
     comment?: string;
   }) => {
-    const response = await api.post('/reviews', data);
+    const response = await api.post<ApiResponse<Record<string, unknown>>>('/reviews', data);
     return response.data;
   },
 
   getUserReviews: async (userId: string) => {
-    const response = await api.get(`/reviews/user/${userId}`);
+    const response = await api.get<ApiResponse<Record<string, unknown>>>(`/reviews/user/${userId}`);
     return response.data;
   },
 };

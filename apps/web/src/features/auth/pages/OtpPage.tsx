@@ -42,9 +42,9 @@ export default function OtpPage(): React.ReactElement {
       dispatch(setUser(payload));
 
       if (data.isNewUser) {
-        navigate('/register', { replace: true });
+        void navigate('/register', { replace: true });
       } else {
-        navigate('/dashboard', { replace: true });
+        void navigate('/dashboard', { replace: true });
       }
     },
   });
@@ -100,7 +100,7 @@ export default function OtpPage(): React.ReactElement {
     e.preventDefault();
     const code = otp.join('');
     if (code.length === 6) {
-      verifyOtpMutation.mutate(code);
+      void verifyOtpMutation.mutate(code);
     }
   };
 
@@ -177,7 +177,7 @@ export default function OtpPage(): React.ReactElement {
           <span className="font-medium text-foreground">Resend in {countdown}s</span>
         ) : (
           <button
-            onClick={() => resendOtpMutation.mutate()}
+            onClick={() => { void resendOtpMutation.mutate(); }}
             disabled={resendOtpMutation.isPending}
             className="font-semibold text-primary transition-colors hover:text-primary/80 disabled:opacity-50"
           >

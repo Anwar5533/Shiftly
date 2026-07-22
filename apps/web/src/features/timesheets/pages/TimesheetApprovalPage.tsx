@@ -5,6 +5,21 @@ import { shiftsApi } from '../../jobs/api/shifts.api';
 import { format } from 'date-fns';
 import { ReviewModal } from '@/features/reviews/components/ReviewModal';
 
+interface TimesheetView {
+  id: string;
+  status: string;
+  hoursWorked: number;
+  notes?: string;
+  shift: {
+    jobId: string;
+    workerId: string;
+    scheduledStart: string;
+    job: { title: string };
+    worker: { user: { email: string } };
+  };
+}
+
+
 export function TimesheetApprovalPage() {
   const queryClient = useQueryClient();
   const [reviewModalData, setReviewModalData] = useState<{
@@ -53,7 +68,7 @@ export function TimesheetApprovalPage() {
           </div>
         ) : (
           <div className="divide-y divide-border">
-            {timesheets.map((ts: any) => (
+            {(timesheets as unknown as TimesheetView[]).map((ts: TimesheetView) => (
               <div
                 key={ts.id}
                 className="flex flex-col justify-between gap-6 p-6 transition-colors hover:bg-muted/30 md:flex-row md:items-center"
@@ -94,7 +109,7 @@ export function TimesheetApprovalPage() {
                         onClick={() => {
                           const reason = prompt('Reason for rejection:');
                           if (reason) {
-                            rejectMutation.mutate({ id: ts.id, reason });
+                            void rejectMutation.mutate({ id: ts.id, reason });
                           }
                         }}
                         className="rounded-lg border border-border px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-muted"
@@ -102,7 +117,7 @@ export function TimesheetApprovalPage() {
                         Reject
                       </button>
                       <button
-                        onClick={() => approveMutation.mutate(ts.id)}
+                        onClick={() => { void approveMutation.mutate(ts.id); }}
                         className="rounded-lg bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
                       >
                         Approve

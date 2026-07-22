@@ -28,14 +28,15 @@ export default function JobApplicationsPage(): React.ReactElement {
         setIsLoading(true);
         const data = await applicationsApi.getApplicationsForJob(id);
         setApplications(data.items);
-      } catch (err) {
-        console.error('Failed to load applications.', err);
+      } catch (_error) {
+        const err = _error as import('axios').AxiosError<Record<string, unknown>>;
+        console.error('Failed to load applications.', _error);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchApps();
+    void fetchApps();
   }, [id]);
 
   const handleUpdateStatus = async (applicationId: string, newStatus: ApplicationStatus) => {
@@ -45,7 +46,8 @@ export default function JobApplicationsPage(): React.ReactElement {
         status: newStatus,
       });
       setApplications((prev) => prev.map((app) => (app.id === applicationId ? updatedApp : app)));
-    } catch (err) {
+    } catch (_error) {
+      const err = _error as import('axios').AxiosError<Record<string, unknown>>;
       alert('Failed to update status');
     } finally {
       setUpdatingId(null);
@@ -149,9 +151,9 @@ export default function JobApplicationsPage(): React.ReactElement {
                             />
                           ) : (
                             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/20 font-bold text-primary">
-                              {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
+                              { }
                               {app.worker?.firstName?.charAt(0)}
-                              {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
+                              { }
                               {app.worker?.lastName?.charAt(0)}
                             </div>
                           )}

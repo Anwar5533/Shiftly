@@ -33,7 +33,7 @@ export default function SettingsPage(): React.ReactElement {
   const [copied, setCopied] = useState(false);
   const handleCopyCode = () => {
     if (refCode) {
-      navigator.clipboard.writeText(refCode.code);
+      void navigator.clipboard.writeText(refCode.code);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }

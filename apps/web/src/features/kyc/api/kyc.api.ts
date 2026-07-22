@@ -1,5 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- TODO(RC3): */
+ 
 import api from '@/shared/lib/api';
+import type { ApiResponse } from '@shiftly/shared-types';
 
 export type DocumentTypeEnum =
   | 'PASSPORT'
@@ -40,9 +41,9 @@ export const kycApi = {
     return response.data;
   },
 
-  submitKyc: async (payload: KycSubmissionPayload): Promise<any> => {
-    const response = await api.post('/kyc/submit', payload);
-    return response.data;
+  submitKyc: async (payload: KycSubmissionPayload): Promise<Record<string, unknown>> => {
+    const response = await api.post<ApiResponse<Record<string, unknown>>>('/kyc/submit', payload);
+    return response.data.data;
   },
 
   getKycStatus: async (): Promise<KycStatusResponse> => {

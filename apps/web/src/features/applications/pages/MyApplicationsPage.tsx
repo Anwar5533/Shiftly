@@ -25,13 +25,14 @@ export default function MyApplicationsPage(): React.ReactElement {
       try {
         const data = await applicationsApi.getMyApplications();
         setApplications(data.items);
-      } catch (err) {
-        console.error('Failed to fetch my applications', err);
+      } catch (_error) {
+        const err = _error as import('axios').AxiosError<Record<string, unknown>>;
+        console.error('Failed to fetch my applications', _error);
       } finally {
         setIsLoading(false);
       }
     };
-    fetchApps();
+    void fetchApps();
   }, []);
 
   const getStatusBadge = (status: string) => {
@@ -124,7 +125,7 @@ export default function MyApplicationsPage(): React.ReactElement {
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      navigate(`/jobs/${app.jobId}`);
+                      void navigate(`/jobs/${app.jobId}`);
                     }}
                     className="flex items-center gap-1 text-sm font-medium text-primary hover:text-primary/80 group-hover:underline"
                   >

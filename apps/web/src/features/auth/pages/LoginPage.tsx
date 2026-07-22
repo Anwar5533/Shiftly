@@ -56,7 +56,7 @@ export default function LoginPage(): React.ReactElement {
   const sendOtpMutation = useMutation({
     mutationFn: (phone: string) => authApi.sendOtp(phone),
     onSuccess: (_data, phone) => {
-      navigate('/verify-otp', { state: { phone } });
+      void navigate('/verify-otp', { state: { phone } });
     },
   });
 
@@ -66,18 +66,18 @@ export default function LoginPage(): React.ReactElement {
       setAccessToken(data.accessToken);
       const payload = jwtDecode<JwtPayload>(data.accessToken);
       dispatch(setUser(payload));
-      navigate(from, { replace: true });
+      void navigate(from, { replace: true });
     },
   });
 
   const handlePhoneSubmit = (data: PhoneForm): void => {
     // Normalise phone: ensure + prefix
     const phone = data.phone.startsWith('+') ? data.phone : `+${data.phone}`;
-    sendOtpMutation.mutate(phone);
+    void sendOtpMutation.mutate(phone);
   };
 
   const handleEmailSubmit = (data: EmailForm): void => {
-    loginEmailMutation.mutate(data);
+    void loginEmailMutation.mutate(data);
   };
 
   const serverError =

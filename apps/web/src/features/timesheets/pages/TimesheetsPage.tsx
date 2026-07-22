@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-argument -- TODO(RC3): */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access -- TODO(RC3): */
 import React from 'react';
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
@@ -8,6 +8,8 @@ import { shiftsApi } from '../../jobs/api/shifts.api';
 export default function TimesheetsPage(): React.ReactElement {
   // We should actually fetch shifts to see if there is an active one for clock-in/out on this page,
   // but TimesheetsPage is primarily for past/submitted timesheets. Let's stick to the timesheet list here.
+  type TimesheetRecord = { id: string; shift?: { job?: { title: string } }; submittedAt?: string; hoursWorked?: number; status?: string };
+
   const { data: timesheets = [], isLoading } = useQuery({
     queryKey: ['my-timesheets'],
     queryFn: shiftsApi.getMyTimesheets,
@@ -110,7 +112,7 @@ export default function TimesheetsPage(): React.ReactElement {
                   </td>
                 </tr>
               ) : (
-                timesheets.map((ts) => (
+                (timesheets as unknown as TimesheetRecord[]).map((ts) => (
                   <tr key={ts.id} className="transition-colors hover:bg-muted/30">
                     <td className="p-4">
                       <div className="flex items-center gap-2">

@@ -56,7 +56,7 @@ api.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error),
+  (error: unknown) => Promise.reject(error instanceof Error ? error : new Error(typeof error === 'string' ? error : JSON.stringify(error))),
 );
 
 // ─── Response Interceptor (Token Refresh) ─────────────────────────────────────
@@ -76,7 +76,7 @@ api.interceptors.response.use(
           failedQueue.push({ resolve, reject });
         }).then((token) => {
           if (originalRequest.headers && token) {
-            originalRequest.headers['Authorization'] = `Bearer ${String(token)}`;
+            originalRequest.headers['Authorization'] = `Bearer ${token as string}`;
           }
           return api(originalRequest);
         });
@@ -95,12 +95,12 @@ api.interceptors.response.use(
           originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
         }
         return api(originalRequest);
-      } catch (refreshError) {
-        processQueue(refreshError, null);
+      } catch (_error) {
+        processQueue(_error, null);
         clearAccessToken();
         // Redirect to login
         window.location.href = '/login';
-        return Promise.reject(refreshError);
+        return Promise.reject(_error instanceof Error ? _error : new Error(String(_error)));
       } finally {
         isRefreshing = false;
       }

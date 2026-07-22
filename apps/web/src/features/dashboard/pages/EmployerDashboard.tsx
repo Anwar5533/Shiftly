@@ -22,13 +22,14 @@ export default function EmployerDashboard(): React.ReactElement {
           const data = await employerApi.getDashboardStats();
           setStats(data);
         }
-      } catch (error) {
-        console.error('Failed to fetch stats', error);
+      } catch (_error) {
+        const error = _error as import('axios').AxiosError<Record<string, unknown>>;
+        console.error('Failed to fetch stats', _error);
       } finally {
         setIsLoading(false);
       }
     };
-    fetchStats();
+    void fetchStats();
   }, [user]);
 
   const { data: recentApplications, isLoading: isLoadingApplications } = useQuery({

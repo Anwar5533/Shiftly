@@ -23,7 +23,7 @@ export function ReviewModal({ jobId, revieweeId, targetType, isOpen, onClose }: 
       alert('Review submitted successfully!');
       onClose();
     },
-    onError: (err: any) => {
+    onError: (err: import('axios').AxiosError<{message?: string}>) => {
       alert(err.response?.data?.message || 'Failed to submit review');
     },
   });

@@ -1,9 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- TODO(RC3): */
+ 
 import api from '@/shared/lib/api';
+import { ApiResponse } from "@shiftly/shared-types";
 
 export const auditApi = {
-  getLogs: async (): Promise<any[]> => {
-    const { data } = await api.get('/audit/logs');
+  getLogs: async (): Promise<Record<string, unknown>[]> => {
+    const { data } = await api.get<ApiResponse<Record<string, unknown>[]>>('/audit/logs');
     return data;
   },
 };

@@ -1,14 +1,15 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- TODO(RC3): */
+ 
 import api from '@/shared/lib/api';
+import { ApiResponse } from "@shiftly/shared-types";
 
 export const analyticsApi = {
-  getStats: async (): Promise<any> => {
-    const { data } = await api.get('/analytics/stats');
+  getStats: async (): Promise<Record<string, unknown>> => {
+    const { data } = await api.get<ApiResponse<Record<string, unknown>>>('/analytics/stats');
     return data;
   },
 
-  getRevenue: async (): Promise<any[]> => {
-    const { data } = await api.get('/analytics/revenue');
+  getRevenue: async (): Promise<Record<string, unknown>[]> => {
+    const { data } = await api.get<ApiResponse<Record<string, unknown>[]>>('/analytics/revenue');
     return data;
   },
 };

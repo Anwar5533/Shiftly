@@ -4,6 +4,7 @@ import { ArrowUpRight, ArrowDownLeft, Clock, Wallet as WalletIcon, Lock } from '
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { walletApi } from '../api/wallet.api';
 import { format } from 'date-fns';
+import type { Transaction } from '@shiftly/shared-types';
 
 /** Format a number as INR currency */
 function formatINR(amount: number): string {
@@ -32,8 +33,8 @@ export default function WalletPage() {
   const topUpMutation = useMutation({
     mutationFn: (amount: number) => walletApi.topUp(amount),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['wallet'] });
-      queryClient.invalidateQueries({ queryKey: ['transactions'] });
+      void queryClient.invalidateQueries({ queryKey: ['wallet'] });
+      void queryClient.invalidateQueries({ queryKey: ['transactions'] });
       setTopUpAmount('');
       alert('Top up successful!');
     },
@@ -45,8 +46,8 @@ export default function WalletPage() {
   const withdrawMutation = useMutation({
     mutationFn: (amount: number) => walletApi.withdraw(amount),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['wallet'] });
-      queryClient.invalidateQueries({ queryKey: ['transactions'] });
+      void queryClient.invalidateQueries({ queryKey: ['wallet'] });
+      void queryClient.invalidateQueries({ queryKey: ['transactions'] });
       setWithdrawAmount('');
       alert('Withdrawal successful!');
     },
@@ -149,7 +150,7 @@ export default function WalletPage() {
               {!transactions || transactions.length === 0 ? (
                 <div className="p-8 text-center text-muted-foreground">No recent transactions</div>
               ) : (
-                transactions.map((tx: any) => (
+                transactions.map((tx: Transaction) => (
                   <div
                     key={tx.id}
                     className="flex items-center justify-between p-4 transition-colors hover:bg-muted/30"

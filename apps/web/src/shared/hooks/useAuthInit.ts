@@ -39,6 +39,6 @@ export function useAuthInit(): void {
       }
     };
 
-    restoreSession();
+    void restoreSession();
   }, []);
 }

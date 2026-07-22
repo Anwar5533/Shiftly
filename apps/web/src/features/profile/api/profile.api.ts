@@ -8,7 +8,7 @@ export const profileApi = {
     return res.data.data;
   },
 
-  updateProfile: async (data: any): Promise<WorkerProfile> => {
+  updateProfile: async (data: Partial<WorkerProfile>): Promise<WorkerProfile> => {
     const res = await api.patch<ApiResponse<WorkerProfile>>('/workers/profile', data);
     return res.data.data;
   },
@@ -19,12 +19,12 @@ export const profileApi = {
     yearsExp: number;
     proficiency: string;
   }) => {
-    const res = await api.post<ApiResponse<any>>('/workers/skills', data);
+    const res = await api.post<ApiResponse<Record<string, unknown>>>('/workers/skills', data);
     return res.data.data;
   },
 
   removeSkill: async (skillId: string) => {
-    const res = await api.delete<ApiResponse<any>>(`/workers/skills/${skillId}`);
+    const res = await api.delete<ApiResponse<Record<string, unknown>>>(`/workers/skills/${skillId}`);
     return res.data.data;
   },
 };

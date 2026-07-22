@@ -41,8 +41,9 @@ export function MessagingPage() {
     try {
       const response = await chatApi.sendMessage(userMsg.content, messages);
       setMessages((prev) => [...prev, response]);
-    } catch (error) {
-      console.error('Failed to get AI response', error);
+    } catch (_error) {
+      const error = _error as import('axios').AxiosError<Record<string, unknown>>;
+      console.error('Failed to get AI response', _error);
       setMessages((prev) => [
         ...prev,
         {

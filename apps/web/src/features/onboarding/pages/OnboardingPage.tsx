@@ -69,7 +69,7 @@ export default function OnboardingPage(): React.ReactElement {
         'professional.experienceYears',
       ];
 
-    const isValid = await form.trigger(fieldsToValidate as any);
+    const isValid = await form.trigger(fieldsToValidate as Array<'personal' | 'professional' | 'location' | 'personal.bio' | 'personal.dateOfBirth' | 'professional.industry' | 'professional.skills' | 'professional.experienceYears' | 'location.city' | 'location.state' | 'location.pincode'>);
     if (isValid) {
       setCurrentStep((prev) => Math.min(prev + 1, STEPS.length - 1));
     }
@@ -87,9 +87,10 @@ export default function OnboardingPage(): React.ReactElement {
       await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate API call
 
       // Redirect to dashboard based on role
-      navigate('/dashboard', { replace: true });
-    } catch (error) {
-      console.error('Failed to complete onboarding:', error);
+      void navigate('/dashboard', { replace: true });
+    } catch (_error) {
+
+      console.error('Failed to complete onboarding:', _error);
     } finally {
       setIsSubmitting(false);
     }

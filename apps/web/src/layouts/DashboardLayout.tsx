@@ -77,9 +77,10 @@ export function DashboardLayout(): React.ReactElement {
 
   const getInitials = () => {
     if (userProfile) {
-      if (user?.role === 'EMPLOYER') return (userProfile as any).companyName?.[0] || 'C';
-      const first = (userProfile as any).firstName?.[0] || '';
-      const last = (userProfile as any).lastName?.[0] || '';
+      if (user?.role === 'EMPLOYER') return (userProfile as unknown as Record<string, string>).companyName?.[0] || 'C';
+      const profile = userProfile as unknown as Record<string, string>;
+      const first = profile.firstName?.[0] || '';
+      const last = profile.lastName?.[0] || '';
       if (first || last) return `${first}${last}`.toUpperCase();
     }
     return user?.email?.[0]?.toUpperCase() || 'U';
@@ -87,9 +88,10 @@ export function DashboardLayout(): React.ReactElement {
 
   const getFullName = () => {
     if (userProfile) {
-      if (user?.role === 'EMPLOYER') return (userProfile as any).companyName || 'Company';
-      const first = (userProfile as any).firstName || '';
-      const last = (userProfile as any).lastName || '';
+      if (user?.role === 'EMPLOYER') return (userProfile as unknown as Record<string, string>).companyName || 'Company';
+      const profile = userProfile as unknown as Record<string, string>;
+      const first = profile.firstName || '';
+      const last = profile.lastName || '';
       if (first || last) return `${first} ${last}`.trim();
     }
     return user?.email || 'User';
@@ -107,12 +109,13 @@ export function DashboardLayout(): React.ReactElement {
   const handleLogout = async () => {
     try {
       await authApi.logout();
-    } catch (err) {
+    } catch (_error) {
+      const err = _error as import('axios').AxiosError<Record<string, unknown>>;
       // Ignore API error on logout
     } finally {
       clearAccessToken();
       dispatch(clearUser());
-      navigate('/login', { replace: true });
+      void navigate('/login', { replace: true });
     }
   };
 
@@ -126,7 +129,7 @@ export function DashboardLayout(): React.ReactElement {
     { label: 'Settings', path: '/settings', icon: <Settings className="h-5 w-5" /> },
   ];
 
-  let navItems = [];
+  let navItems: { label: string; path: string; icon: React.ReactNode }[];
   switch (activePortal) {
     case 'employer':
       navItems = [
@@ -253,7 +256,7 @@ export function DashboardLayout(): React.ReactElement {
             </div>
           </div>
           <button
-            onClick={handleLogout}
+            onClick={() => { void handleLogout(); }}
             className="flex w-full items-center space-x-3 rounded-lg px-3 py-2.5 text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
           >
             <LogOut className="h-5 w-5" />
@@ -339,7 +342,7 @@ export function DashboardLayout(): React.ReactElement {
                   </div>
                 </div>
                 <button
-                  onClick={handleLogout}
+                  onClick={() => { void handleLogout(); }}
                   className="flex w-full items-center space-x-3 rounded-lg px-3 py-2.5 text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
                 >
                   <LogOut className="h-5 w-5" />
@@ -391,7 +394,7 @@ export function DashboardLayout(): React.ReactElement {
                   const newPortal = e.target.value;
                   localStorage.setItem('activePortal', newPortal);
                   setActivePortal(newPortal);
-                  navigate(`/dashboard/${newPortal}`);
+                  void navigate(`/dashboard/${newPortal}`);
                 }}
               >
                 <option value="worker">Worker Portal</option>
@@ -451,7 +454,7 @@ export function DashboardLayout(): React.ReactElement {
                       <button
                         onClick={() => {
                           setIsNotificationsOpen(false);
-                          navigate('/notifications');
+                          void navigate('/notifications');
                         }}
                         className="w-full rounded-md px-4 py-2 text-center text-sm font-medium text-primary transition-colors hover:bg-primary/10"
                       >
@@ -497,9 +500,9 @@ export function DashboardLayout(): React.ReactElement {
                     <button
                       onClick={() => {
                         setIsProfileDropdownOpen(false);
-                        navigate(
-                          `/profile/${user?.role.toLowerCase() || 'worker'}/${user?.sub || 'mock-id'}`,
-                        );
+                        void navigate(
+                                                                        `/profile/${user?.role.toLowerCase() || 'worker'}/${user?.sub || 'mock-id'}`,
+                                                                      );
                       }}
                       className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-foreground transition-colors hover:bg-muted"
                     >
@@ -510,7 +513,7 @@ export function DashboardLayout(): React.ReactElement {
                     <button
                       onClick={() => {
                         setIsProfileDropdownOpen(false);
-                        navigate('/settings');
+                        void navigate('/settings');
                       }}
                       className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-foreground transition-colors hover:bg-muted"
                     >
@@ -523,7 +526,7 @@ export function DashboardLayout(): React.ReactElement {
                     <button
                       onClick={() => {
                         setIsProfileDropdownOpen(false);
-                        handleLogout();
+                        void handleLogout();
                       }}
                       className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-destructive transition-colors hover:bg-destructive/10"
                     >

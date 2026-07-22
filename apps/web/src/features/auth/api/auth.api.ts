@@ -46,6 +46,6 @@ export const authApi = {
   },
 
   logout: async (): Promise<void> => {
-    await api.delete('/auth/session');
+    await api.delete<ApiResponse<void>>('/auth/session');
   },
 };

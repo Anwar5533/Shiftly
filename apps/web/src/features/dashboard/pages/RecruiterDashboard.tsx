@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access -- TODO(RC3): */
+ 
 import React from 'react';
 import { Target, Users, IndianRupee, Award, ChevronRight } from 'lucide-react';
 import { useAppSelector } from '@/app/store';

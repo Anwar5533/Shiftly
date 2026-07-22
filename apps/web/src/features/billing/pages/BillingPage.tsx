@@ -56,7 +56,7 @@ export default function BillingPage(): React.ReactElement {
       setShowUpgradeModal(false);
       alert('Plan upgraded successfully!');
     },
-    onError: (err: any) => {
+    onError: (err: import('axios').AxiosError<{message?: string}>) => {
       alert(err.response?.data?.message || 'Failed to upgrade plan. Please try again.');
     },
   });
@@ -348,7 +348,7 @@ export default function BillingPage(): React.ReactElement {
                       </p>
                     </div>
                     <button
-                      onClick={() => upgradeMutation.mutate(plan.id)}
+                      onClick={() => { void upgradeMutation.mutate(plan.id); }}
                       disabled={upgradeMutation.isPending}
                       className="ml-4 shrink-0 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
                     >

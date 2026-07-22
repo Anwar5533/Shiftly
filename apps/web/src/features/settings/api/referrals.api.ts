@@ -1,4 +1,5 @@
 import api from '@/shared/lib/api';
+import type { ApiResponse } from '@shiftly/shared-types';
 
 export interface ReferralCodeData {
   id: string;
@@ -15,12 +16,12 @@ export interface ReferralStatsData {
 
 export const referralsApi = {
   getReferralCode: async (): Promise<ReferralCodeData> => {
-    const { data } = await api.get('/referrals/code');
+    const { data } = await api.get<ApiResponse<ReferralCodeData>>('/referrals/code');
     return data;
   },
 
   getReferralStats: async (): Promise<ReferralStatsData> => {
-    const { data } = await api.get('/referrals/stats');
+    const { data } = await api.get<ApiResponse<ReferralStatsData>>('/referrals/stats');
     return data;
   },
 };

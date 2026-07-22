@@ -17,15 +17,16 @@ export default function CandidatesPage(): React.ReactElement {
       try {
         const data = await candidatesApi.searchCandidates(searchQuery);
         setCandidates(data);
-      } catch (err) {
-        console.error('Failed to fetch candidates', err);
+      } catch (_error) {
+        const err = _error as import('axios').AxiosError<Record<string, unknown>>;
+        console.error('Failed to fetch candidates', _error);
       } finally {
         setIsLoading(false);
       }
     };
 
     const timeoutId = setTimeout(() => {
-      fetchCandidates();
+      void fetchCandidates();
     }, 300);
     return () => clearTimeout(timeoutId);
   }, [searchQuery]);

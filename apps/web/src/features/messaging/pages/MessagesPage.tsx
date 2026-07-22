@@ -30,7 +30,7 @@ export default function MessagesPage(): React.ReactElement {
         setIsLoading(false);
       }
     };
-    fetchConversations();
+    void fetchConversations();
   }, []);
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export default function MessagesPage(): React.ReactElement {
       const data = await messagingApi.getMessages(activeConvId);
       setMessages(data);
     };
-    fetchMessages();
+    void fetchMessages();
 
     if (socket) {
       socket.emit('joinConversation', activeConvId);

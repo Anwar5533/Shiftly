@@ -44,7 +44,7 @@ export const VerificationPage = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (file) {
-      uploadMutation.mutate(file);
+      void uploadMutation.mutate(file);
     }
   };
 
