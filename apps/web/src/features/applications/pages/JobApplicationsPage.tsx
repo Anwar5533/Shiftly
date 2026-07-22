@@ -29,8 +29,7 @@ export default function JobApplicationsPage(): React.ReactElement {
         const data = await applicationsApi.getApplicationsForJob(id);
         setApplications(data.items);
       } catch (_error) {
-        const err = _error as import('axios').AxiosError<Record<string, unknown>>;
-        console.error('Failed to load applications.', _error);
+                console.error('Failed to load applications.', _error);
       } finally {
         setIsLoading(false);
       }
@@ -47,8 +46,7 @@ export default function JobApplicationsPage(): React.ReactElement {
       });
       setApplications((prev) => prev.map((app) => (app.id === applicationId ? updatedApp : app)));
     } catch (_error) {
-      const err = _error as import('axios').AxiosError<Record<string, unknown>>;
-      alert('Failed to update status');
+            alert('Failed to update status');
     } finally {
       setUpdatingId(null);
     }
@@ -143,27 +141,27 @@ export default function JobApplicationsPage(): React.ReactElement {
                     >
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          {app.worker?.avatarUrl ? (
+                          {(app.worker as Record<string, string>)?.avatarUrl ? (
                             <img
-                              src={app.worker.avatarUrl}
+                              src={(app.worker as Record<string, string>).avatarUrl}
                               alt=""
                               className="h-10 w-10 rounded-full object-cover"
                             />
                           ) : (
                             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/20 font-bold text-primary">
                               { }
-                              {app.worker?.firstName?.charAt(0)}
+                              {(app.worker as Record<string, string>)?.firstName?.charAt(0)}
                               { }
-                              {app.worker?.lastName?.charAt(0)}
+                              {(app.worker as Record<string, string>)?.lastName?.charAt(0)}
                             </div>
                           )}
                           <div>
                             <span className="block font-medium text-foreground">
-                              -- TODO(RC3):                              {app.worker?.firstName} {app.worker?.lastName}
+                              -- TODO(RC3):                              {(app.worker as Record<string, string>)?.firstName} {(app.worker as Record<string, string>)?.lastName}
                             </span>
                             <div className="mt-0.5 flex items-center text-xs text-muted-foreground">
                               <Star className="mr-1 h-3 w-3 text-yellow-500" />
-                              -- TODO(RC3):                              {app.worker?.rating || 0}
+                              -- TODO(RC3):                              {(app.worker as Record<string, unknown>)?.rating as number || 0}
                             </div>
                           </div>
                         </div>
@@ -171,7 +169,7 @@ export default function JobApplicationsPage(): React.ReactElement {
                       <td className="px-6 py-4">
                         <div className="flex items-center text-muted-foreground">
                           <Briefcase className="mr-2 h-4 w-4" />
-                          {app.worker?.experienceYears || 0} Years
+                          {(app.worker as Record<string, unknown>)?.experienceYears as number || 0} Years
                         </div>
                       </td>
                       <td className="px-6 py-4 text-muted-foreground">
@@ -192,14 +190,14 @@ export default function JobApplicationsPage(): React.ReactElement {
                             {app.status === 'PENDING' && (
                               <>
                                 <button
-                                  onClick={() => handleUpdateStatus(app.id, 'SHORTLISTED')}
+                                  onClick={() => { void handleUpdateStatus(app.id, 'SHORTLISTED'); }}
                                   className="flex items-center gap-1.5 rounded-md border border-blue-500/20 bg-blue-500/10 px-2.5 py-1.5 text-xs font-medium text-blue-500 transition-colors hover:bg-blue-500/20"
                                   title="Shortlist candidate"
                                 >
                                   <BookmarkPlus className="h-3.5 w-3.5" /> Shortlist
                                 </button>
                                 <button
-                                  onClick={() => handleUpdateStatus(app.id, 'REJECTED')}
+                                  onClick={() => { void handleUpdateStatus(app.id, 'REJECTED'); }}
                                   className="flex items-center gap-1.5 rounded-md border border-red-500/20 bg-red-500/10 px-2.5 py-1.5 text-xs font-medium text-red-500 transition-colors hover:bg-red-500/20"
                                   title="Reject candidate"
                                 >
@@ -210,14 +208,14 @@ export default function JobApplicationsPage(): React.ReactElement {
                             {app.status === 'SHORTLISTED' && (
                               <>
                                 <button
-                                  onClick={() => handleUpdateStatus(app.id, 'ACCEPTED')}
+                                  onClick={() => { void handleUpdateStatus(app.id, 'ACCEPTED'); }}
                                   className="flex items-center gap-1.5 rounded-md border border-green-500/20 bg-green-500/10 px-2.5 py-1.5 text-xs font-medium text-green-500 transition-colors hover:bg-green-500/20"
                                   title="Accept candidate"
                                 >
                                   <Check className="h-3.5 w-3.5" /> Accept
                                 </button>
                                 <button
-                                  onClick={() => handleUpdateStatus(app.id, 'REJECTED')}
+                                  onClick={() => { void handleUpdateStatus(app.id, 'REJECTED'); }}
                                   className="flex items-center gap-1.5 rounded-md border border-red-500/20 bg-red-500/10 px-2.5 py-1.5 text-xs font-medium text-red-500 transition-colors hover:bg-red-500/20"
                                   title="Reject candidate"
                                 >

@@ -22,8 +22,7 @@ export default function WorkerDashboard(): React.ReactElement {
         const data = await workerApi.getDashboardStats();
         setStats(data);
       } catch (_error) {
-        const error = _error as import('axios').AxiosError<Record<string, unknown>>;
-        console.error('Failed to fetch stats', _error);
+                console.error('Failed to fetch stats', _error);
       } finally {
         setIsLoading(false);
       }
@@ -47,7 +46,7 @@ export default function WorkerDashboard(): React.ReactElement {
       ?.filter((shift) => shift.status === 'SCHEDULED' || shift.status === 'IN_PROGRESS')
       .slice(0, 3) || [];
 
-  const recommendedJobs = recommendedResponse?.items || [];
+  const recommendedJobs = (recommendedResponse as any)?.items || [];
 
   return (
     <div className="space-y-6">

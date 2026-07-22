@@ -23,8 +23,7 @@ export default function EmployerDashboard(): React.ReactElement {
           setStats(data);
         }
       } catch (_error) {
-        const error = _error as import('axios').AxiosError<Record<string, unknown>>;
-        console.error('Failed to fetch stats', _error);
+                console.error('Failed to fetch stats', _error);
       } finally {
         setIsLoading(false);
       }
@@ -163,7 +162,7 @@ export default function EmployerDashboard(): React.ReactElement {
                   </td>
                 </tr>
               ) : (
-                recentApplications?.map((app: any) => (
+                recentApplications?.map((app: { id: string; worker?: Record<string, string>; job?: Record<string, string>; appliedAt: string; status: string; jobId: string }) => (
                   <tr key={app.id} className="transition-colors hover:bg-muted/30">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">

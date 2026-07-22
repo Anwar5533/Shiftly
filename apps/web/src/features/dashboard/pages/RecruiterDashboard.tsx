@@ -10,9 +10,9 @@ export default function RecruiterDashboard(): React.ReactElement {
   const { user } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
 
-  const { data: stats, isLoading } = useQuery({
+  const { data: stats, isLoading } = useQuery<{ placements: number; totalApplications: number; activeJobs: number; successRate: number }>({
     queryKey: ['recruiter-dashboard-stats'],
-    queryFn: () => recruiterApi.getDashboardStats(),
+    queryFn: () => recruiterApi.getDashboardStats() as Promise<any>,
   });
 
   return (
@@ -86,7 +86,7 @@ export default function RecruiterDashboard(): React.ReactElement {
             <div>
               <p className="text-sm font-medium text-muted-foreground">Success Rate</p>
               <h3 className="text-2xl font-bold text-foreground">
-                {isLoading ? '...' : `${stats?.successRate || 0}%`}
+                {isLoading ? '...' : `${Number(stats?.successRate || 0)}%`}
               </h3>
             </div>
           </div>

@@ -12,8 +12,8 @@ export interface Shift {
   scheduledEnd: string;
   actualStart?: string;
   actualEnd?: string;
-  clockInLocation?: any;
-  clockOutLocation?: any;
+  clockInLocation?: Record<string, unknown>;
+  clockOutLocation?: Record<string, unknown>;
   hoursWorked?: number;
   notes?: string;
   job?: Job;
@@ -26,12 +26,12 @@ export const shiftsApi = {
     return response.data.data;
   },
 
-  clockIn: async (shiftId: string, location?: any): Promise<Shift> => {
+  clockIn: async (shiftId: string, location?: Record<string, unknown>): Promise<Shift> => {
     const response = await api.post<ApiResponse<Shift>>(`/shifts/${shiftId}/clock-in`, { location });
     return response.data.data;
   },
 
-  clockOut: async (shiftId: string, location?: any, notes?: string): Promise<Shift> => {
+  clockOut: async (shiftId: string, location?: Record<string, unknown>, notes?: string): Promise<Shift> => {
     const response = await api.post<ApiResponse<Shift>>(`/shifts/${shiftId}/clock-out`, { location, notes });
     return response.data.data;
   },

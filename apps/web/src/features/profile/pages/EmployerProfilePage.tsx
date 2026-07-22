@@ -33,22 +33,22 @@ export default function EmployerProfilePage(): React.ReactElement {
       setEmail(user?.email || '');
       setError(null);
     } catch (_error) {
-      const err = _error as import('axios').AxiosError<Record<string, unknown>>;
+
       console.error('Failed to fetch profile', _error);
       // Fallback if needed for development, similar to worker
-      const mockProfile: EmployerProfile = {
+      const mockProfile = {
         id: 'emp-1',
         userId: (user as unknown as Record<string, unknown>)?.id as string || (user as unknown as Record<string, unknown>)?.sub as string || 'u-1',
         companyName: 'Acme Logistics',
         description: 'A leading retail company looking for shift workers.',
         website: 'https://acmecorp.com',
-        location: { city: 'Bangalore', state: 'Karnataka', country: 'India' },
-        employeeCount: '11_TO_50',
+        location: { city: 'Bangalore', state: 'Karnataka', country: 'India' } as any,
+        employeeCount: '11_TO_50' as any,
         rating: 4.5,
         totalReviews: 10,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
-      };
+      } as unknown as EmployerProfile;
       setProfile(mockProfile);
       setCompanyName(mockProfile.companyName);
       setIndustry(mockProfile.industry);
@@ -82,7 +82,7 @@ export default function EmployerProfilePage(): React.ReactElement {
       await fetchProfile();
       setIsEditing(false);
     } catch (_error: any) {
-      const err = _error as import('axios').AxiosError<Record<string, unknown>>;
+
       console.error('Failed to update profile', _error);
 
       alert(_error.response?.data?.error?.message || 'Failed to save changes');
@@ -296,7 +296,7 @@ export default function EmployerProfilePage(): React.ReactElement {
                                                           await employerApi.addDepartment(name);
                                                           await fetchProfile();
                                                         } catch (_error) {
-                                                          const err = _error as import('axios').AxiosError<Record<string, unknown>>;
+
                                                           alert('Failed to add department');
                                                           setIsLoading(false);
                                                         }

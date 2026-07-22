@@ -9,6 +9,7 @@ test.describe('Employer Flow', () => {
     // 2. Navigate to Post Job
     await page.click('text=Post a Job');
     await expect(page).toHaveURL(/.*jobs\/post/);
+    await page.waitForTimeout(2000); // Wait for profile fetch and hydration
 
     const uniqueJobTitle = `E2E Playwright Job ${Date.now()}`;
 

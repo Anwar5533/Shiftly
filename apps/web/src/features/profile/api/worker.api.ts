@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- TODO(RC3): */
+ 
 import api from '@/shared/lib/api';
 import type { WorkerProfile, ApiResponse } from '@shiftly/shared-types';
 

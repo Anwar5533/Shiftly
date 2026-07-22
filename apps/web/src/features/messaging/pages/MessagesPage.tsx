@@ -34,7 +34,7 @@ export default function MessagesPage(): React.ReactElement {
   }, []);
 
   useEffect(() => {
-    const newSocket = io(import.meta.env.VITE_API_URL || 'http://localhost:3000');
+    const newSocket = io((import.meta.env.VITE_API_URL as string) || 'http://localhost:3000');
     setSocket(newSocket);
     return () => {
       newSocket.close();
@@ -81,7 +81,7 @@ export default function MessagesPage(): React.ReactElement {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const handleSendMessage = async (e: React.FormEvent | React.KeyboardEvent) => {
+  const handleSendMessage = (e: React.FormEvent | React.KeyboardEvent) => {
     e.preventDefault();
     const content = newMessage.trim();
     if (!content || !activeConvId || isSendingRef.current || !socket || !user) return;

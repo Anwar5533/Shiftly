@@ -26,8 +26,7 @@ export default function MyApplicationsPage(): React.ReactElement {
         const data = await applicationsApi.getMyApplications();
         setApplications(data.items);
       } catch (_error) {
-        const err = _error as import('axios').AxiosError<Record<string, unknown>>;
-        console.error('Failed to fetch my applications', _error);
+                console.error('Failed to fetch my applications', _error);
       } finally {
         setIsLoading(false);
       }

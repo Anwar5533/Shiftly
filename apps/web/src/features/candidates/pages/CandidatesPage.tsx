@@ -18,8 +18,7 @@ export default function CandidatesPage(): React.ReactElement {
         const data = await candidatesApi.searchCandidates(searchQuery);
         setCandidates(data);
       } catch (_error) {
-        const err = _error as import('axios').AxiosError<Record<string, unknown>>;
-        console.error('Failed to fetch candidates', _error);
+                console.error('Failed to fetch candidates', _error);
       } finally {
         setIsLoading(false);
       }

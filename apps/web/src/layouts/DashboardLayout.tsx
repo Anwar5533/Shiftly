@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): */
+/* eslint-disable @typescript-eslint/no-unused-vars -- TODO(RC3): */
 import React, { useState } from 'react';
 import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '@/app/store';
@@ -110,7 +110,7 @@ export function DashboardLayout(): React.ReactElement {
     try {
       await authApi.logout();
     } catch (_error) {
-      const err = _error as import('axios').AxiosError<Record<string, unknown>>;
+
       // Ignore API error on logout
     } finally {
       clearAccessToken();

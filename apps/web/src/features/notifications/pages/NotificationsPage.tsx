@@ -19,32 +19,33 @@ export default function NotificationsPage(): React.ReactElement {
 
   const { data: notifications = [], isLoading } = useQuery<Notification[]>({
     queryKey: ['notifications'],
-    queryFn: notificationsApi.getNotifications,
+    queryFn: notificationsApi.getNotifications as unknown as () => Promise<Notification[]>,
   });
 
   const markAsReadMutation = useMutation({
     mutationFn: (id: string) => notificationsApi.markAsRead(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notifications'] });
+      void queryClient.invalidateQueries({ queryKey: ['notifications'] });
     },
   });
 
   const clearAllMutation = useMutation({
     mutationFn: () => notificationsApi.clearAll(),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notifications'] });
+      void queryClient.invalidateQueries({ queryKey: ['notifications'] });
     },
   });
 
   const clearAll = () => {
-    clearAllMutation.mutate();
+    void clearAllMutation.mutate();
   };
 
+  const notificationsList = (notifications as Notification[]) || [];
   const markAllAsRead = () => {
-    notifications
+    notificationsList
       .filter((n) => !n.isRead)
       .forEach((n) => {
-        markAsReadMutation.mutate(n.id);
+        void markAsReadMutation.mutate(n.id);
       });
   };
 
@@ -53,7 +54,7 @@ export default function NotificationsPage(): React.ReactElement {
     console.log(`Removing notification ${id}`);
   };
 
-  const unreadCount = notifications.filter((n) => !n.isRead).length;
+  const unreadCount = notificationsList.filter((n) => !n.isRead).length;
 
   const getIcon = (type: NotificationType) => {
     switch (type) {
@@ -129,7 +130,7 @@ export default function NotificationsPage(): React.ReactElement {
           </div>
         ) : (
           <div className="divide-y divide-border">
-            {notifications.map((notification) => (
+            {notificationsList.map((notification) => (
               <div
                 key={notification.id}
                 className={`group relative flex gap-4 p-5 transition-colors hover:bg-muted/30 ${!notification.isRead ? 'bg-primary/5' : ''}`}

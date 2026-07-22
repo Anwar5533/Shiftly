@@ -104,7 +104,7 @@ export default function OtpPage(): React.ReactElement {
     }
   };
 
-  const serverError = (verifyOtpMutation.error as any)?.response?.data?.error?.message;
+  const serverError = (verifyOtpMutation.error as import('axios').AxiosError<{error?: {message?: string}}>)?.response?.data?.error?.message;
 
   return (
     <div className="space-y-6">

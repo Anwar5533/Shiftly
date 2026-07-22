@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access -- TODO(RC3): */
+ 
 import React from 'react';
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument -- TODO(RC3): */
+ 
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { shiftsApi } from '../../jobs/api/shifts.api';
@@ -36,7 +36,7 @@ export function TimesheetApprovalPage() {
   const approveMutation = useMutation({
     mutationFn: shiftsApi.approveTimesheet,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['employer-timesheets'] });
+      void queryClient.invalidateQueries({ queryKey: ['employer-timesheets'] });
     },
   });
 
@@ -44,7 +44,7 @@ export function TimesheetApprovalPage() {
     mutationFn: ({ id, reason }: { id: string; reason: string }) =>
       shiftsApi.rejectTimesheet(id, reason),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['employer-timesheets'] });
+      void queryClient.invalidateQueries({ queryKey: ['employer-timesheets'] });
     },
   });
 

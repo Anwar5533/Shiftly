@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): */
+ 
 import React from 'react';
 import { useRouteError } from 'react-router-dom';
 import { AlertTriangle, RefreshCw } from 'lucide-react';

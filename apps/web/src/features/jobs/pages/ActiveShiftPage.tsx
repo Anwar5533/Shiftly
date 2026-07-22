@@ -27,9 +27,9 @@ export default function ActiveShiftPage(): React.ReactElement {
       } else {
         setError('Shift not found or you do not have permission.');
       }
-    } catch (_error: any) {
-      const err = _error as import('axios').AxiosError<Record<string, unknown>>;
-      setError(_error.response?.data?.message || 'Failed to load shift.');
+    } catch (_error: unknown) {
+      const err = _error as any;
+      setError(err.response?.data?.message as string || 'Failed to load shift.');
     } finally {
       setIsLoading(false);
     }
@@ -47,9 +47,9 @@ export default function ActiveShiftPage(): React.ReactElement {
     try {
       const updatedShift = await shiftsApi.clockIn(shift.id, { city: 'Worker Location' });
       setShift(updatedShift);
-    } catch (_error: any) {
-      const err = _error as import('axios').AxiosError<Record<string, unknown>>;
-      alert(_error.response?.data?.message || 'Failed to clock in');
+    } catch (_error: unknown) {
+      const err = _error as any;
+      alert(err.response?.data?.message || 'Failed to clock in');
     } finally {
       setIsProcessing(false);
     }
@@ -63,9 +63,9 @@ export default function ActiveShiftPage(): React.ReactElement {
       await shiftsApi.submitTimesheet(shift.id, notes);
       setShift(updatedShift);
       alert('Shift completed and timesheet submitted successfully!');
-    } catch (_error: any) {
-      const err = _error as import('axios').AxiosError<Record<string, unknown>>;
-      alert(_error.response?.data?.message || 'Failed to clock out');
+    } catch (_error: unknown) {
+      const err = _error as any;
+      alert(err.response?.data?.message || 'Failed to clock out');
     } finally {
       setIsProcessing(false);
     }
@@ -161,7 +161,7 @@ export default function ActiveShiftPage(): React.ReactElement {
               </p>
 
               <button
-                onClick={handleClockIn}
+                onClick={() => { void handleClockIn(); }}
                 disabled={isProcessing}
                 className="mx-auto flex w-full items-center justify-center gap-3 rounded-xl bg-primary px-12 py-4 text-lg font-bold text-primary-foreground shadow-md shadow-primary/20 transition-all hover:bg-primary/90 disabled:opacity-50 sm:w-auto"
               >
@@ -194,7 +194,7 @@ export default function ActiveShiftPage(): React.ReactElement {
               </div>
 
               <button
-                onClick={handleClockOut}
+                onClick={() => { void handleClockOut(); }}
                 disabled={isProcessing}
                 className="mx-auto flex w-full items-center justify-center gap-3 rounded-xl bg-red-500 px-12 py-4 text-lg font-bold text-white shadow-md shadow-red-500/20 transition-all hover:bg-red-600 disabled:opacity-50 sm:w-auto"
               >

@@ -30,7 +30,7 @@ export const VerificationPage = () => {
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['kyc-status'] });
+      void queryClient.invalidateQueries({ queryKey: ['kyc-status'] });
       setFile(null);
     },
   });

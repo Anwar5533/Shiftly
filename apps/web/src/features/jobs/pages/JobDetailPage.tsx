@@ -27,7 +27,7 @@ export default function JobDetailPage(): React.ReactElement {
         const data = await jobsApi.getJobById(id);
         setJob(data);
       } catch (_error: any) {
-        const err = _error as import('axios').AxiosError<Record<string, unknown>>;
+
         console.error('Failed to fetch job', _error);
         setError('Failed to load job details. The job might not exist.');
       } finally {
@@ -40,14 +40,14 @@ export default function JobDetailPage(): React.ReactElement {
         const res = await applicationsApi.checkApplication(id);
         if (res.applied) setApplySuccess(true);
       } catch (_error) {
-        const err = _error as import('axios').AxiosError<Record<string, unknown>>;
+
         console.error('Failed to check application status', _error);
       }
     };
 
     void fetchJob();
     if (user?.role === 'WORKER') {
-      checkApplied();
+      void checkApplied();
     }
   }, [id, user?.role]);
 
@@ -58,7 +58,7 @@ export default function JobDetailPage(): React.ReactElement {
       await applicationsApi.applyToJob({ jobId: id, coverLetter: 'Interested in this role' });
       setApplySuccess(true);
     } catch (_error: any) {
-      const err = _error as import('axios').AxiosError<Record<string, unknown>>;
+
       console.error('Failed to apply', _error);
 
       if (_error?.response?.data?.error?.message) {
@@ -119,7 +119,7 @@ export default function JobDetailPage(): React.ReactElement {
               </p>
             </div>
             <button
-              onClick={handleApply}
+              onClick={() => { void handleApply(); }}
               disabled={isApplying || applySuccess}
               className="h-12 w-full rounded-lg bg-primary px-8 font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 disabled:opacity-50 md:w-auto"
             >
@@ -189,7 +189,7 @@ export default function JobDetailPage(): React.ReactElement {
             <h2 className="mb-4 text-xl font-bold text-foreground">Required Skills</h2>
             <div className="flex flex-wrap gap-2">
               {(job as any).skills && (job as any).skills.length > 0 ? (
-                (job as any).skills.map((skillRef: any) => (
+                ((job as unknown as Record<string, unknown>).skills as { skillId?: string; skill?: { id?: string; name?: string } }[]).map((skillRef) => (
                   <span
                     key={skillRef.skill?.id || skillRef.skillId}
                     className="inline-flex items-center rounded-full bg-muted px-3 py-1 text-sm font-medium text-foreground"

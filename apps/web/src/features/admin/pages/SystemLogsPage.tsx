@@ -51,7 +51,7 @@ export default function SystemLogsPage(): React.ReactElement {
             <Filter className="h-4 w-4" /> Filter Logs
           </button>
           <button
-            onClick={() => refetch()}
+            onClick={() => { void refetch(); }}
             className="flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
             <RefreshCw className="h-4 w-4" /> Refresh Logs
@@ -85,7 +85,7 @@ export default function SystemLogsPage(): React.ReactElement {
                   </td>
                 </tr>
               ) : (
-                logs.map((log: any) => {
+                logs.map((log: Record<string, string>) => {
                   const style = getLevelStyle(log.severity);
                   const Icon = style.icon;
                   return (

@@ -21,7 +21,7 @@ export default function ManageJobsPage(): React.ReactElement {
         const data = await jobsApi.getMyJobs();
         setJobs(data.items);
       } catch (_error) {
-        const err = _error as import('axios').AxiosError<Record<string, unknown>>;
+
         console.error('Failed to fetch my jobs', _error);
       } finally {
         setIsLoading(false);

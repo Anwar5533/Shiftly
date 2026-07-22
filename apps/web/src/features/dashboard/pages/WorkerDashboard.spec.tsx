@@ -36,14 +36,14 @@ import * as shiftsApi from '../../jobs/api/shifts.api';
 describe('WorkerDashboard', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    (workerApi.workerApi.getDashboardStats as any).mockResolvedValue({
+    (workerApi.workerApi.getDashboardStats as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
       totalEarnings: 1500,
       completedShifts: 10,
       activeApplications: 2,
     });
-    (applicationsApi.applicationsApi.getMyApplications as any).mockResolvedValue({ items: [] });
-    (shiftsApi.shiftsApi.getMyShifts as any).mockResolvedValue([]);
-    (jobsApi.jobsApi.searchJobs as any).mockResolvedValue({
+    (applicationsApi.applicationsApi.getMyApplications as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({ items: [] });
+    (shiftsApi.shiftsApi.getMyShifts as unknown as ReturnType<typeof vi.fn>).mockResolvedValue([]);
+    (jobsApi.jobsApi.searchJobs as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
       items: [],
       pagination: { total: 0, page: 1, limit: 10 },
     });
@@ -79,7 +79,7 @@ describe('WorkerDashboard', () => {
         },
       },
     ];
-    (shiftsApi.shiftsApi.getMyShifts as any).mockResolvedValue(mockShifts);
+    (shiftsApi.shiftsApi.getMyShifts as unknown as ReturnType<typeof vi.fn>).mockResolvedValue(mockShifts);
 
     customRender(<WorkerDashboard />);
 
@@ -107,7 +107,7 @@ describe('WorkerDashboard', () => {
         limit: 10,
       },
     };
-    (jobsApi.jobsApi.searchJobs as any).mockResolvedValue(mockJobs);
+    (jobsApi.jobsApi.searchJobs as unknown as ReturnType<typeof vi.fn>).mockResolvedValue(mockJobs);
 
     customRender(<WorkerDashboard />);
 

@@ -17,11 +17,11 @@ export interface ReferralStatsData {
 export const referralsApi = {
   getReferralCode: async (): Promise<ReferralCodeData> => {
     const { data } = await api.get<ApiResponse<ReferralCodeData>>('/referrals/code');
-    return data;
+    return data.data;
   },
 
   getReferralStats: async (): Promise<ReferralStatsData> => {
     const { data } = await api.get<ApiResponse<ReferralStatsData>>('/referrals/stats');
-    return data;
+    return data.data;
   },
 };

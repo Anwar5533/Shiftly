@@ -42,8 +42,7 @@ export function MessagingPage() {
       const response = await chatApi.sendMessage(userMsg.content, messages);
       setMessages((prev) => [...prev, response]);
     } catch (_error) {
-      const error = _error as import('axios').AxiosError<Record<string, unknown>>;
-      console.error('Failed to get AI response', _error);
+      //       console.error('Failed to get AI response', _error);
       setMessages((prev) => [
         ...prev,
         {
@@ -122,7 +121,7 @@ export function MessagingPage() {
 
       <div className="border-t border-border bg-card p-4">
         type safety
-        <form onSubmit={handleSendMessage} className="flex gap-3">
+        <form onSubmit={(e) => { void handleSendMessage(e); }} className="flex gap-3">
           <input
             type="text"
             value={inputText}

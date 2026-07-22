@@ -58,7 +58,7 @@ export default function RegisterPage(): React.ReactElement {
     void registerMutation.mutate(data);
   };
 
-  const serverError = (registerMutation.error as any)?.response?.data?.error?.message;
+  const serverError = (registerMutation.error as import('axios').AxiosError<{error?: {message?: string}}>)?.response?.data?.error?.message;
 
   return (
     <div className="space-y-6">
@@ -101,7 +101,7 @@ export default function RegisterPage(): React.ReactElement {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         className="space-y-4"
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={(e) => { void form.handleSubmit(onSubmit)(e); }}
         noValidate
       >
         <div className="grid grid-cols-2 gap-4">

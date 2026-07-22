@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- TODO(RC3): */
+ 
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { recruiterApi } from '../api/recruiter.api';

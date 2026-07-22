@@ -51,9 +51,9 @@ export default function JobsListPage(): React.ReactElement {
       try {
         const response = await jobsApi.searchJobs();
         const fetchedJobs = Array.isArray(response) ? response : response?.items || [];
-        setJobs(fetchedJobs);
+        setJobs(fetchedJobs as Job[]);
       } catch (_error: any) {
-        const err = _error as import('axios').AxiosError<Record<string, unknown>>;
+
         console.error('Failed to fetch jobs', _error);
         setError('Failed to load jobs. Please try again later.');
       } finally {
