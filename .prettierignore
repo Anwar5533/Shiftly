@@ -4,3 +4,6 @@ build/
 .next/
 coverage/
 *.log
+.turbo/
+scratch/
+pnpm-lock.yaml
