@@ -1,4 +1,3 @@
- 
 import { useState } from 'react';
 import { Star, X } from 'lucide-react';
 import { useMutation } from '@tanstack/react-query';
@@ -23,7 +22,7 @@ export function ReviewModal({ jobId, revieweeId, targetType, isOpen, onClose }: 
       alert('Review submitted successfully!');
       onClose();
     },
-    onError: (err: import('axios').AxiosError<{message?: string}>) => {
+    onError: (err: import('axios').AxiosError<{ message?: string }>) => {
       alert(err.response?.data?.message || 'Failed to submit review');
     },
   });

@@ -1,4 +1,3 @@
- 
 import React from 'react';
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
@@ -8,7 +7,13 @@ import { shiftsApi } from '../../jobs/api/shifts.api';
 export default function TimesheetsPage(): React.ReactElement {
   // We should actually fetch shifts to see if there is an active one for clock-in/out on this page,
   // but TimesheetsPage is primarily for past/submitted timesheets. Let's stick to the timesheet list here.
-  type TimesheetRecord = { id: string; shift?: { job?: { title: string } }; submittedAt?: string; hoursWorked?: number; status?: string };
+  type TimesheetRecord = {
+    id: string;
+    shift?: { job?: { title: string } };
+    submittedAt?: string;
+    hoursWorked?: number;
+    status?: string;
+  };
 
   const { data: timesheets = [], isLoading } = useQuery({
     queryKey: ['my-timesheets'],

@@ -160,7 +160,9 @@ export default function ActiveShiftPage(): React.ReactElement {
               </p>
 
               <button
-                onClick={() => { void handleClockIn(); }}
+                onClick={() => {
+                  void handleClockIn();
+                }}
                 disabled={isProcessing}
                 className="mx-auto flex w-full items-center justify-center gap-3 rounded-xl bg-primary px-12 py-4 text-lg font-bold text-primary-foreground shadow-md shadow-primary/20 transition-all hover:bg-primary/90 disabled:opacity-50 sm:w-auto"
               >
@@ -193,7 +195,9 @@ export default function ActiveShiftPage(): React.ReactElement {
               </div>
 
               <button
-                onClick={() => { void handleClockOut(); }}
+                onClick={() => {
+                  void handleClockOut();
+                }}
                 disabled={isProcessing}
                 className="mx-auto flex w-full items-center justify-center gap-3 rounded-xl bg-red-500 px-12 py-4 text-lg font-bold text-white shadow-md shadow-red-500/20 transition-all hover:bg-red-600 disabled:opacity-50 sm:w-auto"
               >

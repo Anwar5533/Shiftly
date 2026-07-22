@@ -22,7 +22,7 @@ export default function WorkerDashboard(): React.ReactElement {
         const data = await workerApi.getDashboardStats();
         setStats(data);
       } catch (_error) {
-                console.error('Failed to fetch stats', _error);
+        console.error('Failed to fetch stats', _error);
       } finally {
         setIsLoading(false);
       }

@@ -83,7 +83,9 @@ export default function PostJobPage(): React.ReactElement {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div className="space-y-2 md:col-span-2">
-              <label htmlFor="title" className="text-sm font-medium text-foreground">Job Title</label>
+              <label htmlFor="title" className="text-sm font-medium text-foreground">
+                Job Title
+              </label>
               <input
                 id="title"
                 type="text"
@@ -95,7 +97,9 @@ export default function PostJobPage(): React.ReactElement {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="jobType" className="text-sm font-medium text-foreground">Job Type</label>
+              <label htmlFor="jobType" className="text-sm font-medium text-foreground">
+                Job Type
+              </label>
               <select
                 id="jobType"
                 {...register('jobType')}
@@ -109,7 +113,9 @@ export default function PostJobPage(): React.ReactElement {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="locationCity" className="text-sm font-medium text-foreground">City</label>
+              <label htmlFor="locationCity" className="text-sm font-medium text-foreground">
+                City
+              </label>
               <input
                 id="locationCity"
                 type="text"
@@ -123,7 +129,9 @@ export default function PostJobPage(): React.ReactElement {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="salaryMin" className="text-sm font-medium text-foreground">Min Salary</label>
+              <label htmlFor="salaryMin" className="text-sm font-medium text-foreground">
+                Min Salary
+              </label>
               <input
                 id="salaryMin"
                 type="number"
@@ -137,7 +145,9 @@ export default function PostJobPage(): React.ReactElement {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="salaryMax" className="text-sm font-medium text-foreground">Max Salary</label>
+              <label htmlFor="salaryMax" className="text-sm font-medium text-foreground">
+                Max Salary
+              </label>
               <input
                 id="salaryMax"
                 type="number"
@@ -151,7 +161,9 @@ export default function PostJobPage(): React.ReactElement {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="salaryPeriod" className="text-sm font-medium text-foreground">Salary Period</label>
+              <label htmlFor="salaryPeriod" className="text-sm font-medium text-foreground">
+                Salary Period
+              </label>
               <select
                 id="salaryPeriod"
                 {...register('salaryPeriod')}
@@ -166,7 +178,9 @@ export default function PostJobPage(): React.ReactElement {
             </div>
 
             <div className="space-y-2 md:col-span-2">
-              <label htmlFor="description" className="text-sm font-medium text-foreground">Job Description</label>
+              <label htmlFor="description" className="text-sm font-medium text-foreground">
+                Job Description
+              </label>
               <textarea
                 id="description"
                 {...register('description')}

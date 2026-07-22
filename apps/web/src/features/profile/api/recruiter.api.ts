@@ -33,7 +33,10 @@ export const recruiterApi = {
   },
 
   updateProfile: async (profileData: UpdateRecruiterProfileData): Promise<RecruiterProfile> => {
-    const { data } = await api.patch<ApiResponse<RecruiterProfile>>('/recruiters/profile', profileData);
+    const { data } = await api.patch<ApiResponse<RecruiterProfile>>(
+      '/recruiters/profile',
+      profileData,
+    );
     return data.data;
   },
 

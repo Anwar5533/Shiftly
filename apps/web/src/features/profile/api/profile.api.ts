@@ -1,4 +1,3 @@
- 
 import api from '@/shared/lib/api';
 import type { ApiResponse, WorkerProfile } from '@shiftly/shared-types';
 
@@ -24,7 +23,9 @@ export const profileApi = {
   },
 
   removeSkill: async (skillId: string) => {
-    const res = await api.delete<ApiResponse<Record<string, unknown>>>(`/workers/skills/${skillId}`);
+    const res = await api.delete<ApiResponse<Record<string, unknown>>>(
+      `/workers/skills/${skillId}`,
+    );
     return res.data.data;
   },
 };

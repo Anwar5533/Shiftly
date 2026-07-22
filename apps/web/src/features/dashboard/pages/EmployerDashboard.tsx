@@ -22,7 +22,7 @@ export default function EmployerDashboard(): React.ReactElement {
           setStats(data);
         }
       } catch (_error) {
-                console.error('Failed to fetch stats', _error);
+        console.error('Failed to fetch stats', _error);
       } finally {
         setIsLoading(false);
       }
@@ -161,47 +161,59 @@ export default function EmployerDashboard(): React.ReactElement {
                   </td>
                 </tr>
               ) : (
-                recentApplications?.map((app: { id: string; worker?: Record<string, string>; job?: Record<string, string>; appliedAt: string; status: string; jobId: string }) => (
-                  <tr key={app.id} className="transition-colors hover:bg-muted/30">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/20 font-medium text-primary">
-                          {app.worker?.firstName?.[0] || 'C'}
+                recentApplications?.map(
+                  (app: {
+                    id: string;
+                    worker?: Record<string, string>;
+                    job?: Record<string, string>;
+                    appliedAt: string;
+                    status: string;
+                    jobId: string;
+                  }) => (
+                    <tr key={app.id} className="transition-colors hover:bg-muted/30">
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-3">
+                          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/20 font-medium text-primary">
+                            {app.worker?.firstName?.[0] || 'C'}
+                          </div>
+                          <span className="font-medium text-foreground">
+                            {app.worker?.firstName} {app.worker?.lastName}
+                          </span>
                         </div>
-                        <span className="font-medium text-foreground">
-                          {app.worker?.firstName} {app.worker?.lastName}
+                      </td>
+                      <td
+                        className="max-w-[150px] truncate px-6 py-4 text-muted-foreground"
+                        title={app.job?.title}
+                      >
+                        {app.job?.title}
+                      </td>
+                      <td className="px-6 py-4 text-muted-foreground">
+                        {new Date(app.appliedAt).toLocaleDateString()}
+                      </td>
+                      <td className="px-6 py-4">
+                        <span
+                          className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ${
+                            app.status === 'ACCEPTED'
+                              ? 'bg-green-500/10 text-green-500'
+                              : app.status === 'REJECTED'
+                                ? 'bg-red-500/10 text-red-500'
+                                : 'bg-yellow-500/10 text-yellow-500'
+                          }`}
+                        >
+                          {app.status}
                         </span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 text-muted-foreground max-w-[150px] truncate" title={app.job?.title}>
-                      {app.job?.title}
-                    </td>
-                    <td className="px-6 py-4 text-muted-foreground">
-                      {new Date(app.appliedAt).toLocaleDateString()}
-                    </td>
-                    <td className="px-6 py-4">
-                      <span
-                        className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ${
-                          app.status === 'ACCEPTED'
-                            ? 'bg-green-500/10 text-green-500'
-                            : app.status === 'REJECTED'
-                              ? 'bg-red-500/10 text-red-500'
-                              : 'bg-yellow-500/10 text-yellow-500'
-                        }`}
-                      >
-                        {app.status}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      <button
-                        onClick={() => navigate(`/jobs/${app.jobId}/applications`)}
-                        className="font-medium text-primary hover:underline"
-                      >
-                        View Applications
-                      </button>
-                    </td>
-                  </tr>
-                ))
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                        <button
+                          onClick={() => navigate(`/jobs/${app.jobId}/applications`)}
+                          className="font-medium text-primary hover:underline"
+                        >
+                          View Applications
+                        </button>
+                      </td>
+                    </tr>
+                  ),
+                )
               )}
             </tbody>
           </table>

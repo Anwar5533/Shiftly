@@ -53,7 +53,6 @@ export default function JobsListPage(): React.ReactElement {
         const fetchedJobs = Array.isArray(response) ? response : response?.items || [];
         setJobs(fetchedJobs as Job[]);
       } catch (_error: any) {
-
         console.error('Failed to fetch jobs', _error);
         setError('Failed to load jobs. Please try again later.');
       } finally {

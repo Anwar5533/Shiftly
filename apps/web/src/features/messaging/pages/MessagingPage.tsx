@@ -120,7 +120,12 @@ export function MessagingPage() {
 
       <div className="border-t border-border bg-card p-4">
         type safety
-        <form onSubmit={(e) => { void handleSendMessage(e); }} className="flex gap-3">
+        <form
+          onSubmit={(e) => {
+            void handleSendMessage(e);
+          }}
+          className="flex gap-3"
+        >
           <input
             type="text"
             value={inputText}

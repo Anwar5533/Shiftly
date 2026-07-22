@@ -35,12 +35,16 @@ import * as shiftsApi from '../../jobs/api/shifts.api';
 describe('WorkerDashboard', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    (workerApi.workerApi.getDashboardStats as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
+    (
+      workerApi.workerApi.getDashboardStats as unknown as ReturnType<typeof vi.fn>
+    ).mockResolvedValue({
       totalEarnings: 1500,
       completedShifts: 10,
       activeApplications: 2,
     });
-    (applicationsApi.applicationsApi.getMyApplications as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({ items: [] });
+    (
+      applicationsApi.applicationsApi.getMyApplications as unknown as ReturnType<typeof vi.fn>
+    ).mockResolvedValue({ items: [] });
     (shiftsApi.shiftsApi.getMyShifts as unknown as ReturnType<typeof vi.fn>).mockResolvedValue([]);
     (jobsApi.jobsApi.searchJobs as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
       items: [],
@@ -78,7 +82,9 @@ describe('WorkerDashboard', () => {
         },
       },
     ];
-    (shiftsApi.shiftsApi.getMyShifts as unknown as ReturnType<typeof vi.fn>).mockResolvedValue(mockShifts);
+    (shiftsApi.shiftsApi.getMyShifts as unknown as ReturnType<typeof vi.fn>).mockResolvedValue(
+      mockShifts,
+    );
 
     customRender(<WorkerDashboard />);
 

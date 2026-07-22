@@ -26,12 +26,16 @@ export interface UpdateJobData extends Partial<CreateJobData> {
 
 export const jobsApi = {
   searchJobs: async (params?: Record<string, any>): Promise<Record<string, unknown>> => {
-    const response = await api.get<ApiResponse<Record<string, unknown>>>('/jobs/search', { params });
+    const response = await api.get<ApiResponse<Record<string, unknown>>>('/jobs/search', {
+      params,
+    });
     return response.data.data;
   },
 
   getMyJobs: async (page = 1, limit = 10): Promise<PaginatedResponse<Job>> => {
-    const response = await api.get<ApiResponse<PaginatedResponse<Job>>>('/jobs/my-jobs', { params: { page, limit } });
+    const response = await api.get<ApiResponse<PaginatedResponse<Job>>>('/jobs/my-jobs', {
+      params: { page, limit },
+    });
     return response.data.data;
   },
 

@@ -103,7 +103,9 @@ export default function OtpPage(): React.ReactElement {
     }
   };
 
-  const serverError = (verifyOtpMutation.error as import('axios').AxiosError<{error?: {message?: string}}>)?.response?.data?.error?.message;
+  const serverError = (
+    verifyOtpMutation.error as import('axios').AxiosError<{ error?: { message?: string } }>
+  )?.response?.data?.error?.message;
 
   return (
     <div className="space-y-6">
@@ -176,7 +178,9 @@ export default function OtpPage(): React.ReactElement {
           <span className="font-medium text-foreground">Resend in {countdown}s</span>
         ) : (
           <button
-            onClick={() => { void resendOtpMutation.mutate(); }}
+            onClick={() => {
+              void resendOtpMutation.mutate();
+            }}
             disabled={resendOtpMutation.isPending}
             className="font-semibold text-primary transition-colors hover:text-primary/80 disabled:opacity-50"
           >

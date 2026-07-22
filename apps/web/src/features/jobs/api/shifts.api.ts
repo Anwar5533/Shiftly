@@ -26,17 +26,29 @@ export const shiftsApi = {
   },
 
   clockIn: async (shiftId: string, location?: Record<string, unknown>): Promise<Shift> => {
-    const response = await api.post<ApiResponse<Shift>>(`/shifts/${shiftId}/clock-in`, { location });
+    const response = await api.post<ApiResponse<Shift>>(`/shifts/${shiftId}/clock-in`, {
+      location,
+    });
     return response.data.data;
   },
 
-  clockOut: async (shiftId: string, location?: Record<string, unknown>, notes?: string): Promise<Shift> => {
-    const response = await api.post<ApiResponse<Shift>>(`/shifts/${shiftId}/clock-out`, { location, notes });
+  clockOut: async (
+    shiftId: string,
+    location?: Record<string, unknown>,
+    notes?: string,
+  ): Promise<Shift> => {
+    const response = await api.post<ApiResponse<Shift>>(`/shifts/${shiftId}/clock-out`, {
+      location,
+      notes,
+    });
     return response.data.data;
   },
 
   submitTimesheet: async (shiftId: string, notes: string): Promise<Record<string, unknown>> => {
-    const response = await api.post<ApiResponse<Record<string, unknown>>>(`/shifts/${shiftId}/timesheet`, { notes });
+    const response = await api.post<ApiResponse<Record<string, unknown>>>(
+      `/shifts/${shiftId}/timesheet`,
+      { notes },
+    );
     return response.data.data;
   },
 
@@ -46,17 +58,27 @@ export const shiftsApi = {
   },
 
   getEmployerTimesheets: async (): Promise<Record<string, unknown>[]> => {
-    const response = await api.get<ApiResponse<Record<string, unknown>[]>>('/shifts/employer/timesheets');
+    const response = await api.get<ApiResponse<Record<string, unknown>[]>>(
+      '/shifts/employer/timesheets',
+    );
     return response.data.data;
   },
 
   approveTimesheet: async (timesheetId: string): Promise<Record<string, unknown>> => {
-    const response = await api.put<ApiResponse<Record<string, unknown>>>(`/shifts/timesheets/${timesheetId}/approve`);
+    const response = await api.put<ApiResponse<Record<string, unknown>>>(
+      `/shifts/timesheets/${timesheetId}/approve`,
+    );
     return response.data.data;
   },
 
-  rejectTimesheet: async (timesheetId: string, reason: string): Promise<Record<string, unknown>> => {
-    const response = await api.put<ApiResponse<Record<string, unknown>>>(`/shifts/timesheets/${timesheetId}/reject`, { reason });
+  rejectTimesheet: async (
+    timesheetId: string,
+    reason: string,
+  ): Promise<Record<string, unknown>> => {
+    const response = await api.put<ApiResponse<Record<string, unknown>>>(
+      `/shifts/timesheets/${timesheetId}/reject`,
+      { reason },
+    );
     return response.data.data;
   },
 };

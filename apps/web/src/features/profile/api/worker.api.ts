@@ -1,4 +1,3 @@
- 
 import api from '@/shared/lib/api';
 import type { WorkerProfile, ApiResponse } from '@shiftly/shared-types';
 
@@ -27,12 +26,17 @@ export const workerApi = {
     yearsExp: number;
     proficiency: string;
   }) => {
-    const response = await api.post<ApiResponse<Record<string, unknown>>>('/workers/skills', skillData);
+    const response = await api.post<ApiResponse<Record<string, unknown>>>(
+      '/workers/skills',
+      skillData,
+    );
     return response.data.data;
   },
 
   removeSkill: async (skillId: string) => {
-    const response = await api.delete<ApiResponse<Record<string, unknown>>>(`/workers/skills/${skillId}`);
+    const response = await api.delete<ApiResponse<Record<string, unknown>>>(
+      `/workers/skills/${skillId}`,
+    );
     return response.data.data;
   },
 

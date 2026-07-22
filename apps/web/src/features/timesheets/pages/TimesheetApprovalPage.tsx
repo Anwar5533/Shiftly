@@ -1,4 +1,3 @@
- 
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { shiftsApi } from '../../jobs/api/shifts.api';
@@ -18,7 +17,6 @@ interface TimesheetView {
     worker: { user: { email: string } };
   };
 }
-
 
 export function TimesheetApprovalPage() {
   const queryClient = useQueryClient();
@@ -83,7 +81,8 @@ export function TimesheetApprovalPage() {
                     </h3>
                     <div className="mt-1 space-y-1 text-sm text-muted-foreground">
                       <p>
-                        Hours Worked:                        <span className="font-medium text-foreground">{ts.hoursWorked}h</span>
+                        Hours Worked:{' '}
+                        <span className="font-medium text-foreground">{ts.hoursWorked}h</span>
                       </p>
                       <p>Date: {format(new Date(ts.shift.scheduledStart), 'MMM d, yyyy')}</p>
                       {ts.notes && <p className="text-xs italic">Note: {ts.notes}</p>}
@@ -117,7 +116,9 @@ export function TimesheetApprovalPage() {
                         Reject
                       </button>
                       <button
-                        onClick={() => { void approveMutation.mutate(ts.id); }}
+                        onClick={() => {
+                          void approveMutation.mutate(ts.id);
+                        }}
                         className="rounded-lg bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
                       >
                         Approve

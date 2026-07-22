@@ -26,7 +26,7 @@ export default function MyApplicationsPage(): React.ReactElement {
         const data = await applicationsApi.getMyApplications();
         setApplications(data.items);
       } catch (_error) {
-                console.error('Failed to fetch my applications', _error);
+        console.error('Failed to fetch my applications', _error);
       } finally {
         setIsLoading(false);
       }
@@ -99,7 +99,8 @@ export default function MyApplicationsPage(): React.ReactElement {
                     </h3>
                     <div className="mt-1.5 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
                       <span className="flex items-center gap-1">
-                        <Building className="h-3.5 w-3.5" />                        {app.job?.employer?.companyName || 'Unknown Company'}
+                        <Building className="h-3.5 w-3.5" />{' '}
+                        {app.job?.employer?.companyName || 'Unknown Company'}
                       </span>
                       <span className="hidden text-border md:inline">•</span>
                       <span className="flex items-center gap-1">

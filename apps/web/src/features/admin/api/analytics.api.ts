@@ -1,6 +1,5 @@
- 
 import api from '@/shared/lib/api';
-import type { ApiResponse } from "@shiftly/shared-types";
+import type { ApiResponse } from '@shiftly/shared-types';
 
 export const analyticsApi = {
   getStats: async (): Promise<Record<string, unknown>> => {

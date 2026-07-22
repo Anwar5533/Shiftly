@@ -1,5 +1,5 @@
 import api from '@/shared/lib/api';
-import type { ApiResponse } from "@shiftly/shared-types";
+import type { ApiResponse } from '@shiftly/shared-types';
 
 export interface KbCategory {
   id: string;
@@ -23,7 +23,9 @@ export const kbApi = {
   },
 
   getArticlesByCategory: async (categoryId: string): Promise<KbArticle[]> => {
-    const { data } = await api.get<ApiResponse<KbArticle[]>>(`/kb/categories/${categoryId}/articles`);
+    const { data } = await api.get<ApiResponse<KbArticle[]>>(
+      `/kb/categories/${categoryId}/articles`,
+    );
     return data.data;
   },
 };

@@ -21,7 +21,6 @@ export default function ManageJobsPage(): React.ReactElement {
         const data = await jobsApi.getMyJobs();
         setJobs(data.items);
       } catch (_error) {
-
         console.error('Failed to fetch my jobs', _error);
       } finally {
         setIsLoading(false);
@@ -147,10 +146,13 @@ export default function ManageJobsPage(): React.ReactElement {
                     onClick={() => navigate(`/jobs/${job.id}/applications`)}
                   >
                     <td className="p-4">
-                      <div className="font-semibold text-foreground max-w-[200px] md:max-w-[400px] truncate" title={job.title}>
+                      <div
+                        className="max-w-[200px] truncate font-semibold text-foreground md:max-w-[400px]"
+                        title={job.title}
+                      >
                         {job.title}
                       </div>
-                      <div className="mt-1 text-sm text-muted-foreground max-w-[200px] md:max-w-[400px] truncate">
+                      <div className="mt-1 max-w-[200px] truncate text-sm text-muted-foreground md:max-w-[400px]">
                         {job.jobType} • {job.location?.city || 'Remote'}
                       </div>
                     </td>

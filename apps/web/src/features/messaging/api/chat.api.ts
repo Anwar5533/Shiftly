@@ -6,7 +6,10 @@ export const chatApi = {
     prompt: string,
     history: AssistantMessage[] = [],
   ): Promise<AssistantMessage> => {
-    const { data } = await api.post<ApiResponse<AssistantMessage>>('/chat/message', { prompt, history });
+    const { data } = await api.post<ApiResponse<AssistantMessage>>('/chat/message', {
+      prompt,
+      history,
+    });
     return data.data;
   },
 };

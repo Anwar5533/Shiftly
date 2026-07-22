@@ -1,4 +1,3 @@
- 
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { recruiterApi } from '../api/recruiter.api';
@@ -12,7 +11,11 @@ export default function RecruiterProfilePage(): React.ReactElement {
   const [isLoading, setIsLoading] = useState(false);
 
   const { data: profile, refetch: fetchProfile } = useQuery({
-    queryKey: ['recruiter-profile', (user as unknown as Record<string, unknown>)?.id || (user as unknown as Record<string, unknown>)?.sub],
+    queryKey: [
+      'recruiter-profile',
+      (user as unknown as Record<string, unknown>)?.id ||
+        (user as unknown as Record<string, unknown>)?.sub,
+    ],
     queryFn: () => recruiterApi.getProfile(),
   });
 
@@ -38,7 +41,6 @@ export default function RecruiterProfilePage(): React.ReactElement {
       await fetchProfile();
       setIsEditing(false);
     } catch (_error) {
-
       console.error('Failed to update profile:', _error);
     } finally {
       setIsLoading(false);
@@ -57,7 +59,13 @@ export default function RecruiterProfilePage(): React.ReactElement {
           </p>
         </div>
         <button
-          onClick={() => { if (isEditing) { void handleSave(); } else { handleEditToggle(); } }}
+          onClick={() => {
+            if (isEditing) {
+              void handleSave();
+            } else {
+              handleEditToggle();
+            }
+          }}
           disabled={isLoading}
           className="rounded-lg bg-primary px-4 py-2 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
         >

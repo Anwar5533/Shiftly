@@ -131,7 +131,9 @@ export default function LoginPage(): React.ReactElement {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 12 }}
             transition={{ duration: 0.2 }}
-            onSubmit={(e) => { void phoneForm.handleSubmit(handlePhoneSubmit)(e); }}
+            onSubmit={(e) => {
+              void phoneForm.handleSubmit(handlePhoneSubmit)(e);
+            }}
             className="space-y-4"
             aria-label="Phone OTP login form"
             noValidate
@@ -194,7 +196,9 @@ export default function LoginPage(): React.ReactElement {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -12 }}
             transition={{ duration: 0.2 }}
-            onSubmit={(e) => { void emailForm.handleSubmit(handleEmailSubmit)(e); }}
+            onSubmit={(e) => {
+              void emailForm.handleSubmit(handleEmailSubmit)(e);
+            }}
             className="space-y-4"
             aria-label="Email login form"
             noValidate

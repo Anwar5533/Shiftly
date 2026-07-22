@@ -8,7 +8,9 @@ export const notificationsApi = {
   },
 
   markAsRead: async (id: string) => {
-    const response = await api.patch<ApiResponse<Record<string, unknown>>>(`/notifications/${id}/read`);
+    const response = await api.patch<ApiResponse<Record<string, unknown>>>(
+      `/notifications/${id}/read`,
+    );
     return response.data.data;
   },
 

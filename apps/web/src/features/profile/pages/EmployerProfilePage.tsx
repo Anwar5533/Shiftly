@@ -33,16 +33,22 @@ export default function EmployerProfilePage(): React.ReactElement {
       setEmail(user?.email || '');
       setError(null);
     } catch (_error) {
-
       console.error('Failed to fetch profile', _error);
       // Fallback if needed for development, similar to worker
       const mockProfile = {
         id: 'emp-1',
-        userId: (user as unknown as Record<string, unknown>)?.id as string || (user as unknown as Record<string, unknown>)?.sub as string || 'u-1',
+        userId:
+          ((user as unknown as Record<string, unknown>)?.id as string) ||
+          ((user as unknown as Record<string, unknown>)?.sub as string) ||
+          'u-1',
         companyName: 'Acme Logistics',
         description: 'A leading retail company looking for shift workers.',
         website: 'https://acmecorp.com',
-        location: { city: 'Bangalore', state: 'Karnataka', country: 'India' } as import('@shiftly/shared-types').JobLocation,
+        location: {
+          city: 'Bangalore',
+          state: 'Karnataka',
+          country: 'India',
+        } as import('@shiftly/shared-types').JobLocation,
         employeeCount: '11-50' as import('@shiftly/shared-types').EmployeeCountRange,
         rating: 4.5,
         totalReviews: 10,
@@ -82,7 +88,6 @@ export default function EmployerProfilePage(): React.ReactElement {
       await fetchProfile();
       setIsEditing(false);
     } catch (_error: any) {
-
       console.error('Failed to update profile', _error);
 
       alert(_error.response?.data?.error?.message || 'Failed to save changes');
@@ -118,7 +123,13 @@ export default function EmployerProfilePage(): React.ReactElement {
           </p>
         </div>
         <button
-          onClick={() => { if (isEditing) { void handleSave(); } else { setIsEditing(true); } }}
+          onClick={() => {
+            if (isEditing) {
+              void handleSave();
+            } else {
+              setIsEditing(true);
+            }
+          }}
           className="rounded-lg bg-primary px-4 py-2 font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
         >
           {isEditing ? 'Save Changes' : 'Edit Profile'}
@@ -272,8 +283,14 @@ export default function EmployerProfilePage(): React.ReactElement {
               Departments
             </h3>
             <div className="flex flex-wrap gap-2">
-              {(profile as unknown as Record<string, unknown>).departments && ((profile as unknown as Record<string, unknown>).departments as any[]).length > 0 ? (
-                ((profile as unknown as Record<string, unknown>).departments as Array<{id: string, name: string}>).map((dept) => (
+              {(profile as unknown as Record<string, unknown>).departments &&
+              ((profile as unknown as Record<string, unknown>).departments as any[]).length > 0 ? (
+                (
+                  (profile as unknown as Record<string, unknown>).departments as Array<{
+                    id: string;
+                    name: string;
+                  }>
+                ).map((dept) => (
                   <div key={dept.id} className="rounded-xl border border-border p-4">
                     {dept.name}
                     {isEditing && (
@@ -288,20 +305,21 @@ export default function EmployerProfilePage(): React.ReactElement {
               )}
               {isEditing && (
                 <button
-                  onClick={() => { void (async () => {
-                                                      const name = prompt('Enter department name:');
-                                                      if (name) {
-                                                        try {
-                                                          setIsLoading(true);
-                                                          await employerApi.addDepartment(name);
-                                                          await fetchProfile();
-                                                        } catch (_error) {
-
-                                                          alert('Failed to add department');
-                                                          setIsLoading(false);
-                                                        }
-                                                      }
-                                                    })(); }}
+                  onClick={() => {
+                    void (async () => {
+                      const name = prompt('Enter department name:');
+                      if (name) {
+                        try {
+                          setIsLoading(true);
+                          await employerApi.addDepartment(name);
+                          await fetchProfile();
+                        } catch (_error) {
+                          alert('Failed to add department');
+                          setIsLoading(false);
+                        }
+                      }
+                    })();
+                  }}
                   className="rounded-full border border-dashed border-input bg-background px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
                 >
                   + Add Department

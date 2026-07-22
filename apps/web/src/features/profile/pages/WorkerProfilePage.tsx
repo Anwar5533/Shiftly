@@ -38,7 +38,6 @@ export default function WorkerProfilePage(): React.ReactElement {
           setError(null);
           return;
         } catch (_error) {
-
           console.warn('Backend profile fetch failed, using fallback mock');
         }
       }
@@ -74,10 +73,9 @@ export default function WorkerProfilePage(): React.ReactElement {
       setFirstName(fallbackProfile.firstName || '');
       setLastName(fallbackProfile.lastName || '');
       setEmail(user?.email || '');
-      setPhone((user as unknown as Record<string, unknown>)?.phone as string || '');
+      setPhone(((user as unknown as Record<string, unknown>)?.phone as string) || '');
       setError(null);
     } catch (_error) {
-
       console.error('Failed to fetch profile', _error);
       setError('Failed to load profile data.');
     } finally {
@@ -120,10 +118,12 @@ export default function WorkerProfilePage(): React.ReactElement {
       // In a real app we would update the Redux user state for email/phone too
       setIsEditing(false);
     } catch (_error: any) {
-
       console.error('Failed to update profile', _error);
 
-      alert((_error as import('axios').AxiosError<Record<string, any>>).response?.data?.error?.message || 'Failed to save changes');
+      alert(
+        (_error as import('axios').AxiosError<Record<string, any>>).response?.data?.error
+          ?.message || 'Failed to save changes',
+      );
     } finally {
       setIsLoading(false);
     }
@@ -157,7 +157,13 @@ export default function WorkerProfilePage(): React.ReactElement {
           </p>
         </div>
         <button
-          onClick={() => { if (isEditing) { void handleSave(); } else { setIsEditing(true); } }}
+          onClick={() => {
+            if (isEditing) {
+              void handleSave();
+            } else {
+              setIsEditing(true);
+            }
+          }}
           className="rounded-lg bg-primary px-4 py-2 font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
         >
           {isEditing ? 'Save Changes' : 'Edit Profile'}

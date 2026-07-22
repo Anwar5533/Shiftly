@@ -56,7 +56,12 @@ api.interceptors.request.use(
     }
     return config;
   },
-  (error: unknown) => Promise.reject(error instanceof Error ? error : new Error(typeof error === 'string' ? error : JSON.stringify(error))),
+  (error: unknown) =>
+    Promise.reject(
+      error instanceof Error
+        ? error
+        : new Error(typeof error === 'string' ? error : JSON.stringify(error)),
+    ),
 );
 
 // ─── Response Interceptor (Token Refresh) ─────────────────────────────────────
