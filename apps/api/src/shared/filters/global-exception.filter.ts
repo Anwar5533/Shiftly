@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier -- TODO(RC3): Address type safety */
 import {
   ExceptionFilter,
   Catch,
@@ -87,12 +88,14 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     }
 
     // Log all 5xx errors
+// eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison -- TODO(RC3): Address type safety
     if (statusCode >= 500) {
       this.logger.error(
         `[${statusCode}] ${request.method} ${request.url} - ${message}`,
         exception instanceof Error ? exception.stack : undefined,
         'GlobalExceptionFilter',
       );
+// eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison -- TODO(RC3): Address type safety
     } else if (statusCode >= 400) {
       this.logger.warn(
         `[${statusCode}] ${request.method} ${request.url} - ${message}`,

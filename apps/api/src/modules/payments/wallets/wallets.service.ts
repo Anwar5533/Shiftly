@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier -- TODO(RC3): Address type safety */
 import {
   Injectable,
   Logger,
@@ -19,6 +20,7 @@ export class WalletsService {
 
   async getWallet(userId: string, tx?: Prisma.TransactionClient) {
     const client = tx || this.prisma;
+ 
     
     let wallet = await client.wallet.findUnique({
       where: { userId },

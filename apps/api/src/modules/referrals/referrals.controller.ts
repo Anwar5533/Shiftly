@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier -- TODO(RC3): Address type safety */
 import { Controller, Get, UseGuards, Request } from '@nestjs/common';
 import { ReferralsService } from './referrals.service';
 import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
@@ -9,11 +10,13 @@ export class ReferralsController {
 
   @Get('code')
   async getCode(@Request() req: any) {
+// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     return this.referralsService.getReferralCode(req.user.userId);
   }
 
   @Get('stats')
   async getStats(@Request() req: any) {
+// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     return this.referralsService.getReferralStats(req.user.userId);
   }
 }

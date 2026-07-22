@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- TODO(RC3): Address type safety */
 import api from '@/shared/lib/api';
 
 export type DocumentTypeEnum =

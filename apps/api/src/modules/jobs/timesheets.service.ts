@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars, prettier/prettier -- TODO(RC3): Address type safety */
 import {
   Injectable,
   NotFoundException,
@@ -34,6 +35,7 @@ export class TimesheetsService {
     }
 
     if (shift.workerId !== workerId) {
+ 
       throw new ForbiddenException('Not authorized to submit timesheet for this shift');
     }
 

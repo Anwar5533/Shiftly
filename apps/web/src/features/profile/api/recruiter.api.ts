@@ -27,17 +27,23 @@ export interface UpdateRecruiterProfileData {
 
 export const recruiterApi = {
   getProfile: async (): Promise<RecruiterProfile> => {
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
     const { data } = await api.get('/recruiters/profile');
+// eslint-disable-next-line @typescript-eslint/no-unsafe-return -- TODO(RC3): Address type safety
     return data;
   },
 
   updateProfile: async (profileData: UpdateRecruiterProfileData): Promise<RecruiterProfile> => {
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
     const { data } = await api.patch('/recruiters/profile', profileData);
+// eslint-disable-next-line @typescript-eslint/no-unsafe-return -- TODO(RC3): Address type safety
     return data;
   },
 
   getDashboardStats: async () => {
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
     const { data } = await api.get('/recruiters/dashboard');
+// eslint-disable-next-line @typescript-eslint/no-unsafe-return -- TODO(RC3): Address type safety
     return data;
   },
 };

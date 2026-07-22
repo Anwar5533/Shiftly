@@ -199,6 +199,18 @@ export class AuthService {
       }),
     );
 
+    await this.prisma.auditLog.create({
+      data: {
+        actorId: user.id,
+        action: 'LOGIN',
+        resourceType: 'User',
+        resourceId: user.id,
+        ipAddress,
+        userAgent,
+        metadata: { method: 'OTP', requestId, correlationId },
+      },
+    });
+
     return { ...tokens, isNewUser };
   }
 
@@ -314,11 +326,24 @@ export class AuthService {
 
     this.validateUserStatus(user);
 
-    // Update login metadata
-    await this.prisma.user.update({
-      where: { id: user.id },
-      data: { lastLoginAt: new Date(), loginCount: { increment: 1 } },
-    });
+    // Update login metadata and record audit log
+    await this.prisma.$transaction([
+      this.prisma.user.update({
+        where: { id: user.id },
+        data: { lastLoginAt: new Date(), loginCount: { increment: 1 } },
+      }),
+      this.prisma.auditLog.create({
+        data: {
+          actorId: user.id,
+          action: 'LOGIN',
+          resourceType: 'User',
+          resourceId: user.id,
+          ipAddress,
+          userAgent,
+          metadata: { method: 'EMAIL', requestId, correlationId },
+        },
+      }),
+    ]);
 
     this.logger.log(
       JSON.stringify({
@@ -437,10 +462,23 @@ export class AuthService {
       .createHash('sha256')
       .update(sessionId)
       .digest('hex');
-    await this.prisma.session.updateMany({
-      where: { refreshTokenJti: hashedJti },
-      data: { isRevoked: true, revokedAt: new Date() },
-    });
+
+    await this.prisma.$transaction([
+      this.prisma.session.updateMany({
+        where: { refreshTokenJti: hashedJti },
+        data: { isRevoked: true, revokedAt: new Date() },
+      }),
+      this.prisma.auditLog.create({
+        data: {
+          actorId: userId,
+          action: 'LOGOUT',
+          resourceType: 'Session',
+          resourceId: sessionId,
+          ipAddress,
+          metadata: { requestId, correlationId },
+        },
+      }),
+    ]);
 
     this.logger.log(
       JSON.stringify({

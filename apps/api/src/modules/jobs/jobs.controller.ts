@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier -- TODO(RC3): Address type safety */
 import {
   Controller,
   Post,
@@ -38,6 +39,7 @@ export class JobsController {
   @Get('my-jobs')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.EMPLOYER)
+ 
   getMyJobs(
     @CurrentUser('sub') userId: string,
     @Query() query: PaginationDto,

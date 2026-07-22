@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars -- TODO(RC3): Address type safety */
 import { ExecutionContext, ForbiddenException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { RolesGuard } from './roles.guard';

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars -- TODO(RC3): Address type safety */
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';

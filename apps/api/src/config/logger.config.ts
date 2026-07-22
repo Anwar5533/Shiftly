@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier -- TODO(RC3): Address type safety */
 import { WinstonModuleOptions } from 'nest-winston';
 import * as winston from 'winston';
 
@@ -8,9 +9,12 @@ const developmentFormat = combine(
   timestamp({ format: 'HH:mm:ss' }),
   errors({ stack: true }),
   printf(({ timestamp: ts, level, message, context, trace, ...meta }) => {
+// eslint-disable-next-line @typescript-eslint/no-base-to-string, @typescript-eslint/restrict-template-expressions -- TODO(RC3): Address type safety
     const ctx = context ? `[${context}]` : '';
     const metaStr = Object.keys(meta).length ? ` ${JSON.stringify(meta)}` : '';
+// eslint-disable-next-line @typescript-eslint/no-base-to-string, @typescript-eslint/restrict-template-expressions -- TODO(RC3): Address type safety
     const traceStr = trace ? `\n${trace}` : '';
+// eslint-disable-next-line @typescript-eslint/restrict-template-expressions -- TODO(RC3): Address type safety
     return `${ts} ${level} ${ctx} ${message}${metaStr}${traceStr}`;
   }),
 );

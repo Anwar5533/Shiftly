@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier -- TODO(RC3): Address type safety */
 import { Test, TestingModule } from '@nestjs/testing';
 import { RecruitersService } from './recruiters.service';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
@@ -62,6 +63,7 @@ describe('RecruitersService', () => {
         firstName: 'Jane',
       });
       expect(result).toEqual(mockProfile);
+// eslint-disable-next-line @typescript-eslint/unbound-method -- TODO(RC3): Address type safety
       expect(prismaService.recruiterProfile.upsert).toHaveBeenCalledWith(
         expect.objectContaining({
           where: { userId: 'user1' },

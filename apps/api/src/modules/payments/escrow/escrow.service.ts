@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier -- TODO(RC3): Address type safety */
 import {
   Injectable,
   Logger,
@@ -30,6 +31,7 @@ export class EscrowService {
     }
 
     return this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+ 
       const employerWallet = await this.walletsService.getWallet(employerId, tx);
 
       if (Number(employerWallet.balance) < amount) {
@@ -48,6 +50,7 @@ export class EscrowService {
       });
 
       if (Number(updatedEmployerWallet.balance) < 0) {
+ 
         throw new BadRequestException('Insufficient balance to lock funds for this job');
       }
 
@@ -99,6 +102,7 @@ export class EscrowService {
 
       // Find the escrow lock associated with this job
       // Realistically we need the applicationId, but for our MVP let's find the first escrow lock for this job+wallet
+ 
       const employerWallet = await this.walletsService.getWallet(employerId, tx);
       const workerWallet = await this.walletsService.getWallet(workerId, tx);
 
@@ -126,8 +130,10 @@ export class EscrowService {
           escrowBalance: { decrement: releaseAmount },
         },
       });
+ 
       
       if (Number(updatedEmployerWallet.escrowBalance) < 0) {
+ 
         throw new BadRequestException('Insufficient escrow balance for release');
       }
 

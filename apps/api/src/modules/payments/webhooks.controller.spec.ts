@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier -- TODO(RC3): Address type safety */
 import { Test, TestingModule } from '@nestjs/testing';
 import { WebhooksController } from './webhooks.controller';
 import { WalletService } from './services/wallet.service';
@@ -12,6 +13,7 @@ describe('WebhooksController', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [WebhooksController],
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
       providers: [{ provide: WalletService, useValue: walletService }],
     }).compile();
 

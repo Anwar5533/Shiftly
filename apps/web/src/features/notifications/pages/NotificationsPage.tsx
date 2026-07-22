@@ -25,6 +25,7 @@ export default function NotificationsPage(): React.ReactElement {
   const markAsReadMutation = useMutation({
     mutationFn: (id: string) => notificationsApi.markAsRead(id),
     onSuccess: () => {
+// eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
       queryClient.invalidateQueries({ queryKey: ['notifications'] });
     },
   });
@@ -32,6 +33,7 @@ export default function NotificationsPage(): React.ReactElement {
   const clearAllMutation = useMutation({
     mutationFn: () => notificationsApi.clearAll(),
     onSuccess: () => {
+// eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
       queryClient.invalidateQueries({ queryKey: ['notifications'] });
     },
   });

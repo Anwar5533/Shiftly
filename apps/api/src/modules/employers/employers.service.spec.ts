@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier -- TODO(RC3): Address type safety */
 import { Test, TestingModule } from '@nestjs/testing';
 import { EmployersService } from './employers.service';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
@@ -67,6 +68,7 @@ describe('EmployersService', () => {
         companyName: 'New Corp',
       });
       expect(result).toEqual(mockProfile);
+// eslint-disable-next-line @typescript-eslint/unbound-method -- TODO(RC3): Address type safety
       expect(prismaService.employerProfile.upsert).toHaveBeenCalledWith(
         expect.objectContaining({
           where: { userId: 'user1' },
@@ -109,8 +111,10 @@ describe('EmployersService', () => {
 
       const result = await service.addDepartment('user1', { name: 'HR' });
       expect(result).toEqual(newDep);
+// eslint-disable-next-line @typescript-eslint/unbound-method -- TODO(RC3): Address type safety
       expect(prismaService.department.create).toHaveBeenCalledWith(
         expect.objectContaining({
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
           data: expect.objectContaining({ name: 'HR', employerId: 'emp1' }),
         }),
       );

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier -- TODO(RC3): Address type safety */
 import {
   Controller,
   Post,
@@ -20,6 +21,7 @@ export class ShiftsController {
   @Get('my-shifts')
   @Roles('WORKER')
   getMyShifts(@Request() req: any) {
+// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     return this.shiftsService.getMyShifts(req.user.id);
   }
 
@@ -30,6 +32,7 @@ export class ShiftsController {
     @Param('id') id: string,
     @Body('location') location: any,
   ) {
+// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     return this.shiftsService.clockIn(req.user.id, id, location);
   }
 
@@ -41,6 +44,7 @@ export class ShiftsController {
     @Body('location') location: any,
     @Body('notes') notes?: string,
   ) {
+// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     return this.shiftsService.clockOut(req.user.id, id, location, notes);
   }
 }

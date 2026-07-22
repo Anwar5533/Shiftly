@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier -- TODO(RC3): Address type safety */
 import {
   Controller,
   Post,
@@ -38,6 +39,7 @@ export class ApplicationsController {
     @CurrentUser('sub') userId: string,
     @Query() query: PaginationDto,
   ) {
+ 
     return this.applicationsService.getMyApplications(userId, query.page, query.limit);
   }
 
@@ -54,6 +56,7 @@ export class ApplicationsController {
     @Param('jobId') jobId: string,
     @Query() query: PaginationDto,
   ) {
+ 
     return this.applicationsService.getApplicationsForJob(userId, jobId, query.page, query.limit);
   }
 

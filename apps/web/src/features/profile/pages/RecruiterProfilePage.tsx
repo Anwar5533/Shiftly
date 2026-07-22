@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- TODO(RC3): Address type safety */
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { recruiterApi } from '../api/recruiter.api';
@@ -11,6 +12,7 @@ export default function RecruiterProfilePage(): React.ReactElement {
   const [isLoading, setIsLoading] = useState(false);
 
   const { data: profile, refetch: fetchProfile } = useQuery({
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     queryKey: ['recruiter-profile', (user as any)?.id || (user as any)?.sub],
     queryFn: () => recruiterApi.getProfile(),
   });

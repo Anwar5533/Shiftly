@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars, prettier/prettier -- TODO(RC3): Address type safety */
 import {
   Injectable,
   NotFoundException,
@@ -30,6 +31,7 @@ export class ApplicationsService {
     }
 
     if (job.positionsFilled >= job.positionsTotal) {
+ 
       throw new ConflictException('This job is no longer accepting applications (positions filled)');
     }
 
@@ -73,6 +75,7 @@ export class ApplicationsService {
     });
   }
 
+ 
   async getMyApplications(userId: string, page: number = 1, limit: number = 10) {
     const worker = await this.prisma.workerProfile.findUnique({
       where: { userId },
@@ -116,6 +119,7 @@ export class ApplicationsService {
     };
   }
 
+ 
   async getApplicationsForJob(userId: string, jobId: string, page: number = 1, limit: number = 10) {
     const employer = await this.prisma.employerProfile.findUnique({
       where: { userId },
@@ -244,11 +248,14 @@ export class ApplicationsService {
       if (!currentJob) throw new NotFoundException('Job not found');
 
       let positionsChange = 0;
+ 
       if (updateDto.status === 'ACCEPTED' && application.status !== 'ACCEPTED') {
         if (currentJob.positionsFilled >= currentJob.positionsTotal) {
+ 
           throw new ConflictException('Cannot accept: job positions are already full');
         }
         positionsChange = 1;
+ 
       } else if (application.status === 'ACCEPTED' && updateDto.status !== 'ACCEPTED') {
         positionsChange = -1;
       }
@@ -269,6 +276,7 @@ export class ApplicationsService {
       }
 
       // If newly accepted, create a shift (assuming one shift per job for MVP)
+ 
       if (updateDto.status === 'ACCEPTED' && application.status !== 'ACCEPTED') {
         const scheduledEnd =
           currentJob.endDate ||

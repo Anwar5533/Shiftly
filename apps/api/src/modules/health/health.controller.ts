@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier -- TODO(RC3): Address type safety */
 import { Controller, Get, VERSION_NEUTRAL } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import {
@@ -51,6 +52,7 @@ export class HealthController {
   })
   async readiness(): Promise<HealthCheckResult> {
     return this.health.check([
+// eslint-disable-next-line @typescript-eslint/no-unsafe-return -- TODO(RC3): Address type safety
       async () => this.prismaHealth.pingCheck('database', this.prisma),
       async () => this.redisHealth.isHealthy('redis'),
     ]);

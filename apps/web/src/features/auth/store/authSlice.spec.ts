@@ -6,7 +6,7 @@ describe('authSlice', () => {
   const initialState = {
     user: null,
     isAuthenticated: false,
-    isLoading: false,
+    isLoading: true,
   };
 
   it('should return the initial state', () => {

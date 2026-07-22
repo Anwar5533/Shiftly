@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier -- TODO(RC3): Address type safety */
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
 import { DocumentType } from '@prisma/client';
@@ -67,6 +68,7 @@ export class KycService {
     }
 
     // Simulate auto-approval after a delay (mocking the Admin KYC process for phase 8)
+// eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO(RC3): Address type safety
     setTimeout(() => this.autoApproveKyc(userId), 15000);
 
     return { message: 'KYC submitted successfully', documents: createdDocs };

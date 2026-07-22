@@ -370,6 +370,7 @@ model WorkerProfile {
   portfolioUrl    String?
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
+  deletedAt       DateTime?
 
   // Relations
   user           User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -378,7 +379,6 @@ model WorkerProfile {
   applications   JobApplication[]
   shifts         Shift[]
 
-  @@index([userId])
   @@map("worker_profiles")
   @@schema("workers")
 }
@@ -388,6 +388,7 @@ model Skill {
   name      String        @unique
   category  String
   createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
   workers   WorkerSkill[]
   jobs      JobSkill[]
 
@@ -419,6 +420,8 @@ model WorkerCertification {
   expiryDate  DateTime?
   documentUrl String?
   isVerified  Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   worker WorkerProfile @relation(fields: [workerId], references: [id], onDelete: Cascade)
 
@@ -445,12 +448,12 @@ model EmployerProfile {
   kycStatus     KycStatus          @default(NOT_STARTED)
   createdAt     DateTime           @default(now())
   updatedAt     DateTime           @updatedAt
+  deletedAt     DateTime?
 
   user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   jobs        Job[]
   departments Department[]
 
-  @@index([userId])
   @@map("employer_profiles")
   @@schema("employers")
 }
@@ -461,6 +464,7 @@ model Department {
   name       String
   headCount  Int      @default(0)
   createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   employer EmployerProfile @relation(fields: [employerId], references: [id], onDelete: Cascade)
   jobs     Job[]
@@ -489,11 +493,11 @@ model RecruiterProfile {
   kycStatus       KycStatus @default(NOT_STARTED)
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
+  deletedAt       DateTime?
 
   user User  @relation(fields: [userId], references: [id], onDelete: Cascade)
   jobs Job[] @relation("RecruiterJobs")
 
-  @@index([userId])
   @@map("recruiter_profiles")
   @@schema("recruiters")
 }
@@ -543,6 +547,7 @@ model Job {
 
   @@index([employerId])
   @@index([employerId, status])
+  @@index([employerId, createdAt(sort: Desc)])
   @@index([status])
   @@index([status, jobType])
   @@index([jobType])
@@ -587,6 +592,7 @@ model JobApplication {
   @@index([workerId])
   @@index([status])
   @@index([jobId, status])
+  @@index([workerId, status, appliedAt(sort: Desc)])
   @@map("job_applications")
   @@schema("jobs")
 }
@@ -774,7 +780,7 @@ model Message {
   sender       User                @relation(fields: [senderId], references: [id])
   attachments  MessageAttachment[]
 
-  @@index([conversationId, createdAt])
+  @@index([conversationId, createdAt(sort: Desc)])
   @@index([senderId])
   @@map("messages")
   @@schema("messaging")
@@ -812,6 +818,7 @@ model Notification {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, isRead])
+  @@index([userId, createdAt(sort: Desc)])
   @@index([createdAt])
   @@map("notifications")
   @@schema("notifications")

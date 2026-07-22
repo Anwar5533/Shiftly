@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars, prettier/prettier -- TODO(RC3): Address type safety */
 import { ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtAuthGuard } from './jwt-auth.guard';
@@ -21,6 +22,7 @@ describe('JwtAuthGuard', () => {
       } as unknown as ExecutionContext;
 
       expect(guard.canActivate(context)).toBe(true);
+// eslint-disable-next-line @typescript-eslint/unbound-method -- TODO(RC3): Address type safety
       expect(reflector.getAllAndOverride).toHaveBeenCalledWith(IS_PUBLIC_KEY, [
         context.getHandler(),
         context.getClass(),

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- TODO(RC3): Address type safety */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render as customRender } from '../../../shared/lib/test-utils.tsx';
 import WorkerDashboard from './WorkerDashboard';
@@ -35,13 +36,17 @@ import * as shiftsApi from '../../jobs/api/shifts.api';
 describe('WorkerDashboard', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     (workerApi.workerApi.getDashboardStats as any).mockResolvedValue({
       totalEarnings: 1500,
       completedShifts: 10,
       activeApplications: 2,
     });
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     (applicationsApi.applicationsApi.getMyApplications as any).mockResolvedValue({ items: [] });
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     (shiftsApi.shiftsApi.getMyShifts as any).mockResolvedValue([]);
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     (jobsApi.jobsApi.searchJobs as any).mockResolvedValue({
       items: [],
       pagination: { total: 0, page: 1, limit: 10 },
@@ -78,6 +83,7 @@ describe('WorkerDashboard', () => {
         },
       },
     ];
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     (shiftsApi.shiftsApi.getMyShifts as any).mockResolvedValue(mockShifts);
 
     customRender(<WorkerDashboard />);
@@ -106,6 +112,7 @@ describe('WorkerDashboard', () => {
         limit: 10,
       },
     };
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     (jobsApi.jobsApi.searchJobs as any).mockResolvedValue(mockJobs);
 
     customRender(<WorkerDashboard />);

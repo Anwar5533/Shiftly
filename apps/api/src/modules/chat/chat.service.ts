@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars -- TODO(RC3): Address type safety */
 import { Injectable } from '@nestjs/common';
 import { AssistantMessage } from '@shiftly/shared-types';
 

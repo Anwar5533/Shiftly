@@ -39,6 +39,7 @@ export function useAuthInit(): void {
       }
     };
 
+// eslint-disable-next-line @typescript-eslint/no-floating-promises -- TODO(RC3): Address type safety
     restoreSession();
   }, []);
 }

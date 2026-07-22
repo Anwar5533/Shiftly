@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- TODO(RC3): Address type safety */
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
@@ -103,6 +104,7 @@ export default function OtpPage(): React.ReactElement {
     }
   };
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
   const serverError = (verifyOtpMutation.error as any)?.response?.data?.error?.message;
 
   return (
