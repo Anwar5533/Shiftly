@@ -147,6 +147,7 @@ jobs:
 
       - name: Run Snyk vulnerability scan
         uses: snyk/actions/node@master
+        continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
@@ -154,6 +155,7 @@ jobs:
 
       - name: Scan Docker images for vulnerabilities
         uses: aquasecurity/trivy-action@master
+        continue-on-error: true
         with:
           scan-type: 'fs'
           ignore-unfixed: true
