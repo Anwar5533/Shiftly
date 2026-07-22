@@ -49,3 +49,7 @@ apps/api/prisma/migrations/*.sql.bak
 
 # Docker
 .docker-data/
+
+# Security & Scratch
+.env.*
+scratch/
