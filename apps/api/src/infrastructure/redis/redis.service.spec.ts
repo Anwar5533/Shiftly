@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier -- TODO(RC3): Address type safety */
 import { Test, TestingModule } from '@nestjs/testing';
 import { RedisService } from './redis.service';
 import { ConfigService } from '@nestjs/config';

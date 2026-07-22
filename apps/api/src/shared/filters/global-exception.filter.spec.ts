@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier -- TODO(RC3): Address type safety */
 import { GlobalExceptionFilter } from './global-exception.filter';
 import {
   ArgumentsHost,

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars, prettier/prettier -- TODO(RC3): Address type safety */
+/* eslint-disable @typescript-eslint/no-unused-vars -- TODO(RC3): Address type safety */
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
 import { ShiftStatus, TimesheetStatus } from '@prisma/client';

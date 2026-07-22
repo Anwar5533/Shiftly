@@ -1,4 +1,4 @@
-/* eslint-disable prettier/prettier -- TODO(RC3): Address type safety */
+/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call -- TODO(RC3): Address type safety */
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
@@ -27,20 +27,20 @@ describe('AuthService', () => {
     prisma = {
       auditLog: { create: jest.fn() },
       otpToken: { create: jest.fn() },
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+
       user: {
         findUnique: jest.fn(),
         findFirst: jest.fn(),
         create: jest.fn(),
         update: jest.fn(),
       } as any,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+
       refreshToken: {
         create: jest.fn(),
         updateMany: jest.fn(),
         findUnique: jest.fn(),
       } as any,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+
       session: {
         create: jest.fn(),
         findUnique: jest.fn(),
@@ -52,7 +52,7 @@ describe('AuthService', () => {
         if (Array.isArray(arg)) {
           return Promise.all(arg);
         }
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call -- TODO(RC3): Address type safety
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- TODO(RC3): Address type safety
         return arg(prisma);
       }),
     };
@@ -90,15 +90,15 @@ describe('AuthService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AuthService,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+
         { provide: PrismaService, useValue: prisma },
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+
         { provide: RedisService, useValue: redis },
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+
         { provide: JwtService, useValue: jwt },
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+
         { provide: ConfigService, useValue: config },
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+
         { provide: EventEmitter2, useValue: eventEmitter },
       ],
     }).compile();
@@ -112,7 +112,6 @@ describe('AuthService', () => {
 
   describe('sendOtp', () => {
     it('should throw BadRequestException if account is locked', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       redis.exists.mockResolvedValue(1);
       await expect(service.sendOtp('+1234567890')).rejects.toThrow(
         BadRequestException,
@@ -120,21 +119,19 @@ describe('AuthService', () => {
     });
 
     it('should send OTP and store it in redis and db', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       redis.exists.mockResolvedValue(0);
       (bcrypt.hash as jest.Mock).mockResolvedValue('hashed-otp');
 
       await service.sendOtp('+1234567890');
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       expect(redis.set).toHaveBeenCalledWith(
         'otp:+1234567890',
         expect.any(String),
         300,
       );
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+
       expect(prisma.otpToken.create).toHaveBeenCalled();
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+
       expect(eventEmitter.emit).toHaveBeenCalledWith(
         'notification.send-sms',
         expect.any(Object),
@@ -144,7 +141,6 @@ describe('AuthService', () => {
 
   describe('verifyOtp', () => {
     it('should throw BadRequestException if locked', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       redis.exists.mockResolvedValue(1);
 
       await expect(
@@ -153,9 +149,8 @@ describe('AuthService', () => {
     });
 
     it('should throw BadRequestException if OTP expired', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       redis.exists.mockResolvedValue(0);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+
       redis.get.mockResolvedValue(null);
 
       await expect(
@@ -164,17 +159,16 @@ describe('AuthService', () => {
     });
 
     it('should throw BadRequestException if OTP is incorrect and lock if attempts exceed', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       redis.exists.mockResolvedValue(0);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+
       redis.get.mockResolvedValue('654321');
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+
       redis.incr.mockResolvedValue(5);
 
       await expect(
         service.verifyOtp('+1234567890', '123456', '127.0.0.1', 'test'),
       ).rejects.toThrow('Too many failed attempts');
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+
       expect(redis.set).toHaveBeenCalledWith(
         'otp:lockout:+1234567890',
         '1',
@@ -183,13 +177,12 @@ describe('AuthService', () => {
     });
 
     it('should verify OTP successfully and create a new user if not exists', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       redis.exists.mockResolvedValue(0);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+
       redis.get.mockResolvedValue('123456');
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+
       prisma.user.findUnique.mockResolvedValue(null);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+
       prisma.user.create.mockResolvedValue({
         id: 'user-1',
         role: 'WORKER',
@@ -204,16 +197,15 @@ describe('AuthService', () => {
 
       expect(result.isNewUser).toBe(true);
       expect(result.accessToken).toBe('test-jwt-token');
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+
       expect(redis.del).toHaveBeenCalledWith('otp:+1234567890');
     });
 
     it('should verify OTP successfully for existing user', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       redis.exists.mockResolvedValue(0);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+
       redis.get.mockResolvedValue('123456');
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+
       prisma.user.findUnique.mockResolvedValue({
         id: 'user-1',
         role: 'WORKER',
@@ -233,10 +225,8 @@ describe('AuthService', () => {
 
   describe('registerWithEmail', () => {
     it('should throw ConflictException if user already exists', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.user.findUnique.mockResolvedValue({ id: '1' } as any);
       await expect(
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
         service.registerWithEmail(
           {
             email: 'test@test.com',
@@ -252,16 +242,14 @@ describe('AuthService', () => {
     });
 
     it('should register successfully', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.user.findUnique.mockResolvedValue(null);
       (bcrypt.hash as jest.Mock).mockResolvedValue('hashed-pw');
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+
       prisma.user.create.mockResolvedValue({
         id: 'user-1',
         role: 'WORKER',
       } as any);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
       const result = await service.registerWithEmail(
         {
           email: 'test@test.com',
@@ -279,29 +267,24 @@ describe('AuthService', () => {
 
   describe('loginWithEmail', () => {
     it('should throw UnauthorizedException for non-existent user', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.user.findUnique.mockResolvedValue(null);
       await expect(
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
         service.loginWithEmail('test@test.com', 'pass', {} as any, {} as any),
       ).rejects.toThrow(UnauthorizedException);
     });
 
     it('should throw UnauthorizedException for wrong password', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.user.findUnique.mockResolvedValue({
         id: '1',
         passwordHash: 'hash',
       } as any);
       (bcrypt.compare as jest.Mock).mockResolvedValue(false);
       await expect(
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
         service.loginWithEmail('test@test.com', 'pass', {} as any, {} as any),
       ).rejects.toThrow(UnauthorizedException);
     });
 
     it('should login successfully', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.user.findUnique.mockResolvedValue({
         id: '1',
         passwordHash: 'hash',
@@ -311,9 +294,9 @@ describe('AuthService', () => {
       const result = await service.loginWithEmail(
         'test@test.com',
         'pass',
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
+
         {} as any,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
+
         {} as any,
       );
       expect(result.accessToken).toBe('test-jwt-token');
@@ -322,7 +305,6 @@ describe('AuthService', () => {
 
   describe('refreshTokens', () => {
     it('should throw UnauthorizedException if token invalid', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       jwt.verify.mockImplementation(() => {
         throw new Error('invalid token');
       });
@@ -332,16 +314,15 @@ describe('AuthService', () => {
     });
 
     it('should refresh token successfully', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       jwt.verify.mockReturnValue({ sessionId: 'sess-1' });
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+
       prisma.session.findFirst.mockResolvedValue({
         userId: 'user-1',
         isRevoked: false,
         expiresAt: new Date(Date.now() + 10000),
         user: { id: 'user-1', status: 'ACTIVE' },
       });
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+
       prisma.user.findUnique.mockResolvedValue({
         id: 'user-1',
         role: 'WORKER',
@@ -354,19 +335,18 @@ describe('AuthService', () => {
 
   describe('logout', () => {
     it('should revoke all refresh tokens for user', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-require-imports -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-require-imports -- TODO(RC3): Address type safety
       const crypto = require('crypto');
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+
       const hashedJti = crypto
         .createHash('sha256')
         .update('user-1')
         .digest('hex');
       await service.logout('user-1', '127.0.0.1');
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+
       expect(prisma.session.updateMany).toHaveBeenCalledWith({
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
         where: { refreshTokenJti: hashedJti },
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+
         data: { isRevoked: true, revokedAt: expect.any(Date) },
       });
     });

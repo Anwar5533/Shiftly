@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier -- TODO(RC3): Address type safety */
 import { Controller, Get, Param, UseGuards, Request } from '@nestjs/common';
 import { AiService } from './ai.service';
 import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';

@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier -- TODO(RC3): Address type safety */
 import { Controller, Post, Body, UseGuards, Request } from '@nestjs/common';
 import { EscrowService } from './escrow.service';
 import { JwtAuthGuard } from '../../../shared/guards/jwt-auth.guard';

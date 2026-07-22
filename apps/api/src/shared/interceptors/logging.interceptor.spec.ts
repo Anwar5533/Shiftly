@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier -- TODO(RC3): Address type safety */
 import { LoggingInterceptor } from './logging.interceptor';
 import { ExecutionContext, Logger } from '@nestjs/common';
 import { of, throwError } from 'rxjs';

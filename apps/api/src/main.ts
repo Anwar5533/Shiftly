@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier -- TODO(RC3): Address type safety */
 import './tracing';
 import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars, prettier/prettier -- TODO(RC3): Address type safety */
+/* eslint-disable @typescript-eslint/no-unused-vars -- TODO(RC3): Address type safety */
 import { ExecutionContext } from '@nestjs/common';
 import { CurrentUser } from './current-user.decorator';
 import { RequirePermissions, PERMISSIONS_KEY } from './permissions.decorator';

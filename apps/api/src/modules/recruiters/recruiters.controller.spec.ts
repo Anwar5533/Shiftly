@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier -- TODO(RC3): Address type safety */
 import { Test, TestingModule } from '@nestjs/testing';
 import { RecruitersController } from './recruiters.controller';
 import { RecruitersService } from './recruiters.service';

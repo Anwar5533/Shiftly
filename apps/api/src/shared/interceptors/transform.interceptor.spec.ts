@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier -- TODO(RC3): Address type safety */
 import { TransformInterceptor } from './transform.interceptor';
 import { ExecutionContext } from '@nestjs/common';
 import { of } from 'rxjs';

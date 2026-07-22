@@ -1,4 +1,4 @@
-/* eslint-disable prettier/prettier -- TODO(RC3): Address type safety */
+/* eslint-disable @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety */
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
@@ -48,7 +48,6 @@ describe('AuthController', () => {
 
   describe('sendOtp', () => {
     it('should call authService.sendOtp', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
       await controller.sendOtp({ phone: '+1234567890' }, {
         ip: '127.0.0.1',
         headers: {},
@@ -74,9 +73,9 @@ describe('AuthController', () => {
 
       const result = await controller.verifyOtp(
         { phone: '+1234567890', otp: '123456' },
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
+
         { ip: '127.0.0.1', headers: { 'user-agent': 'test-agent' } } as any,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
+
         mockRes,
       );
 
@@ -110,11 +109,10 @@ describe('AuthController', () => {
       });
 
       const result = await controller.register(
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
         { email: 'test@test.com', password: 'pass', role: 'WORKER' } as any,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
+
         { ip: '127.0.0.1', headers: { 'user-agent': 'test-agent' } } as any,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
+
         mockRes,
       );
 
@@ -137,9 +135,9 @@ describe('AuthController', () => {
 
       const result = await controller.login(
         { email: 'test@test.com', password: 'pass' },
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
+
         { ip: '127.0.0.1', headers: {} } as any,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
+
         mockRes,
       );
 
@@ -154,7 +152,6 @@ describe('AuthController', () => {
   describe('refreshToken', () => {
     it('should throw error if cookie not present', async () => {
       await expect(
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
         controller.refreshToken({ cookies: {} } as any, mockRes),
       ).rejects.toThrow();
     });
@@ -162,7 +159,6 @@ describe('AuthController', () => {
 
   describe('logout', () => {
     it('should clear cookie and logout', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
       await controller.logout(
         { sessionId: 'sess-1', sub: 'user-1' } as any,
         { ip: '127.0.0.1', headers: {} } as any,

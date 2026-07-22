@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier -- TODO(RC3): Address type safety */
 import { WinstonModuleOptions } from 'nest-winston';
 import * as winston from 'winston';
 
