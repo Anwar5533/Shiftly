@@ -23,6 +23,7 @@ describe('authSlice', () => {
       sessionId: '',
       iat: 0,
       exp: 0,
+      phone: '+1234567890',
     } as unknown as JwtPayload;
     const actual = authReducer(initialState, setUser(userPayload));
     expect(actual.user).toEqual(userPayload);
@@ -41,6 +42,7 @@ describe('authSlice', () => {
         sessionId: '',
         iat: 0,
         exp: 0,
+        phone: '+1234567890',
       } as JwtPayload,
       isAuthenticated: true,
       isLoading: true,

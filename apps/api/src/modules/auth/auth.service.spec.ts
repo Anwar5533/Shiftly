@@ -74,6 +74,7 @@ describe('AuthService', () => {
 
     config = {
       get: jest.fn().mockImplementation((key) => {
+        if (key === 'app.env') return 'production';
         if (key === 'app.otpExpireSeconds') return 300;
         if (key === 'app.otpMaxAttempts') return 5;
         if (key === 'app.otpLockoutSeconds') return 900;
@@ -111,6 +112,16 @@ describe('AuthService', () => {
   });
 
   describe('sendOtp', () => {
+    const originalEnv = process.env.NODE_ENV;
+    
+    beforeAll(() => {
+      process.env.NODE_ENV = 'production';
+    });
+
+    afterAll(() => {
+      process.env.NODE_ENV = originalEnv;
+    });
+
     it('should throw BadRequestException if account is locked', async () => {
       redis.exists.mockResolvedValue(1);
       await expect(service.sendOtp('+1234567890')).rejects.toThrow(
