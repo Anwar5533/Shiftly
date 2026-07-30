@@ -40,7 +40,7 @@ export function MessagingPage() {
     try {
       const response = await chatApi.sendMessage(userMsg.content, messages);
       setMessages((prev) => [...prev, response]);
-    } catch (_err) {
+    } catch {
       //       console.error('Failed to get AI response', _error);
       setMessages((prev) => [
         ...prev,

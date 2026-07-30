@@ -12,7 +12,6 @@ export default function MessagesPage(): React.ReactElement {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const [_isSending, setIsSending] = useState(false);
   const isSendingRef = useRef(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [socket, setSocket] = useState<Socket | null>(null);
@@ -86,7 +85,6 @@ export default function MessagesPage(): React.ReactElement {
     if (!content || !activeConvId || isSendingRef.current || !socket || !user) return;
 
     isSendingRef.current = true;
-    setIsSending(true);
     setNewMessage('');
 
     try {
@@ -97,7 +95,6 @@ export default function MessagesPage(): React.ReactElement {
       });
     } finally {
       isSendingRef.current = false;
-      setIsSending(false);
     }
   };
 

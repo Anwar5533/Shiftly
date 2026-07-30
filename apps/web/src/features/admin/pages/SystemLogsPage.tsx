@@ -38,7 +38,7 @@ export default function SystemLogsPage(): React.ReactElement {
   const [filterSeverity, setFilterSeverity] = React.useState<string>('ALL');
   const [isRefreshing, setIsRefreshing] = React.useState(false);
 
-  const filteredLogs = logs.filter((log: any) => {
+  const filteredLogs = logs.filter((log: Record<string, string>) => {
     if (filterSeverity !== 'ALL' && log.severity !== filterSeverity) return false;
     return true;
   });

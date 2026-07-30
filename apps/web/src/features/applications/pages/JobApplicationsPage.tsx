@@ -44,7 +44,7 @@ export default function JobApplicationsPage(): React.ReactElement {
         status: newStatus,
       });
       setApplications((prev) => prev.map((app) => (app.id === applicationId ? updatedApp : app)));
-    } catch (_error) {
+    } catch {
       alert('Failed to update status');
     } finally {
       setUpdatingId(null);
