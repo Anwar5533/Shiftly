@@ -113,7 +113,7 @@ describe('AuthService', () => {
 
   describe('sendOtp', () => {
     const originalEnv = process.env.NODE_ENV;
-    
+
     beforeAll(() => {
       process.env.NODE_ENV = 'production';
     });
