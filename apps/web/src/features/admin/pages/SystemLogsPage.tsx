@@ -64,7 +64,9 @@ export default function SystemLogsPage(): React.ReactElement {
           <button
             onClick={() => setShowFilters(!showFilters)}
             className={`flex items-center justify-center gap-2 rounded-lg px-4 py-2 font-medium transition-colors ${
-              showFilters ? 'bg-primary/20 text-primary hover:bg-primary/30' : 'bg-muted text-foreground hover:bg-muted/80'
+              showFilters
+                ? 'bg-primary/20 text-primary hover:bg-primary/30'
+                : 'bg-muted text-foreground hover:bg-muted/80'
             }`}
           >
             <Filter className="h-4 w-4" /> Filter Logs

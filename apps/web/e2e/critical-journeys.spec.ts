@@ -7,7 +7,7 @@ test.describe('Critical Journeys E2E', () => {
 
     // --- 1. Employer login and post job ---
     await loginAsRole(page, 'employer');
-    
+
     // Go to Employer Dashboard
     await page.goto('/dashboard/employer');
     await expect(page.locator('h1:has-text("Employer Overview")')).toBeVisible();
@@ -21,7 +21,10 @@ test.describe('Critical Journeys E2E', () => {
     await page.fill('input[name="locationCity"]', 'San Francisco');
     await page.fill('input[name="salaryMin"]', '120000');
     await page.fill('input[name="salaryMax"]', '150000');
-    await page.fill('textarea[name="description"]', 'This is an end-to-end test job posting for a software developer.');
+    await page.fill(
+      'textarea[name="description"]',
+      'This is an end-to-end test job posting for a software developer.',
+    );
 
     // Submit
     await page.click('button:has-text("Publish Job")');
@@ -29,17 +32,17 @@ test.describe('Critical Journeys E2E', () => {
     // Wait for redirect to job details
     await expect(page.locator('h1:has-text("E2E Playwright Developer")')).toBeVisible();
     const jobUrl = page.url();
-    
+
     // Log out employer
     await page.evaluate(() => localStorage.clear());
-    
+
     // --- 2. Worker login and apply ---
     await loginAsRole(page, 'worker');
-    
+
     // Navigate to job URL directly
     await page.goto(jobUrl);
     await expect(page.locator('h1:has-text("E2E Playwright Developer")')).toBeVisible();
-    
+
     // Click apply
     await page.click('button:has-text("Apply for this Job")');
     await expect(page.locator('button:has-text("Applied Successfully")')).toBeVisible();
@@ -49,18 +52,18 @@ test.describe('Critical Journeys E2E', () => {
     // Ensure the new application is visible (assuming it's in the recent list)
     // For now we just verify we reached the dashboard without errors.
     await expect(page.locator('h1:has-text("Worker Dashboard")')).toBeVisible();
-    
+
     // Log out worker
     await page.evaluate(() => localStorage.clear());
-    
+
     // --- 3. Employer login and review application ---
     await loginAsRole(page, 'employer');
-    
+
     // We would navigate to the applications page for this job
     // Job detail URL -> applications URL: /jobs/:id/applications
     const applicationsUrl = jobUrl.replace('/jobs/', '/jobs/applications/');
     await page.goto(applicationsUrl);
-    
+
     // Or we could check My Jobs -> specific job
     // Just verify the page loaded
     await wait(1000);
