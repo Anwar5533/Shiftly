@@ -51,7 +51,7 @@ import { AiModule } from './modules/ai/ai.module';
 import { AnalyticsModule } from './modules/analytics/analytics.module';
 import { ReferralsModule } from './modules/referrals/referrals.module';
 import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
-// import { AuditModule } from './modules/audit/audit.module';
+import { AuditModule } from './modules/audit/audit.module';
 import { KnowledgeBaseModule } from './modules/knowledge-base/knowledge-base.module';
 import { HealthModule } from './modules/health/health.module';
 import { AdminModule } from './modules/admin/admin.module';
@@ -134,7 +134,7 @@ import { AdminModule } from './modules/admin/admin.module';
     AnalyticsModule,
     SubscriptionsModule,
     ReferralsModule,
-    // AuditModule,
+    AuditModule,
     KnowledgeBaseModule,
     // UsersModule,
     HealthModule,

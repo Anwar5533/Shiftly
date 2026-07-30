@@ -86,11 +86,17 @@ export class AuthService {
       },
     });
 
-    // Emit event for SMS sending (handled by NotificationsModule)
-    this.eventEmitter.emit('notification.send-sms', {
-      phone,
-      message: `Your SHIFTLY verification code is: ${otp}. Valid for 5 minutes. Do not share this code.`,
-    });
+    if (isDev) {
+      this.logger.debug(
+        `[DEV ONLY] Generated OTP for ${phone} is: ${otp}. SMS emission skipped.`,
+      );
+    } else {
+      // Emit event for SMS sending (handled by NotificationsModule)
+      this.eventEmitter.emit('notification.send-sms', {
+        phone,
+        message: `Your SHIFTLY verification code is: ${otp}. Valid for 5 minutes. Do not share this code.`,
+      });
+    }
 
     this.logger.log(
       JSON.stringify({
@@ -525,6 +531,7 @@ export class AuthService {
     const accessPayload: Omit<JwtPayload, 'iat' | 'exp'> = {
       sub: user.id,
       email: user.email,
+      phone: user.phone,
       role: user.role,
       permissions,
       sessionId: jti,

@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 import { jobsApi } from '../api/jobs.api';
 
 const postJobSchema = z.object({
@@ -21,6 +22,7 @@ type PostJobFormValues = z.infer<typeof postJobSchema>;
 
 export default function PostJobPage(): React.ReactElement {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const {
     register,
@@ -61,6 +63,7 @@ export default function PostJobPage(): React.ReactElement {
       };
 
       const newJob = await jobsApi.createJob(createData);
+      await queryClient.invalidateQueries({ queryKey: ['employer-jobs'] });
       void navigate(`/jobs/${newJob.id}`);
     } catch (_error: any) {
       const err = _error as import('axios').AxiosError<{ error?: { message?: string } }>;

@@ -4,12 +4,14 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { MapPin, Clock, ArrowLeft, CheckCircle2, Building, IndianRupee } from 'lucide-react';
 import { jobsApi } from '../api/jobs.api';
 import { applicationsApi } from '../api/applications.api';
+import { useQueryClient } from '@tanstack/react-query';
 import { useAppSelector } from '../../../app/store';
 import type { Job } from '@shiftly/shared-types';
 
 export default function JobDetailPage(): React.ReactElement {
   const { id } = useParams();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const [job, setJob] = useState<Job | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -54,6 +56,7 @@ export default function JobDetailPage(): React.ReactElement {
     setIsApplying(true);
     try {
       await applicationsApi.applyToJob({ jobId: id, coverLetter: 'Interested in this role' });
+      await queryClient.invalidateQueries({ queryKey: ['worker-applications'] });
       setApplySuccess(true);
     } catch (_error: any) {
       console.error('Failed to apply', _error);

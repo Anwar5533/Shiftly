@@ -48,9 +48,26 @@ export function DashboardLayout(): React.ReactElement {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
-  const [activePortal, setActivePortal] = useState<string>(
-    () => localStorage.getItem('activePortal') || user?.role.toLowerCase() || 'worker',
-  );
+  const allowedPortals = React.useMemo(() => {
+    switch (user?.role) {
+      case 'ADMIN':
+      case 'SUPER_ADMIN':
+        return ['worker', 'employer', 'recruiter', 'admin'];
+      case 'RECRUITER':
+        return ['worker', 'employer', 'recruiter'];
+      case 'EMPLOYER':
+        return ['worker', 'employer'];
+      case 'WORKER':
+      default:
+        return ['worker'];
+    }
+  }, [user?.role]);
+
+  const [activePortal, setActivePortal] = useState<string>(() => {
+    const cached = localStorage.getItem('activePortal');
+    const defaultPortal = user?.role.toLowerCase() || 'worker';
+    return cached && allowedPortals.includes(cached) ? cached : defaultPortal;
+  });
 
   const { data: workerProfile } = useQuery({
     queryKey: ['worker-profile', user?.sub],
@@ -391,23 +408,26 @@ export function DashboardLayout(): React.ReactElement {
             )}
 
             <span className="ml-4 text-lg font-bold md:hidden">SHIFTLY</span>
-            <div className="ml-4 hidden items-center border-l border-border pl-4 md:flex">
-              <select
-                className="cursor-pointer bg-transparent text-sm font-medium capitalize text-muted-foreground transition-colors hover:text-foreground focus:outline-none"
-                value={activePortal}
-                onChange={(e) => {
-                  const newPortal = e.target.value;
-                  localStorage.setItem('activePortal', newPortal);
-                  setActivePortal(newPortal);
-                  void navigate(`/dashboard/${newPortal}`);
-                }}
-              >
-                <option value="worker">Worker Portal</option>
-                <option value="employer">Employer Portal</option>
-                <option value="recruiter">Recruiter Portal</option>
-                <option value="admin">Admin Portal</option>
-              </select>
-            </div>
+            {allowedPortals.length > 1 && (
+              <div className="ml-4 hidden items-center border-l border-border pl-4 md:flex">
+                <select
+                  className="cursor-pointer bg-transparent text-sm font-medium capitalize text-muted-foreground transition-colors hover:text-foreground focus:outline-none"
+                  value={activePortal}
+                  onChange={(e) => {
+                    const newPortal = e.target.value;
+                    localStorage.setItem('activePortal', newPortal);
+                    setActivePortal(newPortal);
+                    void navigate(`/dashboard/${newPortal}`);
+                  }}
+                >
+                  {allowedPortals.map((portal) => (
+                    <option key={portal} value={portal}>
+                      {portal.charAt(0).toUpperCase() + portal.slice(1)} Portal
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
           </div>
 
           <div className="flex items-center space-x-4">

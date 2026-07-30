@@ -34,6 +34,21 @@ export default function SystemLogsPage(): React.ReactElement {
     }
   };
 
+  const [showFilters, setShowFilters] = React.useState(false);
+  const [filterSeverity, setFilterSeverity] = React.useState<string>('ALL');
+  const [isRefreshing, setIsRefreshing] = React.useState(false);
+
+  const filteredLogs = logs.filter((log: any) => {
+    if (filterSeverity !== 'ALL' && log.severity !== filterSeverity) return false;
+    return true;
+  });
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    await refetch();
+    setTimeout(() => setIsRefreshing(false), 500); // minimum 500ms for animation
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
@@ -46,19 +61,41 @@ export default function SystemLogsPage(): React.ReactElement {
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <button className="flex items-center justify-center gap-2 rounded-lg bg-muted px-4 py-2 font-medium text-foreground transition-colors hover:bg-muted/80">
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            className={`flex items-center justify-center gap-2 rounded-lg px-4 py-2 font-medium transition-colors ${
+              showFilters ? 'bg-primary/20 text-primary hover:bg-primary/30' : 'bg-muted text-foreground hover:bg-muted/80'
+            }`}
+          >
             <Filter className="h-4 w-4" /> Filter Logs
           </button>
           <button
             onClick={() => {
-              void refetch();
+              void handleRefresh();
             }}
             className="flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            <RefreshCw className="h-4 w-4" /> Refresh Logs
+            <RefreshCw className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} /> Refresh Logs
           </button>
         </div>
       </div>
+
+      {showFilters && (
+        <div className="flex items-center gap-4 rounded-xl border border-border bg-card p-4 shadow-sm">
+          <label className="text-sm font-medium text-foreground">Severity:</label>
+          <select
+            value={filterSeverity}
+            onChange={(e) => setFilterSeverity(e.target.value)}
+            className="rounded-lg border border-border bg-background px-3 py-1.5 text-sm outline-none focus:border-primary"
+          >
+            <option value="ALL">All</option>
+            <option value="INFO">Info</option>
+            <option value="WARNING">Warning</option>
+            <option value="ERROR">Error</option>
+            <option value="CRITICAL">Critical</option>
+          </select>
+        </div>
+      )}
 
       <div className="overflow-hidden rounded-xl border border-border bg-card font-mono text-sm shadow-sm">
         <div className="overflow-x-auto">
@@ -79,14 +116,14 @@ export default function SystemLogsPage(): React.ReactElement {
                     Loading logs...
                   </td>
                 </tr>
-              ) : logs.length === 0 ? (
+              ) : filteredLogs.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="p-4 text-center text-muted-foreground">
                     No logs found.
                   </td>
                 </tr>
               ) : (
-                logs.map((log: Record<string, string>) => {
+                filteredLogs.map((log: Record<string, string>) => {
                   const style = getLevelStyle(log.severity);
                   const Icon = style.icon;
                   return (

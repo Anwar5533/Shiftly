@@ -23,7 +23,7 @@ export function ProtectedRoute({ children, roles }: ProtectedRouteProps): React.
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  if (roles && user && !roles.includes(user.role)) {
+  if (roles && user && user.role !== 'SUPER_ADMIN' && !roles.includes(user.role)) {
     return <Navigate to="/dashboard" replace />;
   }
 

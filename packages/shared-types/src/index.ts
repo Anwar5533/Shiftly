@@ -27,6 +27,7 @@ export interface AuthTokens {
 export interface JwtPayload {
   sub: string;
   email: string | null;
+  phone: string | null;
   role: UserRole;
   permissions: string[];
   sessionId: string;
