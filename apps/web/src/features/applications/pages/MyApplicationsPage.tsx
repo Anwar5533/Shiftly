@@ -54,12 +54,41 @@ export default function MyApplicationsPage(): React.ReactElement {
             <XCircle className="h-4 w-4" /> Rejected
           </span>
         );
+      case 'WITHDRAWN':
+        return (
+          <span className="flex items-center gap-1.5 rounded-full border border-gray-500/20 bg-gray-500/10 px-3 py-1 text-sm font-medium text-gray-500">
+            <XCircle className="h-4 w-4" /> Withdrawn
+          </span>
+        );
+      case 'COMPLETED':
+        return (
+          <span className="flex items-center gap-1.5 rounded-full border border-purple-500/20 bg-purple-500/10 px-3 py-1 text-sm font-medium text-purple-500">
+            <CheckCircle2 className="h-4 w-4" /> Completed
+          </span>
+        );
       default:
         return (
           <span className="flex items-center gap-1.5 rounded-full border border-amber-500/20 bg-amber-500/10 px-3 py-1 text-sm font-medium text-amber-500">
             <Clock3 className="h-4 w-4" /> Under Review
           </span>
         );
+    }
+  };
+
+  const handleWithdraw = async (applicationId: string) => {
+    if (!window.confirm('Are you sure you want to withdraw this application?')) {
+      return;
+    }
+
+    try {
+      await applicationsApi.withdrawApplication(applicationId);
+      // Update local state instead of refetching, or refetch
+      setApplications((prev) =>
+        prev.map((app) => (app.id === applicationId ? { ...app, status: 'WITHDRAWN' } : app)),
+      );
+    } catch (error) {
+      console.error('Failed to withdraw application', error);
+      alert('Failed to withdraw application. Please try again later.');
     }
   };
 
@@ -122,15 +151,28 @@ export default function MyApplicationsPage(): React.ReactElement {
 
                 <div className="mt-4 flex items-center justify-between gap-3 md:mt-0 md:flex-col md:items-end md:gap-4">
                   {getStatusBadge(app.status)}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      void navigate(`/jobs/${app.jobId}`);
-                    }}
-                    className="flex items-center gap-1 text-sm font-medium text-primary hover:text-primary/80 group-hover:underline"
-                  >
-                    View Details <ChevronRight className="h-4 w-4" />
-                  </button>
+                  <div className="flex items-center gap-3">
+                    {(app.status === 'PENDING' || app.status === 'SHORTLISTED') && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          void handleWithdraw(app.id);
+                        }}
+                        className="text-sm font-medium text-destructive hover:underline"
+                      >
+                        Cancel
+                      </button>
+                    )}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        void navigate(`/jobs/${app.jobId}`);
+                      }}
+                      className="flex items-center gap-1 text-sm font-medium text-primary hover:text-primary/80 group-hover:underline"
+                    >
+                      View Details <ChevronRight className="h-4 w-4" />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

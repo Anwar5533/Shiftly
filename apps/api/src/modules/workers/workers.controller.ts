@@ -24,21 +24,21 @@ export class WorkersController {
 
   @Get('profile')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.WORKER)
+  @Roles(UserRole.WORKER, UserRole.EMPLOYER)
   getProfile(@CurrentUser('sub') userId: string) {
     return this.workersService.getProfile(userId);
   }
 
   @Get('dashboard')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.WORKER)
+  @Roles(UserRole.WORKER, UserRole.EMPLOYER)
   getDashboardStats(@CurrentUser('sub') userId: string) {
     return this.workersService.getDashboardStats(userId);
   }
 
   @Patch('profile')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.WORKER)
+  @Roles(UserRole.WORKER, UserRole.EMPLOYER)
   updateProfile(
     @CurrentUser('sub') userId: string,
     @Body() updateDto: UpdateWorkerProfileDto,
@@ -48,7 +48,7 @@ export class WorkersController {
 
   @Post('skills')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.WORKER)
+  @Roles(UserRole.WORKER, UserRole.EMPLOYER)
   addSkill(
     @CurrentUser('sub') userId: string,
     @Body() skillDto: AddWorkerSkillDto,
@@ -58,7 +58,7 @@ export class WorkersController {
 
   @Delete('skills/:skillId')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.WORKER)
+  @Roles(UserRole.WORKER, UserRole.EMPLOYER)
   removeSkill(
     @CurrentUser('sub') userId: string,
     @Param('skillId') skillId: string,

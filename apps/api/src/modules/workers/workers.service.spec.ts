@@ -9,9 +9,13 @@ describe('WorkersService', () => {
 
   beforeEach(async () => {
     prisma = {
+      user: {
+        findUnique: jest.fn(),
+      },
       workerProfile: {
         findUnique: jest.fn(),
         upsert: jest.fn(),
+        create: jest.fn(),
       },
       skill: {
         upsert: jest.fn(),
@@ -35,6 +39,8 @@ describe('WorkersService', () => {
     it('should throw NotFoundException if profile not found', async () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.workerProfile.findUnique.mockResolvedValue(null);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      prisma.user.findUnique.mockResolvedValue(null);
       await expect(service.getProfile('user-1')).rejects.toThrow(
         NotFoundException,
       );

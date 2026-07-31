@@ -24,7 +24,7 @@ export class ApplicationsController {
   constructor(private readonly applicationsService: ApplicationsService) {}
 
   @Post()
-  @Roles(UserRole.WORKER)
+  @Roles(UserRole.WORKER, UserRole.EMPLOYER)
   applyToJob(
     @CurrentUser('sub') userId: string,
     @Body() createDto: CreateApplicationDto,
@@ -33,7 +33,7 @@ export class ApplicationsController {
   }
 
   @Get('my-applications')
-  @Roles(UserRole.WORKER)
+  @Roles(UserRole.WORKER, UserRole.EMPLOYER)
   getMyApplications(
     @CurrentUser('sub') userId: string,
     @Query() query: PaginationDto,
@@ -46,7 +46,7 @@ export class ApplicationsController {
   }
 
   @Get('check/:jobId')
-  @Roles(UserRole.WORKER)
+  @Roles(UserRole.WORKER, UserRole.EMPLOYER)
   checkApplicationStatus(
     @CurrentUser('sub') userId: string,
     @Param('jobId') jobId: string,
@@ -55,13 +55,13 @@ export class ApplicationsController {
   }
 
   @Get('recent')
-  @Roles(UserRole.EMPLOYER)
+  @Roles(UserRole.EMPLOYER, UserRole.WORKER)
   getRecentApplications(@CurrentUser('sub') userId: string) {
     return this.applicationsService.getRecentApplications(userId);
   }
 
   @Get('job/:jobId')
-  @Roles(UserRole.EMPLOYER)
+  @Roles(UserRole.EMPLOYER, UserRole.WORKER)
   getApplicationsForJob(
     @CurrentUser('sub') userId: string,
     @Param('jobId') jobId: string,
@@ -76,7 +76,7 @@ export class ApplicationsController {
   }
 
   @Patch(':id/status')
-  @Roles(UserRole.EMPLOYER)
+  @Roles(UserRole.EMPLOYER, UserRole.WORKER)
   updateApplicationStatus(
     @CurrentUser('sub') userId: string,
     @Param('id') applicationId: string,
@@ -87,5 +87,14 @@ export class ApplicationsController {
       applicationId,
       updateDto,
     );
+  }
+
+  @Patch(':id/withdraw')
+  @Roles(UserRole.WORKER, UserRole.EMPLOYER)
+  withdrawApplication(
+    @CurrentUser('sub') userId: string,
+    @Param('id') applicationId: string,
+  ) {
+    return this.applicationsService.withdrawApplication(userId, applicationId);
   }
 }

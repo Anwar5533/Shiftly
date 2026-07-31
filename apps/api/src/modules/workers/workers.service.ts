@@ -12,7 +12,7 @@ export class WorkersService {
   constructor(private readonly prisma: PrismaService) {}
 
   async getProfile(userId: string) {
-    const profile = await this.prisma.workerProfile.findUnique({
+    let profile = await this.prisma.workerProfile.findUnique({
       where: { userId },
       include: {
         skills: {
@@ -25,7 +25,23 @@ export class WorkersService {
     });
 
     if (!profile) {
-      throw new NotFoundException('Worker profile not found');
+      const user = await this.prisma.user.findUnique({ where: { id: userId } });
+      if (!user) throw new NotFoundException('User not found');
+
+      profile = await this.prisma.workerProfile.create({
+        data: {
+          userId,
+          firstName: 'Worker',
+          lastName: 'Profile',
+          location: { city: 'Bangalore', country: 'India' },
+        },
+        include: {
+          skills: {
+            include: { skill: true },
+          },
+          certifications: true,
+        },
+      });
     }
 
     return profile;

@@ -15,19 +15,34 @@ export class ApplicationsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async applyToJob(userId: string, createDto: CreateApplicationDto) {
-    const worker = await this.prisma.workerProfile.findUnique({
+    let worker = await this.prisma.workerProfile.findUnique({
       where: { userId },
     });
 
     if (!worker) {
-      throw new ForbiddenException('Only workers can apply for jobs');
+      const user = await this.prisma.user.findUnique({ where: { id: userId } });
+      if (!user) throw new ForbiddenException('User not found');
+
+      worker = await this.prisma.workerProfile.create({
+        data: {
+          userId,
+          firstName: 'Worker',
+          lastName: 'Profile',
+          location: { city: 'Bangalore', country: 'India' },
+        },
+      });
     }
 
     const job = await this.prisma.job.findUnique({
       where: { id: createDto.jobId },
+      include: { employer: true },
     });
     if (!job || job.deletedAt || job.status !== JobStatus.PUBLISHED) {
       throw new NotFoundException('Job is not available for applications');
+    }
+
+    if (job.employer.userId === userId) {
+      throw new ConflictException('You cannot apply to a job you created');
     }
 
     if (job.positionsFilled >= job.positionsTotal) {
@@ -94,7 +109,11 @@ export class ApplicationsService {
       },
     });
 
-    return { applied: !!existingApp, applicationId: existingApp?.id };
+    return {
+      applied: !!existingApp,
+      applicationId: existingApp?.id,
+      status: existingApp?.status,
+    };
   }
 
   async getMyApplications(
@@ -348,6 +367,82 @@ export class ApplicationsService {
           resourceType: 'JobApplication',
           resourceId: applicationId,
           newValues: { status: updateDto.status },
+        },
+      });
+
+      return updated;
+    });
+  }
+
+  async withdrawApplication(userId: string, applicationId: string) {
+    const worker = await this.prisma.workerProfile.findUnique({
+      where: { userId },
+    });
+
+    if (!worker) {
+      throw new ForbiddenException('Only workers can withdraw applications');
+    }
+
+    const application = await this.prisma.jobApplication.findUnique({
+      where: { id: applicationId },
+      include: { job: true },
+    });
+
+    if (!application) {
+      throw new NotFoundException('Application not found');
+    }
+
+    if (application.workerId !== worker.id) {
+      throw new ForbiddenException(
+        'You do not have permission to withdraw this application',
+      );
+    }
+
+    if (
+      application.status !== 'PENDING' &&
+      application.status !== 'SHORTLISTED'
+    ) {
+      throw new ConflictException(
+        'You can only withdraw applications that are Pending or Shortlisted',
+      );
+    }
+
+    return this.prisma.$transaction(async (tx) => {
+      const updated = await tx.jobApplication.update({
+        where: { id: applicationId },
+        data: {
+          status: 'WITHDRAWN',
+        },
+      });
+
+      // Decrement the job's application count
+      await tx.job.update({
+        where: { id: application.jobId },
+        data: { applicationCount: { decrement: 1 } },
+      });
+
+      // Notify the employer
+      await tx.notification.create({
+        data: {
+          userId: application.job.employerId,
+          type: 'APPLICATION_UPDATE',
+          channel: 'IN_APP',
+          title: 'Application Withdrawn',
+          body: `A candidate has withdrawn their application for ${application.job.title}`,
+          data: {
+            applicationId: application.id,
+            jobId: application.jobId,
+          },
+        },
+      });
+
+      await tx.auditLog.create({
+        data: {
+          actorId: userId,
+          action: 'UPDATE',
+          resourceType: 'JobApplication',
+          resourceId: applicationId,
+          newValues: { status: 'WITHDRAWN' },
         },
       });
 

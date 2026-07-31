@@ -56,10 +56,9 @@ export function DashboardLayout(): React.ReactElement {
       case 'RECRUITER':
         return ['worker', 'employer', 'recruiter'];
       case 'EMPLOYER':
-        return ['worker', 'employer'];
       case 'WORKER':
       default:
-        return ['worker'];
+        return ['worker', 'employer'];
     }
   }, [user?.role]);
 

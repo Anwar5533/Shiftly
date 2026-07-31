@@ -9,9 +9,13 @@ describe('EmployersService', () => {
 
   beforeEach(async () => {
     const mockPrismaService = {
+      user: {
+        findUnique: jest.fn(),
+      },
       employerProfile: {
         findUnique: jest.fn(),
         upsert: jest.fn(),
+        create: jest.fn(),
       },
       department: {
         findFirst: jest.fn(),
@@ -50,6 +54,7 @@ describe('EmployersService', () => {
       (prismaService.employerProfile.findUnique as jest.Mock).mockResolvedValue(
         null,
       );
+      (prismaService.user.findUnique as jest.Mock).mockResolvedValue(null);
       await expect(service.getProfile('user1')).rejects.toThrow(
         NotFoundException,
       );

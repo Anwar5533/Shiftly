@@ -20,6 +20,9 @@ export default function JobDetailPage(): React.ReactElement {
   const [applySuccess, setApplySuccess] = useState(false);
   const user = useAppSelector((state) => state.auth.user);
 
+  const [applicationStatus, setApplicationStatus] = useState<string | null>(null);
+  const [applicationId, setApplicationId] = useState<string | null>(null);
+
   useEffect(() => {
     if (!id) return;
 
@@ -39,37 +42,60 @@ export default function JobDetailPage(): React.ReactElement {
     const checkApplied = async () => {
       try {
         const res = await applicationsApi.checkApplication(id);
-        if (res.applied) setApplySuccess(true);
+        if (res.applied) {
+          setApplySuccess(true);
+          setApplicationStatus(res.status || null);
+          setApplicationId(res.applicationId || null);
+        }
       } catch (_error) {
         console.error('Failed to check application status', _error);
       }
     };
 
     void fetchJob();
-    if (user?.role === 'WORKER') {
+    if (user) {
       void checkApplied();
     }
-  }, [id, user?.role]);
+  }, [id, user]);
+
+  const [applyError, setApplyError] = useState<string | null>(null);
 
   const handleApply = async () => {
     if (!id) return;
     setIsApplying(true);
+    setApplyError(null);
     try {
       await applicationsApi.applyToJob({ jobId: id, coverLetter: 'Interested in this role' });
       await queryClient.invalidateQueries({ queryKey: ['worker-applications'] });
       setApplySuccess(true);
+      setApplicationStatus('PENDING'); // Optimistic update
     } catch (_error: any) {
       console.error('Failed to apply', _error);
 
       if (_error?.response?.data?.error?.message) {
-        alert(`Error: ${_error.response.data.error.message}`);
+        setApplyError(`Error: ${_error.response.data.error.message}`);
       } else if (_error?.response?.data?.message) {
-        alert(`Error: ${_error.response.data.message}`);
+        setApplyError(`Error: ${_error.response.data.message}`);
       } else {
-        alert('Failed to apply. Please try again.');
+        setApplyError('Failed to apply. Please try again.');
       }
     } finally {
       setIsApplying(false);
+    }
+  };
+
+  const handleWithdraw = async () => {
+    if (!applicationId) return;
+    if (!window.confirm('Are you sure you want to withdraw your application?')) return;
+
+    try {
+      await applicationsApi.withdrawApplication(applicationId);
+      await queryClient.invalidateQueries({ queryKey: ['worker-applications'] });
+      await queryClient.invalidateQueries({ queryKey: ['jobs'] });
+      setApplicationStatus('WITHDRAWN');
+    } catch (_error) {
+      console.error('Failed to withdraw application', _error);
+      setApplyError('Failed to withdraw application. Please try again.');
     }
   };
 
@@ -118,19 +144,62 @@ export default function JobDetailPage(): React.ReactElement {
                 {job.employer?.companyName || job.employerId}
               </p>
             </div>
-            <button
-              onClick={() => {
-                void handleApply();
-              }}
-              disabled={isApplying || applySuccess}
-              className="h-12 w-full rounded-lg bg-primary px-8 font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 disabled:opacity-50 md:w-auto"
-            >
-              {isApplying
-                ? 'Applying...'
-                : applySuccess
-                  ? 'Applied Successfully'
-                  : 'Apply for this Job'}
-            </button>
+            <div className="flex w-full flex-col items-end gap-2 md:w-auto">
+              {!applySuccess ? (
+                <button
+                  onClick={() => {
+                    void handleApply();
+                  }}
+                  disabled={isApplying}
+                  className="h-12 w-full rounded-lg bg-primary px-8 font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 disabled:opacity-50 md:w-auto"
+                >
+                  {isApplying ? 'Applying...' : 'Apply for this Job'}
+                </button>
+              ) : (
+                <div className="flex items-center gap-4">
+                  {applicationStatus === 'ACCEPTED' && (
+                    <span className="flex items-center gap-2 rounded-full border border-green-500/20 bg-green-500/10 px-4 py-2 font-medium text-green-500">
+                      <CheckCircle2 className="h-5 w-5" /> Selected
+                    </span>
+                  )}
+                  {applicationStatus === 'WITHDRAWN' && (
+                    <span className="flex items-center gap-2 rounded-full border border-gray-500/20 bg-gray-500/10 px-4 py-2 font-medium text-gray-500">
+                      Withdrawn
+                    </span>
+                  )}
+                  {applicationStatus === 'REJECTED' && (
+                    <span className="flex items-center gap-2 rounded-full border border-red-500/20 bg-red-500/10 px-4 py-2 font-medium text-red-500">
+                      Rejected
+                    </span>
+                  )}
+                  {applicationStatus === 'COMPLETED' && (
+                    <span className="flex items-center gap-2 rounded-full border border-purple-500/20 bg-purple-500/10 px-4 py-2 font-medium text-purple-500">
+                      Completed
+                    </span>
+                  )}
+                  {(applicationStatus === 'PENDING' ||
+                    applicationStatus === 'SHORTLISTED' ||
+                    !applicationStatus) && (
+                    <span className="flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/10 px-4 py-2 font-medium text-amber-500">
+                      {applicationStatus === 'SHORTLISTED' ? 'Shortlisted' : 'Applied Successfully'}
+                    </span>
+                  )}
+                  {(applicationStatus === 'PENDING' ||
+                    applicationStatus === 'SHORTLISTED' ||
+                    !applicationStatus) && (
+                    <button
+                      onClick={() => {
+                        void handleWithdraw();
+                      }}
+                      className="text-sm font-medium text-destructive hover:underline"
+                    >
+                      Cancel Application
+                    </button>
+                  )}
+                </div>
+              )}
+              {applyError && <p className="text-sm font-medium text-destructive">{applyError}</p>}
+            </div>
           </div>
 
           <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">

@@ -16,13 +16,22 @@ export class JobsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async createJob(userId: string, createJobDto: CreateJobDto) {
-    // Ensure the user is an employer
-    const employer = await this.prisma.employerProfile.findUnique({
+    let employer = await this.prisma.employerProfile.findUnique({
       where: { userId },
     });
 
     if (!employer) {
-      throw new ForbiddenException('Only verified employers can post jobs');
+      const user = await this.prisma.user.findUnique({ where: { id: userId } });
+      if (!user) throw new ForbiddenException('User not found');
+
+      employer = await this.prisma.employerProfile.create({
+        data: {
+          userId,
+          companyName: user.email?.split('@')[0] || 'My Company',
+          industry: 'Other',
+          location: { city: 'Bangalore', country: 'India' },
+        },
+      });
     }
 
     try {

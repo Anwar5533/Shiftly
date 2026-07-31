@@ -12,7 +12,7 @@ export class EmployersService {
   constructor(private readonly prisma: PrismaService) {}
 
   async getProfile(userId: string) {
-    const profile = await this.prisma.employerProfile.findUnique({
+    let profile = await this.prisma.employerProfile.findUnique({
       where: { userId },
       include: {
         departments: true,
@@ -20,7 +20,20 @@ export class EmployersService {
     });
 
     if (!profile) {
-      throw new NotFoundException('Employer profile not found');
+      const user = await this.prisma.user.findUnique({ where: { id: userId } });
+      if (!user) throw new NotFoundException('User not found');
+
+      profile = await this.prisma.employerProfile.create({
+        data: {
+          userId,
+          companyName: user.email?.split('@')[0] || 'My Company',
+          industry: 'Other',
+          location: { city: 'Bangalore', country: 'India' },
+        },
+        include: {
+          departments: true,
+        },
+      });
     }
 
     return profile;

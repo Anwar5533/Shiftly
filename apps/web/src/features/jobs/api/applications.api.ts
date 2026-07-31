@@ -41,10 +41,15 @@ export const applicationsApi = {
 
   checkApplication: async (
     jobId: string,
-  ): Promise<{ applied: boolean; applicationId?: string }> => {
-    const response = await api.get<ApiResponse<{ applied: boolean; applicationId?: string }>>(
-      `/applications/check/${jobId}`,
-    );
+  ): Promise<{ applied: boolean; applicationId?: string; status?: string }> => {
+    const response = await api.get<
+      ApiResponse<{ applied: boolean; applicationId?: string; status?: string }>
+    >(`/applications/check/${jobId}`);
+    return response.data.data;
+  },
+
+  withdrawApplication: async (id: string): Promise<JobApplication> => {
+    const response = await api.patch<ApiResponse<JobApplication>>(`/applications/${id}/withdraw`);
     return response.data.data;
   },
 

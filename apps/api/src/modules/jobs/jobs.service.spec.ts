@@ -14,8 +14,12 @@ describe('JobsService', () => {
 
   beforeEach(async () => {
     prisma = {
+      user: {
+        findUnique: jest.fn(),
+      },
       employerProfile: {
         findUnique: jest.fn(),
+        create: jest.fn(),
       },
       job: {
         create: jest.fn(),
@@ -50,6 +54,8 @@ describe('JobsService', () => {
     it('should throw ForbiddenException if user is not employer', async () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.employerProfile.findUnique.mockResolvedValue(null);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+      prisma.user.findUnique.mockResolvedValue(null);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
       await expect(service.createJob('user-1', {} as any)).rejects.toThrow(
         ForbiddenException,

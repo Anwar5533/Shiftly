@@ -27,7 +27,7 @@ export class JobsController {
 
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.EMPLOYER)
+  @Roles(UserRole.EMPLOYER, UserRole.WORKER)
   createJob(
     @CurrentUser('sub') userId: string,
     @Body() createJobDto: CreateJobDto,
@@ -37,7 +37,7 @@ export class JobsController {
 
   @Get('my-jobs')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.EMPLOYER)
+  @Roles(UserRole.EMPLOYER, UserRole.WORKER)
   getMyJobs(@CurrentUser('sub') userId: string, @Query() query: PaginationDto) {
     return this.jobsService.getMyJobs(userId, query.page, query.limit);
   }
@@ -56,14 +56,14 @@ export class JobsController {
 
   @Patch(':id/close')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.EMPLOYER, UserRole.RECRUITER)
+  @Roles(UserRole.EMPLOYER, UserRole.WORKER, UserRole.RECRUITER)
   closeJob(@CurrentUser('sub') userId: string, @Param('id') jobId: string) {
     return this.jobsService.closeJob(userId, jobId);
   }
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.EMPLOYER)
+  @Roles(UserRole.EMPLOYER, UserRole.WORKER)
   updateJob(
     @Param('id') id: string,
     @CurrentUser('sub') userId: string,
@@ -74,7 +74,7 @@ export class JobsController {
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.EMPLOYER)
+  @Roles(UserRole.EMPLOYER, UserRole.WORKER)
   deleteJob(@Param('id') id: string, @CurrentUser('sub') userId: string) {
     return this.jobsService.deleteJob(userId, id);
   }
