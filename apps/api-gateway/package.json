@@ -16,7 +16,7 @@
     "lint": "eslint src --ext .ts",
     "typecheck": "tsc --noEmit",
     "test": "pnpm exec jest --passWithNoTests",
-    "test:unit": "pnpm exec jest --testPathPatterns=spec --passWithNoTests",
+    "test:unit": "pnpm exec jest --testPathPatterns=spec",
     "test:integration": "pnpm exec jest --testPathPatterns=e2e-spec --runInBand --passWithNoTests",
     "test:cov": "pnpm exec jest --coverage",
     "test:watch": "pnpm exec jest --watch"
