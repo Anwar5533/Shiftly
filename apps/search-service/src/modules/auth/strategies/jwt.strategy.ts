@@ -6,6 +6,8 @@ import { AuthService } from '../auth.service';
 import { JwtPayload } from '@shiftly/shared-types';
 import { User } from '@prisma/client';
 
+type AuthenticatedPayload = JwtPayload & { id: string; userId: string };
+
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(
@@ -20,13 +22,13 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     });
   }
 
-  async validate(payload: JwtPayload): Promise<JwtPayload> {
+  async validate(payload: JwtPayload): Promise<AuthenticatedPayload> {
     const user: User | null = await this.authService.validateJwtPayload(payload);
     if (!user) {
       throw new UnauthorizedException('User account is inactive or not found.');
     }
     // Return payload (not user) — this is what @CurrentUser() receives
     // Return payload with injected id and userId aliases for legacy controller compatibility
-    return { ...payload, id: payload.sub, userId: payload.sub } as any;
+    return { ...payload, id: payload.sub, userId: payload.sub };
   }
 }

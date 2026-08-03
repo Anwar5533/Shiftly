@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
+import type { Prisma } from '@prisma/client';
 
 @Injectable()
 export class NotificationsService {
@@ -14,7 +15,7 @@ export class NotificationsService {
   }
 
   @OnEvent('notification.create', { async: true })
-  async handleNotificationCreateEvent(payload: any) {
+  async handleNotificationCreateEvent(payload: Prisma.NotificationCreateInput) {
     try {
       await this.prisma.notification.create({
         data: payload,
