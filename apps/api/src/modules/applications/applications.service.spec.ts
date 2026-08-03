@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars -- TODO(RC3): Address type safety */
 import { Test, TestingModule } from '@nestjs/testing';
 import { ApplicationsService } from './applications.service';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
