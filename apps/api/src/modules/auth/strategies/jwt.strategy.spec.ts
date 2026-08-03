@@ -36,11 +36,11 @@ describe('JwtStrategy', () => {
   });
 
   describe('validate', () => {
-    it('should return payload', async () => {
+    it('should return enriched payload with id and userId aliases', async () => {
       const payload = { sub: '1', role: 'WORKER' };
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
       const result = await strategy.validate(payload as any);
-      expect(result).toEqual(payload);
+      expect(result).toEqual({ ...payload, id: '1', userId: '1' });
     });
   });
 });
