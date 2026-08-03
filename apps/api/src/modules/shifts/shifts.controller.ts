@@ -11,7 +11,7 @@ import {
 import { ShiftsService } from './shifts.service';
 import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 
-@Controller('shifts')
+@Controller({ path: 'shifts', version: '1' })
 @UseGuards(JwtAuthGuard)
 export class ShiftsController {
   constructor(private readonly shiftsService: ShiftsService) {}

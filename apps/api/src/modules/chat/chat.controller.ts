@@ -3,7 +3,7 @@ import { ChatService } from './chat.service';
 import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 import { AssistantMessage } from '@shiftly/shared-types';
 
-@Controller('chat')
+@Controller({ path: 'chat', version: '1' })
 @UseGuards(JwtAuthGuard)
 export class ChatController {
   constructor(private readonly chatService: ChatService) {}

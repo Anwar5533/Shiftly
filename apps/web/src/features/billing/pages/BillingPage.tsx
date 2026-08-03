@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { Download, Receipt, CheckCircle2, X, Plus, AlertCircle } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { subscriptionsApi } from '../api/subscriptions.api';
+import { AlertDialog } from '../../../shared/components/AlertDialog';
 
 const PLANS = [
   {
@@ -37,6 +38,8 @@ export default function BillingPage(): React.ReactElement {
   const [cardExpiry, setCardExpiry] = useState('');
   const [cardCVV, setCardCVV] = useState('');
   const [cardName, setCardName] = useState('');
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const { data: subscription, isLoading: isLoadingSub } = useQuery({
     queryKey: ['subscription'],
@@ -53,19 +56,23 @@ export default function BillingPage(): React.ReactElement {
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ['subscription'] });
       setShowUpgradeModal(false);
-      alert('Plan upgraded successfully!');
+      setIsSuccess(true);
+      setAlertMessage('Plan upgraded successfully!');
     },
     onError: (err: import('axios').AxiosError<{ message?: string }>) => {
-      alert(err.response?.data?.message || 'Failed to upgrade plan. Please try again.');
+      setIsSuccess(false);
+      setAlertMessage(err.response?.data?.message || 'Failed to upgrade plan. Please try again.');
     },
   });
 
   const handleAddPayment = () => {
     if (!cardNumber || !cardExpiry || !cardCVV || !cardName) {
-      alert('Please fill in all payment details.');
+      setIsSuccess(false);
+      setAlertMessage('Please fill in all payment details.');
       return;
     }
-    alert('Payment method added successfully!');
+    setIsSuccess(true);
+    setAlertMessage('Payment method added successfully!');
     setShowAddPayment(false);
     setCardNumber('');
     setCardExpiry('');
@@ -74,7 +81,8 @@ export default function BillingPage(): React.ReactElement {
   };
 
   const handleCancel = () => {
-    alert(
+    setIsSuccess(true);
+    setAlertMessage(
       'Your subscription has been cancelled. You will retain access until the end of the billing period.',
     );
     setShowCancelModal(false);
@@ -398,6 +406,13 @@ export default function BillingPage(): React.ReactElement {
           </div>,
           document.body,
         )}
+
+      <AlertDialog
+        isOpen={!!alertMessage}
+        onOpenChange={(open) => !open && setAlertMessage(null)}
+        title={isSuccess ? 'Success' : 'Notice'}
+        description={alertMessage || ''}
+      />
     </div>
   );
 }

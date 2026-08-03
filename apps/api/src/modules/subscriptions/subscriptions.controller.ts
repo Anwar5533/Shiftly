@@ -12,7 +12,7 @@ import { RolesGuard } from '../../shared/guards/roles.guard';
 import { Roles } from '../../shared/decorators/roles.decorator';
 import { SubscriptionPlan } from '@prisma/client';
 
-@Controller('subscriptions')
+@Controller({ path: 'subscriptions', version: '1' })
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class SubscriptionsController {
   constructor(private readonly subscriptionsService: SubscriptionsService) {}

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
+import { AlertDialog } from '../../../shared/components/AlertDialog';
 import {
   Mail,
   Calendar,
@@ -30,6 +31,8 @@ export default function ApplicantsPage(): React.ReactElement {
   const [messageText, setMessageText] = useState('');
   const [scheduleDate, setScheduleDate] = useState('');
   const [scheduleTime, setScheduleTime] = useState('');
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [alertTitle, setAlertTitle] = useState('Notice');
 
   const applicants: Applicant[] = [
     {
@@ -105,13 +108,15 @@ export default function ApplicantsPage(): React.ReactElement {
 
   const handleSendMessage = () => {
     if (!messageText.trim()) return;
-    alert(`Message sent to ${selectedApplicant?.name}: "${messageText}"`);
+    setAlertTitle('Success');
+    setAlertMessage(`Message sent to ${selectedApplicant?.name}: "${messageText}"`);
     closeModal();
   };
 
   const handleScheduleInterview = () => {
     if (!scheduleDate || !scheduleTime) return;
-    alert(
+    setAlertTitle('Success');
+    setAlertMessage(
       `Interview scheduled with ${selectedApplicant?.name} on ${scheduleDate} at ${scheduleTime}`,
     );
     closeModal();
@@ -119,6 +124,12 @@ export default function ApplicantsPage(): React.ReactElement {
 
   return (
     <div className="space-y-6">
+      <AlertDialog
+        isOpen={!!alertMessage}
+        onOpenChange={(open) => !open && setAlertMessage(null)}
+        title={alertTitle}
+        description={alertMessage || ''}
+      />
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground">Applicants</h1>
@@ -331,13 +342,19 @@ export default function ApplicantsPage(): React.ReactElement {
                     </div>
                     <div className="flex gap-3">
                       <button
-                        onClick={() => alert('Opening resume preview...')}
+                        onClick={() => {
+                          setAlertTitle('Notice');
+                          setAlertMessage('Opening resume preview...');
+                        }}
                         className="flex-1 rounded-lg bg-primary/10 py-2.5 font-medium text-primary transition-colors hover:bg-primary/20"
                       >
                         Preview
                       </button>
                       <button
-                        onClick={() => alert('Downloading resume...')}
+                        onClick={() => {
+                          setAlertTitle('Notice');
+                          setAlertMessage('Downloading resume...');
+                        }}
                         className="flex-1 rounded-lg bg-primary py-2.5 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
                       >
                         Download
@@ -355,6 +372,13 @@ export default function ApplicantsPage(): React.ReactElement {
       {menuOpen !== null && (
         <div className="fixed inset-0 z-10" onClick={() => setMenuOpen(null)} />
       )}
+
+      <AlertDialog
+        isOpen={!!alertMessage}
+        onOpenChange={(open) => !open && setAlertMessage(null)}
+        title={alertTitle}
+        description={alertMessage || ''}
+      />
     </div>
   );
 }

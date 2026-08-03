@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Target, Clock, Building, Briefcase, Plus, X, Users, Edit, Trash2 } from 'lucide-react';
+import { AlertDialog } from '../../../shared/components/AlertDialog';
+import { ConfirmDialog } from '../../../shared/components/ConfirmDialog';
 
 interface Requisition {
   id: string;
@@ -55,10 +57,14 @@ export default function RequisitionsPage(): React.ReactElement {
   const [newOpenings, setNewOpenings] = useState('1');
   const [newPriority, setNewPriority] = useState('Medium');
   const [newHM, setNewHM] = useState('');
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [deleteReqId, setDeleteReqId] = useState<string | null>(null);
 
   const handleCreate = () => {
     if (!newTitle || !newCompany || !newHM) {
-      alert('Please fill all required fields.');
+      setIsSuccess(false);
+      setAlertMessage('Please fill all required fields.');
       return;
     }
     const newReq: Requisition = {
@@ -78,12 +84,19 @@ export default function RequisitionsPage(): React.ReactElement {
     setNewOpenings('1');
     setNewPriority('Medium');
     setNewHM('');
-    alert('Requisition created successfully!');
+    setIsSuccess(true);
+    setAlertMessage('Requisition created successfully!');
   };
 
   const handleDelete = (id: string) => {
-    if (!confirm('Are you sure you want to delete this requisition?')) return;
-    setRequisitions((prev) => prev.filter((r) => r.id !== id));
+    setDeleteReqId(id);
+  };
+
+  const confirmDelete = () => {
+    if (deleteReqId) {
+      setRequisitions((prev) => prev.filter((r) => r.id !== deleteReqId));
+      setDeleteReqId(null);
+    }
   };
 
   const handleViewDetails = (req: Requisition) => {
@@ -173,7 +186,10 @@ export default function RequisitionsPage(): React.ReactElement {
                   <Users className="h-4 w-4" /> View Candidates
                 </button>
                 <button
-                  onClick={() => alert(`Editing ${req.id}`)}
+                  onClick={() => {
+                    setIsSuccess(false);
+                    setAlertMessage(`Editing ${req.id}`);
+                  }}
                   className="flex items-center gap-1.5 rounded-lg bg-muted px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/80"
                 >
                   <Edit className="h-4 w-4" /> Edit
@@ -344,6 +360,23 @@ export default function RequisitionsPage(): React.ReactElement {
           </div>,
           document.body,
         )}
+
+      <AlertDialog
+        isOpen={!!alertMessage}
+        onOpenChange={(open) => !open && setAlertMessage(null)}
+        title={isSuccess ? 'Success' : 'Notice'}
+        description={alertMessage || ''}
+      />
+
+      <ConfirmDialog
+        isOpen={!!deleteReqId}
+        onOpenChange={(open) => !open && setDeleteReqId(null)}
+        title="Delete Requisition"
+        description="Are you sure you want to delete this requisition? This action cannot be undone."
+        confirmText="Delete"
+        isDestructive={true}
+        onConfirm={confirmDelete}
+      />
     </div>
   );
 }

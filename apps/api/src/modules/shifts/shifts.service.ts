@@ -141,7 +141,7 @@ export class ShiftsService {
       },
       include: {
         shift: {
-          include: { worker: true, job: true },
+          include: { worker: { include: { user: true } }, job: true },
         },
       },
       orderBy: { createdAt: 'desc' },

@@ -3,8 +3,11 @@ import { ShieldCheck, AlertTriangle, Users, Server, Activity } from 'lucide-reac
 
 import { useQuery } from '@tanstack/react-query';
 import { adminApi } from '@/features/admin/api/admin.api';
+import { AlertDialog } from '../../../shared/components/AlertDialog';
 
 export default function AdminDashboard(): React.ReactElement {
+  const [alertMessage, setAlertMessage] = React.useState<string | null>(null);
+
   const { data: stats, isLoading } = useQuery({
     queryKey: ['admin-stats'],
     queryFn: () => adminApi.getDashboardStats(),
@@ -112,7 +115,9 @@ export default function AdminDashboard(): React.ReactElement {
                     <td className="px-6 py-3 text-right">
                       <button
                         onClick={() =>
-                          alert(`Reviewing KYC for user${i}@example.com... (Simulated Action)`)
+                          setAlertMessage(
+                            `Reviewing KYC for user${i}@example.com... (Simulated Action)`,
+                          )
                         }
                         className="font-medium text-primary hover:underline"
                       >
@@ -157,6 +162,13 @@ export default function AdminDashboard(): React.ReactElement {
           </div>
         </div>
       </div>
+
+      <AlertDialog
+        isOpen={!!alertMessage}
+        onOpenChange={(open) => !open && setAlertMessage(null)}
+        title="Notice"
+        description={alertMessage || ''}
+      />
     </div>
   );
 }

@@ -4,6 +4,8 @@ import { applicationsApi } from '../../jobs/api/applications.api';
 import type { JobApplication } from '../../jobs/api/applications.api';
 import { User, Star, Briefcase, BookmarkPlus, Check, X, Filter } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { AlertDialog } from '../../../shared/components/AlertDialog';
+import { ConfirmDialog } from '../../../shared/components/ConfirmDialog';
 
 type ApplicationStatus =
   'PENDING' | 'SHORTLISTED' | 'ACCEPTED' | 'REJECTED' | 'WITHDRAWN' | 'COMPLETED';
@@ -18,6 +20,13 @@ export default function JobApplicationsPage(): React.ReactElement {
   const [statusFilter, setStatusFilter] = useState<ApplicationStatus | 'ALL'>('ALL');
   // For updating status dropdown
   const [updatingId, setUpdatingId] = useState<string | null>(null);
+
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [isError, setIsError] = useState(false);
+
+  // For cancelling an approved application
+  const [rejectingAppId, setRejectingAppId] = useState<string | null>(null);
+  const [rejectReason, setRejectReason] = useState<string>('');
 
   useEffect(() => {
     if (!id) return;
@@ -37,15 +46,21 @@ export default function JobApplicationsPage(): React.ReactElement {
     void fetchApps();
   }, [id]);
 
-  const handleUpdateStatus = async (applicationId: string, newStatus: ApplicationStatus) => {
+  const handleUpdateStatus = async (
+    applicationId: string,
+    newStatus: ApplicationStatus,
+    reason?: string,
+  ) => {
     try {
       setUpdatingId(applicationId);
       const updatedApp = await applicationsApi.updateApplicationStatus(applicationId, {
         status: newStatus,
+        ...(reason && { employerNote: reason }),
       });
       setApplications((prev) => prev.map((app) => (app.id === applicationId ? updatedApp : app)));
     } catch {
-      alert('Failed to update status');
+      setIsError(true);
+      setAlertMessage('Failed to update status');
     } finally {
       setUpdatingId(null);
     }
@@ -239,9 +254,24 @@ export default function JobApplicationsPage(): React.ReactElement {
                             ) && (
                               <button
                                 className="text-sm font-medium text-primary hover:underline"
-                                onClick={() => alert('View full profile functionality coming soon')}
+                                onClick={() => {
+                                  setIsError(false);
+                                  setAlertMessage('View full profile functionality coming soon');
+                                }}
                               >
                                 View Profile
+                              </button>
+                            )}
+                            {app.status === 'ACCEPTED' && (
+                              <button
+                                onClick={() => {
+                                  setRejectingAppId(app.id);
+                                  setRejectReason('');
+                                }}
+                                className="flex items-center gap-1.5 rounded-md border border-red-500/20 bg-red-500/10 px-2.5 py-1.5 text-xs font-medium text-red-500 transition-colors hover:bg-red-500/20"
+                                title="Cancel Application"
+                              >
+                                <X className="h-3.5 w-3.5" /> Cancel
                               </button>
                             )}
                           </div>
@@ -255,6 +285,45 @@ export default function JobApplicationsPage(): React.ReactElement {
           </div>
         )}
       </div>
+
+      <AlertDialog
+        isOpen={!!alertMessage}
+        onOpenChange={(open) => !open && setAlertMessage(null)}
+        title={isError ? 'Error' : 'Notice'}
+        description={alertMessage || ''}
+      />
+
+      <ConfirmDialog
+        isOpen={!!rejectingAppId}
+        onOpenChange={(open) => {
+          if (!open) {
+            setRejectingAppId(null);
+            setRejectReason('');
+          }
+        }}
+        title="Cancel Approved Application"
+        description={
+          <div className="mt-2 flex flex-col gap-2 text-left">
+            <span>Please provide a reason for cancelling this application:</span>
+            <textarea
+              className="w-full rounded border border-input bg-background p-2 text-foreground"
+              value={rejectReason}
+              onChange={(e) => setRejectReason(e.target.value)}
+              placeholder="Reason for cancellation..."
+              rows={3}
+            />
+          </div>
+        }
+        confirmText="Cancel Application"
+        isDestructive={true}
+        onConfirm={() => {
+          if (rejectingAppId) {
+            void handleUpdateStatus(rejectingAppId, 'REJECTED', rejectReason);
+            setRejectingAppId(null);
+            setRejectReason('');
+          }
+        }}
+      />
     </div>
   );
 }

@@ -5,6 +5,7 @@ import {
   ForbiddenException,
   ConflictException,
 } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
 import { CreateApplicationDto } from './dto/create-application.dto';
 import { UpdateApplicationStatusDto } from './dto/update-application-status.dto';
@@ -12,7 +13,10 @@ import { JobStatus, Prisma } from '@prisma/client';
 
 @Injectable()
 export class ApplicationsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly eventEmitter: EventEmitter2,
+  ) {}
 
   async applyToJob(userId: string, createDto: CreateApplicationDto) {
     let worker = await this.prisma.workerProfile.findUnique({
@@ -385,7 +389,7 @@ export class ApplicationsService {
 
     const application = await this.prisma.jobApplication.findUnique({
       where: { id: applicationId },
-      include: { job: true },
+      include: { job: { include: { employer: true } } },
     });
 
     if (!application) {
@@ -402,6 +406,11 @@ export class ApplicationsService {
       application.status !== 'PENDING' &&
       application.status !== 'SHORTLISTED'
     ) {
+      if (application.status === 'ACCEPTED') {
+        throw new ConflictException(
+          'Employer has already approved your request, you are unable to withdraw it. Please check with the employer.',
+        );
+      }
       throw new ConflictException(
         'You can only withdraw applications that are Pending or Shortlisted',
       );
@@ -421,18 +430,16 @@ export class ApplicationsService {
         data: { applicationCount: { decrement: 1 } },
       });
 
-      // Notify the employer
-      await tx.notification.create({
+      // Publish event to Event Bus (Microservices transition pattern)
+      this.eventEmitter.emit('notification.create', {
+        userId: application.job.employer.userId,
+        type: 'APPLICATION_UPDATE',
+        channel: 'IN_APP',
+        title: 'Application Withdrawn',
+        body: `A candidate has withdrawn their application for ${application.job.title}`,
         data: {
-          userId: application.job.employerId,
-          type: 'APPLICATION_UPDATE',
-          channel: 'IN_APP',
-          title: 'Application Withdrawn',
-          body: `A candidate has withdrawn their application for ${application.job.title}`,
-          data: {
-            applicationId: application.id,
-            jobId: application.jobId,
-          },
+          applicationId: application.id,
+          jobId: application.jobId,
         },
       });
 

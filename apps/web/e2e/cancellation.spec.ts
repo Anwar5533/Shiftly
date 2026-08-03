@@ -31,10 +31,17 @@ test.describe('Application Cancellation Workflow', () => {
     await expect(cancelButton).toBeVisible();
 
     // 4. Cancel the application
-    // Mock the window.confirm dialogue to always return true
-    page.on('dialog', (dialog) => dialog.accept());
-
     await cancelButton.click();
+
+    // Find and click the confirm button in the ConfirmDialog
+    const dialogConfirmButton = page.locator('button:has-text("Cancel Application")').nth(1); // The one in the modal
+    // Since there are two buttons (one on page, one on modal), we can be more specific or rely on visibility
+    // Let's use role or aria dialog if present, or just text inside dialog
+    const modalConfirmButton = page.locator(
+      '[role="dialog"] button:has-text("Cancel Application")',
+    );
+    await expect(modalConfirmButton).toBeVisible();
+    await modalConfirmButton.click();
 
     // 5. Verify the application is withdrawn
     await expect(page.locator('text=Withdrawn')).toBeVisible();

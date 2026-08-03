@@ -1,10 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): */
 import { useState } from 'react';
 import { ArrowUpRight, ArrowDownLeft, Clock, Wallet as WalletIcon, Lock } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { walletApi } from '../api/wallet.api';
 import { format } from 'date-fns';
 import type { Transaction } from '@shiftly/shared-types';
+import { AlertDialog } from '../../../shared/components/AlertDialog';
 
 /** Format a number as INR currency */
 function formatINR(amount: number): string {
@@ -19,6 +19,8 @@ export default function WalletPage() {
   const queryClient = useQueryClient();
   const [topUpAmount, setTopUpAmount] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState('');
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const { data: wallet, isLoading: isWalletLoading } = useQuery({
     queryKey: ['wallet'],
@@ -36,10 +38,13 @@ export default function WalletPage() {
       void queryClient.invalidateQueries({ queryKey: ['wallet'] });
       void queryClient.invalidateQueries({ queryKey: ['transactions'] });
       setTopUpAmount('');
-      alert('Top up successful!');
+      setIsSuccess(true);
+      setAlertMessage('Top up successful!');
     },
     onError: (err: any) => {
-      alert(err.response?.data?.message || 'Failed to top up');
+      setIsSuccess(false);
+      const errObj = err as { response?: { data?: { message?: string } } };
+      setAlertMessage(errObj?.response?.data?.message || 'Failed to top up');
     },
   });
 
@@ -49,10 +54,13 @@ export default function WalletPage() {
       void queryClient.invalidateQueries({ queryKey: ['wallet'] });
       void queryClient.invalidateQueries({ queryKey: ['transactions'] });
       setWithdrawAmount('');
-      alert('Withdrawal successful!');
+      setIsSuccess(true);
+      setAlertMessage('Withdrawal successful!');
     },
     onError: (err: any) => {
-      alert(err.response?.data?.message || 'Failed to withdraw');
+      setIsSuccess(false);
+      const errObj = err as { response?: { data?: { message?: string } } };
+      setAlertMessage(errObj?.response?.data?.message || 'Failed to withdraw');
     },
   });
 
@@ -215,6 +223,13 @@ export default function WalletPage() {
           </div>
         </div>
       </div>
+
+      <AlertDialog
+        isOpen={!!alertMessage}
+        onOpenChange={(open) => !open && setAlertMessage(null)}
+        title={isSuccess ? 'Success' : 'Error'}
+        description={alertMessage || ''}
+      />
     </div>
   );
 }

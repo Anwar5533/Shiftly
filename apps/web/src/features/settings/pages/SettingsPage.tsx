@@ -3,6 +3,8 @@ import { Bell, Lock, User, CreditCard, Shield, Gift, Copy, Check } from 'lucide-
 import { useAppSelector } from '@/app/store';
 import { useQuery } from '@tanstack/react-query';
 import { referralsApi } from '../api/referrals.api';
+import { AlertDialog } from '../../../shared/components/AlertDialog';
+
 export default function SettingsPage(): React.ReactElement {
   const { user } = useAppSelector((state) => state.auth);
   const [activeTab, setActiveTab] = useState('account');
@@ -10,6 +12,8 @@ export default function SettingsPage(): React.ReactElement {
   const [email, setEmail] = useState(user?.email || '');
   const [phone, setPhone] = useState('+91 98765 43210');
   const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [alertTitle, setAlertTitle] = useState('Notice');
 
   const [notificationPrefs, setNotificationPrefs] = useState({
     email: true,
@@ -49,7 +53,8 @@ export default function SettingsPage(): React.ReactElement {
 
   const handleSaveAccount = () => {
     // Simulate save
-    alert('Account settings saved successfully!');
+    setAlertTitle('Success');
+    setAlertMessage('Account settings saved successfully!');
   };
 
   const handleToggleNotification = (key: keyof typeof notificationPrefs) => {
@@ -58,7 +63,8 @@ export default function SettingsPage(): React.ReactElement {
 
   const handleChangePassword = (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Password updated successfully!');
+    setAlertTitle('Success');
+    setAlertMessage('Password updated successfully!');
   };
 
   return (
@@ -231,7 +237,8 @@ export default function SettingsPage(): React.ReactElement {
                     <button
                       onClick={() => {
                         setTwoFactorEnabled(!twoFactorEnabled);
-                        alert(twoFactorEnabled ? '2FA Disabled' : '2FA Enabled');
+                        setAlertTitle('Notice');
+                        setAlertMessage(twoFactorEnabled ? '2FA Disabled' : '2FA Enabled');
                       }}
                       className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${twoFactorEnabled ? 'bg-destructive/10 text-destructive hover:bg-destructive/20' : 'border border-input bg-background text-foreground hover:bg-muted'}`}
                     >
@@ -282,7 +289,10 @@ export default function SettingsPage(): React.ReactElement {
                     Add a payment method to streamline your future transactions.
                   </p>
                   <button
-                    onClick={() => alert('Add Payment Method modal would open here')}
+                    onClick={() => {
+                      setAlertTitle('Notice');
+                      setAlertMessage('Add Payment Method modal would open here');
+                    }}
                     className="rounded-lg border border-input bg-background px-4 py-2 text-sm font-medium text-foreground shadow-sm transition-colors hover:bg-muted"
                   >
                     Add Payment Method
@@ -341,6 +351,13 @@ export default function SettingsPage(): React.ReactElement {
           </div>
         </div>
       </div>
+
+      <AlertDialog
+        isOpen={!!alertMessage}
+        onOpenChange={(open) => !open && setAlertMessage(null)}
+        title={alertTitle}
+        description={alertMessage || ''}
+      />
     </div>
   );
 }

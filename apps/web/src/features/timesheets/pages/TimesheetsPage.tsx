@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Clock, Calendar, AlertCircle, FileText } from 'lucide-react';
 import { shiftsApi } from '../../jobs/api/shifts.api';
+import { AlertDialog } from '../../../shared/components/AlertDialog';
 
 export default function TimesheetsPage(): React.ReactElement {
   // We should actually fetch shifts to see if there is an active one for clock-in/out on this page,
@@ -20,8 +21,10 @@ export default function TimesheetsPage(): React.ReactElement {
     queryFn: shiftsApi.getMyTimesheets,
   });
 
+  const [alertMessage, setAlertMessage] = React.useState<string | null>(null);
+
   const handleDownload = () => {
-    alert(`Downloading timesheet doc... (mock)`);
+    setAlertMessage('Downloading timesheet doc... (mock)');
   };
   const totalApprovedHours = useMemo(
     () =>
@@ -164,6 +167,13 @@ export default function TimesheetsPage(): React.ReactElement {
           </table>
         </div>
       </div>
+
+      <AlertDialog
+        isOpen={!!alertMessage}
+        onOpenChange={(open) => !open && setAlertMessage(null)}
+        title="Notice"
+        description={alertMessage || ''}
+      />
     </div>
   );
 }

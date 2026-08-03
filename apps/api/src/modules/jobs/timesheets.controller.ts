@@ -14,7 +14,7 @@ import { RolesGuard } from '../../shared/guards/roles.guard';
 import { Roles } from '../../shared/decorators/roles.decorator';
 import { UserRole } from '@shiftly/shared-types';
 
-@Controller('timesheets')
+@Controller({ path: 'timesheets', version: '1' })
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class TimesheetsController {
   constructor(private readonly timesheetsService: TimesheetsService) {}

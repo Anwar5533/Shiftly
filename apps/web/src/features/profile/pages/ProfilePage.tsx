@@ -12,13 +12,27 @@ export default function ProfilePage(): React.ReactElement {
     return <Navigate to="/auth/login" />;
   }
 
-  // Render different profile views based on user role
+  // Get active portal, default to role-based if not set
+  const activePortal =
+    localStorage.getItem('activePortal') || (user.role === 'EMPLOYER' ? 'employer' : 'worker');
+
+  // Render different profile views based on user role and active portal
   if (user.role === 'WORKER') {
     return <WorkerProfilePage />;
   }
 
   if (user.role === 'EMPLOYER') {
-    return <EmployerProfilePage />;
+    if (activePortal === 'employer') {
+      return (
+        <div className="space-y-12 pb-12">
+          <EmployerProfilePage />
+          <div className="mx-auto max-w-5xl border-t border-border" />
+          <WorkerProfilePage />
+        </div>
+      );
+    }
+    // If employer is in worker portal, only show personal profile
+    return <WorkerProfilePage />;
   }
 
   if (user.role === 'RECRUITER') {

@@ -9,7 +9,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { DocumentsService } from './documents.service';
 import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 
-@Controller('documents')
+@Controller({ path: 'documents', version: '1' })
 @UseGuards(JwtAuthGuard)
 export class DocumentsController {
   constructor(private readonly documentsService: DocumentsService) {}

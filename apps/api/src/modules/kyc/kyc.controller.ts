@@ -10,7 +10,7 @@ import { KycService } from './kyc.service';
 import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 import { DocumentType } from '@prisma/client';
 
-@Controller('kyc')
+@Controller({ path: 'kyc', version: '1' })
 @UseGuards(JwtAuthGuard)
 export class KycController {
   constructor(private readonly kycService: KycService) {}

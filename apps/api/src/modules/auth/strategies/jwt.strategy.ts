@@ -27,6 +27,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       throw new UnauthorizedException('User account is inactive or not found.');
     }
     // Return payload (not user) — this is what @CurrentUser() receives
-    return payload;
+    // Return payload with injected id and userId aliases for legacy controller compatibility
+    return { ...payload, id: payload.sub, userId: payload.sub } as any;
   }
 }

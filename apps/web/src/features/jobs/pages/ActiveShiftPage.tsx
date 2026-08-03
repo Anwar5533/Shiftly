@@ -4,6 +4,7 @@ import { MapPin, Clock, ArrowLeft, Play, Square, FileText, CheckCircle2 } from '
 import { shiftsApi } from '../api/shifts.api';
 import type { Shift } from '../api/shifts.api';
 import { useAppSelector } from '@/app/store';
+import { AlertDialog } from '../../../shared/components/AlertDialog';
 
 export default function ActiveShiftPage(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
@@ -15,6 +16,8 @@ export default function ActiveShiftPage(): React.ReactElement {
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notes, setNotes] = useState('');
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const fetchShift = async () => {
     setIsLoading(true);
@@ -48,7 +51,8 @@ export default function ActiveShiftPage(): React.ReactElement {
       setShift(updatedShift);
     } catch (_error: unknown) {
       const err = _error as import('axios').AxiosError<{ message?: string }>;
-      alert(err.response?.data?.message || 'Failed to clock in');
+      setIsSuccess(false);
+      setAlertMessage(err.response?.data?.message || 'Failed to clock in');
     } finally {
       setIsProcessing(false);
     }
@@ -61,10 +65,12 @@ export default function ActiveShiftPage(): React.ReactElement {
       const updatedShift = await shiftsApi.clockOut(shift.id, { city: 'Worker Location' }, notes);
       await shiftsApi.submitTimesheet(shift.id, notes);
       setShift(updatedShift);
-      alert('Shift completed and timesheet submitted successfully!');
+      setIsSuccess(true);
+      setAlertMessage('Shift completed and timesheet submitted successfully!');
     } catch (_error: unknown) {
       const err = _error as import('axios').AxiosError<{ message?: string }>;
-      alert(err.response?.data?.message || 'Failed to clock out');
+      setIsSuccess(false);
+      setAlertMessage(err.response?.data?.message || 'Failed to clock out');
     } finally {
       setIsProcessing(false);
     }
@@ -246,6 +252,13 @@ export default function ActiveShiftPage(): React.ReactElement {
           )}
         </div>
       </div>
+
+      <AlertDialog
+        isOpen={!!alertMessage}
+        onOpenChange={(open) => !open && setAlertMessage(null)}
+        title={isSuccess ? 'Success' : 'Error'}
+        description={alertMessage || ''}
+      />
     </div>
   );
 }

@@ -12,7 +12,7 @@ import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 import { RolesGuard } from '../../shared/guards/roles.guard';
 import { Roles } from '../../shared/decorators/roles.decorator';
 
-@Controller('shifts')
+@Controller({ path: 'shifts', version: '1' })
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class ShiftsController {
   constructor(private readonly shiftsService: ShiftsService) {}

@@ -2,6 +2,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ApplicationsService } from './applications.service';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import {
   ForbiddenException,
   NotFoundException,
@@ -12,6 +13,7 @@ import { ApplicationStatus } from '@prisma/client';
 describe('ApplicationsService', () => {
   let service: ApplicationsService;
   let prismaService: jest.Mocked<PrismaService>;
+  let eventEmitter: jest.Mocked<EventEmitter2>;
 
   beforeEach(async () => {
     const mockPrismaService: any = {
@@ -30,17 +32,22 @@ describe('ApplicationsService', () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call -- TODO(RC3): Address type safety
       $transaction: jest.fn((callback) => callback(mockPrismaService)),
     };
+    const mockEventEmitter = {
+      emit: jest.fn(),
+    };
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ApplicationsService,
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
         { provide: PrismaService, useValue: mockPrismaService },
+        { provide: EventEmitter2, useValue: mockEventEmitter },
       ],
     }).compile();
 
     service = module.get<ApplicationsService>(ApplicationsService);
     prismaService = module.get(PrismaService);
+    eventEmitter = module.get(EventEmitter2);
   });
 
   it('should be defined', () => {
@@ -135,7 +142,12 @@ describe('ApplicationsService', () => {
         workerId: 'worker1',
         jobId: 'job1',
         status: ApplicationStatus.PENDING,
-        job: { id: 'job1', employerId: 'emp1', title: 'Test Job' },
+        job: {
+          id: 'job1',
+          employerId: 'emp1',
+          title: 'Test Job',
+          employer: { userId: 'emp_user_id' },
+        },
       });
       (prismaService.jobApplication.update as jest.Mock).mockResolvedValue({
         status: ApplicationStatus.WITHDRAWN,
@@ -151,7 +163,10 @@ describe('ApplicationsService', () => {
         }),
       );
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(prismaService.notification.create).toHaveBeenCalled();
+      expect(eventEmitter.emit).toHaveBeenCalledWith(
+        'notification.create',
+        expect.any(Object),
+      );
     });
   });
 });

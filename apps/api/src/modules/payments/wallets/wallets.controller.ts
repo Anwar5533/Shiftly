@@ -9,7 +9,7 @@ import {
 import { WalletsService } from './wallets.service';
 import { JwtAuthGuard } from '../../../shared/guards/jwt-auth.guard';
 
-@Controller('wallets')
+@Controller({ path: 'wallets', version: '1' })
 @UseGuards(JwtAuthGuard)
 export class WalletsController {
   constructor(private readonly walletsService: WalletsService) {}

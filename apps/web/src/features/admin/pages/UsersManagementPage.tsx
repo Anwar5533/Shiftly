@@ -13,6 +13,8 @@ import {
   UserCheck,
   Eye,
 } from 'lucide-react';
+import { AlertDialog } from '../../../shared/components/AlertDialog';
+import { ConfirmDialog } from '../../../shared/components/ConfirmDialog';
 
 interface User {
   id: string;
@@ -78,6 +80,8 @@ export default function UsersManagementPage(): React.ReactElement {
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const [viewUser, setViewUser] = useState<User | null>(null);
   const [showFilterPanel, setShowFilterPanel] = useState(false);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [deleteUserId, setDeleteUserId] = useState<string | null>(null);
 
   const roles = ['All', 'Worker', 'Employer', 'Recruiter', 'Admin'];
 
@@ -103,9 +107,15 @@ export default function UsersManagementPage(): React.ReactElement {
   };
 
   const handleDelete = (userId: string) => {
-    if (!confirm('Are you sure you want to delete this user? This cannot be undone.')) return;
-    setUsers((prev) => prev.filter((u) => u.id !== userId));
+    setDeleteUserId(userId);
     setOpenMenuId(null);
+  };
+
+  const confirmDelete = () => {
+    if (deleteUserId) {
+      setUsers((prev) => prev.filter((u) => u.id !== deleteUserId));
+      setDeleteUserId(null);
+    }
   };
 
   const getRoleBadge = (role: string) => {
@@ -248,7 +258,7 @@ export default function UsersManagementPage(): React.ReactElement {
                           </button>
                           <button
                             onClick={() => {
-                              alert(`Editing ${user.name}`);
+                              setAlertMessage(`Editing ${user.name}`);
                               setOpenMenuId(null);
                             }}
                             className="flex w-full items-center gap-2 px-3 py-2 text-sm text-foreground transition-colors hover:bg-muted"
@@ -367,6 +377,23 @@ export default function UsersManagementPage(): React.ReactElement {
           }}
         />
       )}
+
+      <AlertDialog
+        isOpen={!!alertMessage}
+        onOpenChange={(open) => !open && setAlertMessage(null)}
+        title="Notice"
+        description={alertMessage || ''}
+      />
+
+      <ConfirmDialog
+        isOpen={!!deleteUserId}
+        onOpenChange={(open) => !open && setDeleteUserId(null)}
+        title="Delete User"
+        description="Are you sure you want to delete this user? This cannot be undone."
+        confirmText="Delete"
+        isDestructive={true}
+        onConfirm={confirmDelete}
+      />
     </div>
   );
 }

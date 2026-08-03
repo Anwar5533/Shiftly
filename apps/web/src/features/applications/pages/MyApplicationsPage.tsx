@@ -14,11 +14,15 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { applicationsApi } from '../../jobs/api/applications.api';
 import type { JobApplication } from '../../jobs/api/applications.api';
+import { ConfirmDialog } from '../../../shared/components/ConfirmDialog';
+import { AlertDialog } from '../../../shared/components/AlertDialog';
 
 export default function MyApplicationsPage(): React.ReactElement {
   const navigate = useNavigate();
   const [applications, setApplications] = useState<JobApplication[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [withdrawingAppId, setWithdrawingAppId] = useState<string | null>(null);
+  const [alertError, setAlertError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchApps = async () => {
@@ -76,10 +80,6 @@ export default function MyApplicationsPage(): React.ReactElement {
   };
 
   const handleWithdraw = async (applicationId: string) => {
-    if (!window.confirm('Are you sure you want to withdraw this application?')) {
-      return;
-    }
-
     try {
       await applicationsApi.withdrawApplication(applicationId);
       // Update local state instead of refetching, or refetch
@@ -88,7 +88,19 @@ export default function MyApplicationsPage(): React.ReactElement {
       );
     } catch (error) {
       console.error('Failed to withdraw application', error);
-      alert('Failed to withdraw application. Please try again later.');
+      let errorMsg = 'Failed to withdraw application. Please try again later.';
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const err = error;
+      if (err?.response?.data?.message) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        errorMsg = err.response.data.message;
+      } else if (err?.response?.data?.error?.message) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        errorMsg = err.response.data.error.message;
+      }
+      setAlertError(errorMsg);
+    } finally {
+      setWithdrawingAppId(null);
     }
   };
 
@@ -156,9 +168,9 @@ export default function MyApplicationsPage(): React.ReactElement {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          void handleWithdraw(app.id);
+                          setWithdrawingAppId(app.id);
                         }}
-                        className="text-sm font-medium text-destructive hover:underline"
+                        className="rounded-full border border-destructive bg-destructive/10 px-3 py-1.5 text-sm font-medium text-destructive transition-colors hover:bg-destructive hover:text-destructive-foreground"
                       >
                         Cancel
                       </button>
@@ -179,6 +191,27 @@ export default function MyApplicationsPage(): React.ReactElement {
           ))
         )}
       </div>
+
+      <ConfirmDialog
+        isOpen={!!withdrawingAppId}
+        onOpenChange={(open) => !open && setWithdrawingAppId(null)}
+        title="Withdraw Application"
+        description="Are you sure you want to withdraw this application? This action cannot be undone."
+        confirmText="Withdraw"
+        isDestructive={true}
+        onConfirm={() => {
+          if (withdrawingAppId) {
+            void handleWithdraw(withdrawingAppId);
+          }
+        }}
+      />
+
+      <AlertDialog
+        isOpen={!!alertError}
+        onOpenChange={(open) => !open && setAlertError(null)}
+        title="Error"
+        description={alertError || ''}
+      />
     </div>
   );
 }

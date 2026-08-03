@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Search, MapPin, Briefcase, Star, Download, MessageSquare, X } from 'lucide-react';
 import { candidatesApi, type Candidate } from '../api/candidates.api';
+import { AlertDialog } from '../../../shared/components/AlertDialog';
 
 export default function CandidatesPage(): React.ReactElement {
   const [candidates, setCandidates] = useState<Candidate[]>([]);
@@ -10,6 +11,7 @@ export default function CandidatesPage(): React.ReactElement {
   const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(null);
   const [modalType, setModalType] = useState<'message' | 'resume' | null>(null);
   const [messageText, setMessageText] = useState('');
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchCandidates = async () => {
@@ -43,7 +45,7 @@ export default function CandidatesPage(): React.ReactElement {
 
   const handleSendMessage = () => {
     if (!messageText.trim()) return;
-    alert(`Message sent to ${selectedCandidate?.name}!`);
+    setAlertMessage(`Message sent to ${selectedCandidate?.name}!`);
     closeModal();
   };
 
@@ -219,6 +221,13 @@ export default function CandidatesPage(): React.ReactElement {
           </div>,
           document.body,
         )}
+
+      <AlertDialog
+        isOpen={!!alertMessage}
+        onOpenChange={(open) => !open && setAlertMessage(null)}
+        title="Notice"
+        description={alertMessage || ''}
+      />
     </div>
   );
 }

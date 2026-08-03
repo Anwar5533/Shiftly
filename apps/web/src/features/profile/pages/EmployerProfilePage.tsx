@@ -1,15 +1,19 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unused-vars -- TODO(RC3): */
 import React, { useState, useEffect } from 'react';
 import { Building2, MapPin, Users, Star } from 'lucide-react';
 import { useAppSelector } from '@/app/store';
 import { employerApi } from '../api/employer.api';
 import type { EmployerProfile } from '@shiftly/shared-types';
+import { AlertDialog } from '../../../shared/components/AlertDialog';
 
 export default function EmployerProfilePage(): React.ReactElement {
   const { user } = useAppSelector((state) => state.auth);
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [showDeptInput, setShowDeptInput] = useState(false);
+  const [newDeptName, setNewDeptName] = useState('');
 
   const [profile, setProfile] = useState<EmployerProfile | null>(null);
 
@@ -90,7 +94,29 @@ export default function EmployerProfilePage(): React.ReactElement {
     } catch (_error: any) {
       console.error('Failed to update profile', _error);
 
-      alert(_error.response?.data?.error?.message || 'Failed to save changes');
+      setIsSuccess(false);
+      const errObj = _error as { response?: { data?: { error?: { message?: string } } } };
+      setAlertMessage(errObj?.response?.data?.error?.message || 'Failed to save changes');
+      setIsLoading(false);
+    }
+  };
+
+  const handleAddDepartment = async () => {
+    if (!newDeptName.trim()) {
+      setShowDeptInput(false);
+      return;
+    }
+    try {
+      setIsLoading(true);
+      await employerApi.addDepartment(newDeptName.trim());
+      await fetchProfile();
+      setNewDeptName('');
+      setShowDeptInput(false);
+      setIsSuccess(true);
+      setAlertMessage('Department added successfully!');
+    } catch (_error) {
+      setIsSuccess(false);
+      setAlertMessage('Failed to add department');
       setIsLoading(false);
     }
   };
@@ -303,32 +329,53 @@ export default function EmployerProfilePage(): React.ReactElement {
               ) : (
                 <span className="text-sm text-muted-foreground">No departments added yet.</span>
               )}
-              {isEditing && (
+              {isEditing && !showDeptInput && (
                 <button
-                  onClick={() => {
-                    void (async () => {
-                      const name = prompt('Enter department name:');
-                      if (name) {
-                        try {
-                          setIsLoading(true);
-                          await employerApi.addDepartment(name);
-                          await fetchProfile();
-                        } catch (_error) {
-                          alert('Failed to add department');
-                          setIsLoading(false);
-                        }
-                      }
-                    })();
-                  }}
+                  onClick={() => setShowDeptInput(true)}
                   className="rounded-full border border-dashed border-input bg-background px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
                 >
                   + Add Department
                 </button>
               )}
+              {isEditing && showDeptInput && (
+                <div className="flex items-center gap-2">
+                  <input
+                    autoFocus
+                    type="text"
+                    value={newDeptName}
+                    onChange={(e) => setNewDeptName(e.target.value)}
+                    placeholder="Dept name"
+                    className="h-8 rounded-md border border-input bg-background px-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') void handleAddDepartment();
+                      if (e.key === 'Escape') setShowDeptInput(false);
+                    }}
+                  />
+                  <button
+                    onClick={() => void handleAddDepartment()}
+                    className="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+                  >
+                    Add
+                  </button>
+                  <button
+                    onClick={() => setShowDeptInput(false)}
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    &times;
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
+
+      <AlertDialog
+        isOpen={!!alertMessage}
+        onOpenChange={(open) => !open && setAlertMessage(null)}
+        title={isSuccess ? 'Success' : 'Error'}
+        description={alertMessage || ''}
+      />
     </div>
   );
 }

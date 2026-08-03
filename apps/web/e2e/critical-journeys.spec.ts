@@ -1,12 +1,12 @@
 import { test, expect } from '@playwright/test';
-import { loginAsRole, wait } from './test-utils';
+import { loginAsEmployer, loginAsWorker } from './test-utils';
 
 test.describe('Critical Journeys E2E', () => {
-  test('Employer posts a job and worker applies to it', async ({ page }) => {
+  test('Employer can post a job, worker applies, employer selects', async ({ page }) => {
     test.setTimeout(120000); // 2 mins for full flow
 
     // --- 1. Employer login and post job ---
-    await loginAsRole(page, 'employer');
+    await loginAsEmployer(page);
 
     // Go to Employer Dashboard
     await page.goto('/dashboard/employer');
@@ -37,7 +37,7 @@ test.describe('Critical Journeys E2E', () => {
     await page.evaluate(() => localStorage.clear());
 
     // --- 2. Worker login and apply ---
-    await loginAsRole(page, 'worker');
+    await loginAsWorker(page);
 
     // Navigate to job URL directly
     await page.goto(jobUrl);
@@ -57,7 +57,7 @@ test.describe('Critical Journeys E2E', () => {
     await page.evaluate(() => localStorage.clear());
 
     // --- 3. Employer login and review application ---
-    await loginAsRole(page, 'employer');
+    await loginAsEmployer(page);
 
     // We would navigate to the applications page for this job
     // Job detail URL -> applications URL: /jobs/:id/applications
@@ -66,6 +66,6 @@ test.describe('Critical Journeys E2E', () => {
 
     // Or we could check My Jobs -> specific job
     // Just verify the page loaded
-    await wait(1000);
+    await page.waitForTimeout(1000);
   });
 });

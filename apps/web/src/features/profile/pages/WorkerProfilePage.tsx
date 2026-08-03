@@ -6,6 +6,7 @@ import { useAppSelector } from '@/app/store';
 import { workerApi } from '../api/worker.api';
 import type { WorkerProfile } from '@shiftly/shared-types';
 import { useQueryClient } from '@tanstack/react-query';
+import { AlertDialog } from '../../../shared/components/AlertDialog';
 
 export default function WorkerProfilePage(): React.ReactElement {
   const { user } = useAppSelector((state) => state.auth);
@@ -24,6 +25,10 @@ export default function WorkerProfilePage(): React.ReactElement {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [showSkillInput, setShowSkillInput] = useState(false);
+  const [newSkill, setNewSkill] = useState('');
 
   const fetchProfile = async () => {
     try {
@@ -120,13 +125,25 @@ export default function WorkerProfilePage(): React.ReactElement {
     } catch (_error: any) {
       console.error('Failed to update profile', _error);
 
-      alert(
-        (_error as import('axios').AxiosError<Record<string, any>>).response?.data?.error
-          ?.message || 'Failed to save changes',
-      );
+      setIsSuccess(false);
+      const errObj = _error as { response?: { data?: { error?: { message?: string } } } };
+      setAlertMessage(errObj?.response?.data?.error?.message || 'Failed to save changes');
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleAddSkill = () => {
+    if (!newSkill.trim() || !profile) {
+      setShowSkillInput(false);
+      return;
+    }
+    setProfile({
+      ...profile,
+      skills: [...(profile.skills || []), newSkill.trim()],
+    });
+    setNewSkill('');
+    setShowSkillInput(false);
   };
 
   if (isLoading) {
@@ -341,18 +358,53 @@ export default function WorkerProfilePage(): React.ReactElement {
               ) : (
                 <span className="text-sm text-muted-foreground">No skills added yet.</span>
               )}
-              {isEditing && (
+              {isEditing && !showSkillInput && (
                 <button
-                  onClick={() => alert('Skill addition UI would open here')}
+                  onClick={() => setShowSkillInput(true)}
                   className="rounded-full border border-dashed border-input bg-background px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
                 >
                   + Add Skill
                 </button>
               )}
+              {isEditing && showSkillInput && (
+                <div className="flex items-center gap-2">
+                  <input
+                    autoFocus
+                    type="text"
+                    value={newSkill}
+                    onChange={(e) => setNewSkill(e.target.value)}
+                    placeholder="Skill name"
+                    className="h-8 rounded-md border border-input bg-background px-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') handleAddSkill();
+                      if (e.key === 'Escape') setShowSkillInput(false);
+                    }}
+                  />
+                  <button
+                    onClick={handleAddSkill}
+                    className="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+                  >
+                    Add
+                  </button>
+                  <button
+                    onClick={() => setShowSkillInput(false)}
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    &times;
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
+
+      <AlertDialog
+        isOpen={!!alertMessage}
+        onOpenChange={(open) => !open && setAlertMessage(null)}
+        title={isSuccess ? 'Success' : 'Error'}
+        description={alertMessage || ''}
+      />
     </div>
   );
 }

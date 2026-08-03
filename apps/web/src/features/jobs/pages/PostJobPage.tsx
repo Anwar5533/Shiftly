@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { jobsApi } from '../api/jobs.api';
+import { AlertDialog } from '../../../shared/components/AlertDialog';
 
 const postJobSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters'),
@@ -23,6 +24,7 @@ type PostJobFormValues = z.infer<typeof postJobSchema>;
 export default function PostJobPage(): React.ReactElement {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const [alertError, setAlertError] = React.useState<string | null>(null);
 
   const {
     register,
@@ -68,7 +70,7 @@ export default function PostJobPage(): React.ReactElement {
     } catch (_error: any) {
       const err = _error as import('axios').AxiosError<{ error?: { message?: string } }>;
       console.error('Failed to post job', err);
-      alert(err.response?.data?.error?.message || 'Failed to post job');
+      setAlertError(err.response?.data?.error?.message || 'Failed to post job');
     }
   };
 
@@ -208,6 +210,13 @@ export default function PostJobPage(): React.ReactElement {
           </div>
         </form>
       </div>
+
+      <AlertDialog
+        isOpen={!!alertError}
+        onOpenChange={(open) => !open && setAlertError(null)}
+        title="Error"
+        description={alertError || ''}
+      />
     </div>
   );
 }

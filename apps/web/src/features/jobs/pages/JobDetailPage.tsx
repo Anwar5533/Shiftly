@@ -6,6 +6,7 @@ import { jobsApi } from '../api/jobs.api';
 import { applicationsApi } from '../api/applications.api';
 import { useQueryClient } from '@tanstack/react-query';
 import { useAppSelector } from '../../../app/store';
+import { ConfirmDialog } from '../../../shared/components/ConfirmDialog';
 import type { Job } from '@shiftly/shared-types';
 
 export default function JobDetailPage(): React.ReactElement {
@@ -22,6 +23,7 @@ export default function JobDetailPage(): React.ReactElement {
 
   const [applicationStatus, setApplicationStatus] = useState<string | null>(null);
   const [applicationId, setApplicationId] = useState<string | null>(null);
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -65,10 +67,14 @@ export default function JobDetailPage(): React.ReactElement {
     setIsApplying(true);
     setApplyError(null);
     try {
-      await applicationsApi.applyToJob({ jobId: id, coverLetter: 'Interested in this role' });
+      const response = await applicationsApi.applyToJob({
+        jobId: id,
+        coverLetter: 'Interested in this role',
+      });
       await queryClient.invalidateQueries({ queryKey: ['worker-applications'] });
       setApplySuccess(true);
       setApplicationStatus('PENDING'); // Optimistic update
+      setApplicationId(response.id);
     } catch (_error: any) {
       console.error('Failed to apply', _error);
 
@@ -86,7 +92,6 @@ export default function JobDetailPage(): React.ReactElement {
 
   const handleWithdraw = async () => {
     if (!applicationId) return;
-    if (!window.confirm('Are you sure you want to withdraw your application?')) return;
 
     try {
       await applicationsApi.withdrawApplication(applicationId);
@@ -95,7 +100,17 @@ export default function JobDetailPage(): React.ReactElement {
       setApplicationStatus('WITHDRAWN');
     } catch (_error) {
       console.error('Failed to withdraw application', _error);
-      setApplyError('Failed to withdraw application. Please try again.');
+      let errorMsg = 'Failed to withdraw application. Please try again later.';
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const err = _error;
+      if (err?.response?.data?.message) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        errorMsg = err.response.data.message;
+      } else if (err?.response?.data?.error?.message) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        errorMsg = err.response.data.error.message;
+      }
+      setApplyError(errorMsg);
     }
   };
 
@@ -156,7 +171,7 @@ export default function JobDetailPage(): React.ReactElement {
                   {isApplying ? 'Applying...' : 'Apply for this Job'}
                 </button>
               ) : (
-                <div className="flex items-center gap-4">
+                <div className="flex w-full flex-col items-center justify-center gap-3 sm:flex-row md:w-auto md:justify-end">
                   {applicationStatus === 'ACCEPTED' && (
                     <span className="flex items-center gap-2 rounded-full border border-green-500/20 bg-green-500/10 px-4 py-2 font-medium text-green-500">
                       <CheckCircle2 className="h-5 w-5" /> Selected
@@ -188,10 +203,8 @@ export default function JobDetailPage(): React.ReactElement {
                     applicationStatus === 'SHORTLISTED' ||
                     !applicationStatus) && (
                     <button
-                      onClick={() => {
-                        void handleWithdraw();
-                      }}
-                      className="text-sm font-medium text-destructive hover:underline"
+                      onClick={() => setIsCancelModalOpen(true)}
+                      className="flex items-center gap-2 rounded-full border border-destructive bg-destructive/10 px-4 py-2 text-sm font-medium text-destructive transition-colors hover:bg-destructive hover:text-destructive-foreground"
                     >
                       Cancel Application
                     </button>
@@ -201,6 +214,16 @@ export default function JobDetailPage(): React.ReactElement {
               {applyError && <p className="text-sm font-medium text-destructive">{applyError}</p>}
             </div>
           </div>
+
+          <ConfirmDialog
+            isOpen={isCancelModalOpen}
+            onOpenChange={setIsCancelModalOpen}
+            title="Withdraw Application"
+            description="Are you sure you want to withdraw your application? This action cannot be undone."
+            confirmText="Withdraw"
+            isDestructive={true}
+            onConfirm={() => void handleWithdraw()}
+          />
 
           <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
             <div className="flex items-start text-muted-foreground">

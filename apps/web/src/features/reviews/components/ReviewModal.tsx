@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Star, X } from 'lucide-react';
 import { useMutation } from '@tanstack/react-query';
 import { reviewsApi } from '../api/reviews.api';
+import { AlertDialog } from '../../../shared/components/AlertDialog';
 
 interface ReviewModalProps {
   jobId: string;
@@ -15,15 +16,18 @@ export function ReviewModal({ jobId, revieweeId, targetType, isOpen, onClose }: 
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [comment, setComment] = useState('');
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const submitReviewMutation = useMutation({
     mutationFn: () => reviewsApi.createReview({ jobId, revieweeId, targetType, rating, comment }),
     onSuccess: () => {
-      alert('Review submitted successfully!');
-      onClose();
+      setIsSuccess(true);
+      setAlertMessage('Review submitted successfully!');
     },
     onError: (err: import('axios').AxiosError<{ message?: string }>) => {
-      alert(err.response?.data?.message || 'Failed to submit review');
+      setIsSuccess(false);
+      setAlertMessage(err.response?.data?.message || 'Failed to submit review');
     },
   });
 
@@ -83,6 +87,18 @@ export function ReviewModal({ jobId, revieweeId, targetType, isOpen, onClose }: 
           </button>
         </div>
       </div>
+
+      <AlertDialog
+        isOpen={!!alertMessage}
+        onOpenChange={(open) => {
+          if (!open) {
+            setAlertMessage(null);
+            if (isSuccess) onClose();
+          }
+        }}
+        title={isSuccess ? 'Success' : 'Error'}
+        description={alertMessage || ''}
+      />
     </div>
   );
 }
