@@ -3,6 +3,8 @@ import { ConfigService } from '@nestjs/config';
 import { Kafka, Consumer } from 'kafkajs';
 import { PrismaService } from '../database/prisma.service';
 import { KafkaTopics, ApplicationHiredEventSchema } from '@shiftly/shared-events';
+import { ClsService } from 'nestjs-cls';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class KafkaConsumerService implements OnModuleInit, OnModuleDestroy {
@@ -13,6 +15,7 @@ export class KafkaConsumerService implements OnModuleInit, OnModuleDestroy {
   constructor(
     private readonly config: ConfigService,
     private readonly prisma: PrismaService,
+    private readonly cls: ClsService,
   ) {
     const brokers = this.config.get<string>('kafka.brokers', 'localhost:9092').split(',');
     const clientId = this.config.get<string>('kafka.clientId', 'jobs-service');
@@ -32,14 +35,20 @@ export class KafkaConsumerService implements OnModuleInit, OnModuleDestroy {
 
       await this.consumer.run({
         eachMessage: async ({ topic, message }) => {
-          if (!message.value) return;
+          await this.cls.run(async () => {
+            if (!message.value) return;
 
-          try {
-            const parsed = JSON.parse(message.value.toString()) as Record<string, unknown>;
+            try {
+              const parsed = JSON.parse(message.value.toString()) as Record<string, unknown>;
+              
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment
+              const parsedTraceId = parsed.traceId || (parsed.payload && (parsed.payload as any).traceId);
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+              this.cls.set('traceId', parsedTraceId || uuidv4());
 
-            if (parsed.type === 'application.hired') {
-              const validated = ApplicationHiredEventSchema.parse(parsed);
-              const payload = validated.payload;
+              if (parsed.type === 'application.hired') {
+                const validated = ApplicationHiredEventSchema.parse(parsed);
+                const payload = validated.payload;
 
               await this.prisma.$transaction(async (tx) => {
                 const job = await tx.job.findUnique({
@@ -69,13 +78,16 @@ export class KafkaConsumerService implements OnModuleInit, OnModuleDestroy {
                 });
               });
 
-              this.logger.log(
-                `Successfully created shift for application ${payload.applicationId}`,
-              );
+                const traceId = this.cls.get('traceId');
+                this.logger.log(
+                  `[Trace: ${traceId as string}] Successfully created shift for application ${payload.applicationId}`,
+                );
+              }
+            } catch (error) {
+              const traceId = this.cls.get('traceId');
+              this.logger.error(`[Trace: ${traceId as string}] Error processing message from topic ${topic}`, error);
             }
-          } catch (error) {
-            this.logger.error(`Error processing message from topic ${topic}`, error);
-          }
+          });
         },
       });
 

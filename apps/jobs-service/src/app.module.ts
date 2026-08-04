@@ -1,12 +1,15 @@
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
+import { ClsModule } from 'nestjs-cls';
+import { v4 as uuidv4 } from 'uuid';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ScheduleModule } from '@nestjs/schedule';
 import { WinstonModule } from 'nest-winston';
 import { PrometheusModule } from '@willsoto/nestjs-prometheus';
 import { CacheModule } from '@nestjs/cache-manager';
+import { redisStore } from 'cache-manager-redis-yet';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { RetryInterceptor } from './shared/interceptors/retry.interceptor';
 import { IdempotencyInterceptor } from './shared/interceptors/idempotency.interceptor';
@@ -31,6 +34,7 @@ import { HealthModule } from './modules/health/health.module';
 
 @Module({
   imports: [
+    ClsModule.forRoot({ global: true, middleware: { mount: true, generateId: true, idGenerator: (req: any) => req.headers['x-trace-id'] ?? uuidv4() } }),
     // ─── Configuration ───────────────────────────────────────────────────
     ConfigModule.forRoot({
       isGlobal: true,
@@ -88,9 +92,15 @@ import { HealthModule } from './modules/health/health.module';
         enabled: true,
       },
     }),
-    CacheModule.register({
+    CacheModule.registerAsync({
       isGlobal: true,
-      ttl: 5000, // 5 seconds default
+      inject: [ConfigService],
+      useFactory: async (config: ConfigService) => ({
+        store: await redisStore({
+          url: config.get<string>('REDIS_URL', 'redis://localhost:6379'),
+          ttl: 30000, // 30 seconds
+        }),
+      }),
     }),
   ],
   providers: [
