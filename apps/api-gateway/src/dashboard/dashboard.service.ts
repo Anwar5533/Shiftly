@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument */
 import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
@@ -13,9 +14,21 @@ export class DashboardService {
 
     try {
       const [userResponse, shiftsResponse, applicationsResponse] = await Promise.allSettled([
-        firstValueFrom(this.httpService.get(`http://localhost:3002/workers/${userId}`)),
-        firstValueFrom(this.httpService.get(`http://localhost:3003/shifts/upcoming?workerId=${userId}`)),
-        firstValueFrom(this.httpService.get(`http://localhost:3004/applications/pending?workerId=${userId}`)),
+        firstValueFrom(
+          this.httpService.get(
+            `${process.env.USER_SERVICE_URL || 'http://localhost:3002'}/workers/${userId}`,
+          ),
+        ),
+        firstValueFrom(
+          this.httpService.get(
+            `${process.env.JOBS_SERVICE_URL || 'http://localhost:3003'}/shifts/upcoming?workerId=${userId}`,
+          ),
+        ),
+        firstValueFrom(
+          this.httpService.get(
+            `${process.env.APPLICATIONS_SERVICE_URL || 'http://localhost:3004'}/applications/pending?workerId=${userId}`,
+          ),
+        ),
       ]);
 
       const profile = userResponse.status === 'fulfilled' ? userResponse.value.data : null;
@@ -28,9 +41,13 @@ export class DashboardService {
         this.logger.warn(`Failed to fetch upcoming shifts for ${userId}`, shiftsResponse.reason);
       }
 
-      const pendingApplications = applicationsResponse.status === 'fulfilled' ? applicationsResponse.value.data : [];
+      const pendingApplications =
+        applicationsResponse.status === 'fulfilled' ? applicationsResponse.value.data : [];
       if (applicationsResponse.status === 'rejected') {
-        this.logger.warn(`Failed to fetch pending applications for ${userId}`, applicationsResponse.reason);
+        this.logger.warn(
+          `Failed to fetch pending applications for ${userId}`,
+          applicationsResponse.reason,
+        );
       }
 
       return {

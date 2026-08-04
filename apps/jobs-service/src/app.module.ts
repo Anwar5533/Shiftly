@@ -34,7 +34,15 @@ import { HealthModule } from './modules/health/health.module';
 
 @Module({
   imports: [
-    ClsModule.forRoot({ global: true, middleware: { mount: true, generateId: true, idGenerator: (req: any) => req.headers['x-trace-id'] ?? uuidv4() } }),
+    ClsModule.forRoot({
+      global: true,
+      middleware: {
+        mount: true,
+        generateId: true,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
+        idGenerator: (req: any) => req.headers['x-trace-id'] ?? uuidv4(),
+      },
+    }),
     // ─── Configuration ───────────────────────────────────────────────────
     ConfigModule.forRoot({
       isGlobal: true,

@@ -68,6 +68,8 @@
   },
   "pnpm": {
     "overrides": {
+      "@types/react": "18.3.18",
+      "@types/react-dom": "18.3.5",
       "tar": ">=6.2.2",
       "vitest": ">=2.0.0",
       "js-yaml": ">=4.3.0",

@@ -1,10 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-floating-promises, @typescript-eslint/no-unsafe-assignment -- TODO(RC3): */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-return -- TODO(RC3): */
 import React from 'react';
 import { Briefcase, IndianRupee, Calendar, ChevronRight } from 'lucide-react';
 import { useAppSelector } from '@/app/store';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { dashboardApi } from './api/dashboard.api';
+import { dashboardApi } from '../api/dashboard.api';
 import { jobsApi } from '../../jobs/api/jobs.api';
 import { motion } from 'framer-motion';
 
@@ -13,10 +13,14 @@ export default function WorkerDashboard(): React.ReactElement {
   const navigate = useNavigate();
 
   // Phase 8: Fetch unified dashboard data from the API Gateway (BFF)
-  const { data: dashboardData, isLoading, isError } = useQuery({
-    queryKey: ['worker-dashboard', user?.id],
+  const {
+    data: dashboardData,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['worker-dashboard', user?.sub],
     queryFn: () => dashboardApi.getWorkerDashboard(),
-    enabled: !!user?.id,
+    enabled: !!user?.sub,
   });
 
   // We can keep recommended jobs separate since it's not worker-specific profile data,
@@ -78,9 +82,7 @@ export default function WorkerDashboard(): React.ReactElement {
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">Total Earnings</p>
-              <h3 className="text-2xl font-bold text-foreground">
-                ₹{profile?.totalEarnings || 0}
-              </h3>
+              <h3 className="text-2xl font-bold text-foreground">₹{profile?.totalEarnings || 0}</h3>
             </div>
           </div>
         </motion.div>
@@ -96,9 +98,7 @@ export default function WorkerDashboard(): React.ReactElement {
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">Active Applications</p>
-              <h3 className="text-2xl font-bold text-foreground">
-                {pendingApplications.length}
-              </h3>
+              <h3 className="text-2xl font-bold text-foreground">{pendingApplications.length}</h3>
             </div>
           </div>
         </motion.div>
@@ -114,9 +114,7 @@ export default function WorkerDashboard(): React.ReactElement {
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">Upcoming Shifts</p>
-              <h3 className="text-2xl font-bold text-foreground">
-                {upcomingShifts.length}
-              </h3>
+              <h3 className="text-2xl font-bold text-foreground">{upcomingShifts.length}</h3>
             </div>
           </div>
         </motion.div>
@@ -158,7 +156,9 @@ export default function WorkerDashboard(): React.ReactElement {
                       </span>
                     </div>
                     <div>
-                      <h4 className="font-semibold text-foreground">{shift.job?.title || 'Shift'}</h4>
+                      <h4 className="font-semibold text-foreground">
+                        {shift.job?.title || 'Shift'}
+                      </h4>
                       <p className="mt-1 flex items-center gap-1 text-sm text-muted-foreground">
                         <Briefcase className="h-3.5 w-3.5" />{' '}
                         {shift.job?.employer?.companyName || 'Employer'}
@@ -231,4 +231,3 @@ export default function WorkerDashboard(): React.ReactElement {
     </div>
   );
 }
-

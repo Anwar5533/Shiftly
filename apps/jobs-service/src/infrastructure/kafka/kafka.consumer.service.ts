@@ -40,52 +40,54 @@ export class KafkaConsumerService implements OnModuleInit, OnModuleDestroy {
 
             try {
               const parsed = JSON.parse(message.value.toString()) as Record<string, unknown>;
-              
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment
-              const parsedTraceId = parsed.traceId || (parsed.payload && (parsed.payload as any).traceId);
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-              this.cls.set('traceId', parsedTraceId || uuidv4());
+
+              const parsedPayload = parsed.payload as Record<string, unknown> | undefined;
+              const parsedTraceId = parsed.traceId || parsedPayload?.traceId;
+              this.cls.set('traceId', (parsedTraceId as string) || uuidv4());
 
               if (parsed.type === 'application.hired') {
                 const validated = ApplicationHiredEventSchema.parse(parsed);
                 const payload = validated.payload;
 
-              await this.prisma.$transaction(async (tx) => {
-                const job = await tx.job.findUnique({
-                  where: { id: payload.jobId },
+                await this.prisma.$transaction(async (tx) => {
+                  const job = await tx.job.findUnique({
+                    where: { id: payload.jobId },
+                  });
+
+                  if (!job) {
+                    throw new Error(`Job ${payload.jobId} not found`);
+                  }
+
+                  await tx.shift.create({
+                    data: {
+                      jobId: payload.jobId,
+                      applicationId: payload.applicationId,
+                      workerId: payload.workerId,
+                      scheduledStart: job.startDate,
+                      scheduledEnd: job.endDate || job.startDate,
+                      status: 'SCHEDULED',
+                    },
+                  });
+
+                  await tx.job.update({
+                    where: { id: payload.jobId },
+                    data: {
+                      positionsFilled: { increment: 1 },
+                    },
+                  });
                 });
 
-                if (!job) {
-                  throw new Error(`Job ${payload.jobId} not found`);
-                }
-
-                await tx.shift.create({
-                  data: {
-                    jobId: payload.jobId,
-                    applicationId: payload.applicationId,
-                    workerId: payload.workerId,
-                    scheduledStart: job.startDate,
-                    scheduledEnd: job.endDate || job.startDate,
-                    status: 'SCHEDULED',
-                  },
-                });
-
-                await tx.job.update({
-                  where: { id: payload.jobId },
-                  data: {
-                    positionsFilled: { increment: 1 },
-                  },
-                });
-              });
-
-                const traceId = this.cls.get('traceId');
+                const traceId = this.cls.get<string>('traceId');
                 this.logger.log(
-                  `[Trace: ${traceId as string}] Successfully created shift for application ${payload.applicationId}`,
+                  `[Trace: ${traceId}] Successfully created shift for application ${payload.applicationId}`,
                 );
               }
             } catch (error) {
-              const traceId = this.cls.get('traceId');
-              this.logger.error(`[Trace: ${traceId as string}] Error processing message from topic ${topic}`, error);
+              const traceId = this.cls.get<string>('traceId');
+              this.logger.error(
+                `[Trace: ${traceId}] Error processing message from topic ${topic}`,
+                error,
+              );
             }
           });
         },

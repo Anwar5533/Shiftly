@@ -32,7 +32,7 @@ export default function MessagesPage(): React.ReactElement {
   }, []);
 
   useEffect(() => {
-    const newSocket = io((import.meta.env.VITE_API_URL as string) || 'http://localhost:3000');
+    const newSocket = io((import.meta.env.VITE_API_URL as string) || '');
     setSocket(newSocket);
     return () => {
       newSocket.close();
