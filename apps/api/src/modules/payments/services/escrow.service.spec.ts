@@ -5,7 +5,6 @@ import { WalletService } from './wallet.service';
 import { PrismaService } from '../../../infrastructure/database/prisma.service';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { EscrowStatus } from '@prisma/client';
-import { Decimal } from '@prisma/client/runtime/library';
 
 describe('EscrowService', () => {
   let service: EscrowService;
@@ -46,7 +45,7 @@ describe('EscrowService', () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       walletService.getBalance.mockResolvedValue({
         id: 'wallet-1',
-        balance: new Decimal(50),
+        balance: 50,
       });
       await expect(
         service.createEscrow('emp-1', {
@@ -61,7 +60,7 @@ describe('EscrowService', () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       walletService.getBalance.mockResolvedValue({
         id: 'wallet-1',
-        balance: new Decimal(200),
+        balance: 200,
       });
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.wallet.update.mockResolvedValue({ id: 'wallet-1' });
@@ -119,7 +118,7 @@ describe('EscrowService', () => {
         id: 'escrow-1',
         wallet: { userId: 'emp-1' },
         status: EscrowStatus.LOCKED,
-        amount: new Decimal(100),
+        amount: 100,
         application: { workerId: 'worker-1' },
       });
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
@@ -127,7 +126,7 @@ describe('EscrowService', () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       walletService.getBalance.mockResolvedValue({
         id: 'wallet-2',
-        balance: new Decimal(0),
+        balance: 0,
       });
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.wallet.update.mockResolvedValue({ id: 'wallet-2' });

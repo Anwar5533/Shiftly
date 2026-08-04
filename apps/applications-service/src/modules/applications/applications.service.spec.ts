@@ -12,22 +12,28 @@ describe('ApplicationsService', () => {
   let eventEmitter: jest.Mocked<EventEmitter2>;
 
   beforeEach(async () => {
+    // Only mock models that exist in applications-service schema: jobApplication, outboxEvent
     const mockPrismaService: any = {
-      user: { findUnique: jest.fn() },
-      workerProfile: { findUnique: jest.fn(), create: jest.fn() },
-      employerProfile: { findUnique: jest.fn() },
-      job: { findUnique: jest.fn(), update: jest.fn() },
       jobApplication: {
         findUnique: jest.fn(),
         create: jest.fn(),
         findMany: jest.fn(),
+        count: jest.fn(),
         update: jest.fn(),
       },
-      auditLog: { create: jest.fn() },
-      notification: { create: jest.fn() },
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- TODO(RC3): Address type safety
-      $transaction: jest.fn((callback) => callback(mockPrismaService)),
+      outboxEvent: {
+        create: jest.fn(),
+      },
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- transaction callback passthrough
+      $transaction: jest.fn((callback) => {
+        if (typeof callback === 'function') {
+          return callback(mockPrismaService);
+        }
+        // Array form (batch transactions)
+        return Promise.all(callback);
+      }),
     };
+
     const mockEventEmitter = {
       emit: jest.fn(),
     };
@@ -35,7 +41,6 @@ describe('ApplicationsService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ApplicationsService,
-
         { provide: PrismaService, useValue: mockPrismaService },
         { provide: EventEmitter2, useValue: mockEventEmitter },
       ],
@@ -51,101 +56,130 @@ describe('ApplicationsService', () => {
   });
 
   describe('applyToJob', () => {
-    it('should throw ForbiddenException if user is not a worker', async () => {
-      (prismaService.workerProfile.findUnique as jest.Mock).mockResolvedValue(null);
-      (prismaService.user.findUnique as jest.Mock).mockResolvedValue(null);
+    it('should throw ConflictException if user already applied', async () => {
+      (prismaService.jobApplication.findUnique as jest.Mock).mockResolvedValue({ id: 'app1' });
       await expect(service.applyToJob('user1', { jobId: 'job1' })).rejects.toThrow(
-        ForbiddenException,
+        ConflictException,
       );
     });
 
     it('should create an application successfully', async () => {
-      (prismaService.workerProfile.findUnique as jest.Mock).mockResolvedValue({
-        id: 'worker1',
-      });
-      (prismaService.job.findUnique as jest.Mock).mockResolvedValue({
-        id: 'job1',
-        status: 'PUBLISHED',
-        deletedAt: null,
-        positionsFilled: 0,
-        positionsTotal: 10,
-        employer: { userId: 'different-user' },
-      });
       (prismaService.jobApplication.findUnique as jest.Mock).mockResolvedValue(null);
 
       const newApp = {
         id: 'app1',
         jobId: 'job1',
-        workerId: 'worker1',
+        workerId: 'user1',
         status: ApplicationStatus.PENDING,
       };
       (prismaService.jobApplication.create as jest.Mock).mockResolvedValue(newApp);
 
       const result = await service.applyToJob('user1', { jobId: 'job1' });
       expect(result).toEqual(newApp);
+      expect(eventEmitter.emit).toHaveBeenCalledWith('job.application.created', { jobId: 'job1' });
+    });
+  });
+
+  describe('checkApplicationStatus', () => {
+    it('should return applied: false when no application exists', async () => {
+      (prismaService.jobApplication.findUnique as jest.Mock).mockResolvedValue(null);
+      const result = await service.checkApplicationStatus('user1', 'job1');
+      expect(result.applied).toBe(false);
+      expect(result.applicationId).toBeUndefined();
+    });
+
+    it('should return applied: true with status when application exists', async () => {
+      (prismaService.jobApplication.findUnique as jest.Mock).mockResolvedValue({
+        id: 'app1',
+        status: ApplicationStatus.PENDING,
+      });
+      const result = await service.checkApplicationStatus('user1', 'job1');
+      expect(result.applied).toBe(true);
+      expect(result.applicationId).toBe('app1');
+      expect(result.status).toBe(ApplicationStatus.PENDING);
+    });
+  });
+
+  describe('updateApplicationStatus', () => {
+    it('should throw NotFoundException if application not found', async () => {
+      (prismaService.jobApplication.findUnique as jest.Mock).mockResolvedValue(null);
+      await expect(
+        service.updateApplicationStatus('emp1', 'app1', { status: ApplicationStatus.ACCEPTED }),
+      ).rejects.toThrow(NotFoundException);
+    });
+
+    it('should throw ForbiddenException if user is not the employer', async () => {
+      (prismaService.jobApplication.findUnique as jest.Mock).mockResolvedValue({
+        id: 'app1',
+        employerId: 'different-employer',
+        status: ApplicationStatus.PENDING,
+      });
+      await expect(
+        service.updateApplicationStatus('emp1', 'app1', { status: ApplicationStatus.ACCEPTED }),
+      ).rejects.toThrow(ForbiddenException);
+    });
+
+    it('should update application status', async () => {
+      (prismaService.jobApplication.findUnique as jest.Mock).mockResolvedValue({
+        id: 'app1',
+        employerId: 'emp1',
+        workerId: 'worker1',
+        jobId: 'job1',
+        status: ApplicationStatus.PENDING,
+      });
+      (prismaService.jobApplication.update as jest.Mock).mockResolvedValue({
+        id: 'app1',
+        status: ApplicationStatus.SHORTLISTED,
+      });
+
+      const result = await service.updateApplicationStatus('emp1', 'app1', {
+        status: ApplicationStatus.SHORTLISTED,
+      });
+      expect(result.status).toBe(ApplicationStatus.SHORTLISTED);
     });
   });
 
   describe('withdrawApplication', () => {
-    it('should throw ForbiddenException if user is not a worker', async () => {
-      (prismaService.workerProfile.findUnique as jest.Mock).mockResolvedValue(null);
-      await expect(service.withdrawApplication('user1', 'app1')).rejects.toThrow(
-        ForbiddenException,
-      );
-    });
-
     it('should throw NotFoundException if application not found', async () => {
-      (prismaService.workerProfile.findUnique as jest.Mock).mockResolvedValue({
-        id: 'worker1',
-      });
       (prismaService.jobApplication.findUnique as jest.Mock).mockResolvedValue(null);
       await expect(service.withdrawApplication('user1', 'app1')).rejects.toThrow(NotFoundException);
     });
 
-    it('should throw ConflictException if application is already accepted', async () => {
-      (prismaService.workerProfile.findUnique as jest.Mock).mockResolvedValue({
-        id: 'worker1',
-      });
+    it('should throw ForbiddenException if user is not the worker', async () => {
       (prismaService.jobApplication.findUnique as jest.Mock).mockResolvedValue({
         id: 'app1',
-        workerId: 'worker1',
+        workerId: 'different-worker',
+        status: ApplicationStatus.PENDING,
+      });
+      await expect(service.withdrawApplication('user1', 'app1')).rejects.toThrow(ForbiddenException);
+    });
+
+    it('should throw ConflictException if application is already accepted', async () => {
+      (prismaService.jobApplication.findUnique as jest.Mock).mockResolvedValue({
+        id: 'app1',
+        workerId: 'user1',
         status: ApplicationStatus.ACCEPTED,
-        job: { id: 'job1', employerId: 'emp1' },
       });
       await expect(service.withdrawApplication('user1', 'app1')).rejects.toThrow(ConflictException);
     });
 
     it('should withdraw application successfully', async () => {
-      (prismaService.workerProfile.findUnique as jest.Mock).mockResolvedValue({
-        id: 'worker1',
-      });
       (prismaService.jobApplication.findUnique as jest.Mock).mockResolvedValue({
         id: 'app1',
-        workerId: 'worker1',
+        workerId: 'user1',
         jobId: 'job1',
         status: ApplicationStatus.PENDING,
-        job: {
-          id: 'job1',
-          employerId: 'emp1',
-          title: 'Test Job',
-          employer: { userId: 'emp_user_id' },
-        },
       });
       (prismaService.jobApplication.update as jest.Mock).mockResolvedValue({
+        id: 'app1',
         status: ApplicationStatus.WITHDRAWN,
       });
 
       const result = await service.withdrawApplication('user1', 'app1');
       expect(result.status).toBe(ApplicationStatus.WITHDRAWN);
-
-      expect(prismaService.job.update).toHaveBeenCalledWith(
-        expect.objectContaining({
-          where: { id: 'job1' },
-          data: { applicationCount: { decrement: 1 } },
-        }),
-      );
-
-      expect(eventEmitter.emit).toHaveBeenCalledWith('notification.create', expect.any(Object));
+      expect(eventEmitter.emit).toHaveBeenCalledWith('job.application.withdrawn', {
+        jobId: 'job1',
+      });
     });
   });
 });

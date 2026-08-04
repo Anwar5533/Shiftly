@@ -5,7 +5,6 @@ import { WalletService } from './wallet.service';
 import { PrismaService } from '../../../infrastructure/database/prisma.service';
 import { BadRequestException } from '@nestjs/common';
 import { TransactionType, TransactionStatus } from '@prisma/client';
-import { Decimal } from '@prisma/client/runtime/library';
 
 describe('WalletService', () => {
   let service: WalletService;
@@ -39,7 +38,7 @@ describe('WalletService', () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.wallet.create.mockResolvedValue({
         id: 'wallet-1',
-        balance: new Decimal(0),
+        balance: 0,
       });
 
       const result = await service.getBalance('user-1');
@@ -52,7 +51,7 @@ describe('WalletService', () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.wallet.findUnique.mockResolvedValue({
         id: 'wallet-1',
-        balance: new Decimal(100),
+        balance: 100,
       });
 
       const result = await service.getBalance('user-1');
@@ -76,14 +75,14 @@ describe('WalletService', () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.wallet.findUnique.mockResolvedValue({
         id: 'wallet-1',
-        balance: new Decimal(0),
+        balance: 0,
       });
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.transaction.create.mockResolvedValue({ id: 'tx-1' });
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.wallet.update.mockResolvedValue({
         id: 'wallet-1',
-        balance: new Decimal(100),
+        balance: 100,
       });
 
       const result = await service.topup('user-1', {
@@ -108,7 +107,7 @@ describe('WalletService', () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.wallet.findUnique.mockResolvedValue({
         id: 'wallet-1',
-        balance: new Decimal(50),
+        balance: 50,
       });
       await expect(
         service.withdraw('user-1', { amount: 100, bankAccountId: 'bank-1' }),
@@ -119,14 +118,14 @@ describe('WalletService', () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.wallet.findUnique.mockResolvedValue({
         id: 'wallet-1',
-        balance: new Decimal(200),
+        balance: 200,
       });
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.transaction.create.mockResolvedValue({ id: 'tx-1' });
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.wallet.update.mockResolvedValue({
         id: 'wallet-1',
-        balance: new Decimal(100),
+        balance: 100,
       });
 
       const result = await service.withdraw('user-1', {
