@@ -19,6 +19,7 @@
     "noFallthroughCasesInSwitch": true,
     "strict": true,
     "paths": {
+      "@prisma/client": ["./node_modules/.prisma/client/index.d.ts"],
       "@shiftly/shared-types": ["../../packages/shared-types/src"],
       "@shiftly/shared-constants": ["../../packages/shared-constants/src"],
       "@shiftly/shared-validation": ["../../packages/shared-validation/src"],

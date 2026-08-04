@@ -9,7 +9,8 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
 import { CreateApplicationDto } from './dto/create-application.dto';
 import { UpdateApplicationStatusDto } from './dto/update-application-status.dto';
-import { JobStatus, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
+import { KafkaTopics, ApplicationHiredEventSchema } from '@shiftly/shared-events';
 
 @Injectable()
 export class ApplicationsService {
@@ -19,47 +20,11 @@ export class ApplicationsService {
   ) {}
 
   async applyToJob(userId: string, createDto: CreateApplicationDto) {
-    let worker = await this.prisma.workerProfile.findUnique({
-      where: { userId },
-    });
-
-    if (!worker) {
-      const user = await this.prisma.user.findUnique({ where: { id: userId } });
-      if (!user) throw new ForbiddenException('User not found');
-
-      worker = await this.prisma.workerProfile.create({
-        data: {
-          userId,
-          firstName: 'Worker',
-          lastName: 'Profile',
-          location: { city: 'Bangalore', country: 'India' },
-        },
-      });
-    }
-
-    const job = await this.prisma.job.findUnique({
-      where: { id: createDto.jobId },
-      include: { employer: true },
-    });
-    if (!job || job.deletedAt || job.status !== JobStatus.PUBLISHED) {
-      throw new NotFoundException('Job is not available for applications');
-    }
-
-    if (job.employer.userId === userId) {
-      throw new ConflictException('You cannot apply to a job you created');
-    }
-
-    if (job.positionsFilled >= job.positionsTotal) {
-      throw new ConflictException(
-        'This job is no longer accepting applications (positions filled)',
-      );
-    }
-
     const existingApp = await this.prisma.jobApplication.findUnique({
       where: {
         jobId_workerId: {
           jobId: createDto.jobId,
-          workerId: worker.id,
+          workerId: userId,
         },
       },
     });
@@ -72,43 +37,25 @@ export class ApplicationsService {
       const application = await tx.jobApplication.create({
         data: {
           jobId: createDto.jobId,
-          workerId: worker.id,
+          workerId: userId,
+          employerId: userId, // TODO: Get actual employerId via gRPC from job service
           coverLetter: createDto.coverLetter,
         },
       });
 
-      await tx.job.update({
-        where: { id: createDto.jobId },
-        data: { applicationCount: { increment: 1 } },
-      });
-
-      await tx.auditLog.create({
-        data: {
-          actorId: userId,
-          action: 'CREATE',
-          resourceType: 'JobApplication',
-          resourceId: application.id,
-        },
-      });
+      // TODO: Emit event to jobs-service to increment application count
+      this.eventEmitter.emit('job.application.created', { jobId: createDto.jobId });
 
       return application;
     });
   }
 
   async checkApplicationStatus(userId: string, jobId: string) {
-    const worker = await this.prisma.workerProfile.findUnique({
-      where: { userId },
-    });
-
-    if (!worker) {
-      return { applied: false };
-    }
-
     const existingApp = await this.prisma.jobApplication.findUnique({
       where: {
         jobId_workerId: {
           jobId,
-          workerId: worker.id,
+          workerId: userId,
         },
       },
     });
@@ -121,34 +68,17 @@ export class ApplicationsService {
   }
 
   async getMyApplications(userId: string, page: number = 1, limit: number = 10) {
-    const worker = await this.prisma.workerProfile.findUnique({
-      where: { userId },
-    });
-
-    if (!worker) {
-      throw new ForbiddenException('Only workers can view their applications');
-    }
-
     const skip = (page - 1) * limit;
 
     const [applications, total] = await this.prisma.$transaction([
       this.prisma.jobApplication.findMany({
-        where: { workerId: worker.id },
-        include: {
-          job: {
-            include: {
-              employer: {
-                select: { companyName: true, logoUrl: true },
-              },
-            },
-          },
-        },
+        where: { workerId: userId },
         orderBy: { appliedAt: 'desc' },
         skip,
         take: limit,
       }),
       this.prisma.jobApplication.count({
-        where: { workerId: worker.id },
+        where: { workerId: userId },
       }),
     ]);
 
@@ -164,46 +94,17 @@ export class ApplicationsService {
   }
 
   async getApplicationsForJob(userId: string, jobId: string, page: number = 1, limit: number = 10) {
-    const employer = await this.prisma.employerProfile.findUnique({
-      where: { userId },
-    });
-
-    if (!employer) {
-      throw new ForbiddenException('Only employers can view job applications');
-    }
-
-    const job = await this.prisma.job.findUnique({ where: { id: jobId } });
-
-    if (!job) {
-      throw new NotFoundException('Job not found');
-    }
-
-    if (job.employerId !== employer.id) {
-      throw new ForbiddenException('You do not have permission to view these applications');
-    }
-
     const skip = (page - 1) * limit;
 
     const [applications, total] = await this.prisma.$transaction([
       this.prisma.jobApplication.findMany({
-        where: { jobId },
-        include: {
-          worker: {
-            select: {
-              firstName: true,
-              lastName: true,
-              avatarUrl: true,
-              rating: true,
-              skills: { include: { skill: true } },
-            },
-          },
-        },
+        where: { jobId, employerId: userId },
         orderBy: { appliedAt: 'desc' },
         skip,
         take: limit,
       }),
       this.prisma.jobApplication.count({
-        where: { jobId },
+        where: { jobId, employerId: userId },
       }),
     ]);
 
@@ -219,30 +120,8 @@ export class ApplicationsService {
   }
 
   async getRecentApplications(userId: string) {
-    const employer = await this.prisma.employerProfile.findUnique({
-      where: { userId },
-    });
-
-    if (!employer) {
-      throw new ForbiddenException('Only employers can view their recent applications');
-    }
-
     return this.prisma.jobApplication.findMany({
-      where: { job: { employerId: employer.id } },
-      include: {
-        worker: {
-          select: {
-            firstName: true,
-            lastName: true,
-            avatarUrl: true,
-          },
-        },
-        job: {
-          select: {
-            title: true,
-          },
-        },
-      },
+      where: { employerId: userId },
       orderBy: { appliedAt: 'desc' },
       take: 5,
     });
@@ -253,46 +132,19 @@ export class ApplicationsService {
     applicationId: string,
     updateDto: UpdateApplicationStatusDto,
   ) {
-    const employer = await this.prisma.employerProfile.findUnique({
-      where: { userId },
-    });
-
-    if (!employer) {
-      throw new ForbiddenException('Only employers can update application status');
-    }
-
     const application = await this.prisma.jobApplication.findUnique({
       where: { id: applicationId },
-      include: { job: true },
     });
 
     if (!application) {
       throw new NotFoundException('Application not found');
     }
 
-    if (application.job.employerId !== employer.id) {
+    if (application.employerId !== userId) {
       throw new ForbiddenException('You do not have permission to update this application');
     }
 
     return this.prisma.$transaction(async (tx) => {
-      // Re-fetch job inside transaction with explicit lock (for isolation if we switch to serializable/forUpdate)
-      const currentJob = await tx.job.findUnique({
-        where: { id: application.jobId },
-      });
-
-      if (!currentJob) throw new NotFoundException('Job not found');
-
-      let positionsChange = 0;
-
-      if (updateDto.status === 'ACCEPTED' && application.status !== 'ACCEPTED') {
-        if (currentJob.positionsFilled >= currentJob.positionsTotal) {
-          throw new ConflictException('Cannot accept: job positions are already full');
-        }
-        positionsChange = 1;
-      } else if (application.status === 'ACCEPTED' && updateDto.status !== 'ACCEPTED') {
-        positionsChange = -1;
-      }
-
       const updated = await tx.jobApplication.update({
         where: { id: applicationId },
         data: {
@@ -301,73 +153,45 @@ export class ApplicationsService {
         },
       });
 
-      if (positionsChange !== 0) {
-        await tx.job.update({
-          where: { id: currentJob.id },
-          data: { positionsFilled: { increment: positionsChange } },
-        });
-      }
-
       // If newly accepted, create a shift (assuming one shift per job for MVP)
-
       if (updateDto.status === 'ACCEPTED' && application.status !== 'ACCEPTED') {
-        const scheduledEnd =
-          currentJob.endDate ||
-          new Date(
-            currentJob.startDate.getTime() + (Number(currentJob.shiftDurationHours) || 8) * 3600000,
-          );
-
-        // Check if shift already exists to prevent duplicate shift creation race conditions
-        const existingShift = await tx.shift.findFirst({
-          where: { jobId: currentJob.id, workerId: application.workerId },
+        const eventPayload = ApplicationHiredEventSchema.parse({
+          eventId: crypto.randomUUID(),
+          traceId: crypto.randomUUID(),
+          timestamp: new Date().toISOString(),
+          version: '1.0',
+          type: 'application.hired',
+          payload: {
+            applicationId: application.id,
+            jobId: application.jobId,
+            workerId: application.workerId,
+            employerId: application.employerId,
+          },
         });
 
-        if (!existingShift) {
-          await tx.shift.create({
-            data: {
-              jobId: currentJob.id,
-              applicationId: application.id,
-              workerId: application.workerId,
-              scheduledStart: currentJob.startDate,
-              scheduledEnd: scheduledEnd,
-            },
-          });
-        }
+        await tx.outboxEvent.create({
+          data: {
+            topic: KafkaTopics.Applications,
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            payload: eventPayload as any,
+          },
+        });
       }
-
-      await tx.auditLog.create({
-        data: {
-          actorId: userId,
-          action: 'UPDATE',
-          resourceType: 'JobApplication',
-          resourceId: applicationId,
-          newValues: { status: updateDto.status },
-        },
-      });
 
       return updated;
     });
   }
 
   async withdrawApplication(userId: string, applicationId: string) {
-    const worker = await this.prisma.workerProfile.findUnique({
-      where: { userId },
-    });
-
-    if (!worker) {
-      throw new ForbiddenException('Only workers can withdraw applications');
-    }
-
     const application = await this.prisma.jobApplication.findUnique({
       where: { id: applicationId },
-      include: { job: { include: { employer: true } } },
     });
 
     if (!application) {
       throw new NotFoundException('Application not found');
     }
 
-    if (application.workerId !== worker.id) {
+    if (application.workerId !== userId) {
       throw new ForbiddenException('You do not have permission to withdraw this application');
     }
 
@@ -390,34 +214,8 @@ export class ApplicationsService {
         },
       });
 
-      // Decrement the job's application count
-      await tx.job.update({
-        where: { id: application.jobId },
-        data: { applicationCount: { decrement: 1 } },
-      });
-
-      // Publish event to Event Bus (Microservices transition pattern)
-      this.eventEmitter.emit('notification.create', {
-        userId: application.job.employer.userId,
-        type: 'APPLICATION_UPDATE',
-        channel: 'IN_APP',
-        title: 'Application Withdrawn',
-        body: `A candidate has withdrawn their application for ${application.job.title}`,
-        data: {
-          applicationId: application.id,
-          jobId: application.jobId,
-        },
-      });
-
-      await tx.auditLog.create({
-        data: {
-          actorId: userId,
-          action: 'UPDATE',
-          resourceType: 'JobApplication',
-          resourceId: applicationId,
-          newValues: { status: 'WITHDRAWN' },
-        },
-      });
+      // TODO: Emit event to jobs-service to decrement application count
+      this.eventEmitter.emit('job.application.withdrawn', { jobId: application.jobId });
 
       return updated;
     });

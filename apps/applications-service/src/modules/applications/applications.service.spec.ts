@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/unbound-method */
 import { Test, TestingModule } from '@nestjs/testing';
 import { ApplicationsService } from './applications.service';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
@@ -24,7 +25,7 @@ describe('ApplicationsService', () => {
       },
       auditLog: { create: jest.fn() },
       notification: { create: jest.fn() },
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call -- TODO(RC3): Address type safety
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- TODO(RC3): Address type safety
       $transaction: jest.fn((callback) => callback(mockPrismaService)),
     };
     const mockEventEmitter = {
@@ -34,7 +35,7 @@ describe('ApplicationsService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ApplicationsService,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+
         { provide: PrismaService, useValue: mockPrismaService },
         { provide: EventEmitter2, useValue: mockEventEmitter },
       ],
@@ -136,14 +137,14 @@ describe('ApplicationsService', () => {
 
       const result = await service.withdrawApplication('user1', 'app1');
       expect(result.status).toBe(ApplicationStatus.WITHDRAWN);
-      // eslint-disable-next-line @typescript-eslint/unbound-method
+
       expect(prismaService.job.update).toHaveBeenCalledWith(
         expect.objectContaining({
           where: { id: 'job1' },
           data: { applicationCount: { decrement: 1 } },
         }),
       );
-      // eslint-disable-next-line @typescript-eslint/unbound-method
+
       expect(eventEmitter.emit).toHaveBeenCalledWith('notification.create', expect.any(Object));
     });
   });

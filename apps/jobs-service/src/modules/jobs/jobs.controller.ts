@@ -18,7 +18,6 @@ import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 import { RolesGuard } from '../../shared/guards/roles.guard';
 import { Roles } from '../../shared/decorators/roles.decorator';
 import { CurrentUser } from '../../shared/decorators/current-user.decorator';
-import { UserRole } from '@prisma/client';
 import { Public } from '../../shared/decorators/public.decorator';
 
 @Controller({ path: 'jobs', version: '1' })
@@ -27,14 +26,14 @@ export class JobsController {
 
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.EMPLOYER, UserRole.WORKER)
+  @Roles('EMPLOYER', 'WORKER')
   createJob(@CurrentUser('sub') userId: string, @Body() createJobDto: CreateJobDto) {
     return this.jobsService.createJob(userId, createJobDto);
   }
 
   @Get('my-jobs')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.EMPLOYER, UserRole.WORKER)
+  @Roles('EMPLOYER', 'WORKER')
   getMyJobs(@CurrentUser('sub') userId: string, @Query() query: PaginationDto) {
     return this.jobsService.getMyJobs(userId, query.page, query.limit);
   }
@@ -53,14 +52,14 @@ export class JobsController {
 
   @Patch(':id/close')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.EMPLOYER, UserRole.WORKER, UserRole.RECRUITER)
+  @Roles('EMPLOYER', 'WORKER', 'RECRUITER')
   closeJob(@CurrentUser('sub') userId: string, @Param('id') jobId: string) {
     return this.jobsService.closeJob(userId, jobId);
   }
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.EMPLOYER, UserRole.WORKER)
+  @Roles('EMPLOYER', 'WORKER')
   updateJob(
     @Param('id') id: string,
     @CurrentUser('sub') userId: string,
@@ -71,7 +70,7 @@ export class JobsController {
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.EMPLOYER, UserRole.WORKER)
+  @Roles('EMPLOYER', 'WORKER')
   deleteJob(@Param('id') id: string, @CurrentUser('sub') userId: string) {
     return this.jobsService.deleteJob(userId, id);
   }

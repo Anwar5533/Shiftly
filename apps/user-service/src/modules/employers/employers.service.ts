@@ -16,13 +16,10 @@ export class EmployersService {
     });
 
     if (!profile) {
-      const user = await this.prisma.user.findUnique({ where: { id: userId } });
-      if (!user) throw new NotFoundException('User not found');
-
       profile = await this.prisma.employerProfile.create({
         data: {
           userId,
-          companyName: user.email?.split('@')[0] || 'My Company',
+          companyName: 'My Company',
           industry: 'Other',
           location: { city: 'Bangalore', country: 'India' },
         },
@@ -97,38 +94,15 @@ export class EmployersService {
   async getDashboardStats(userId: string) {
     const profile = await this.prisma.employerProfile.findUnique({
       where: { userId },
-      include: {
-        _count: {
-          select: {
-            jobs: true,
-            departments: true,
-          },
-        },
-        jobs: {
-          select: {
-            _count: {
-              select: {
-                applications: true,
-                shifts: true,
-              },
-            },
-          },
-        },
-      },
     });
 
     if (!profile) {
       throw new NotFoundException('Employer profile not found');
     }
 
-    const activeJobsCount = profile._count.jobs;
-    let totalApplications = 0;
-    let totalShifts = 0;
-
-    for (const job of profile.jobs) {
-      totalApplications += job._count.applications;
-      totalShifts += job._count.shifts;
-    }
+    const activeJobsCount = 0; // TODO: Fetch from Jobs service
+    const totalApplications = 0; // TODO: Fetch from Applications service
+    const totalShifts = 0; // TODO: Fetch from Jobs service
 
     const completion = this.calculateProfileCompletion(profile);
 
@@ -136,7 +110,7 @@ export class EmployersService {
       activeJobs: activeJobsCount,
       totalApplications,
       totalShifts,
-      totalDepartments: profile._count.departments,
+      totalDepartments: 0, // TODO: Fix relation if departments is removed
       profileCompletion: completion,
       rating: profile.rating,
       totalSpent: 0, // Placeholder

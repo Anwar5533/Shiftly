@@ -52,4 +52,5 @@ apps/api/prisma/migrations/*.sql.bak
 
 # Security & Scratch
 .env.*
+!.env.example
 scratch/

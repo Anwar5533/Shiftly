@@ -1,3 +1,5 @@
+import { Pool } from 'pg';
+import { PrismaPg } from '@prisma/adapter-pg';
 import {
   Injectable,
   OnModuleInit,
@@ -14,9 +16,13 @@ export class PrismaService
 {
   private readonly logger = new Logger(PrismaService.name);
 
-  constructor(private readonly configService: ConfigService) {
+    constructor(private readonly configService: ConfigService) {
+    const url = configService.get<string>('database.url') || process.env.DATABASE_URL;
+    const pool = new Pool({ connectionString: url });
+    const adapter = new PrismaPg(pool);
     super({
-      log: [
+      adapter,
+            log: [
         { emit: 'event', level: 'query' },
         { emit: 'event', level: 'error' },
         { emit: 'event', level: 'info' },

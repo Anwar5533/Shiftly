@@ -63,17 +63,12 @@ describe('RecruitersService', () => {
   describe('getDashboardStats', () => {
     it('should calculate dashboard stats', async () => {
       const mockProfile = {
-        id: '1',
         userId: 'user1',
-        placements: 10,
-        successRate: 95.5,
-        rating: 4.8,
-        firstName: 'Jane',
-        _count: { jobs: 5 },
-        jobs: [
-          { _count: { applications: 3, shifts: 1 } },
-          { _count: { applications: 2, shifts: 4 } },
-        ],
+        id: 'profile-1',
+        agencyName: 'Test Agency',
+        firstName: 'Test',
+        lastName: 'User',
+        rating: 4.5,
       };
       (prismaService.recruiterProfile.findUnique as jest.Mock).mockResolvedValue(mockProfile);
 

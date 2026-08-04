@@ -3,6 +3,7 @@ import { PrismaService } from '../../../infrastructure/database/prisma.service';
 import { TransactionsService } from '../transactions/transactions.service';
 import { WalletsService } from '../wallets/wallets.service';
 import { Prisma } from '@prisma/client';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
 export class EscrowService {
@@ -12,6 +13,7 @@ export class EscrowService {
     private readonly prisma: PrismaService,
     private readonly transactionsService: TransactionsService,
     private readonly walletsService: WalletsService,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   async lockFunds(employerId: string, jobId: string, applicationId: string, amount: number) {
@@ -64,45 +66,20 @@ export class EscrowService {
     });
   }
 
-  async releaseFunds(timesheetId: string) {
-    // When timesheet is approved, we need to release funds from employer's escrow to worker's balance
+  async releaseFunds(escrowLockId: string, workerId: string) {
+    // Escrow release will be triggered via event or API from the jobs service
     return this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
-      const timesheet = await tx.timesheet.findUnique({
-        where: { id: timesheetId },
-        include: {
-          shift: {
-            include: {
-              job: true,
-              worker: true,
-            },
-          },
-        },
+      const escrowLock = await tx.escrowLock.findUnique({
+        where: { id: escrowLockId },
       });
 
-      if (!timesheet) throw new NotFoundException('Timesheet not found');
-
-      const job = timesheet.shift.job;
-      const workerId = timesheet.shift.worker.userId;
-      const employerId = job.employerId;
-
-      // Find the escrow lock associated with this job
-      // Realistically we need the applicationId, but for our MVP let's find the first escrow lock for this job+wallet
-
-      const employerWallet = await this.walletsService.getWallet(employerId, tx);
-      const workerWallet = await this.walletsService.getWallet(workerId, tx);
-
-      const escrowLock = await tx.escrowLock.findFirst({
-        where: {
-          jobId: job.id,
-          walletId: employerWallet.id,
-          status: 'LOCKED',
-        },
-      });
-
-      if (!escrowLock) {
-        this.logger.warn(`No locked escrow found for job ${job.id}`);
+      if (!escrowLock || escrowLock.status !== 'LOCKED') {
+        this.logger.warn(`No locked escrow found for id ${escrowLockId}`);
         return null;
       }
+
+      const employerWallet = await this.walletsService.getWallet(escrowLock.walletId, tx); // Technically already know walletId
+      const workerWallet = await this.walletsService.getWallet(workerId, tx);
 
       // Calculate amount to release based on hours worked and hourly rate (or just release the full escrow for MVP)
       // We will release the full locked amount for simplicity here
@@ -142,7 +119,7 @@ export class EscrowService {
         walletId: employerWallet.id,
         type: 'ESCROW_RELEASE',
         amount: releaseAmount,
-        description: `Escrow released to worker for Job ${job.title}`,
+        description: `Escrow released to worker for Job ${escrowLock.jobId}`,
         tx,
       });
 
@@ -150,8 +127,17 @@ export class EscrowService {
         walletId: workerWallet.id,
         type: 'ESCROW_RELEASE', // Or could be considered a payment receipt
         amount: releaseAmount,
-        description: `Payment received for Job ${job.title}`,
+        description: `Payment received for Job ${escrowLock.jobId}`,
         tx,
+      });
+
+      // TODO: Emit event to notify Jobs/Applications service
+      this.eventEmitter.emit('payment.released', {
+        escrowLockId: escrowLock.id,
+        jobId: escrowLock.jobId,
+        applicationId: escrowLock.applicationId,
+        amount: releaseAmount,
+        workerId: workerId,
       });
 
       return updatedEscrow;

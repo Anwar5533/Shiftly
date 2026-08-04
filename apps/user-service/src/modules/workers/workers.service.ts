@@ -21,9 +21,6 @@ export class WorkersService {
     });
 
     if (!profile) {
-      const user = await this.prisma.user.findUnique({ where: { id: userId } });
-      if (!user) throw new NotFoundException('User not found');
-
       profile = await this.prisma.workerProfile.create({
         data: {
           userId,
@@ -132,14 +129,7 @@ export class WorkersService {
   async getDashboardStats(userId: string) {
     const profile = await this.prisma.workerProfile.findUnique({
       where: { userId },
-      include: {
-        _count: {
-          select: {
-            applications: true,
-            shifts: true,
-          },
-        },
-      },
+      include: {},
     });
 
     if (!profile) {
@@ -150,8 +140,8 @@ export class WorkersService {
 
     return {
       totalEarnings: 0, // Placeholder until payments module is linked
-      activeApplications: profile._count.applications,
-      completedShifts: profile._count.shifts,
+      activeApplications: 0, // TODO: Fetch from Applications service
+      completedShifts: 0, // TODO: Fetch from Jobs service
       profileCompletion: completion,
       rating: profile.rating,
     };

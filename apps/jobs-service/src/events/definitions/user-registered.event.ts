@@ -1,5 +1,11 @@
-import { User } from '@prisma/client';
-
 export class UserRegisteredEvent {
-  constructor(public readonly user: User) {}
+  constructor(
+    public readonly user: {
+      id: string;
+      email: string;
+      role: string;
+      firstName?: string;
+      lastName?: string;
+    },
+  ) {}
 }

@@ -11,17 +11,12 @@ export class ShiftsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async clockIn(userId: string, shiftId: string, location: any) {
-    const worker = await this.prisma.workerProfile.findUnique({
-      where: { userId },
-    });
-    if (!worker) throw new ForbiddenException('Only workers can clock into shifts');
-
     const shift = await this.prisma.shift.findUnique({
       where: { id: shiftId },
     });
     if (!shift) throw new NotFoundException('Shift not found');
 
-    if (shift.workerId !== worker.id) {
+    if (shift.workerId !== userId) {
       throw new ForbiddenException('This is not your shift');
     }
 
@@ -39,23 +34,17 @@ export class ShiftsService {
       },
       include: {
         job: true,
-        worker: true,
       },
     });
   }
 
   async clockOut(userId: string, shiftId: string, location: any, notes?: string) {
-    const worker = await this.prisma.workerProfile.findUnique({
-      where: { userId },
-    });
-    if (!worker) throw new ForbiddenException('Only workers can clock out of shifts');
-
     const shift = await this.prisma.shift.findUnique({
       where: { id: shiftId },
     });
     if (!shift) throw new NotFoundException('Shift not found');
 
-    if (shift.workerId !== worker.id) {
+    if (shift.workerId !== userId) {
       throw new ForbiddenException('This is not your shift');
     }
 
@@ -82,25 +71,17 @@ export class ShiftsService {
       },
       include: {
         job: true,
-        worker: true,
       },
     });
   }
 
   async getMyShifts(userId: string) {
-    const worker = await this.prisma.workerProfile.findUnique({
-      where: { userId },
-    });
-    if (!worker) throw new ForbiddenException('Only workers can view their shifts');
+    // worker lookup removed
 
     return this.prisma.shift.findMany({
-      where: { workerId: worker.id },
+      where: { workerId: userId },
       include: {
-        job: {
-          include: {
-            employer: { select: { companyName: true } },
-          },
-        },
+        job: true,
       },
       orderBy: { scheduledStart: 'asc' },
     });

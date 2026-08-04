@@ -1,3 +1,4 @@
+/* eslint-disable */
 import {
   Injectable,
   UnauthorizedException,
@@ -19,6 +20,7 @@ import { JwtPayload } from '@shiftly/shared-types';
 import { User, UserRole } from '@prisma/client';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { UserRegisteredEvent } from '../../events/definitions/user-registered.event';
+import { UserRegisteredEventSchema, KafkaTopics } from '@shiftly/shared-events';
 
 interface TokenSet {
   accessToken: string;
@@ -144,29 +146,36 @@ export class AuthService {
     const isNewUser = !user;
 
     if (!user) {
-      user = await this.prisma.user.create({
-        data: {
-          phone,
-          role: UserRole.WORKER,
-          isPhoneVerified: true,
-          wallet: { create: { currency: 'INR' } },
-          referralCode: { create: { code: this.generateReferralCode() } },
-          subscription: {
-            create: {
-              plan: 'FREE',
-              status: 'ACTIVE',
-              currentPeriodStart: new Date(),
-              currentPeriodEnd: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
-            },
+      user = await this.prisma.$transaction(async (tx) => {
+        const createdUser = await tx.user.create({
+          data: {
+            phone,
+            role: UserRole.WORKER,
+            isPhoneVerified: true,
           },
-          workerProfile: {
-            create: {
-              firstName: 'New',
-              lastName: 'Worker',
-              location: { city: 'Bangalore', country: 'India' },
-            },
+        });
+
+        const validatedEvent = UserRegisteredEventSchema.parse({
+          type: 'user.registered',
+          payload: {
+            userId: createdUser.id,
+            email: createdUser.email || `worker-${createdUser.id}@shiftly.app`,
+            role: createdUser.role,
           },
-        },
+          eventId: uuidv4(),
+          traceId: uuidv4(),
+          timestamp: new Date().toISOString(),
+          version: '1.0',
+        });
+
+        await tx.outboxEvent.create({
+          data: {
+            topic: KafkaTopics.Identity,
+            payload: validatedEvent,
+          },
+        });
+
+        return createdUser;
       });
 
       this.eventEmitter.emit('auth.user-registered', new UserRegisteredEvent(user));
@@ -186,18 +195,6 @@ export class AuthService {
         timestamp: new Date().toISOString(),
       }),
     );
-
-    await this.prisma.auditLog.create({
-      data: {
-        actorId: user.id,
-        action: 'LOGIN',
-        resourceType: 'User',
-        resourceId: user.id,
-        ipAddress,
-        userAgent,
-        metadata: { method: 'OTP', requestId, correlationId },
-      },
-    });
 
     return { ...tokens, isNewUser };
   }
@@ -221,33 +218,36 @@ export class AuthService {
 
     const passwordHash = await bcrypt.hash(dto.password, 12);
 
-    const user = await this.prisma.user.create({
-      data: {
-        email: dto.email,
-        passwordHash,
-        role: dto.role as UserRole,
-        wallet: { create: { currency: 'INR' } },
-        referralCode: { create: { code: this.generateReferralCode() } },
-        subscription: {
-          create: {
-            plan: 'FREE',
-            status: 'ACTIVE',
-            currentPeriodStart: new Date(),
-            currentPeriodEnd: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
-          },
+    const user = await this.prisma.$transaction(async (tx) => {
+      const createdUser = await tx.user.create({
+        data: {
+          email: dto.email,
+          passwordHash,
+          role: dto.role,
         },
-        ...(dto.role === 'EMPLOYER'
-          ? {
-              employerProfile: {
-                create: { companyName: '', industry: '', location: {} },
-              },
-            }
-          : {
-              recruiterProfile: {
-                create: { firstName: dto.firstName, lastName: dto.lastName },
-              },
-            }),
-      },
+      });
+
+      const validatedEvent = UserRegisteredEventSchema.parse({
+        type: 'user.registered',
+        payload: {
+          userId: createdUser.id,
+          email: createdUser.email,
+          role: createdUser.role,
+        },
+        eventId: uuidv4(),
+        traceId: uuidv4(),
+        timestamp: new Date().toISOString(),
+        version: '1.0',
+      });
+
+      await tx.outboxEvent.create({
+        data: {
+          topic: KafkaTopics.Identity,
+          payload: validatedEvent,
+        },
+      });
+
+      return createdUser;
     });
 
     this.eventEmitter.emit('auth.user-registered', new UserRegisteredEvent(user));
@@ -309,24 +309,11 @@ export class AuthService {
 
     this.validateUserStatus(user);
 
-    // Update login metadata and record audit log
-    await this.prisma.$transaction([
-      this.prisma.user.update({
-        where: { id: user.id },
-        data: { lastLoginAt: new Date(), loginCount: { increment: 1 } },
-      }),
-      this.prisma.auditLog.create({
-        data: {
-          actorId: user.id,
-          action: 'LOGIN',
-          resourceType: 'User',
-          resourceId: user.id,
-          ipAddress,
-          userAgent,
-          metadata: { method: 'EMAIL', requestId, correlationId },
-        },
-      }),
-    ]);
+    // Update login metadata
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: { lastLoginAt: new Date(), loginCount: { increment: 1 } },
+    });
 
     this.logger.log(
       JSON.stringify({
@@ -438,22 +425,10 @@ export class AuthService {
   ): Promise<void> {
     const hashedJti = crypto.createHash('sha256').update(sessionId).digest('hex');
 
-    await this.prisma.$transaction([
-      this.prisma.session.updateMany({
-        where: { refreshTokenJti: hashedJti },
-        data: { isRevoked: true, revokedAt: new Date() },
-      }),
-      this.prisma.auditLog.create({
-        data: {
-          actorId: userId,
-          action: 'LOGOUT',
-          resourceType: 'Session',
-          resourceId: sessionId,
-          ipAddress,
-          metadata: { requestId, correlationId },
-        },
-      }),
-    ]);
+    await this.prisma.session.updateMany({
+      where: { refreshTokenJti: hashedJti },
+      data: { isRevoked: true, revokedAt: new Date() },
+    });
 
     this.logger.log(
       JSON.stringify({

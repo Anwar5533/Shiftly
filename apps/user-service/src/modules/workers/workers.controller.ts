@@ -6,7 +6,6 @@ import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 import { RolesGuard } from '../../shared/guards/roles.guard';
 import { Roles } from '../../shared/decorators/roles.decorator';
 import { CurrentUser } from '../../shared/decorators/current-user.decorator';
-import { UserRole } from '@prisma/client';
 import { Public } from '../../shared/decorators/public.decorator';
 
 @Controller({ path: 'workers', version: '1' })
@@ -15,35 +14,35 @@ export class WorkersController {
 
   @Get('profile')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.WORKER, UserRole.EMPLOYER)
+  @Roles('WORKER', 'EMPLOYER')
   getProfile(@CurrentUser('sub') userId: string) {
     return this.workersService.getProfile(userId);
   }
 
   @Get('dashboard')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.WORKER, UserRole.EMPLOYER)
+  @Roles('WORKER', 'EMPLOYER')
   getDashboardStats(@CurrentUser('sub') userId: string) {
     return this.workersService.getDashboardStats(userId);
   }
 
   @Patch('profile')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.WORKER, UserRole.EMPLOYER)
+  @Roles('WORKER', 'EMPLOYER')
   updateProfile(@CurrentUser('sub') userId: string, @Body() updateDto: UpdateWorkerProfileDto) {
     return this.workersService.updateProfile(userId, updateDto);
   }
 
   @Post('skills')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.WORKER, UserRole.EMPLOYER)
+  @Roles('WORKER', 'EMPLOYER')
   addSkill(@CurrentUser('sub') userId: string, @Body() skillDto: AddWorkerSkillDto) {
     return this.workersService.addSkill(userId, skillDto);
   }
 
   @Delete('skills/:skillId')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.WORKER, UserRole.EMPLOYER)
+  @Roles('WORKER', 'EMPLOYER')
   removeSkill(@CurrentUser('sub') userId: string, @Param('skillId') skillId: string) {
     return this.workersService.removeSkill(userId, skillId);
   }

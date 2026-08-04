@@ -7,7 +7,6 @@ import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 import { RolesGuard } from '../../shared/guards/roles.guard';
 import { Roles } from '../../shared/decorators/roles.decorator';
 import { CurrentUser } from '../../shared/decorators/current-user.decorator';
-import { UserRole } from '@prisma/client';
 
 @Controller({ path: 'applications', version: '1' })
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -15,31 +14,31 @@ export class ApplicationsController {
   constructor(private readonly applicationsService: ApplicationsService) {}
 
   @Post()
-  @Roles(UserRole.WORKER, UserRole.EMPLOYER)
+  @Roles('WORKER', 'EMPLOYER')
   applyToJob(@CurrentUser('sub') userId: string, @Body() createDto: CreateApplicationDto) {
     return this.applicationsService.applyToJob(userId, createDto);
   }
 
   @Get('my-applications')
-  @Roles(UserRole.WORKER, UserRole.EMPLOYER)
+  @Roles('WORKER', 'EMPLOYER')
   getMyApplications(@CurrentUser('sub') userId: string, @Query() query: PaginationDto) {
     return this.applicationsService.getMyApplications(userId, query.page, query.limit);
   }
 
   @Get('check/:jobId')
-  @Roles(UserRole.WORKER, UserRole.EMPLOYER)
+  @Roles('WORKER', 'EMPLOYER')
   checkApplicationStatus(@CurrentUser('sub') userId: string, @Param('jobId') jobId: string) {
     return this.applicationsService.checkApplicationStatus(userId, jobId);
   }
 
   @Get('recent')
-  @Roles(UserRole.EMPLOYER, UserRole.WORKER)
+  @Roles('EMPLOYER', 'WORKER')
   getRecentApplications(@CurrentUser('sub') userId: string) {
     return this.applicationsService.getRecentApplications(userId);
   }
 
   @Get('job/:jobId')
-  @Roles(UserRole.EMPLOYER, UserRole.WORKER)
+  @Roles('EMPLOYER', 'WORKER')
   getApplicationsForJob(
     @CurrentUser('sub') userId: string,
     @Param('jobId') jobId: string,
@@ -49,7 +48,7 @@ export class ApplicationsController {
   }
 
   @Patch(':id/status')
-  @Roles(UserRole.EMPLOYER, UserRole.WORKER)
+  @Roles('EMPLOYER', 'WORKER')
   updateApplicationStatus(
     @CurrentUser('sub') userId: string,
     @Param('id') applicationId: string,
@@ -59,7 +58,7 @@ export class ApplicationsController {
   }
 
   @Patch(':id/withdraw')
-  @Roles(UserRole.WORKER, UserRole.EMPLOYER)
+  @Roles('WORKER', 'EMPLOYER')
   withdrawApplication(@CurrentUser('sub') userId: string, @Param('id') applicationId: string) {
     return this.applicationsService.withdrawApplication(userId, applicationId);
   }

@@ -37,37 +37,15 @@ export class RecruitersService {
   async getDashboardStats(userId: string) {
     const profile = await this.prisma.recruiterProfile.findUnique({
       where: { userId },
-      include: {
-        _count: {
-          select: {
-            jobs: true,
-          },
-        },
-        jobs: {
-          select: {
-            _count: {
-              select: {
-                applications: true,
-                shifts: true,
-              },
-            },
-          },
-        },
-      },
     });
 
     if (!profile) {
       throw new NotFoundException('Recruiter profile not found');
     }
 
-    const activeJobsCount = profile._count.jobs;
-    let totalApplications = 0;
-    let totalShifts = 0;
-
-    for (const job of profile.jobs) {
-      totalApplications += job._count.applications;
-      totalShifts += job._count.shifts;
-    }
+    const activeJobsCount = 0; // TODO: Fetch from Jobs service
+    const totalApplications = 0; // TODO: Fetch from Applications service
+    const totalShifts = 0; // TODO: Fetch from Jobs service
 
     const completion = this.calculateProfileCompletion(profile);
 

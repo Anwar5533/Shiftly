@@ -1,21 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars -- TODO(RC3): Address type safety */
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
-import { ShiftStatus, TimesheetStatus } from '@prisma/client';
+import { ShiftStatus } from '@prisma/client';
+import { KafkaTopics, ShiftCompletedEventSchema } from '@shiftly/shared-events';
 
 @Injectable()
 export class ShiftsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async getMyShifts(workerId: string) {
-    const profile = await this.prisma.workerProfile.findUnique({
-      where: { userId: workerId },
-    });
-    if (!profile) throw new BadRequestException('Worker profile not found');
-
     return this.prisma.shift.findMany({
-      where: { workerId: profile.id },
-      include: { job: true, timesheet: true },
+      where: { workerId: workerId },
+      include: { job: true },
       orderBy: { scheduledStart: 'asc' },
     });
   }
@@ -23,21 +19,18 @@ export class ShiftsService {
   async getShiftById(shiftId: string, userId: string) {
     const shift = await this.prisma.shift.findUnique({
       where: { id: shiftId },
-      include: { job: { include: { employer: true } }, timesheet: true },
+      include: { job: true },
     });
     if (!shift) throw new BadRequestException('Shift not found');
     return shift;
   }
 
   async clockIn(shiftId: string, workerId: string, location?: any) {
-    const profile = await this.prisma.workerProfile.findUnique({
-      where: { userId: workerId },
-    });
     const shift = await this.prisma.shift.findUnique({
       where: { id: shiftId },
     });
 
-    if (!shift || !profile || shift.workerId !== profile.id) {
+    if (!shift || shift.workerId !== workerId) {
       throw new BadRequestException('Invalid shift');
     }
 
@@ -57,14 +50,11 @@ export class ShiftsService {
   }
 
   async clockOut(shiftId: string, workerId: string, location?: any) {
-    const profile = await this.prisma.workerProfile.findUnique({
-      where: { userId: workerId },
-    });
     const shift = await this.prisma.shift.findUnique({
       where: { id: shiftId },
     });
 
-    if (!shift || !profile || shift.workerId !== profile.id) {
+    if (!shift || shift.workerId !== workerId) {
       throw new BadRequestException('Invalid shift');
     }
 
@@ -75,120 +65,65 @@ export class ShiftsService {
     const actualEnd = new Date();
     const hoursWorked = (actualEnd.getTime() - shift.actualStart.getTime()) / (1000 * 60 * 60);
 
-    return this.prisma.shift.update({
-      where: { id: shiftId },
-      data: {
-        status: 'COMPLETED',
-        actualEnd,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
-        clockOutLocation: location || {},
-        hoursWorked: hoursWorked,
-      },
+    return this.prisma.$transaction(async (tx) => {
+      const updatedShift = await tx.shift.update({
+        where: { id: shiftId },
+        data: {
+          status: 'COMPLETED',
+          actualEnd,
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety
+          clockOutLocation: location || {},
+          hoursWorked: hoursWorked,
+        },
+      });
+
+      const validatedEvent = ShiftCompletedEventSchema.parse({
+        eventId: crypto.randomUUID(),
+        traceId: crypto.randomUUID(),
+        timestamp: new Date().toISOString(),
+        version: '1.0',
+        type: 'shift.completed',
+        payload: {
+          shiftId: updatedShift.id,
+          jobId: updatedShift.jobId,
+          workerId: updatedShift.workerId,
+        },
+      });
+
+      await tx.outboxEvent.create({
+        data: {
+          topic: KafkaTopics.Jobs,
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          payload: validatedEvent as any,
+        },
+      });
+
+      return updatedShift;
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   async submitTimesheet(shiftId: string, workerId: string, notes: string) {
-    const profile = await this.prisma.workerProfile.findUnique({
-      where: { userId: workerId },
-    });
-    const shift = await this.prisma.shift.findUnique({
-      where: { id: shiftId },
-    });
-
-    if (!shift || !profile || shift.workerId !== profile.id) {
-      throw new BadRequestException('Invalid shift');
-    }
-    if (shift.status !== 'COMPLETED' || !shift.hoursWorked) {
-      throw new BadRequestException('Shift must be completed to submit a timesheet');
-    }
-
-    return this.prisma.timesheet.upsert({
-      where: { shiftId: shift.id },
-      create: {
-        shiftId: shift.id,
-        status: 'SUBMITTED',
-        hoursWorked: shift.hoursWorked,
-        notes,
-        submittedAt: new Date(),
-      },
-      update: {
-        status: 'SUBMITTED',
-        hoursWorked: shift.hoursWorked,
-        notes,
-        submittedAt: new Date(),
-      },
-    });
+    throw new BadRequestException('Timesheet functionality is deprecated');
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   async getTimesheetsForEmployer(employerId: string) {
-    const user = await this.prisma.user.findUnique({ where: { id: employerId } });
-    const isSuperAdmin = user?.role === 'SUPER_ADMIN';
-
-    const profile = await this.prisma.employerProfile.findUnique({
-      where: { userId: employerId },
-    });
-    if (!profile && !isSuperAdmin) throw new BadRequestException('Employer profile not found');
-
-    const whereClause = isSuperAdmin
-      ? {}
-      : {
-          shift: {
-            job: {
-              employerId: profile?.id,
-            },
-          },
-        };
-
-    return this.prisma.timesheet.findMany({
-      where: whereClause,
-      include: {
-        shift: {
-          include: { worker: { include: { user: true } }, job: true },
-        },
-      },
-      orderBy: { createdAt: 'desc' },
-    });
+    return [];
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   async getMyTimesheets(workerId: string) {
-    const profile = await this.prisma.workerProfile.findUnique({
-      where: { userId: workerId },
-    });
-    if (!profile) throw new BadRequestException('Worker profile not found');
-
-    return this.prisma.timesheet.findMany({
-      where: {
-        shift: {
-          workerId: profile.id,
-        },
-      },
-      include: {
-        shift: {
-          include: { job: true },
-        },
-      },
-      orderBy: { createdAt: 'desc' },
-    });
+    return [];
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   async approveTimesheet(timesheetId: string, employerId: string) {
-    return this.prisma.timesheet.update({
-      where: { id: timesheetId },
-      data: {
-        status: 'APPROVED',
-        approvedAt: new Date(),
-      },
-    });
+    throw new BadRequestException('Timesheet functionality is deprecated');
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   async rejectTimesheet(timesheetId: string, employerId: string, reason: string) {
-    return this.prisma.timesheet.update({
-      where: { id: timesheetId },
-      data: {
-        status: 'REJECTED',
-        rejectedAt: new Date(),
-        rejectionReason: reason,
-      },
-    });
+    throw new BadRequestException('Timesheet functionality is deprecated');
   }
 }

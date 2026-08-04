@@ -15,16 +15,15 @@ export class KycService {
       fileSize: number;
     }[],
   ) {
-    // Check if a user already submitted KYC that is pending or approved
-    const user = await this.prisma.user.findUnique({
-      where: { id: userId },
-      include: { kycDocuments: true },
-    });
+    // Check if user has an active profile
+    const [worker, employer, recruiter] = await Promise.all([
+      this.prisma.workerProfile.findUnique({ where: { userId } }),
+      this.prisma.employerProfile.findUnique({ where: { userId } }),
+      this.prisma.recruiterProfile.findUnique({ where: { userId } }),
+    ]);
 
-    if (!user) throw new BadRequestException('User not found');
-    if (user.status === 'ACTIVE' || user.status === 'PENDING_VERIFICATION') {
-      // Technically status changes based on role/KYC, but we allow resubmitting if needed, unless they are already fully verified.
-      // For mock, let's just create the documents.
+    if (!worker && !employer && !recruiter) {
+      throw new BadRequestException('User profile not found');
     }
 
     // Save documents
@@ -43,28 +42,21 @@ export class KycService {
       ),
     );
 
-    // Update User and profiles to UNDER_REVIEW
-    await this.prisma.user.update({
-      where: { id: userId },
-      data: { status: 'PENDING_KYC' },
-    });
-
-    if (user.role === 'WORKER') {
-      await this.prisma.workerProfile.update({
+    // Update profiles to UNDER_REVIEW
+    await Promise.all([
+      this.prisma.workerProfile.updateMany({
         where: { userId },
         data: { kycStatus: 'UNDER_REVIEW' },
-      });
-    } else if (user.role === 'EMPLOYER') {
-      await this.prisma.employerProfile.update({
+      }),
+      this.prisma.employerProfile.updateMany({
         where: { userId },
         data: { kycStatus: 'UNDER_REVIEW' },
-      });
-    } else if (user.role === 'RECRUITER') {
-      await this.prisma.recruiterProfile.update({
+      }),
+      this.prisma.recruiterProfile.updateMany({
         where: { userId },
         data: { kycStatus: 'UNDER_REVIEW' },
-      });
-    }
+      }),
+    ]);
 
     // Simulate auto-approval after a delay (mocking the Admin KYC process for phase 8)
     // eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO(RC3): Address type safety
@@ -74,22 +66,18 @@ export class KycService {
   }
 
   async getKycStatus(userId: string) {
-    const user = await this.prisma.user.findUnique({
-      where: { id: userId },
-      include: {
-        workerProfile: { select: { kycStatus: true } },
-        employerProfile: { select: { kycStatus: true } },
-        recruiterProfile: { select: { kycStatus: true } },
-      },
-    });
+    const [worker, employer, recruiter] = await Promise.all([
+      this.prisma.workerProfile.findUnique({ where: { userId }, select: { kycStatus: true } }),
+      this.prisma.employerProfile.findUnique({ where: { userId }, select: { kycStatus: true } }),
+      this.prisma.recruiterProfile.findUnique({ where: { userId }, select: { kycStatus: true } }),
+    ]);
 
-    if (!user) throw new BadRequestException('User not found');
+    if (!worker && !employer && !recruiter) throw new BadRequestException('User not found');
 
     let kycStatus = 'NOT_STARTED';
-    if (user.role === 'WORKER') kycStatus = user.workerProfile?.kycStatus || 'NOT_STARTED';
-    else if (user.role === 'EMPLOYER') kycStatus = user.employerProfile?.kycStatus || 'NOT_STARTED';
-    else if (user.role === 'RECRUITER')
-      kycStatus = user.recruiterProfile?.kycStatus || 'NOT_STARTED';
+    if (worker?.kycStatus) kycStatus = worker.kycStatus;
+    else if (employer?.kycStatus) kycStatus = employer.kycStatus;
+    else if (recruiter?.kycStatus) kycStatus = recruiter.kycStatus;
 
     return { status: kycStatus };
   }
@@ -101,29 +89,21 @@ export class KycService {
       data: { status: 'APPROVED', reviewedAt: new Date() },
     });
 
-    await this.prisma.user.update({
-      where: { id: userId },
-      data: { status: 'ACTIVE' },
-    });
+    // TODO: Emit event to identity-service so it can update the User global status
 
-    const user = await this.prisma.user.findUnique({ where: { id: userId } });
-    if (!user) return;
-
-    if (user.role === 'WORKER') {
-      await this.prisma.workerProfile.update({
+    await Promise.all([
+      this.prisma.workerProfile.updateMany({
         where: { userId },
         data: { kycStatus: 'APPROVED', isVerified: true },
-      });
-    } else if (user.role === 'EMPLOYER') {
-      await this.prisma.employerProfile.update({
+      }),
+      this.prisma.employerProfile.updateMany({
         where: { userId },
         data: { kycStatus: 'APPROVED', isVerified: true },
-      });
-    } else if (user.role === 'RECRUITER') {
-      await this.prisma.recruiterProfile.update({
+      }),
+      this.prisma.recruiterProfile.updateMany({
         where: { userId },
         data: { kycStatus: 'APPROVED', isVerified: true },
-      });
-    }
+      }),
+    ]);
   }
 }

@@ -3,13 +3,14 @@
 // PostgreSQL with pgvector extension for AI embeddings
 
 generator client {
-  provider        = "prisma-client-js"
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
   previewFeatures = ["multiSchema", "fullTextSearch"]
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  
   schemas  = ["identity", "workers", "employers", "recruiters", "jobs", "payments", "messaging", "notifications", "reviews", "kyc", "referrals", "subscriptions", "audit", "knowledge_base"]
 }
 
@@ -1000,3 +1001,17 @@ model KbArticle {
   @@map("kb_articles")
   @@schema("knowledge_base")
 }
+
+model OutboxEvent {
+  id          String   @id @default(uuid())
+  topic       String
+  payload     Json
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  publishedAt DateTime?
+  error       String?
+
+  @@map("outbox_events")
+  @@schema("payments")
+}
+

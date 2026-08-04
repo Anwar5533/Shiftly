@@ -6,7 +6,6 @@ import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 import { RolesGuard } from '../../shared/guards/roles.guard';
 import { Roles } from '../../shared/decorators/roles.decorator';
 import { CurrentUser } from '../../shared/decorators/current-user.decorator';
-import { UserRole } from '@prisma/client';
 import { Public } from '../../shared/decorators/public.decorator';
 
 @Controller({ path: 'employers', version: '1' })
@@ -15,35 +14,35 @@ export class EmployersController {
 
   @Get('profile')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.EMPLOYER, UserRole.WORKER)
+  @Roles('EMPLOYER', 'WORKER')
   getProfile(@CurrentUser('sub') userId: string) {
     return this.employersService.getProfile(userId);
   }
 
   @Get('dashboard')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.EMPLOYER, UserRole.WORKER)
+  @Roles('EMPLOYER', 'WORKER')
   getDashboardStats(@CurrentUser('sub') userId: string) {
     return this.employersService.getDashboardStats(userId);
   }
 
   @Patch('profile')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.EMPLOYER, UserRole.WORKER)
+  @Roles('EMPLOYER', 'WORKER')
   updateProfile(@CurrentUser('sub') userId: string, @Body() updateDto: UpdateEmployerProfileDto) {
     return this.employersService.updateProfile(userId, updateDto);
   }
 
   @Get('departments')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.EMPLOYER, UserRole.WORKER)
+  @Roles('EMPLOYER', 'WORKER')
   getDepartments(@CurrentUser('sub') userId: string) {
     return this.employersService.getDepartments(userId);
   }
 
   @Post('departments')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.EMPLOYER, UserRole.WORKER)
+  @Roles('EMPLOYER', 'WORKER')
   addDepartment(@CurrentUser('sub') userId: string, @Body() departmentDto: AddDepartmentDto) {
     return this.employersService.addDepartment(userId, departmentDto);
   }
