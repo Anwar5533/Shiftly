@@ -59,6 +59,7 @@ export class JobsService {
         return job;
       });
     } catch (error) {
+      console.error('Error creating job:', error);
       throw new InternalServerErrorException('Failed to create job');
     }
   }

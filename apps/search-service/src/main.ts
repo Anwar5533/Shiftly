@@ -14,6 +14,7 @@ import { TransformInterceptor } from './shared/interceptors/transform.intercepto
 import { LoggingInterceptor } from './shared/interceptors/logging.interceptor';
 
 async function bootstrap(): Promise<void> {
+  console.log('INITIAL PORT:', process.env.PORT);
   const app = await NestFactory.create(AppModule, {
     bufferLogs: true,
   });
@@ -29,6 +30,7 @@ async function bootstrap(): Promise<void> {
   const port = config.get<number>('app.port', 3008);
   const nodeEnv = config.get<string>('app.nodeEnv', 'development');
   const corsOrigins = config.get<string[]>('app.corsOrigins', ['http://localhost:5173']);
+  console.log('PORT DEBUG:', { port, envPort: process.env.PORT, cwd: process.cwd() });
 
   // ─── Security ─────────────────────────────────────────────────────────────
   app.use(
