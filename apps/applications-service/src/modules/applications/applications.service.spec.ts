@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/unbound-method */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/unbound-method, @typescript-eslint/no-unsafe-return */
 import { Test, TestingModule } from '@nestjs/testing';
 import { ApplicationsService } from './applications.service';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
@@ -24,7 +24,6 @@ describe('ApplicationsService', () => {
       outboxEvent: {
         create: jest.fn(),
       },
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return -- transaction callback passthrough
       $transaction: jest.fn((callback) => {
         if (typeof callback === 'function') {
           return callback(mockPrismaService);
@@ -151,7 +150,9 @@ describe('ApplicationsService', () => {
         workerId: 'different-worker',
         status: ApplicationStatus.PENDING,
       });
-      await expect(service.withdrawApplication('user1', 'app1')).rejects.toThrow(ForbiddenException);
+      await expect(service.withdrawApplication('user1', 'app1')).rejects.toThrow(
+        ForbiddenException,
+      );
     });
 
     it('should throw ConflictException if application is already accepted', async () => {
