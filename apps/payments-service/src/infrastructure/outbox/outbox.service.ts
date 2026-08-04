@@ -36,7 +36,8 @@ export class OutboxService {
 
       for (const event of events) {
         try {
-          // payload is stored as Json in Prisma
+          // payload is stored as Json in Prisma — cast required for kafkajs publish
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- Prisma Json type requires cast
           const payload = event.payload as any;
           await this.kafkaService.publish(event.topic, payload);
 
@@ -49,13 +50,13 @@ export class OutboxService {
           });
 
           this.logger.debug(`Successfully published outbox event ${event.id}`);
-        } catch (error: any) {
+        } catch (error: unknown) {
           this.logger.error(`Failed to publish outbox event ${event.id}`, error);
 
           await this.prisma.outboxEvent.update({
             where: { id: event.id },
             data: {
-              error: error.message || 'Unknown error',
+              error: (error instanceof Error ? error.message : String(error)) || 'Unknown error',
             },
           });
         }

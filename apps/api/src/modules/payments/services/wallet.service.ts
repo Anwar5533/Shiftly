@@ -75,7 +75,7 @@ export class WalletService {
   async withdraw(userId: string, withdrawDto: WithdrawFundsDto) {
     const wallet = await this.getBalance(userId);
 
-    if (wallet.balance.toNumber() < withdrawDto.amount) {
+    if (Number(wallet.balance) < withdrawDto.amount) {
       throw new BadRequestException('Insufficient balance');
     }
 

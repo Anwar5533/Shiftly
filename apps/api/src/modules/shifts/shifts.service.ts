@@ -112,12 +112,14 @@ export class ShiftsService {
       create: {
         shiftId: shift.id,
         status: 'SUBMITTED',
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- Prisma type resolution issue
         hoursWorked: shift.hoursWorked,
         notes,
         submittedAt: new Date(),
       },
       update: {
         status: 'SUBMITTED',
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- Prisma type resolution issue
         hoursWorked: shift.hoursWorked,
         notes,
         submittedAt: new Date(),

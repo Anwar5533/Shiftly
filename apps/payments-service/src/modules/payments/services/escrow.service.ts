@@ -14,7 +14,7 @@ export class EscrowService {
   async createEscrow(employerId: string, createEscrowDto: CreateEscrowDto) {
     const employerWallet = await this.walletService.getBalance(employerId);
 
-    if (employerWallet.balance.toNumber() < createEscrowDto.amount) {
+    if (Number(employerWallet.balance) < createEscrowDto.amount) {
       throw new BadRequestException(
         'Insufficient wallet balance to fund this escrow. Please top up your wallet.',
       );
@@ -76,6 +76,7 @@ export class EscrowService {
       where: { id: workerWallet.id },
       data: {
         balance: {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- Prisma type resolution issue
           increment: escrow.amount,
         },
       },

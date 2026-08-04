@@ -16,13 +16,14 @@ export class PrismaService
 {
   private readonly logger = new Logger(PrismaService.name);
 
-    constructor(private readonly configService: ConfigService) {
-    const url = configService.get<string>('database.url') || process.env.DATABASE_URL;
+  constructor(private readonly configService: ConfigService) {
+    const url =
+      configService.get<string>('database.url') || process.env.DATABASE_URL;
     const pool = new Pool({ connectionString: url });
     const adapter = new PrismaPg(pool);
     super({
       adapter,
-            log: [
+      log: [
         { emit: 'event', level: 'query' },
         { emit: 'event', level: 'error' },
         { emit: 'event', level: 'info' },

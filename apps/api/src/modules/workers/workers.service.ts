@@ -157,6 +157,7 @@ export class WorkersService {
       activeApplications: profile._count.applications,
       completedShifts: profile._count.shifts,
       profileCompletion: completion,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- Prisma type resolution issue
       rating: profile.rating,
     };
   }

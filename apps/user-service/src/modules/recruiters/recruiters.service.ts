@@ -54,8 +54,10 @@ export class RecruitersService {
       totalApplications,
       totalShifts,
       placements: profile.placements,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- Prisma type resolution issue
       successRate: profile.successRate,
       profileCompletion: completion,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- Prisma type resolution issue
       rating: profile.rating,
     };
   }

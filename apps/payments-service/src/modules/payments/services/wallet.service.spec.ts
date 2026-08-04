@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- Prisma Decimal mock in test */
 /* eslint-disable @typescript-eslint/no-unused-vars -- TODO(RC3): Address type safety */
 import { Test, TestingModule } from '@nestjs/testing';
 import { WalletService } from './wallet.service';
@@ -57,7 +58,7 @@ describe('WalletService', () => {
       const result = await service.getBalance('user-1');
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       expect(prisma.wallet.create).not.toHaveBeenCalled();
-      expect(result.balance.toNumber()).toBe(100);
+      expect(Number(result.balance)).toBe(100);
     });
   });
 

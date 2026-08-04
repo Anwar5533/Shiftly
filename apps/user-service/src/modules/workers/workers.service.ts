@@ -143,6 +143,7 @@ export class WorkersService {
       activeApplications: 0, // TODO: Fetch from Applications service
       completedShifts: 0, // TODO: Fetch from Jobs service
       profileCompletion: completion,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- Prisma type resolution issue
       rating: profile.rating,
     };
   }

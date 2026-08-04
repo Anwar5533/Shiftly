@@ -31,13 +31,18 @@ export class KafkaConsumerService implements OnModuleInit, OnModuleDestroy {
       await this.consumer.subscribe({ topic: KafkaTopics.Jobs, fromBeginning: true });
 
       await this.consumer.run({
-        eachMessage: async ({ topic, partition, message }) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars -- partition not needed for routing
+        eachMessage: async ({ topic, message }) => {
           if (!message.value) return;
 
           try {
-            const parsed = JSON.parse(message.value.toString());
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- JSON.parse returns unknown structure
+            const parsed: Record<string, unknown> = JSON.parse(message.value.toString()) as Record<
+              string,
+              unknown
+            >;
 
-            if (parsed.type === 'shift.completed') {
+            if (parsed['type'] === 'shift.completed') {
               const validated = ShiftCompletedEventSchema.parse(parsed);
               const payload = validated.payload;
 
@@ -85,6 +90,7 @@ export class KafkaConsumerService implements OnModuleInit, OnModuleDestroy {
                 if (workerWallet) {
                   await tx.wallet.update({
                     where: { id: workerWallet.id },
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- Prisma Decimal type
                     data: { balance: { increment: lock.amount } },
                   });
                 }
@@ -94,14 +100,14 @@ export class KafkaConsumerService implements OnModuleInit, OnModuleDestroy {
                 `Successfully released escrow funds for job ${payload.jobId} to worker ${payload.workerId}`,
               );
             }
-          } catch (error) {
+          } catch (error: unknown) {
             this.logger.error(`Error processing message from topic ${topic}`, error);
           }
         },
       });
 
       this.logger.log('Kafka Consumer connected and subscribed to Jobs topic');
-    } catch (error) {
+    } catch (error: unknown) {
       this.logger.error('Failed to connect Kafka Consumer', error);
     }
   }

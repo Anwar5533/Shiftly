@@ -50,13 +50,13 @@ export class OutboxService {
           });
 
           this.logger.debug(`Successfully published outbox event ${event.id}`);
-        } catch (error: any) {
+        } catch (error: unknown) {
           this.logger.error(`Failed to publish outbox event ${event.id}`, error);
 
           await this.prisma.outboxEvent.update({
             where: { id: event.id },
             data: {
-              error: error.message || 'Unknown error',
+              error: (error instanceof Error ? error.message : String(error)) || 'Unknown error',
             },
           });
         }

@@ -112,6 +112,7 @@ export class EmployersService {
       totalShifts,
       totalDepartments: 0, // TODO: Fix relation if departments is removed
       profileCompletion: completion,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- Prisma type resolution issue
       rating: profile.rating,
       totalSpent: 0, // Placeholder
     };

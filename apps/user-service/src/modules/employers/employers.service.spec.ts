@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access -- Prisma mock in test */
 import { Test, TestingModule } from '@nestjs/testing';
 import { EmployersService } from './employers.service';
 import { PrismaService } from '../../infrastructure/database/prisma.service';

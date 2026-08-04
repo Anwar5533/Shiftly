@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- Prisma Decimal mock in test */
 import { Test, TestingModule } from '@nestjs/testing';
 import { EscrowService } from './escrow.service';
 import { WalletService } from './wallet.service';
