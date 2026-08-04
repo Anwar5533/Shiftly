@@ -1,51 +1,49 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-floating-promises, @typescript-eslint/no-unsafe-assignment -- TODO(RC3): */
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Briefcase, IndianRupee, Calendar, ChevronRight } from 'lucide-react';
 import { useAppSelector } from '@/app/store';
 import { useNavigate } from 'react-router-dom';
-import { workerApi } from '../../profile/api/worker.api';
-import type { WorkerDashboardStats } from '../../profile/api/worker.api';
 import { useQuery } from '@tanstack/react-query';
+import { dashboardApi } from './api/dashboard.api';
 import { jobsApi } from '../../jobs/api/jobs.api';
-import { shiftsApi } from '../../jobs/api/shifts.api';
 import { motion } from 'framer-motion';
 
 export default function WorkerDashboard(): React.ReactElement {
   const { user } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
-  const [stats, setStats] = useState<WorkerDashboardStats | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const data = await workerApi.getDashboardStats();
-        setStats(data);
-      } catch (_error) {
-        console.error('Failed to fetch stats', _error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchStats();
-  }, []);
-
-  const { data: shifts, isLoading: isLoadingApps } = useQuery({
-    queryKey: ['worker-upcoming-shifts'],
-    queryFn: () => shiftsApi.getMyShifts(),
+  // Phase 8: Fetch unified dashboard data from the API Gateway (BFF)
+  const { data: dashboardData, isLoading, isError } = useQuery({
+    queryKey: ['worker-dashboard', user?.id],
+    queryFn: () => dashboardApi.getWorkerDashboard(),
+    enabled: !!user?.id,
   });
 
+  // We can keep recommended jobs separate since it's not worker-specific profile data,
+  // or it could also be moved to the BFF. For now, it stays as is.
   const { data: recommendedResponse, isLoading: isLoadingJobs } = useQuery({
     queryKey: ['worker-recommended-jobs'],
     queryFn: () => jobsApi.searchJobs({ page: 1, limit: 3 }),
   });
 
-  const upcomingShifts =
-    shifts
-      ?.filter((shift) => shift.status === 'SCHEDULED' || shift.status === 'IN_PROGRESS')
-      .slice(0, 3) || [];
+  if (isLoading) {
+    return (
+      <div className="flex h-[50vh] items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+        <span className="ml-3 text-lg font-medium text-muted-foreground">Loading dashboard...</span>
+      </div>
+    );
+  }
 
+  if (isError) {
+    return (
+      <div className="flex h-[50vh] items-center justify-center text-red-500">
+        <p>Failed to load dashboard. Please try again later.</p>
+      </div>
+    );
+  }
+
+  const { profile, upcomingShifts = [], pendingApplications = [] } = dashboardData || {};
   const recommendedJobs = (recommendedResponse as any)?.items || [];
 
   return (
@@ -53,7 +51,7 @@ export default function WorkerDashboard(): React.ReactElement {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground">
-            Welcome back, {user?.email?.split('@')[0] || 'Worker'}
+            Welcome back, {profile?.firstName || user?.email?.split('@')[0] || 'Worker'}
           </h1>
           <p className="mt-1 text-muted-foreground">
             Here is what is happening with your shifts today.
@@ -81,7 +79,7 @@ export default function WorkerDashboard(): React.ReactElement {
             <div>
               <p className="text-sm font-medium text-muted-foreground">Total Earnings</p>
               <h3 className="text-2xl font-bold text-foreground">
-                {isLoading ? '...' : `₹${stats?.totalEarnings || 0}`}
+                ₹{profile?.totalEarnings || 0}
               </h3>
             </div>
           </div>
@@ -99,7 +97,7 @@ export default function WorkerDashboard(): React.ReactElement {
             <div>
               <p className="text-sm font-medium text-muted-foreground">Active Applications</p>
               <h3 className="text-2xl font-bold text-foreground">
-                {isLoading ? '...' : stats?.activeApplications || 0}
+                {pendingApplications.length}
               </h3>
             </div>
           </div>
@@ -115,9 +113,9 @@ export default function WorkerDashboard(): React.ReactElement {
               <Calendar className="h-6 w-6" />
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Completed Shifts</p>
+              <p className="text-sm font-medium text-muted-foreground">Upcoming Shifts</p>
               <h3 className="text-2xl font-bold text-foreground">
-                {isLoading ? '...' : stats?.completedShifts || 0}
+                {upcomingShifts.length}
               </h3>
             </div>
           </div>
@@ -137,9 +135,7 @@ export default function WorkerDashboard(): React.ReactElement {
             </button>
           </div>
           <div className="divide-y divide-border">
-            {isLoadingApps ? (
-              <div className="p-6 text-center text-muted-foreground">Loading shifts...</div>
-            ) : upcomingShifts.length === 0 ? (
+            {upcomingShifts.length === 0 ? (
               <div className="p-6 text-center text-muted-foreground">
                 No upcoming confirmed shifts.
               </div>
@@ -147,7 +143,6 @@ export default function WorkerDashboard(): React.ReactElement {
               upcomingShifts.map((shift: any) => (
                 <div
                   key={shift.id}
-
                   onClick={() => navigate(`/shifts/${shift.id}`)}
                   className="flex cursor-pointer items-center justify-between p-6 transition-colors hover:bg-muted/30"
                 >
@@ -163,7 +158,7 @@ export default function WorkerDashboard(): React.ReactElement {
                       </span>
                     </div>
                     <div>
-                      <h4 className="font-semibold text-foreground">{shift.job?.title}</h4>
+                      <h4 className="font-semibold text-foreground">{shift.job?.title || 'Shift'}</h4>
                       <p className="mt-1 flex items-center gap-1 text-sm text-muted-foreground">
                         <Briefcase className="h-3.5 w-3.5" />{' '}
                         {shift.job?.employer?.companyName || 'Employer'}
@@ -174,7 +169,7 @@ export default function WorkerDashboard(): React.ReactElement {
                     <span
                       className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${shift.status === 'IN_PROGRESS' ? 'animate-pulse border border-primary/20 bg-primary/10 text-primary' : 'bg-green-500/10 text-green-600'}`}
                     >
-                      {shift.status.replace('_', ' ')}
+                      {shift.status?.replace('_', ' ') || 'SCHEDULED'}
                     </span>
                     <p className="mt-2 text-sm text-muted-foreground">
                       {new Date(shift.scheduledStart).toLocaleTimeString([], {
@@ -201,7 +196,6 @@ export default function WorkerDashboard(): React.ReactElement {
               recommendedJobs.map((job: any) => (
                 <div
                   key={job.id}
-
                   onClick={() => navigate(`/jobs/${job.id}`)}
                   className="group cursor-pointer rounded-xl border border-border p-4 transition-colors hover:border-primary/50"
                 >
@@ -213,7 +207,7 @@ export default function WorkerDashboard(): React.ReactElement {
                       {job.salaryCurrency === 'INR'
                         ? '₹'
                         : job.salaryCurrency === 'USD'
-                          ? '₹'
+                          ? '$'
                           : job.salaryCurrency}
                       {job.salaryMax}/{job.salaryPeriod === 'HOURLY' ? 'hr' : 'mo'}
                     </span>
@@ -237,3 +231,4 @@ export default function WorkerDashboard(): React.ReactElement {
     </div>
   );
 }
+
