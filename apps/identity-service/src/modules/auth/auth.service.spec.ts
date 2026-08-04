@@ -23,6 +23,7 @@ describe('AuthService', () => {
     prisma = {
       auditLog: { create: jest.fn() },
       otpToken: { create: jest.fn() },
+      outboxEvent: { create: jest.fn() },
 
       user: {
         findUnique: jest.fn(),
@@ -180,6 +181,7 @@ describe('AuthService', () => {
       prisma.user.create.mockResolvedValue({
         id: 'user-1',
         role: 'WORKER',
+        email: 'test@example.com',
       } as any);
 
       const result = await service.verifyOtp('+1234567890', '123456', '127.0.0.1', 'test');
@@ -232,6 +234,7 @@ describe('AuthService', () => {
       prisma.user.create.mockResolvedValue({
         id: 'user-1',
         role: 'WORKER',
+        email: 'test@test.com',
       } as any);
 
       const result = await service.registerWithEmail(

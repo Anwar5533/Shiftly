@@ -121,6 +121,10 @@ export class JobsService {
       throw new NotFoundException('Job not found');
     }
 
+    if (job.employerId !== userId) {
+      throw new ForbiddenException('Not authorized to close this job');
+    }
+
     if (job.status === JobStatus.FILLED || job.status === JobStatus.ARCHIVED) {
       throw new ForbiddenException('Job is already closed or archived');
     }
@@ -144,6 +148,10 @@ export class JobsService {
       throw new NotFoundException('Job not found');
     }
 
+    if (job.employerId !== userId) {
+      throw new ForbiddenException('Not authorized to update this job');
+    }
+
     return this.prisma.$transaction(async (tx) => {
       const updatedJob = await tx.job.update({
         where: { id: jobId },
@@ -162,6 +170,10 @@ export class JobsService {
 
     if (!job || job.deletedAt) {
       throw new NotFoundException('Job not found');
+    }
+
+    if (job.employerId !== userId) {
+      throw new ForbiddenException('Not authorized to delete this job');
     }
 
     return this.prisma.$transaction(async (tx) => {

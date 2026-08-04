@@ -44,11 +44,12 @@
       "outputs": ["coverage/**"]
     },
     "test:unit": {
+      "dependsOn": ["^build", "db:generate"],
       "inputs": ["$TURBO_DEFAULT$"],
       "outputs": ["coverage/**"]
     },
     "test:integration": {
-      "dependsOn": ["build"],
+      "dependsOn": ["^build", "db:generate"],
       "inputs": ["$TURBO_DEFAULT$"],
       "outputs": []
     },

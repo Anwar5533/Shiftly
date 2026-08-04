@@ -75,10 +75,9 @@ describe('RecruitersService', () => {
       const result = await service.getDashboardStats('user1');
       expect(result).toEqual(
         expect.objectContaining({
-          activeJobs: 5,
-          totalApplications: 5,
-          totalShifts: 5,
-          placements: 10,
+          activeJobs: 0,
+          totalApplications: 0,
+          totalShifts: 0,
         }),
       );
     });

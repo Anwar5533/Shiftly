@@ -48,18 +48,8 @@ describe('JobsService', () => {
   });
 
   describe('createJob', () => {
-    it('should throw ForbiddenException if user is not employer', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
-      prisma.employerProfile.findUnique.mockResolvedValue(null);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
-      prisma.user.findUnique.mockResolvedValue(null);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
-      await expect(service.createJob('user-1', {} as any)).rejects.toThrow(ForbiddenException);
-    });
-
     it('should throw InternalServerErrorException if creation fails', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
-      prisma.employerProfile.findUnique.mockResolvedValue({ id: 'emp-1' });
+
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.job.create.mockRejectedValue(new Error());
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
@@ -69,8 +59,6 @@ describe('JobsService', () => {
     });
 
     it('should create job', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
-      prisma.employerProfile.findUnique.mockResolvedValue({ id: 'emp-1' });
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.job.create.mockResolvedValue({ id: 'job-1' });
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO(RC3): Address type safety
@@ -145,18 +133,7 @@ describe('JobsService', () => {
   });
 
   describe('closeJob', () => {
-    it('should throw ForbiddenException if user is not employer', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
-      prisma.employerProfile.findUnique.mockResolvedValue(null);
-      await expect(service.closeJob('user-1', 'job-1')).rejects.toThrow(
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
-        require('@nestjs/common').ForbiddenException,
-      );
-    });
-
     it('should throw NotFoundException if job not found', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
-      prisma.employerProfile.findUnique.mockResolvedValue({ id: 'emp-1' });
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.job.findUnique = jest.fn().mockResolvedValue(null);
       await expect(service.closeJob('user-1', 'job-1')).rejects.toThrow(
@@ -166,8 +143,6 @@ describe('JobsService', () => {
     });
 
     it('should throw ForbiddenException if job employerId does not match user employerId', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
-      prisma.employerProfile.findUnique.mockResolvedValue({ id: 'emp-1' });
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.job.findUnique = jest.fn().mockResolvedValue({ id: 'job-1', employerId: 'emp-2' });
       await expect(service.closeJob('user-1', 'job-1')).rejects.toThrow(
@@ -177,10 +152,8 @@ describe('JobsService', () => {
     });
 
     it('should update job status to FILLED', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
-      prisma.employerProfile.findUnique.mockResolvedValue({ id: 'emp-1' });
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
-      prisma.job.findUnique = jest.fn().mockResolvedValue({ id: 'job-1', employerId: 'emp-1' });
+      prisma.job.findUnique = jest.fn().mockResolvedValue({ id: 'job-1', employerId: 'user-1' });
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
       prisma.job.update = jest.fn().mockResolvedValue({ id: 'job-1', status: 'FILLED' });
 
