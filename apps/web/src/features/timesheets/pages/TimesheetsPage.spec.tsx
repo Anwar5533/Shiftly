@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render as customRender } from '../../../shared/lib/test-utils.tsx';
 import TimesheetsPage from './TimesheetsPage';
-import { shiftsApi } from '../../jobs/api/shifts.api';
+
 
 vi.mock('../../jobs/api/shifts.api', () => ({
   shiftsApi: {
