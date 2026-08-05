@@ -86,7 +86,15 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './vitest.setup.ts',
     exclude: ['node_modules', 'dist', '.idea', '.git', '.cache', 'e2e/**'],
-    pool: 'forks',
+    pool: 'threads',
+    fileParallelism: false,
+    maxWorkers: 1,
+    minWorkers: 1,
+    poolOptions: {
+      threads: {
+        singleThread: true,
+      },
+    },
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],

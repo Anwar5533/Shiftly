@@ -1,22 +1,24 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render as customRender } from '../../../shared/lib/test-utils.tsx';
 import WorkerDashboard from './WorkerDashboard';
-import { screen } from '@testing-library/react';
-import * as workerApi from '../../profile/api/worker.api';
-import * as applicationsApi from '../../jobs/api/applications.api';
+import { screen, cleanup } from '@testing-library/react';
+import { dashboardApi } from '../api/dashboard.api';
 import * as jobsApi from '../../jobs/api/jobs.api';
 
-vi.mock('../../profile/api/worker.api', () => ({
-  workerApi: {
-    getDashboardStats: vi.fn(),
+vi.mock('../api/dashboard.api', () => ({
+  dashboardApi: {
+    getWorkerDashboard: vi.fn(),
   },
 }));
 
-vi.mock('../../jobs/api/applications.api', () => ({
-  applicationsApi: {
-    getMyApplications: vi.fn(),
-  },
-}));
+vi.mock('@/app/store', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/app/store')>();
+  return {
+    ...actual,
+    useAppSelector: vi.fn(() => ({ user: { sub: 'worker-1', email: 'worker@test.com' } })),
+    useAppDispatch: vi.fn(),
+  };
+});
 
 vi.mock('../../jobs/api/jobs.api', () => ({
   jobsApi: {
@@ -24,32 +26,26 @@ vi.mock('../../jobs/api/jobs.api', () => ({
   },
 }));
 
-vi.mock('../../jobs/api/shifts.api', () => ({
-  shiftsApi: {
-    getMyShifts: vi.fn(),
-  },
-}));
-
-import * as shiftsApi from '../../jobs/api/shifts.api';
-
 describe('WorkerDashboard', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    (
-      workerApi.workerApi.getDashboardStats as unknown as ReturnType<typeof vi.fn>
-    ).mockResolvedValue({
-      totalEarnings: 1500,
-      completedShifts: 10,
-      activeApplications: 2,
+    (dashboardApi.getWorkerDashboard as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
+      profile: {
+        totalEarnings: 1500,
+        firstName: 'Worker',
+      },
+      upcomingShifts: Array(10).fill({}),
+      pendingApplications: Array(2).fill({}),
     });
-    (
-      applicationsApi.applicationsApi.getMyApplications as unknown as ReturnType<typeof vi.fn>
-    ).mockResolvedValue({ items: [] });
-    (shiftsApi.shiftsApi.getMyShifts as unknown as ReturnType<typeof vi.fn>).mockResolvedValue([]);
+
     (jobsApi.jobsApi.searchJobs as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
       items: [],
       pagination: { total: 0, page: 1, limit: 10 },
     });
+  });
+
+  afterEach(() => {
+    cleanup();
   });
 
   it('renders without crashing', () => {
@@ -82,9 +78,12 @@ describe('WorkerDashboard', () => {
         },
       },
     ];
-    (shiftsApi.shiftsApi.getMyShifts as unknown as ReturnType<typeof vi.fn>).mockResolvedValue(
-      mockShifts,
-    );
+    
+    (dashboardApi.getWorkerDashboard as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
+      profile: { totalEarnings: 0, firstName: 'Worker' },
+      upcomingShifts: mockShifts,
+      pendingApplications: [],
+    });
 
     customRender(<WorkerDashboard />);
 
@@ -117,6 +116,6 @@ describe('WorkerDashboard', () => {
     customRender(<WorkerDashboard />);
 
     expect(await screen.findByText('Warehouse Associate Role')).toBeInTheDocument();
-    expect(screen.getByText('₹15/hr')).toBeInTheDocument();
+    expect(screen.getByText('$15/hr')).toBeInTheDocument();
   });
 });
