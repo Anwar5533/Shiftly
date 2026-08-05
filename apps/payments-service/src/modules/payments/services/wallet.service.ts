@@ -3,7 +3,7 @@ import { Injectable, NotFoundException, BadRequestException } from '@nestjs/comm
 import { PrismaService } from '../../../infrastructure/database/prisma.service';
 import { TopupWalletDto } from '../dto/topup-wallet.dto';
 import { WithdrawFundsDto } from '../dto/withdraw-funds.dto';
-import { TransactionType, TransactionStatus } from '@prisma/client';
+import { TransactionType, TransactionStatus } from '@prisma/client-payments-service';
 
 @Injectable()
 export class WalletService {

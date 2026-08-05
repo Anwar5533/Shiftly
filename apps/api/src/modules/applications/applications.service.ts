@@ -9,7 +9,7 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
 import { CreateApplicationDto } from './dto/create-application.dto';
 import { UpdateApplicationStatusDto } from './dto/update-application-status.dto';
-import { JobStatus, Prisma } from '@prisma/client';
+import { JobStatus, Prisma } from '@prisma/client-api';
 
 @Injectable()
 export class ApplicationsService {

@@ -1,6 +1,6 @@
 import { IsOptional, IsString, IsEnum, IsNumber, Min } from 'class-validator';
 import { Type } from 'class-transformer';
-import { JobType, JobStatus } from '@prisma/client';
+import { JobType, JobStatus } from '@prisma/client-jobs-service';
 
 export class SearchJobsDto {
   @IsOptional()

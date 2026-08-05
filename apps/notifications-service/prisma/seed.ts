@@ -1,4 +1,4 @@
-import { PrismaClient, UserRole, JobType, SalaryPeriod } from '@prisma/client';
+import { PrismaClient, UserRole, JobType, SalaryPeriod } from '@prisma/client-notifications-service';
 import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();

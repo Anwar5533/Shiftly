@@ -8,7 +8,7 @@ import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 import { RolesGuard } from '../../shared/guards/roles.guard';
 import { CurrentUser } from '../../shared/decorators/current-user.decorator';
 import { Roles } from '../../shared/decorators/roles.decorator';
-import { UserRole } from '@prisma/client';
+import { UserRole } from '@prisma/client-payments-service';
 
 @Controller({ path: 'payments', version: '1' })
 @UseGuards(JwtAuthGuard, RolesGuard)

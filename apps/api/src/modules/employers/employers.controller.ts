@@ -14,7 +14,7 @@ import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 import { RolesGuard } from '../../shared/guards/roles.guard';
 import { Roles } from '../../shared/decorators/roles.decorator';
 import { CurrentUser } from '../../shared/decorators/current-user.decorator';
-import { UserRole } from '@prisma/client';
+import { UserRole } from '@prisma/client-api';
 import { Public } from '../../shared/decorators/public.decorator';
 
 @Controller({ path: 'employers', version: '1' })

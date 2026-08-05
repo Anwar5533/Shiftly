@@ -4,7 +4,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
 import { AuthService } from '../auth.service';
 import { JwtPayload } from '@shiftly/shared-types';
-import { User } from '@prisma/client';
+import { User } from '@prisma/client-identity-service';
 
 type AuthenticatedPayload = JwtPayload & { id: string; userId: string };
 

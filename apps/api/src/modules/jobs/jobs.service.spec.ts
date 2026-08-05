@@ -6,7 +6,7 @@ import {
   ForbiddenException,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { JobStatus } from '@prisma/client';
+import { JobStatus } from '@prisma/client-api';
 
 describe('JobsService', () => {
   let service: JobsService;

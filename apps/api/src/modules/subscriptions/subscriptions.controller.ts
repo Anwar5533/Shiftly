@@ -10,7 +10,7 @@ import { SubscriptionsService } from './subscriptions.service';
 import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 import { RolesGuard } from '../../shared/guards/roles.guard';
 import { Roles } from '../../shared/decorators/roles.decorator';
-import { SubscriptionPlan } from '@prisma/client';
+import { SubscriptionPlan } from '@prisma/client-api';
 
 @Controller({ path: 'subscriptions', version: '1' })
 @UseGuards(JwtAuthGuard, RolesGuard)

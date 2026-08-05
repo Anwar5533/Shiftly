@@ -4,7 +4,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { WalletService } from './wallet.service';
 import { PrismaService } from '../../../infrastructure/database/prisma.service';
 import { BadRequestException } from '@nestjs/common';
-import { TransactionType, TransactionStatus } from '@prisma/client';
+import { TransactionType, TransactionStatus } from '@prisma/client-payments-service';
 
 describe('WalletService', () => {
   let service: WalletService;

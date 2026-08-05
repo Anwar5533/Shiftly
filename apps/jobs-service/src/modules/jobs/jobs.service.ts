@@ -8,7 +8,7 @@ import { PrismaService } from '../../infrastructure/database/prisma.service';
 import { CreateJobDto } from './dto/create-job.dto';
 import { UpdateJobDto } from './dto/update-job.dto';
 import { SearchJobsDto } from './dto/search-jobs.dto';
-import { JobStatus, Prisma } from '@prisma/client';
+import { JobStatus, Prisma } from '@prisma/client-jobs-service';
 
 @Injectable()
 export class JobsService {

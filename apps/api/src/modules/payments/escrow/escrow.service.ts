@@ -7,7 +7,7 @@ import {
 import { PrismaService } from '../../../infrastructure/database/prisma.service';
 import { TransactionsService } from '../transactions/transactions.service';
 import { WalletsService } from '../wallets/wallets.service';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client-api';
 
 @Injectable()
 export class EscrowService {

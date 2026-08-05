@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { JobsService } from './jobs.service';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
 import { ForbiddenException, InternalServerErrorException } from '@nestjs/common';
-import { JobStatus } from '@prisma/client';
+import { JobStatus } from '@prisma/client-jobs-service';
 
 describe('JobsService', () => {
   let service: JobsService;

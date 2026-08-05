@@ -2,7 +2,7 @@ import { Injectable, NotFoundException, BadRequestException } from '@nestjs/comm
 import { PrismaService } from '../../../infrastructure/database/prisma.service';
 import { WalletService } from './wallet.service';
 import { CreateEscrowDto } from '../dto/create-escrow.dto';
-import { EscrowStatus } from '@prisma/client';
+import { EscrowStatus } from '@prisma/client-payments-service';
 
 @Injectable()
 export class EscrowService {

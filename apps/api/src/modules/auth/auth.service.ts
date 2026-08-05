@@ -16,7 +16,7 @@ import { RedisService } from '../../infrastructure/redis/redis.service';
 import { RegisterEmailDto } from './dto/register-email.dto';
 import { ROLE_PERMISSIONS } from '@shiftly/shared-constants';
 import { JwtPayload } from '@shiftly/shared-types';
-import { User, UserRole } from '@prisma/client';
+import { User, UserRole } from '@prisma/client-api';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { UserRegisteredEvent } from '../../events/definitions/user-registered.event';
 

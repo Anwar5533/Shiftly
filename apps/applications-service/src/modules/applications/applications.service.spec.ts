@@ -4,7 +4,7 @@ import { ApplicationsService } from './applications.service';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ForbiddenException, NotFoundException, ConflictException } from '@nestjs/common';
-import { ApplicationStatus } from '@prisma/client';
+import { ApplicationStatus } from '@prisma/client-applications-service';
 
 describe('ApplicationsService', () => {
   let service: ApplicationsService;

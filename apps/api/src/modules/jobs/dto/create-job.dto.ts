@@ -9,7 +9,7 @@ import {
   IsObject,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { JobType, SalaryPeriod } from '@prisma/client';
+import { JobType, SalaryPeriod } from '@prisma/client-api';
 
 export class CreateJobDto {
   @IsString()

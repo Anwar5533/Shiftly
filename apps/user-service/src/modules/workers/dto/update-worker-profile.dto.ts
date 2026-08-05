@@ -1,6 +1,6 @@
 import { IsString, IsOptional, IsNumber, IsObject, IsEnum, Max, Min } from 'class-validator';
 import { Type } from 'class-transformer';
-import { AvailabilityType } from '@prisma/client';
+import { AvailabilityType } from '@prisma/client-user-service';
 
 export class UpdateWorkerProfileDto {
   @IsOptional()

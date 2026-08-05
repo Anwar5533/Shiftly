@@ -8,7 +8,7 @@ import {
   Min,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { AvailabilityType } from '@prisma/client';
+import { AvailabilityType } from '@prisma/client-api';
 
 export class UpdateWorkerProfileDto {
   @IsOptional()

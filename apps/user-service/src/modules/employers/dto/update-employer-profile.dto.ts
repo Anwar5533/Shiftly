@@ -1,5 +1,5 @@
 import { IsString, IsOptional, IsObject, IsEnum, IsUrl } from 'class-validator';
-import { EmployeeCountRange } from '@prisma/client';
+import { EmployeeCountRange } from '@prisma/client-user-service';
 
 export class UpdateEmployerProfileDto {
   @IsOptional()

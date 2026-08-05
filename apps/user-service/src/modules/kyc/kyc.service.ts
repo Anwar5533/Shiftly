@@ -1,6 +1,6 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
-import { DocumentType } from '@prisma/client';
+import { DocumentType } from '@prisma/client-user-service';
 
 @Injectable()
 export class KycService {

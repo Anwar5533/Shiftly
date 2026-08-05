@@ -7,7 +7,7 @@ import {
   NotFoundException,
   ConflictException,
 } from '@nestjs/common';
-import { ApplicationStatus } from '@prisma/client';
+import { ApplicationStatus } from '@prisma/client-api';
 
 describe('ApplicationsService', () => {
   let service: ApplicationsService;

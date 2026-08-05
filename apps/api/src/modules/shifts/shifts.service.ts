@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars -- TODO(RC3): Address type safety */
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
-import { ShiftStatus, TimesheetStatus } from '@prisma/client';
+import { ShiftStatus, TimesheetStatus } from '@prisma/client-api';
 
 @Injectable()
 export class ShiftsService {

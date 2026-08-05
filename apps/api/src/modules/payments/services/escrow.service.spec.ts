@@ -4,7 +4,7 @@ import { EscrowService } from './escrow.service';
 import { WalletService } from './wallet.service';
 import { PrismaService } from '../../../infrastructure/database/prisma.service';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { EscrowStatus } from '@prisma/client';
+import { EscrowStatus } from '@prisma/client-api';
 
 describe('EscrowService', () => {
   let service: EscrowService;

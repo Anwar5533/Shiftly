@@ -6,7 +6,7 @@ import {
 import { PrismaService } from '../../../infrastructure/database/prisma.service';
 import { WalletService } from './wallet.service';
 import { CreateEscrowDto } from '../dto/create-escrow.dto';
-import { EscrowStatus } from '@prisma/client';
+import { EscrowStatus } from '@prisma/client-api';
 
 @Injectable()
 export class EscrowService {

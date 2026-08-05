@@ -1,7 +1,7 @@
 import { PartialType } from '@nestjs/swagger';
 import { CreateJobDto } from './create-job.dto';
 import { IsEnum, IsOptional } from 'class-validator';
-import { JobStatus } from '@prisma/client';
+import { JobStatus } from '@prisma/client-jobs-service';
 
 export class UpdateJobDto extends PartialType(CreateJobDto) {
   @IsEnum(JobStatus)

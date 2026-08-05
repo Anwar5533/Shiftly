@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { KycService } from './kyc.service';
 import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
-import { DocumentType } from '@prisma/client';
+import { DocumentType } from '@prisma/client-api';
 
 @Controller({ path: 'kyc', version: '1' })
 @UseGuards(JwtAuthGuard)
