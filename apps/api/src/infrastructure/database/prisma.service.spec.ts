@@ -44,7 +44,7 @@ describe('PrismaService', () => {
       // Or we can just spy on PrismaClient.prototype.$on before instantiation
       const onSpy = jest
         // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
-        .spyOn(require('@prisma/client').PrismaClient.prototype, '$on')
+        .spyOn(PrismaService.prototype as any, '$on')
         .mockImplementation();
 
       const newService = new PrismaService(configService);
