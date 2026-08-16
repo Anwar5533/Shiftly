@@ -86,6 +86,7 @@ async function bootstrap() {
     ];
 
     if (proxiedPrefixes.some((p) => url.startsWith(p))) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises -- Proxy middleware
       apiProxy(req, res, next);
     } else {
       next();

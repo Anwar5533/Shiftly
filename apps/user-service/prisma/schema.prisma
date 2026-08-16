@@ -3,10 +3,12 @@
 generator client {
   provider = "prisma-client-js"
   output   = "../../../node_modules/@prisma/client-user-service"
+  previewFeatures = ["multiSchema"]
 }
 
 datasource db {
   provider = "postgresql"
+  schemas  = ["users"]
 }
 
 // ─── ENUMS ───────────────────────────────────────────────────────────────────
@@ -16,6 +18,7 @@ enum AvailabilityType {
   PART_TIME
   WEEKENDS
   FLEXIBLE
+  @@schema("users")
 }
 
 enum EmployeeCountRange {
@@ -25,6 +28,7 @@ enum EmployeeCountRange {
   RANGE_201_500
   RANGE_501_1000
   RANGE_1000_PLUS
+  @@schema("users")
 }
 
 enum KycStatus {
@@ -34,6 +38,7 @@ enum KycStatus {
   APPROVED
   REJECTED
   EXPIRED
+  @@schema("users")
 }
 
 enum DocumentType {
@@ -44,17 +49,20 @@ enum DocumentType {
   PROOF_OF_ADDRESS
   BUSINESS_REGISTRATION
   RESUME
+  @@schema("users")
 }
 
 enum DocumentStatus {
   PENDING
   APPROVED
   REJECTED
+  @@schema("users")
 }
 
 enum ReviewTarget {
   WORKER
   EMPLOYER
+  @@schema("users")
 }
 
 // ─── WORKERS SCHEMA ───────────────────────────────────────────────────────────
@@ -87,6 +95,7 @@ model WorkerProfile {
   certifications WorkerCertification[]
 
   @@map("worker_profiles")
+  @@schema("users")
 }
 
 model Skill {
@@ -98,6 +107,7 @@ model Skill {
   workers   WorkerSkill[]
 
   @@map("skills")
+  @@schema("users")
 }
 
 model WorkerSkill {
@@ -112,6 +122,7 @@ model WorkerSkill {
 
   @@id([workerId, skillId])
   @@map("worker_skills")
+  @@schema("users")
 }
 
 model WorkerCertification {
@@ -130,6 +141,7 @@ model WorkerCertification {
 
   @@index([workerId])
   @@map("worker_certifications")
+  @@schema("users")
 }
 
 // ─── EMPLOYERS SCHEMA ─────────────────────────────────────────────────────────
@@ -155,6 +167,7 @@ model EmployerProfile {
   departments Department[]
 
   @@map("employer_profiles")
+  @@schema("users")
 }
 
 model Department {
@@ -169,6 +182,7 @@ model Department {
 
   @@index([employerId])
   @@map("departments")
+  @@schema("users")
 }
 
 // ─── RECRUITERS SCHEMA ────────────────────────────────────────────────────────
@@ -193,6 +207,7 @@ model RecruiterProfile {
   deletedAt       DateTime?
 
   @@map("recruiter_profiles")
+  @@schema("users")
 }
 
 // ─── REVIEWS SCHEMA ───────────────────────────────────────────────────────────
@@ -212,6 +227,7 @@ model Review {
   @@unique([jobId, reviewerId, targetId])
   @@index([targetId])
   @@map("reviews")
+  @@schema("users")
 }
 
 // ─── KYC SCHEMA ──────────────────────────────────────────────────────────────
@@ -228,6 +244,7 @@ model KycRequest {
 
   @@index([status])
   @@map("kyc_requests")
+  @@schema("users")
 }
 
 model KycDocument {
@@ -244,6 +261,7 @@ model KycDocument {
 
   @@index([userId])
   @@map("kyc_documents")
+  @@schema("users")
 }
 
 // ─── OUTBOX ───────────────────────────────────────────────────────────────────
@@ -258,4 +276,5 @@ model OutboxEvent {
   error       String?
 
   @@map("outbox_events")
+  @@schema("users")
 }

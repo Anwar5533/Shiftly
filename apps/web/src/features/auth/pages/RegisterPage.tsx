@@ -6,17 +6,14 @@ import { useMutation } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { Loader2, ArrowRight, UserCircle, Building2, Eye, EyeOff } from 'lucide-react';
 import { z } from 'zod';
-import { useAppDispatch } from '@/app/store';
-import { setUser } from '../store/authSlice';
 import { authApi } from '../api/auth.api';
-import { setAccessToken } from '@/shared/lib/api';
-import { jwtDecode } from '../utils/jwt';
-import type { JwtPayload, UserRole } from '@shiftly/shared-types';
+import type { UserRole } from '@shiftly/shared-types';
 
 const registerSchema = z.object({
   firstName: z.string().min(2, 'First name must be at least 2 characters'),
   lastName: z.string().min(2, 'Last name must be at least 2 characters'),
   email: z.string().email('Enter a valid email address'),
+  phone: z.string().min(10, 'Enter a valid phone number').regex(/^\+?[1-9]\d{9,14}$/, 'Enter phone with country code (e.g. +91...)'),
   password: z
     .string()
     .min(8, 'Password must be at least 8 characters')
@@ -28,7 +25,6 @@ type RegisterForm = z.infer<typeof registerSchema>;
 
 export default function RegisterPage(): React.ReactElement {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const [role, setRole] = useState<UserRole>('WORKER');
   const [showPassword, setShowPassword] = useState(false);
 
@@ -37,19 +33,22 @@ export default function RegisterPage(): React.ReactElement {
   });
 
   const registerMutation = useMutation({
-    mutationFn: (data: RegisterForm) =>
-      authApi.register({
+    mutationFn: (data: RegisterForm) => {
+      // Normalize phone
+      const phone = data.phone.startsWith('+') ? data.phone : `+${data.phone}`;
+      return authApi.register({
         email: data.email,
+        phone: phone,
         password: data.password,
         firstName: data.firstName,
         lastName: data.lastName,
         role: role,
-      }),
-    onSuccess: (data) => {
-      setAccessToken(data.accessToken);
-      const payload = jwtDecode<JwtPayload>(data.accessToken);
-      dispatch(setUser(payload));
-      void navigate('/onboarding', { replace: true });
+      });
+    },
+    onSuccess: (_data, variables) => {
+      // Normalise phone
+      const phone = variables.phone.startsWith('+') ? variables.phone : `+${variables.phone}`;
+      void navigate('/verify-otp', { state: { email: variables.email, phone: phone } });
     },
   });
 
@@ -138,20 +137,37 @@ export default function RegisterPage(): React.ReactElement {
           </div>
         </div>
 
-        <div className="space-y-1.5">
-          <label htmlFor="email" className="text-sm font-medium text-foreground">
-            Email address
-          </label>
-          <input
-            id="email"
-            type="email"
-            placeholder="john@example.com"
-            className="input-glow w-full rounded-lg border border-input bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-ring focus:outline-none"
-            {...form.register('email')}
-          />
-          {form.formState.errors.email && (
-            <p className="text-xs text-destructive">{form.formState.errors.email.message}</p>
-          )}
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-1.5">
+            <label htmlFor="email" className="text-sm font-medium text-foreground">
+              Email address
+            </label>
+            <input
+              id="email"
+              type="email"
+              placeholder="john@example.com"
+              className="input-glow w-full rounded-lg border border-input bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-ring focus:outline-none"
+              {...form.register('email')}
+            />
+            {form.formState.errors.email && (
+              <p className="text-xs text-destructive">{form.formState.errors.email.message}</p>
+            )}
+          </div>
+          <div className="space-y-1.5">
+            <label htmlFor="phone" className="text-sm font-medium text-foreground">
+              Phone number
+            </label>
+            <input
+              id="phone"
+              type="tel"
+              placeholder="+91 98765 43210"
+              className="input-glow w-full rounded-lg border border-input bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-ring focus:outline-none"
+              {...form.register('phone')}
+            />
+            {form.formState.errors.phone && (
+              <p className="text-xs text-destructive">{form.formState.errors.phone.message}</p>
+            )}
+          </div>
         </div>
 
         <div className="space-y-1.5">

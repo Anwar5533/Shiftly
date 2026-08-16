@@ -3,10 +3,12 @@
 generator client {
   provider = "prisma-client-js"
   output   = "../../../node_modules/@prisma/client-identity-service"
+  previewFeatures = ["multiSchema"]
 }
 
 datasource db {
   provider = "postgresql"
+  schemas  = ["identity"]
 }
 
 // ─── ENUMS ───────────────────────────────────────────────────────────────────
@@ -17,6 +19,7 @@ enum UserRole {
   RECRUITER
   ADMIN
   SUPER_ADMIN
+  @@schema("identity")
 }
 
 enum UserStatus {
@@ -25,6 +28,7 @@ enum UserStatus {
   PENDING_KYC
   PENDING_VERIFICATION
   DELETED
+  @@schema("identity")
 }
 
 // ─── IDENTITY SCHEMA ─────────────────────────────────────────────────────────
@@ -51,6 +55,7 @@ model User {
   @@index([role, status])
   @@index([deletedAt])
   @@map("users")
+  @@schema("identity")
 }
 
 model Session {
@@ -69,6 +74,7 @@ model Session {
   @@index([userId])
   @@index([refreshTokenJti])
   @@map("sessions")
+  @@schema("identity")
 }
 
 model OtpToken {
@@ -85,6 +91,7 @@ model OtpToken {
 
   @@index([phone])
   @@map("otp_tokens")
+  @@schema("identity")
 }
 
 model OutboxEvent {
@@ -97,4 +104,5 @@ model OutboxEvent {
   error       String?
 
   @@map("outbox_events")
+  @@schema("identity")
 }

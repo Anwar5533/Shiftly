@@ -2,7 +2,7 @@ import { Injectable, Logger, OnModuleInit, OnModuleDestroy } from '@nestjs/commo
 import { ConfigService } from '@nestjs/config';
 import { Kafka, Consumer } from 'kafkajs';
 import { PrismaService } from '../database/prisma.service';
-import { KafkaTopics, ApplicationHiredEventSchema } from '@shiftly/shared-events';
+import { KafkaTopics, ApplicationApprovedEventSchema } from '@shiftly/shared-events';
 import { ClsService } from 'nestjs-cls';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -17,13 +17,29 @@ export class KafkaConsumerService implements OnModuleInit, OnModuleDestroy {
     private readonly prisma: PrismaService,
     private readonly cls: ClsService,
   ) {
-    const brokers = this.config.get<string>('kafka.brokers', 'localhost:9092').split(',');
-    const clientId = this.config.get<string>('kafka.clientId', 'jobs-service');
+    const brokers = this.config.get<string>('kafka.brokers');
+        const clientId = this.config.get<string>('kafka.clientId', 'jobs-service');
+    const ssl = this.config.get<boolean>('kafka.ssl', false);
+    const saslMechanism = this.config.get<string>('kafka.saslMechanism');
+    const saslUsername = this.config.get<string>('kafka.saslUsername');
+    const saslPassword = this.config.get<string>('kafka.saslPassword');
 
-    this.kafka = new Kafka({
+    const kafkaConfig: import('kafkajs').KafkaConfig = {
       clientId,
-      brokers,
-    });
+      brokers: Array.isArray(brokers) ? brokers : typeof brokers === "string" ? brokers.split(",") : [String(brokers)],
+      ...(ssl ? { ssl: { rejectUnauthorized: false } } : {}),
+      ...(saslUsername
+        ? {
+            sasl: {
+              mechanism: (saslMechanism || "scram-sha-256") as "scram-sha-256",
+              username: saslUsername,
+              password: saslPassword || "",
+            } as import("kafkajs").SASLOptions,
+          }
+        : {}),
+    };
+
+    this.kafka = new Kafka(kafkaConfig);
 
     this.consumer = this.kafka.consumer({ groupId: 'jobs-service-group' });
   }
@@ -45,8 +61,8 @@ export class KafkaConsumerService implements OnModuleInit, OnModuleDestroy {
               const parsedTraceId = parsed.traceId || parsedPayload?.traceId;
               this.cls.set('traceId', (parsedTraceId as string) || uuidv4());
 
-              if (parsed.type === 'application.hired') {
-                const validated = ApplicationHiredEventSchema.parse(parsed);
+              if (parsed.type === 'application.approved') {
+                const validated = ApplicationApprovedEventSchema.parse(parsed);
                 const payload = validated.payload;
 
                 await this.prisma.$transaction(async (tx) => {

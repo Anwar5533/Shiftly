@@ -9,6 +9,7 @@ import {
   Patch,
   Delete,
 } from '@nestjs/common';
+import { EventPattern, Payload } from '@nestjs/microservices';
 import { JobsService } from './jobs.service';
 import { CreateJobDto } from './dto/create-job.dto';
 import { UpdateJobDto } from './dto/update-job.dto';
@@ -73,5 +74,12 @@ export class JobsController {
   @Roles('EMPLOYER', 'WORKER')
   deleteJob(@Param('id') id: string, @CurrentUser('sub') userId: string) {
     return this.jobsService.deleteJob(userId, id);
+  }
+
+  @EventPattern('application.approved')
+  async handleApplicationApproved(@Payload() message: any) {
+    // message is the full event payload (from shared-events schema)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
+    return this.jobsService.handleApplicationApproved(message.payload);
   }
 }

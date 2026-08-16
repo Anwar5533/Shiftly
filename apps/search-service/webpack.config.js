@@ -5,7 +5,12 @@ module.exports = function (options, webpack) {
     nodeExternals({
       allowlist: [/^@shiftly\//],
     }),
-    /^@prisma\/client-.*$/
+    function ({ context, request }, callback) {
+      if (/^@prisma\/client-/.test(request)) {
+        return callback(null, 'commonjs ' + request);
+      }
+      callback();
+    }
   ];
   return options;
 };

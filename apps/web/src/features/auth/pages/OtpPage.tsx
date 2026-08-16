@@ -3,9 +3,8 @@ import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { Loader2, ArrowRight, ArrowLeft } from 'lucide-react';
 import { useAppDispatch } from '@/app/store';
-import { setUser } from '../store/authSlice';
+import { loginSuccess } from '../store/authSlice';
 import { authApi } from '../api/auth.api';
-import { setAccessToken } from '@/shared/lib/api';
 import { jwtDecode } from '../utils/jwt';
 import type { JwtPayload } from '@shiftly/shared-types';
 
@@ -13,14 +12,15 @@ export default function OtpPage(): React.ReactElement {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useAppDispatch();
-  const phone = (location.state as { phone?: string })?.phone;
+  const phone = (location.state as { phone?: string; email?: string })?.phone;
+  const email = (location.state as { phone?: string; email?: string })?.email;
 
   const [otp, setOtp] = useState<string[]>(Array(6).fill(''));
   const [countdown, setCountdown] = useState(30);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  // If accessed directly without phone, send back to login
-  if (!phone) {
+  // If accessed directly without phone or email, send back to login
+  if (!phone && !email) {
     return <Navigate to="/login" replace />;
   }
 
@@ -34,22 +34,38 @@ export default function OtpPage(): React.ReactElement {
 
   // ─── Mutations ─────────────────────────────────────────────────────────
   const verifyOtpMutation = useMutation({
-    mutationFn: (code: string) => authApi.verifyOtp(phone, code),
+    mutationFn: (code: string) => authApi.verifyOtp({ phone, email, otp: code }),
     onSuccess: (data) => {
-      setAccessToken(data.accessToken);
       const payload = jwtDecode<JwtPayload>(data.accessToken);
-      dispatch(setUser(payload));
+      // Pass dispatch as the second argument to loginSuccess thunk
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      dispatch(loginSuccess(payload, data.accessToken) as any);
 
       if (data.isNewUser) {
         void navigate('/register', { replace: true });
       } else {
-        void navigate('/dashboard', { replace: true });
+        switch (payload.role) {
+          case 'ADMIN':
+            void navigate('/admin', { replace: true });
+            break;
+          case 'WORKER':
+            void navigate('/dashboard/worker', { replace: true });
+            break;
+          case 'EMPLOYER':
+            void navigate('/dashboard/employer', { replace: true });
+            break;
+          case 'RECRUITER':
+            void navigate('/dashboard/recruiter', { replace: true });
+            break;
+          default:
+            void navigate('/dashboard', { replace: true });
+        }
       }
     },
   });
 
   const resendOtpMutation = useMutation({
-    mutationFn: () => authApi.sendOtp(phone),
+    mutationFn: () => authApi.resendOtp({ phone, email }),
     onSuccess: () => {
       setCountdown(30);
       setOtp(Array(6).fill(''));
@@ -118,9 +134,9 @@ export default function OtpPage(): React.ReactElement {
           <ArrowLeft className="mr-1 h-3 w-3" />
           Back to login
         </button>
-        <h1 className="text-2xl font-bold tracking-tight text-foreground">Verify your number</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-foreground">Verify your identity</h1>
         <p className="text-sm text-muted-foreground">
-          We sent a 6-digit code to <span className="font-semibold text-foreground">{phone}</span>
+          We sent a 6-digit code to <span className="font-semibold text-foreground">{phone || email}</span>
         </p>
       </div>
 

@@ -492,7 +492,7 @@ export class AuthService {
 
     // Revoke previous session from the exact same device footprint to avoid unbounded zombie sessions
     if (ipAddress && userAgent) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+       
       const revoked = await tx.session.updateMany({
         where: {
           userId: user.id,
@@ -506,14 +506,14 @@ export class AuthService {
         },
       });
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+       
       if (revoked.count > 0) {
         this.logger.log(
           JSON.stringify({
             event: 'AUTH_SESSION_REVOKED_PER_DEVICE',
             userId: user.id,
             ipAddress,
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+             
             count: revoked.count,
             timestamp: new Date().toISOString(),
           }),
@@ -522,7 +522,7 @@ export class AuthService {
     }
 
     // Persist session
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+     
     await tx.session.create({
       data: {
         userId: user.id,

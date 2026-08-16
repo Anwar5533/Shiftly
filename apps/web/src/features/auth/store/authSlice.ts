@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { JwtPayload } from '@shiftly/shared-types';
+import { setAccessToken } from '@/shared/lib/api';
 
 interface AuthState {
   user: JwtPayload | null;
@@ -35,4 +36,12 @@ const authSlice = createSlice({
 });
 
 export const { setUser, clearUser, setLoading } = authSlice.actions;
+
+// Thunk to handle login success
+import type { Dispatch } from '@reduxjs/toolkit';
+export const loginSuccess = (user: JwtPayload, accessToken: string) => (dispatch: Dispatch) => {
+  setAccessToken(accessToken);
+  dispatch(setUser(user));
+};
+
 export default authSlice.reducer;

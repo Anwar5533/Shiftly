@@ -3,6 +3,9 @@ import { ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
+import * as jwt from 'jsonwebtoken';
+
+jest.mock('jsonwebtoken');
 
 describe('JwtAuthGuard', () => {
   let guard: JwtAuthGuard;
@@ -29,43 +32,95 @@ describe('JwtAuthGuard', () => {
       ]);
     });
 
-    it('should call super.canActivate if route is not public', () => {
+    it('should return true and set user if x-user-id header exists', () => {
       jest.spyOn(reflector, 'getAllAndOverride').mockReturnValue(false);
+      const mockRequest = {
+        headers: {
+          'x-user-id': 'user123',
+          'x-user-role': 'admin',
+        },
+        user: undefined,
+      };
       const context = {
         getHandler: jest.fn(),
         getClass: jest.fn(),
+        switchToHttp: () => ({
+          getRequest: () => mockRequest,
+        }),
       } as unknown as ExecutionContext;
 
-      // Mock the super.canActivate method
-      const superCanActivateSpy = jest
-        .spyOn(Object.getPrototypeOf(guard), 'canActivate')
-        .mockReturnValue(true);
-
-      const result = guard.canActivate(context);
-      expect(result).toBe(true);
-      expect(superCanActivateSpy).toHaveBeenCalledWith(context);
-    });
-  });
-
-  describe('handleRequest', () => {
-    it('should return user if no error and user exists', () => {
-      const mockUser = { id: 1 };
-      const result = guard.handleRequest(null as unknown as Error, mockUser);
-      expect(result).toBe(mockUser);
+      expect(guard.canActivate(context)).toBe(true);
+      expect(mockRequest.user).toEqual({
+        id: 'user123',
+        sub: 'user123',
+        userId: 'user123',
+        role: 'admin',
+      });
     });
 
-    it('should throw error if error exists', () => {
-      const error = new Error('test error');
-      expect(() => guard.handleRequest(error, null)).toThrow(error);
+    it('should throw UnauthorizedException if no valid headers are provided', () => {
+      jest.spyOn(reflector, 'getAllAndOverride').mockReturnValue(false);
+      const mockRequest = {
+        headers: {},
+      };
+      const context = {
+        getHandler: jest.fn(),
+        getClass: jest.fn(),
+        switchToHttp: () => ({
+          getRequest: () => mockRequest,
+        }),
+      } as unknown as ExecutionContext;
+
+      expect(() => guard.canActivate(context)).toThrow(UnauthorizedException);
     });
 
-    it('should throw UnauthorizedException if no user', () => {
-      expect(() => guard.handleRequest(new Error('test'), null)).toThrow(
-        'test',
-      );
-      expect(() => guard.handleRequest(null as unknown as Error, null)).toThrow(
-        'Authentication required. Please log in.',
-      );
+    it('should verify token and set user if valid Bearer token is provided', () => {
+      jest.spyOn(reflector, 'getAllAndOverride').mockReturnValue(false);
+      const mockRequest = {
+        headers: {
+          authorization: 'Bearer valid_token',
+        },
+        user: undefined,
+      };
+      const context = {
+        getHandler: jest.fn(),
+        getClass: jest.fn(),
+        switchToHttp: () => ({
+          getRequest: () => mockRequest,
+        }),
+      } as unknown as ExecutionContext;
+
+      jest.spyOn(jwt, 'verify').mockReturnValue({ sub: 'user456', role: 'user' } as any);
+
+      expect(guard.canActivate(context)).toBe(true);
+      expect(mockRequest.user).toEqual({
+        id: 'user456',
+        sub: 'user456',
+        userId: 'user456',
+        role: 'user',
+      });
+    });
+
+    it('should throw UnauthorizedException if token is invalid', () => {
+      jest.spyOn(reflector, 'getAllAndOverride').mockReturnValue(false);
+      const mockRequest = {
+        headers: {
+          authorization: 'Bearer invalid_token',
+        },
+      };
+      const context = {
+        getHandler: jest.fn(),
+        getClass: jest.fn(),
+        switchToHttp: () => ({
+          getRequest: () => mockRequest,
+        }),
+      } as unknown as ExecutionContext;
+
+      jest.spyOn(jwt, 'verify').mockImplementation(() => {
+        throw new Error('invalid token');
+      });
+
+      expect(() => guard.canActivate(context)).toThrow(UnauthorizedException);
     });
   });
 });

@@ -10,7 +10,7 @@ import { PrismaService } from '../../infrastructure/database/prisma.service';
 import { CreateApplicationDto } from './dto/create-application.dto';
 import { UpdateApplicationStatusDto } from './dto/update-application-status.dto';
 import { Prisma } from '@prisma/client-applications-service';
-import { KafkaTopics, ApplicationHiredEventSchema } from '@shiftly/shared-events';
+import { KafkaTopics, ApplicationApprovedEventSchema } from '@shiftly/shared-events';
 
 @Injectable()
 export class ApplicationsService {
@@ -155,12 +155,12 @@ export class ApplicationsService {
 
       // If newly accepted, create a shift (assuming one shift per job for MVP)
       if (updateDto.status === 'ACCEPTED' && application.status !== 'ACCEPTED') {
-        const eventPayload = ApplicationHiredEventSchema.parse({
+        const eventPayload = ApplicationApprovedEventSchema.parse({
           eventId: crypto.randomUUID(),
           traceId: crypto.randomUUID(),
           timestamp: new Date().toISOString(),
           version: '1.0',
-          type: 'application.hired',
+          type: 'application.approved',
           payload: {
             applicationId: application.id,
             jobId: application.jobId,

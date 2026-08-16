@@ -14,13 +14,29 @@ export class KafkaConsumerService implements OnModuleInit, OnModuleDestroy {
     private readonly config: ConfigService,
     private readonly prisma: PrismaService,
   ) {
-    const brokers = this.config.get<string>('kafka.brokers', 'localhost:9092').split(',');
-    const clientId = this.config.get<string>('kafka.clientId', 'payments-service');
+    const brokers = this.config.get<string>('kafka.brokers');
+        const clientId = this.config.get<string>('kafka.clientId', 'payments-service');
+    const ssl = this.config.get<boolean>('kafka.ssl', false);
+    const saslMechanism = this.config.get<string>('kafka.saslMechanism');
+    const saslUsername = this.config.get<string>('kafka.saslUsername');
+    const saslPassword = this.config.get<string>('kafka.saslPassword');
 
-    this.kafka = new Kafka({
+    const kafkaConfig: import('kafkajs').KafkaConfig = {
       clientId,
-      brokers,
-    });
+      brokers: Array.isArray(brokers) ? brokers : typeof brokers === "string" ? brokers.split(",") : [String(brokers)],
+      ...(ssl ? { ssl: { rejectUnauthorized: false } } : {}),
+      ...(saslUsername
+        ? {
+            sasl: {
+              mechanism: (saslMechanism || "scram-sha-256") as "scram-sha-256",
+              username: saslUsername,
+              password: saslPassword || "",
+            } as import("kafkajs").SASLOptions,
+          }
+        : {}),
+    };
+
+    this.kafka = new Kafka(kafkaConfig);
 
     this.consumer = this.kafka.consumer({ groupId: 'payments-service-group' });
   }

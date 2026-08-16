@@ -83,6 +83,9 @@ import { HealthModule } from './modules/health/health.module';
 
     // ─── Domain Modules ───────────────────────────────────────────────────
     PaymentsModule,
+    WalletsModule,
+    TransactionsModule,
+    EscrowModule,
     HealthModule,
     PrometheusModule.register({
       path: '/metrics',

@@ -11,7 +11,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   
-  schemas  = ["identity", "workers", "employers", "recruiters", "jobs", "payments", "messaging", "notifications", "reviews", "kyc", "referrals", "subscriptions", "audit", "knowledge_base"]
+  schemas  = ["payments", "identity", "workers", "employers", "recruiters", "jobs", "kyc", "notifications", "subscriptions", "reviews", "messaging", "audit", "referrals", "knowledge_base", "applications", "users"]
 }
 
 // ─── ENUMS ───────────────────────────────────────────────────────────────────
@@ -1015,3 +1015,55 @@ model OutboxEvent {
   @@schema("payments")
 }
 
+
+model IdentityOutboxEvent {
+  id          String   @id @default(uuid())
+  topic       String
+  payload     Json
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  publishedAt DateTime?
+  error       String?
+
+  @@map("outbox_events")
+  @@schema("identity")
+}
+
+model JobsOutboxEvent {
+  id          String   @id @default(uuid())
+  topic       String
+  payload     Json
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  publishedAt DateTime?
+  error       String?
+
+  @@map("outbox_events")
+  @@schema("jobs")
+}
+
+model ApplicationsOutboxEvent {
+  id          String   @id @default(uuid())
+  topic       String
+  payload     Json
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  publishedAt DateTime?
+  error       String?
+
+  @@map("outbox_events")
+  @@schema("applications")
+}
+
+model UsersOutboxEvent {
+  id          String   @id @default(uuid())
+  topic       String
+  payload     Json
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  publishedAt DateTime?
+  error       String?
+
+  @@map("outbox_events")
+  @@schema("users")
+}

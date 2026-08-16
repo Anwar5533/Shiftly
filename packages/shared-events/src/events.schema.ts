@@ -1,8 +1,8 @@
 import { z } from 'zod';
 import { BaseEventSchema } from './base.schema';
 
-export const ApplicationHiredEventSchema = BaseEventSchema.extend({
-  type: z.literal('application.hired'),
+export const ApplicationApprovedEventSchema = BaseEventSchema.extend({
+  type: z.literal('application.approved'),
   payload: z.object({
     applicationId: z.string(),
     jobId: z.string(),
@@ -40,7 +40,7 @@ export const UserRegisteredEventSchema = BaseEventSchema.extend({
   }),
 });
 
-export type ApplicationHiredEvent = z.infer<typeof ApplicationHiredEventSchema>;
+export type ApplicationApprovedEvent = z.infer<typeof ApplicationApprovedEventSchema>;
 export type PaymentReleasedEvent = z.infer<typeof PaymentReleasedEventSchema>;
 export type ShiftCompletedEvent = z.infer<typeof ShiftCompletedEventSchema>;
 export type UserRegisteredEvent = z.infer<typeof UserRegisteredEventSchema>;

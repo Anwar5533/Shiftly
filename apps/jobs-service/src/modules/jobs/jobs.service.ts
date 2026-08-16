@@ -141,6 +141,51 @@ export class JobsService {
     });
   }
 
+  async handleApplicationApproved(payload: { applicationId: string; jobId: string; workerId: string; employerId: string }) {
+    const { applicationId, jobId, workerId, employerId } = payload;
+    
+    // Idempotency check: Ensure the Shift doesn't already exist for this application
+    const existingShift = await this.prisma.shift.findUnique({
+      where: { applicationId },
+    });
+    if (existingShift) {
+      console.log(`[Idempotency] Shift already exists for application ${applicationId}. Skipping.`);
+      return;
+    }
+
+    const job = await this.prisma.job.findUnique({ where: { id: jobId } });
+    if (!job) {
+      console.error(`Job ${jobId} not found for application ${applicationId}`);
+      return;
+    }
+
+    await this.prisma.$transaction(async (tx) => {
+      // Create the Shift
+      const shiftDuration = Number(job.shiftDurationHours || 8);
+      const scheduledStart = job.startDate;
+      const scheduledEnd = job.endDate || new Date(scheduledStart.getTime() + (shiftDuration * 60 * 60 * 1000));
+
+      await tx.shift.create({
+        data: {
+          jobId,
+          applicationId,
+          workerId,
+          status: 'SCHEDULED',
+          scheduledStart,
+          scheduledEnd,
+        },
+      });
+
+      // Decrement remaining openings by incrementing positionsFilled
+      await tx.job.update({
+        where: { id: jobId },
+        data: {
+          positionsFilled: { increment: 1 },
+        },
+      });
+    });
+  }
+
   async updateJob(userId: string, jobId: string, updateDto: UpdateJobDto) {
     const job = await this.prisma.job.findUnique({ where: { id: jobId } });
 

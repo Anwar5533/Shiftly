@@ -19,10 +19,16 @@ export class PrismaService
   constructor(private readonly configService: ConfigService) {
     const url =
       configService.get<string>('database.url') || process.env.DATABASE_URL;
-    const pool = new Pool({ connectionString: url });
-    const adapter = new PrismaPg(pool);
+    const parsedUrl = new URL(url as string);
+    const schema = parsedUrl.searchParams.get("schema");
+    if (schema) {
+      parsedUrl.searchParams.set("options", `-c search_path=${schema}`);
+    }
+    const pool = new Pool({ connectionString: parsedUrl.toString() });
+    const adapter = new PrismaPg(pool, schema ? { schema } : undefined);
     super({
       adapter,
+      
       log: [
         { emit: 'event', level: 'query' },
         { emit: 'event', level: 'error' },

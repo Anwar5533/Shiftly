@@ -3,10 +3,12 @@
 generator client {
   provider = "prisma-client-js"
   output   = "../../../node_modules/@prisma/client-applications-service"
+  previewFeatures = ["multiSchema"]
 }
 
 datasource db {
   provider = "postgresql"
+  schemas  = ["applications"]
 }
 
 // ─── ENUMS ───────────────────────────────────────────────────────────────────
@@ -18,6 +20,7 @@ enum ApplicationStatus {
   REJECTED
   WITHDRAWN
   COMPLETED
+  @@schema("applications")
 }
 
 // ─── APPLICATIONS SCHEMA ─────────────────────────────────────────────────────
@@ -43,6 +46,7 @@ model JobApplication {
   @@index([jobId, status])
   @@index([workerId, status, appliedAt(sort: Desc)])
   @@map("job_applications")
+  @@schema("applications")
 }
 
 // ─── OUTBOX ───────────────────────────────────────────────────────────────────
@@ -57,4 +61,5 @@ model OutboxEvent {
   error       String?
 
   @@map("outbox_events")
+  @@schema("applications")
 }

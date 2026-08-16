@@ -1,47 +1,51 @@
-import React, { useState, useEffect } from 'react';
-import { Users, FileText, Activity, TrendingUp, Plus } from 'lucide-react';
+import React from 'react';
+import { Users, FileText, Activity, TrendingUp, Plus, AlertCircle } from 'lucide-react';
 import { useAppSelector } from '@/app/store';
 import { useNavigate } from 'react-router-dom';
-import type { EmployerDashboardStats } from '../../profile/api/employer.api';
-import { employerApi } from '../../profile/api/employer.api';
 import { useQuery } from '@tanstack/react-query';
-import { applicationsApi } from '../../jobs/api/applications.api';
+import { dashboardApi } from '../api/dashboard.api';
 import { motion } from 'framer-motion';
 
 export default function EmployerDashboard(): React.ReactElement {
   const { user } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
-  const [stats, setStats] = useState<EmployerDashboardStats | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        if (user?.role === 'EMPLOYER') {
-          const data = await employerApi.getDashboardStats();
-          setStats(data);
-        }
-      } catch (_error) {
-        console.error('Failed to fetch stats', _error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    void fetchStats();
-  }, [user]);
+  type UserType = { userId?: string; id?: string; email?: string; role?: string };
+  const userTyped = user as UserType | null;
 
-  const { data: recentApplications, isLoading: isLoadingApplications } = useQuery({
-    queryKey: ['employer-recent-applications'],
-    queryFn: () => applicationsApi.getRecentApplications(),
-    enabled: user?.role === 'EMPLOYER',
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['employer-dashboard', userTyped?.userId || userTyped?.id],
+    queryFn: () => dashboardApi.getEmployerDashboard(),
+    enabled: userTyped?.role === 'EMPLOYER',
   });
+
+  if (isError) {
+    return (
+      <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-800 flex items-center gap-3">
+        <AlertCircle className="h-5 w-5" />
+        <p>Failed to load dashboard data. Please try again later.</p>
+      </div>
+    );
+  }
+
+  type AppType = { id: string; worker?: { firstName?: string; lastName?: string }; job?: { title?: string }; appliedAt: string | number | Date; status: string; jobId: string };
+  const activeJobs = (data?.activeJobs as unknown[]) || [];
+  const recentApplications = (data?.pendingApplications as AppType[]) || [];
+  const profile = data?.profile as { companyName?: string; firstName?: string; departments?: unknown[] } | undefined;
+
+  // Derive stats
+  const activeJobsCount = activeJobs.length;
+  const totalApplicationsCount = recentApplications.length;
+  // Fallback mocks for UI completeness since BFF only gives activeJobs and pendingApps
+  const totalShiftsCount = 0; 
+  const totalDepartmentsCount = profile?.departments?.length || 0;
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground">
-            Welcome back, {user?.email?.split('@')[0] || 'Employer'}
+            Welcome back, {profile?.companyName || profile?.firstName || userTyped?.email?.split('@')[0] || 'Employer'}
           </h1>
           <p className="mt-1 text-muted-foreground">
             Here's an overview of your hiring operations.
@@ -70,7 +74,7 @@ export default function EmployerDashboard(): React.ReactElement {
             <div>
               <p className="text-sm font-medium text-muted-foreground">Active Jobs</p>
               <h3 className="text-2xl font-bold text-foreground">
-                {isLoading ? '...' : stats?.activeJobs || 0}
+                {isLoading ? <div className="h-8 w-16 animate-pulse bg-muted rounded"></div> : activeJobsCount}
               </h3>
             </div>
           </div>
@@ -86,9 +90,9 @@ export default function EmployerDashboard(): React.ReactElement {
               <Users className="h-6 w-6" />
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Total Applicants</p>
+              <p className="text-sm font-medium text-muted-foreground">Pending Applicants</p>
               <h3 className="text-2xl font-bold text-foreground">
-                {isLoading ? '...' : stats?.totalApplications || 0}
+                {isLoading ? <div className="h-8 w-16 animate-pulse bg-muted rounded"></div> : totalApplicationsCount}
               </h3>
             </div>
           </div>
@@ -106,7 +110,7 @@ export default function EmployerDashboard(): React.ReactElement {
             <div>
               <p className="text-sm font-medium text-muted-foreground">Completed Shifts</p>
               <h3 className="text-2xl font-bold text-foreground">
-                {isLoading ? '...' : stats?.totalShifts || 0}
+                {isLoading ? <div className="h-8 w-16 animate-pulse bg-muted rounded"></div> : totalShiftsCount}
               </h3>
             </div>
           </div>
@@ -124,7 +128,7 @@ export default function EmployerDashboard(): React.ReactElement {
             <div>
               <p className="text-sm font-medium text-muted-foreground">Departments</p>
               <h3 className="text-2xl font-bold text-foreground">
-                {isLoading ? '...' : stats?.totalDepartments || 0}
+                {isLoading ? <div className="h-8 w-16 animate-pulse bg-muted rounded"></div> : totalDepartmentsCount}
               </h3>
             </div>
           </div>
@@ -148,28 +152,25 @@ export default function EmployerDashboard(): React.ReactElement {
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {isLoadingApplications ? (
+              {isLoading ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-8 text-center text-muted-foreground">
-                    Loading applications...
+                  <td colSpan={5} className="px-6 py-8">
+                    <div className="flex justify-center flex-col gap-2">
+                       <div className="h-4 w-full animate-pulse bg-muted rounded"></div>
+                       <div className="h-4 w-full animate-pulse bg-muted rounded"></div>
+                       <div className="h-4 w-full animate-pulse bg-muted rounded"></div>
+                    </div>
                   </td>
                 </tr>
-              ) : recentApplications?.length === 0 ? (
+              ) : recentApplications.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="px-6 py-8 text-center text-muted-foreground">
                     No recent applications found.
                   </td>
                 </tr>
               ) : (
-                recentApplications?.map(
-                  (app: {
-                    id: string;
-                    worker?: Record<string, string>;
-                    job?: Record<string, string>;
-                    appliedAt: string;
-                    status: string;
-                    jobId: string;
-                  }) => (
+                recentApplications.map(
+                  (app: AppType) => (
                     <tr key={app.id} className="transition-colors hover:bg-muted/30">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">

@@ -1,17 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Phone, Mail, Eye, EyeOff, Loader2, ArrowRight } from 'lucide-react';
 import { z } from 'zod';
-import { useAppDispatch } from '@/app/store';
-import { setUser } from '../store/authSlice';
 import { authApi } from '../api/auth.api';
-import { setAccessToken } from '@/shared/lib/api';
-import { jwtDecode } from '../utils/jwt';
-import type { JwtPayload } from '@shiftly/shared-types';
 
 // ─── Form schemas ──────────────────────────────────────────────────────────────
 
@@ -20,6 +15,7 @@ const phoneSchema = z.object({
     .string()
     .min(10, 'Enter a valid phone number')
     .regex(/^\+?[1-9]\d{9,14}$/, 'Enter phone with country code (e.g. +91...)'),
+  password: z.string().min(1, 'Password is required'),
 });
 
 const emailSchema = z.object({
@@ -31,15 +27,10 @@ type PhoneForm = z.infer<typeof phoneSchema>;
 type EmailForm = z.infer<typeof emailSchema>;
 type LoginMode = 'phone' | 'email';
 
-// ─── Component ─────────────────────────────────────────────────────────────────
-
 export default function LoginPage(): React.ReactElement {
   const navigate = useNavigate();
-  const location = useLocation();
-  const dispatch = useAppDispatch();
   const [mode, setMode] = useState<LoginMode>('phone');
   const [showPassword, setShowPassword] = useState(false);
-  const from = (location.state as { from?: { pathname: string } })?.from?.pathname ?? '/dashboard';
 
   // ─── Phone form ──────────────────────────────────────────────────────
   const phoneForm = useForm<PhoneForm>({
@@ -53,38 +44,63 @@ export default function LoginPage(): React.ReactElement {
   });
 
   // ─── Mutations ───────────────────────────────────────────────────────
-  const sendOtpMutation = useMutation({
-    mutationFn: (phone: string) => authApi.sendOtp(phone),
-    onSuccess: (_data, phone) => {
-      void navigate('/verify-otp', { state: { phone } });
+  const loginMutation = useMutation({
+    mutationFn: (data: { email: string; password: string }) => authApi.login(data),
+    onSuccess: (data: unknown) => {
+      const { accessToken } = data as { accessToken: string };
+      void import('../utils/jwt').then(({ jwtDecode }) => {
+        void import('../store/authSlice').then(({ loginSuccess }) => {
+          void import('@/app/store').then(({ store }) => {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+            const payload = jwtDecode<any>(accessToken);
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
+            store.dispatch(loginSuccess(payload, accessToken) as any);
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            switch (payload.role) {
+              case 'ADMIN':
+              case 'SUPER_ADMIN':
+                void navigate('/admin', { replace: true });
+                break;
+              case 'WORKER':
+                void navigate('/dashboard/worker', { replace: true });
+                break;
+              case 'EMPLOYER':
+                void navigate('/dashboard/employer', { replace: true });
+                break;
+              case 'RECRUITER':
+                void navigate('/dashboard/recruiter', { replace: true });
+                break;
+              default:
+                void navigate('/dashboard', { replace: true });
+            }
+          });
+        });
+      });
     },
   });
 
-  const loginEmailMutation = useMutation({
-    mutationFn: (data: EmailForm) => authApi.loginEmail(data.email, data.password),
-    onSuccess: (data) => {
-      setAccessToken(data.accessToken);
-      const payload = jwtDecode<JwtPayload>(data.accessToken);
-      dispatch(setUser(payload));
-      void navigate(from, { replace: true });
+  const sendOtpMutation = useMutation({
+    mutationFn: (data: { phone: string }) => authApi.resendOtp(data),
+    onSuccess: (_data, variables) => {
+      void navigate('/verify-otp', { state: { phone: variables.phone } });
     },
   });
 
   const handlePhoneSubmit = (data: PhoneForm): void => {
     // Normalise phone: ensure + prefix
     const phone = data.phone.startsWith('+') ? data.phone : `+${data.phone}`;
-    void sendOtpMutation.mutate(phone);
+    void sendOtpMutation.mutate({ phone });
   };
 
   const handleEmailSubmit = (data: EmailForm): void => {
-    void loginEmailMutation.mutate(data);
+    void loginMutation.mutate({ email: data.email, password: data.password });
   };
 
   const serverError =
+    (loginMutation.error as { response?: { data?: { error?: { message?: string } } } })?.response
+      ?.data?.error?.message ||
     (sendOtpMutation.error as { response?: { data?: { error?: { message?: string } } } })?.response
-      ?.data?.error?.message ??
-    (loginEmailMutation.error as { response?: { data?: { error?: { message?: string } } } })
-      ?.response?.data?.error?.message;
+      ?.data?.error?.message;
 
   return (
     <div className="space-y-6">
@@ -161,6 +177,37 @@ export default function LoginPage(): React.ReactElement {
               )}
             </div>
 
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between">
+                <label htmlFor="phone-password" className="text-sm font-medium text-foreground">
+                  Password
+                </label>
+              </div>
+              <div className="relative">
+                <input
+                  id="phone-password"
+                  type={showPassword ? 'text' : 'password'}
+                  autoComplete="current-password"
+                  placeholder="••••••••"
+                  className="input-glow w-full rounded-lg border border-input bg-background px-4 py-2.5 pr-10 text-sm text-foreground placeholder:text-muted-foreground focus:border-ring focus:outline-none"
+                  {...phoneForm.register('password')}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
+              {phoneForm.formState.errors.password && (
+                <p className="text-xs text-destructive" role="alert">
+                  {phoneForm.formState.errors.password.message}
+                </p>
+              )}
+            </div>
+
             {serverError && mode === 'phone' && (
               <div className="rounded-lg border border-destructive/20 bg-destructive/10 px-4 py-3">
                 <p className="text-sm text-destructive">{serverError}</p>
@@ -175,11 +222,11 @@ export default function LoginPage(): React.ReactElement {
               {sendOtpMutation.isPending ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  Sending OTP...
+                  Authenticating...
                 </>
               ) : (
                 <>
-                  Send OTP
+                  Continue
                   <ArrowRight className="h-4 w-4" />
                 </>
               )}
@@ -271,17 +318,17 @@ export default function LoginPage(): React.ReactElement {
 
             <button
               type="submit"
-              disabled={loginEmailMutation.isPending}
+              disabled={loginMutation.isPending}
               className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-brand transition-all hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-lg active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {loginEmailMutation.isPending ? (
+              {loginMutation.isPending ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  Signing in...
+                  Authenticating...
                 </>
               ) : (
                 <>
-                  Sign in
+                  Continue
                   <ArrowRight className="h-4 w-4" />
                 </>
               )}

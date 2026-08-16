@@ -3,10 +3,12 @@
 generator client {
   provider = "prisma-client-js"
   output   = "../../../node_modules/@prisma/client-jobs-service"
+  previewFeatures = ["multiSchema"]
 }
 
 datasource db {
   provider = "postgresql"
+  schemas  = ["jobs"]
 }
 
 // ─── ENUMS ───────────────────────────────────────────────────────────────────
@@ -15,6 +17,7 @@ enum JobType {
   SHIFT
   PERMANENT
   GIG
+  @@schema("jobs")
 }
 
 enum JobStatus {
@@ -24,6 +27,7 @@ enum JobStatus {
   CANCELLED
   ARCHIVED
   EXPIRED
+  @@schema("jobs")
 }
 
 enum SalaryPeriod {
@@ -33,6 +37,7 @@ enum SalaryPeriod {
   MONTHLY
   ANNUAL
   FIXED
+  @@schema("jobs")
 }
 
 enum ShiftStatus {
@@ -41,6 +46,7 @@ enum ShiftStatus {
   COMPLETED
   CANCELLED
   NO_SHOW
+  @@schema("jobs")
 }
 
 // ─── JOBS SCHEMA ─────────────────────────────────────────────────────────────
@@ -86,6 +92,7 @@ model Job {
   @@index([createdAt])
   @@index([deletedAt])
   @@map("jobs")
+  @@schema("jobs")
 }
 
 model Shift {
@@ -113,6 +120,7 @@ model Shift {
   @@index([status])
   @@index([scheduledStart, scheduledEnd])
   @@map("shifts")
+  @@schema("jobs")
 }
 
 // ─── OUTBOX ───────────────────────────────────────────────────────────────────
@@ -127,4 +135,5 @@ model OutboxEvent {
   error       String?
 
   @@map("outbox_events")
+  @@schema("jobs")
 }
