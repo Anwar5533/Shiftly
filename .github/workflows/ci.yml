@@ -39,6 +39,8 @@ jobs:
         run: npm i -g pnpm
         
       - name: Install dependencies
+        env:
+          DATABASE_URL: postgresql://user:pass@localhost:5432/shiftly
         run: pnpm install
         
       - name: Run lint, test, build
