@@ -141,9 +141,14 @@ export class JobsService {
     });
   }
 
-  async handleApplicationApproved(payload: { applicationId: string; jobId: string; workerId: string; employerId: string }) {
-    const { applicationId, jobId, workerId, employerId } = payload;
-    
+  async handleApplicationApproved(payload: {
+    applicationId: string;
+    jobId: string;
+    workerId: string;
+    employerId: string;
+  }) {
+    const { applicationId, jobId, workerId } = payload;
+
     // Idempotency check: Ensure the Shift doesn't already exist for this application
     const existingShift = await this.prisma.shift.findUnique({
       where: { applicationId },
@@ -163,7 +168,8 @@ export class JobsService {
       // Create the Shift
       const shiftDuration = Number(job.shiftDurationHours || 8);
       const scheduledStart = job.startDate;
-      const scheduledEnd = job.endDate || new Date(scheduledStart.getTime() + (shiftDuration * 60 * 60 * 1000));
+      const scheduledEnd =
+        job.endDate || new Date(scheduledStart.getTime() + shiftDuration * 60 * 60 * 1000);
 
       await tx.shift.create({
         data: {

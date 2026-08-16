@@ -39,7 +39,7 @@ import { HealthModule } from './modules/health/health.module';
       middleware: {
         mount: true,
         generateId: true,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
         idGenerator: (req: any) => req.headers['x-trace-id'] ?? uuidv4(),
       },
     }),

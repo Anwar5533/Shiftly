@@ -15,7 +15,7 @@ export class KafkaConsumerService implements OnModuleInit, OnModuleDestroy {
     private readonly prisma: PrismaService,
   ) {
     const brokers = this.config.get<string>('kafka.brokers');
-        const clientId = this.config.get<string>('kafka.clientId', 'payments-service');
+    const clientId = this.config.get<string>('kafka.clientId', 'payments-service');
     const ssl = this.config.get<boolean>('kafka.ssl', false);
     const saslMechanism = this.config.get<string>('kafka.saslMechanism');
     const saslUsername = this.config.get<string>('kafka.saslUsername');
@@ -23,15 +23,19 @@ export class KafkaConsumerService implements OnModuleInit, OnModuleDestroy {
 
     const kafkaConfig: import('kafkajs').KafkaConfig = {
       clientId,
-      brokers: Array.isArray(brokers) ? brokers : typeof brokers === "string" ? brokers.split(",") : [String(brokers)],
+      brokers: Array.isArray(brokers)
+        ? brokers
+        : typeof brokers === 'string'
+          ? brokers.split(',')
+          : [String(brokers)],
       ...(ssl ? { ssl: { rejectUnauthorized: false } } : {}),
       ...(saslUsername
         ? {
             sasl: {
-              mechanism: (saslMechanism || "scram-sha-256") as "scram-sha-256",
+              mechanism: (saslMechanism || 'scram-sha-256') as 'scram-sha-256',
               username: saslUsername,
-              password: saslPassword || "",
-            } as import("kafkajs").SASLOptions,
+              password: saslPassword || '',
+            },
           }
         : {}),
     };
@@ -47,12 +51,10 @@ export class KafkaConsumerService implements OnModuleInit, OnModuleDestroy {
       await this.consumer.subscribe({ topic: KafkaTopics.Jobs, fromBeginning: true });
 
       await this.consumer.run({
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars -- partition not needed for routing
         eachMessage: async ({ topic, message }) => {
           if (!message.value) return;
 
           try {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- JSON.parse returns unknown structure
             const parsed: Record<string, unknown> = JSON.parse(message.value.toString()) as Record<
               string,
               unknown

@@ -18,7 +18,7 @@ export class KafkaConsumerService implements OnModuleInit, OnModuleDestroy {
     private readonly cls: ClsService,
   ) {
     const brokers = this.config.get<string>('kafka.brokers');
-        const clientId = this.config.get<string>('kafka.clientId', 'jobs-service');
+    const clientId = this.config.get<string>('kafka.clientId', 'jobs-service');
     const ssl = this.config.get<boolean>('kafka.ssl', false);
     const saslMechanism = this.config.get<string>('kafka.saslMechanism');
     const saslUsername = this.config.get<string>('kafka.saslUsername');
@@ -26,15 +26,19 @@ export class KafkaConsumerService implements OnModuleInit, OnModuleDestroy {
 
     const kafkaConfig: import('kafkajs').KafkaConfig = {
       clientId,
-      brokers: Array.isArray(brokers) ? brokers : typeof brokers === "string" ? brokers.split(",") : [String(brokers)],
+      brokers: Array.isArray(brokers)
+        ? brokers
+        : typeof brokers === 'string'
+          ? brokers.split(',')
+          : [String(brokers)],
       ...(ssl ? { ssl: { rejectUnauthorized: false } } : {}),
       ...(saslUsername
         ? {
             sasl: {
-              mechanism: (saslMechanism || "scram-sha-256") as "scram-sha-256",
+              mechanism: (saslMechanism || 'scram-sha-256') as 'scram-sha-256',
               username: saslUsername,
-              password: saslPassword || "",
-            } as import("kafkajs").SASLOptions,
+              password: saslPassword || '',
+            },
           }
         : {}),
     };

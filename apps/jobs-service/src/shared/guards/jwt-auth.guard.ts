@@ -26,7 +26,7 @@ export class JwtAuthGuard implements CanActivate {
     if (isPublic) return true;
 
     const request = context.switchToHttp().getRequest<GuardRequest>();
-    
+
     const xUserId = request.headers['x-user-id'];
     const xUserRole = request.headers['x-user-role'];
 
@@ -53,11 +53,11 @@ export class JwtAuthGuard implements CanActivate {
     try {
       const secret = process.env.JWT_SECRET || 'fallback_secret_key_for_dev_only_change_me';
       const payload = jwt.verify(token, secret) as jwt.JwtPayload;
-      request.user = { 
-        id: payload.sub as string, 
-        sub: payload.sub as string, 
-        userId: payload.sub as string, 
-        role: payload.role as string 
+      request.user = {
+        id: payload.sub as string,
+        sub: payload.sub as string,
+        userId: payload.sub as string,
+        role: payload.role as string,
       };
       return true;
     } catch {

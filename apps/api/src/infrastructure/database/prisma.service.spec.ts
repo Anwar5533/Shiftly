@@ -43,7 +43,7 @@ describe('PrismaService', () => {
       // We can manually call the event handler if we spy on it during a new instantiation
       // Or we can just spy on PrismaClient.prototype.$on before instantiation
       const onSpy = jest
-        // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+
         .spyOn(PrismaService.prototype as any, '$on')
         .mockImplementation();
 

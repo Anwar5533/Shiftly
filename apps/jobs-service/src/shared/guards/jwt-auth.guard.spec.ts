@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars -- TODO(RC3): Address type safety */
 import { ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtAuthGuard } from './jwt-auth.guard';
