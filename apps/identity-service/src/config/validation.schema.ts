@@ -5,7 +5,7 @@ export const validationSchema = Joi.object({
   PORT: Joi.number().default(3003),
   DATABASE_URL: Joi.string().uri().required(),
   REDIS_HOST: Joi.string().required(),
-  REDIS_PORT: Joi.number().default(3003),
+  REDIS_PORT: Joi.number().port().default(6379),
   REDIS_PASSWORD: Joi.string().optional().allow(''),
   REDIS_TLS: Joi.string().valid('true', 'false').default('false'),
   KAFKA_BROKERS: Joi.string().required(),

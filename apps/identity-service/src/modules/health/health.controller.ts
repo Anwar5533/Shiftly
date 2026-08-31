@@ -8,21 +8,7 @@ import {
 } from '@nestjs/terminus';
 import { Public } from '../../shared/decorators/public.decorator';
 import { RedisService } from '../../infrastructure/redis/redis.service';
-import { HealthIndicatorResult } from '@nestjs/terminus';
-import { Injectable } from '@nestjs/common';
-
-@Injectable()
-export class RedisHealthIndicator {
-  constructor(private readonly redisService: RedisService) {}
-
-  async isHealthy(key: string): Promise<HealthIndicatorResult> {
-    const isAlive = await this.redisService.ping();
-    if (!isAlive) {
-      throw new Error('Redis is not responding');
-    }
-    return { [key]: { status: 'up' } };
-  }
-}
+import { RedisHealthIndicator } from './redis-health.indicator';
 
 import { PrismaService } from '../../infrastructure/database/prisma.service';
 

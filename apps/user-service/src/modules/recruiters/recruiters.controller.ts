@@ -1,4 +1,5 @@
 import { Controller, Get, Patch, Body, Param, UseGuards } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 import { RecruitersService } from './recruiters.service';
 import { UpdateRecruiterProfileDto } from './dto/update-recruiter-profile.dto';
 import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
@@ -34,6 +35,7 @@ export class RecruitersController {
 
   @Get(':userId/profile')
   @Public()
+  @Throttle({ default: { limit: 10, ttl: 60000 } })
   getPublicProfile(@Param('userId') userId: string) {
     return this.recruitersService.getProfile(userId);
   }

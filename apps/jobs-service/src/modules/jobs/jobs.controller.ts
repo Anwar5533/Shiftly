@@ -9,6 +9,7 @@ import {
   Patch,
   Delete,
 } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 import { EventPattern, Payload } from '@nestjs/microservices';
 import { JobsService } from './jobs.service';
 import { CreateJobDto } from './dto/create-job.dto';
@@ -41,12 +42,14 @@ export class JobsController {
 
   @Get('search')
   @Public() // Search is public, but we might want to track analytics if logged in
+  @Throttle({ default: { limit: 30, ttl: 60000 } })
   searchJobs(@Query() searchDto: SearchJobsDto) {
     return this.jobsService.searchJobs(searchDto);
   }
 
   @Get(':id')
   @Public()
+  @Throttle({ default: { limit: 30, ttl: 60000 } })
   getJobById(@Param('id') id: string) {
     return this.jobsService.getJobById(id);
   }

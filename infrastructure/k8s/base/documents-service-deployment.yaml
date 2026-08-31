@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: documents-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: documents-service
+  template:
+    metadata:
+      labels:
+        app: documents-service
+    spec:
+      containers:
+      - name: documents-service
+        image: ghcr.io/your-org/documents-service:latest
+        ports:
+        - containerPort: 3000

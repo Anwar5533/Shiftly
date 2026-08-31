@@ -2,7 +2,18 @@
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
   "concurrency": "15",
-  "globalEnv": ["DATABASE_URL"],
+  "globalEnv": ["DATABASE_URL", "NODE_ENV"],
+  "globalPassThroughEnv": [
+    "CI",
+    "REDIS_HOST",
+    "REDIS_PORT",
+    "REDIS_PASSWORD",
+    "KAFKA_BROKERS",
+    "JWT_ACCESS_SECRET",
+    "JWT_REFRESH_SECRET",
+    "VITE_API_URL",
+    "VITE_WS_URL"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
@@ -39,7 +50,7 @@
       "persistent": true
     },
     "test": {
-      "dependsOn": ["build", "db:generate"],
+      "dependsOn": ["^build", "db:generate"],
       "inputs": ["$TURBO_DEFAULT$"],
       "outputs": ["coverage/**"]
     },
@@ -58,13 +69,27 @@
       "inputs": ["$TURBO_DEFAULT$", ".eslintrc*", "eslint.config.*"]
     },
     "typecheck": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "db:generate"],
       "inputs": ["$TURBO_DEFAULT$", "tsconfig*.json"]
     },
     "clean": {
       "cache": false
     },
     "db:generate": {
+      "cache": false
+    },
+    "db:migrate": {
+      "cache": false,
+      "persistent": false
+    },
+    "db:migrate:deploy": {
+      "cache": false
+    },
+    "db:seed": {
+      "cache": false,
+      "dependsOn": ["db:generate"]
+    },
+    "db:reset": {
       "cache": false
     }
   }

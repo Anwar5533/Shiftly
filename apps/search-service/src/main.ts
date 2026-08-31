@@ -1,6 +1,7 @@
 import './tracing';
 import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
@@ -15,9 +16,11 @@ import { LoggingInterceptor } from './shared/interceptors/logging.interceptor';
 
 async function bootstrap(): Promise<void> {
   console.log('INITIAL PORT:', process.env.PORT);
-  const app = await NestFactory.create(AppModule, {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     bufferLogs: true,
   });
+
+  app.set('trust proxy', 1);
 
   // ─── Logger ───────────────────────────────────────────────────────────────
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO(RC3): Address type safety

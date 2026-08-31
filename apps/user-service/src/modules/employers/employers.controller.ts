@@ -1,4 +1,5 @@
 import { Controller, Get, Patch, Post, Body, Param, UseGuards } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 import { EmployersService } from './employers.service';
 import { UpdateEmployerProfileDto } from './dto/update-employer-profile.dto';
 import { AddDepartmentDto } from './dto/add-department.dto';
@@ -49,6 +50,7 @@ export class EmployersController {
 
   @Get(':userId/profile')
   @Public()
+  @Throttle({ default: { limit: 10, ttl: 60000 } })
   getPublicProfile(@Param('userId') userId: string) {
     return this.employersService.getProfile(userId);
   }

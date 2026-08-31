@@ -139,7 +139,7 @@ export default function SystemLogsPage(): React.ReactElement {
                         >
                           <Icon className="h-3.5 w-3.5" />
                           <span className="text-xs font-semibold tracking-wider">
-                            -- TODO(RC3): {log.severity}
+                            {log.severity}
                           </span>
                         </div>
                       </td>

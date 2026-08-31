@@ -13,6 +13,7 @@ describe('JwtAuthGuard', () => {
   beforeEach(() => {
     reflector = new Reflector();
     guard = new JwtAuthGuard(reflector);
+    process.env.JWT_SECRET = 'test-secret';
   });
 
   describe('canActivate', () => {
@@ -31,7 +32,7 @@ describe('JwtAuthGuard', () => {
       ]);
     });
 
-    it('should return true and set user if x-user-id header exists', () => {
+    it('should throw UnauthorizedException if x-user-id header is provided without a Bearer token', () => {
       jest.spyOn(reflector, 'getAllAndOverride').mockReturnValue(false);
       const mockRequest = {
         headers: {
@@ -48,13 +49,7 @@ describe('JwtAuthGuard', () => {
         }),
       } as unknown as ExecutionContext;
 
-      expect(guard.canActivate(context)).toBe(true);
-      expect(mockRequest.user).toEqual({
-        id: 'user123',
-        sub: 'user123',
-        userId: 'user123',
-        role: 'admin',
-      });
+      expect(() => guard.canActivate(context)).toThrow(UnauthorizedException);
     });
 
     it('should throw UnauthorizedException if no valid headers are provided', () => {

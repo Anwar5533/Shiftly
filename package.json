@@ -24,11 +24,17 @@
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\" --ignore-path .prettierignore",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md}\" --ignore-path .prettierignore",
     "clean": "turbo run clean && rimraf node_modules",
-    "db:generate": "pnpm --filter @shiftly/api run db:generate",
-    "db:migrate": "pnpm --filter @shiftly/api prisma migrate dev",
-    "db:migrate:deploy": "pnpm --filter @shiftly/api prisma migrate deploy",
-    "db:seed": "pnpm --filter @shiftly/api run db:seed",
-    "db:studio": "pnpm --filter @shiftly/api prisma studio"
+    "infra:up": "docker compose up -d postgres redis zookeeper kafka",
+    "infra:down": "docker compose down",
+    "infra:reset": "docker compose down -v",
+    "stack:up": "docker compose up -d --build",
+    "stack:logs": "docker compose logs -f",
+    "db:generate": "turbo run db:generate",
+    "db:migrate": "turbo run db:migrate",
+    "db:migrate:deploy": "turbo run db:migrate:deploy --concurrency=1",
+    "db:seed": "turbo run db:seed --concurrency=1",
+    "db:reset": "turbo run db:reset --concurrency=1",
+    "db:studio": "pnpm --filter @shiftly/identity-service prisma studio"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",

@@ -171,12 +171,11 @@ export default function JobApplicationsPage(): React.ReactElement {
                           )}
                           <div>
                             <span className="block font-medium text-foreground">
-                              -- TODO(RC3): {(app.worker as Record<string, string>)?.firstName}{' '}
+                              {(app.worker as Record<string, string>)?.firstName}{' '}
                               {(app.worker as Record<string, string>)?.lastName}
                             </span>
                             <div className="mt-0.5 flex items-center text-xs text-muted-foreground">
                               <Star className="mr-1 h-3 w-3 text-yellow-500" />
-                              -- TODO(RC3):{' '}
                               {((app.worker as Record<string, unknown>)?.rating as number) || 0}
                             </div>
                           </div>

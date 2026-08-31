@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: applications-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: applications-service
+  template:
+    metadata:
+      labels:
+        app: applications-service
+    spec:
+      containers:
+      - name: applications-service
+        image: ghcr.io/your-org/applications-service:latest
+        ports:
+        - containerPort: 3000

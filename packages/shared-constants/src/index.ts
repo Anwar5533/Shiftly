@@ -165,6 +165,10 @@ export const ERROR_CODES = {
   // General
   VALIDATION_ERROR: 'VALIDATION_ERROR',
   INTERNAL_SERVER_ERROR: 'INTERNAL_SERVER_ERROR',
+  // Returned by the gateway when a downstream service is unreachable or every
+  // leg of an aggregation degraded, so the client can retry rather than treat
+  // the failure as a permanent 5xx.
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
   RATE_LIMIT_EXCEEDED: 'RATE_LIMIT_EXCEEDED',
   NOT_FOUND: 'NOT_FOUND',
   CONFLICT: 'CONFLICT',

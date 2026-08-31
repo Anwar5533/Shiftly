@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars -- TODO(RC3): Address type safety */
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
 import { ShiftStatus } from '@prisma/client-jobs-service';
 import { KafkaTopics, ShiftCompletedEventSchema } from '@shiftly/shared-events';
@@ -16,12 +16,29 @@ export class ShiftsService {
     });
   }
 
+  /**
+   * SECURITY FIX — CRITICAL-02 (IDOR):
+   * Previously returned any shift to any authenticated user without checking
+   * ownership. Now enforces that the requesting user is either:
+   *   (a) the assigned worker for the shift, OR
+   *   (b) the employer who owns the parent job.
+   * Any other authenticated user receives a 403 ForbiddenException.
+   */
   async getShiftById(shiftId: string, userId: string) {
     const shift = await this.prisma.shift.findUnique({
       where: { id: shiftId },
       include: { job: true },
     });
-    if (!shift) throw new BadRequestException('Shift not found');
+
+    if (!shift) throw new NotFoundException('Shift not found');
+
+    const isAssignedWorker = shift.workerId === userId;
+    const isOwningEmployer = shift.job.employerId === userId;
+
+    if (!isAssignedWorker && !isOwningEmployer) {
+      throw new ForbiddenException('You do not have permission to view this shift.');
+    }
+
     return shift;
   }
 
@@ -117,11 +134,25 @@ export class ShiftsService {
     return [];
   }
 
+  /**
+   * SECURITY NOTE — CRITICAL-02:
+   * Timesheet approval is deprecated and always throws. An ownership check
+   * (employer owns the job linked to this timesheet) is documented here for
+   * when this functionality is re-activated:
+   *
+   *   const timesheet = await prisma.timesheet.findUnique({ where: { id }, include: { shift: { include: { job: true } } } });
+   *   if (!timesheet) throw new NotFoundException();
+   *   if (timesheet.shift.job.employerId !== employerId) throw new ForbiddenException();
+   */
   // eslint-disable-next-line @typescript-eslint/require-await
   async approveTimesheet(timesheetId: string, employerId: string) {
     throw new BadRequestException('Timesheet functionality is deprecated');
   }
 
+  /**
+   * SECURITY NOTE — CRITICAL-02:
+   * See approveTimesheet above — same ownership pattern applies here.
+   */
   // eslint-disable-next-line @typescript-eslint/require-await
   async rejectTimesheet(timesheetId: string, employerId: string, reason: string) {
     throw new BadRequestException('Timesheet functionality is deprecated');

@@ -1,4 +1,10 @@
-import { Injectable, ExecutionContext, UnauthorizedException, CanActivate } from '@nestjs/common';
+import {
+  Injectable,
+  ExecutionContext,
+  UnauthorizedException,
+  InternalServerErrorException,
+  CanActivate,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
 import * as jwt from 'jsonwebtoken';
@@ -27,18 +33,9 @@ export class JwtAuthGuard implements CanActivate {
 
     const request = context.switchToHttp().getRequest<GuardRequest>();
 
-    const xUserId = request.headers['x-user-id'];
-    const xUserRole = request.headers['x-user-role'];
-
-    if (xUserId && typeof xUserId === 'string') {
-      request.user = {
-        id: xUserId,
-        sub: xUserId,
-        userId: xUserId,
-        role: typeof xUserRole === 'string' ? xUserRole : '',
-      };
-      return true;
-    }
+    // SECURITY: x-user-id / x-user-role header bypass has been intentionally
+    // removed (CRITICAL-01). All identity claims MUST come from a verified
+    // Bearer token; unauthenticated header values are never trusted.
 
     const authHeader = request.headers.authorization;
     if (!authHeader || typeof authHeader !== 'string' || !authHeader.startsWith('Bearer ')) {
@@ -50,8 +47,17 @@ export class JwtAuthGuard implements CanActivate {
       throw new UnauthorizedException('Authentication required. Please log in.');
     }
 
+    // SECURITY: The fallback dev secret has been intentionally removed
+    // (CRITICAL-03). JWT_SECRET MUST be defined at startup; the service will
+    // refuse to authenticate requests rather than silently use a known key.
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+      throw new InternalServerErrorException(
+        'Server misconfiguration: JWT_SECRET environment variable is not set.',
+      );
+    }
+
     try {
-      const secret = process.env.JWT_SECRET || 'fallback_secret_key_for_dev_only_change_me';
       const payload = jwt.verify(token, secret) as jwt.JwtPayload;
       request.user = {
         id: payload.sub as string,
@@ -61,7 +67,7 @@ export class JwtAuthGuard implements CanActivate {
       };
       return true;
     } catch {
-      throw new UnauthorizedException('Invalid token');
+      throw new UnauthorizedException('Invalid or expired token.');
     }
   }
 }

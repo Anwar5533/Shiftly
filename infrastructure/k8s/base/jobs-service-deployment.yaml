@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jobs-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jobs-service
+  template:
+    metadata:
+      labels:
+        app: jobs-service
+    spec:
+      containers:
+      - name: jobs-service
+        image: ghcr.io/your-org/jobs-service:latest
+        ports:
+        - containerPort: 3000
