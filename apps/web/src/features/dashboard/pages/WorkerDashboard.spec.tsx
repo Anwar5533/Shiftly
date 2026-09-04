@@ -78,7 +78,7 @@ describe('WorkerDashboard', () => {
         },
       },
     ];
-    
+
     (dashboardApi.getWorkerDashboard as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
       profile: { totalEarnings: 0, firstName: 'Worker' },
       upcomingShifts: mockShifts,

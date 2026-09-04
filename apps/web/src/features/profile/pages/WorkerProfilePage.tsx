@@ -190,8 +190,8 @@ export default function WorkerProfilePage(): React.ReactElement {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Left Column: Avatar & Basic Info */}
         <div className="space-y-6 lg:col-span-1">
-          <div className="flex flex-col items-center rounded-2xl border border-border bg-card p-6 text-center shadow-sm">
-            <div className="group relative mb-4 flex h-32 w-32 items-center justify-center overflow-hidden rounded-full border-4 border-primary/30 bg-primary/20">
+          <div className="glass-panel p-6 flex flex-col items-center text-center">
+            <div className="group relative mb-4 flex h-32 w-32 items-center justify-center overflow-hidden rounded-full border-4 border-primary/20 bg-gradient-to-br from-primary/30 to-primary/5 shadow-inner">
               <span className="text-5xl font-bold uppercase text-primary">
                 {profile.firstName.charAt(0)}
               </span>
@@ -246,7 +246,7 @@ export default function WorkerProfilePage(): React.ReactElement {
 
         {/* Right Column: Details */}
         <div className="space-y-6 lg:col-span-2">
-          <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+          <div className="glass-panel p-6 card-hover">
             <h3 className="mb-6 flex items-center gap-2 text-lg font-semibold text-foreground">
               <User className="h-5 w-5 text-primary" />
               About Me
@@ -265,7 +265,7 @@ export default function WorkerProfilePage(): React.ReactElement {
             )}
           </div>
 
-          <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+          <div className="glass-panel p-6 card-hover">
             <h3 className="mb-6 flex items-center gap-2 text-lg font-semibold text-foreground">
               <Shield className="h-5 w-5 text-primary" />
               Contact Information
@@ -335,7 +335,7 @@ export default function WorkerProfilePage(): React.ReactElement {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+          <div className="glass-panel p-6 card-hover">
             <h3 className="mb-6 flex items-center gap-2 text-lg font-semibold text-foreground">
               <Award className="h-5 w-5 text-primary" />
               Skills & Certifications

@@ -70,11 +70,20 @@ export default function WorkerDashboard(): React.ReactElement {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: { opacity: 0 },
+          visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+        }}
+        className="grid grid-cols-1 gap-6 md:grid-cols-3"
+      >
         <motion.div
-          whileHover={{ scale: 1.02 }}
+          variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+          whileHover={{ scale: 1.02, y: -4 }}
           transition={{ type: 'spring', stiffness: 300 }}
-          className="rounded-2xl border border-border bg-card p-6 shadow-sm"
+          className="glass-panel p-6"
         >
           <div className="flex items-center gap-4">
             <div className="rounded-xl bg-primary/10 p-3 text-primary">
@@ -88,9 +97,10 @@ export default function WorkerDashboard(): React.ReactElement {
         </motion.div>
 
         <motion.div
-          whileHover={{ scale: 1.02 }}
+          variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+          whileHover={{ scale: 1.02, y: -4 }}
           transition={{ type: 'spring', stiffness: 300 }}
-          className="rounded-2xl border border-border bg-card p-6 shadow-sm"
+          className="glass-panel p-6"
         >
           <div className="flex items-center gap-4">
             <div className="rounded-xl bg-accent p-3 text-accent-foreground">
@@ -104,9 +114,10 @@ export default function WorkerDashboard(): React.ReactElement {
         </motion.div>
 
         <motion.div
-          whileHover={{ scale: 1.02 }}
+          variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+          whileHover={{ scale: 1.02, y: -4 }}
           transition={{ type: 'spring', stiffness: 300 }}
-          className="rounded-2xl border border-border bg-card p-6 shadow-sm"
+          className="glass-panel p-6"
         >
           <div className="flex items-center gap-4">
             <div className="rounded-xl bg-secondary p-3 text-secondary-foreground">
@@ -118,12 +129,17 @@ export default function WorkerDashboard(): React.ReactElement {
             </div>
           </div>
         </motion.div>
-      </div>
+      </motion.div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Upcoming Shifts */}
-        <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm lg:col-span-2">
-          <div className="flex items-center justify-between border-b border-border p-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="glass-panel overflow-hidden lg:col-span-2"
+        >
+          <div className="flex items-center justify-between border-b border-white/10 p-6">
             <h2 className="text-lg font-semibold text-foreground">Upcoming Shifts</h2>
             <button
               onClick={() => navigate('/jobs')}
@@ -182,10 +198,15 @@ export default function WorkerDashboard(): React.ReactElement {
               ))
             )}
           </div>
-        </div>
+        </motion.div>
 
         {/* Recommended Jobs */}
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="glass-panel p-6"
+        >
           <h2 className="mb-4 text-lg font-semibold text-foreground">Recommended for you</h2>
           <div className="space-y-4">
             {isLoadingJobs ? (
@@ -197,7 +218,7 @@ export default function WorkerDashboard(): React.ReactElement {
                 <div
                   key={job.id}
                   onClick={() => navigate(`/jobs/${job.id}`)}
-                  className="group cursor-pointer rounded-xl border border-border p-4 transition-colors hover:border-primary/50"
+                  className="glass-panel group cursor-pointer p-4 transition-colors hover:border-primary/50"
                 >
                   <div className="mb-2 flex items-start justify-between">
                     <h4 className="font-medium text-foreground transition-colors group-hover:text-primary">
@@ -226,7 +247,7 @@ export default function WorkerDashboard(): React.ReactElement {
               ))
             )}
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

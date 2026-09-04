@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Target, Users, IndianRupee, Award, ChevronRight } from 'lucide-react';
 import { useAppSelector } from '@/app/store';
 import { useNavigate } from 'react-router-dom';
@@ -45,8 +46,21 @@ export default function RecruiterDashboard(): React.ReactElement {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: { opacity: 0 },
+          visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+        }}
+        className="grid grid-cols-1 gap-6 md:grid-cols-4"
+      >
+        <motion.div
+          variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+          whileHover={{ scale: 1.02, y: -4 }}
+          transition={{ type: 'spring', stiffness: 300 }}
+          className="glass-panel p-6"
+        >
           <div className="flex items-center gap-4">
             <div className="rounded-xl bg-primary/10 p-3 text-primary">
               <Target className="h-6 w-6" />
@@ -58,9 +72,14 @@ export default function RecruiterDashboard(): React.ReactElement {
               </h3>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+        <motion.div
+          variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+          whileHover={{ scale: 1.02, y: -4 }}
+          transition={{ type: 'spring', stiffness: 300 }}
+          className="glass-panel p-6"
+        >
           <div className="flex items-center gap-4">
             <div className="rounded-xl bg-accent p-3 text-accent-foreground">
               <Users className="h-6 w-6" />
@@ -72,9 +91,14 @@ export default function RecruiterDashboard(): React.ReactElement {
               </h3>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+        <motion.div
+          variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+          whileHover={{ scale: 1.02, y: -4 }}
+          transition={{ type: 'spring', stiffness: 300 }}
+          className="glass-panel p-6"
+        >
           <div className="flex items-center gap-4">
             <div className="rounded-xl bg-secondary p-3 text-secondary-foreground">
               <IndianRupee className="h-6 w-6" />
@@ -86,9 +110,14 @@ export default function RecruiterDashboard(): React.ReactElement {
               </h3>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+        <motion.div
+          variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+          whileHover={{ scale: 1.02, y: -4 }}
+          transition={{ type: 'spring', stiffness: 300 }}
+          className="glass-panel p-6"
+        >
           <div className="flex items-center gap-4">
             <div className="rounded-xl bg-yellow-500/10 p-3 text-yellow-500">
               <Award className="h-6 w-6" />
@@ -100,12 +129,17 @@ export default function RecruiterDashboard(): React.ReactElement {
               </h3>
             </div>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Pipeline Funnel Placeholder */}
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm lg:col-span-2">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="glass-panel p-6 lg:col-span-2"
+        >
           <div className="mb-6 flex items-center justify-between">
             <h2 className="text-lg font-semibold text-foreground">Pipeline Overview</h2>
           </div>
@@ -141,11 +175,16 @@ export default function RecruiterDashboard(): React.ReactElement {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Hot Requirements */}
-        <div className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
-          <div className="flex items-center justify-between border-b border-border p-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="glass-panel flex flex-col overflow-hidden"
+        >
+          <div className="flex items-center justify-between border-b border-white/10 p-6">
             <h2 className="text-lg font-semibold text-foreground">Hot Reqs</h2>
             <button
               onClick={() => navigate('/jobs')}
@@ -156,7 +195,7 @@ export default function RecruiterDashboard(): React.ReactElement {
           </div>
           <div className="flex-1 space-y-4 overflow-y-auto p-4">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="rounded-xl border border-border bg-muted/20 p-4">
+              <div key={i} className="glass-panel p-4">
                 <div className="mb-2 flex items-start justify-between">
                   <h4 className="font-semibold text-foreground">Senior Nurse (RN)</h4>
                   <span className="rounded-md bg-destructive/10 px-2 py-1 text-xs font-bold text-destructive">
@@ -178,7 +217,7 @@ export default function RecruiterDashboard(): React.ReactElement {
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

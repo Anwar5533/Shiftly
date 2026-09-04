@@ -21,23 +21,31 @@ export default function EmployerDashboard(): React.ReactElement {
 
   if (isError) {
     return (
-      <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-800 flex items-center gap-3">
+      <div className="flex items-center gap-3 rounded-lg border border-red-200 bg-red-50 p-4 text-red-800">
         <AlertCircle className="h-5 w-5" />
         <p>Failed to load dashboard data. Please try again later.</p>
       </div>
     );
   }
 
-  type AppType = { id: string; worker?: { firstName?: string; lastName?: string }; job?: { title?: string }; appliedAt: string | number | Date; status: string; jobId: string };
+  type AppType = {
+    id: string;
+    worker?: { firstName?: string; lastName?: string };
+    job?: { title?: string };
+    appliedAt: string | number | Date;
+    status: string;
+    jobId: string;
+  };
   const activeJobs = (data?.activeJobs as unknown[]) || [];
   const recentApplications = (data?.pendingApplications as AppType[]) || [];
-  const profile = data?.profile as { companyName?: string; firstName?: string; departments?: unknown[] } | undefined;
+  const profile = data?.profile as
+    { companyName?: string; firstName?: string; departments?: unknown[] } | undefined;
 
   // Derive stats
   const activeJobsCount = activeJobs.length;
   const totalApplicationsCount = recentApplications.length;
   // Fallback mocks for UI completeness since BFF only gives activeJobs and pendingApps
-  const totalShiftsCount = 0; 
+  const totalShiftsCount = 0;
   const totalDepartmentsCount = profile?.departments?.length || 0;
 
   return (
@@ -45,7 +53,11 @@ export default function EmployerDashboard(): React.ReactElement {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground">
-            Welcome back, {profile?.companyName || profile?.firstName || userTyped?.email?.split('@')[0] || 'Employer'}
+            Welcome back,{' '}
+            {profile?.companyName ||
+              profile?.firstName ||
+              userTyped?.email?.split('@')[0] ||
+              'Employer'}
           </h1>
           <p className="mt-1 text-muted-foreground">
             Here's an overview of your hiring operations.
@@ -61,11 +73,20 @@ export default function EmployerDashboard(): React.ReactElement {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: { opacity: 0 },
+          visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+        }}
+        className="grid grid-cols-1 gap-6 md:grid-cols-4"
+      >
         <motion.div
-          whileHover={{ scale: 1.02 }}
+          variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+          whileHover={{ scale: 1.02, y: -4 }}
           transition={{ type: 'spring', stiffness: 300 }}
-          className="rounded-2xl border border-border bg-card p-6 shadow-sm"
+          className="glass-panel p-6"
         >
           <div className="flex items-center gap-4">
             <div className="rounded-xl bg-primary/10 p-3 text-primary">
@@ -74,16 +95,21 @@ export default function EmployerDashboard(): React.ReactElement {
             <div>
               <p className="text-sm font-medium text-muted-foreground">Active Jobs</p>
               <h3 className="text-2xl font-bold text-foreground">
-                {isLoading ? <div className="h-8 w-16 animate-pulse bg-muted rounded"></div> : activeJobsCount}
+                {isLoading ? (
+                  <div className="h-8 w-16 animate-pulse rounded bg-muted"></div>
+                ) : (
+                  activeJobsCount
+                )}
               </h3>
             </div>
           </div>
         </motion.div>
 
         <motion.div
-          whileHover={{ scale: 1.02 }}
+          variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+          whileHover={{ scale: 1.02, y: -4 }}
           transition={{ type: 'spring', stiffness: 300 }}
-          className="rounded-2xl border border-border bg-card p-6 shadow-sm"
+          className="glass-panel p-6"
         >
           <div className="flex items-center gap-4">
             <div className="rounded-xl bg-accent p-3 text-accent-foreground">
@@ -92,16 +118,21 @@ export default function EmployerDashboard(): React.ReactElement {
             <div>
               <p className="text-sm font-medium text-muted-foreground">Pending Applicants</p>
               <h3 className="text-2xl font-bold text-foreground">
-                {isLoading ? <div className="h-8 w-16 animate-pulse bg-muted rounded"></div> : totalApplicationsCount}
+                {isLoading ? (
+                  <div className="h-8 w-16 animate-pulse rounded bg-muted"></div>
+                ) : (
+                  totalApplicationsCount
+                )}
               </h3>
             </div>
           </div>
         </motion.div>
 
         <motion.div
-          whileHover={{ scale: 1.02 }}
+          variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+          whileHover={{ scale: 1.02, y: -4 }}
           transition={{ type: 'spring', stiffness: 300 }}
-          className="rounded-2xl border border-border bg-card p-6 shadow-sm"
+          className="glass-panel p-6"
         >
           <div className="flex items-center gap-4">
             <div className="rounded-xl bg-secondary p-3 text-secondary-foreground">
@@ -110,16 +141,21 @@ export default function EmployerDashboard(): React.ReactElement {
             <div>
               <p className="text-sm font-medium text-muted-foreground">Completed Shifts</p>
               <h3 className="text-2xl font-bold text-foreground">
-                {isLoading ? <div className="h-8 w-16 animate-pulse bg-muted rounded"></div> : totalShiftsCount}
+                {isLoading ? (
+                  <div className="h-8 w-16 animate-pulse rounded bg-muted"></div>
+                ) : (
+                  totalShiftsCount
+                )}
               </h3>
             </div>
           </div>
         </motion.div>
 
         <motion.div
-          whileHover={{ scale: 1.02 }}
+          variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+          whileHover={{ scale: 1.02, y: -4 }}
           transition={{ type: 'spring', stiffness: 300 }}
-          className="rounded-2xl border border-border bg-card p-6 shadow-sm"
+          className="glass-panel p-6"
         >
           <div className="flex items-center gap-4">
             <div className="rounded-xl bg-green-500/10 p-3 text-green-500">
@@ -128,16 +164,25 @@ export default function EmployerDashboard(): React.ReactElement {
             <div>
               <p className="text-sm font-medium text-muted-foreground">Departments</p>
               <h3 className="text-2xl font-bold text-foreground">
-                {isLoading ? <div className="h-8 w-16 animate-pulse bg-muted rounded"></div> : totalDepartmentsCount}
+                {isLoading ? (
+                  <div className="h-8 w-16 animate-pulse rounded bg-muted"></div>
+                ) : (
+                  totalDepartmentsCount
+                )}
               </h3>
             </div>
           </div>
         </motion.div>
-      </div>
+      </motion.div>
 
       {/* Recent Applications */}
-      <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
-        <div className="border-b border-border p-6">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        className="glass-panel overflow-hidden"
+      >
+        <div className="border-b border-white/10 p-6">
           <h2 className="text-lg font-semibold text-foreground">Recent Applications</h2>
         </div>
         <div className="overflow-x-auto">
@@ -155,10 +200,10 @@ export default function EmployerDashboard(): React.ReactElement {
               {isLoading ? (
                 <tr>
                   <td colSpan={5} className="px-6 py-8">
-                    <div className="flex justify-center flex-col gap-2">
-                       <div className="h-4 w-full animate-pulse bg-muted rounded"></div>
-                       <div className="h-4 w-full animate-pulse bg-muted rounded"></div>
-                       <div className="h-4 w-full animate-pulse bg-muted rounded"></div>
+                    <div className="flex flex-col justify-center gap-2">
+                      <div className="h-4 w-full animate-pulse rounded bg-muted"></div>
+                      <div className="h-4 w-full animate-pulse rounded bg-muted"></div>
+                      <div className="h-4 w-full animate-pulse rounded bg-muted"></div>
                     </div>
                   </td>
                 </tr>
@@ -169,57 +214,55 @@ export default function EmployerDashboard(): React.ReactElement {
                   </td>
                 </tr>
               ) : (
-                recentApplications.map(
-                  (app: AppType) => (
-                    <tr key={app.id} className="transition-colors hover:bg-muted/30">
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-3">
-                          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/20 font-medium text-primary">
-                            {app.worker?.firstName?.[0] || 'C'}
-                          </div>
-                          <span className="font-medium text-foreground">
-                            {app.worker?.firstName} {app.worker?.lastName}
-                          </span>
+                recentApplications.map((app: AppType) => (
+                  <tr key={app.id} className="transition-colors hover:bg-muted/30">
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/20 font-medium text-primary">
+                          {app.worker?.firstName?.[0] || 'C'}
                         </div>
-                      </td>
-                      <td
-                        className="max-w-[150px] truncate px-6 py-4 text-muted-foreground"
-                        title={app.job?.title}
-                      >
-                        {app.job?.title}
-                      </td>
-                      <td className="px-6 py-4 text-muted-foreground">
-                        {new Date(app.appliedAt).toLocaleDateString()}
-                      </td>
-                      <td className="px-6 py-4">
-                        <span
-                          className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ${
-                            app.status === 'ACCEPTED'
-                              ? 'bg-green-500/10 text-green-500'
-                              : app.status === 'REJECTED'
-                                ? 'bg-red-500/10 text-red-500'
-                                : 'bg-yellow-500/10 text-yellow-500'
-                          }`}
-                        >
-                          {app.status}
+                        <span className="font-medium text-foreground">
+                          {app.worker?.firstName} {app.worker?.lastName}
                         </span>
-                      </td>
-                      <td className="px-6 py-4 text-right">
-                        <button
-                          onClick={() => navigate(`/jobs/${app.jobId}/applications`)}
-                          className="font-medium text-primary hover:underline"
-                        >
-                          View Applications
-                        </button>
-                      </td>
-                    </tr>
-                  ),
-                )
+                      </div>
+                    </td>
+                    <td
+                      className="max-w-[150px] truncate px-6 py-4 text-muted-foreground"
+                      title={app.job?.title}
+                    >
+                      {app.job?.title}
+                    </td>
+                    <td className="px-6 py-4 text-muted-foreground">
+                      {new Date(app.appliedAt).toLocaleDateString()}
+                    </td>
+                    <td className="px-6 py-4">
+                      <span
+                        className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ${
+                          app.status === 'ACCEPTED'
+                            ? 'bg-green-500/10 text-green-500'
+                            : app.status === 'REJECTED'
+                              ? 'bg-red-500/10 text-red-500'
+                              : 'bg-yellow-500/10 text-yellow-500'
+                        }`}
+                      >
+                        {app.status}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <button
+                        onClick={() => navigate(`/jobs/${app.jobId}/applications`)}
+                        className="font-medium text-primary hover:underline"
+                      >
+                        View Applications
+                      </button>
+                    </td>
+                  </tr>
+                ))
               )}
             </tbody>
           </table>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

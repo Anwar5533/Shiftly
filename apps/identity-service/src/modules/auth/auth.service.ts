@@ -492,7 +492,6 @@ export class AuthService {
 
     // Revoke previous session from the exact same device footprint to avoid unbounded zombie sessions
     if (ipAddress && userAgent) {
-       
       const revoked = await tx.session.updateMany({
         where: {
           userId: user.id,
@@ -506,14 +505,13 @@ export class AuthService {
         },
       });
 
-       
       if (revoked.count > 0) {
         this.logger.log(
           JSON.stringify({
             event: 'AUTH_SESSION_REVOKED_PER_DEVICE',
             userId: user.id,
             ipAddress,
-             
+
             count: revoked.count,
             timestamp: new Date().toISOString(),
           }),
@@ -522,7 +520,7 @@ export class AuthService {
     }
 
     // Persist session
-     
+
     await tx.session.create({
       data: {
         userId: user.id,

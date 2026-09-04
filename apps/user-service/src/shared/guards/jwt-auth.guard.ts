@@ -48,12 +48,12 @@ export class JwtAuthGuard implements CanActivate {
     }
 
     // SECURITY: The fallback dev secret has been intentionally removed
-    // (CRITICAL-03). JWT_SECRET MUST be defined at startup; the service will
+    // (CRITICAL-03). JWT_ACCESS_SECRET MUST be defined at startup; the service will
     // refuse to authenticate requests rather than silently use a known key.
-    const secret = process.env.JWT_SECRET;
+    const secret = process.env.JWT_ACCESS_SECRET;
     if (!secret) {
       throw new InternalServerErrorException(
-        'Server misconfiguration: JWT_SECRET environment variable is not set.',
+        'Server misconfiguration: JWT_ACCESS_SECRET environment variable is not set.',
       );
     }
 

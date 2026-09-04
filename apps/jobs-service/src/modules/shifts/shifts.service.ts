@@ -1,5 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars -- TODO(RC3): Address type safety */
-import { Injectable, BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  ForbiddenException,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
 import { ShiftStatus } from '@prisma/client-jobs-service';
 import { KafkaTopics, ShiftCompletedEventSchema } from '@shiftly/shared-events';

@@ -7,7 +7,6 @@ import {
   HealthCheckResult,
 } from '@nestjs/terminus';
 import { Public } from '../../shared/decorators/public.decorator';
-import { RedisService } from '../../infrastructure/redis/redis.service';
 import { RedisHealthIndicator } from './redis-health.indicator';
 
 import { PrismaService } from '../../infrastructure/database/prisma.service';

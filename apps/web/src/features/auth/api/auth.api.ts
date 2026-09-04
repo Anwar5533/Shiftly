@@ -11,7 +11,11 @@ interface OtpVerifyResponse extends TokenResponse {
 }
 
 export const authApi = {
-  login: async (data: { email?: string; phone?: string; password: string }): Promise<{ message: string }> => {
+  login: async (data: {
+    email?: string;
+    phone?: string;
+    password: string;
+  }): Promise<{ message: string }> => {
     const res = await api.post<ApiResponse<{ message: string }>>('/auth/login', data);
     return res.data.data;
   },
@@ -21,7 +25,11 @@ export const authApi = {
     return res.data.data;
   },
 
-  verifyOtp: async (data: { email?: string; phone?: string; otp: string }): Promise<OtpVerifyResponse> => {
+  verifyOtp: async (data: {
+    email?: string;
+    phone?: string;
+    otp: string;
+  }): Promise<OtpVerifyResponse> => {
     const res = await api.post<ApiResponse<OtpVerifyResponse>>('/auth/otp/verify', data);
     return res.data.data;
   },

@@ -13,7 +13,7 @@ describe('JwtAuthGuard', () => {
   beforeEach(() => {
     reflector = new Reflector();
     guard = new JwtAuthGuard(reflector);
-    process.env.JWT_SECRET = 'test-secret';
+    process.env.JWT_ACCESS_SECRET = 'test-secret';
   });
 
   describe('canActivate', () => {

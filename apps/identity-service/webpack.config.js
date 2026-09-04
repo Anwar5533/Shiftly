@@ -10,7 +10,7 @@ module.exports = function (options, webpack) {
         return callback(null, 'commonjs ' + request);
       }
       callback();
-    }
+    },
   ];
   return options;
 };

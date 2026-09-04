@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { ShieldCheck, Users, Activity, DollarSign, Briefcase } from 'lucide-react';
 
 import { useQuery } from '@tanstack/react-query';
@@ -13,7 +14,12 @@ export default function AdminDashboard(): React.ReactElement {
     queryFn: () => dashboardApi.getAdminDashboard(),
   });
 
-  type Stats = { totalUsers?: number; totalActiveJobs?: number; totalCompletedShifts?: number; totalPlatformRevenue?: number };
+  type Stats = {
+    totalUsers?: number;
+    totalActiveJobs?: number;
+    totalCompletedShifts?: number;
+    totalPlatformRevenue?: number;
+  };
   type Activity = { description?: string; createdAt?: string | number | Date };
 
   const stats = data?.stats as Stats | undefined;
@@ -36,8 +42,21 @@ export default function AdminDashboard(): React.ReactElement {
       )}
 
       {/* Health Metrics */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: { opacity: 0 },
+          visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+        }}
+        className="grid grid-cols-1 gap-6 md:grid-cols-4"
+      >
+        <motion.div
+          variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+          whileHover={{ scale: 1.02, y: -4 }}
+          transition={{ type: 'spring', stiffness: 300 }}
+          className="glass-panel p-6"
+        >
           <div className="flex items-center gap-4">
             <div className="rounded-xl bg-primary/10 p-3 text-primary">
               <Users className="h-6 w-6" />
@@ -49,9 +68,14 @@ export default function AdminDashboard(): React.ReactElement {
               </h3>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+        <motion.div
+          variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+          whileHover={{ scale: 1.02, y: -4 }}
+          transition={{ type: 'spring', stiffness: 300 }}
+          className="glass-panel p-6"
+        >
           <div className="flex items-center gap-4">
             <div className="rounded-xl bg-blue-500/10 p-3 text-blue-500">
               <Briefcase className="h-6 w-6" />
@@ -63,9 +87,14 @@ export default function AdminDashboard(): React.ReactElement {
               </h3>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+        <motion.div
+          variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+          whileHover={{ scale: 1.02, y: -4 }}
+          transition={{ type: 'spring', stiffness: 300 }}
+          className="glass-panel p-6"
+        >
           <div className="flex items-center gap-4">
             <div className="rounded-xl bg-accent p-3 text-accent-foreground">
               <Activity className="h-6 w-6" />
@@ -77,9 +106,14 @@ export default function AdminDashboard(): React.ReactElement {
               </h3>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+        <motion.div
+          variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+          whileHover={{ scale: 1.02, y: -4 }}
+          transition={{ type: 'spring', stiffness: 300 }}
+          className="glass-panel p-6"
+        >
           <div className="flex items-center gap-4">
             <div className="rounded-xl bg-green-500/10 p-3 text-green-500">
               <DollarSign className="h-6 w-6" />
@@ -91,13 +125,18 @@ export default function AdminDashboard(): React.ReactElement {
               </h3>
             </div>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Recent Activity */}
-        <div className="flex h-[400px] flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
-          <div className="flex items-center justify-between border-b border-border p-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="glass-panel flex h-[400px] flex-col overflow-hidden"
+        >
+          <div className="flex items-center justify-between border-b border-white/10 p-6">
             <h2 className="text-lg font-semibold text-foreground">Recent Activity</h2>
           </div>
           <div className="flex-1 overflow-auto">
@@ -116,7 +155,9 @@ export default function AdminDashboard(): React.ReactElement {
                 <tbody className="divide-y divide-border">
                   {recentActivity.map((activity: Activity, idx: number) => (
                     <tr key={idx} className="transition-colors hover:bg-muted/30">
-                      <td className="px-6 py-3 font-medium text-foreground">{activity.description || 'Action performed'}</td>
+                      <td className="px-6 py-3 font-medium text-foreground">
+                        {activity.description || 'Action performed'}
+                      </td>
                       <td className="px-6 py-3 text-muted-foreground">
                         {new Date(activity.createdAt || Date.now()).toLocaleDateString()}
                       </td>
@@ -126,11 +167,16 @@ export default function AdminDashboard(): React.ReactElement {
               </table>
             )}
           </div>
-        </div>
+        </motion.div>
 
         {/* System Alerts */}
-        <div className="flex h-[400px] flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
-          <div className="border-b border-border p-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="glass-panel flex h-[400px] flex-col overflow-hidden"
+        >
+          <div className="border-b border-white/10 p-6">
             <h2 className="text-lg font-semibold text-foreground">System Alerts</h2>
           </div>
           <div className="flex-1 space-y-3 overflow-auto p-4">
@@ -145,7 +191,7 @@ export default function AdminDashboard(): React.ReactElement {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       <AlertDialog

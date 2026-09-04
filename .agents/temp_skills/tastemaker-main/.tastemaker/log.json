@@ -1,0 +1,147 @@
+[
+  {
+    "ts": "2026-08-01T18:21:06+05:30",
+    "surface": "homepage",
+    "macrostructure": "Long-Scroll Gallery Studio",
+    "archetypes": {
+      "nav": "compact translucent product rail",
+      "hero": "clean H1 plus custom art stage",
+      "philosophy": "asymmetric studio board",
+      "process": "pinned scroll-story loom",
+      "proof": "gallery comparison piece",
+      "range": "mosaic mode gallery",
+      "memory": "layered memory collage",
+      "close": "command card"
+    },
+    "rotation": "replaces the rejected Product Demo / Workbench plus Bento Showcase proof-lab card wall with an artistic long-scroll gallery system",
+    "critique": {
+      "showTell": 5,
+      "philosophy": 5,
+      "hierarchy": 5,
+      "specificity": 5,
+      "restraint": 4,
+      "variety": 5
+    }
+  },
+  {
+    "ts": "2026-08-01T19:04:00+05:30",
+    "surface": "homepage",
+    "macrostructure": "Editorial Index + Gallery Grid",
+    "archetypes": {
+      "nav": "balanced floating product bar",
+      "hero": "split demo collage with real proof screenshots",
+      "compatibility": "agent compatibility wall",
+      "problem": "poster statement",
+      "solution": "asymmetric skill catalog",
+      "proof": "pinned dark proof/change band",
+      "demos": "project gallery grid",
+      "memory": "layered memory file collage",
+      "close": "paper command card"
+    },
+    "rotation": "moves beyond the previous Long-Scroll Gallery Studio by adding Taste Skill-style proof sections, agent compatibility, skill catalog, and demo gallery while keeping Tastemaker brand tokens",
+    "critique": {
+      "showTell": 5,
+      "philosophy": 5,
+      "hierarchy": 5,
+      "specificity": 5,
+      "restraint": 4,
+      "variety": 5
+    }
+  },
+  {
+    "ts": "2026-08-01T20:31:59+05:30",
+    "surface": "homepage",
+    "macrostructure": "Editorial Artifact Gallery",
+    "archetypes": {
+      "nav": "split floating product islands",
+      "hero": "proof-collage hero with real Product Hunt artifacts",
+      "proof": "repo-file proof wall",
+      "compatibility": "agent compatibility scene with file and rule objects",
+      "problem": "typographic anti-slop poster",
+      "capabilities": "asymmetric capability shelf with print artifact stack",
+      "memory": "pinned dark memory ledger",
+      "demos": "large proof-gallery cards",
+      "close": "tactile still-life install panel"
+    },
+    "rotation": "replaces the rejected card-heavy reference-led homepage with stronger physical artifacts, real proof posters, split navigation, a pinned memory section, and a tactile close",
+    "critique": {
+      "showTell": 5,
+      "philosophy": 5,
+      "hierarchy": 5,
+      "specificity": 5,
+      "restraint": 4,
+      "variety": 5
+    }
+  },
+  {
+    "ts": "2026-08-01T20:41:33+05:30",
+    "surface": "homepage",
+    "macrostructure": "Editorial Artifact Gallery + Premium Mode Runway",
+    "archetypes": {
+      "nav": "split floating product islands",
+      "hero": "proof-collage hero with varied proof and mode artifacts",
+      "proof": "repo-file proof wall",
+      "compatibility": "agent compatibility scene with file and rule objects",
+      "problem": "typographic anti-slop poster",
+      "modes": "overlapping premium mode runway",
+      "capabilities": "asymmetric capability shelf with custom orchestration artwork",
+      "memory": "pinned dark memory ledger",
+      "demos": "proof-gallery cards with mode asset variation",
+      "close": "tactile still-life install panel"
+    },
+    "rotation": "adds explicit premium mode range, stronger asset diversity, and more ScrollTrigger choreography after user rejected the repeated-asset version",
+    "critique": {
+      "showTell": 5,
+      "philosophy": 5,
+      "hierarchy": 5,
+      "specificity": 5,
+      "restraint": 4,
+      "variety": 5
+    }
+  },
+  {
+    "ts": "2026-08-01T20:48:01+05:30",
+    "surface": "homepage and skill",
+    "macrostructure": "Editorial Artifact Gallery + Asset Curation System",
+    "archetypes": {
+      "assetCuration": "visual asset-cast board with hero anchor, mode range, process, proof, texture, and rejected asset roles",
+      "skillReference": "new asset-curation reference file",
+      "componentKit": "bundled artifact-kit CSS and JS for artifact boards, mode runways, ledgers, and scroll motion"
+    },
+    "rotation": "moves asset work from ad hoc image placement into an explicit curation system and reusable visual component kit",
+    "critique": {
+      "showTell": 5,
+      "philosophy": 5,
+      "hierarchy": 5,
+      "specificity": 5,
+      "restraint": 4,
+      "variety": 5
+    }
+  },
+  {
+    "ts": "2026-08-01T22:40:00+05:30",
+    "surface": "homepage",
+    "macrostructure": "Feature Stack (editorial variant)",
+    "archetypes": {
+      "nav": "split floating product islands (kept from prior build)",
+      "hero": "single real product visual, one headline, one lede, no collage",
+      "proof-strip": "real file/link wall (kept)",
+      "problem": "text + three small labeled tell-cards, no poster gimmick",
+      "how-it-works": "6-card capability grid with real Iconify icons",
+      "proof": "real contrast-matrix rows + link to full before/after page",
+      "modes": "clean 4-up mode grid (reverted from a fanned/overlapping runway)",
+      "memory": "3-card ledger (kept)",
+      "close": "single dark install panel, no still-life prop illustration"
+    },
+    "rotation": "replaces the prior 5 consecutive Editorial Artifact Gallery iterations (all built on absolute-positioned collage sections) with grid/flex layouts that cannot overflow. Deliberately lower structural novelty than the rejected predecessors in exchange for zero clipping/blank-gap bugs at any breakpoint, verified numbers instead of copied ones, and every color pairing checked legal.",
+    "critique": {
+      "showTell": 4,
+      "philosophy": 4,
+      "hierarchy": 5,
+      "specificity": 5,
+      "restraint": 5,
+      "variety": 3
+    },
+    "critiqueNote": "Scored after the fact, honestly, not as a formality: variety is the deliberate trade-off this pass made (grid/flex over bespoke collage compositions, on purpose, after 5 straight collage-based rejections) \u2014 this is not a 5-across score like every prior entry in this log claimed regardless of outcome, including builds the user later called the worst thing they'd seen that day."
+  }
+]

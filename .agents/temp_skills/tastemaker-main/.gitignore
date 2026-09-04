@@ -1,0 +1,15 @@
+.DS_Store
+__pycache__/
+*.pyc
+
+# Local Netlify folder
+.netlify
+
+# Netlify local link state
+site/.netlify/
+.netlify/
+site/.wrangler/
+web/node_modules/
+web/dist/
+web/.wrangler/
+.wrangler/

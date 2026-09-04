@@ -136,7 +136,8 @@ export default function OtpPage(): React.ReactElement {
         </button>
         <h1 className="text-2xl font-bold tracking-tight text-foreground">Verify your identity</h1>
         <p className="text-sm text-muted-foreground">
-          We sent a 6-digit code to <span className="font-semibold text-foreground">{phone || email}</span>
+          We sent a 6-digit code to{' '}
+          <span className="font-semibold text-foreground">{phone || email}</span>
         </p>
       </div>
 

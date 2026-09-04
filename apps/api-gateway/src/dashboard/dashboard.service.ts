@@ -139,13 +139,13 @@ export class DashboardService {
       [
         {
           name: 'profile',
-          url: `${process.env.USER_URL}/workers/${userId}/profile`,
+          url: `${process.env.USER_URL}/api/v1/workers/${userId}/profile`,
           fallback: null,
         },
-        { name: 'upcomingShifts', url: `${process.env.JOBS_URL}/shifts/my`, fallback: [] },
+        { name: 'upcomingShifts', url: `${process.env.JOBS_URL}/api/v1/shifts/my`, fallback: [] },
         {
           name: 'pendingApplications',
-          url: `${process.env.APPLICATIONS_URL}/applications/my-applications`,
+          url: `${process.env.APPLICATIONS_URL}/api/v1/applications/my-applications`,
           fallback: [],
         },
       ],
@@ -176,13 +176,13 @@ export class DashboardService {
       [
         {
           name: 'profile',
-          url: `${process.env.USER_URL}/employers/${userId}/profile`,
+          url: `${process.env.USER_URL}/api/v1/employers/${userId}/profile`,
           fallback: null,
         },
-        { name: 'activeJobs', url: `${process.env.JOBS_URL}/jobs/my-jobs`, fallback: [] },
+        { name: 'activeJobs', url: `${process.env.JOBS_URL}/api/v1/jobs/my-jobs`, fallback: [] },
         {
           name: 'pendingApplications',
-          url: `${process.env.APPLICATIONS_URL}/applications/recent`,
+          url: `${process.env.APPLICATIONS_URL}/api/v1/applications/recent`,
           fallback: [],
         },
       ],
@@ -214,17 +214,17 @@ export class DashboardService {
       [
         {
           name: 'userStats',
-          url: `${process.env.USER_URL}/admin/users/stats`,
+          url: `${process.env.USER_URL}/api/v1/admin/users/stats`,
           fallback: { totalUsers: 0 },
         },
         {
           name: 'jobStats',
-          url: `${process.env.JOBS_URL}/jobs/stats`,
+          url: `${process.env.JOBS_URL}/api/v1/jobs/stats`,
           fallback: { totalActiveJobs: 0, totalCompletedShifts: 0 },
         },
         {
           name: 'analyticsSummary',
-          url: `${process.env.ANALYTICS_URL}/analytics/summary`,
+          url: `${process.env.ANALYTICS_URL}/api/v1/analytics/summary`,
           fallback: { totalPlatformRevenue: 0, recentActivity: [] },
         },
       ],

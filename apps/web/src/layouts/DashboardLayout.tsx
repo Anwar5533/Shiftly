@@ -222,7 +222,7 @@ export function DashboardLayout(): React.ReactElement {
   return (
     <div className="flex min-h-screen bg-background text-foreground">
       {/* Sidebar (Desktop) */}
-      <aside className="hidden w-64 flex-col border-r border-border bg-card md:flex">
+      <aside className="glass-sidebar hidden w-64 flex-col md:flex">
         <div className="flex items-center space-x-3 p-6">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary shadow-brand">
             <span className="text-lg font-bold text-primary-foreground">S</span>
@@ -230,21 +230,30 @@ export function DashboardLayout(): React.ReactElement {
           <span className="text-xl font-bold tracking-tight">SHIFTLY</span>
         </div>
 
-        <nav className="mt-4 flex-1 space-y-1 px-4">
+        <nav className="relative mt-4 flex-1 space-y-2 px-4">
           {navItems.map((item) => (
             <NavLink
               key={item.path}
               to={item.path}
-              className={({ isActive }) =>
-                `flex items-center space-x-3 rounded-lg px-3 py-2.5 transition-colors ${
-                  isActive
-                    ? 'bg-primary/10 font-medium text-primary'
-                    : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
-                }`
-              }
+              className="relative flex items-center rounded-lg px-3 py-2.5 outline-none"
             >
-              {item.icon}
-              <span>{item.label}</span>
+              {({ isActive }) => (
+                <>
+                  {isActive && (
+                    <motion.div
+                      layoutId="active-nav-desktop"
+                      className="absolute inset-0 rounded-lg border border-primary/20 bg-primary/15"
+                      transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                    />
+                  )}
+                  <div
+                    className={`relative z-10 flex items-center space-x-3 ${isActive ? 'font-semibold text-primary' : 'text-muted-foreground hover:text-foreground'}`}
+                  >
+                    {item.icon}
+                    <span>{item.label}</span>
+                  </div>
+                </>
+              )}
             </NavLink>
           ))}
         </nav>
@@ -317,22 +326,31 @@ export function DashboardLayout(): React.ReactElement {
                 </button>
               </div>
 
-              <nav className="mt-4 flex-1 space-y-1 px-4">
+              <nav className="relative mt-4 flex-1 space-y-2 px-4">
                 {navItems.map((item) => (
                   <NavLink
                     key={item.path}
                     to={item.path}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className={({ isActive }) =>
-                      `flex items-center space-x-3 rounded-lg px-3 py-2.5 transition-colors ${
-                        isActive
-                          ? 'bg-primary/10 font-medium text-primary'
-                          : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
-                      }`
-                    }
+                    className="relative flex items-center rounded-lg px-3 py-2.5 outline-none"
                   >
-                    {item.icon}
-                    <span>{item.label}</span>
+                    {({ isActive }) => (
+                      <>
+                        {isActive && (
+                          <motion.div
+                            layoutId="active-nav-mobile"
+                            className="absolute inset-0 rounded-lg border border-primary/20 bg-primary/15"
+                            transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                          />
+                        )}
+                        <div
+                          className={`relative z-10 flex items-center space-x-3 ${isActive ? 'font-semibold text-primary' : 'text-muted-foreground hover:text-foreground'}`}
+                        >
+                          {item.icon}
+                          <span>{item.label}</span>
+                        </div>
+                      </>
+                    )}
                   </NavLink>
                 ))}
               </nav>
@@ -378,7 +396,7 @@ export function DashboardLayout(): React.ReactElement {
       {/* Main Content */}
       <main className="flex min-w-0 flex-1 flex-col">
         {/* Topbar */}
-        <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b border-border bg-card/70 px-4 backdrop-blur-md md:px-8">
+        <header className="glass-header flex h-16 items-center justify-between px-4 md:px-8">
           <div className="flex items-center">
             <button
               onClick={() => setIsMobileMenuOpen(true)}

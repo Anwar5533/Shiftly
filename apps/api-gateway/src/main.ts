@@ -95,7 +95,11 @@ async function bootstrap(): Promise<void> {
       if (!envVar) {
         throw new Error(`No proxy target for ${req.url ?? '<no url>'}`);
       }
-      return process.env[envVar];
+      let target = process.env[envVar] || '';
+      if (target.endsWith('/api/v1')) {
+        target = target.slice(0, -7);
+      }
+      return target;
     },
     on: {
       error: (err: Error, req: IncomingMessage, res: ServerResponse | Socket) => {

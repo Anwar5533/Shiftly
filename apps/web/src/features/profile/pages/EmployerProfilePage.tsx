@@ -165,8 +165,8 @@ export default function EmployerProfilePage(): React.ReactElement {
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-1">
-          <div className="flex flex-col items-center rounded-2xl border border-border bg-card p-6 text-center shadow-sm">
-            <div className="group relative mb-4 flex h-32 w-32 items-center justify-center overflow-hidden rounded-2xl border-4 border-primary/20 bg-primary/10">
+          <div className="glass-panel p-6 flex flex-col items-center text-center">
+            <div className="group relative mb-4 flex h-32 w-32 items-center justify-center overflow-hidden rounded-2xl border-4 border-primary/20 bg-gradient-to-br from-primary/30 to-primary/5 shadow-inner">
               <Building2 className="h-16 w-16 text-primary/60" />
               {isEditing && (
                 <div className="absolute inset-0 flex cursor-pointer items-center justify-center bg-background/80 opacity-0 transition-opacity group-hover:opacity-100">
@@ -217,7 +217,7 @@ export default function EmployerProfilePage(): React.ReactElement {
         </div>
 
         <div className="space-y-6 lg:col-span-2">
-          <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+          <div className="glass-panel p-6 card-hover">
             <h3 className="mb-6 flex items-center gap-2 text-lg font-semibold text-foreground">
               <Building2 className="h-5 w-5 text-primary" />
               About Company
@@ -236,7 +236,7 @@ export default function EmployerProfilePage(): React.ReactElement {
             )}
           </div>
 
-          <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+          <div className="glass-panel p-6 card-hover">
             <h3 className="mb-6 flex items-center gap-2 text-lg font-semibold text-foreground">
               <Building2 className="h-5 w-5 text-primary" />
               Company Details
@@ -304,7 +304,7 @@ export default function EmployerProfilePage(): React.ReactElement {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+          <div className="glass-panel p-6 card-hover">
             <h3 className="mb-6 flex items-center gap-2 text-lg font-semibold text-foreground">
               <Building2 className="h-5 w-5 text-primary" />
               Departments
