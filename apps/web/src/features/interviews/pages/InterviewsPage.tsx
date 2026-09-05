@@ -1,39 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Calendar as CalendarIcon, Clock, Video, User, Briefcase } from 'lucide-react';
+import { interviewsApi, type Interview } from '../api/interviews.api';
 
 export default function InterviewsPage(): React.ReactElement {
-  const interviews = [
-    {
-      id: 1,
-      candidate: 'Michael Chen',
-      role: 'Senior Frontend Developer',
-      time: '10:00 AM - 11:00 AM',
-      date: 'Today',
-      type: 'Video Call',
-      interviewer: 'Alex Mercer',
-      status: 'Upcoming',
-    },
-    {
-      id: 2,
-      candidate: 'Sarah Jenkins',
-      role: 'Warehouse Manager',
-      time: '1:30 PM - 2:00 PM',
-      date: 'Today',
-      type: 'Phone Screen',
-      interviewer: 'You',
-      status: 'Upcoming',
-    },
-    {
-      id: 3,
-      candidate: 'David Rodriguez',
-      role: 'Senior Frontend Developer',
-      time: '4:00 PM - 5:00 PM',
-      date: 'Tomorrow',
-      type: 'Video Call',
-      interviewer: 'Alex Mercer',
-      status: 'Scheduled',
-    },
-  ];
+  const [interviews, setInterviews] = useState<Interview[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchInterviews = async () => {
+      try {
+        const data = await interviewsApi.getInterviews();
+        setInterviews(data);
+      } catch (error) {
+        console.error('Failed to load interviews:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    void fetchInterviews();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="flex h-64 items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

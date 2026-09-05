@@ -9,7 +9,7 @@
 import { useEffect } from 'react';
 import { useAppDispatch } from '@/app/store';
 import { setUser, clearUser, setLoading } from '@/features/auth/store/authSlice';
-import { setAccessToken } from '@/shared/lib/api';
+import { setAccessToken, refreshAuthToken } from '@/shared/lib/api';
 import api from '@/shared/lib/api';
 import { jwtDecode } from '@/features/auth/utils/jwt';
 import type { JwtPayload } from '@shiftly/shared-types';
@@ -26,11 +26,7 @@ export function useAuthInit(): void {
     const restoreSession = async () => {
       dispatch(setLoading(true));
       try {
-        const response = await api.post<{ data: { accessToken: string; expiresIn: number } }>(
-          '/auth/refresh-token',
-        );
-        const { accessToken } = response.data.data;
-        setAccessToken(accessToken);
+        const accessToken = await refreshAuthToken();
         const decodedUser = jwtDecode<JwtPayload>(accessToken);
         dispatch(setUser(decodedUser));
       } catch {

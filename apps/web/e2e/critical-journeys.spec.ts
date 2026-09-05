@@ -10,20 +10,20 @@ test.describe('Critical Journeys E2E', () => {
 
     // Go to Employer Dashboard
     await page.goto('/dashboard/employer');
-    await expect(page.locator('h1:has-text("Employer Overview")')).toBeVisible();
+    await expect(page.locator('h1:has-text("Welcome back")')).toBeVisible();
 
     // Go to post job
-    await page.click('text=Post a New Job');
-    await expect(page.locator('h1:has-text("Post a New Job")')).toBeVisible();
+    await page.click('text=Post a Job');
+    await expect(page.locator('h1:has-text("Post a New Job")')).toBeVisible({ timeout: 10000 });
+    await page.waitForTimeout(1000); // Wait for React Hook Form to hydrate
 
     // Fill form
-    await page.fill('input[name="title"]', 'E2E Playwright Developer');
-    await page.fill('input[name="locationCity"]', 'San Francisco');
-    await page.fill('input[name="salaryMin"]', '120000');
-    await page.fill('input[name="salaryMax"]', '150000');
-    await page.fill(
-      'textarea[name="description"]',
-      'This is an end-to-end test job posting for a software developer.',
+    await page.getByLabel('Job Title').fill('E2E Playwright Developer');
+    await page.getByLabel('City').fill('San Francisco');
+    await page.getByLabel('Min Salary').fill('120000');
+    await page.getByLabel('Max Salary').fill('150000');
+    await page.getByLabel('Job Description').fill(
+      'This is an end-to-end test job posting for a software developer. It is more than 20 characters.',
     );
 
     // Submit
@@ -45,13 +45,13 @@ test.describe('Critical Journeys E2E', () => {
 
     // Click apply
     await page.click('button:has-text("Apply for this Job")');
-    await expect(page.locator('button:has-text("Applied Successfully")')).toBeVisible();
+    await expect(page.locator('text=Applied Successfully')).toBeVisible();
 
     // Go to My Applications
     await page.goto('/dashboard/worker');
     // Ensure the new application is visible (assuming it's in the recent list)
     // For now we just verify we reached the dashboard without errors.
-    await expect(page.locator('h1:has-text("Worker Dashboard")')).toBeVisible();
+    await expect(page.locator('h1:has-text("Welcome back")')).toBeVisible();
 
     // Log out worker
     await page.evaluate(() => localStorage.clear());

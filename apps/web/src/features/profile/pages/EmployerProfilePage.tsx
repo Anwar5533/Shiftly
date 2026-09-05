@@ -39,35 +39,7 @@ export default function EmployerProfilePage(): React.ReactElement {
       setError(null);
     } catch (_error) {
       console.error('Failed to fetch profile', _error);
-      // Fallback if needed for development, similar to worker
-      const mockProfile = {
-        id: 'emp-1',
-        userId:
-          ((user as unknown as Record<string, unknown>)?.id as string) ||
-          ((user as unknown as Record<string, unknown>)?.sub as string) ||
-          'u-1',
-        companyName: 'Acme Logistics',
-        description: 'A leading retail company looking for shift workers.',
-        website: 'https://acmecorp.com',
-        location: {
-          city: 'Bangalore',
-          state: 'Karnataka',
-          country: 'India',
-        } as import('@shiftly/shared-types').JobLocation,
-        employeeCount: '11-50' as import('@shiftly/shared-types').EmployeeCountRange,
-        rating: 4.5,
-        totalReviews: 10,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      } as unknown as EmployerProfile;
-      setProfile(mockProfile);
-      setCompanyName(mockProfile.companyName);
-      setIndustry(mockProfile.industry);
-      setDescription(mockProfile.description || '');
-      setWebsite(mockProfile.website || '');
-      setLocationCity(mockProfile.location?.city || '');
-      setEmail(user?.email || '');
-      setError(null);
+      setError('Unable to load employer profile. Please try again later.');
     } finally {
       setIsLoading(false);
     }

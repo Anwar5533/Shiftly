@@ -40,46 +40,20 @@ export default function WorkerProfilePage(): React.ReactElement {
           setProfile(data);
           setBio(data.bio || '');
           setLocationCity(data.location?.city || '');
+          setFirstName(data.firstName || '');
+          setLastName(data.lastName || '');
           setError(null);
-          return;
-        } catch (_error) {
-          console.warn('Backend profile fetch failed, using fallback mock');
+        } catch (err: any) {
+          if (err.response?.status === 404) {
+            setProfile(null);
+          } else {
+            console.error('Failed to fetch worker profile', err);
+            setError('Failed to load profile. Please try again later.');
+          }
         }
+      } else {
+        setError('Unauthorized: Only workers can access this profile.');
       }
-
-      // Mock fallback for non-workers or failed worker fetch
-      const fallbackProfile: WorkerProfile = {
-        id: 'mock-123',
-        userId: user?.sub || '123',
-        firstName: user?.email?.split('@')[0] || 'User',
-        lastName: '',
-        bio: `Hello! I am a ${user?.role.toLowerCase()} on Shiftly.`,
-        location: {
-          city: 'Bangalore',
-          state: 'Karnataka',
-          address: '',
-          country: 'India',
-          postalCode: '',
-          lat: 0,
-          lng: 0,
-        },
-        skills: ['Management', 'Communication', 'Operations'],
-        hourlyRate: 15,
-        currency: 'USD',
-        rating: 4.8,
-        totalReviews: 24,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      } as unknown as WorkerProfile;
-
-      setProfile(fallbackProfile);
-      setBio(fallbackProfile.bio || '');
-      setLocationCity(fallbackProfile.location?.city || '');
-      setFirstName(fallbackProfile.firstName || '');
-      setLastName(fallbackProfile.lastName || '');
-      setEmail(user?.email || '');
-      setPhone(((user as unknown as Record<string, unknown>)?.phone as string) || '');
-      setError(null);
     } catch (_error) {
       console.error('Failed to fetch profile', _error);
       setError('Failed to load profile data.');

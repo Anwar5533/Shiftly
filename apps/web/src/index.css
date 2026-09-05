@@ -8,21 +8,21 @@
 
 @layer base {
   :root {
-    /* ─── Brand (Electric Blue / Cobalt) ─────────────────────────────── */
-    --brand-50: 240 249 255;
-    --brand-100: 224 242 254;
-    --brand-200: 186 230 253;
-    --brand-300: 125 211 252;
-    --brand-400: 56 189 248;
-    --brand-500: 14 165 233;
-    --brand-600: 2 132 199;
-    --brand-700: 3 105 161;
-    --brand-800: 7 89 133;
-    --brand-900: 12 74 110;
-    --brand-950: 8 47 73;
+    /* ─── Brand (Premium Emerald / Teal) ─────────────────────────────── */
+    --brand-50: 236 253 245;
+    --brand-100: 209 250 229;
+    --brand-200: 167 243 208;
+    --brand-300: 110 231 183;
+    --brand-400: 52 211 153;
+    --brand-500: 16 185 129;
+    --brand-600: 5 150 105;
+    --brand-700: 4 120 87;
+    --brand-800: 6 95 70;
+    --brand-900: 6 78 59;
+    --brand-950: 2 44 34;
 
     /* ─── Light Mode Semantic Tokens (Minimal Monochrome) ────────── */
-    --background: 0 0% 98%;
+    --background: 0 0% 100%;
     --foreground: 240 10% 4%;
 
     --card: 0 0% 100%;
@@ -31,7 +31,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 4%;
 
-    --primary: 200 90% 48%; /* brand-500 */
+    --primary: 160 84% 39%; /* brand-500 */
     --primary-foreground: 0 0% 100%;
 
     --secondary: 240 5% 96%;
@@ -40,8 +40,8 @@
     --muted: 240 5% 96%;
     --muted-foreground: 240 5% 45%;
 
-    --accent: 240 5% 96%;
-    --accent-foreground: 240 10% 15%;
+    --accent: 160 84% 39%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
@@ -54,7 +54,7 @@
 
     --border: 240 6% 90%;
     --input: 240 6% 90%;
-    --ring: 200 90% 48%;
+    --ring: 160 84% 39%;
 
     --radius: 1rem;
 
@@ -64,34 +64,34 @@
     --shadow-md: 0 8px 24px -4px rgb(0 0 0 / 0.08), 0 4px 8px -4px rgb(0 0 0 / 0.04);
     --shadow-lg: 0 16px 32px -4px rgb(0 0 0 / 0.1), 0 8px 16px -8px rgb(0 0 0 / 0.06);
     --shadow-xl: 0 24px 48px -12px rgb(0 0 0 / 0.15), 0 12px 24px -12px rgb(0 0 0 / 0.08);
-    --shadow-brand: 0 8px 24px 0 rgb(14 165 233 / 0.25);
+    --shadow-brand: 0 8px 24px 0 rgb(16 185 129 / 0.25);
   }
 
   .dark {
-    /* ─── Dark Mode Semantic Tokens (Deep Zinc) ─────────────────────── */
-    --background: 240 10% 4%;
-    --foreground: 0 0% 98%;
+    /* ─── Dark Mode Semantic Tokens (Deep Zinc/Slate) ─────────────────────── */
+    --background: 222 47% 4%;
+    --foreground: 210 40% 98%;
 
-    --card: 240 10% 6%;
-    --card-foreground: 0 0% 98%;
+    --card: 222 47% 6%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 240 10% 6%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 222 47% 6%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 200 90% 55%; /* Lighter brand for dark mode contrast */
-    --primary-foreground: 240 10% 4%;
+    --primary: 160 84% 39%; /* Lighter brand for dark mode contrast */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 240 6% 12%;
-    --secondary-foreground: 240 5% 75%;
+    --secondary: 217 32% 12%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 240 6% 12%;
-    --muted-foreground: 240 5% 65%;
+    --muted: 217 32% 12%;
+    --muted-foreground: 215 20% 65%;
 
-    --accent: 240 6% 12%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 160 84% 39%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 210 40% 98%;
 
     --success: 142 70% 45%;
     --success-foreground: 0 0% 98%;
@@ -99,16 +99,16 @@
     --warning: 38 92% 50%;
     --warning-foreground: 240 10% 4%;
 
-    --border: 240 6% 15%;
-    --input: 240 6% 15%;
-    --ring: 200 90% 55%;
+    --border: 217 32% 15%;
+    --input: 217 32% 15%;
+    --ring: 160 84% 39%;
 
     --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.4);
     --shadow-sm: 0 2px 8px -2px rgb(0 0 0 / 0.5);
     --shadow-md: 0 8px 24px -4px rgb(0 0 0 / 0.6);
     --shadow-lg: 0 16px 32px -4px rgb(0 0 0 / 0.7);
     --shadow-xl: 0 24px 48px -12px rgb(0 0 0 / 0.8);
-    --shadow-brand: 0 8px 24px 0 rgb(56 189 248 / 0.2);
+    --shadow-brand: 0 8px 24px 0 rgb(52 211 153 / 0.2);
   }
 
   /* ─── Base Reset & Typography ───────────────────────────────── */

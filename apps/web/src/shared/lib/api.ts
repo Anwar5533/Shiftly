@@ -65,6 +65,28 @@ api.interceptors.request.use(
 );
 
 // ─── Response Interceptor (Token Refresh) ─────────────────────────────────────
+export const refreshAuthToken = async (): Promise<string> => {
+  if (isRefreshing) {
+    return new Promise((resolve, reject) => {
+      failedQueue.push({ resolve, reject });
+    });
+  }
+
+  isRefreshing = true;
+  try {
+    const response = await api.post<{ data: { accessToken: string } }>('/auth/refresh-token');
+    const newToken = response.data.data.accessToken;
+    setAccessToken(newToken);
+    processQueue(null, newToken);
+    return newToken;
+  } catch (error) {
+    processQueue(error, null);
+    clearAccessToken();
+    throw error;
+  } finally {
+    isRefreshing = false;
+  }
+};
 
 api.interceptors.response.use(
   (response) => response,
@@ -76,38 +98,17 @@ api.interceptors.response.use(
       !originalRequest._retry &&
       originalRequest.url !== '/auth/refresh-token'
     ) {
-      if (isRefreshing) {
-        return new Promise((resolve, reject) => {
-          failedQueue.push({ resolve, reject });
-        }).then((token) => {
-          if (originalRequest.headers && token) {
-            originalRequest.headers['Authorization'] = `Bearer ${token as string}`;
-          }
-          return api(originalRequest);
-        });
-      }
-
       originalRequest._retry = true;
-      isRefreshing = true;
 
       try {
-        const response = await api.post<{ data: { accessToken: string } }>('/auth/refresh-token');
-        const newToken = response.data.data.accessToken;
-        setAccessToken(newToken);
-        processQueue(null, newToken);
-
+        const token = await refreshAuthToken();
         if (originalRequest.headers) {
-          originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
+          originalRequest.headers['Authorization'] = `Bearer ${token}`;
         }
         return api(originalRequest);
       } catch (_error) {
-        processQueue(_error, null);
-        clearAccessToken();
-        // Redirect to login
         window.location.href = '/login';
         return Promise.reject(_error instanceof Error ? _error : new Error(String(_error)));
-      } finally {
-        isRefreshing = false;
       }
     }
 
