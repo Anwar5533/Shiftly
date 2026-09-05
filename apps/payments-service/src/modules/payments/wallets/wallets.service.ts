@@ -38,10 +38,24 @@ export class WalletsService {
     return this.transactionsService.getTransactions(wallet.id);
   }
 
-  async topUp(userId: string, amount: number) {
+  async topUp(userId: string, amount: number, paymentMethodId?: string) {
     if (amount <= 0) {
       throw new BadRequestException('Top up amount must be greater than 0');
     }
+
+    // --- MOCK STRIPE PAYLOAD PROCESSING ---
+    if (paymentMethodId) {
+      this.logger.log(`Processing Stripe payment for user ${userId} with method ${paymentMethodId} for amount ${amount}`);
+      // Simulate network delay to Stripe API
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      // Simulate Stripe decline on specific token
+      if (paymentMethodId === 'tok_chargeDeclined') {
+        throw new BadRequestException('Stripe Charge Declined: Insufficient funds or card blocked.');
+      }
+      this.logger.log(`Stripe payment successful (Mocked)`);
+    }
+    // ----------------------------------------
 
     return this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       const wallet = await tx.wallet.findUnique({

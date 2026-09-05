@@ -58,10 +58,6 @@ export class KycService {
       }),
     ]);
 
-    // Simulate auto-approval after a delay (mocking the Admin KYC process for phase 8)
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises -- TODO(RC3): Address type safety
-    setTimeout(() => this.autoApproveKyc(userId), 15000);
-
     return { message: 'KYC submitted successfully', documents: createdDocs };
   }
 
@@ -82,28 +78,4 @@ export class KycService {
     return { status: kycStatus };
   }
 
-  // Helper to mock the admin approval flow
-  private async autoApproveKyc(userId: string) {
-    await this.prisma.kycDocument.updateMany({
-      where: { userId, status: 'PENDING' },
-      data: { status: 'APPROVED', reviewedAt: new Date() },
-    });
-
-    // TODO: Emit event to identity-service so it can update the User global status
-
-    await Promise.all([
-      this.prisma.workerProfile.updateMany({
-        where: { userId },
-        data: { kycStatus: 'APPROVED', isVerified: true },
-      }),
-      this.prisma.employerProfile.updateMany({
-        where: { userId },
-        data: { kycStatus: 'APPROVED', isVerified: true },
-      }),
-      this.prisma.recruiterProfile.updateMany({
-        where: { userId },
-        data: { kycStatus: 'APPROVED', isVerified: true },
-      }),
-    ]);
-  }
 }

@@ -9,7 +9,7 @@
     "pnpm": ">=9.0.0"
   },
   "scripts": {
-    "dev": "turbo run dev",
+    "dev": "NODE_OPTIONS='--max-old-space-size=512' turbo run dev",
     "build": "turbo run build",
     "build:dev": "turbo run build:dev",
     "build:test": "turbo run build:test",

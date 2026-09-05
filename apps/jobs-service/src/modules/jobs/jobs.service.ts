@@ -14,15 +14,25 @@ import { JobStatus, Prisma } from '@prisma/client-jobs-service';
 export class JobsService {
   constructor(private readonly prisma: PrismaService) {}
 
+  private async getEmployerId(userId: string): Promise<string> {
+    const res = await this.prisma.$queryRaw<{ id: string }[]>`
+      SELECT id FROM employers.employer_profiles WHERE "userId" = ${userId}::uuid LIMIT 1
+    `;
+    if (!res || res.length === 0) {
+      throw new ForbiddenException('User is not an employer');
+    }
+    return res[0].id;
+  }
+
   async createJob(userId: string, createJobDto: CreateJobDto) {
-    // employer lookup removed, assume valid employer ID from token for now
+    const actualEmployerId = await this.getEmployerId(userId);
 
     try {
       return await this.prisma.$transaction(async (tx) => {
         const job = await tx.job.create({
           data: {
             ...createJobDto,
-            employerId: userId,
+            employerId: actualEmployerId,
             status: JobStatus.PUBLISHED, // Auto-publish for now, could be DRAFT
             publishedAt: new Date(),
           },
@@ -79,7 +89,7 @@ export class JobsService {
 
     const skip = (page - 1) * limit;
 
-    const [jobs, total] = await this.prisma.$transaction([
+    const [jobs, total] = await Promise.all([
       this.prisma.job.findMany({
         where,
         skip,
@@ -113,7 +123,7 @@ export class JobsService {
   }
 
   async closeJob(userId: string, jobId: string) {
-    // employer lookup removed as EmployerProfile is in user-service
+    const actualEmployerId = await this.getEmployerId(userId);
 
     const job = await this.prisma.job.findUnique({ where: { id: jobId } });
 
@@ -121,7 +131,7 @@ export class JobsService {
       throw new NotFoundException('Job not found');
     }
 
-    if (job.employerId !== userId) {
+    if (job.employerId !== actualEmployerId) {
       throw new ForbiddenException('Not authorized to close this job');
     }
 
@@ -193,13 +203,14 @@ export class JobsService {
   }
 
   async updateJob(userId: string, jobId: string, updateDto: UpdateJobDto) {
+    const actualEmployerId = await this.getEmployerId(userId);
     const job = await this.prisma.job.findUnique({ where: { id: jobId } });
 
     if (!job || job.deletedAt) {
       throw new NotFoundException('Job not found');
     }
 
-    if (job.employerId !== userId) {
+    if (job.employerId !== actualEmployerId) {
       throw new ForbiddenException('Not authorized to update this job');
     }
 
@@ -217,13 +228,14 @@ export class JobsService {
   }
 
   async deleteJob(userId: string, jobId: string) {
+    const actualEmployerId = await this.getEmployerId(userId);
     const job = await this.prisma.job.findUnique({ where: { id: jobId } });
 
     if (!job || job.deletedAt) {
       throw new NotFoundException('Job not found');
     }
 
-    if (job.employerId !== userId) {
+    if (job.employerId !== actualEmployerId) {
       throw new ForbiddenException('Not authorized to delete this job');
     }
 
@@ -241,17 +253,20 @@ export class JobsService {
 
   async getMyJobs(userId: string, page: number = 1, limit: number = 10) {
     const isSuperAdmin = false; // TODO: get from request/token
-    // employer lookup removed view their jobs');
+    let actualEmployerId = userId;
+    if (!isSuperAdmin) {
+      actualEmployerId = await this.getEmployerId(userId);
+    }
 
     const skip = (page - 1) * limit;
 
     const whereClause = isSuperAdmin
       ? { deletedAt: null }
-      : { employerId: userId, deletedAt: null };
+      : { employerId: actualEmployerId, deletedAt: null };
 
     const [jobs, total] = await Promise.all([
       this.prisma.job.findMany({
-        where: isSuperAdmin ? {} : { employerId: userId },
+        where: isSuperAdmin ? {} : { employerId: actualEmployerId },
         orderBy: { createdAt: 'desc' },
         skip,
         take: limit,

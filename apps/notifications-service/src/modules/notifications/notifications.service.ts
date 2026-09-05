@@ -2,10 +2,18 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
 import type { Prisma } from '@prisma/client-notifications-service';
+import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
+import { SNSClient, PublishCommand } from '@aws-sdk/client-sns';
 
 @Injectable()
 export class NotificationsService {
-  constructor(private readonly prisma: PrismaService) {}
+  private sesClient: SESClient;
+  private snsClient: SNSClient;
+
+  constructor(private readonly prisma: PrismaService) {
+    this.sesClient = new SESClient({ region: process.env.AWS_REGION || 'ap-south-1' });
+    this.snsClient = new SNSClient({ region: process.env.AWS_REGION || 'ap-south-1' });
+  }
 
   async getNotifications(userId: string) {
     return this.prisma.notification.findMany({
@@ -22,8 +30,28 @@ export class NotificationsService {
       });
       // In a full Zomato-scale app, we would also push this to a Redis Pub/Sub topic here
       // which would then broadcast to WebSockets.
+
+      // Email dispatch via AWS SES
+      if (payload.type === 'EMAIL' && payload.title) {
+        await this.sesClient.send(new SendEmailCommand({
+          Destination: { ToAddresses: ['test@shiftly.com'] }, // Mock target
+          Message: {
+            Body: { Text: { Data: payload.message } },
+            Subject: { Data: payload.title }
+          },
+          Source: process.env.AWS_SES_FROM_EMAIL || 'noreply@shiftly.com'
+        }));
+      }
+
+      // SMS dispatch via AWS SNS
+      if (payload.type === 'SMS') {
+        await this.snsClient.send(new PublishCommand({
+          Message: payload.message,
+          TopicArn: process.env.AWS_SNS_SMS_TOPIC_ARN,
+        }));
+      }
     } catch (error) {
-      console.error('Failed to create notification via event:', error);
+      console.error('Failed to create/dispatch notification via event:', error);
     }
   }
 

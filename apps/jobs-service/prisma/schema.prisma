@@ -8,7 +8,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  schemas  = ["jobs"]
+  schemas  = ["jobs", "workers", "employers", "identity", "recruiters", "applications"]
 }
 
 // ─── ENUMS ───────────────────────────────────────────────────────────────────

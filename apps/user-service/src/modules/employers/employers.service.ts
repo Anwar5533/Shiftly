@@ -8,28 +8,19 @@ export class EmployersService {
   constructor(private readonly prisma: PrismaService) {}
 
   async getProfile(userId: string) {
-    let profile = await this.prisma.employerProfile.findUnique({
+    return this.prisma.employerProfile.upsert({
       where: { userId },
+      update: {},
+      create: {
+        userId,
+        companyName: 'My Company',
+        industry: 'Other',
+        location: { city: 'Bangalore', country: 'India' },
+      },
       include: {
         departments: true,
       },
     });
-
-    if (!profile) {
-      profile = await this.prisma.employerProfile.create({
-        data: {
-          userId,
-          companyName: 'My Company',
-          industry: 'Other',
-          location: { city: 'Bangalore', country: 'India' },
-        },
-        include: {
-          departments: true,
-        },
-      });
-    }
-
-    return profile;
   }
 
   async updateProfile(userId: string, updateDto: UpdateEmployerProfileDto) {

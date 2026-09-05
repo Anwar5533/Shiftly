@@ -19,12 +19,43 @@ export class ApplicationsService {
     private readonly eventEmitter: EventEmitter2,
   ) {}
 
+  private async getWorkerId(userId: string): Promise<string> {
+    const res = await this.prisma.$queryRaw<{ id: string }[]>`
+      SELECT id FROM workers.worker_profiles WHERE "userId" = ${userId}::uuid LIMIT 1
+    `;
+    if (!res || res.length === 0) {
+      throw new ForbiddenException('User is not a worker');
+    }
+    return res[0].id;
+  }
+
+  private async getEmployerId(userId: string): Promise<string> {
+    const res = await this.prisma.$queryRaw<{ id: string }[]>`
+      SELECT id FROM employers.employer_profiles WHERE "userId" = ${userId}::uuid LIMIT 1
+    `;
+    if (!res || res.length === 0) {
+      throw new ForbiddenException('User is not an employer');
+    }
+    return res[0].id;
+  }
+
   async applyToJob(userId: string, createDto: CreateApplicationDto) {
+    const workerProfileId = await this.getWorkerId(userId);
+    
+    // Fetch employerId from jobs table
+    const jobRes = await this.prisma.$queryRaw<{ employerId: string }[]>`
+      SELECT "employerId" FROM jobs.jobs WHERE id = ${createDto.jobId}::uuid LIMIT 1
+    `;
+    if (!jobRes || jobRes.length === 0) {
+      throw new NotFoundException('Job not found');
+    }
+    const jobEmployerId = jobRes[0].employerId;
+
     const existingApp = await this.prisma.jobApplication.findUnique({
       where: {
         jobId_workerId: {
           jobId: createDto.jobId,
-          workerId: userId,
+          workerId: workerProfileId,
         },
       },
     });
@@ -37,8 +68,8 @@ export class ApplicationsService {
       const application = await tx.jobApplication.create({
         data: {
           jobId: createDto.jobId,
-          workerId: userId,
-          employerId: userId, // TODO: Get actual employerId via gRPC from job service
+          workerId: workerProfileId,
+          employerId: jobEmployerId,
           coverLetter: createDto.coverLetter,
         },
       });
@@ -51,11 +82,12 @@ export class ApplicationsService {
   }
 
   async checkApplicationStatus(userId: string, jobId: string) {
+    const workerProfileId = await this.getWorkerId(userId);
     const existingApp = await this.prisma.jobApplication.findUnique({
       where: {
         jobId_workerId: {
           jobId,
-          workerId: userId,
+          workerId: workerProfileId,
         },
       },
     });
@@ -68,17 +100,19 @@ export class ApplicationsService {
   }
 
   async getMyApplications(userId: string, page: number = 1, limit: number = 10) {
+    const workerProfileId = await this.getWorkerId(userId);
     const skip = (page - 1) * limit;
 
-    const [applications, total] = await this.prisma.$transaction([
+    const [applications, total] = await Promise.all([
       this.prisma.jobApplication.findMany({
-        where: { workerId: userId },
+        where: { workerId: workerProfileId },
         orderBy: { appliedAt: 'desc' },
         skip,
         take: limit,
+        include: { job: true },
       }),
       this.prisma.jobApplication.count({
-        where: { workerId: userId },
+        where: { workerId: workerProfileId },
       }),
     ]);
 
@@ -94,17 +128,19 @@ export class ApplicationsService {
   }
 
   async getApplicationsForJob(userId: string, jobId: string, page: number = 1, limit: number = 10) {
+    const employerProfileId = await this.getEmployerId(userId);
     const skip = (page - 1) * limit;
 
-    const [applications, total] = await this.prisma.$transaction([
+    const [applications, total] = await Promise.all([
       this.prisma.jobApplication.findMany({
-        where: { jobId, employerId: userId },
+        where: { jobId, employerId: employerProfileId },
         orderBy: { appliedAt: 'desc' },
         skip,
         take: limit,
+        include: { job: true, worker: true },
       }),
       this.prisma.jobApplication.count({
-        where: { jobId, employerId: userId },
+        where: { jobId, employerId: employerProfileId },
       }),
     ]);
 
@@ -120,10 +156,12 @@ export class ApplicationsService {
   }
 
   async getRecentApplications(userId: string) {
+    const employerProfileId = await this.getEmployerId(userId);
     return this.prisma.jobApplication.findMany({
-      where: { employerId: userId },
+      where: { employerId: employerProfileId },
       orderBy: { appliedAt: 'desc' },
       take: 5,
+      include: { job: true },
     });
   }
 
@@ -132,6 +170,7 @@ export class ApplicationsService {
     applicationId: string,
     updateDto: UpdateApplicationStatusDto,
   ) {
+    const employerProfileId = await this.getEmployerId(userId);
     const application = await this.prisma.jobApplication.findUnique({
       where: { id: applicationId },
     });
@@ -140,7 +179,7 @@ export class ApplicationsService {
       throw new NotFoundException('Application not found');
     }
 
-    if (application.employerId !== userId) {
+    if (application.employerId !== employerProfileId) {
       throw new ForbiddenException('You do not have permission to update this application');
     }
 
@@ -183,6 +222,7 @@ export class ApplicationsService {
   }
 
   async withdrawApplication(userId: string, applicationId: string) {
+    const workerProfileId = await this.getWorkerId(userId);
     const application = await this.prisma.jobApplication.findUnique({
       where: { id: applicationId },
     });
@@ -191,7 +231,7 @@ export class ApplicationsService {
       throw new NotFoundException('Application not found');
     }
 
-    if (application.workerId !== userId) {
+    if (application.workerId !== workerProfileId) {
       throw new ForbiddenException('You do not have permission to withdraw this application');
     }
 

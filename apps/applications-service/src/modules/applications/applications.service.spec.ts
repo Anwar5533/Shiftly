@@ -31,6 +31,14 @@ describe('ApplicationsService', () => {
         // Array form (batch transactions)
         return Promise.all(callback);
       }),
+      $queryRaw: jest.fn().mockImplementation((query) => {
+        // Simple check to mock different raw queries
+        const qStr = Array.isArray(query) ? query.join(' ').toLowerCase() : String(query).toLowerCase();
+        if (qStr.includes('worker_profiles')) return [{ id: 'worker1' }];
+        if (qStr.includes('employer_profiles')) return [{ id: 'emp1' }];
+        if (qStr.includes('jobs.jobs')) return [{ employerId: 'emp1' }];
+        return [];
+      }),
     };
 
     const mockEventEmitter = {
@@ -158,7 +166,7 @@ describe('ApplicationsService', () => {
     it('should throw ConflictException if application is already accepted', async () => {
       (prismaService.jobApplication.findUnique as jest.Mock).mockResolvedValue({
         id: 'app1',
-        workerId: 'user1',
+        workerId: 'worker1',
         status: ApplicationStatus.ACCEPTED,
       });
       await expect(service.withdrawApplication('user1', 'app1')).rejects.toThrow(ConflictException);
@@ -167,7 +175,7 @@ describe('ApplicationsService', () => {
     it('should withdraw application successfully', async () => {
       (prismaService.jobApplication.findUnique as jest.Mock).mockResolvedValue({
         id: 'app1',
-        workerId: 'user1',
+        workerId: 'worker1',
         jobId: 'job1',
         status: ApplicationStatus.PENDING,
       });

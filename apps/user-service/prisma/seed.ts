@@ -1,6 +1,20 @@
-import { PrismaClient } from '@prisma/client-user-service';
+import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
 
-const prisma = new PrismaClient();
+if (!process.env.DATABASE_URL) {
+  const envPath = resolve(process.cwd(), '.env');
+  if (existsSync(envPath)) {
+    process.loadEnvFile(envPath);
+  }
+}
+
+import { PrismaClient } from '@prisma/client-user-service';
+import { Pool } from 'pg';
+import { PrismaPg } from '@prisma/adapter-pg';
+
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const adapter = new PrismaPg(pool);
+const prisma = new PrismaClient({ adapter });
 
 async function main() {
   console.log('Starting user-service seed...');

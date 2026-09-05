@@ -36,7 +36,7 @@ describe('EmployersService', () => {
   describe('getProfile', () => {
     it('should return profile if found', async () => {
       const mockProfile = { id: '1', userId: 'user1' };
-      (prismaService.employerProfile.findUnique as jest.Mock).mockResolvedValue(mockProfile);
+      (prismaService.employerProfile.upsert as jest.Mock).mockResolvedValue(mockProfile);
 
       const result = await service.getProfile('user1');
       expect(result).toEqual(mockProfile);
@@ -45,7 +45,7 @@ describe('EmployersService', () => {
     it('should auto-create and return profile if not found', async () => {
       const newProfile = { id: '2', userId: 'user1', companyName: 'My Company' };
       (prismaService.employerProfile.findUnique as jest.Mock).mockResolvedValue(null);
-      (prismaService.employerProfile.create as jest.Mock).mockResolvedValue(newProfile);
+      (prismaService.employerProfile.upsert as jest.Mock).mockResolvedValue(newProfile);
       const result = await service.getProfile('user1');
       expect(result).toEqual(expect.objectContaining({ userId: 'user1' }));
     });

@@ -38,16 +38,14 @@ describe('WorkersService', () => {
   describe('getProfile', () => {
     it('should create profile if not found', async () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
-      prisma.workerProfile.findUnique.mockResolvedValue(null);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
-      prisma.workerProfile.create.mockResolvedValue({ id: 'profile-new' });
+      prisma.workerProfile.upsert.mockResolvedValue({ id: 'profile-new' });
       const result = await service.getProfile('user-1');
       expect(result.id).toBe('profile-new');
     });
 
     it('should return profile', async () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
-      prisma.workerProfile.findUnique.mockResolvedValue({ id: 'profile-1' });
+      prisma.workerProfile.upsert.mockResolvedValue({ id: 'profile-1' });
       const result = await service.getProfile('user-1');
       expect(result.id).toBe('profile-1');
     });

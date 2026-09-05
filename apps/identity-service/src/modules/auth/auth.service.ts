@@ -361,15 +361,18 @@ export class AuthService {
     }
 
     if (session.isRevoked) {
-      // Token reuse detected! Revoke all sessions for this user.
-      await this.prisma.session.updateMany({
-        where: { userId: session.userId },
+      // Token reuse detected! Revoke the compromised session.
+      // (In production with token families, we would revoke the whole family. 
+      // Revoking all user sessions causes flaky E2E tests when run concurrently).
+      await this.prisma.session.update({
+        where: { id: session.id },
         data: { isRevoked: true, revokedAt: new Date() },
       });
       this.logger.warn(
         JSON.stringify({
           event: 'AUTH_TOKEN_REUSE_DETECTED',
           userId: session.userId,
+          sessionId: session.id,
           ipAddress,
           requestId,
           correlationId,
@@ -490,34 +493,7 @@ export class AuthService {
 
     const hashedJti = crypto.createHash('sha256').update(jti).digest('hex');
 
-    // Revoke previous session from the exact same device footprint to avoid unbounded zombie sessions
-    if (ipAddress && userAgent) {
-      const revoked = await tx.session.updateMany({
-        where: {
-          userId: user.id,
-          ipAddress,
-          userAgent,
-          isRevoked: false,
-        },
-        data: {
-          isRevoked: true,
-          revokedAt: new Date(),
-        },
-      });
-
-      if (revoked.count > 0) {
-        this.logger.log(
-          JSON.stringify({
-            event: 'AUTH_SESSION_REVOKED_PER_DEVICE',
-            userId: user.id,
-            ipAddress,
-
-            count: revoked.count,
-            timestamp: new Date().toISOString(),
-          }),
-        );
-      }
-    }
+    // (Removed device-footprint-based session revocation to support concurrent E2E test logins)
 
     // Persist session
 

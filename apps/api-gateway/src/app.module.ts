@@ -5,9 +5,13 @@ import { ThrottlerGuard, ThrottlerModule, ThrottlerStorage } from '@nestjs/throt
 import { AuthModule } from './auth/auth.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { HealthModule } from './health/health.module';
+import { CacheModule } from '@nestjs/cache-manager';
 import { AllExceptionsFilter } from './shared/filters/all-exceptions.filter';
 import { RedisThrottlerStorage } from './shared/throttler/redis-throttler.storage';
 import { gatewayEnvSchema } from './config/validation.schema';
+import { ChatGateway } from './chat/chat.gateway';
+import { ChatController } from './chat/chat.controller';
+import { InterviewsController } from './interviews/interviews.controller';
 
 @Module({
   imports: [
@@ -29,15 +33,22 @@ import { gatewayEnvSchema } from './config/validation.schema';
         },
       ],
     }),
+    CacheModule.register({
+      isGlobal: true,
+      ttl: 60000,
+      max: 100,
+    }),
     AuthModule,
     HealthModule,
     DashboardModule,
   ],
+  controllers: [ChatController, InterviewsController],
   providers: [
     // Global counting so the limit holds across gateway replicas.
     { provide: ThrottlerStorage, useClass: RedisThrottlerStorage },
     { provide: APP_GUARD, useClass: ThrottlerGuard },
     { provide: APP_FILTER, useClass: AllExceptionsFilter },
+    ChatGateway,
   ],
 })
 export class AppModule {}

@@ -8,7 +8,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  schemas  = ["users"]
+  schemas  = ["users", "workers", "employers", "kyc", "reviews", "recruiters", "identity", "jobs", "applications"]
 }
 
 // ─── ENUMS ───────────────────────────────────────────────────────────────────
@@ -18,7 +18,7 @@ enum AvailabilityType {
   PART_TIME
   WEEKENDS
   FLEXIBLE
-  @@schema("users")
+  @@schema("workers")
 }
 
 enum EmployeeCountRange {
@@ -28,7 +28,7 @@ enum EmployeeCountRange {
   RANGE_201_500
   RANGE_501_1000
   RANGE_1000_PLUS
-  @@schema("users")
+  @@schema("employers")
 }
 
 enum KycStatus {
@@ -38,7 +38,7 @@ enum KycStatus {
   APPROVED
   REJECTED
   EXPIRED
-  @@schema("users")
+  @@schema("kyc")
 }
 
 enum DocumentType {
@@ -49,20 +49,20 @@ enum DocumentType {
   PROOF_OF_ADDRESS
   BUSINESS_REGISTRATION
   RESUME
-  @@schema("users")
+  @@schema("kyc")
 }
 
 enum DocumentStatus {
   PENDING
   APPROVED
   REJECTED
-  @@schema("users")
+  @@schema("kyc")
 }
 
 enum ReviewTarget {
   WORKER
   EMPLOYER
-  @@schema("users")
+  @@schema("reviews")
 }
 
 // ─── WORKERS SCHEMA ───────────────────────────────────────────────────────────
@@ -95,7 +95,7 @@ model WorkerProfile {
   certifications WorkerCertification[]
 
   @@map("worker_profiles")
-  @@schema("users")
+  @@schema("workers")
 }
 
 model Skill {
@@ -107,7 +107,7 @@ model Skill {
   workers   WorkerSkill[]
 
   @@map("skills")
-  @@schema("users")
+  @@schema("workers")
 }
 
 model WorkerSkill {
@@ -122,7 +122,7 @@ model WorkerSkill {
 
   @@id([workerId, skillId])
   @@map("worker_skills")
-  @@schema("users")
+  @@schema("workers")
 }
 
 model WorkerCertification {
@@ -141,7 +141,7 @@ model WorkerCertification {
 
   @@index([workerId])
   @@map("worker_certifications")
-  @@schema("users")
+  @@schema("workers")
 }
 
 // ─── EMPLOYERS SCHEMA ─────────────────────────────────────────────────────────
@@ -167,7 +167,7 @@ model EmployerProfile {
   departments Department[]
 
   @@map("employer_profiles")
-  @@schema("users")
+  @@schema("employers")
 }
 
 model Department {
@@ -182,7 +182,7 @@ model Department {
 
   @@index([employerId])
   @@map("departments")
-  @@schema("users")
+  @@schema("employers")
 }
 
 // ─── RECRUITERS SCHEMA ────────────────────────────────────────────────────────
@@ -207,7 +207,7 @@ model RecruiterProfile {
   deletedAt       DateTime?
 
   @@map("recruiter_profiles")
-  @@schema("users")
+  @@schema("recruiters")
 }
 
 // ─── REVIEWS SCHEMA ───────────────────────────────────────────────────────────
@@ -216,7 +216,7 @@ model Review {
   id         String       @id @default(uuid()) @db.Uuid
   jobId      String       @db.Uuid
   reviewerId String       @db.Uuid
-  targetId   String       @db.Uuid
+  revieweeId String       @db.Uuid
   targetType ReviewTarget
   rating     Int // 1-5
   comment    String?
@@ -224,10 +224,10 @@ model Review {
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
 
-  @@unique([jobId, reviewerId, targetId])
-  @@index([targetId])
+  @@unique([jobId, reviewerId, revieweeId])
+  @@index([revieweeId])
   @@map("reviews")
-  @@schema("users")
+  @@schema("reviews")
 }
 
 // ─── KYC SCHEMA ──────────────────────────────────────────────────────────────
@@ -244,7 +244,7 @@ model KycRequest {
 
   @@index([status])
   @@map("kyc_requests")
-  @@schema("users")
+  @@schema("kyc")
 }
 
 model KycDocument {
@@ -261,7 +261,7 @@ model KycDocument {
 
   @@index([userId])
   @@map("kyc_documents")
-  @@schema("users")
+  @@schema("kyc")
 }
 
 // ─── OUTBOX ───────────────────────────────────────────────────────────────────

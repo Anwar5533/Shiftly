@@ -8,36 +8,22 @@ export class WorkersService {
   constructor(private readonly prisma: PrismaService) {}
 
   async getProfile(userId: string) {
-    let profile = await this.prisma.workerProfile.findUnique({
+    return this.prisma.workerProfile.upsert({
       where: { userId },
+      update: {},
+      create: {
+        userId,
+        firstName: 'Worker',
+        lastName: 'Profile',
+        location: { city: 'Bangalore', country: 'India' },
+      },
       include: {
         skills: {
-          include: {
-            skill: true,
-          },
+          include: { skill: true },
         },
         certifications: true,
       },
     });
-
-    if (!profile) {
-      profile = await this.prisma.workerProfile.create({
-        data: {
-          userId,
-          firstName: 'Worker',
-          lastName: 'Profile',
-          location: { city: 'Bangalore', country: 'India' },
-        },
-        include: {
-          skills: {
-            include: { skill: true },
-          },
-          certifications: true,
-        },
-      });
-    }
-
-    return profile;
   }
 
   async updateProfile(userId: string, updateDto: UpdateWorkerProfileDto) {

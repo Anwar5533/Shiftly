@@ -11,7 +11,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   
-  schemas  = ["identity", "jobs", "workers", "employers", "payments", "kyc", "notifications", "subscriptions", "reviews", "audit", "recruiters", "messaging", "referrals", "knowledge_base"]
+  schemas  = ["applications", "identity", "jobs", "workers", "employers", "payments", "kyc", "notifications", "subscriptions", "reviews", "audit", "recruiters", "messaging", "referrals", "knowledge_base", "users"]
 }
 
 // ─── ENUMS ───────────────────────────────────────────────────────────────────
@@ -595,7 +595,7 @@ model JobApplication {
   @@index([jobId, status])
   @@index([workerId, status, appliedAt(sort: Desc)])
   @@map("job_applications")
-  @@schema("jobs")
+  @@schema("applications")
 }
 
 model Shift {

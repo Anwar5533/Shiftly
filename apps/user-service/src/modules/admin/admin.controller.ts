@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Param, UseGuards } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 import { RolesGuard } from '../../shared/guards/roles.guard';
@@ -17,5 +17,12 @@ export class AdminController {
   @ApiOperation({ summary: 'Get platform analytics for admin dashboard' })
   getDashboardStats() {
     return this.adminService.getDashboardStats();
+  }
+
+  @Post('kyc/:userId/approve')
+  @Roles('ADMIN')
+  @ApiOperation({ summary: 'Approve KYC for user' })
+  approveKyc(@Param('userId') userId: string) {
+    return this.adminService.approveKyc(userId);
   }
 }

@@ -29,7 +29,7 @@ async function bootstrap(): Promise<void> {
 
   // ─── Config ───────────────────────────────────────────────────────────────
   const config = app.get(ConfigService);
-  const port = process.env.PORT || 3003;
+  const port = config.get<number>('app.port', 3005);
   const nodeEnv = config.get<string>('app.nodeEnv', 'development');
   const corsOrigins = config.get<string[]>('app.corsOrigins', ['http://localhost:5173']);
 

@@ -20,4 +20,28 @@ export class AdminService {
       isApiHealthy: true,
     };
   }
+
+  async approveKyc(userId: string) {
+    await this.prisma.kycDocument.updateMany({
+      where: { userId, status: 'PENDING' },
+      data: { status: 'APPROVED', reviewedAt: new Date() },
+    });
+
+    await Promise.all([
+      this.prisma.workerProfile.updateMany({
+        where: { userId },
+        data: { kycStatus: 'APPROVED', isVerified: true },
+      }),
+      this.prisma.employerProfile.updateMany({
+        where: { userId },
+        data: { kycStatus: 'APPROVED', isVerified: true },
+      }),
+      this.prisma.recruiterProfile.updateMany({
+        where: { userId },
+        data: { kycStatus: 'APPROVED', isVerified: true },
+      }),
+    ]);
+
+    return { message: 'KYC approved successfully' };
+  }
 }

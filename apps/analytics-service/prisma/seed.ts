@@ -1,7 +1,12 @@
 import { PrismaClient, UserRole, JobType, SalaryPeriod } from '@prisma/client-analytics-service';
 import * as bcrypt from 'bcrypt';
+import { Pool } from 'pg';
+import { PrismaPg } from '@prisma/adapter-pg';
 
-const prisma = new PrismaClient();
+const connectionString = process.env.DATABASE_URL || 'postgresql://user:pass@localhost:5433/shiftly';
+const pool = new Pool({ connectionString });
+const adapter = new PrismaPg(pool);
+const prisma = new PrismaClient({ adapter });
 
 async function main() {
   console.log('Starting seed...');

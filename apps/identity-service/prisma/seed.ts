@@ -1,3 +1,13 @@
+import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
+
+if (!process.env.DATABASE_URL) {
+  const envPath = resolve(process.cwd(), '.env');
+  if (existsSync(envPath)) {
+    process.loadEnvFile(envPath);
+  }
+}
+
 import { PrismaClient, UserRole } from '@prisma/client-identity-service';
 import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';

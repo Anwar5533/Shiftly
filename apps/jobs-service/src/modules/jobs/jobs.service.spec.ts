@@ -37,6 +37,7 @@ describe('JobsService', () => {
           return args(prisma);
         }
       }),
+      $queryRaw: jest.fn().mockResolvedValue([{ id: 'user-1' }]),
     };
 
     const module: TestingModule = await Test.createTestingModule({
