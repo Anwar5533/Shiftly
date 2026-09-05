@@ -54,3 +54,13 @@ apps/api/prisma/migrations/*.sql.bak
 .env.*
 !.env.example
 scratch/
+
+# Temporary debug/fix scripts
+add_employer_id.js
+check_app.js
+check_user.js
+create_outbox_events.js
+test_job_applications.js
+test_my_applications.js
+apps/identity-service/test-db.js
+apps/analytics-service/test.ts
