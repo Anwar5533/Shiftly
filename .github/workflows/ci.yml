@@ -38,6 +38,14 @@ jobs:
       - name: Install pnpm
         run: npm i -g pnpm
         
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/share/pnpm/store/v3
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
       - name: Install dependencies
         env:
           DATABASE_URL: postgresql://user:pass@localhost:5432/shiftly
@@ -52,6 +60,14 @@ jobs:
           pnpm audit --prod
           pnpm turbo run lint build
           pnpm turbo run test -- --coverage
+
+      - name: Install Playwright Browsers
+        run: pnpm exec playwright install --with-deps
+
+      - name: Run E2E Tests
+        env:
+          DATABASE_URL: postgresql://user:pass@localhost:5432/shiftly
+        run: pnpm turbo run test:e2e
 
   docker-build:
     name: Docker Build
