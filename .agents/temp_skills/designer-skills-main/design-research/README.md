@@ -3,6 +3,7 @@
 User research skills for designers: personas, empathy maps, journey maps, interview scripts, usability testing, and card sorting.
 
 ## Skills (12)
+
 - **affinity-diagram** — Cluster many qualitative data points into themes and insight statements. Use when synthesising across multiple sessions or sources. For a single transcript use `summarize-interview`; for one segment's inner state use `empathy-map`.
 - **card-sort-analysis** — Analyse open or closed card sort results into a proposed grouping and label set. Use after running a sort study. For turning that evidence into a full structure, use `information-architecture` (ux-strategy).
 - **diary-study-plan** — Design a diary study — prompts, cadence, duration, participant criteria, and analysis frame. Use when behaviour unfolds over days or weeks. For a single-session study, use `usability-test-plan`.
@@ -17,6 +18,7 @@ User research skills for designers: personas, empathy maps, journey maps, interv
 - **user-persona** — Build research-grounded personas with goals, frustrations, and behavioural patterns. Use when decisions need a consistent user reference. For one session's emotional snapshot use `empathy-map`; for motivation framing use `jobs-to-be-done`.
 
 ## Commands (4)
+
 - `/discover` — Run a full user research cycle — persona creation, empathy mapping, and journey mapping for a product or feature.
 - `/interview` — Prepare an interview script or summarize an interview transcript into structured insights.
 - `/synthesize` — Synthesize research data into affinity diagrams, themes, and actionable insights.

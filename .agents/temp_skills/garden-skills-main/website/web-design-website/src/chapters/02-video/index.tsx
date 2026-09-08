@@ -22,7 +22,9 @@ function VideoChapter(_: ChapterContext) {
     v.currentTime = 0;
     const play = v.play();
     if (play && typeof play.catch === 'function') {
-      play.catch(() => {/* 用户必须自行点击播放 */});
+      play.catch(() => {
+        /* 用户必须自行点击播放 */
+      });
     }
     return () => {
       v.pause();

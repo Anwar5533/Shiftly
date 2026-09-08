@@ -161,7 +161,18 @@
         },
         "artifact_type": {
           "type": "string",
-          "enum": ["source", "config", "policy", "log", "scan_result", "cloud_resource", "identity", "network", "document", "other"]
+          "enum": [
+            "source",
+            "config",
+            "policy",
+            "log",
+            "scan_result",
+            "cloud_resource",
+            "identity",
+            "network",
+            "document",
+            "other"
+          ]
         },
         "snippet": {
           "$ref": "#/$defs/nonEmptyString"

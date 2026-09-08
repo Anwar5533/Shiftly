@@ -3,6 +3,7 @@
 Established: 2026-07-21. Source: Tastemaker technical/builder mood, generated with `scripts/generate_palette.py --mood technical --mode dark --seed 20260721` and adapted around the existing product identity.
 
 ## Palette
+
 - Background: #F4F1EB (role: tactile paper page background)
 - Surface: #FFFAF1 (role: light editorial panels)
 - Dark surface: #0C1414 (role: technical proof bands and command surfaces)
@@ -23,24 +24,28 @@ Re-verified 2026-08-01 against the actual shipped hex values via `check_contrast
 - UI-safe (>=3.0 and <4.5): surface/primary (4.45), on-dark/primary (4.15), bg/primary (4.11), dark/primary (4.03), text/primary (3.93), muted/accent (3.20)
 - Decorative (<3.0): accent/on-primary, surface/accent, on-dark/accent, bg/accent, dark/muted, text/muted, muted/primary, primary/accent, bg/on-primary, on-dark/on-primary, bg/surface, surface/on-dark, surface/on-primary, dark/text, bg/on-dark
 
-Practical read: accent (orchid) is only usable as *text* against the dark surface or the light-page text/muted colors — never directly on `bg` or `surface`. On light panels, use accent for borders/icons/decorative accents, not body text.
+Practical read: accent (orchid) is only usable as _text_ against the dark surface or the light-page text/muted colors — never directly on `bg` or `surface`. On light panels, use accent for borders/icons/decorative accents, not body text.
 
 ## Typography
+
 - Display/heading font: Archivo — direct, condensed enough for high-impact builder language
 - Body font: IBM Plex Sans — readable and neutral beside technical UI
 - Data/code font: IBM Plex Mono — reserved for commands, file trees, ratios, and state labels
 - Scale: fluid clamp-based display scale with 16px body base
 
 ## Shape language
+
 - Corner radius: 6px controls, 12px panels, 20px major stages
 - Shadow depth: flat surfaces; depth comes from overlap and crisp borders
 - Border usage: 1px decorative hairlines, with color-plus-label for meaningful states
 
 ## Density & spacing
+
 - Base spacing unit: 8px
 - Overall density: editorial landing page with information-rich product demonstrations
 
 ## Structure
+
 - Macrostructure(s) used: homepage uses Feature Stack (editorial variant), replacing the prior Editorial Artifact Gallery; the proof page remains a live before/after comparison.
 - Narrative arc per page (2026-08-01 rebuild): hook (single real product visual, no collage) -> proof-strip (real file/link wall) -> problem (every agent defaults to the same page) -> how-it-works (6 real capability checks) -> proof (real, re-verified contrast matrix + link to full comparison) -> range (4-up mode grid) -> memory (pinned ledger) -> close (install panel).
 - Shared chrome: preserved Tastemaker mark, split floating nav islands, final masthead footer.
@@ -49,6 +54,7 @@ Practical read: accent (orchid) is only usable as *text* against the dark surfac
 - Build stamp / log: `.tastemaker/log.json` carries structural history; CSS stamp at the top of `site/styles.css` records this Feature Stack rebuild.
 
 ## Reference intelligence
+
 - Reference board: `.tastemaker/reference-board.md` viewed sources
 - Design read: homepage for builders comparing AI coding tools, mode Persuade, with a technical proof-lab language
 - Dials: variance 8, motion 7, density 5, art direction 9
@@ -58,9 +64,11 @@ Practical read: accent (orchid) is only usable as *text* against the dark surfac
 - Anti-references: generic AI gradient hero, fake chrome, feature-card text walls, repeated numbered eyebrows, invented proof, dense proof-lab card wall, tiny card headers, dark-only administrative proof board
 
 ## Mood descriptors
+
 technical, discerning, alive, exact
 
 ## Assets
+
 - Anchor asset: `site/assets/mark-tastemaker.svg` — the established layered-swatch Tastemaker brand mark already used across distribution channels
 - Asset style: custom SVG orchestration artwork, layered proof screenshots, mode-gallery screenshots, paper notes, minimal utility icons only where the interaction needs them
 - Asset cast: hero anchor `launch-poster.png`; mode range `minimalist.jpg`, `soft-calm.jpg`, `glassmorphic.jpg`, `brutalist.jpg`; process artifacts `style-lock.md`, `decisions.log`, `reference-board.md`, `asset-cast.md`; proof `before-after-poster.png` and `capabilities-section.png`; texture object custom still-life; micro assets swatches, notes, file cards, and command chips
@@ -70,12 +78,14 @@ technical, discerning, alive, exact
 - Rejected asset pattern: do not let one Product Hunt poster family carry hero, proof, demo, and close at the same time; each major section needs a distinct asset role
 
 ## Motion
+
 - Feel: visible, editorial, precise, and narrative
 - Entrance duration/distance: 320-640ms, 12-30px rise depending on visual weight
 - Easing: power3.out
 - Story motion: GSAP hero collage assembly, scroll-tied asset curation board, mode runway drift, pinned memory ledger, reveal groups, demo parallax, and still-life drift, all reduced-motion aware
 
 ## Do not
+
 - Never replace or reinterpret the established `site/assets/mark-tastemaker.svg` logo
 - No indigo-to-purple hero gradient
 - No repeated pill eyebrow on every section
@@ -110,7 +120,7 @@ this project, so future additions match the existing eight instead of drifting:
 **Real gap found applying this:** the prompt's own "muted golden-yellow" didn't hold in the
 actual output — the illustrations' baked-in gold samples at `#fab832` (verified by direct
 pixel sampling, not eyeballing), which measures 1.56:1 against the site's paper background
-(`#f4f1eb`) — nowhere near text-safe. For any *typography* echoing this gold (not the
+(`#f4f1eb`) — nowhere near text-safe. For any _typography_ echoing this gold (not the
 illustrations themselves, which are a fixed asset), use `--gold: #8b5e03` instead — same hue,
 darkened until `check_contrast.py` cleared 4.5:1 (measures 5.03:1). The illustrations stay
 untouched; only text color pulls double duty as "goldish" safely.

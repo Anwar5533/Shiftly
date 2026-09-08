@@ -21,17 +21,17 @@
  *
  * Empty narration strings are skipped (silent steps don't need a TTS file).
  */
-import { readFile, writeFile } from "node:fs/promises";
-import { existsSync } from "node:fs";
-import { resolve, dirname, join } from "node:path";
-import { fileURLToPath, pathToFileURL } from "node:url";
+import { readFile, writeFile } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
+import { resolve, dirname, join } from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const ROOT = resolve(__dirname, "..");
-const REGISTRY_PATH = resolve(ROOT, "src/registry/chapters.ts");
-const CHAPTERS_DIR = resolve(ROOT, "src/chapters");
-const OUT_PATH = resolve(ROOT, "audio-segments.json");
+const ROOT = resolve(__dirname, '..');
+const REGISTRY_PATH = resolve(ROOT, 'src/registry/chapters.ts');
+const CHAPTERS_DIR = resolve(ROOT, 'src/chapters');
+const OUT_PATH = resolve(ROOT, 'audio-segments.json');
 
 interface Segment {
   chapter: string;
@@ -42,15 +42,13 @@ interface Segment {
 
 /** Parse `src/registry/chapters.ts` to learn chapter id order. */
 async function readChapterOrder(): Promise<{ id: string; folder: string }[]> {
-  const src = await readFile(REGISTRY_PATH, "utf8");
+  const src = await readFile(REGISTRY_PATH, 'utf8');
   // Match: id: "..."   AND   from "../chapters/<folder>/narrations"
   const ids: string[] = [];
   const folders: Record<string, string> = {};
 
   for (const m of src.matchAll(/id:\s*["']([^"']+)["']/g)) ids.push(m[1]!);
-  for (const m of src.matchAll(
-    /from\s+["']\.\.\/chapters\/([^"'\/]+)\/narrations["']/g,
-  )) {
+  for (const m of src.matchAll(/from\s+["']\.\.\/chapters\/([^"'\/]+)\/narrations["']/g)) {
     // We map by import order; pair 1:1 with `ids`. Both orders are the
     // chapter declaration order in CHAPTERS so they line up.
     const folder = m[1]!;
@@ -75,22 +73,20 @@ async function readChapterOrder(): Promise<{ id: string; folder: string }[]> {
 }
 
 async function loadNarrations(folder: string): Promise<unknown[]> {
-  const file = join(CHAPTERS_DIR, folder, "narrations.ts");
+  const file = join(CHAPTERS_DIR, folder, 'narrations.ts');
   if (!existsSync(file)) {
     throw new Error(`missing narrations.ts: ${file}`);
   }
   const url = pathToFileURL(file).href;
   const mod = await import(url);
   if (!Array.isArray(mod.narrations)) {
-    throw new Error(
-      `narrations.ts in ${folder} must export an array named "narrations"`,
-    );
+    throw new Error(`narrations.ts in ${folder} must export an array named "narrations"`);
   }
   return mod.narrations as unknown[];
 }
 
 async function main() {
-  const print = process.argv.includes("--print");
+  const print = process.argv.includes('--print');
   const order = await readChapterOrder();
 
   const segments: Segment[] = [];
@@ -99,7 +95,7 @@ async function main() {
     const arr = await loadNarrations(folder);
     arr.forEach((entry, i) => {
       const step = i + 1;
-      if (typeof entry !== "string") {
+      if (typeof entry !== 'string') {
         throw new Error(
           `chapter "${id}" step ${step}: narration must be a string ` +
             `(got ${typeof entry}). The {text, minHoldMs} form was removed; ` +
@@ -107,7 +103,7 @@ async function main() {
             `narration, split the step, or speed the animation up.`,
         );
       }
-      if (entry.trim() === "") {
+      if (entry.trim() === '') {
         // Silent step — no TTS needed; runtime falls back to estimate.
         silentSteps++;
         return;
@@ -121,11 +117,11 @@ async function main() {
     });
   }
 
-  await writeFile(OUT_PATH, JSON.stringify(segments, null, 2) + "\n", "utf8");
+  await writeFile(OUT_PATH, JSON.stringify(segments, null, 2) + '\n', 'utf8');
 
   console.error(
     `✓ extracted ${segments.length} segments from ${order.length} chapters` +
-      (silentSteps > 0 ? ` (skipped ${silentSteps} silent steps)` : ""),
+      (silentSteps > 0 ? ` (skipped ${silentSteps} silent steps)` : ''),
   );
   console.error(`  → ${OUT_PATH}`);
   if (print) console.log(JSON.stringify(segments, null, 2));

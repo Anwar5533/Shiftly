@@ -1,6 +1,9 @@
 # ui-design
+
 Craft polished user interfaces with layout grids, color systems, typography scales, responsive patterns, and visual hierarchy.
+
 ## Skills (19)
+
 - **aesthetic-usability** — Apply the Aesthetic-Usability Effect — polished, consistent interfaces are perceived as more usable and forgive minor friction. Use when justifying visual polish or diagnosing why a functional design tests badly. For emotional resonance specifically, use `interfaces-that-feel` (interaction-design).
 - **color-system** — Build a product colour system — tonal scales, semantic roles, and contrast compliance. Use when defining or rebuilding colour from scratch. For dark-mode adaptation use `dark-mode-design`; for chart palettes use `data-visualization`; for multi-brand token architecture use `theming-system` (design-systems).
 - **dark-mode-design** — Adapt an existing palette to dark mode — surface elevation, contrast rebalancing, and desaturation rules. Use when you already have a light palette to translate. For building the base palette first, use `color-system`.
@@ -22,9 +25,9 @@ Craft polished user interfaces with layout grids, color systems, typography scal
 - **von-restorff-effect** — Apply the Von Restorff Effect — the element that differs from its neighbours is the one remembered. Use when a single action must dominate. For overall ordering rather than single-element emphasis, use `visual-hierarchy`.
 
 ## Commands (5)
+
 - `/color-palette` — Run the full colour workflow — tonal scales, semantic mapping, contrast checks, dark mode, and chart colours — and output a documented palette.
 - `/design-screen` — Design a complete screen layout from a description or requirements.
 - `/platform-audit` — Audit a design for iOS and Android convention compliance — navigation, controls, typography, and platform-specific gaps.
 - `/responsive-audit` — Audit a design's responsive behaviour across breakpoints — layout, touch targets, and content reflow.
 - `/type-system` — Build a typography system end to end — scale, weights, line heights, measure, and responsive behaviour.
-

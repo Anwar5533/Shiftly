@@ -49,7 +49,7 @@ class ConsentManager {
         $push: {
           consents: consent,
           auditLog: {
-            action: granted ? "granted" : "withdrawn",
+            action: granted ? 'granted' : 'withdrawn',
             purpose,
             timestamp: consent.timestamp,
             source: metadata.source,
@@ -60,7 +60,7 @@ class ConsentManager {
     );
 
     // Emit event for downstream systems
-    await this.eventBus.emit("consent.changed", {
+    await this.eventBus.emit('consent.changed', {
       userId,
       purpose,
       granted,
@@ -91,9 +91,7 @@ class ConsentManager {
 <div class="consent-banner" role="dialog" aria-labelledby="consent-title">
   <h2 id="consent-title">Cookie Preferences</h2>
 
-  <p>
-    We use cookies to improve your experience. Select your preferences below.
-  </p>
+  <p>We use cookies to improve your experience. Select your preferences below.</p>
 
   <form id="consent-form">
     <!-- Necessary - always on, no consent needed -->

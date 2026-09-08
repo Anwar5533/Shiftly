@@ -10,7 +10,7 @@ description: >
   X/Twitter context. Requires XQUIK_API_KEY for read and action tools.
 license: MIT
 metadata:
-  version: "0.1.13"
+  version: '0.1.13'
   source: https://github.com/Xquik-dev/hermes-tweet
   homepage: https://github.com/Xquik-dev/hermes-tweet#readme
 ---
@@ -76,11 +76,11 @@ Ask for these inputs before selecting routes:
 
 ## Tool Model
 
-| Tool | Purpose |
-| --- | --- |
-| `tweet_explore` | Search the bundled endpoint catalog without using the API key. |
-| `tweet_read` | Call catalog-listed public read-only endpoints when `XQUIK_API_KEY` is set. |
-| `tweet_action` | Call private reads, writes, monitors, webhooks, extractions, draws, and media operations only when action gating is enabled. |
+| Tool            | Purpose                                                                                                                      |
+| --------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `tweet_explore` | Search the bundled endpoint catalog without using the API key.                                                               |
+| `tweet_read`    | Call catalog-listed public read-only endpoints when `XQUIK_API_KEY` is set.                                                  |
+| `tweet_action`  | Call private reads, writes, monitors, webhooks, extractions, draws, and media operations only when action gating is enabled. |
 
 ## Output Format
 

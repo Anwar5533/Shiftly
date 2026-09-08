@@ -28,27 +28,42 @@ interface AntiPattern {
 }
 
 const PATTERNS: AntiPattern[] = [
-  { id: 'gradient', cn: '紫粉蓝渐变背景',  en: 'PASTEL GRADIENT' },
-  { id: 'emoji',    cn: 'Emoji 当图标',     en: 'EMOJI ICONS'    },
-  { id: 'leftbar',  cn: '左侧彩色色条卡',   en: 'LEFT COLOR BAR' },
-  { id: 'font',     cn: '烂大街字体',       en: 'STOCK FONTS'    },
-  { id: 'data',     cn: '堆砌假数据',       en: 'DATA SLOP'      },
-  { id: 'svg',      cn: '复杂硬画 SVG',     en: 'OVER-DRAWN SVG' },
+  { id: 'gradient', cn: '紫粉蓝渐变背景', en: 'PASTEL GRADIENT' },
+  { id: 'emoji', cn: 'Emoji 当图标', en: 'EMOJI ICONS' },
+  { id: 'leftbar', cn: '左侧彩色色条卡', en: 'LEFT COLOR BAR' },
+  { id: 'font', cn: '烂大街字体', en: 'STOCK FONTS' },
+  { id: 'data', cn: '堆砌假数据', en: 'DATA SLOP' },
+  { id: 'svg', cn: '复杂硬画 SVG', en: 'OVER-DRAWN SVG' },
 ];
 
 const BANNED_FONTS = [
-  { name: 'Inter',     family: 'Inter, sans-serif',     sample: 'AaBbCc 123' },
-  { name: 'Roboto',    family: 'Roboto, sans-serif',    sample: 'AaBbCc 123' },
-  { name: 'Arial',     family: 'Arial, sans-serif',     sample: 'AaBbCc 123' },
-  { name: 'Fraunces',  family: '"Fraunces", serif',     sample: 'AaBbCc 123' },
+  { name: 'Inter', family: 'Inter, sans-serif', sample: 'AaBbCc 123' },
+  { name: 'Roboto', family: 'Roboto, sans-serif', sample: 'AaBbCc 123' },
+  { name: 'Arial', family: 'Arial, sans-serif', sample: 'AaBbCc 123' },
+  { name: 'Fraunces', family: '"Fraunces", serif', sample: 'AaBbCc 123' },
   { name: 'system-ui', family: 'system-ui, sans-serif', sample: 'AaBbCc 123' },
 ];
 
 const BETTER_FONTS = [
-  { name: 'Plus Jakarta Sans', family: '"Plus Jakarta Sans", sans-serif', sample: 'AaBbCc 123', tag: 'sans · workhorse' },
-  { name: 'Space Grotesk',     family: '"Space Grotesk", sans-serif',     sample: 'AaBbCc 123', tag: 'sans · 工程感'    },
-  { name: 'Sora',              family: '"Sora", sans-serif',              sample: 'AaBbCc 123', tag: 'sans · 现代克制'  },
-  { name: 'Newsreader',        family: '"Newsreader", serif',             sample: 'AaBbCc 123', tag: 'serif · 编辑感'  },
+  {
+    name: 'Plus Jakarta Sans',
+    family: '"Plus Jakarta Sans", sans-serif',
+    sample: 'AaBbCc 123',
+    tag: 'sans · workhorse',
+  },
+  {
+    name: 'Space Grotesk',
+    family: '"Space Grotesk", sans-serif',
+    sample: 'AaBbCc 123',
+    tag: 'sans · 工程感',
+  },
+  { name: 'Sora', family: '"Sora", sans-serif', sample: 'AaBbCc 123', tag: 'sans · 现代克制' },
+  {
+    name: 'Newsreader',
+    family: '"Newsreader", serif',
+    sample: 'AaBbCc 123',
+    tag: 'serif · 编辑感',
+  },
 ];
 
 /** 单个反面教材小卡片 —— 视觉示意 + 名称 + (后期) 红斜线 */
@@ -56,12 +71,14 @@ function BadCard({ p, slashed }: { p: AntiPattern; slashed: boolean }) {
   return (
     <div className={`aa__bad ${slashed ? 'is-slashed' : ''}`} data-id={p.id}>
       <div className="aa__bad-canvas">
-        {p.id === 'gradient' && (
-          <div className="aa__bad-gradient" />
-        )}
+        {p.id === 'gradient' && <div className="aa__bad-gradient" />}
         {p.id === 'emoji' && (
           <div className="aa__bad-emoji">
-            <span>🚀</span><span>🎯</span><span>💡</span><span>⭐</span><span>🔥</span>
+            <span>🚀</span>
+            <span>🎯</span>
+            <span>💡</span>
+            <span>⭐</span>
+            <span>🔥</span>
           </div>
         )}
         {p.id === 'leftbar' && (
@@ -82,17 +99,29 @@ function BadCard({ p, slashed }: { p: AntiPattern; slashed: boolean }) {
         )}
         {p.id === 'data' && (
           <div className="aa__bad-data">
-            <div><span>★</span><b>4.9</b></div>
-            <div><span>↗</span><b>+42%</b></div>
-            <div><span>◷</span><b>12k</b></div>
-            <div><span>⚡</span><b>99.9%</b></div>
+            <div>
+              <span>★</span>
+              <b>4.9</b>
+            </div>
+            <div>
+              <span>↗</span>
+              <b>+42%</b>
+            </div>
+            <div>
+              <span>◷</span>
+              <b>12k</b>
+            </div>
+            <div>
+              <span>⚡</span>
+              <b>99.9%</b>
+            </div>
           </div>
         )}
         {p.id === 'svg' && (
           <svg viewBox="0 0 80 80" className="aa__bad-svg">
             <defs>
               <linearGradient id={`g-${p.id}`} x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%"  stopColor="#a78bfa" />
+                <stop offset="0%" stopColor="#a78bfa" />
                 <stop offset="50%" stopColor="#f0abfc" />
                 <stop offset="100%" stopColor="#67e8f9" />
               </linearGradient>
@@ -125,8 +154,8 @@ function BadCard({ p, slashed }: { p: AntiPattern; slashed: boolean }) {
 function AntiAi({ localStep }: ChapterContext) {
   const at = (n: number) => localStep >= n;
 
-  const sceneHero  = localStep <= 1;
-  const sceneGrid  = localStep === 2 || localStep === 3;
+  const sceneHero = localStep <= 1;
+  const sceneGrid = localStep === 2 || localStep === 3;
   const sceneFonts = localStep >= 4;
 
   const slashed = localStep >= 3;
@@ -144,7 +173,8 @@ function AntiAi({ localStep }: ChapterContext) {
               </Reveal>
 
               <Reveal kind="rise" duration={780} delay={520} className="aa__hero-sub" as="p">
-                单看每一条都不算错 ——<br />
+                单看每一条都不算错 ——
+                <br />
                 <em>反复堆在一起，就成了一种味道。</em>
               </Reveal>
 
@@ -159,8 +189,8 @@ function AntiAi({ localStep }: ChapterContext) {
                 <div className="aa__excerpt-body">
                   <span className="aa__excerpt-gt">&gt;</span>
                   <span className="aa__excerpt-text">
-                    Avoid <em>web design tropes and conventions</em> unless you are
-                    making a web page.
+                    Avoid <em>web design tropes and conventions</em> unless you are making a web
+                    page.
                   </span>
                 </div>
               </Reveal>
@@ -178,11 +208,7 @@ function AntiAi({ localStep }: ChapterContext) {
 
           <div className="aa__grid">
             {PATTERNS.map((p, i) => (
-              <div
-                key={p.id}
-                className="aa__grid-slot"
-                style={{ animationDelay: `${i * 110}ms` }}
-              >
+              <div key={p.id} className="aa__grid-slot" style={{ animationDelay: `${i * 110}ms` }}>
                 <BadCard p={p} slashed={slashed} />
               </div>
             ))}
@@ -209,7 +235,12 @@ function AntiAi({ localStep }: ChapterContext) {
 
           <div className="aa__fonts-grid">
             {/* 黑名单 */}
-            <Reveal kind="rise" duration={780} delay={260} className="aa__fonts-col aa__fonts-col--ban">
+            <Reveal
+              kind="rise"
+              duration={780}
+              delay={260}
+              className="aa__fonts-col aa__fonts-col--ban"
+            >
               <div className="aa__fonts-col-tag">
                 <span className="aa__fonts-col-mark">×</span>
                 BLACKLIST · 别用
@@ -235,7 +266,12 @@ function AntiAi({ localStep }: ChapterContext) {
 
             {/* 推荐替代 */}
             {showAlt && (
-              <Reveal kind="rise" duration={900} delay={120} className="aa__fonts-col aa__fonts-col--alt">
+              <Reveal
+                kind="rise"
+                duration={900}
+                delay={120}
+                className="aa__fonts-col aa__fonts-col--alt"
+              >
                 <div className="aa__fonts-col-tag">
                   <span className="aa__fonts-col-mark aa__fonts-col-mark--ok">✓</span>
                   ALTERNATIVES · 替代方案

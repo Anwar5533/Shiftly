@@ -171,10 +171,6 @@
       "暗色 grid + 等宽字体",
       "legend 必画"
     ],
-    "avoid": [
-      "return 用实线箭头",
-      "用 emoji 当 actor 图标",
-      "声称可编辑 SVG"
-    ]
+    "avoid": ["return 用实线箭头", "用 emoji 当 actor 图标", "声称可编辑 SVG"]
   }
 }

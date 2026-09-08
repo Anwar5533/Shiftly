@@ -1,6 +1,6 @@
 ---
-description: "Display team members, task status, and progress for an active agent team"
-argument-hint: "[team-name] [--tasks] [--members] [--json]"
+description: 'Display team members, task status, and progress for an active agent team'
+argument-hint: '[team-name] [--tasks] [--members] [--json]'
 ---
 
 # Team Status

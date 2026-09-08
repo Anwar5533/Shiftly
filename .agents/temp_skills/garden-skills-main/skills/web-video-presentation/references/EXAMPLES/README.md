@@ -24,10 +24,10 @@
 
 ### A. 章节结构 anchor（与题材无关）
 
-| 例子 | 适用场景 | 文件 |
-|---|---|---|
-| [`hook-chapter/`](hook-chapter/) | **钩子型开场** —— 多张图片逐张揭示后 hero takeover | `chapter.tsx` + `chapter.css` |
-| [`list-reveal/`](list-reveal/) | **列举型** —— 口播说"三件事 / N 个特性"，每项 1 step | `chapter.tsx` + `chapter.css` |
+| 例子                             | 适用场景                                             | 文件                          |
+| -------------------------------- | ---------------------------------------------------- | ----------------------------- |
+| [`hook-chapter/`](hook-chapter/) | **钩子型开场** —— 多张图片逐张揭示后 hero takeover   | `chapter.tsx` + `chapter.css` |
+| [`list-reveal/`](list-reveal/)   | **列举型** —— 口播说"三件事 / N 个特性"，每项 1 step | `chapter.tsx` + `chapter.css` |
 
 每个 example 都是**完整章节**：**内容驱动主导动作** + 必要的伴随动作
 （**不强求挂持续微动**，按 [`../CHAPTER-CRAFT.md`](../CHAPTER-CRAFT.md)
@@ -36,8 +36,8 @@ Part 0 原则 7 节制使用）、真素材（不是占位卡）、字号狠对�
 
 ### B. 题材 case anchor（与题材相关）
 
-| 例子 | 题材 | 文件 |
-|---|---|---|
+| 例子                                     | 题材                             | 文件                  |
+| ---------------------------------------- | -------------------------------- | --------------------- |
 | [`case-tech-review/`](case-tech-review/) | 科技测评 / 实测对比 / 跑分类视频 | README + outline 节选 |
 
 > 题材 case 展示**真实 outline 的样子**（含 article 补字段如何填、
@@ -70,16 +70,16 @@ Part 0 原则 7 节制使用）、真素材（不是占位卡）、字号狠对�
 
 ### 进阶玩法（任选搭配）
 
-| 维度 | 这俩 anchor 给的（地板） | 可以升级到（无上限） |
-|---|---|---|
-| 背景层 | 纯色 surface | + SVG turbulence filter 纸纹永不停斜向漂移 |
-| 主导动作 | mask reveal + 印章砸下 | + Canvas 粒子从屏幕外汇聚成 hero 字 |
-| 伴随动作 | accent 红条 scaleX | + SVG path stroke-dashoffset 自绘下划线 / 装饰花纹 |
-| 持续微动 | accent 光晕呼吸 | + 多层粒子漂移 / scanline / ken burns 缓推 |
-| 数字 hero | 直接显示 | + JS 数字滚动（`requestAnimationFrame` + easeOutQuart） |
-| 流程 / 架构 | 仅文字列 | + SVG path 自绘流程图（每条线 stroke-dashoffset 错峰） |
-| 对比图 | 两段文字 | + SVG 双柱图自绘 + 差值数字滚动 |
-| 转场 | 章节边界硬切 | + clip-path inset 横向擦除转场 |
+| 维度        | 这俩 anchor 给的（地板） | 可以升级到（无上限）                                    |
+| ----------- | ------------------------ | ------------------------------------------------------- |
+| 背景层      | 纯色 surface             | + SVG turbulence filter 纸纹永不停斜向漂移              |
+| 主导动作    | mask reveal + 印章砸下   | + Canvas 粒子从屏幕外汇聚成 hero 字                     |
+| 伴随动作    | accent 红条 scaleX       | + SVG path stroke-dashoffset 自绘下划线 / 装饰花纹      |
+| 持续微动    | accent 光晕呼吸          | + 多层粒子漂移 / scanline / ken burns 缓推              |
+| 数字 hero   | 直接显示                 | + JS 数字滚动（`requestAnimationFrame` + easeOutQuart） |
+| 流程 / 架构 | 仅文字列                 | + SVG path 自绘流程图（每条线 stroke-dashoffset 错峰）  |
+| 对比图      | 两段文字                 | + SVG 双柱图自绘 + 差值数字滚动                         |
+| 转场        | 章节边界硬切             | + clip-path inset 横向擦除转场                          |
 
 → 详细工具箱见 [`../CHAPTER-CRAFT.md`](../CHAPTER-CRAFT.md) Part 2
 "视觉手段全栈工具箱"（CSS / SVG / Canvas / JS 四层）。
@@ -91,6 +91,7 @@ Part 0 五问选好主导动作），跑起来确认气质对，**再决定要�
 动作 / 持续微动**。
 
 **判断标准**：
+
 - 如果不同 step 的主导动作够多样（PPT 警报通过 [`../CHAPTER-CRAFT.md`](../CHAPTER-CRAFT.md)
   Part 0 原则 7 自检）= 不需要再加持续微动
 - 如果整章主导动作太单一 = 不要靠"加持续微动"补救，**回 [`../CHAPTER-CRAFT.md`](../CHAPTER-CRAFT.md)
@@ -98,7 +99,7 @@ Part 0 五问选好主导动作），跑起来确认气质对，**再决定要�
 
 ## 不在 EXAMPLES 里出现的章节类型
 
-- **数字型 hero**（"+47%"  → "几乎快了一倍"）
+- **数字型 hero**（"+47%" → "几乎快了一倍"）
 - **对比型**（前后对照 / 双柱图）
 - **链接卡片收尾**
 

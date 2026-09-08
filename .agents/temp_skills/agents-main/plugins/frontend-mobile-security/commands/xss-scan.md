@@ -24,7 +24,7 @@ Scan codebase for XSS vulnerabilities using static analysis:
 interface XSSFinding {
   file: string;
   line: number;
-  severity: "critical" | "high" | "medium" | "low";
+  severity: 'critical' | 'high' | 'medium' | 'low';
   type: string;
   vulnerable_code: string;
   description: string;
@@ -34,12 +34,12 @@ interface XSSFinding {
 
 class XSSScanner {
   private vulnerablePatterns = [
-    "innerHTML",
-    "outerHTML",
-    "document.write",
-    "insertAdjacentHTML",
-    "location.href",
-    "window.open",
+    'innerHTML',
+    'outerHTML',
+    'document.write',
+    'insertAdjacentHTML',
+    'location.href',
+    'window.open',
   ];
 
   async scanDirectory(path: string): Promise<XSSFinding[]> {
@@ -47,7 +47,7 @@ class XSSScanner {
     const findings: XSSFinding[] = [];
 
     for (const file of files) {
-      const content = await fs.readFile(file, "utf-8");
+      const content = await fs.readFile(file, 'utf-8');
       findings.push(...this.scanFile(file, content));
     }
 
@@ -67,20 +67,19 @@ class XSSScanner {
 
   detectHTMLManipulation(file: string, content: string): XSSFinding[] {
     const findings: XSSFinding[] = [];
-    const lines = content.split("\n");
+    const lines = content.split('\n');
 
     lines.forEach((line, index) => {
-      if (line.includes("innerHTML") && this.hasUserInput(line)) {
+      if (line.includes('innerHTML') && this.hasUserInput(line)) {
         findings.push({
           file,
           line: index + 1,
-          severity: "critical",
-          type: "Unsafe HTML manipulation",
+          severity: 'critical',
+          type: 'Unsafe HTML manipulation',
           vulnerable_code: line.trim(),
-          description:
-            "User-controlled data in HTML manipulation creates XSS risk",
-          fix: "Use textContent for plain text or sanitize with DOMPurify library",
-          cwe: "CWE-79",
+          description: 'User-controlled data in HTML manipulation creates XSS risk',
+          fix: 'Use textContent for plain text or sanitize with DOMPurify library',
+          cwe: 'CWE-79',
         });
       }
     });
@@ -90,20 +89,19 @@ class XSSScanner {
 
   detectReactVulnerabilities(file: string, content: string): XSSFinding[] {
     const findings: XSSFinding[] = [];
-    const lines = content.split("\n");
+    const lines = content.split('\n');
 
     lines.forEach((line, index) => {
-      if (line.includes("dangerously") && !this.hasSanitization(content)) {
+      if (line.includes('dangerously') && !this.hasSanitization(content)) {
         findings.push({
           file,
           line: index + 1,
-          severity: "high",
-          type: "React unsafe HTML rendering",
+          severity: 'high',
+          type: 'React unsafe HTML rendering',
           vulnerable_code: line.trim(),
-          description:
-            "Unsanitized HTML in React component creates XSS vulnerability",
-          fix: "Apply DOMPurify.sanitize() before rendering or use safe alternatives",
-          cwe: "CWE-79",
+          description: 'Unsanitized HTML in React component creates XSS vulnerability',
+          fix: 'Apply DOMPurify.sanitize() before rendering or use safe alternatives',
+          cwe: 'CWE-79',
         });
       }
     });
@@ -113,20 +111,19 @@ class XSSScanner {
 
   detectURLVulnerabilities(file: string, content: string): XSSFinding[] {
     const findings: XSSFinding[] = [];
-    const lines = content.split("\n");
+    const lines = content.split('\n');
 
     lines.forEach((line, index) => {
-      if (line.includes("location.") && this.hasUserInput(line)) {
+      if (line.includes('location.') && this.hasUserInput(line)) {
         findings.push({
           file,
           line: index + 1,
-          severity: "high",
-          type: "URL injection",
+          severity: 'high',
+          type: 'URL injection',
           vulnerable_code: line.trim(),
-          description:
-            "User input in URL assignment can execute malicious code",
-          fix: "Validate URLs and enforce http/https protocols only",
-          cwe: "CWE-79",
+          description: 'User input in URL assignment can execute malicious code',
+          fix: 'Validate URLs and enforce http/https protocols only',
+          cwe: 'CWE-79',
         });
       }
     });
@@ -135,19 +132,12 @@ class XSSScanner {
   }
 
   hasUserInput(line: string): boolean {
-    const indicators = [
-      "props",
-      "state",
-      "params",
-      "query",
-      "input",
-      "formData",
-    ];
+    const indicators = ['props', 'state', 'params', 'query', 'input', 'formData'];
     return indicators.some((indicator) => line.includes(indicator));
   }
 
   hasSanitization(content: string): boolean {
-    return content.includes("DOMPurify") || content.includes("sanitize");
+    return content.includes('DOMPurify') || content.includes('sanitize');
   }
 }
 ```
@@ -160,19 +150,15 @@ class ReactXSSScanner {
     const findings: XSSFinding[] = [];
 
     // Check for unsafe React patterns
-    const unsafePatterns = [
-      "dangerouslySetInnerHTML",
-      "createMarkup",
-      "rawHtml",
-    ];
+    const unsafePatterns = ['dangerouslySetInnerHTML', 'createMarkup', 'rawHtml'];
 
     unsafePatterns.forEach((pattern) => {
-      if (code.includes(pattern) && !code.includes("DOMPurify")) {
+      if (code.includes(pattern) && !code.includes('DOMPurify')) {
         findings.push({
-          severity: "high",
-          type: "React XSS risk",
+          severity: 'high',
+          type: 'React XSS risk',
           description: `Pattern ${pattern} used without sanitization`,
-          fix: "Apply proper HTML sanitization",
+          fix: 'Apply proper HTML sanitization',
         });
       }
     });
@@ -185,12 +171,12 @@ class VueXSSScanner {
   scanVueTemplate(template: string): XSSFinding[] {
     const findings: XSSFinding[] = [];
 
-    if (template.includes("v-html")) {
+    if (template.includes('v-html')) {
       findings.push({
-        severity: "high",
-        type: "Vue HTML injection",
-        description: "v-html directive renders raw HTML",
-        fix: "Use v-text for plain text or sanitize HTML",
+        severity: 'high',
+        type: 'Vue HTML injection',
+        description: 'v-html directive renders raw HTML',
+        fix: 'Use v-text for plain text or sanitize HTML',
       });
     }
 
@@ -237,7 +223,7 @@ const Component = ({ html }) => (
 );`,
     };
 
-    return patterns[vulnerability] || "No secure pattern available";
+    return patterns[vulnerability] || 'No secure pattern available';
   }
 }
 ```
@@ -263,7 +249,7 @@ class XSSReportGenerator {
   generateReport(findings: XSSFinding[]): string {
     const grouped = this.groupBySeverity(findings);
 
-    let report = "# XSS Vulnerability Scan Report\n\n";
+    let report = '# XSS Vulnerability Scan Report\n\n';
     report += `Total Findings: ${findings.length}\n\n`;
 
     for (const [severity, issues] of Object.entries(grouped)) {

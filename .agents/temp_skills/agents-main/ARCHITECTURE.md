@@ -55,13 +55,13 @@ claude-agents/
 
 Each adapter consumes the canonical `plugins/` source and emits harness-native artifacts:
 
-| Adapter | Output | What it does |
-|---|---|---|
-| `codex.py` | committed `.agents/plugins/marketplace.json` + `plugins/*/.codex-plugin/plugin.json`; gitignored `.codex/skills/`, `.codex/agents/*.toml` | Marketplace + per-plugin manifests (point at source `plugins/`); Markdown → TOML transform, 8 KB body cap with `references/` overflow, sandbox_mode heuristic, collision detection |
-| `cursor.py` | `.cursor-plugin/`, `.cursor/rules/*.mdc` | Marketplace manifests + hand-curated rules. Cursor reads `.claude/` directly for skills/agents |
-| `opencode.py` | `.opencode/agents/`, `.opencode/commands/`, `.opencode/skills/` | Permission block from `tools:` allowlist (locked agents preserve intent); strict lowercase tool names; OpenCode-safe skill names |
-| `copilot.py` | `.copilot/agents/`, `.copilot/skills/`, `.copilot/commands/` | Markdown agent profiles + SKILL.md skills + commands-as-skills; model maps to native Claude models |
-| `antigravity.py` | `.antigravity/plugins/<p>/{skills/,agents/,commands/}` | Self-contained agy plugin per source plugin (no `<plugin>__` namespacing); model tier alias (`inherit`/`flash`/`pro`); TOML commands always inline the body (no `@{path}` injection — `agy plugin validate` never evaluates it) |
+| Adapter          | Output                                                                                                                                    | What it does                                                                                                                                                                                                                    |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `codex.py`       | committed `.agents/plugins/marketplace.json` + `plugins/*/.codex-plugin/plugin.json`; gitignored `.codex/skills/`, `.codex/agents/*.toml` | Marketplace + per-plugin manifests (point at source `plugins/`); Markdown → TOML transform, 8 KB body cap with `references/` overflow, sandbox_mode heuristic, collision detection                                              |
+| `cursor.py`      | `.cursor-plugin/`, `.cursor/rules/*.mdc`                                                                                                  | Marketplace manifests + hand-curated rules. Cursor reads `.claude/` directly for skills/agents                                                                                                                                  |
+| `opencode.py`    | `.opencode/agents/`, `.opencode/commands/`, `.opencode/skills/`                                                                           | Permission block from `tools:` allowlist (locked agents preserve intent); strict lowercase tool names; OpenCode-safe skill names                                                                                                |
+| `copilot.py`     | `.copilot/agents/`, `.copilot/skills/`, `.copilot/commands/`                                                                              | Markdown agent profiles + SKILL.md skills + commands-as-skills; model maps to native Claude models                                                                                                                              |
+| `antigravity.py` | `.antigravity/plugins/<p>/{skills/,agents/,commands/}`                                                                                    | Self-contained agy plugin per source plugin (no `<plugin>__` namespacing); model tier alias (`inherit`/`flash`/`pro`); TOML commands always inline the body (no `@{path}` injection — `agy plugin validate` never evaluates it) |
 
 Detail in [`docs/harnesses.md`](docs/harnesses.md) (capability matrix per harness) and [`docs/architecture.md`](docs/architecture.md) (full design rationale).
 
@@ -87,12 +87,12 @@ Full conventions in [`docs/authoring.md`](docs/authoring.md). Authoring for port
 
 ## Model tiers
 
-| Tier | Model | Use |
-|---|---|---|
-| 1 | Opus | Architecture, security, code review, production coding |
-| 2 | inherit | Complex tasks — user chooses model (AI/ML, backend, specialized) |
-| 3 | Sonnet | Docs, testing, debugging, support |
-| 4 | Haiku | Fast ops, SEO, deployment, simple tasks |
+| Tier | Model   | Use                                                              |
+| ---- | ------- | ---------------------------------------------------------------- |
+| 1    | Opus    | Architecture, security, code review, production coding           |
+| 2    | inherit | Complex tasks — user chooses model (AI/ML, backend, specialized) |
+| 3    | Sonnet  | Docs, testing, debugging, support                                |
+| 4    | Haiku   | Fast ops, SEO, deployment, simple tasks                          |
 
 Per-harness adapter maps these aliases to native model IDs at generation time (see `tools/adapters/capabilities.py:MODEL_ALIASES`).
 

@@ -146,18 +146,18 @@ Success criteria:
 
 // 1. Initial analysis
 const analysis = await aiAnalyze({
-  error: "Payment processing timeout",
-  frequency: "5% of checkouts",
-  environment: "production",
+  error: 'Payment processing timeout',
+  frequency: '5% of checkouts',
+  environment: 'production',
 });
 // AI suggests: "Likely N+1 query or external API timeout"
 
 // 2. Gather observability data
-const sentryData = await getSentryIssue("CHECKOUT_TIMEOUT");
+const sentryData = await getSentryIssue('CHECKOUT_TIMEOUT');
 const ddTraces = await getDataDogTraces({
-  service: "checkout",
-  operation: "process_payment",
-  duration: ">5000ms",
+  service: 'checkout',
+  operation: 'process_payment',
+  duration: '>5000ms',
 });
 
 // 3. Analyze traces
@@ -165,8 +165,8 @@ const ddTraces = await getDataDogTraces({
 // Hypothesis: N+1 query in payment method loading
 
 // 4. Add instrumentation
-span.setAttribute("debug.queryCount", queryCount);
-span.setAttribute("debug.paymentMethodId", methodId);
+span.setAttribute('debug.queryCount', queryCount);
+span.setAttribute('debug.paymentMethodId', methodId);
 
 // 5. Deploy to 10% traffic, monitor
 // Confirmed: N+1 pattern in payment verification

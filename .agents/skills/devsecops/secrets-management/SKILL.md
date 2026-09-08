@@ -12,13 +12,13 @@ role: [security-engineer, devsecops]
 phase: [build, operate]
 frameworks: [OWASP-Secrets-Management, NIST-SP-800-57-Part1-Rev5]
 difficulty: intermediate
-time_estimate: "20-40min"
-version: "1.0.1"
+time_estimate: '20-40min'
+version: '1.0.1'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 injection-hardened: true
-argument-hint: "[target-file-or-directory]"
+argument-hint: '[target-file-or-directory]'
 ---
 
 # Secrets Management Review
@@ -177,12 +177,12 @@ Before flagging a detected string as a hardcoded secret, apply these verificatio
 
 Verify that at least one secret detection tool is configured and integrated:
 
-| Tool | Configuration File | CI Integration |
-|------|-------------------|----------------|
-| **Gitleaks** | `.gitleaks.toml` | GitHub Actions, GitLab CI |
-| **TruffleHog** | Command-line or `.trufflehog.yml` | Pre-commit hook, CI |
-| **detect-secrets** | `.secrets.baseline` | Pre-commit hook, CI |
-| **git-secrets** | `.git/hooks/pre-commit` | Git hook |
+| Tool               | Configuration File                | CI Integration            |
+| ------------------ | --------------------------------- | ------------------------- |
+| **Gitleaks**       | `.gitleaks.toml`                  | GitHub Actions, GitLab CI |
+| **TruffleHog**     | Command-line or `.trufflehog.yml` | Pre-commit hook, CI       |
+| **detect-secrets** | `.secrets.baseline`               | Pre-commit hook, CI       |
+| **git-secrets**    | `.git/hooks/pre-commit`           | Git hook                  |
 
 **What to verify:**
 
@@ -212,7 +212,7 @@ Verify that at least one secret detection tool is configured and integrated:
 services:
   app:
     build: .
-    env_file: .env    # If .dockerignore doesn't exclude .env, secrets are in image layer
+    env_file: .env # If .dockerignore doesn't exclude .env, secrets are in image layer
 
 # docker-compose -- GOOD: secrets via Docker secrets or external mount
 services:
@@ -248,12 +248,12 @@ Evaluate the secrets management architecture against NIST SP 800-57 key manageme
 
 Verify that a centralized secrets manager is deployed:
 
-| Platform | What to Verify |
-|----------|---------------|
-| **HashiCorp Vault** | Seal/unseal configuration, auth methods, policy definitions, audit logging enabled |
-| **AWS Secrets Manager** | Automatic rotation Lambda configured, resource policies, KMS key for encryption |
-| **GCP Secret Manager** | IAM bindings (least privilege), rotation schedules, version management |
-| **Azure Key Vault** | Access policies or RBAC, soft-delete enabled, purge protection, diagnostics logging |
+| Platform                | What to Verify                                                                      |
+| ----------------------- | ----------------------------------------------------------------------------------- |
+| **HashiCorp Vault**     | Seal/unseal configuration, auth methods, policy definitions, audit logging enabled  |
+| **AWS Secrets Manager** | Automatic rotation Lambda configured, resource policies, KMS key for encryption     |
+| **GCP Secret Manager**  | IAM bindings (least privilege), rotation schedules, version management              |
+| **Azure Key Vault**     | Access policies or RBAC, soft-delete enabled, purge protection, diagnostics logging |
 
 **Patterns to check in IaC:**
 
@@ -281,13 +281,13 @@ resource "vault_audit" "syslog" {
 
 NIST SP 800-57 Part 1 Rev 5 Table 1 defines recommended cryptoperiods by key type. For authentication secrets:
 
-| Secret Type | Recommended Max Cryptoperiod | Rotation Method |
-|-------------|------------------------------|-----------------|
-| Database credentials | 90 days | Vault dynamic secrets, Secrets Manager rotation Lambda |
-| API keys | 90 days | Provider API key rotation, dual-key rollover |
-| TLS certificates | 398 days (CA/B Forum max), 90 days preferred | ACME (Let's Encrypt), cert-manager |
-| SSH keys | 1 year | SSH CA with short-lived certificates preferred |
-| Service account keys | 90 days | Workload identity federation preferred (no keys) |
+| Secret Type          | Recommended Max Cryptoperiod                 | Rotation Method                                        |
+| -------------------- | -------------------------------------------- | ------------------------------------------------------ |
+| Database credentials | 90 days                                      | Vault dynamic secrets, Secrets Manager rotation Lambda |
+| API keys             | 90 days                                      | Provider API key rotation, dual-key rollover           |
+| TLS certificates     | 398 days (CA/B Forum max), 90 days preferred | ACME (Let's Encrypt), cert-manager                     |
+| SSH keys             | 1 year                                       | SSH CA with short-lived certificates preferred         |
+| Service account keys | 90 days                                      | Workload identity federation preferred (no keys)       |
 
 **What to verify:**
 
@@ -356,12 +356,12 @@ spec:
 
 Before applying or proposing fixes, classify each remediation path using [Security Fixer Policy](../../../docs/fixer-policy.md). Include the policy review gate, reviewer evidence, and rollback guidance in the remediation plan.
 
-| Severity | Definition |
-|----------|-----------|
-| **Critical** | Committed secrets in current codebase or git history (unrotated); no secret detection tooling; .env with production credentials committed. |
-| **High** | No centralized secrets manager; no rotation automation; long-lived static credentials for agents; secrets in CI logs; no git history scanning; audit logging disabled on vault. |
-| **Medium** | Detection in CI only (no pre-commit); manual rotation process; excessive detection allowlists; token TTL mismatch; rotation not monitored; plaintext secrets in environment variables (vs. vault injection). |
-| **Low** | Missing secret type documentation; secret naming convention inconsistencies; development-only secrets in non-.gitignored example files. |
+| Severity     | Definition                                                                                                                                                                                                   |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Critical** | Committed secrets in current codebase or git history (unrotated); no secret detection tooling; .env with production credentials committed.                                                                   |
+| **High**     | No centralized secrets manager; no rotation automation; long-lived static credentials for agents; secrets in CI logs; no git history scanning; audit logging disabled on vault.                              |
+| **Medium**   | Detection in CI only (no pre-commit); manual rotation process; excessive detection allowlists; token TTL mismatch; rotation not monitored; plaintext secrets in environment variables (vs. vault injection). |
+| **Low**      | Missing secret type documentation; secret naming convention inconsistencies; development-only secrets in non-.gitignored example files.                                                                      |
 
 ---
 
@@ -412,25 +412,25 @@ Before applying or proposing fixes, classify each remediation path using [Securi
 
 ### OWASP Secrets Management Cheat Sheet
 
-| Topic | Key Guidance |
-|-------|-------------|
-| Secret Types | API keys, passwords, certificates, encryption keys, SSH keys, OAuth tokens |
-| Storage | Never in source code; use dedicated secrets manager |
-| Detection | Pre-commit hooks + CI scanning + periodic full-repo scans |
-| Rotation | Automate rotation; define maximum secret lifetime |
-| Access Control | Least privilege; audit all secret access; separate secrets by environment |
-| Incident Response | Immediate rotation on exposure; revoke, rotate, re-deploy |
+| Topic             | Key Guidance                                                               |
+| ----------------- | -------------------------------------------------------------------------- |
+| Secret Types      | API keys, passwords, certificates, encryption keys, SSH keys, OAuth tokens |
+| Storage           | Never in source code; use dedicated secrets manager                        |
+| Detection         | Pre-commit hooks + CI scanning + periodic full-repo scans                  |
+| Rotation          | Automate rotation; define maximum secret lifetime                          |
+| Access Control    | Least privilege; audit all secret access; separate secrets by environment  |
+| Incident Response | Immediate rotation on exposure; revoke, rotate, re-deploy                  |
 
 ### NIST SP 800-57 Part 1 Rev 5
 
-| Section | Topic | Key Requirements |
-|---------|-------|-----------------|
-| 5.1 | General Key Management Guidance | Key lifecycle: generation, distribution, storage, use, destruction |
-| 5.2 | Key States | Pre-activation, active, deactivated, compromised, destroyed |
-| 5.3 | Cryptoperiods | Maximum time a key remains active; varies by key type and usage |
-| 5.3.5 | Authentication Keys | Cryptoperiod of 1-2 years for originator-usage; shorter for high-risk |
-| 6.1 | Key Generation | Approved RNG; sufficient key length; key uniqueness |
-| 6.2 | Key Establishment | Secure distribution; no plaintext transmission |
+| Section | Topic                           | Key Requirements                                                      |
+| ------- | ------------------------------- | --------------------------------------------------------------------- |
+| 5.1     | General Key Management Guidance | Key lifecycle: generation, distribution, storage, use, destruction    |
+| 5.2     | Key States                      | Pre-activation, active, deactivated, compromised, destroyed           |
+| 5.3     | Cryptoperiods                   | Maximum time a key remains active; varies by key type and usage       |
+| 5.3.5   | Authentication Keys             | Cryptoperiod of 1-2 years for originator-usage; shorter for high-risk |
+| 6.1     | Key Generation                  | Approved RNG; sufficient key length; key uniqueness                   |
+| 6.2     | Key Establishment               | Secure distribution; no plaintext transmission                        |
 
 ---
 

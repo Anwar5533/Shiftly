@@ -23,7 +23,7 @@ Modern LLMs can already produce functional web pages from simple prompts. But th
 This skill injects **design taste** into the AI's decision-making process through:
 
 - **Anti-cliché rules** — an explicit blocklist of overused AI design patterns
-- **Design system declaration** — forces the AI to articulate color, typography, spacing, and motion choices *before writing code*
+- **Design system declaration** — forces the AI to articulate color, typography, spacing, and motion choices _before writing code_
 - **oklch color theory** — perceptually uniform color derivation instead of random hex guessing
 - **Curated font & color pairings** — high-quality starting points that replace the default Inter + #3b82f6
 - **Placeholder philosophy** — honest `[icon]` markers instead of poorly drawn SVG fakes
@@ -67,14 +67,14 @@ The agent will automatically pick up the skill when your request involves visual
 
 ### What It Covers
 
-| Output Type | Examples |
-|---|---|
-| Web pages & landing pages | Marketing sites, product pages, portfolios |
-| Interactive prototypes | Clickable app mockups with device frames |
-| Slide decks | HTML presentations (1920×1080, keyboard nav) |
-| Data visualizations | Dashboards with Chart.js or D3.js |
-| Animations | CSS/JS motion design, timeline-driven demos |
-| Design systems | Token exploration, component variants |
+| Output Type               | Examples                                     |
+| ------------------------- | -------------------------------------------- |
+| Web pages & landing pages | Marketing sites, product pages, portfolios   |
+| Interactive prototypes    | Clickable app mockups with device frames     |
+| Slide decks               | HTML presentations (1920×1080, keyboard nav) |
+| Data visualizations       | Dashboards with Chart.js or D3.js            |
+| Animations                | CSS/JS motion design, timeline-driven demos  |
+| Design systems            | Token exploration, component variants        |
 
 ---
 
@@ -95,36 +95,37 @@ The agent will automatically pick up the skill when your request involves visual
 ### Key Design Principles
 
 **Anti-AI-cliché checklist.** The skill explicitly bans:
+
 - Purple-pink-blue gradient backgrounds
 - Left-border accent cards
 - Inter / Roboto / Arial / Fraunces / system-ui fonts
 - Emoji as icon substitutes
 - Fabricated stats, fake logo walls, dummy testimonials
 
-**oklch color system.** Colors are derived in the perceptually uniform oklch space. Same lightness values actually *look* the same brightness to the human eye — unlike HSL, where yellow-at-50% looks much brighter than blue-at-50%.
+**oklch color system.** Colors are derived in the perceptually uniform oklch space. Same lightness values actually _look_ the same brightness to the human eye — unlike HSL, where yellow-at-50% looks much brighter than blue-at-50%.
 
 **Curated starting points.** Six pre-validated color × font pairings for common use cases:
 
-| Style | Color | Fonts | Use Case |
-|---|---|---|---|
-| Modern tech | Blue-violet | Space Grotesk + Inter | SaaS, dev tools |
-| Elegant editorial | Warm brown | Newsreader + Outfit | Content, blogs |
-| Premium brand | Near-black | Sora + Plus Jakarta Sans | Luxury, finance |
-| Lively consumer | Coral | Plus Jakarta Sans + Outfit | E-commerce, social |
-| Minimal professional | Teal-blue | Outfit + Space Grotesk | Dashboards, B2B |
-| Artisan warmth | Caramel | Caveat + Newsreader | Food, education |
+| Style                | Color       | Fonts                      | Use Case           |
+| -------------------- | ----------- | -------------------------- | ------------------ |
+| Modern tech          | Blue-violet | Space Grotesk + Inter      | SaaS, dev tools    |
+| Elegant editorial    | Warm brown  | Newsreader + Outfit        | Content, blogs     |
+| Premium brand        | Near-black  | Sora + Plus Jakarta Sans   | Luxury, finance    |
+| Lively consumer      | Coral       | Plus Jakarta Sans + Outfit | E-commerce, social |
+| Minimal professional | Teal-blue   | Outfit + Space Grotesk     | Dashboards, B2B    |
+| Artisan warmth       | Caramel     | Caveat + Newsreader        | Food, education    |
 
-**Anchored style-recipe library (25 named recipes, progressively loaded).** When the user names an anchor ("Linear-style", "Aesop feeling", "Pentagram-grade type"), the agent reads **only the matching file** at `references/style-recipes/<anchor>.md` (~50 lines). The catalog index, 3 cross-indexes, and cross-cutting anti-patterns live in `references/style-recipes/INDEX.md` (~150 lines). The full catalog is never loaded at once. The 25 recipes are spread across 7 schools (the 6 Direction-Advisor schools plus a *Specialty / Genre* school reachable only via direct anchor names):
+**Anchored style-recipe library (25 named recipes, progressively loaded).** When the user names an anchor ("Linear-style", "Aesop feeling", "Pentagram-grade type"), the agent reads **only the matching file** at `references/style-recipes/<anchor>.md` (~50 lines). The catalog index, 3 cross-indexes, and cross-cutting anti-patterns live in `references/style-recipes/INDEX.md` (~150 lines). The full catalog is never loaded at once. The 25 recipes are spread across 7 schools (the 6 Direction-Advisor schools plus a _Specialty / Genre_ school reachable only via direct anchor names):
 
-| School | Recipes |
-|---|---|
-| Editorial / Minimalist | `apple-hig` · `muji-kenya-hara` · `aesop` · `dieter-rams-braun` · `monocle-magazine` |
-| Information Architecture | `pentagram` · `vignelli-swiss-helvetica` · `bloomberg-terminal` · `tufte-dataink` · `nyt-the-daily` |
-| Modern Tool / Builder SaaS | `linear` · `vercel-mesh` · `raycast` · `notion-pre-ai` |
-| Motion / Experimental | `field-io` · `active-theory` · `resn-storytelling` |
-| Brutalist / Raw | `are-na` · `bloomberg-businessweek-turley` · `balenciaga-post-2017` |
-| Warm Humanist | `mailchimp-freddie` · `stripe-press` · `headspace-meditation` |
-| Specialty / Genre | `y2k-retrofuturism` · `mid-century-modern` |
+| School                     | Recipes                                                                                             |
+| -------------------------- | --------------------------------------------------------------------------------------------------- |
+| Editorial / Minimalist     | `apple-hig` · `muji-kenya-hara` · `aesop` · `dieter-rams-braun` · `monocle-magazine`                |
+| Information Architecture   | `pentagram` · `vignelli-swiss-helvetica` · `bloomberg-terminal` · `tufte-dataink` · `nyt-the-daily` |
+| Modern Tool / Builder SaaS | `linear` · `vercel-mesh` · `raycast` · `notion-pre-ai`                                              |
+| Motion / Experimental      | `field-io` · `active-theory` · `resn-storytelling`                                                  |
+| Brutalist / Raw            | `are-na` · `bloomberg-businessweek-turley` · `balenciaga-post-2017`                                 |
+| Warm Humanist              | `mailchimp-freddie` · `stripe-press` · `headspace-meditation`                                       |
+| Specialty / Genre          | `y2k-retrofuturism` · `mid-century-modern`                                                          |
 
 ---
 
@@ -420,30 +421,30 @@ The repository's [`demo/web-design-demo/`](../../demo/web-design-demo) directory
 
 ### Demo 1: Space Exploration Museum
 
-**Prompt:** *"Build a homepage for a fictional 'Space Exploration Museum' — full-screen hero, 4 exhibition sections, a timeline with 6+ milestones, a booking CTA, and a footer. Deep, immersive, cosmic feel."*
+**Prompt:** _"Build a homepage for a fictional 'Space Exploration Museum' — full-screen hero, 4 exhibition sections, a timeline with 6+ milestones, a booking CTA, and a footer. Deep, immersive, cosmic feel."_
 
-| | Without Skill | With Skill |
-|---|---|---|
-| **File** | `demo/web-design-demo/demo2/demo1.html` | `demo/web-design-demo/demo2/demo1-with-skill.html` |
-| **Color system** | Hardcoded hex values (#7cf0ff, #b388ff) | oklch-based token system with CSS custom properties |
-| **Typography** | Orbitron + Noto Serif SC | Instrument Serif + Space Grotesk + JetBrains Mono |
-| **Layout** | Standard landing-page structure | Editorial magazine-style layout with grid compositions |
-| **Details** | Heavy glow effects, neon gradients | Restrained palette, typographic hierarchy, decorative data elements |
-| **Overall feel** | Enthusiastic junior designer | Experienced design director |
+|                  | Without Skill                           | With Skill                                                          |
+| ---------------- | --------------------------------------- | ------------------------------------------------------------------- |
+| **File**         | `demo/web-design-demo/demo2/demo1.html` | `demo/web-design-demo/demo2/demo1-with-skill.html`                  |
+| **Color system** | Hardcoded hex values (#7cf0ff, #b388ff) | oklch-based token system with CSS custom properties                 |
+| **Typography**   | Orbitron + Noto Serif SC                | Instrument Serif + Space Grotesk + JetBrains Mono                   |
+| **Layout**       | Standard landing-page structure         | Editorial magazine-style layout with grid compositions              |
+| **Details**      | Heavy glow effects, neon gradients      | Restrained palette, typographic hierarchy, decorative data elements |
+| **Overall feel** | Enthusiastic junior designer            | Experienced design director                                         |
 
 ### Demo 2: Photographer Portfolio
 
-**Prompt:** *"Build a homepage for an independent photographer's portfolio."*
+**Prompt:** _"Build a homepage for an independent photographer's portfolio."_
 
-| | With Skill |
-|---|---|
-| **File** | `demo/web-design-demo/demo2/demo2-with-skill.html` |
-| **Character** | Creates a fictional Nordic photographer "Mira Høst" with a complete visual identity |
-| **Color** | Paper-warm light (#f2efe8) + ink-dark (#161513) — extremely restrained two-tone palette |
-| **Typography** | Instrument Serif (display) + Space Grotesk (UI) with extensive italic usage |
-| **Layout** | Magazine-editorial structure with numbered sections, asymmetric grids, side rails |
-| **Motion** | Slow Ken Burns on hero image (24s cycle), film-grain texture overlay |
-| **Navigation** | `mix-blend-mode: difference` masthead — seamless across light/dark sections |
+|                | With Skill                                                                              |
+| -------------- | --------------------------------------------------------------------------------------- |
+| **File**       | `demo/web-design-demo/demo2/demo2-with-skill.html`                                      |
+| **Character**  | Creates a fictional Nordic photographer "Mira Høst" with a complete visual identity     |
+| **Color**      | Paper-warm light (#f2efe8) + ink-dark (#161513) — extremely restrained two-tone palette |
+| **Typography** | Instrument Serif (display) + Space Grotesk (UI) with extensive italic usage             |
+| **Layout**     | Magazine-editorial structure with numbered sections, asymmetric grids, side rails       |
+| **Motion**     | Slow Ken Burns on hero image (24s cycle), film-grain texture overlay                    |
+| **Navigation** | `mix-blend-mode: difference` masthead — seamless across light/dark sections             |
 
 > The original Claude Design system prompt that inspired this skill is preserved at [`dist/prompt/claude-design-system-prompt.md`](../../dist/prompt/claude-design-system-prompt.md).
 
@@ -456,6 +457,7 @@ This skill is inspired by the system prompt of [Claude Design](https://www.anthr
 This project extracts and refines those core ideas into a portable skill that works with any AI coding agent — giving you Claude-Design-level design taste without the product lock-in or usage limits.
 
 Key additions beyond the original Claude Design prompt:
+
 - **Design system declaration step** — forces the AI to articulate design tokens in natural language before coding
 - **v0 draft strategy** — a concrete methodology for showing work-in-progress early
 - **Extended anti-cliché list** — additional patterns identified from real-world AI output

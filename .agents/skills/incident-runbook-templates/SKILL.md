@@ -48,6 +48,7 @@ Detailed pattern documentation lives in `references/details.md`. Read that file 
 ## Best Practices
 
 ### Do's
+
 - **Keep runbooks updated** - Review after every incident
 - **Test runbooks regularly** - Game days, chaos engineering
 - **Include rollback steps** - Always have an escape hatch
@@ -55,6 +56,7 @@ Detailed pattern documentation lives in `references/details.md`. Read that file 
 - **Link to dashboards** - Quick access during stress
 
 ### Don'ts
+
 - **Don't assume knowledge** - Write for 3 AM brain
 - **Don't skip verification** - Confirm each step worked
 - **Don't forget communication** - Keep stakeholders informed
@@ -82,6 +84,7 @@ Add a numbered checklist at the top of the runbook that mirrors the section numb
 
 ```markdown
 ## Quick Checklist
+
 - [ ] 1. Declare incident severity and open war room
 - [ ] 2. Check service health (Section 4.1)
 - [ ] 3. Check recent deployments (Section 4.1)
@@ -96,10 +99,11 @@ Runbooks rot because they're updated manually. Include a "Last Verified" date an
 
 ```markdown
 ## Runbook Metadata
-| Field | Value |
-|---|---|
-| Last verified | 2024-11-15 |
-| Owner | @platform-team |
+
+| Field          | Value                 |
+| -------------- | --------------------- |
+| Last verified  | 2024-11-15            |
+| Owner          | @platform-team        |
 | Review cadence | After every SEV1/SEV2 |
 ```
 

@@ -105,7 +105,7 @@ def build_orders_suite() -> ExpectationSuite:
 name: orders_checkpoint
 config_version: 1.0
 class_name: Checkpoint
-run_name_template: "%Y%m%d-%H%M%S-orders-validation"
+run_name_template: '%Y%m%d-%H%M%S-orders-validation'
 
 validations:
   - batch_request:
@@ -172,7 +172,7 @@ models:
           interval: 1
       - dbt_utils.at_least_one
       - dbt_utils.expression_is_true:
-          expression: "total_amount >= 0"
+          expression: 'total_amount >= 0'
 
     columns:
       - name: order_id
@@ -192,20 +192,19 @@ models:
       - name: order_status
         tests:
           - accepted_values:
-              values:
-                ["pending", "processing", "shipped", "delivered", "cancelled"]
+              values: ['pending', 'processing', 'shipped', 'delivered', 'cancelled']
 
       - name: total_amount
         tests:
           - not_null
           - dbt_utils.expression_is_true:
-              expression: ">= 0"
+              expression: '>= 0'
 
       - name: created_at
         tests:
           - not_null
           - dbt_utils.expression_is_true:
-              expression: "<= current_timestamp"
+              expression: '<= current_timestamp'
 
   - name: dim_customers
     columns:
@@ -450,3 +449,4 @@ class DataQualityPipeline:
         total_tables = len(results)
 
         report.append(f"
+```

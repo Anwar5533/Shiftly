@@ -133,8 +133,8 @@ export function CaseDetail({ id, navigate }: Props) {
               <div className="cd-media-empty">
                 <div className="serif cd-media-empty-title">提示词已就绪 · 图片待生成</div>
                 <p className="cd-media-empty-hint">
-                  这条案例的最终 prompt 已经写好，但还没有跑过一次生成。
-                  你可以把右侧 prompt 直接喂给 GPT‑Image‑2 / DALL·E 3 / Midjourney 等任意工具。
+                  这条案例的最终 prompt 已经写好，但还没有跑过一次生成。 你可以把右侧 prompt
+                  直接喂给 GPT‑Image‑2 / DALL·E 3 / Midjourney 等任意工具。
                 </p>
               </div>
             )}
@@ -248,9 +248,7 @@ export function CaseDetail({ id, navigate }: Props) {
                   </span>
                   <div className="cd-prompt-actions">
                     <button className="cd-act" onClick={onCopy}>
-                      <span aria-hidden="true">
-                        {copied ? '✓' : '⧉'}
-                      </span>
+                      <span aria-hidden="true">{copied ? '✓' : '⧉'}</span>
                       {copied ? '已复制' : '复制'}
                     </button>
                     <a
@@ -285,10 +283,7 @@ export function CaseDetail({ id, navigate }: Props) {
                       <span aria-hidden="true">↗</span>
                       GitHub
                     </a>
-                    <button
-                      className="cd-act"
-                      onClick={() => navigate({ name: 'skills' })}
-                    >
+                    <button className="cd-act" onClick={() => navigate({ name: 'skills' })}>
                       完整 Skill 文档 →
                     </button>
                   </div>
@@ -322,9 +317,9 @@ export function CaseDetail({ id, navigate }: Props) {
                   <span className="mono cd-usage-label">如何在 Skill 中复现这张图</span>
                 </div>
                 <p className="cd-usage-intro">
-                  这是一段你可以直接对带 GPT‑Image‑2 Skill 的 Agent 说的话——
-                  它会自动从 <code className="mono">references/</code> 找到对应模板，
-                  把参数填进去，渲染最终 prompt 并出图。
+                  这是一段你可以直接对带 GPT‑Image‑2 Skill 的 Agent 说的话—— 它会自动从{' '}
+                  <code className="mono">references/</code> 找到对应模板， 把参数填进去，渲染最终
+                  prompt 并出图。
                 </p>
                 <div className="cd-chat">
                   {usageDialog.map((m, i) => (
@@ -334,9 +329,21 @@ export function CaseDetail({ id, navigate }: Props) {
                 <div className="cd-usage-tips">
                   <div className="mono cd-usage-tips-label">三种运行模式</div>
                   <div className="cd-usage-tips-list">
-                    <ModeRow tag="A" name="Garden 本地" body="完整跑通：渲染 prompt → 调 generate.js → 出图落盘" />
-                    <ModeRow tag="B" name="Host-Native" body="渲染 prompt → 调用宿主自带的图像工具（ChatGPT / Cursor / Codex / Gemini）" />
-                    <ModeRow tag="C" name="Advisor 顾问" body="只渲染 prompt 给你；你拿去任意 GPT-Image-2 / DALL·E 3 / Midjourney 中执行" />
+                    <ModeRow
+                      tag="A"
+                      name="Garden 本地"
+                      body="完整跑通：渲染 prompt → 调 generate.js → 出图落盘"
+                    />
+                    <ModeRow
+                      tag="B"
+                      name="Host-Native"
+                      body="渲染 prompt → 调用宿主自带的图像工具（ChatGPT / Cursor / Codex / Gemini）"
+                    />
+                    <ModeRow
+                      tag="C"
+                      name="Advisor 顾问"
+                      body="只渲染 prompt 给你；你拿去任意 GPT-Image-2 / DALL·E 3 / Midjourney 中执行"
+                    />
                   </div>
                 </div>
               </div>
@@ -416,7 +423,10 @@ interface ChatMsg {
   body: React.ReactNode;
 }
 
-function buildUsageDialog(c: { title: string; brief: string; template_label: string; category_label: string }, tplLabel: string): ChatMsg[] {
+function buildUsageDialog(
+  c: { title: string; brief: string; template_label: string; category_label: string },
+  tplLabel: string,
+): ChatMsg[] {
   return [
     {
       role: 'user',
@@ -433,15 +443,15 @@ function buildUsageDialog(c: { title: string; brief: string; template_label: str
       role: 'agent',
       body: (
         <>
-          收到。第一步先跑 <code className="mono">scripts/check-mode.js</code> 确认运行模式，
-          然后从 <code className="mono">references/{c.category_label}/</code>
+          收到。第一步先跑 <code className="mono">scripts/check-mode.js</code> 确认运行模式， 然后从{' '}
+          <code className="mono">references/{c.category_label}/</code>
           下读取 <code className="mono">{tplLabel}.md</code> 模板。
           <br />
           <br />
           目标识别为：<em>{c.brief}</em>
           <br />
-          模板里有几个关键字段需要确认（主体 / 文案 / 配色 / 比例…），
-          这些都已经在右侧 JSON 中填好。
+          模板里有几个关键字段需要确认（主体 / 文案 / 配色 / 比例…）， 这些都已经在右侧 JSON
+          中填好。
         </>
       ),
     },
@@ -455,9 +465,17 @@ function buildUsageDialog(c: { title: string; brief: string; template_label: str
         <>
           好。三种模式分支：
           <ul>
-            <li><strong>Mode A</strong>：保存 prompt → 调 <code className="mono">generate.js</code> → 图片落到 <code className="mono">garden-gpt-image-2/image/</code>。</li>
-            <li><strong>Mode B</strong>：把 JSON 渲染成最终 prompt，调用我自己环境里的 image 工具。</li>
-            <li><strong>Mode C</strong>：只把 prompt 写好交给你，由你拿去任意 GPT-Image-2 / DALL·E 3 / Midjourney 中执行。</li>
+            <li>
+              <strong>Mode A</strong>：保存 prompt → 调 <code className="mono">generate.js</code> →
+              图片落到 <code className="mono">garden-gpt-image-2/image/</code>。
+            </li>
+            <li>
+              <strong>Mode B</strong>：把 JSON 渲染成最终 prompt，调用我自己环境里的 image 工具。
+            </li>
+            <li>
+              <strong>Mode C</strong>：只把 prompt 写好交给你，由你拿去任意 GPT-Image-2 / DALL·E 3 /
+              Midjourney 中执行。
+            </li>
           </ul>
           完成后会用一句话告诉你：当前模式、prompt 落在哪、图（如有）落在哪。
         </>

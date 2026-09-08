@@ -12,13 +12,13 @@ role: [appsec-engineer, security-engineer]
 phase: [build, review, operate]
 frameworks: [OWASP-LLM01-2025, MITRE-ATLAS]
 difficulty: advanced
-time_estimate: "30-60min"
-version: "1.0.2"
+time_estimate: '30-60min'
+version: '1.0.2'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 injection-hardened: true
-argument-hint: "[target-file-or-directory]"
+argument-hint: '[target-file-or-directory]'
 ---
 
 # Prompt Injection Vulnerability Assessment
@@ -85,6 +85,7 @@ For each user input channel identified in Step 1, determine whether an attacker 
 - **Parameter injection** — Can user-controlled values (e.g., a "name" field, a search query) that are inserted into prompts carry executable instructions?
 
 **What to look for in code:**
+
 - String concatenation or interpolation with user input going into LLM API calls
 - Prompt templates with placeholder variables filled by user data
 - Absence of input validation or sanitization before prompt assembly
@@ -104,6 +105,7 @@ For each external content source identified in Step 1, determine whether an adve
 - **API responses** — Third-party APIs whose responses are fed into the LLM context could be compromised or manipulated.
 
 **What to look for in code:**
+
 - Document loaders, web scrapers, or API clients whose output is inserted into prompts
 - RAG retrieval pipelines that do not sanitize or attribute retrieved content
 - Absence of content provenance tracking (the LLM cannot distinguish trusted instructions from retrieved content)
@@ -119,6 +121,7 @@ Assess the application against the following documented vulnerability categories
 The model is redirected from its intended task to an attacker-chosen task. For example, a summarization assistant is tricked into generating spam content instead of a summary. Assess whether the application enforces its intended purpose through structural constraints or relies solely on the system prompt's instructions.
 
 **What to evaluate:**
+
 - Can the model's task be overridden by user input that says "ignore previous instructions and instead..."?
 - Does the application validate that the model's output conforms to the expected task?
 - Are there structural enforcement mechanisms beyond prompt-level instructions?
@@ -128,6 +131,7 @@ The model is redirected from its intended task to an attacker-chosen task. For e
 The attacker extracts the system prompt, revealing proprietary instructions, business logic, or security-relevant configuration. System prompts often contain information the application developer considers confidential.
 
 **What to evaluate:**
+
 - Does the application rely on system prompt secrecy for any security property?
 - Are there output filters that detect and block system prompt content in responses?
 - Does the system prompt contain sensitive information (API keys, internal URLs, business rules) that would cause harm if disclosed?
@@ -137,6 +141,7 @@ The attacker extracts the system prompt, revealing proprietary instructions, bus
 The attacker causes the model to invoke tools or perform actions that should not be available given the user's authorization level. This is especially critical in agentic applications where the LLM has access to tools with side effects.
 
 **What to evaluate:**
+
 - Does the LLM have access to tools or capabilities beyond what is needed for its intended use case?
 - Are tool invocations gated by authorization checks independent of the LLM's decision?
 - Can the model be instructed to call a tool with parameters the user should not be able to specify?
@@ -147,6 +152,7 @@ The attacker causes the model to invoke tools or perform actions that should not
 The attacker causes the model to include sensitive data in its output or to transmit data to an attacker-controlled destination. This includes rendering markdown images with data-encoded URLs, generating links the user might click, or invoking tools that send data externally.
 
 **What to evaluate:**
+
 - Can the model render markdown images or links (a common exfiltration vector via URL-encoded data)?
 - Does the model have access to sensitive data (PII, credentials, internal documents) that could be included in responses?
 - Can tool calls be used to send data to arbitrary external endpoints?
@@ -157,6 +163,7 @@ The attacker causes the model to include sensitive data in its output or to tran
 The attacker bypasses the model's safety guidelines or the application's behavioral constraints. While jailbreaking the base model is partly a model-provider concern, application-level jailbreaking (circumventing application-specific rules) is the application developer's responsibility.
 
 **What to evaluate:**
+
 - Does the application add behavioral constraints beyond the base model's safety training?
 - Are those constraints enforced only through prompt instructions or also through output validation?
 - Does the application handle edge cases where the model might produce disallowed content?
@@ -222,13 +229,13 @@ Compile findings into a structured report using the classification and output fo
 
 Each finding should be assigned a severity based on potential impact:
 
-| Severity | Criteria |
-|----------|----------|
-| **Critical** | Attacker can exfiltrate sensitive data, escalate privileges to perform unauthorized actions, or fully hijack the application's behavior via external content in a RAG pipeline. Exploitation requires no special access beyond normal application use. |
-| **High** | Attacker can reliably override the application's intended behavior, extract the system prompt, or cause the model to invoke unintended tools. Some user interaction may be required. |
-| **Medium** | Attacker can partially influence model behavior, extract non-sensitive system prompt fragments, or cause the model to produce off-task output. Exploitation is inconsistent or requires specific conditions. |
-| **Low** | Minor deviations from intended behavior with limited security impact. The model can be coaxed into slightly off-topic responses but cannot be made to perform harmful actions. |
-| **Informational** | Defense-in-depth recommendations. No demonstrated vulnerability but an identified gap in defensive layering. |
+| Severity          | Criteria                                                                                                                                                                                                                                               |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Critical**      | Attacker can exfiltrate sensitive data, escalate privileges to perform unauthorized actions, or fully hijack the application's behavior via external content in a RAG pipeline. Exploitation requires no special access beyond normal application use. |
+| **High**          | Attacker can reliably override the application's intended behavior, extract the system prompt, or cause the model to invoke unintended tools. Some user interaction may be required.                                                                   |
+| **Medium**        | Attacker can partially influence model behavior, extract non-sensitive system prompt fragments, or cause the model to produce off-task output. Exploitation is inconsistent or requires specific conditions.                                           |
+| **Low**           | Minor deviations from intended behavior with limited security impact. The model can be coaxed into slightly off-topic responses but cannot be made to perform harmful actions.                                                                         |
+| **Informational** | Defense-in-depth recommendations. No demonstrated vulnerability but an identified gap in defensive layering.                                                                                                                                           |
 
 ### Output Format
 
@@ -266,10 +273,10 @@ Each finding should be assigned a severity based on potential impact:
 
 ## Framework Reference
 
-| Framework | Identifier | Description |
-|-----------|-----------|-------------|
-| OWASP Top 10 for LLMs (2025) | LLM01 | Prompt Injection — Direct and indirect manipulation of LLM behavior through crafted input |
-| MITRE ATLAS | AML.T0051 | LLM Prompt Injection — Techniques for crafting inputs that cause LLMs to deviate from intended behavior |
+| Framework                    | Identifier | Description                                                                                             |
+| ---------------------------- | ---------- | ------------------------------------------------------------------------------------------------------- |
+| OWASP Top 10 for LLMs (2025) | LLM01      | Prompt Injection — Direct and indirect manipulation of LLM behavior through crafted input               |
+| MITRE ATLAS                  | AML.T0051  | LLM Prompt Injection — Techniques for crafting inputs that cause LLMs to deviate from intended behavior |
 
 ---
 

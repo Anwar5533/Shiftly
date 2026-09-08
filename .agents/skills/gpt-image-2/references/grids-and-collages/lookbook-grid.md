@@ -73,13 +73,25 @@
     }
   },
   "outfits": [
-    {"day": 1, "label": "MON", "style": "{argument name=\"day 1\" default=\"通勤白衬衫 + 米色西裤\"}"},
-    {"day": 2, "label": "TUE", "style": "{argument name=\"day 2\" default=\"针织开衫 + 牛仔裤\"}"},
-    {"day": 3, "label": "WED", "style": "{argument name=\"day 3\" default=\"连衣裙 + 平底鞋\"}"},
-    {"day": 4, "label": "THU", "style": "{argument name=\"day 4\" default=\"运动卫衣 + 短裙\"}"},
-    {"day": 5, "label": "FRI", "style": "{argument name=\"day 5\" default=\"皮衣 + 黑直筒裤\"}"},
-    {"day": 6, "label": "SAT", "style": "{argument name=\"day 6\" default=\"棉麻衬衫 + 阔腿裤\"}"},
-    {"day": 7, "label": "SUN", "style": "{argument name=\"day 7\" default=\"卫衣 + 运动短裤\"}"}
+    {
+      "day": 1,
+      "label": "MON",
+      "style": "{argument name=\"day 1\" default=\"通勤白衬衫 + 米色西裤\"}"
+    },
+    {
+      "day": 2,
+      "label": "TUE",
+      "style": "{argument name=\"day 2\" default=\"针织开衫 + 牛仔裤\"}"
+    },
+    { "day": 3, "label": "WED", "style": "{argument name=\"day 3\" default=\"连衣裙 + 平底鞋\"}" },
+    { "day": 4, "label": "THU", "style": "{argument name=\"day 4\" default=\"运动卫衣 + 短裙\"}" },
+    { "day": 5, "label": "FRI", "style": "{argument name=\"day 5\" default=\"皮衣 + 黑直筒裤\"}" },
+    {
+      "day": 6,
+      "label": "SAT",
+      "style": "{argument name=\"day 6\" default=\"棉麻衬衫 + 阔腿裤\"}"
+    },
+    { "day": 7, "label": "SUN", "style": "{argument name=\"day 7\" default=\"卫衣 + 运动短裤\"}" }
   ],
   "style": {
     "art_style": "{argument name=\"art style\" default=\"日杂时尚摄影 + 米色背景\"}",
@@ -90,18 +102,8 @@
   },
   "aspect_ratio": "{argument name=\"aspect ratio\" default=\"3:4\"}",
   "constraints": {
-    "must_keep": [
-      "7 格里是同一人",
-      "穿搭风格符合一周节奏",
-      "色板严格统一",
-      "标签字体一致"
-    ],
-    "avoid": [
-      "7 格里像不同人",
-      "色板出现高饱和荧光色",
-      "穿搭风格漂移到完全不搭",
-      "字体超过 2 种"
-    ]
+    "must_keep": ["7 格里是同一人", "穿搭风格符合一周节奏", "色板严格统一", "标签字体一致"],
+    "avoid": ["7 格里像不同人", "色板出现高饱和荧光色", "穿搭风格漂移到完全不搭", "字体超过 2 种"]
   }
 }
 ```
@@ -133,15 +135,15 @@
     "panel_count": 9
   },
   "outfits": [
-    {"label": "1", "style": "8 杯水"},
-    {"label": "2", "style": "10 分钟拉伸"},
-    {"label": "3", "style": "晒 15 分钟太阳"},
-    {"label": "4", "style": "深呼吸"},
-    {"label": "5", "style": "记 3 件感谢"},
-    {"label": "6", "style": "听一首喜欢的歌"},
-    {"label": "7", "style": "和家人通话"},
-    {"label": "8", "style": "10 页书"},
-    {"label": "9", "style": "11 点睡觉"}
+    { "label": "1", "style": "8 杯水" },
+    { "label": "2", "style": "10 分钟拉伸" },
+    { "label": "3", "style": "晒 15 分钟太阳" },
+    { "label": "4", "style": "深呼吸" },
+    { "label": "5", "style": "记 3 件感谢" },
+    { "label": "6", "style": "听一首喜欢的歌" },
+    { "label": "7", "style": "和家人通话" },
+    { "label": "8", "style": "10 页书" },
+    { "label": "9", "style": "11 点睡觉" }
   ],
   "style": {
     "art_style": "极简插画 + 柔色"

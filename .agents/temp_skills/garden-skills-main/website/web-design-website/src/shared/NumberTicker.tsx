@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 interface Props {
   to: number;
   from?: number;
-  duration?: number;       // ms
+  duration?: number; // ms
   decimals?: number;
   prefix?: string;
   suffix?: string;
@@ -72,7 +72,9 @@ export function NumberTicker({
       className={className}
       style={{ fontVariantNumeric: 'tabular-nums', display: 'inline-block' }}
     >
-      {prefix}{display}{suffix}
+      {prefix}
+      {display}
+      {suffix}
     </span>
   );
 }

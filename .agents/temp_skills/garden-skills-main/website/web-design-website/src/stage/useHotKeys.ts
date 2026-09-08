@@ -71,6 +71,7 @@ export function useHotKeys() {
     };
     // capture 阶段：抢在 video / audio 原生快捷键之前
     window.addEventListener('keydown', onKey, { capture: true });
-    return () => window.removeEventListener('keydown', onKey, { capture: true } as EventListenerOptions);
+    return () =>
+      window.removeEventListener('keydown', onKey, { capture: true } as EventListenerOptions);
   }, []);
 }

@@ -40,10 +40,7 @@ Set up comprehensive debugging environments:
         "NODE_OPTIONS": "--max-old-space-size=4096"
       },
       "sourceMaps": true,
-      "resolveSourceMapLocations": [
-        "${workspaceFolder}/**",
-        "!**/node_modules/**"
-      ],
+      "resolveSourceMapLocations": ["${workspaceFolder}/**", "!**/node_modules/**"],
       "skipFiles": ["<node_internals>/**", "node_modules/**"],
       "console": "integratedTerminal",
       "outputCapture": "std"
@@ -64,12 +61,7 @@ Set up comprehensive debugging environments:
       "type": "node",
       "request": "launch",
       "program": "${workspaceFolder}/node_modules/.bin/jest",
-      "args": [
-        "--runInBand",
-        "--no-cache",
-        "--watchAll=false",
-        "--detectOpenHandles"
-      ],
+      "args": ["--runInBand", "--no-cache", "--watchAll=false", "--detectOpenHandles"],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "env": {
@@ -108,7 +100,7 @@ class DebugHelper {
   }
 
   setupDevTools() {
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       // Add debug namespace
       window.DEBUG = window.DEBUG || {};
 
@@ -122,17 +114,13 @@ class DebugHelper {
         performance.mark(`${componentName}-start`);
         return () => {
           performance.mark(`${componentName}-end`);
-          performance.measure(
-            componentName,
-            `${componentName}-start`,
-            `${componentName}-end`,
-          );
+          performance.measure(componentName, `${componentName}-start`, `${componentName}-end`);
         };
       };
 
       // Memory debugging
       window.DEBUG.heapSnapshot = async () => {
-        if ("memory" in performance) {
+        if ('memory' in performance) {
           const snapshot = await performance.measureUserAgentSpecificMemory();
           console.table(snapshot);
           return snapshot;
@@ -144,24 +132,19 @@ class DebugHelper {
   setupConsoleHelpers() {
     // Enhanced console logging
     const styles = {
-      error: "color: #ff0000; font-weight: bold;",
-      warn: "color: #ff9800; font-weight: bold;",
-      info: "color: #2196f3; font-weight: bold;",
-      debug: "color: #4caf50; font-weight: bold;",
-      trace: "color: #9c27b0; font-weight: bold;",
+      error: 'color: #ff0000; font-weight: bold;',
+      warn: 'color: #ff9800; font-weight: bold;',
+      info: 'color: #2196f3; font-weight: bold;',
+      debug: 'color: #4caf50; font-weight: bold;',
+      trace: 'color: #9c27b0; font-weight: bold;',
     };
 
     Object.entries(styles).forEach(([level, style]) => {
       const original = console[level];
       console[level] = function (...args) {
-        if (process.env.NODE_ENV === "development") {
+        if (process.env.NODE_ENV === 'development') {
           const timestamp = new Date().toISOString();
-          original.call(
-            console,
-            `%c[${timestamp}] ${level.toUpperCase()}:`,
-            style,
-            ...args,
-          );
+          original.call(console, `%c[${timestamp}] ${level.toUpperCase()}:`, style, ...args);
         }
       };
     });
@@ -169,13 +152,13 @@ class DebugHelper {
 }
 
 // React DevTools integration
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === 'development') {
   // Expose React internals
   window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = {
     ...window.__REACT_DEVTOOLS_GLOBAL_HOOK__,
     onCommitFiberRoot: (id, root) => {
       // Custom commit logging
-      console.debug("React commit:", root);
+      console.debug('React commit:', root);
     },
   };
 }
@@ -294,16 +277,12 @@ Implement comprehensive distributed tracing:
 
 ```javascript
 // tracing.js
-const { NodeSDK } = require("@opentelemetry/sdk-node");
-const {
-  getNodeAutoInstrumentations,
-} = require("@opentelemetry/auto-instrumentations-node");
-const { Resource } = require("@opentelemetry/resources");
-const {
-  SemanticResourceAttributes,
-} = require("@opentelemetry/semantic-conventions");
-const { JaegerExporter } = require("@opentelemetry/exporter-jaeger");
-const { BatchSpanProcessor } = require("@opentelemetry/sdk-trace-base");
+const { NodeSDK } = require('@opentelemetry/sdk-node');
+const { getNodeAutoInstrumentations } = require('@opentelemetry/auto-instrumentations-node');
+const { Resource } = require('@opentelemetry/resources');
+const { SemanticResourceAttributes } = require('@opentelemetry/semantic-conventions');
+const { JaegerExporter } = require('@opentelemetry/exporter-jaeger');
+const { BatchSpanProcessor } = require('@opentelemetry/sdk-trace-base');
 
 class TracingSystem {
   constructor(serviceName) {
@@ -313,17 +292,14 @@ class TracingSystem {
 
   initialize() {
     const jaegerExporter = new JaegerExporter({
-      endpoint:
-        process.env.JAEGER_ENDPOINT || "http://localhost:14268/api/traces",
+      endpoint: process.env.JAEGER_ENDPOINT || 'http://localhost:14268/api/traces',
     });
 
     const resource = Resource.default().merge(
       new Resource({
         [SemanticResourceAttributes.SERVICE_NAME]: this.serviceName,
-        [SemanticResourceAttributes.SERVICE_VERSION]:
-          process.env.SERVICE_VERSION || "1.0.0",
-        [SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT]:
-          process.env.NODE_ENV || "development",
+        [SemanticResourceAttributes.SERVICE_VERSION]: process.env.SERVICE_VERSION || '1.0.0',
+        [SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT]: process.env.NODE_ENV || 'development',
       }),
     );
 
@@ -332,24 +308,21 @@ class TracingSystem {
       spanProcessor: new BatchSpanProcessor(jaegerExporter),
       instrumentations: [
         getNodeAutoInstrumentations({
-          "@opentelemetry/instrumentation-fs": {
+          '@opentelemetry/instrumentation-fs': {
             enabled: false, // Too noisy
           },
-          "@opentelemetry/instrumentation-http": {
+          '@opentelemetry/instrumentation-http': {
             requestHook: (span, request) => {
-              span.setAttribute(
-                "http.request.body",
-                JSON.stringify(request.body),
-              );
+              span.setAttribute('http.request.body', JSON.stringify(request.body));
             },
             responseHook: (span, response) => {
-              span.setAttribute("http.response.size", response.length);
+              span.setAttribute('http.response.size', response.length);
             },
           },
-          "@opentelemetry/instrumentation-express": {
+          '@opentelemetry/instrumentation-express': {
             requestHook: (span, req) => {
-              span.setAttribute("user.id", req.user?.id);
-              span.setAttribute("session.id", req.session?.id);
+              span.setAttribute('user.id', req.user?.id);
+              span.setAttribute('session.id', req.session?.id);
             },
           },
         }),
@@ -359,11 +332,11 @@ class TracingSystem {
     this.sdk.start();
 
     // Graceful shutdown
-    process.on("SIGTERM", () => {
+    process.on('SIGTERM', () => {
       this.sdk
         .shutdown()
-        .then(() => console.log("Tracing terminated"))
-        .catch((error) => console.error("Error terminating tracing", error))
+        .then(() => console.log('Tracing terminated'))
+        .catch((error) => console.error('Error terminating tracing', error))
         .finally(() => process.exit(0));
     });
   }
@@ -400,7 +373,7 @@ class TracingSystem {
 // Distributed tracing middleware
 class TracingMiddleware {
   constructor() {
-    this.tracer = trace.getTracer("http-middleware");
+    this.tracer = trace.getTracer('http-middleware');
   }
 
   express() {
@@ -408,13 +381,13 @@ class TracingMiddleware {
       const span = this.tracer.startSpan(`${req.method} ${req.path}`, {
         kind: SpanKind.SERVER,
         attributes: {
-          "http.method": req.method,
-          "http.url": req.url,
-          "http.target": req.path,
-          "http.host": req.hostname,
-          "http.scheme": req.protocol,
-          "http.user_agent": req.get("user-agent"),
-          "http.request_content_length": req.get("content-length"),
+          'http.method': req.method,
+          'http.url': req.url,
+          'http.target': req.path,
+          'http.host': req.hostname,
+          'http.scheme': req.protocol,
+          'http.user_agent': req.get('user-agent'),
+          'http.request_content_length': req.get('content-length'),
         },
       });
 
@@ -423,16 +396,13 @@ class TracingMiddleware {
       req.traceId = span.spanContext().traceId;
 
       // Add trace ID to response headers
-      res.setHeader("X-Trace-Id", req.traceId);
+      res.setHeader('X-Trace-Id', req.traceId);
 
       // Override res.end to capture response data
       const originalEnd = res.end;
       res.end = function (...args) {
-        span.setAttribute("http.status_code", res.statusCode);
-        span.setAttribute(
-          "http.response_content_length",
-          res.get("content-length"),
-        );
+        span.setAttribute('http.status_code', res.statusCode);
+        span.setAttribute('http.response_content_length', res.get('content-length'));
 
         if (res.statusCode >= 400) {
           span.setStatus({
@@ -459,13 +429,13 @@ Implement structured debug logging:
 
 ```javascript
 // debug-logger.js
-const winston = require("winston");
-const { ElasticsearchTransport } = require("winston-elasticsearch");
+const winston = require('winston');
+const { ElasticsearchTransport } = require('winston-elasticsearch');
 
 class DebugLogger {
   constructor(options = {}) {
-    this.service = options.service || "app";
-    this.level = process.env.LOG_LEVEL || "debug";
+    this.service = options.service || 'app';
+    this.level = process.env.LOG_LEVEL || 'debug';
     this.logger = this.createLogger();
   }
 
@@ -477,7 +447,7 @@ class DebugLogger {
       winston.format.json(),
     ];
 
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.NODE_ENV === 'development') {
       formats.push(winston.format.colorize());
       formats.push(winston.format.printf(this.devFormat));
     }
@@ -495,7 +465,7 @@ class DebugLogger {
       transports.push(
         new winston.transports.File({
           filename: process.env.DEBUG_LOG_FILE,
-          level: "debug",
+          level: 'debug',
           maxsize: 10485760, // 10MB
           maxFiles: 5,
         }),
@@ -506,7 +476,7 @@ class DebugLogger {
     if (process.env.ELASTICSEARCH_URL) {
       transports.push(
         new ElasticsearchTransport({
-          level: "info",
+          level: 'info',
           clientOpts: {
             node: process.env.ELASTICSEARCH_URL,
           },
@@ -521,7 +491,7 @@ class DebugLogger {
       defaultMeta: {
         service: this.service,
         environment: process.env.NODE_ENV,
-        hostname: require("os").hostname(),
+        hostname: require('os').hostname(),
         pid: process.pid,
       },
       transports,
@@ -530,9 +500,7 @@ class DebugLogger {
 
   devFormat(info) {
     const { timestamp, level, message, ...meta } = info;
-    const metaString = Object.keys(meta).length
-      ? "\n" + JSON.stringify(meta, null, 2)
-      : "";
+    const metaString = Object.keys(meta).length ? '\n' + JSON.stringify(meta, null, 2) : '';
 
     return `${timestamp} [${level}]: ${message}${metaString}`;
   }
@@ -555,7 +523,7 @@ class DebugLogger {
 
     this.logger.debug(`Timing: ${label}`, {
       duration,
-      unit: "ms",
+      unit: 'ms',
     });
 
     return result;
@@ -563,7 +531,7 @@ class DebugLogger {
 
   memory() {
     const usage = process.memoryUsage();
-    this.logger.debug("Memory usage", {
+    this.logger.debug('Memory usage', {
       rss: `${Math.round(usage.rss / 1024 / 1024)}MB`,
       heapTotal: `${Math.round(usage.heapTotal / 1024 / 1024)}MB`,
       heapUsed: `${Math.round(usage.heapUsed / 1024 / 1024)}MB`,
@@ -625,23 +593,23 @@ Set up source map support for production debugging:
 ```javascript
 // webpack.config.js
 module.exports = {
-  mode: "production",
-  devtool: "hidden-source-map", // Generate source maps but don't reference them
+  mode: 'production',
+  devtool: 'hidden-source-map', // Generate source maps but don't reference them
 
   output: {
-    filename: "[name].[contenthash].js",
-    sourceMapFilename: "sourcemaps/[name].[contenthash].js.map",
+    filename: '[name].[contenthash].js',
+    sourceMapFilename: 'sourcemaps/[name].[contenthash].js.map',
   },
 
   plugins: [
     // Upload source maps to error tracking service
     new SentryWebpackPlugin({
       authToken: process.env.SENTRY_AUTH_TOKEN,
-      org: "your-org",
-      project: "your-project",
-      include: "./dist",
-      ignore: ["node_modules"],
-      urlPrefix: "~/",
+      org: 'your-org',
+      project: 'your-project',
+      include: './dist',
+      ignore: ['node_modules'],
+      urlPrefix: '~/',
       release: process.env.RELEASE_VERSION,
       deleteAfterCompile: true,
     }),
@@ -649,12 +617,12 @@ module.exports = {
 };
 
 // Runtime source map support
-require("source-map-support").install({
-  environment: "node",
+require('source-map-support').install({
+  environment: 'node',
   handleUncaughtExceptions: false,
   retrieveSourceMap(source) {
     // Custom source map retrieval for production
-    if (process.env.NODE_ENV === "production") {
+    if (process.env.NODE_ENV === 'production') {
       const sourceMapUrl = getSourceMapUrl(source);
       if (sourceMapUrl) {
         const map = fetchSourceMap(sourceMapUrl);
@@ -679,7 +647,7 @@ Error.prepareStackTrace = (error, stack) => {
     const original = getOriginalPosition(fileName, lineNumber, columnNumber);
 
     return {
-      function: frame.getFunctionName() || "<anonymous>",
+      function: frame.getFunctionName() || '<anonymous>',
       file: original?.source || fileName,
       line: original?.line || lineNumber,
       column: original?.column || columnNumber,
@@ -703,13 +671,13 @@ Implement performance profiling tools:
 
 ```javascript
 // performance-profiler.js
-const v8Profiler = require("v8-profiler-next");
-const fs = require("fs");
-const path = require("path");
+const v8Profiler = require('v8-profiler-next');
+const fs = require('fs');
+const path = require('path');
 
 class PerformanceProfiler {
   constructor(options = {}) {
-    this.outputDir = options.outputDir || "./profiles";
+    this.outputDir = options.outputDir || './profiles';
     this.profiles = new Map();
 
     // Ensure output directory exists
@@ -723,7 +691,7 @@ class PerformanceProfiler {
     v8Profiler.startProfiling(title, true);
 
     this.profiles.set(id, {
-      type: "cpu",
+      type: 'cpu',
       title,
       startTime: Date.now(),
     });
@@ -733,7 +701,7 @@ class PerformanceProfiler {
 
   stopCPUProfile(id) {
     const profileInfo = this.profiles.get(id);
-    if (!profileInfo || profileInfo.type !== "cpu") {
+    if (!profileInfo || profileInfo.type !== 'cpu') {
       throw new Error(`CPU profile ${id} not found`);
     }
 
@@ -761,7 +729,7 @@ class PerformanceProfiler {
     };
   }
 
-  takeHeapSnapshot(tag = "") {
+  takeHeapSnapshot(tag = '') {
     const fileName = `heap-${tag}-${Date.now()}.heapsnapshot`;
     const filePath = path.join(this.outputDir, fileName);
 
@@ -779,7 +747,7 @@ class PerformanceProfiler {
     return filePath;
   }
 
-  measureFunction(fn, name = "anonymous") {
+  measureFunction(fn, name = 'anonymous') {
     const measurements = {
       name,
       executions: 0,
@@ -829,7 +797,7 @@ class PerformanceProfiler {
       },
 
       get(target, prop) {
-        if (prop === "measurements") {
+        if (prop === 'measurements') {
           return measurements;
         }
         return target[prop];
@@ -871,14 +839,14 @@ class MemoryLeakDetector {
     if (this.snapshots.length >= 5) {
       const trend = this.calculateTrend();
       if (trend.increasing && trend.delta > this.threshold) {
-        console.error("Potential memory leak detected!", {
+        console.error('Potential memory leak detected!', {
           trend,
           current: snapshot,
         });
 
         // Take heap snapshot for analysis
         const profiler = new PerformanceProfiler();
-        profiler.takeHeapSnapshot("leak-detection");
+        profiler.takeHeapSnapshot('leak-detection');
       }
     }
   }
@@ -889,9 +857,7 @@ class MemoryLeakDetector {
     const last = recent[recent.length - 1];
 
     const delta = last.heapUsed - first.heapUsed;
-    const increasing = recent.every(
-      (s, i) => i === 0 || s.heapUsed > recent[i - 1].heapUsed,
-    );
+    const increasing = recent.every((s, i) => i === 0 || s.heapUsed > recent[i - 1].heapUsed);
 
     return {
       increasing,
@@ -924,24 +890,24 @@ class DebugConfiguration {
 
       // Feature flags
       features: {
-        remoteDebugging: process.env.ENABLE_REMOTE_DEBUG === "true",
-        tracing: process.env.ENABLE_TRACING === "true",
-        profiling: process.env.ENABLE_PROFILING === "true",
-        memoryMonitoring: process.env.ENABLE_MEMORY_MONITORING === "true",
+        remoteDebugging: process.env.ENABLE_REMOTE_DEBUG === 'true',
+        tracing: process.env.ENABLE_TRACING === 'true',
+        profiling: process.env.ENABLE_PROFILING === 'true',
+        memoryMonitoring: process.env.ENABLE_MEMORY_MONITORING === 'true',
       },
 
       // Debug endpoints
       endpoints: {
-        jaeger: process.env.JAEGER_ENDPOINT || "http://localhost:14268",
-        elasticsearch: process.env.ELASTICSEARCH_URL || "http://localhost:9200",
+        jaeger: process.env.JAEGER_ENDPOINT || 'http://localhost:14268',
+        elasticsearch: process.env.ELASTICSEARCH_URL || 'http://localhost:9200',
         sentry: process.env.SENTRY_DSN,
       },
 
       // Sampling rates
       sampling: {
-        traces: parseFloat(process.env.TRACE_SAMPLING_RATE || "0.1"),
-        profiles: parseFloat(process.env.PROFILE_SAMPLING_RATE || "0.01"),
-        logs: parseFloat(process.env.LOG_SAMPLING_RATE || "1.0"),
+        traces: parseFloat(process.env.TRACE_SAMPLING_RATE || '0.1'),
+        profiles: parseFloat(process.env.PROFILE_SAMPLING_RATE || '0.01'),
+        logs: parseFloat(process.env.LOG_SAMPLING_RATE || '1.0'),
       },
     };
   }
@@ -951,7 +917,7 @@ class DebugConfiguration {
   }
 
   getLevel() {
-    const level = process.env.DEBUG_LEVEL || "info";
+    const level = process.env.DEBUG_LEVEL || 'info';
     return this.config.levels[level] || 2;
   }
 
@@ -966,31 +932,31 @@ class DebugMiddlewareFactory {
   static create(app, config) {
     const middlewares = [];
 
-    if (config.isEnabled("tracing")) {
+    if (config.isEnabled('tracing')) {
       const tracingMiddleware = new TracingMiddleware();
       middlewares.push(tracingMiddleware.express());
     }
 
-    if (config.isEnabled("profiling")) {
+    if (config.isEnabled('profiling')) {
       middlewares.push(this.profilingMiddleware());
     }
 
-    if (config.isEnabled("memoryMonitoring")) {
+    if (config.isEnabled('memoryMonitoring')) {
       const detector = new MemoryLeakDetector();
       detector.start();
     }
 
     // Debug routes
-    if (process.env.NODE_ENV === "development") {
-      app.get("/debug/heap", (req, res) => {
+    if (process.env.NODE_ENV === 'development') {
+      app.get('/debug/heap', (req, res) => {
         const profiler = new PerformanceProfiler();
-        const path = profiler.takeHeapSnapshot("manual");
+        const path = profiler.takeHeapSnapshot('manual');
         res.json({ heapSnapshot: path });
       });
 
-      app.get("/debug/profile", async (req, res) => {
+      app.get('/debug/profile', async (req, res) => {
         const profiler = new PerformanceProfiler();
-        const id = profiler.startCPUProfile("manual");
+        const id = profiler.startCPUProfile('manual');
 
         setTimeout(() => {
           const result = profiler.stopCPUProfile(id);
@@ -998,7 +964,7 @@ class DebugMiddlewareFactory {
         }, 10000);
       });
 
-      app.get("/debug/metrics", (req, res) => {
+      app.get('/debug/metrics', (req, res) => {
         res.json({
           memory: process.memoryUsage(),
           cpu: process.cpuUsage(),
@@ -1018,7 +984,7 @@ class DebugMiddlewareFactory {
         // 1% sampling
         const id = profiler.startCPUProfile(`request-${Date.now()}`);
 
-        res.on("finish", () => {
+        res.on('finish', () => {
           profiler.stopCPUProfile(id);
         });
       }
@@ -1039,9 +1005,9 @@ Enable safe production debugging:
 // production-debug.js
 class ProductionDebugger {
   constructor(options = {}) {
-    this.enabled = process.env.PRODUCTION_DEBUG === "true";
+    this.enabled = process.env.PRODUCTION_DEBUG === 'true';
     this.authToken = process.env.DEBUG_AUTH_TOKEN;
-    this.allowedIPs = (process.env.DEBUG_ALLOWED_IPS || "").split(",");
+    this.allowedIPs = (process.env.DEBUG_ALLOWED_IPS || '').split(',');
   }
 
   middleware() {
@@ -1051,7 +1017,7 @@ class ProductionDebugger {
       }
 
       // Check authorization
-      const token = req.headers["x-debug-token"];
+      const token = req.headers['x-debug-token'];
       const ip = req.ip || req.connection.remoteAddress;
 
       if (token !== this.authToken || !this.allowedIPs.includes(ip)) {
@@ -1059,7 +1025,7 @@ class ProductionDebugger {
       }
 
       // Add debug headers
-      res.setHeader("X-Debug-Enabled", "true");
+      res.setHeader('X-Debug-Enabled', 'true');
 
       // Enable debug mode for this request
       req.debugMode = true;
@@ -1067,7 +1033,7 @@ class ProductionDebugger {
 
       // Override console for this request
       const originalConsole = { ...console };
-      ["log", "debug", "info", "warn", "error"].forEach((method) => {
+      ['log', 'debug', 'info', 'warn', 'error'].forEach((method) => {
         console[method] = (...args) => {
           req.debugContext.log(req.id, method, args[0], args.slice(1));
           originalConsole[method](...args);
@@ -1075,13 +1041,13 @@ class ProductionDebugger {
       });
 
       // Restore console on response
-      res.on("finish", () => {
+      res.on('finish', () => {
         Object.assign(console, originalConsole);
 
         // Send debug info if requested
-        if (req.headers["x-debug-response"] === "true") {
+        if (req.headers['x-debug-response'] === 'true') {
           const debugInfo = req.debugContext.export(req.id);
-          res.setHeader("X-Debug-Info", JSON.stringify(debugInfo));
+          res.setHeader('X-Debug-Info', JSON.stringify(debugInfo));
         }
       });
 
@@ -1103,7 +1069,7 @@ class ConditionalBreakpoint {
       this.hits++;
 
       // Log breakpoint hit
-      console.debug("Conditional breakpoint hit", {
+      console.debug('Conditional breakpoint hit', {
         condition: this.condition.toString(),
         hits: this.hits,
         context,
@@ -1115,7 +1081,7 @@ class ConditionalBreakpoint {
       }
 
       // In production, don't actually break
-      if (process.env.NODE_ENV === "production") {
+      if (process.env.NODE_ENV === 'production') {
         // Take snapshot instead
         const profiler = new PerformanceProfiler();
         profiler.takeHeapSnapshot(`breakpoint-${Date.now()}`);
@@ -1132,13 +1098,13 @@ const breakpoints = new Map();
 
 // Set conditional breakpoint
 breakpoints.set(
-  "high-memory",
+  'high-memory',
   new ConditionalBreakpoint(
     (context) => context.memoryUsage > 500 * 1024 * 1024, // 500MB
     (context) => {
-      console.error("High memory usage detected", context);
+      console.error('High memory usage detected', context);
       // Send alert
-      alerting.send("high-memory", context);
+      alerting.send('high-memory', context);
     },
   ),
 );
@@ -1234,26 +1200,26 @@ Create a debug dashboard for monitoring:
 
     <script>
       // WebSocket connection for real-time updates
-      const ws = new WebSocket("ws://localhost:9231/debug");
+      const ws = new WebSocket('ws://localhost:9231/debug');
 
       ws.onmessage = (event) => {
         const data = JSON.parse(event.data);
 
         switch (data.type) {
-          case "metrics":
+          case 'metrics':
             updateMetrics(data.payload);
             break;
-          case "trace":
+          case 'trace':
             addTrace(data.payload);
             break;
-          case "log":
+          case 'log':
             addLog(data.payload);
             break;
         }
       };
 
       function updateMetrics(metrics) {
-        const container = document.getElementById("metrics");
+        const container = document.getElementById('metrics');
         container.innerHTML = `
                 <div>CPU: ${metrics.cpu.percent}%</div>
                 <div>Memory: ${metrics.memory.used}MB / ${metrics.memory.total}MB</div>
@@ -1263,9 +1229,9 @@ Create a debug dashboard for monitoring:
       }
 
       function addTrace(trace) {
-        const container = document.getElementById("traces");
-        const entry = document.createElement("div");
-        entry.className = "log-entry";
+        const container = document.getElementById('traces');
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
         entry.innerHTML = `
                 <span>${trace.timestamp}</span>
                 <span>${trace.method} ${trace.path}</span>
@@ -1276,8 +1242,8 @@ Create a debug dashboard for monitoring:
       }
 
       function addLog(log) {
-        const container = document.getElementById("logs");
-        const entry = document.createElement("div");
+        const container = document.getElementById('logs');
+        const entry = document.createElement('div');
         entry.className = `log-entry ${log.level}`;
         entry.innerHTML = `
                 <span>${log.timestamp}</span>
@@ -1293,9 +1259,7 @@ Create a debug dashboard for monitoring:
       }
 
       // Memory usage chart
-      const memoryChart = document
-        .getElementById("memoryChart")
-        .getContext("2d");
+      const memoryChart = document.getElementById('memoryChart').getContext('2d');
       const memoryData = [];
 
       function updateMemoryChart(usage) {

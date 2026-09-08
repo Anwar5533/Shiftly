@@ -47,8 +47,8 @@
 
 ## 目录
 
-| 安装 | 使用 | 参与共建 |
-|---|---|---|
+| 安装                                                                                                                                                                                                                                                                | 使用                                                 | 参与共建                                            |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- | --------------------------------------------------- |
 | [安装](#安装)<br>[`skills` CLI（npx）](#方式-a--skills-clinpx)<br>[Claude Code 插件市场](#方式-b--claude-code-插件市场)<br>[Releases 钉版本 `.zip`](#方式-c--releases-钉版本-zip)<br>[手动拷贝](#方式-d--手动拷贝到项目)<br>[Git Submodule](#方式-e--git-submodule) | [兼容性](#兼容性)<br>[什么是 Skill？](#什么是-skill) | [贡献](#贡献)<br>[致谢](#致谢)<br>[许可证](#许可证) |
 
 ---
@@ -269,7 +269,6 @@
 
 ---
 
-
 ### [`kb-retriever`](./skills/kb-retriever)
 
 ![Kb Retriever Skill](https://cdn.jsdelivr.net/gh/ConardLi/assets@main/imgs/kb-retriever-skill.webp)
@@ -291,18 +290,17 @@
 
 ---
 
-
 ## 安装
 
 总共支持 5 种安装方式，按你的工作流选一个即可：
 
-| # | 方式 | 适合场景 | 能钉版本？ |
-|---|---|---|---|
-| A | [`skills` CLI（`npx skills add`）](#方式-a--skills-clinpx) | 任意 Agent，一行命令，可挑选单个 Skill | ✅ 通过 tag URL |
-| B | [Claude Code 插件市场](#方式-b--claude-code-插件市场) | Claude Code 用户、订阅插件包 | ✅ 通过市场版本 |
-| C | [Releases 钉版本 `.zip`](#方式-c--releases-钉版本-zip) | CI / 内网 / 可复现安装 | ✅ ✅（不可变） |
-| D | [`git clone` 后手动拷贝](#方式-d--手动拷贝到项目) | 本地 hack / 想自己魔改 | ❌（跟随 `main`） |
-| E | [Git Submodule](#方式-e--git-submodule) | 嵌进更大项目，需要随上游升级 | ✅ 通过 submodule SHA |
+| #   | 方式                                                       | 适合场景                               | 能钉版本？            |
+| --- | ---------------------------------------------------------- | -------------------------------------- | --------------------- |
+| A   | [`skills` CLI（`npx skills add`）](#方式-a--skills-clinpx) | 任意 Agent，一行命令，可挑选单个 Skill | ✅ 通过 tag URL       |
+| B   | [Claude Code 插件市场](#方式-b--claude-code-插件市场)      | Claude Code 用户、订阅插件包           | ✅ 通过市场版本       |
+| C   | [Releases 钉版本 `.zip`](#方式-c--releases-钉版本-zip)     | CI / 内网 / 可复现安装                 | ✅ ✅（不可变）       |
+| D   | [`git clone` 后手动拷贝](#方式-d--手动拷贝到项目)          | 本地 hack / 想自己魔改                 | ❌（跟随 `main`）     |
+| E   | [Git Submodule](#方式-e--git-submodule)                    | 嵌进更大项目，需要随上游升级           | ✅ 通过 submodule SHA |
 
 > 上面每个 Skill 的"链接"那一行末尾，都有一个 **`下载 v<版本> .zip`** 链接，
 > 指向该 Skill 当前的钉版本发布产物。这些 URL 由
@@ -367,12 +365,12 @@ npx skills remove kb-retriever  # 卸载
 
 插件包定义在 [`.claude-plugin/marketplace.json`](./.claude-plugin/marketplace.json)：
 
-| 插件包 | 包含的 Skills |
-|---|---|
-| `presentation-skills` | `web-video-presentation` |
-| `web-design-skills` | `web-design-engineer` |
-| `knowledge-base-skills` | `kb-retriever` |
-| `image-generation-skills` | `gpt-image-2` |
+| 插件包                    | 包含的 Skills            |
+| ------------------------- | ------------------------ |
+| `presentation-skills`     | `web-video-presentation` |
+| `web-design-skills`       | `web-design-engineer`    |
+| `knowledge-base-skills`   | `kb-retriever`           |
+| `image-generation-skills` | `gpt-image-2`            |
 
 ### 方式 C · Releases 钉版本 `.zip`
 
@@ -440,14 +438,14 @@ git checkout web-design-engineer-v1.0.0
 
 ## 兼容性
 
-| Agent / Runtime | Skill 路径 | 状态 |
-|---|---|---|
-| **Claude Code** | `.claude/skills/<name>/` 或走插件市场 | ✅ 已验证 |
-| **Claude.ai**（网页端） | Settings → Capabilities → Skills | ✅ 已验证 |
-| **Cursor** | `.agents/skills/<name>/` | ✅ 已验证 |
-| **Codex CLI** | `.codex/skills/<name>/` | ✅ 已验证 |
-| **Gemini CLI** | extension manifest | ✅ 已验证 |
-| **OpenCode** | `.opencode/skills/<name>/` | ✅ 已验证 |
+| Agent / Runtime         | Skill 路径                            | 状态      |
+| ----------------------- | ------------------------------------- | --------- |
+| **Claude Code**         | `.claude/skills/<name>/` 或走插件市场 | ✅ 已验证 |
+| **Claude.ai**（网页端） | Settings → Capabilities → Skills      | ✅ 已验证 |
+| **Cursor**              | `.agents/skills/<name>/`              | ✅ 已验证 |
+| **Codex CLI**           | `.codex/skills/<name>/`               | ✅ 已验证 |
+| **Gemini CLI**          | extension manifest                    | ✅ 已验证 |
+| **OpenCode**            | `.opencode/skills/<name>/`            | ✅ 已验证 |
 
 > `SKILL.md` 格式本身是可移植的——只要你的 Agent 支持 Skill 体系，把文件夹放进它扫描的目录就行。欢迎 PR 扩充这张表。
 
@@ -505,16 +503,16 @@ npm run validate  # 跑一遍和 PR CI 完全一样的检查
 
 ## Connect
 
-| 平台 | 账号名称 | 链接 |
-| --- | --- | --- |
-| X/Twitter | code秘密花园 | https://x.com/GardenConardLi  |
-| B 站 | code秘密花园 | https://space.bilibili.com/474921808 |
-| 抖音 | code秘密花园 | https://v.douyin.com/i5b33Xfv/ |
-| YouTube | code秘密花园 | https://www.youtube.com/@garden-conard |
-| 小红书 | code秘密花园 | https://www.xiaohongshu.com/user/profile/5af45e78f7e8b903d6e04618 |
-| 公众号 | code秘密花园 | https://cdn.jsdelivr.net/gh/ConardLi/easy-dataset@main/public/imgs/weichat.jpg |
-| GitHub | ConardLi | https://github.com/ConardLi |
-| 个人网站 | Easy AI | https://mmh1.top |
+| 平台      | 账号名称     | 链接                                                                           |
+| --------- | ------------ | ------------------------------------------------------------------------------ |
+| X/Twitter | code秘密花园 | https://x.com/GardenConardLi                                                   |
+| B 站      | code秘密花园 | https://space.bilibili.com/474921808                                           |
+| 抖音      | code秘密花园 | https://v.douyin.com/i5b33Xfv/                                                 |
+| YouTube   | code秘密花园 | https://www.youtube.com/@garden-conard                                         |
+| 小红书    | code秘密花园 | https://www.xiaohongshu.com/user/profile/5af45e78f7e8b903d6e04618              |
+| 公众号    | code秘密花园 | https://cdn.jsdelivr.net/gh/ConardLi/easy-dataset@main/public/imgs/weichat.jpg |
+| GitHub    | ConardLi     | https://github.com/ConardLi                                                    |
+| 个人网站  | Easy AI      | https://mmh1.top                                                               |
 
 ---
 

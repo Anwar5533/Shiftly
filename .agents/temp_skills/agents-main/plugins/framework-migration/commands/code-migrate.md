@@ -327,17 +327,14 @@ export default {
     let template = jsx;
 
     // Convert className to class
-    template = template.replace(/className=/g, "class=");
+    template = template.replace(/className=/g, 'class=');
 
     // Convert onClick to @click
     template = template.replace(/onClick={/g, '@click="');
     template = template.replace(/on(\w+)={this\.(\w+)}/g, '@$1="$2"');
 
     // Convert conditional rendering
-    template = template.replace(
-      /{(\w+) && (.+?)}/g,
-      '<template v-if="$1">$2</template>',
-    );
+    template = template.replace(/{(\w+) && (.+?)}/g, '<template v-if="$1">$2</template>');
     template = template.replace(
       /{(\w+) \? (.+?) : (.+?)}/g,
       '<template v-if="$1">$2</template><template v-else>$3</template>',
@@ -354,13 +351,13 @@ export default {
 
   convertLifecycle(lifecycle) {
     const vueLifecycle = {
-      componentDidMount: "mounted",
-      componentDidUpdate: "updated",
-      componentWillUnmount: "beforeDestroy",
-      getDerivedStateFromProps: "computed",
+      componentDidMount: 'mounted',
+      componentDidUpdate: 'updated',
+      componentWillUnmount: 'beforeDestroy',
+      getDerivedStateFromProps: 'computed',
     };
 
-    let result = "";
+    let result = '';
     for (const [reactHook, vueHook] of Object.entries(vueLifecycle)) {
       if (lifecycle[reactHook]) {
         result += `${vueHook}() ${lifecycle[reactHook].body},\n`;
@@ -526,30 +523,30 @@ class RESTToGraphQLMigrator {
       }
 
       // Map to GraphQL operations
-      if (method === "GET") {
+      if (method === 'GET') {
         this.addQuery(resourceType, path, params);
-      } else if (["POST", "PUT", "PATCH"].includes(method)) {
+      } else if (['POST', 'PUT', 'PATCH'].includes(method)) {
         this.addMutation(resourceType, path, params, method);
       }
     }
   }
 
   generateTypeDefs() {
-    let schema = "type Query {\n";
+    let schema = 'type Query {\n';
 
     // Add queries
     for (const [name, query] of Object.entries(this.schema.queries)) {
       schema += `  ${name}${this.generateArgs(query.args)}: ${query.returnType}\n`;
     }
 
-    schema += "}\n\ntype Mutation {\n";
+    schema += '}\n\ntype Mutation {\n';
 
     // Add mutations
     for (const [name, mutation] of Object.entries(this.schema.mutations)) {
       schema += `  ${name}${this.generateArgs(mutation.args)}: ${mutation.returnType}\n`;
     }
 
-    schema += "}\n\n";
+    schema += '}\n\n';
 
     // Add types
     for (const [typeName, fields] of Object.entries(this.schema.types)) {
@@ -557,7 +554,7 @@ class RESTToGraphQLMigrator {
       for (const [fieldName, fieldType] of Object.entries(fields)) {
         schema += `  ${fieldName}: ${fieldType}\n`;
       }
-      schema += "}\n\n";
+      schema += '}\n\n';
     }
 
     return schema;
@@ -576,10 +573,7 @@ class RESTToGraphQLMigrator {
         const restParams = this.transformArgs(args, query.paramMapping);
 
         // Call REST endpoint
-        const response = await fetch(
-          this.buildUrl(query.endpoint, restParams),
-          { method: "GET" },
-        );
+        const response = await fetch(this.buildUrl(query.endpoint, restParams), { method: 'GET' });
 
         return response.json();
       };
@@ -592,7 +586,7 @@ class RESTToGraphQLMigrator {
 
         const response = await fetch(mutation.endpoint, {
           method: mutation.method,
-          headers: { "Content-Type": "application/json" },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(input),
         });
 

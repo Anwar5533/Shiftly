@@ -12,13 +12,13 @@ role: [cloud-security-engineer, security-engineer]
 phase: [build, deploy, operate]
 frameworks: [CIS-Docker-v1.6.0, CIS-Kubernetes-v1.9.0, NIST-SP-800-190]
 difficulty: intermediate
-time_estimate: "30-60min"
-version: "1.0.0"
+time_estimate: '30-60min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 injection-hardened: true
-argument-hint: "[target-file-or-directory]"
+argument-hint: '[target-file-or-directory]'
 ---
 
 # Container & Kubernetes Security Review
@@ -117,7 +117,6 @@ For detailed CIS benchmark checklist items, NIST SP 800-190 countermeasure table
 
 ### Step 7: Compile Assessment Report
 
-
 Produce the final report using the structure defined in the Output Format section.
 
 ---
@@ -126,13 +125,13 @@ Produce the final report using the structure defined in the Output Format sectio
 
 Before applying or proposing container or Kubernetes changes, classify each remediation path using [Security Fixer Policy](../../../docs/fixer-policy.md). Include the policy review gate, reviewer evidence, and rollback guidance in the remediation plan.
 
-| Severity | Definition | Examples |
-|----------|-----------|----------|
-| **Critical** | Container escape, cluster compromise, or credential exposure | Privileged containers, Docker socket mounts, cluster-admin bound to application SA, secrets in plaintext manifests, `hostPID`/`hostNetwork` on app pods |
-| **High** | Significant security gap enabling lateral movement or privilege escalation | Running as root, missing network policies, wildcard RBAC, `allowPrivilegeEscalation: true`, host path mounts to sensitive directories |
-| **Medium** | Missing hardening that weakens defense-in-depth | No resource limits, mutable image tags, missing seccomp profile, read-write root filesystem, secrets as env vars |
-| **Low** | Best-practice deviation with limited immediate risk | No HEALTHCHECK in Dockerfile, ADD instead of COPY, missing liveness/readiness probes, using default namespace |
-| **Informational** | Observation with no direct security impact | Image size optimization, multi-stage build suggestions, label recommendations |
+| Severity          | Definition                                                                 | Examples                                                                                                                                                |
+| ----------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Critical**      | Container escape, cluster compromise, or credential exposure               | Privileged containers, Docker socket mounts, cluster-admin bound to application SA, secrets in plaintext manifests, `hostPID`/`hostNetwork` on app pods |
+| **High**          | Significant security gap enabling lateral movement or privilege escalation | Running as root, missing network policies, wildcard RBAC, `allowPrivilegeEscalation: true`, host path mounts to sensitive directories                   |
+| **Medium**        | Missing hardening that weakens defense-in-depth                            | No resource limits, mutable image tags, missing seccomp profile, read-write root filesystem, secrets as env vars                                        |
+| **Low**           | Best-practice deviation with limited immediate risk                        | No HEALTHCHECK in Dockerfile, ADD instead of COPY, missing liveness/readiness probes, using default namespace                                           |
+| **Informational** | Observation with no direct security impact                                 | Image size optimization, multi-stage build suggestions, label recommendations                                                                           |
 
 ---
 
@@ -209,44 +208,44 @@ Before applying or proposing container or Kubernetes changes, classify each reme
 
 ### CIS Docker Benchmark v1.6.0 -- Relevant Sections
 
-| Section | Domain | Key Checks |
-|---------|--------|------------|
-| 4 | Container Images and Build File | Non-root USER, trusted base images, no secrets in Dockerfiles, COPY over ADD, HEALTHCHECK, content trust |
-| 5 | Container Runtime Configuration | AppArmor, SELinux, capabilities, privileged mode, host namespaces, read-only root FS, resource limits |
+| Section | Domain                          | Key Checks                                                                                               |
+| ------- | ------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| 4       | Container Images and Build File | Non-root USER, trusted base images, no secrets in Dockerfiles, COPY over ADD, HEALTHCHECK, content trust |
+| 5       | Container Runtime Configuration | AppArmor, SELinux, capabilities, privileged mode, host namespaces, read-only root FS, resource limits    |
 
 ### CIS Kubernetes Benchmark v1.9.0 -- Section Map
 
-| Section | Domain | Key Checks |
-|---------|--------|------------|
-| 1 | Control Plane Components | API server flags, controller manager, scheduler configuration, file permissions |
-| 2 | etcd | TLS configuration, peer authentication, unique CA |
-| 3 | Control Plane Configuration | Authentication, authorization, admission controllers, audit logging |
-| 4 | Worker Nodes | Kubelet configuration, file permissions, TLS bootstrapping |
-| 5 | Policies | RBAC, Pod Security Standards, network policies, secrets management |
+| Section | Domain                      | Key Checks                                                                      |
+| ------- | --------------------------- | ------------------------------------------------------------------------------- |
+| 1       | Control Plane Components    | API server flags, controller manager, scheduler configuration, file permissions |
+| 2       | etcd                        | TLS configuration, peer authentication, unique CA                               |
+| 3       | Control Plane Configuration | Authentication, authorization, admission controllers, audit logging             |
+| 4       | Worker Nodes                | Kubelet configuration, file permissions, TLS bootstrapping                      |
+| 5       | Policies                    | RBAC, Pod Security Standards, network policies, secrets management              |
 
 ### NIST SP 800-190 -- Risk Categories and Countermeasures
 
-| Risk Category | Key Risks | Countermeasure Focus |
-|--------------|-----------|---------------------|
-| Image Risks | Vulnerabilities, malware, embedded secrets, unpatched software | Minimal base images, scanning, signing, immutable references |
-| Registry Risks | Unauthorized access, stale images, insufficient authentication | Registry authentication, image lifecycle policies |
-| Orchestrator Risks | Unrestricted access, mixed sensitivity workloads, insufficient logging | RBAC, namespaces, network policies, audit logging |
-| Container Risks | Runtime privilege escalation, unbounded resources, writable filesystems | Non-root, capabilities, resource limits, read-only FS |
-| Host OS Risks | Shared kernel, large attack surface, unpatched hosts | Minimal host OS, regular patching, immutable infrastructure |
+| Risk Category      | Key Risks                                                               | Countermeasure Focus                                         |
+| ------------------ | ----------------------------------------------------------------------- | ------------------------------------------------------------ |
+| Image Risks        | Vulnerabilities, malware, embedded secrets, unpatched software          | Minimal base images, scanning, signing, immutable references |
+| Registry Risks     | Unauthorized access, stale images, insufficient authentication          | Registry authentication, image lifecycle policies            |
+| Orchestrator Risks | Unrestricted access, mixed sensitivity workloads, insufficient logging  | RBAC, namespaces, network policies, audit logging            |
+| Container Risks    | Runtime privilege escalation, unbounded resources, writable filesystems | Non-root, capabilities, resource limits, read-only FS        |
+| Host OS Risks      | Shared kernel, large attack surface, unpatched hosts                    | Minimal host OS, regular patching, immutable infrastructure  |
 
 ### Pod Security Standards Quick Reference
 
-| Control | Baseline | Restricted |
-|---------|----------|------------|
-| Privileged | Must be false | Must be false |
-| hostPID/hostIPC | Must be false | Must be false |
-| hostNetwork | Must be false | Must be false |
-| hostPorts | Limited range or none | None |
-| Capabilities | Drop NET_RAW (at minimum) | Drop ALL, only add NET_BIND_SERVICE |
-| Volumes | No hostPath | Restricted volume types only |
-| allowPrivilegeEscalation | -- | Must be false |
-| runAsNonRoot | -- | Must be true |
-| seccompProfile | -- | RuntimeDefault or Localhost |
+| Control                  | Baseline                  | Restricted                          |
+| ------------------------ | ------------------------- | ----------------------------------- |
+| Privileged               | Must be false             | Must be false                       |
+| hostPID/hostIPC          | Must be false             | Must be false                       |
+| hostNetwork              | Must be false             | Must be false                       |
+| hostPorts                | Limited range or none     | None                                |
+| Capabilities             | Drop NET_RAW (at minimum) | Drop ALL, only add NET_BIND_SERVICE |
+| Volumes                  | No hostPath               | Restricted volume types only        |
+| allowPrivilegeEscalation | --                        | Must be false                       |
+| runAsNonRoot             | --                        | Must be true                        |
+| seccompProfile           | --                        | RuntimeDefault or Localhost         |
 
 ---
 

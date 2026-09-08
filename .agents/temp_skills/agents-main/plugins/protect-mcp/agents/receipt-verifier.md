@@ -105,6 +105,7 @@ field in the signed portion.
 
 **Chain break** — A receipt's `parent_receipt_id` does not match the
 `receipt_id` of the expected previous receipt. This could mean:
+
 - A receipt was inserted between two legitimate receipts
 - A receipt was deleted from the chain
 - The chain was forked and one branch was kept

@@ -3,9 +3,9 @@
 //    把下面两个 import 改成：
 //      import { MaskReveal } from "../../components/MaskReveal";
 //      import type { ChapterStepProps } from "../../registry/types";
-import { MaskReveal } from "../../../templates/src/components/MaskReveal";
-import type { ChapterStepProps } from "../../../templates/src/registry/types";
-import "./chapter.css";
+import { MaskReveal } from '../../../templates/src/components/MaskReveal';
+import type { ChapterStepProps } from '../../../templates/src/registry/types';
+import './chapter.css';
 
 /**
  * hook-chapter · 完整章节示例
@@ -32,7 +32,7 @@ export default function HookChapter({ step }: ChapterStepProps) {
           <span className="hk-kicker-text">这几天</span>
         </div>
         <div className="hk-grid" key={step}>
-          {["01", "02", "03"].map((i, idx) => (
+          {['01', '02', '03'].map((i, idx) => (
             <MaskReveal show key={i} delay={idx * 200} duration={900}>
               <div className="hk-ghost">
                 <span className="hk-ghost-num">{i}</span>
@@ -50,19 +50,19 @@ export default function HookChapter({ step }: ChapterStepProps) {
   //    article 补字段（双源原则）—— 别照抄下面这些占位字符串。
   const reveals: Array<{ src: string; label: string; caption: string }> = [
     {
-      src: "/hook/<asset-1>.png",
-      label: "01 / 03",
-      caption: "<反例 1 caption，来自 article §X>",
+      src: '/hook/<asset-1>.png',
+      label: '01 / 03',
+      caption: '<反例 1 caption，来自 article §X>',
     },
     {
-      src: "/hook/<asset-2>.png",
-      label: "02 / 03",
-      caption: "<反例 2 caption>",
+      src: '/hook/<asset-2>.png',
+      label: '02 / 03',
+      caption: '<反例 2 caption>',
     },
     {
-      src: "/hook/<asset-3>.png",
-      label: "03 / 03",
-      caption: "<反例 3 caption>",
+      src: '/hook/<asset-3>.png',
+      label: '03 / 03',
+      caption: '<反例 3 caption>',
     },
   ];
   if (step >= 1 && step <= 3) {

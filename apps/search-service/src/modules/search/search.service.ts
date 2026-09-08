@@ -23,7 +23,12 @@ export class SearchService {
     const { category, minPayRate } = filters;
 
     // AI/Vector Search Attempt
-    if (query && process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY !== 'sk-REPLACE_WITH_YOUR_OPENAI_API_KEY' && process.env.OPENAI_API_KEY !== 'mock-key') {
+    if (
+      query &&
+      process.env.OPENAI_API_KEY &&
+      process.env.OPENAI_API_KEY !== 'sk-REPLACE_WITH_YOUR_OPENAI_API_KEY' &&
+      process.env.OPENAI_API_KEY !== 'mock-key'
+    ) {
       try {
         this.logger.log(`Generating embedding for query: "${query}"`);
         const embeddingResponse = await this.openai.embeddings.create({
@@ -31,7 +36,7 @@ export class SearchService {
           input: query,
         });
         const vector = embeddingResponse.data[0].embedding;
-        
+
         const searchResponse = await this.opensearchClient.search({
           index: 'jobs',
           body: {
@@ -41,14 +46,15 @@ export class SearchService {
                 embedding: {
                   vector: vector,
                   k: 20,
-                }
-              }
-            }
-          }
+                },
+              },
+            },
+          },
         });
-        
-        const jobIds = searchResponse.body.hits.hits.map((hit: any) => hit._id);
-        
+
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return -- TODO(RC3): OpenSearch SDK returns untyped body
+        const jobIds: string[] = searchResponse.body.hits.hits.map((hit: any) => hit._id);
+
         if (jobIds.length > 0) {
           return this.prisma.job.findMany({
             where: { id: { in: jobIds }, status: 'PUBLISHED' },

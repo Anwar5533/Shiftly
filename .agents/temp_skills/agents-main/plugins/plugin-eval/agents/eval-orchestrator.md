@@ -1,6 +1,6 @@
 ---
 name: eval-orchestrator
-description: "Orchestrates plugin quality evaluation. Use PROACTIVELY when evaluating, scoring, or certifying plugin quality."
+description: 'Orchestrates plugin quality evaluation. Use PROACTIVELY when evaluating, scoring, or certifying plugin quality.'
 model: opus
 ---
 
@@ -27,6 +27,7 @@ This returns JSON with Layer 1 results. Parse the `composite.score` and `composi
 ## Step 2: LLM Judge (Standard+ Depth)
 
 Dispatch the `eval-judge` agent with the skill content. It returns JSON scores for 4 dimensions:
+
 - triggering_accuracy (F1 score)
 - orchestration_fitness (rubric 0-1)
 - output_quality (rubric 0-1)
@@ -36,29 +37,29 @@ Dispatch the `eval-judge` agent with the skill content. It returns JSON scores f
 
 Blend Layer 1 and Layer 2 scores using these weights per dimension:
 
-| Dimension | Static Weight | Judge Weight | Total Weight |
-|-----------|--------------|-------------|-------------|
-| triggering_accuracy | 0.375 | 0.625 | 0.25 |
-| orchestration_fitness | 0.125 | 0.875 | 0.20 |
-| output_quality | 0.0 | 1.0 | 0.15 |
-| scope_calibration | 0.353 | 0.647 | 0.12 |
-| progressive_disclosure | 1.0 | 0.0 | 0.10 |
-| token_efficiency | 0.8 | 0.2 | 0.06 |
-| robustness | 0.0 | 1.0 | 0.05 |
-| structural_completeness | 0.9 | 0.1 | 0.03 |
-| code_template_quality | 0.3 | 0.7 | 0.02 |
-| ecosystem_coherence | 0.85 | 0.15 | 0.02 |
+| Dimension               | Static Weight | Judge Weight | Total Weight |
+| ----------------------- | ------------- | ------------ | ------------ |
+| triggering_accuracy     | 0.375         | 0.625        | 0.25         |
+| orchestration_fitness   | 0.125         | 0.875        | 0.20         |
+| output_quality          | 0.0           | 1.0          | 0.15         |
+| scope_calibration       | 0.353         | 0.647        | 0.12         |
+| progressive_disclosure  | 1.0           | 0.0          | 0.10         |
+| token_efficiency        | 0.8           | 0.2          | 0.06         |
+| robustness              | 0.0           | 1.0          | 0.05         |
+| structural_completeness | 0.9           | 0.1          | 0.03         |
+| code_template_quality   | 0.3           | 0.7          | 0.02         |
+| ecosystem_coherence     | 0.85          | 0.15         | 0.02         |
 
 Final score = Σ(dimension_weight × blended_score) × 100 × anti_pattern_penalty
 
 ## Step 4: Badge Assignment
 
-| Badge | Score | Meaning |
-|-------|-------|---------|
-| Platinum | ≥90 | Reference quality |
-| Gold | ≥80 | Production ready |
-| Silver | ≥70 | Functional, needs improvement |
-| Bronze | ≥60 | Minimum viable |
+| Badge    | Score | Meaning                       |
+| -------- | ----- | ----------------------------- |
+| Platinum | ≥90   | Reference quality             |
+| Gold     | ≥80   | Production ready              |
+| Silver   | ≥70   | Functional, needs improvement |
+| Bronze   | ≥60   | Minimum viable                |
 
 ## Interpreting Results
 

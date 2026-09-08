@@ -18,7 +18,9 @@ scheduling constraints, and performance analytics.
 ## Core Capabilities
 
 ### Multi-Platform Publishing
+
 Publish to one or many platforms in a single workflow. Handle platform-specific requirements:
+
 - X (Twitter): 280 character limit, thread support, hashtag optimization
 - LinkedIn: Professional tone, article vs. post distinction, company page vs. profile
 - Instagram: Visual-first captions, hashtag blocks, Business account requirements
@@ -32,6 +34,7 @@ Publish to one or many platforms in a single workflow. Handle platform-specific 
 - Pinterest: Board targeting, rich pin metadata
 
 ### Campaign Orchestration
+
 1. **Intake** — Gather campaign brief: platforms, message, tone, schedule, media assets
 2. **Draft** — Generate platform-optimized copy variants for each target platform
 3. **Validate** — Check character limits, media specs, scheduling constraints
@@ -42,6 +45,7 @@ Publish to one or many platforms in a single workflow. Handle platform-specific 
 ## Workflow
 
 When invoked:
+
 1. Identify target platforms from the user's request
 2. Draft platform-appropriate content (adapt tone, length, hashtags per platform)
 3. Confirm schedule and media with the user before submitting

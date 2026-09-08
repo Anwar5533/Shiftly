@@ -67,14 +67,14 @@ your-project/
 
 ### 覆盖范围
 
-| 输出类型 | 示例 |
-|---|---|
-| 网页 & 落地页 | 营销页面、产品页、作品集 |
-| 交互式原型 | 带设备框架的可点击 App 模型 |
-| 幻灯片 | HTML 演示文稿（1920×1080，键盘导航） |
-| 数据可视化 | 基于 Chart.js 或 D3.js 的仪表盘 |
-| 动画 | CSS/JS 动效设计，时间线驱动的演示 |
-| 设计系统 | Token 探索、组件变体 |
+| 输出类型      | 示例                                 |
+| ------------- | ------------------------------------ |
+| 网页 & 落地页 | 营销页面、产品页、作品集             |
+| 交互式原型    | 带设备框架的可点击 App 模型          |
+| 幻灯片        | HTML 演示文稿（1920×1080，键盘导航） |
+| 数据可视化    | 基于 Chart.js 或 D3.js 的仪表盘      |
+| 动画          | CSS/JS 动效设计，时间线驱动的演示    |
+| 设计系统      | Token 探索、组件变体                 |
 
 ---
 
@@ -95,6 +95,7 @@ your-project/
 ### 核心设计原则
 
 **反 AI 俗套清单。** Skill 明确禁止以下模式：
+
 - 紫粉蓝渐变背景
 - 带左侧彩色边框的卡片
 - Inter / Roboto / Arial / Fraunces / system-ui 字体
@@ -105,26 +106,26 @@ your-project/
 
 **精选起点。** 六套经过验证的配色 × 字体组合，覆盖常见场景：
 
-| 风格 | 主色 | 字体组合 | 适用场景 |
-|---|---|---|---|
-| 现代科技感 | 蓝紫 | Space Grotesk + Inter | SaaS、开发者工具 |
-| 优雅杂志风 | 暖棕 | Newsreader + Outfit | 内容平台、博客 |
-| 高端品牌 | 近黑 | Sora + Plus Jakarta Sans | 奢侈品、金融 |
-| 活泼消费 | 珊瑚 | Plus Jakarta Sans + Outfit | 电商、社交 |
-| 极简专业 | 青蓝 | Outfit + Space Grotesk | 仪表盘、B2B |
-| 手作温度 | 焦糖 | Caveat + Newsreader | 餐饮、教育 |
+| 风格       | 主色 | 字体组合                   | 适用场景         |
+| ---------- | ---- | -------------------------- | ---------------- |
+| 现代科技感 | 蓝紫 | Space Grotesk + Inter      | SaaS、开发者工具 |
+| 优雅杂志风 | 暖棕 | Newsreader + Outfit        | 内容平台、博客   |
+| 高端品牌   | 近黑 | Sora + Plus Jakarta Sans   | 奢侈品、金融     |
+| 活泼消费   | 珊瑚 | Plus Jakarta Sans + Outfit | 电商、社交       |
+| 极简专业   | 青蓝 | Outfit + Space Grotesk     | 仪表盘、B2B      |
+| 手作温度   | 焦糖 | Caveat + Newsreader        | 餐饮、教育       |
 
-**风格配方库（25 套有 anchor，渐进式加载）。** 当用户点名"Linear 风" / "Aesop 风" / "Pentagram 级排版"时，Agent 只需读 `references/style-recipes/<anchor>.md` 单个文件（约 50 行）；目录索引、3 张索引表、跨配方反模式都在 `references/style-recipes/INDEX.md`（约 150 行）。整个目录从不一次性加载。25 套配方分布在 7 个学派（Direction Advisor 的 6 学派 + 一个只能通过直接点名 anchor 触达的 *Specialty / Genre* 学派）：
+**风格配方库（25 套有 anchor，渐进式加载）。** 当用户点名"Linear 风" / "Aesop 风" / "Pentagram 级排版"时，Agent 只需读 `references/style-recipes/<anchor>.md` 单个文件（约 50 行）；目录索引、3 张索引表、跨配方反模式都在 `references/style-recipes/INDEX.md`（约 150 行）。整个目录从不一次性加载。25 套配方分布在 7 个学派（Direction Advisor 的 6 学派 + 一个只能通过直接点名 anchor 触达的 _Specialty / Genre_ 学派）：
 
-| 学派 | 配方 |
-|---|---|
-| Editorial / 极简 | `apple-hig` · `muji-kenya-hara` · `aesop` · `dieter-rams-braun` · `monocle-magazine` |
-| 信息架构 | `pentagram` · `vignelli-swiss-helvetica` · `bloomberg-terminal` · `tufte-dataink` · `nyt-the-daily` |
-| 现代工具 / Builder SaaS | `linear` · `vercel-mesh` · `raycast` · `notion-pre-ai` |
-| 动效 / 实验 | `field-io` · `active-theory` · `resn-storytelling` |
-| 粗粝 / Brutalist | `are-na` · `bloomberg-businessweek-turley` · `balenciaga-post-2017` |
-| 温暖人文 | `mailchimp-freddie` · `stripe-press` · `headspace-meditation` |
-| 特定风格 / 年代 | `y2k-retrofuturism` · `mid-century-modern` |
+| 学派                    | 配方                                                                                                |
+| ----------------------- | --------------------------------------------------------------------------------------------------- |
+| Editorial / 极简        | `apple-hig` · `muji-kenya-hara` · `aesop` · `dieter-rams-braun` · `monocle-magazine`                |
+| 信息架构                | `pentagram` · `vignelli-swiss-helvetica` · `bloomberg-terminal` · `tufte-dataink` · `nyt-the-daily` |
+| 现代工具 / Builder SaaS | `linear` · `vercel-mesh` · `raycast` · `notion-pre-ai`                                              |
+| 动效 / 实验             | `field-io` · `active-theory` · `resn-storytelling`                                                  |
+| 粗粝 / Brutalist        | `are-na` · `bloomberg-businessweek-turley` · `balenciaga-post-2017`                                 |
+| 温暖人文                | `mailchimp-freddie` · `stripe-press` · `headspace-meditation`                                       |
+| 特定风格 / 年代         | `y2k-retrofuturism` · `mid-century-modern`                                                          |
 
 ---
 
@@ -420,30 +421,30 @@ Hash 路由 URL（`#/linear`、`#/aesop`、…）可深链到任意配方。按 
 
 ### Demo 1：太空探索博物馆
 
-**提示词：** *"帮我做一个'太空探索博物馆'的线上展览首页——全屏 Hero、4 个核心展览介绍、一个至少 6 个节点的时间线、参观预约 CTA、页脚。整体风格要沉浸感强、有宇宙的深邃感。"*
+**提示词：** _"帮我做一个'太空探索博物馆'的线上展览首页——全屏 Hero、4 个核心展览介绍、一个至少 6 个节点的时间线、参观预约 CTA、页脚。整体风格要沉浸感强、有宇宙的深邃感。"_
 
-| | 无 Skill | 有 Skill |
-|---|---|---|
-| **文件** | `demo/web-design-demo/demo2/demo1.html` | `demo/web-design-demo/demo2/demo1-with-skill.html` |
-| **色彩系统** | 硬编码 hex 值（#7cf0ff, #b388ff） | 基于 oklch 的 token 系统，使用 CSS 自定义属性 |
-| **字体** | Orbitron + Noto Serif SC | Instrument Serif + Space Grotesk + JetBrains Mono |
-| **布局** | 标准落地页结构 | 杂志编辑式布局，grid 组合排版 |
-| **细节** | 大量发光效果、霓虹渐变 | 克制的色彩方案、字体层级、装饰性数据元素 |
-| **整体感受** | 热情的初级设计师 | 有经验的设计总监 |
+|              | 无 Skill                                | 有 Skill                                           |
+| ------------ | --------------------------------------- | -------------------------------------------------- |
+| **文件**     | `demo/web-design-demo/demo2/demo1.html` | `demo/web-design-demo/demo2/demo1-with-skill.html` |
+| **色彩系统** | 硬编码 hex 值（#7cf0ff, #b388ff）       | 基于 oklch 的 token 系统，使用 CSS 自定义属性      |
+| **字体**     | Orbitron + Noto Serif SC                | Instrument Serif + Space Grotesk + JetBrains Mono  |
+| **布局**     | 标准落地页结构                          | 杂志编辑式布局，grid 组合排版                      |
+| **细节**     | 大量发光效果、霓虹渐变                  | 克制的色彩方案、字体层级、装饰性数据元素           |
+| **整体感受** | 热情的初级设计师                        | 有经验的设计总监                                   |
 
 ### Demo 2：摄影师作品集
 
-**提示词：** *"帮我做一个独立摄影师的个人作品集网站首页。"*
+**提示词：** _"帮我做一个独立摄影师的个人作品集网站首页。"_
 
-| | 有 Skill |
-|---|---|
-| **文件** | `demo/web-design-demo/demo2/demo2-with-skill.html` |
-| **角色塑造** | 虚构了北欧摄影师 "Mira Høst"，设计了一整套视觉身份 |
-| **配色** | 暖纸色浅底（#f2efe8）+ 墨色深文（#161513）—— 极度克制的双色调 |
-| **字体** | Instrument Serif（展示标题）+ Space Grotesk（界面）, 大量使用斜体 |
-| **布局** | 杂志编排式结构，编号分节、不对称网格、侧边竖排文字 |
-| **动效** | Hero 图片的慢速 Ken Burns 动画（24秒周期），胶片噪点纹理叠加 |
-| **导航** | `mix-blend-mode: difference` 顶栏 —— 在深浅背景间无缝过渡 |
+|              | 有 Skill                                                          |
+| ------------ | ----------------------------------------------------------------- |
+| **文件**     | `demo/web-design-demo/demo2/demo2-with-skill.html`                |
+| **角色塑造** | 虚构了北欧摄影师 "Mira Høst"，设计了一整套视觉身份                |
+| **配色**     | 暖纸色浅底（#f2efe8）+ 墨色深文（#161513）—— 极度克制的双色调     |
+| **字体**     | Instrument Serif（展示标题）+ Space Grotesk（界面）, 大量使用斜体 |
+| **布局**     | 杂志编排式结构，编号分节、不对称网格、侧边竖排文字                |
+| **动效**     | Hero 图片的慢速 Ken Burns 动画（24秒周期），胶片噪点纹理叠加      |
+| **导航**     | `mix-blend-mode: difference` 顶栏 —— 在深浅背景间无缝过渡         |
 
 > 启发本 Skill 的 Claude Design 原始系统提示词保留在 [`dist/prompt/claude-design-system-prompt.md`](../../dist/prompt/claude-design-system-prompt.md)。
 
@@ -456,6 +457,7 @@ Hash 路由 URL（`#/linear`、`#/aesop`、…）可深链到任意配方。按 
 本项目将这些核心理念提取并精炼为一个可移植的 Skill，适用于任何 AI 编程代理——让你获得 Claude Design 级别的设计品位，同时摆脱产品锁定和用量限制。
 
 相比 Claude Design 原始提示词的主要新增内容：
+
 - **设计系统宣告步骤** —— 强制 AI 在编码前用自然语言说明设计 token
 - **v0 草稿策略** —— 一套具体的方法论，确保尽早展示半成品
 - **扩展的反俗套清单** —— 从真实 AI 输出中识别出的额外模式

@@ -60,13 +60,13 @@
 
 ```tsx
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary";
+  variant?: 'primary' | 'secondary';
   isLoading?: boolean;
 }
 
 function AccessibleButton({
   children,
-  variant = "primary",
+  variant = 'primary',
   isLoading = false,
   disabled,
   ...props
@@ -81,11 +81,11 @@ function AccessibleButton({
       aria-disabled={disabled || isLoading}
       className={cn(
         // Visible focus ring
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+        'focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
         // Minimum touch target size (44x44px)
-        "min-h-[44px] min-w-[44px]",
-        variant === "primary" && "bg-primary text-primary-foreground",
-        (disabled || isLoading) && "opacity-50 cursor-not-allowed",
+        'min-h-[44px] min-w-[44px]',
+        variant === 'primary' && 'bg-primary text-primary-foreground',
+        (disabled || isLoading) && 'cursor-not-allowed opacity-50',
       )}
       {...props}
     >
@@ -105,8 +105,8 @@ function AccessibleButton({
 ### Pattern 2: Accessible Modal Dialog
 
 ```tsx
-import * as React from "react";
-import { FocusTrap } from "@headlessui/react";
+import * as React from 'react';
+import { FocusTrap } from '@headlessui/react';
 
 interface DialogProps {
   isOpen: boolean;
@@ -122,53 +122,40 @@ function AccessibleDialog({ isOpen, onClose, title, children }: DialogProps) {
   // Close on Escape key
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isOpen) {
+      if (e.key === 'Escape' && isOpen) {
         onClose();
       }
     };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
   // Prevent body scroll when open
   React.useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     }
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = '';
     };
   }, [isOpen]);
 
   if (!isOpen) return null;
 
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby={titleId}
-      aria-describedby={descriptionId}
-    >
+    <div role="dialog" aria-modal="true" aria-labelledby={titleId} aria-describedby={descriptionId}>
       {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-black/50"
-        aria-hidden="true"
-        onClick={onClose}
-      />
+      <div className="fixed inset-0 bg-black/50" aria-hidden="true" onClick={onClose} />
 
       {/* Focus trap container */}
       <FocusTrap>
         <div className="fixed inset-0 flex items-center justify-center p-4">
-          <div className="bg-background rounded-lg shadow-lg max-w-md w-full p-6">
+          <div className="bg-background w-full max-w-md rounded-lg p-6 shadow-lg">
             <h2 id={titleId} className="text-lg font-semibold">
               {title}
             </h2>
             <div id={descriptionId}>{children}</div>
-            <button
-              onClick={onClose}
-              className="absolute top-4 right-4"
-              aria-label="Close dialog"
-            >
+            <button onClick={onClose} className="absolute top-4 right-4" aria-label="Close dialog">
               <X className="h-4 w-4" />
             </button>
           </div>
@@ -193,12 +180,10 @@ function AccessibleForm() {
           id="form-errors"
           role="alert"
           aria-live="assertive"
-          className="bg-destructive/10 border border-destructive p-4 rounded-md mb-4"
+          className="bg-destructive/10 border-destructive mb-4 rounded-md border p-4"
         >
-          <h2 className="font-semibold text-destructive">
-            Please fix the following errors:
-          </h2>
-          <ul className="list-disc list-inside mt-2">
+          <h2 className="text-destructive font-semibold">Please fix the following errors:</h2>
+          <ul className="mt-2 list-inside list-disc">
             {Object.entries(errors).map(([field, message]) => (
               <li key={field}>
                 <a href={`#${field}`} className="underline">
@@ -226,18 +211,15 @@ function AccessibleForm() {
           required
           aria-required="true"
           aria-invalid={!!errors.email}
-          aria-describedby={errors.email ? "email-error" : "email-hint"}
-          className={cn(
-            "w-full px-3 py-2 border rounded-md",
-            errors.email && "border-destructive",
-          )}
+          aria-describedby={errors.email ? 'email-error' : 'email-hint'}
+          className={cn('w-full rounded-md border px-3 py-2', errors.email && 'border-destructive')}
         />
         {errors.email ? (
-          <p id="email-error" className="text-sm text-destructive" role="alert">
+          <p id="email-error" className="text-destructive text-sm" role="alert">
             {errors.email}
           </p>
         ) : (
-          <p id="email-hint" className="text-sm text-muted-foreground">
+          <p id="email-hint" className="text-muted-foreground text-sm">
             We'll never share your email.
           </p>
         )}
@@ -260,10 +242,10 @@ function SkipLink() {
       href="#main-content"
       className={cn(
         // Hidden by default, visible on focus
-        "sr-only focus:not-sr-only",
-        "focus:absolute focus:top-4 focus:left-4 focus:z-50",
-        "focus:bg-background focus:px-4 focus:py-2 focus:rounded-md",
-        "focus:ring-2 focus:ring-primary",
+        'sr-only focus:not-sr-only',
+        'focus:absolute focus:top-4 focus:left-4 focus:z-50',
+        'focus:bg-background focus:rounded-md focus:px-4 focus:py-2',
+        'focus:ring-primary focus:ring-2',
       )}
     >
       Skip to main content
@@ -291,23 +273,18 @@ function Layout({ children }) {
 
 ```tsx
 function useAnnounce() {
-  const [message, setMessage] = React.useState("");
+  const [message, setMessage] = React.useState('');
 
   const announce = React.useCallback(
-    (text: string, priority: "polite" | "assertive" = "polite") => {
-      setMessage(""); // Clear first to ensure re-announcement
+    (text: string, priority: 'polite' | 'assertive' = 'polite') => {
+      setMessage(''); // Clear first to ensure re-announcement
       setTimeout(() => setMessage(text), 100);
     },
     [],
   );
 
   const Announcer = () => (
-    <div
-      role="status"
-      aria-live="polite"
-      aria-atomic="true"
-      className="sr-only"
-    >
+    <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
       {message}
     </div>
   );

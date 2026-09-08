@@ -6,23 +6,23 @@ The single biggest lever on quality isn't rendering — it's **what you decide t
 
 Choose a single structure per image; don't blend. These are the shapes a concept can take:
 
-| Structure | Fits | How it's drawn |
-|---|---|---|
-| **Hero scene** | A product/feature's core promise | One character interacting with the key object (device/dashboard/tool), calm background, accent on the object. The default. |
-| **Before / after** | chaos→order, manual→automatic, scattered→cohesive | Left = messy/tense, right = calm/resolved, a bridge/arrow between. Character's posture shifts across the two. |
-| **Character state** | user pain, "too many tools," stuck→flowing | 2–3 small vignettes, each one posture/expression, one short label each. |
-| **Concept metaphor** | an abstract idea (trust, scale, memory, taste) | ONE memorable object/machine that stands in for the idea, a character operating it. Highest ceiling, needs the recipe below. |
-| **Workflow / flow** | input→process→output, a pipeline | Left input, middle transform (a machine or the character working), right output, accent arrow for the main flow. |
-| **Layers / stack** | a framework, a system with levels | Stacked shapes (not a stiff pyramid), character building or climbing them. |
-| **Journey / path** | idea→launch, onboarding, a roadmap | One curved path, a few nodes, character walking or drawing it. |
+| Structure            | Fits                                              | How it's drawn                                                                                                               |
+| -------------------- | ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| **Hero scene**       | A product/feature's core promise                  | One character interacting with the key object (device/dashboard/tool), calm background, accent on the object. The default.   |
+| **Before / after**   | chaos→order, manual→automatic, scattered→cohesive | Left = messy/tense, right = calm/resolved, a bridge/arrow between. Character's posture shifts across the two.                |
+| **Character state**  | user pain, "too many tools," stuck→flowing        | 2–3 small vignettes, each one posture/expression, one short label each.                                                      |
+| **Concept metaphor** | an abstract idea (trust, scale, memory, taste)    | ONE memorable object/machine that stands in for the idea, a character operating it. Highest ceiling, needs the recipe below. |
+| **Workflow / flow**  | input→process→output, a pipeline                  | Left input, middle transform (a machine or the character working), right output, accent arrow for the main flow.             |
+| **Layers / stack**   | a framework, a system with levels                 | Stacked shapes (not a stiff pyramid), character building or climbing them.                                                   |
+| **Journey / path**   | idea→launch, onboarding, a roadmap                | One curved path, a few nodes, character walking or drawing it.                                                               |
 
 ## Step 2 — Invent a FRESH metaphor (don't reach for the obvious)
 
 The obvious visual (analytics → bar chart, security → shield, idea → lightbulb) is what makes illustration forgettable. Generate a fresher one with this 3-step recipe (lifted from how the best editorial illustrators work):
 
-1. **Abstract concept → a physical action.** Turn the idea into something a body can *do*: stacking, sorting, pouring, catching, wiring, untangling, bridging, planting, fermenting, folding, filtering, balancing.
+1. **Abstract concept → a physical action.** Turn the idea into something a body can _do_: stacking, sorting, pouring, catching, wiring, untangling, bridging, planting, fermenting, folding, filtering, balancing.
 2. **System/structure → a low-key concrete object.** Turn the mechanism into a tangible thing: a control panel, a set of drawers, a funnel, a loom, a conveyor, a garden, a switchboard, a scale, a well, a bridge, a printing press.
-3. **Put the character *in* the action.** The person operates/builds/rides/repairs the object — they perform the core verb, they don't stand beside it.
+3. **Put the character _in_ the action.** The person operates/builds/rides/repairs the object — they perform the core verb, they don't stand beside it.
 
 **Object pool:** control panel, drawers, funnel, loom, conveyor belt, switchboard, scale/balance, bridge, ladder, garden bed, printing press, pipes, valves, dials, a well, a workshop bench, a filing system, a mixing board.
 **Action pool:** stack, sort, pour, catch, wire, untangle, bridge, plant, tune, fold, filter, balance, assemble, channel, weave.
@@ -39,7 +39,7 @@ An amateur illustration is a subject floating on white. A designed one is a **sc
 
 ## The "earn its place" test for the character
 
-After composing, ask: *if I removed the person, would the metaphor still fully read?* If yes, the person is decoration — rewrite so they perform the core action. A character watching a chart is decoration; a character *tuning the dials that move the chart* is the idea.
+After composing, ask: _if I removed the person, would the metaphor still fully read?_ If yes, the person is decoration — rewrite so they perform the core action. A character watching a chart is decoration; a character _tuning the dials that move the chart_ is the idea.
 
 ## Restraint rules (what keeps it tasteful)
 

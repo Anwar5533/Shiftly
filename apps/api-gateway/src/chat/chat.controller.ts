@@ -12,7 +12,9 @@ export class ChatController {
         { userId: 'user_1', user: { email: 'worker@shiftly.local' } },
         { userId: 'user_2', user: { email: 'employer@shiftly.local' } },
       ],
-      messages: [{ content: 'Hi, are you available for the shift?', createdAt: new Date().toISOString() }],
+      messages: [
+        { content: 'Hi, are you available for the shift?', createdAt: new Date().toISOString() },
+      ],
     },
   ];
 
@@ -35,6 +37,6 @@ export class ChatController {
   @Get('conversations/:id/messages')
   @ApiOperation({ summary: 'Get messages for conversation' })
   getMessages(@Param('id') id: string) {
-    return { data: this.messages.filter(m => m.conversationId === id) };
+    return { data: this.messages.filter((m) => m.conversationId === id) };
   }
 }

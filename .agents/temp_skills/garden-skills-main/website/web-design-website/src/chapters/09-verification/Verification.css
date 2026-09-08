@@ -12,10 +12,22 @@
   overflow: hidden;
 }
 
-.vf__src-bracket { color: var(--accent); font-weight: 600; }
-.vf__src-label   { color: var(--fg);     font-weight: 600; letter-spacing: 0.22em; }
-.vf__src-sep     { color: var(--fg-faint); }
-.vf__src-line    { color: var(--accent); font-weight: 600; }
+.vf__src-bracket {
+  color: var(--accent);
+  font-weight: 600;
+}
+.vf__src-label {
+  color: var(--fg);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+}
+.vf__src-sep {
+  color: var(--fg-faint);
+}
+.vf__src-line {
+  color: var(--accent);
+  font-weight: 600;
+}
 
 /* ===================== Scene INTRO (step 0) ===================== */
 
@@ -72,7 +84,7 @@
 .vf__intro-fn {
   font-style: normal;
   color: var(--accent) !important;
-  background: oklch(0.700 0.170 42 / 0.14);
+  background: oklch(0.7 0.17 42 / 0.14);
   padding: 0 8px;
   border-radius: 2px;
   font-weight: 500;
@@ -142,11 +154,17 @@
   border-radius: 4px;
   min-width: 320px;
   box-shadow: 0 24px 48px -22px oklch(0 0 0 / 0.5);
-  animation: vfNodeIn 720ms cubic-bezier(.2,.8,.2,1) backwards;
+  animation: vfNodeIn 720ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
 }
 @keyframes vfNodeIn {
-  from { opacity: 0; transform: translateY(20px) scale(0.92); }
-  to   { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 .vf__node--small {
   min-width: 280px;
@@ -156,8 +174,8 @@
 }
 .vf__node--verifier {
   border: 2px dashed var(--accent);
-  animation: vfNodeIn 720ms 600ms cubic-bezier(.6,-0.05,.2,1.2) backwards;
-  box-shadow: 0 24px 48px -22px oklch(0.700 0.170 42 / 0.4);
+  animation: vfNodeIn 720ms 600ms cubic-bezier(0.6, -0.05, 0.2, 1.2) backwards;
+  box-shadow: 0 24px 48px -22px oklch(0.7 0.17 42 / 0.4);
 }
 .vf__node-tag {
   font-family: var(--f-mono);
@@ -185,7 +203,7 @@
   letter-spacing: 0.04em;
 }
 .vf__node-fresh {
-  color: oklch(0.770 0.140 145);
+  color: oklch(0.77 0.14 145);
   font-weight: 600;
   letter-spacing: 0.06em;
 }
@@ -203,8 +221,12 @@
   animation: vfLoopSpin 5s linear infinite;
 }
 @keyframes vfLoopSpin {
-  from { transform: rotate(0); }
-  to   { transform: rotate(360deg); }
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* —— 自言自语气泡 —— */
@@ -222,7 +244,7 @@
   font-size: 22px;
   color: var(--fg-soft);
   white-space: nowrap;
-  animation: vfBubbleIn 620ms 800ms cubic-bezier(.2,.8,.2,1) backwards;
+  animation: vfBubbleIn 620ms 800ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
 }
 .vf__bubble::after {
   content: '';
@@ -237,8 +259,14 @@
   border-bottom: 1px solid var(--line-mid);
 }
 @keyframes vfBubbleIn {
-  from { opacity: 0; transform: translate(-50%, -8px); }
-  to   { opacity: 1; transform: translate(-50%, 0); }
+  from {
+    opacity: 0;
+    transform: translate(-50%, -8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
 }
 
 .vf__agent-verdict {
@@ -291,7 +319,7 @@
   font-style: normal;
   font-size: 26px;
   color: var(--accent);
-  background: oklch(0.700 0.170 42 / 0.14);
+  background: oklch(0.7 0.17 42 / 0.14);
   padding: 4px 10px;
   border-radius: 2px;
 }
@@ -312,10 +340,12 @@
 }
 .vf__fork-link-branch {
   stroke-dashoffset: 200;
-  animation: vfForkDraw 1100ms 380ms cubic-bezier(.2,.8,.2,1) forwards;
+  animation: vfForkDraw 1100ms 380ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 @keyframes vfForkDraw {
-  to { stroke-dashoffset: 0; }
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
 /* —— 子 Agent 模拟 iframe —— */
@@ -352,11 +382,11 @@
   display: block;
   position: relative;
   height: 80px;
-  background:
-    repeating-linear-gradient(
-      45deg,
-      oklch(0.965 0.018 78 / 0.04) 0 6px,
-      transparent 6px 12px);
+  background: repeating-linear-gradient(
+    45deg,
+    oklch(0.965 0.018 78 / 0.04) 0 6px,
+    transparent 6px 12px
+  );
   overflow: hidden;
 }
 .vf__node-iframe-flash {
@@ -365,15 +395,22 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    oklch(0.700 0.170 42 / 0.45) 50%,
-    transparent 100%);
+    oklch(0.7 0.17 42 / 0.45) 50%,
+    transparent 100%
+  );
   transform: translateX(-100%);
   animation: vfFlash 1800ms 1100ms ease-in-out infinite;
 }
 @keyframes vfFlash {
-  0%   { transform: translateX(-100%); }
-  60%  { transform: translateX(100%); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+  60% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 .vf__fork-verdict {
@@ -429,7 +466,7 @@
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: oklch(0.500 0.020 60);
+  background: oklch(0.5 0.02 60);
 }
 .vf__check-panel-name {
   margin-left: 10px;
@@ -447,8 +484,13 @@
   animation: vfStatusBlink 1.4s ease-in-out infinite;
 }
 @keyframes vfStatusBlink {
-  0%, 100% { opacity: 0.4; }
-  50%      { opacity: 1; }
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 .vf__check-list {
@@ -467,12 +509,20 @@
   font-size: 22px;
   color: var(--fg);
   opacity: 0;
-  animation: vfCheckIn 520ms cubic-bezier(.2,.8,.2,1) forwards;
+  animation: vfCheckIn 520ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
-.vf__check-row:last-child { border-bottom: none; }
+.vf__check-row:last-child {
+  border-bottom: none;
+}
 @keyframes vfCheckIn {
-  from { opacity: 0; transform: translateX(-12px); }
-  to   { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .vf__check-num {
@@ -506,14 +556,24 @@
   height: 100%;
   width: 0;
   background: var(--accent);
-  animation: vfCheckBar 700ms cubic-bezier(.2,.8,.2,1) forwards;
+  animation: vfCheckBar 700ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
-.vf__check-row:nth-child(1) .vf__check-bar::after { animation-delay: 320ms; }
-.vf__check-row:nth-child(2) .vf__check-bar::after { animation-delay: 540ms; }
-.vf__check-row:nth-child(3) .vf__check-bar::after { animation-delay: 760ms; }
-.vf__check-row:nth-child(4) .vf__check-bar::after { animation-delay: 980ms; }
+.vf__check-row:nth-child(1) .vf__check-bar::after {
+  animation-delay: 320ms;
+}
+.vf__check-row:nth-child(2) .vf__check-bar::after {
+  animation-delay: 540ms;
+}
+.vf__check-row:nth-child(3) .vf__check-bar::after {
+  animation-delay: 760ms;
+}
+.vf__check-row:nth-child(4) .vf__check-bar::after {
+  animation-delay: 980ms;
+}
 @keyframes vfCheckBar {
-  to { width: 100%; }
+  to {
+    width: 100%;
+  }
 }
 
 .vf__check-mark {
@@ -541,39 +601,84 @@
   font-family: var(--f-serif);
   font-style: italic;
   font-size: 28px;
-  color: oklch(0.770 0.140 145);
+  color: oklch(0.77 0.14 145);
   opacity: 0;
-  animation: vfTickIn 320ms cubic-bezier(.6,-0.05,.2,1.2) forwards;
+  animation: vfTickIn 320ms cubic-bezier(0.6, -0.05, 0.2, 1.2) forwards;
 }
 @keyframes vfSpin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 @keyframes vfTickIn {
-  from { opacity: 0; transform: scale(0.4); }
-  to   { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* 错峰：spinner 跑完才显示对勾 */
-.vf__check-row:nth-child(1) .vf__check-mark-spin { animation: vfSpin 700ms linear 1; }
-.vf__check-row:nth-child(2) .vf__check-mark-spin { animation: vfSpin 700ms 220ms linear 1; }
-.vf__check-row:nth-child(3) .vf__check-mark-spin { animation: vfSpin 700ms 440ms linear 1; }
-.vf__check-row:nth-child(4) .vf__check-mark-spin { animation: vfSpin 700ms 660ms linear 1; }
-.vf__check-row:nth-child(1) .vf__check-mark-spin { animation-fill-mode: forwards; }
+.vf__check-row:nth-child(1) .vf__check-mark-spin {
+  animation: vfSpin 700ms linear 1;
+}
+.vf__check-row:nth-child(2) .vf__check-mark-spin {
+  animation: vfSpin 700ms 220ms linear 1;
+}
+.vf__check-row:nth-child(3) .vf__check-mark-spin {
+  animation: vfSpin 700ms 440ms linear 1;
+}
+.vf__check-row:nth-child(4) .vf__check-mark-spin {
+  animation: vfSpin 700ms 660ms linear 1;
+}
+.vf__check-row:nth-child(1) .vf__check-mark-spin {
+  animation-fill-mode: forwards;
+}
 .vf__check-row .vf__check-mark-spin {
   animation-fill-mode: forwards;
 }
-.vf__check-row:nth-child(1) .vf__check-mark-tick { animation-delay: 1020ms; }
-.vf__check-row:nth-child(2) .vf__check-mark-tick { animation-delay: 1240ms; }
-.vf__check-row:nth-child(3) .vf__check-mark-tick { animation-delay: 1460ms; }
-.vf__check-row:nth-child(4) .vf__check-mark-tick { animation-delay: 1680ms; }
+.vf__check-row:nth-child(1) .vf__check-mark-tick {
+  animation-delay: 1020ms;
+}
+.vf__check-row:nth-child(2) .vf__check-mark-tick {
+  animation-delay: 1240ms;
+}
+.vf__check-row:nth-child(3) .vf__check-mark-tick {
+  animation-delay: 1460ms;
+}
+.vf__check-row:nth-child(4) .vf__check-mark-tick {
+  animation-delay: 1680ms;
+}
 
 /* spinner 在对勾出现时淡出 */
-.vf__check-row:nth-child(1) .vf__check-mark-spin { animation: vfSpin 700ms linear 1, vfSpinOut 240ms 1020ms forwards; }
-.vf__check-row:nth-child(2) .vf__check-mark-spin { animation: vfSpin 700ms 220ms linear 1, vfSpinOut 240ms 1240ms forwards; }
-.vf__check-row:nth-child(3) .vf__check-mark-spin { animation: vfSpin 700ms 440ms linear 1, vfSpinOut 240ms 1460ms forwards; }
-.vf__check-row:nth-child(4) .vf__check-mark-spin { animation: vfSpin 700ms 660ms linear 1, vfSpinOut 240ms 1680ms forwards; }
+.vf__check-row:nth-child(1) .vf__check-mark-spin {
+  animation:
+    vfSpin 700ms linear 1,
+    vfSpinOut 240ms 1020ms forwards;
+}
+.vf__check-row:nth-child(2) .vf__check-mark-spin {
+  animation:
+    vfSpin 700ms 220ms linear 1,
+    vfSpinOut 240ms 1240ms forwards;
+}
+.vf__check-row:nth-child(3) .vf__check-mark-spin {
+  animation:
+    vfSpin 700ms 440ms linear 1,
+    vfSpinOut 240ms 1460ms forwards;
+}
+.vf__check-row:nth-child(4) .vf__check-mark-spin {
+  animation:
+    vfSpin 700ms 660ms linear 1,
+    vfSpinOut 240ms 1680ms forwards;
+}
 @keyframes vfSpinOut {
-  to { opacity: 0; transform: scale(0.6); }
+  to {
+    opacity: 0;
+    transform: scale(0.6);
+  }
 }
 
 .vf__check-foot {
@@ -595,9 +700,9 @@
   font-weight: 600;
 }
 .vf__check-foot-tag--pass {
-  color: oklch(0.770 0.140 145);
-  background: oklch(0.770 0.140 145 / 0.14);
-  border: 1px solid oklch(0.770 0.140 145 / 0.45);
+  color: oklch(0.77 0.14 145);
+  background: oklch(0.77 0.14 145 / 0.14);
+  border: 1px solid oklch(0.77 0.14 145 / 0.45);
 }
 
 /* ===================== Scene CLOSE (step 4) ===================== */

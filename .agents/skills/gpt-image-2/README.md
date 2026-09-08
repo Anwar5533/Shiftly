@@ -32,11 +32,11 @@ node skills/gpt-image-2/scripts/check-mode.js --json
 
 The output picks one of three modes:
 
-| Mode | Trigger | Behavior |
-|---|---|---|
-| **A — Garden local** | `ENABLE_GARDEN_IMAGEGEN` truthy **AND** `OPENAI_API_KEY` present | End-to-end: pick template → render prompt → call `generate.js` / `edit.js` → image lands on disk |
-| **B — Host-native** | Garden disabled, but the host agent already has an image tool (`image_generation`, `dalle`, `nano_banana`, image MCP, etc.) | Render the prompt, then **delegate** image generation to the host's own tool |
-| **C — Advisor** | Garden disabled, host has no image tool | Skill degrades into a high-quality prompt writer — saves the rendered prompt to `garden-gpt-image-2/prompt/` and instructs the user to paste it into ChatGPT / Midjourney / DALL·E / Sora / Nano Banana / their own gateway |
+| Mode                 | Trigger                                                                                                                     | Behavior                                                                                                                                                                                                                    |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **A — Garden local** | `ENABLE_GARDEN_IMAGEGEN` truthy **AND** `OPENAI_API_KEY` present                                                            | End-to-end: pick template → render prompt → call `generate.js` / `edit.js` → image lands on disk                                                                                                                            |
+| **B — Host-native**  | Garden disabled, but the host agent already has an image tool (`image_generation`, `dalle`, `nano_banana`, image MCP, etc.) | Render the prompt, then **delegate** image generation to the host's own tool                                                                                                                                                |
+| **C — Advisor**      | Garden disabled, host has no image tool                                                                                     | Skill degrades into a high-quality prompt writer — saves the rendered prompt to `garden-gpt-image-2/prompt/` and instructs the user to paste it into ChatGPT / Midjourney / DALL·E / Sora / Nano Banana / their own gateway |
 
 In all three modes, prompt files are saved (mode A & C must save, mode B is recommended for reuse). Only mode A produces an image file; mode B leaves that to the host, mode C cannot.
 
@@ -213,12 +213,12 @@ skills/gpt-image-2/
 
 Read in this order: CLI args → `process.env` → `<cwd>/.env` → `<cwd>/.gateway.env` → `~/.gateway.env`.
 
-| Variable | Required | Purpose |
-|---|---|---|
-| `ENABLE_GARDEN_IMAGEGEN` | Mode A | Master switch for Mode A (`1` / `true` / `yes` / `on`) |
-| `OPENAI_API_KEY` | Mode A | Required for actual image API calls |
-| `OPENAI_BASE_URL` | optional | Default `https://api.openai.com/v1`; can point to any OpenAI-compatible gateway |
-| `OPENAI_IMAGE_MODEL` | optional | Default `gpt-image-2`; can be swapped for `gpt-image-1` / `dall-e-3` / etc. |
+| Variable                 | Required | Purpose                                                                         |
+| ------------------------ | -------- | ------------------------------------------------------------------------------- |
+| `ENABLE_GARDEN_IMAGEGEN` | Mode A   | Master switch for Mode A (`1` / `true` / `yes` / `on`)                          |
+| `OPENAI_API_KEY`         | Mode A   | Required for actual image API calls                                             |
+| `OPENAI_BASE_URL`        | optional | Default `https://api.openai.com/v1`; can point to any OpenAI-compatible gateway |
+| `OPENAI_IMAGE_MODEL`     | optional | Default `gpt-image-2`; can be swapped for `gpt-image-1` / `dall-e-3` / etc.     |
 
 The skill is wire-compatible with the OpenAI image API and is **not** hard-coded to any third-party gateway.
 
@@ -228,9 +228,9 @@ The skill is wire-compatible with the OpenAI image API and is **not** hard-coded
 
 Unless the user specifies otherwise:
 
-| What | Where | Used in |
-|---|---|---|
-| Rendered prompts | `garden-gpt-image-2/prompt/<task-slug>-<timestamp>.md` | A / B / C |
+| What             | Where                                                  | Used in                             |
+| ---------------- | ------------------------------------------------------ | ----------------------------------- |
+| Rendered prompts | `garden-gpt-image-2/prompt/<task-slug>-<timestamp>.md` | A / B / C                           |
 | Generated images | `garden-gpt-image-2/image/<task-slug>-<timestamp>.png` | A only (B = host decides, C = none) |
 
 `<task-slug>` is auto-derived from the user's request; `<timestamp>` is `YYYYMMDD-HHMMSS`.

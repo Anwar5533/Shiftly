@@ -45,7 +45,7 @@ trainer.train()
 For the iterative on-policy loop described in
 `SKILL.md`: after each round, load the just-saved
 checkpoint as both `model` and the frozen
-reference for the *next* `DPOTrainer` instance —
+reference for the _next_ `DPOTrainer` instance —
 `ref_model=None` on round 1 only; every later
 round passes the prior round's checkpoint
 explicitly as `ref_model`.
@@ -141,12 +141,12 @@ disciplined sweep, not a single-config baseline.
 Sweep this grid rather than picking one point and
 trusting it:
 
-| Hyperparameter | Sweep range |
-|---|---|
-| Effective batch size | 128 (fixed) |
-| Learning rate | 3e-7 – 1e-6 |
-| β | 2.0 – 2.5 |
-| γ/β (target reward margin) | 0 – 1 |
+| Hyperparameter             | Sweep range |
+| -------------------------- | ----------- |
+| Effective batch size       | 128 (fixed) |
+| Learning rate              | 3e-7 – 1e-6 |
+| β                          | 2.0 – 2.5   |
+| γ/β (target reward margin) | 0 – 1       |
 
 ```python
 from trl.experimental.cpo import CPOConfig, CPOTrainer
@@ -212,7 +212,7 @@ Remediation order:
 
 A too-low LR under-trains the preference signal
 instead (the model doesn't change its behavior at
-all) — if dropping LR removes forgetting *and*
+all) — if dropping LR removes forgetting _and_
 removes the intended behavior change, epochs or
 data quality are the next lever, not pushing LR
 back up.

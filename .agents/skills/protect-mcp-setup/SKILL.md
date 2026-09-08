@@ -184,12 +184,12 @@ Each receipt is a JSON file with this structure:
 
 ## Why This Matters
 
-| Before | After |
-|--------|-------|
+| Before                                | After                                                    |
+| ------------------------------------- | -------------------------------------------------------- |
 | "Trust me, the agent only read files" | Cryptographically provable: every Read logged and signed |
-| "The log shows it happened" | The receipt proves it happened, and no one can edit it |
-| "You'd have to audit our system" | Anyone can verify every receipt offline |
-| "Logs might be different by now" | Ed25519 signatures lock the record at signing time |
+| "The log shows it happened"           | The receipt proves it happened, and no one can edit it   |
+| "You'd have to audit our system"      | Anyone can verify every receipt offline                  |
+| "Logs might be different by now"      | Ed25519 signatures lock the record at signing time       |
 
 ## Standards
 

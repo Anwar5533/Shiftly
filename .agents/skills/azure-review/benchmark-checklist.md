@@ -443,17 +443,17 @@ resource "azurerm_monitor_activity_log_alert" {
 
 **Required Activity Log Alerts (CIS 5.2.1 through 5.2.9):**
 
-| CIS ID | Operation | Category |
-|--------|-----------|----------|
-| 5.2.1 | Create Policy Assignment | Microsoft.Authorization/policyAssignments/write |
-| 5.2.2 | Delete Policy Assignment | Microsoft.Authorization/policyAssignments/delete |
-| 5.2.3 | Create or Update Network Security Group | Microsoft.Network/networkSecurityGroups/write |
-| 5.2.4 | Delete Network Security Group | Microsoft.Network/networkSecurityGroups/delete |
-| 5.2.5 | Create or Update Security Solution | Microsoft.Security/securitySolutions/write |
-| 5.2.6 | Delete Security Solution | Microsoft.Security/securitySolutions/delete |
-| 5.2.7 | Create or Update SQL Server Firewall Rule | Microsoft.Sql/servers/firewallRules/write |
-| 5.2.8 | Delete SQL Server Firewall Rule | Microsoft.Sql/servers/firewallRules/delete |
-| 5.2.9 | Create or Update Public IP Address | Microsoft.Network/publicIPAddresses/write |
+| CIS ID | Operation                                 | Category                                         |
+| ------ | ----------------------------------------- | ------------------------------------------------ |
+| 5.2.1  | Create Policy Assignment                  | Microsoft.Authorization/policyAssignments/write  |
+| 5.2.2  | Delete Policy Assignment                  | Microsoft.Authorization/policyAssignments/delete |
+| 5.2.3  | Create or Update Network Security Group   | Microsoft.Network/networkSecurityGroups/write    |
+| 5.2.4  | Delete Network Security Group             | Microsoft.Network/networkSecurityGroups/delete   |
+| 5.2.5  | Create or Update Security Solution        | Microsoft.Security/securitySolutions/write       |
+| 5.2.6  | Delete Security Solution                  | Microsoft.Security/securitySolutions/delete      |
+| 5.2.7  | Create or Update SQL Server Firewall Rule | Microsoft.Sql/servers/firewallRules/write        |
+| 5.2.8  | Delete SQL Server Firewall Rule           | Microsoft.Sql/servers/firewallRules/delete       |
+| 5.2.9  | Create or Update Public IP Address        | Microsoft.Network/publicIPAddresses/write        |
 
 ### CIS 5.3 -- Network Watcher
 

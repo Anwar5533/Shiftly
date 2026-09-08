@@ -111,15 +111,11 @@ function ResponsiveCard({ title, image, description }) {
         <img
           src={image}
           alt=""
-          className="w-full @md:w-48 @lg:w-64 aspect-video @md:aspect-square object-cover"
+          className="aspect-video w-full object-cover @md:aspect-square @md:w-48 @lg:w-64"
         />
         <div className="p-4 @md:p-0">
-          <h2 className="text-lg @md:text-xl @lg:text-2xl font-semibold">
-            {title}
-          </h2>
-          <p className="mt-2 text-muted-foreground @md:line-clamp-3">
-            {description}
-          </p>
+          <h2 className="text-lg font-semibold @md:text-xl @lg:text-2xl">{title}</h2>
+          <p className="text-muted-foreground mt-2 @md:line-clamp-3">{description}</p>
         </div>
       </article>
     </div>
@@ -169,12 +165,7 @@ p {
 
 ```tsx
 // Utility function for fluid values
-function fluidValue(
-  minSize: number,
-  maxSize: number,
-  minWidth = 320,
-  maxWidth = 1280,
-) {
+function fluidValue(minSize: number, maxSize: number, minWidth = 320, maxWidth = 1280) {
   const slope = (maxSize - minSize) / (maxWidth - minWidth);
   const yAxisIntersection = -minWidth * slope + minSize;
 
@@ -187,7 +178,7 @@ const fluidTypeScale = {
   base: fluidValue(1, 1.125),
   lg: fluidValue(1.25, 1.5),
   xl: fluidValue(1.5, 2),
-  "2xl": fluidValue(2, 3),
+  '2xl': fluidValue(2, 3),
 };
 ```
 
@@ -212,10 +203,10 @@ const fluidTypeScale = {
 .page-layout {
   display: grid;
   grid-template-areas:
-    "header"
-    "main"
-    "sidebar"
-    "footer";
+    'header'
+    'main'
+    'sidebar'
+    'footer';
   gap: 1rem;
 }
 
@@ -223,9 +214,9 @@ const fluidTypeScale = {
   .page-layout {
     grid-template-columns: 1fr 300px;
     grid-template-areas:
-      "header header"
-      "main sidebar"
-      "footer footer";
+      'header header'
+      'main sidebar'
+      'footer footer';
   }
 }
 
@@ -233,9 +224,9 @@ const fluidTypeScale = {
   .page-layout {
     grid-template-columns: 250px 1fr 300px;
     grid-template-areas:
-      "header header header"
-      "nav main sidebar"
-      "footer footer footer";
+      'header header header'
+      'nav main sidebar'
+      'footer footer footer';
   }
 }
 
@@ -255,7 +246,7 @@ const fluidTypeScale = {
 
 ```tsx
 // Responsive grid component
-function ResponsiveGrid({ children, minItemWidth = "250px", gap = "1.5rem" }) {
+function ResponsiveGrid({ children, minItemWidth = '250px', gap = '1.5rem' }) {
   return (
     <div
       className="grid"
@@ -272,7 +263,7 @@ function ResponsiveGrid({ children, minItemWidth = "250px", gap = "1.5rem" }) {
 // Usage with Tailwind
 function ProductGrid({ products }) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-3 xl:grid-cols-4">
       {products.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}
@@ -291,7 +282,7 @@ function ResponsiveNav({ items }) {
     <nav className="relative">
       {/* Mobile menu button */}
       <button
-        className="lg:hidden p-2"
+        className="p-2 lg:hidden"
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
         aria-controls="nav-menu"
@@ -305,12 +296,12 @@ function ResponsiveNav({ items }) {
         id="nav-menu"
         className={cn(
           // Base: hidden on mobile
-          "absolute top-full left-0 right-0 bg-background border-b",
-          "flex flex-col",
+          'bg-background absolute top-full right-0 left-0 border-b',
+          'flex flex-col',
           // Mobile: slide down
-          isOpen ? "flex" : "hidden",
+          isOpen ? 'flex' : 'hidden',
           // Desktop: always visible, horizontal
-          "lg:static lg:flex lg:flex-row lg:border-0 lg:bg-transparent",
+          'lg:static lg:flex lg:flex-row lg:border-0 lg:bg-transparent',
         )}
       >
         {items.map((item) => (
@@ -318,9 +309,9 @@ function ResponsiveNav({ items }) {
             <a
               href={item.href}
               className={cn(
-                "block px-4 py-3",
-                "lg:px-3 lg:py-2",
-                "hover:bg-muted lg:hover:bg-transparent lg:hover:text-primary",
+                'block px-4 py-3',
+                'lg:px-3 lg:py-2',
+                'hover:bg-muted lg:hover:text-primary lg:hover:bg-transparent',
               )}
             >
               {item.label}
@@ -341,23 +332,15 @@ function ResponsiveHero() {
   return (
     <picture>
       {/* Art direction: different crops for different screens */}
-      <source
-        media="(min-width: 1024px)"
-        srcSet="/hero-wide.webp"
-        type="image/webp"
-      />
-      <source
-        media="(min-width: 768px)"
-        srcSet="/hero-medium.webp"
-        type="image/webp"
-      />
+      <source media="(min-width: 1024px)" srcSet="/hero-wide.webp" type="image/webp" />
+      <source media="(min-width: 768px)" srcSet="/hero-medium.webp" type="image/webp" />
       <source srcSet="/hero-mobile.webp" type="image/webp" />
 
       {/* Fallback */}
       <img
         src="/hero-mobile.jpg"
         alt="Hero image description"
-        className="w-full h-auto"
+        className="h-auto w-full"
         loading="eager"
         fetchpriority="high"
       />
@@ -377,7 +360,7 @@ function ProductImage({ product }) {
       `}
       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
       alt={product.name}
-      className="w-full h-auto object-cover"
+      className="h-auto w-full object-cover"
       loading="lazy"
     />
   );
@@ -395,7 +378,7 @@ function ResponsiveTable({ data, columns }) {
         <thead>
           <tr>
             {columns.map((col) => (
-              <th key={col.key} className="text-left p-3">
+              <th key={col.key} className="p-3 text-left">
                 {col.label}
               </th>
             ))}
@@ -422,19 +405,15 @@ function ResponsiveDataTable({ data, columns }) {
   return (
     <>
       {/* Desktop table */}
-      <table className="hidden md:table w-full">
-        {/* ... standard table */}
-      </table>
+      <table className="hidden w-full md:table">{/* ... standard table */}</table>
 
       {/* Mobile cards */}
-      <div className="md:hidden space-y-4">
+      <div className="space-y-4 md:hidden">
         {data.map((row, i) => (
-          <div key={i} className="border rounded-lg p-4 space-y-2">
+          <div key={i} className="space-y-2 rounded-lg border p-4">
             {columns.map((col) => (
               <div key={col.key} className="flex justify-between">
-                <span className="font-medium text-muted-foreground">
-                  {col.label}
-                </span>
+                <span className="text-muted-foreground font-medium">{col.label}</span>
                 <span>{row[col.key]}</span>
               </div>
             ))}

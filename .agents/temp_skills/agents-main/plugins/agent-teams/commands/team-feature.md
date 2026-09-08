@@ -1,6 +1,6 @@
 ---
-description: "Develop features in parallel with multiple agents using file ownership boundaries and dependency management"
-argument-hint: "<feature-description> [--team-size N] [--branch feature/name] [--plan-first]"
+description: 'Develop features in parallel with multiple agents using file ownership boundaries and dependency management'
+argument-hint: '<feature-description> [--team-size N] [--branch feature/name] [--plan-first]'
 ---
 
 # Team Feature

@@ -39,12 +39,12 @@ still documents the full gate.
 
 ## Stage 2: Capability Drift
 
-| Benchmark | Baseline | Checkpoint | Delta | Budget verdict |
-|---|---|---|---|---|
-| mmlu-subset | 68.2 | 67.5 | -0.7 | noise |
-| gsm8k-subset | 81.0 | 78.4 | -2.6 | rerun-seed |
-| ifeval | 74.1 | 74.3 | +0.2 | noise |
-| domain-adjacent | 62.0 | 55.8 | -6.2 | HARD FAIL |
+| Benchmark       | Baseline | Checkpoint | Delta | Budget verdict |
+| --------------- | -------- | ---------- | ----- | -------------- |
+| mmlu-subset     | 68.2     | 67.5       | -0.7  | noise          |
+| gsm8k-subset    | 81.0     | 78.4       | -2.6  | rerun-seed     |
+| ifeval          | 74.1     | 74.3       | +0.2  | noise          |
+| domain-adjacent | 62.0     | 55.8       | -6.2  | HARD FAIL      |
 
 **Stage verdict:** PASS / RERUN / HARD FAIL
 (worst-benchmark delta governs — one HARD FAIL
@@ -112,9 +112,9 @@ baseline file recorded:
 ```yaml
 # scored against eval/drift-suite.yaml
 drift_budget:
-  noise_tolerance_pts: 1        # <=1pt: noise, proceed
-  rerun_seed_variation_pts: [2, 5]   # 2-5pt: rerun before deciding
-  hard_fail_threshold_pts: 5    # >5pt: HARD FAIL, no exceptions
+  noise_tolerance_pts: 1 # <=1pt: noise, proceed
+  rerun_seed_variation_pts: [2, 5] # 2-5pt: rerun before deciding
+  hard_fail_threshold_pts: 5 # >5pt: HARD FAIL, no exceptions
 ```
 
 Score every row in the frozen suite (general
@@ -182,13 +182,13 @@ frozen n=50 GSM8K drift slice, then re-measuring
 the same checkpoints at n=200 once the pattern
 looked suspicious:
 
-| Run | Config change | GSM8K@n=50 | GSM8K@n=200 |
-|---|---|---|---|
-| r1 | 0% replay (baseline config) | 46 | — |
-| r2 | +20% replay (swapped) | 64 | 60.0 |
-| r3 | r2 + lower LR | 72 | — |
-| r4 | r2 + 30% replay (added, not swapped) | 46 | — |
-| r5 | r2 exact config, seed repeat | 56 | 58.5 |
+| Run | Config change                        | GSM8K@n=50 | GSM8K@n=200 |
+| --- | ------------------------------------ | ---------- | ----------- |
+| r1  | 0% replay (baseline config)          | 46         | —           |
+| r2  | +20% replay (swapped)                | 64         | 60.0        |
+| r3  | r2 + lower LR                        | 72         | —           |
+| r4  | r2 + 30% replay (added, not swapped) | 46         | —           |
+| r5  | r2 exact config, seed repeat         | 56         | 58.5        |
 
 Read at n=50, this trajectory looks like real
 signal: replay helps (+18pt), LR helps further
@@ -222,11 +222,11 @@ until a same-config seed pair confirms it.
   Stage 2's sizing rule above, not a suite proven to
   resolve the margin below at 95% CI:** near the 50%
   boundary, n=200's half-width is `1.96 ×
-  sqrt(0.25/200) ≈ 6.9pt`, wider than the 5pt margin
+sqrt(0.25/200) ≈ 6.9pt`, wider than the 5pt margin
   threshold. Report the CI half-width alongside the
   win rate; if the margin is smaller than the
   reported half-width, the stage verdict is `REJECT
-  (uncertain)` — same rule as Stage 2 — resolved with
+(uncertain)` — same rule as Stage 2 — resolved with
   a larger arena or a same-config seed-repeat before
   promoting. **This 200-item minimum is for the
   LLM-judge protocol.** The deterministic variant
@@ -311,11 +311,12 @@ swap-not-add mechanic, not a competing order.**
 
 ```yaml
 # training data composition
-target_task_fraction: 0.80   # 80% target-task rows
-replay_fraction: 0.20         # 20% general-domain replay
+target_task_fraction: 0.80 # 80% target-task rows
+replay_fraction: 0.20 # 20% general-domain replay
 replay_source: general-instruct-pool-v3
-replay_sampling: stratified   # match replay topic mix to
-                               # general-domain eval coverage
+replay_sampling:
+  stratified # match replay topic mix to
+  # general-domain eval coverage
 ```
 
 Start at 20% when no prior forgetting data exists
@@ -332,7 +333,7 @@ replay-mix construction recipe
 (`references/synthetic-data.md`) for the full
 swap procedure. Do not assume the dose-response is
 monotonic: a documented dogfood run saw 30.4%
-replay (added, not swapped) score 18 points *worse*
+replay (added, not swapped) score 18 points _worse_
 on the replayed capability than 20% replay at
 otherwise-identical config, because the added rows
 also raised total steps 50→58. Only drop toward 10%

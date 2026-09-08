@@ -11,8 +11,8 @@ role: [vciso]
 phase: [assess, operate, recover]
 frameworks: [NIST-CSF-2.0, ISO-27001-2022, CIS-Controls-v8, AICPA-TSC]
 difficulty: intermediate
-time_estimate: "varies by engagement"
-version: "1.0.0"
+time_estimate: 'varies by engagement'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
@@ -55,13 +55,13 @@ Each engagement type defines a skill sequence. Run the skills in order — each 
 nist-csf-assessment → soc2-gap → iam-review → cve-triage → threat-modeling
 ```
 
-| Step | Skill | Purpose |
-|------|-------|---------|
-| 1 | `nist-csf-assessment` | Establish current maturity across all six CSF functions (Govern, Identify, Protect, Detect, Respond, Recover). This is the foundation — everything else references it. |
-| 2 | `soc2-gap` | Map CSF findings to SOC 2 Trust Services Criteria. Even if SOC 2 is not an immediate goal, this surfaces the controls gap in a format auditors and customers understand. |
-| 3 | `iam-review` | Evaluate identity and access management. IAM is the single highest-leverage control domain — misconfigured IAM is the root cause of the majority of breaches. |
-| 4 | `cve-triage` | Assess the current vulnerability landscape across infrastructure and applications. Produces the quantitative risk data the board cares about. |
-| 5 | `threat-modeling` | Model the top 3-5 threat scenarios specific to this organization's business, architecture, and data. Converts raw findings into a risk narrative. |
+| Step | Skill                 | Purpose                                                                                                                                                                  |
+| ---- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1    | `nist-csf-assessment` | Establish current maturity across all six CSF functions (Govern, Identify, Protect, Detect, Respond, Recover). This is the foundation — everything else references it.   |
+| 2    | `soc2-gap`            | Map CSF findings to SOC 2 Trust Services Criteria. Even if SOC 2 is not an immediate goal, this surfaces the controls gap in a format auditors and customers understand. |
+| 3    | `iam-review`          | Evaluate identity and access management. IAM is the single highest-leverage control domain — misconfigured IAM is the root cause of the majority of breaches.            |
+| 4    | `cve-triage`          | Assess the current vulnerability landscape across infrastructure and applications. Produces the quantitative risk data the board cares about.                            |
+| 5    | `threat-modeling`     | Model the top 3-5 threat scenarios specific to this organization's business, architecture, and data. Converts raw findings into a risk narrative.                        |
 
 **Deliverable:** Security Program Maturity Summary + 90-Day Remediation Roadmap.
 
@@ -77,12 +77,12 @@ nist-csf-assessment → soc2-gap → iam-review → cve-triage → threat-modeli
 soc2-gap → iam-review → secrets-management → pipeline-security
 ```
 
-| Step | Skill | Purpose |
-|------|-------|---------|
-| 1 | `soc2-gap` | Full gap analysis against the Trust Services Criteria relevant to the audit scope (typically Security + Availability, sometimes Confidentiality and Processing Integrity). |
-| 2 | `iam-review` | SOC 2 CC6.1-CC6.3 (Logical and Physical Access Controls) is where most companies fail. Fix IAM first. |
-| 3 | `secrets-management` | Auditors will test for hardcoded credentials, key rotation, and secrets sprawl. This must be clean before the audit window opens. |
-| 4 | `pipeline-security` | CC8.1 (Change Management) requires evidence of controlled deployments. Secure the CI/CD pipeline and generate the audit trail. |
+| Step | Skill                | Purpose                                                                                                                                                                    |
+| ---- | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | `soc2-gap`           | Full gap analysis against the Trust Services Criteria relevant to the audit scope (typically Security + Availability, sometimes Confidentiality and Processing Integrity). |
+| 2    | `iam-review`         | SOC 2 CC6.1-CC6.3 (Logical and Physical Access Controls) is where most companies fail. Fix IAM first.                                                                      |
+| 3    | `secrets-management` | Auditors will test for hardcoded credentials, key rotation, and secrets sprawl. This must be clean before the audit window opens.                                          |
+| 4    | `pipeline-security`  | CC8.1 (Change Management) requires evidence of controlled deployments. Secure the CI/CD pipeline and generate the audit trail.                                             |
 
 **Deliverable:** SOC 2 Readiness Report with control-by-control status, evidence inventory, and remediation punch list.
 
@@ -98,12 +98,12 @@ soc2-gap → iam-review → secrets-management → pipeline-security
 ir-playbook → containment → forensics-checklist → post-incident-review
 ```
 
-| Step | Skill | Purpose |
-|------|-------|---------|
-| 1 | `ir-playbook` | Activate the appropriate incident response playbook based on incident classification (ransomware, data exfiltration, account compromise, supply chain). If no playbook exists, generate one in real time. |
-| 2 | `containment` | Execute containment actions: isolate affected systems, revoke compromised credentials, block malicious IPs/domains. Containment before forensics — always. |
-| 3 | `forensics-checklist` | Preserve evidence, establish timeline, identify root cause. This step determines whether the incident is isolated or systemic. |
-| 4 | `post-incident-review` | Blameless retrospective. Map the incident to control failures in the security program. Feed findings back into the baseline assessment and remediation roadmap. |
+| Step | Skill                  | Purpose                                                                                                                                                                                                   |
+| ---- | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | `ir-playbook`          | Activate the appropriate incident response playbook based on incident classification (ransomware, data exfiltration, account compromise, supply chain). If no playbook exists, generate one in real time. |
+| 2    | `containment`          | Execute containment actions: isolate affected systems, revoke compromised credentials, block malicious IPs/domains. Containment before forensics — always.                                                |
+| 3    | `forensics-checklist`  | Preserve evidence, establish timeline, identify root cause. This step determines whether the incident is isolated or systemic.                                                                            |
+| 4    | `post-incident-review` | Blameless retrospective. Map the incident to control failures in the security program. Feed findings back into the baseline assessment and remediation roadmap.                                           |
 
 **Deliverable:** Incident Report (technical + executive summary) and updated Risk Register entries.
 
@@ -121,11 +121,11 @@ ir-playbook → containment → forensics-checklist → post-incident-review
 nist-csf-assessment → cve-triage → threat-modeling
 ```
 
-| Step | Skill | Purpose |
-|------|-------|---------|
-| 1 | `nist-csf-assessment` | Refresh the maturity scores. The board needs trend data — are we improving quarter over quarter? |
-| 2 | `cve-triage` | Generate quantitative metrics: mean time to remediate, critical/high vulnerability counts, SLA compliance rates. Boards want numbers. |
-| 3 | `threat-modeling` | Build the risk narrative: "Here are the three most likely scenarios that could impact the business, here is what we are doing about each, here is what is left to address." |
+| Step | Skill                 | Purpose                                                                                                                                                                     |
+| ---- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | `nist-csf-assessment` | Refresh the maturity scores. The board needs trend data — are we improving quarter over quarter?                                                                            |
+| 2    | `cve-triage`          | Generate quantitative metrics: mean time to remediate, critical/high vulnerability counts, SLA compliance rates. Boards want numbers.                                       |
+| 3    | `threat-modeling`     | Build the risk narrative: "Here are the three most likely scenarios that could impact the business, here is what we are doing about each, here is what is left to address." |
 
 **Deliverable:** Board-Ready Security Posture Report.
 
@@ -141,12 +141,12 @@ nist-csf-assessment → cve-triage → threat-modeling
 llm-top-10 → agentic-top-10 → agent-security → prompt-injection
 ```
 
-| Step | Skill | Purpose |
-|------|-------|---------|
-| 1 | `llm-top-10` | Assess against the OWASP Top 10 for LLM Applications. Covers prompt injection, training data poisoning, model denial of service, supply chain vulnerabilities, and sensitive information disclosure. |
-| 2 | `agentic-top-10` | If the org uses agentic AI (agents that take actions, call tools, or chain outputs), assess against the OWASP Agentic AI Top 10. This covers excessive agency, trust boundary violations, and cascading hallucinations. |
-| 3 | `agent-security` | Review the specific agent architecture: what tools are exposed, what permissions agents hold, how outputs are validated before execution, and whether human-in-the-loop gates exist. |
-| 4 | `prompt-injection` | Test for direct and indirect prompt injection across all user-facing and data-ingesting LLM surfaces. This is the most exploitable class of LLM vulnerability today. |
+| Step | Skill              | Purpose                                                                                                                                                                                                                 |
+| ---- | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | `llm-top-10`       | Assess against the OWASP Top 10 for LLM Applications. Covers prompt injection, training data poisoning, model denial of service, supply chain vulnerabilities, and sensitive information disclosure.                    |
+| 2    | `agentic-top-10`   | If the org uses agentic AI (agents that take actions, call tools, or chain outputs), assess against the OWASP Agentic AI Top 10. This covers excessive agency, trust boundary violations, and cascading hallucinations. |
+| 3    | `agent-security`   | Review the specific agent architecture: what tools are exposed, what permissions agents hold, how outputs are validated before execution, and whether human-in-the-loop gates exist.                                    |
+| 4    | `prompt-injection` | Test for direct and indirect prompt injection across all user-facing and data-ingesting LLM surfaces. This is the most exploitable class of LLM vulnerability today.                                                    |
 
 **Deliverable:** AI Security Assessment Report with risk ratings per application and remediation guidance.
 

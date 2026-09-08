@@ -16,17 +16,39 @@ A generated deck uses a JSON root with `summary` and `slides`. The final tree is
       "presentation_title": "Quarterly operating review"
     }
   },
-  "slides": [{
-    "id": "s01_overview",
-    "title": "Operating margin improves after the cost reset",
-    "accessibility": { "reading_order": ["title"] },
-    "layout_tree": {
-      "slide_size": { "width": 13.333, "height": 7.5 },
-      "root_group_id": "root",
-      "groups": { "root": { "id": "root", "role": "slide", "layout_mode": "absolute", "object_ids": ["title"], "group_ids": [], "bbox": { "x": 0, "y": 0, "width": 13.333, "height": 7.5 } } },
-      "objects": { "title": { "id": "title", "kind": "text", "role": "title", "classification": "content", "content": { "text": "Operating margin improves after the cost reset" }, "style": { "font_size": 30, "color": "#111827" }, "bbox": { "x": 0.75, "y": 0.55, "width": 10.8, "height": 0.65 }, "z_index": 2 } }
+  "slides": [
+    {
+      "id": "s01_overview",
+      "title": "Operating margin improves after the cost reset",
+      "accessibility": { "reading_order": ["title"] },
+      "layout_tree": {
+        "slide_size": { "width": 13.333, "height": 7.5 },
+        "root_group_id": "root",
+        "groups": {
+          "root": {
+            "id": "root",
+            "role": "slide",
+            "layout_mode": "absolute",
+            "object_ids": ["title"],
+            "group_ids": [],
+            "bbox": { "x": 0, "y": 0, "width": 13.333, "height": 7.5 }
+          }
+        },
+        "objects": {
+          "title": {
+            "id": "title",
+            "kind": "text",
+            "role": "title",
+            "classification": "content",
+            "content": { "text": "Operating margin improves after the cost reset" },
+            "style": { "font_size": 30, "color": "#111827" },
+            "bbox": { "x": 0.75, "y": 0.55, "width": 10.8, "height": 0.65 },
+            "z_index": 2
+          }
+        }
+      }
     }
-  }]
+  ]
 }
 ```
 

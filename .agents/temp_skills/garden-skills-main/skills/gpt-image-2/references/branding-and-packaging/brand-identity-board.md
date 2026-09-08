@@ -106,12 +106,7 @@
       "配色板 ≤ 6 色 + HEX 可读",
       "应用 mockup 风格统一"
     ],
-    "avoid": [
-      "塞太多元素导致每区无呼吸感",
-      "字体超过 2 种家族",
-      "颜色超过 6 种",
-      "缺少 HEX 编号"
-    ]
+    "avoid": ["塞太多元素导致每区无呼吸感", "字体超过 2 种家族", "颜色超过 6 种", "缺少 HEX 编号"]
   }
 }
 ```
@@ -136,9 +131,9 @@
 {
   "type": "极简 brand board",
   "regions": {
-    "logo": {"primary_logo": "字标 + 极简图形", "background_test": "白底 + 纯黑底"},
-    "color_palette": {"primary": ["#000", "#FFF", "#FFD166"]},
-    "typography": {"demo_block": "Aa Bb"},
+    "logo": { "primary_logo": "字标 + 极简图形", "background_test": "白底 + 纯黑底" },
+    "color_palette": { "primary": ["#000", "#FFF", "#FFD166"] },
+    "typography": { "demo_block": "Aa Bb" },
     "applications": null
   },
   "constraints": {
@@ -155,10 +150,10 @@
 {
   "type": "高密度 brand board",
   "regions": {
-    "logo": {"primary_logo": "..."},
-    "color_palette": {"primary": ["..."], "secondary": ["..."]},
-    "typography": {"demo_block": "..."},
-    "applications": {"mockups": ["名片", "包装", "海报", "app icon", "网站 hero"]}
+    "logo": { "primary_logo": "..." },
+    "color_palette": { "primary": ["..."], "secondary": ["..."] },
+    "typography": { "demo_block": "..." },
+    "applications": { "mockups": ["名片", "包装", "海报", "app icon", "网站 hero"] }
   },
   "extras": {
     "icon_system": "12 个统一风格图标网格",

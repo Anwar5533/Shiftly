@@ -78,14 +78,17 @@ your-project/
 # [目录名称]
 
 ## 用途
+
 本目录是干什么的、什么场景下应该被检索。
 
 ## 文件说明
+
 - file1.pdf —— 内容是什么、时间 / 版本范围
 - file2.xlsx —— 表结构概要、关键列
 - subdir/ —— 子目录用途
 
 ## 数据范围
+
 时间范围、版本、数据来源等帮助 Agent 排序优先级的信息。
 ```
 
@@ -123,11 +126,11 @@ your-project/
 
 ### 4. 按文件类型选工具
 
-| 格式 | 工具 | 注意 |
-|---|---|---|
-| Markdown / 文本 | `grep` + 窗口 `read_file` | 必须 offset/limit，不要整文件读。 |
-| PDF | `pdftotext input.pdf output.txt` → 对结果文本 `grep` | **必须输出到文件**，不要走 stdout。超大 PDF 用 `-f / -l` 控制页范围。 |
-| Excel | pandas，先 `nrows` 学结构，再带条件读取 | 先识别关键列（id / time / category），再查询。 |
+| 格式            | 工具                                                 | 注意                                                                  |
+| --------------- | ---------------------------------------------------- | --------------------------------------------------------------------- |
+| Markdown / 文本 | `grep` + 窗口 `read_file`                            | 必须 offset/limit，不要整文件读。                                     |
+| PDF             | `pdftotext input.pdf output.txt` → 对结果文本 `grep` | **必须输出到文件**，不要走 stdout。超大 PDF 用 `-f / -l` 控制页范围。 |
+| Excel           | pandas，先 `nrows` 学结构，再带条件读取              | 先识别关键列（id / time / category），再查询。                        |
 
 ### 5. 迭代循环
 

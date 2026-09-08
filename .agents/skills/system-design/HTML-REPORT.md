@@ -13,11 +13,11 @@ The artifact and schema contract for [SKILL.md](SKILL.md): the component types u
 
 ## The three artifacts
 
-| Artifact | Location | Lifecycle |
-|---|---|---|
-| `design.json` | `docs/design/<slug>/` (git repo) or `./<slug>/` (no repo) | Source of truth; every iteration edits this first |
-| `DESIGN.md` | Beside `design.json` | Regenerated from the JSON every iteration; a `## Notes` section, if present, is preserved verbatim |
-| `system-design-<slug>.html` | `$TMPDIR` | A render, regenerated any time; never hand-edited, never committed |
+| Artifact                    | Location                                                  | Lifecycle                                                                                          |
+| --------------------------- | --------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `design.json`               | `docs/design/<slug>/` (git repo) or `./<slug>/` (no repo) | Source of truth; every iteration edits this first                                                  |
+| `DESIGN.md`                 | Beside `design.json`                                      | Regenerated from the JSON every iteration; a `## Notes` section, if present, is preserved verbatim |
+| `system-design-<slug>.html` | `$TMPDIR`                                                 | A render, regenerated any time; never hand-edited, never committed                                 |
 
 ## Render mechanics
 
@@ -38,7 +38,7 @@ If no opener works—headless box, remote session—print the absolute path and 
 1. **Stable ids.** A component keeps one `id` across every architecture in the file. Diff badges, the Compare tab, and steal-bits composition all derive from id identity — new name, new id; same box, same id.
 2. **Layout is approximate and flow-first.** Every v2 component carries a center-point `position`; `grid` remains only for v1 compatibility. Place the primary flow left-to-right, owned state below/beside its service, async work downward, and external dependencies near the caller. The renderer snaps, aligns, resolves component overlaps, creates soft cluster bounds, routes around obstacles, and expands the canvas as needed. Ports are automatic.
 3. **Every flow step references component ids present in that architecture.** Validate before writing the file.
-4. **The distinctness rule.** Candidates must be distinct on at least one of: **structural style** (a different row of the [HEURISTICS.md](HEURISTICS.md) matrix), **zone-level topology** (a different data topology *and* a different async topology), or **data and consistency model** (a different representation, ordering authority, or conflict-resolution mechanism over the same component graph). A swapped database is a variant; a swapped conflict-resolution model is a candidate, because it changes the invariants rather than the vendor. Each `thesis` names the structural or data-model idea that makes the candidate distinct. A candidate composed from two others on user feedback is exempt from this rule; its `thesis` names what the combination buys.
+4. **The distinctness rule.** Candidates must be distinct on at least one of: **structural style** (a different row of the [HEURISTICS.md](HEURISTICS.md) matrix), **zone-level topology** (a different data topology _and_ a different async topology), or **data and consistency model** (a different representation, ordering authority, or conflict-resolution mechanism over the same component graph). A swapped database is a variant; a swapped conflict-resolution model is a candidate, because it changes the invariants rather than the vendor. Each `thesis` names the structural or data-model idea that makes the candidate distinct. A candidate composed from two others on user feedback is exempt from this rule; its `thesis` names what the combination buys.
 5. **Reasoning cites.** Every `comparison.recommendation.reasoning` line and every `tradeoffs` entry chains to an estimate row, a `dataModel` decision, or a named principle from [HEURISTICS.md](HEURISTICS.md). No "more scalable" without the number that says why it matters here, and no citing the style matrix as evidence — its rows are priors, not measurements.
 6. **Production contracts are first-class.** `domain.entities[].invariants`, `dataModel.entities`, `interfaces`, and two or three resolved `deepDives` are required in v2. When the design has structured persistence, `dataModel.schemas` gives an intuitive, non-executable view of every table or collection: essential fields, key roles, indexes, relationships, authority, and retention. Every queue/log states delivery and idempotency semantics; every store is identified as authoritative or derived in its `note` and carries the optional `state` contract described below. Every edge carries the optional `contract` described below. These fields are optional for backward compatibility, but mandatory in newly completed candidates. `requirements.priorities.top3` names exactly three ratings axes, is settled before any candidate is drawn, and every axis in it also appears in `comparison.axes`. Migration notes state how the change is undone; a migration that executes on hardware you do not control — shipped clients, embedded devices, on-prem installs — is one-way, and says how long the previous version keeps writing the old shape.
 7. **Candidates stay complete.** Do not collapse losing candidates into partial sketches. Every candidate carries all components, edges, flows, trade-offs, and ratings needed for a direct comparison. A composed candidate is added, never a replacement — its parents stay drawn.
@@ -51,44 +51,59 @@ If no opener works—headless box, remote session—print the absolute path and 
   "version": 2,
   "slug": "design-messaging",
   "title": "Design a messaging service",
-  "mode": "greenfield",                  // "repo" | "greenfield"
-  "status": "draft",                     // "draft" | "decided"
-  "decided": null,                       // architecture id once status is "decided"
+  "mode": "greenfield", // "repo" | "greenfield"
+  "status": "draft", // "draft" | "decided"
+  "decided": null, // architecture id once status is "decided"
   "updatedAt": "2026-07-30",
 
   "context": {
     "problem": "one paragraph",
     "constraints": ["mobile-first", "small team"],
-    "vocabulary": []                     // terms adopted from the repo's CONTEXT.md (repo mode)
+    "vocabulary": [], // terms adopted from the repo's CONTEXT.md (repo mode)
   },
 
   "requirements": {
     "functional": [
-      { "id": "fr-1", "text": "1:1 text messaging", "priority": "core" }    // core | stretch
+      { "id": "fr-1", "text": "1:1 text messaging", "priority": "core" }, // core | stretch
     ],
     "nonFunctional": [
-      { "id": "nfr-1", "axis": "latency", "target": "p99 < 500 ms send-to-deliver (online)",
-        "rationale": "user-stated" }
+      {
+        "id": "nfr-1",
+        "axis": "latency",
+        "target": "p99 < 500 ms send-to-deliver (online)",
+        "rationale": "user-stated",
+      },
     ],
     "outOfScope": ["livestreaming"],
-    "priorities": {                      // exactly three ratings axes; order is not a ranking
+    "priorities": {
+      // exactly three ratings axes; order is not a ranking
       "top3": ["scalability", "faultTolerance", "performance"],
-      "source": "user",                  // user | assumed
-      "rationale": "500M DAU stated; an acknowledged message may never be lost"
+      "source": "user", // user | assumed
+      "rationale": "500M DAU stated; an acknowledged message may never be lost",
     },
-    "conflicts": [                       // sanity-pass outcomes the user accepted, and doc-vs-code divergence
-      { "text": "wants strong consistency AND 5-region sub-100ms writes", "resolution": "regional home leaders" }
-    ]
+    "conflicts": [
+      // sanity-pass outcomes the user accepted, and doc-vs-code divergence
+      {
+        "text": "wants strong consistency AND 5-region sub-100ms writes",
+        "resolution": "regional home leaders",
+      },
+    ],
   },
 
   "estimates": {
-    "assumptions": [ { "text": "500M DAU", "source": "user" } ],            // user | assumed
+    "assumptions": [{ "text": "500M DAU", "source": "user" }], // user | assumed
     "rows": [
-      { "metric": "write QPS", "value": "115k avg / 460k peak",
-        "derivation": "500M × 20 msg ÷ 86,400; peak ×4" },
-      { "metric": "cache footprint", "value": "n/a",
-        "derivation": "no read-through path; every read is a cursor scan of the device inbox" }
-    ]
+      {
+        "metric": "write QPS",
+        "value": "115k avg / 460k peak",
+        "derivation": "500M × 20 msg ÷ 86,400; peak ×4",
+      },
+      {
+        "metric": "cache footprint",
+        "value": "n/a",
+        "derivation": "no read-through path; every read is a cursor scan of the device inbox",
+      },
+    ],
   },
 
   "domain": {
@@ -96,12 +111,16 @@ If no opener works—headless box, remote session—print the absolute path and 
       {
         "name": "Message",
         "purpose": "immutable user-authored event",
-        "invariants": ["acknowledged means durably accepted", "client message id is unique per sender device"]
-      }
-    ]
+        "invariants": [
+          "acknowledged means durably accepted",
+          "client message id is unique per sender device",
+        ],
+      },
+    ],
   },
 
-  "dataModel": {                         // settled before candidates exist; see SKILL.md "Fix the data and consistency model"
+  "dataModel": {
+    // settled before candidates exist; see SKILL.md "Fix the data and consistency model"
     "entities": [
       {
         "name": "Message",
@@ -110,26 +129,34 @@ If no opener works—headless box, remote session—print the absolute path and 
         "orderingAuthority": "the conversation's log partition assigns the sequence",
         "conflictResolution": "none — messages are append-only and never mutate",
         "durabilityPoint": "the log partition commit, which is also the client acknowledgement",
-        "gc": "delivered messages drop at 30 days; the undelivered backlog moves to the store"
-      }
+        "gc": "delivered messages drop at 30 days; the undelivered backlog moves to the store",
+      },
     ],
-    "schemas": [                         // intuitive design artifact, never executable DDL
+    "schemas": [
+      // intuitive design artifact, never executable DDL
       {
         "name": "Message",
         "store": "Wide-row message store",
         "kind": "authoritative history", // authoritative | derived and rebuildable | cache, in plain language
         "fields": [
-          { "name": "conversationId", "type": "ID", "key": "partition key", "references": "Conversation.id" },
+          {
+            "name": "conversationId",
+            "type": "ID",
+            "key": "partition key",
+            "references": "Conversation.id",
+          },
           { "name": "messageId", "type": "ID", "key": "sort key" },
           { "name": "senderId", "type": "ID", "references": "User.id" },
-          { "name": "body", "type": "text or media reference" }
+          { "name": "body", "type": "text or media reference" },
         ],
         "indexes": ["(conversationId, messageId DESC) — conversation history"],
         "relationships": ["senderId → User.id", "conversationId → Conversation.id"],
-        "notes": ["Immutable after acceptance; receipts are stored separately."]
-      }
+        "notes": ["Immutable after acceptance; receipts are stored separately."],
+      },
     ],
-    "notes": ["ordering is per conversation, never global — cross-conversation order is not a product promise"]
+    "notes": [
+      "ordering is per conversation, never global — cross-conversation order is not a product promise",
+    ],
   },
 
   "interfaces": [
@@ -139,14 +166,14 @@ If no opener works—headless box, remote session—print the absolute path and 
       "purpose": "durably accept a message",
       "consistency": "ordered per conversation",
       "idempotency": "clientMessageId scoped to sender device",
-      "style": "bidirectional command",       // interaction shape, such as "REST resource", "unary RPC", or "bidirectional command"
+      "style": "bidirectional command", // interaction shape, such as "REST resource", "unary RPC", or "bidirectional command"
       "trustBoundary": "sender device → connection gateway", // identities or zones crossed and where untrusted input first terminates
       "deadline": "3 s to durable acceptance", // caller-visible time budget and the operation or milestone it bounds
       "retryability": "retry with the same clientMessageId after reconnect", // which outcomes may be retried, by whom, and with what stable key
       "backpressure": "server overload closes with 1013; client reconnects with jitter", // overload signal plus caller throttling, buffering, or shedding response
       "compatibility": "additive fields only within v1; ignore unknown fields", // versioning, evolution, and deprecation rule understood by both ends
-      "failureResult": "ACCEPTED with messageId; REJECTED before commit; UNKNOWN if the deadline expires after commit may have occurred" // caller-visible outcomes, including ambiguity after a downstream timeout
-    }
+      "failureResult": "ACCEPTED with messageId; REJECTED before commit; UNKNOWN if the deadline expires after commit may have occurred", // caller-visible outcomes, including ambiguity after a downstream timeout
+    },
   ],
 
   "deepDives": [
@@ -156,60 +183,71 @@ If no opener works—headless box, remote session—print the absolute path and 
       "decision": "acknowledge after the partitioned log commits",
       "alternatives": ["gateway memory", "synchronous history write"],
       "failureMode": "gateway dies after acknowledging",
-      "evidence": ["write QPS estimate", "no-loss invariant"]
-    }
+      "evidence": ["write QPS estimate", "no-loss invariant"],
+    },
   ],
 
   "architectures": [
     {
-      "id": "a",                         // "current" (repo mode) | "a" | "b" | "c" | later letters for composed candidates
+      "id": "a", // "current" (repo mode) | "a" | "b" | "c" | later letters for composed candidates
       "name": "Modular monolith + managed queue",
-      "style": "modular-monolith",       // row name from the HEURISTICS.md matrix, kebab-case
+      "style": "modular-monolith", // row name from the HEURISTICS.md matrix, kebab-case
       "thesis": "one sentence: the structural or data-model idea that makes this candidate distinct",
       "canvas": {
-        "primaryFlow": "send-message"     // narrative centerline; first flow is the fallback
+        "primaryFlow": "send-message", // narrative centerline; first flow is the fallback
       },
       "components": [
         {
-          "id": "chat-svc",              // STABLE across every architecture in the file
+          "id": "chat-svc", // STABLE across every architecture in the file
           "name": "Chat service",
-          "type": "service",             // icon enum below
-          "zone": "app",                 // edge | app | data | async | external
-          "cluster": "core",              // optional soft cluster; zone supplies the default
+          "type": "service", // icon enum below
+          "zone": "app", // edge | app | data | async | external
+          "cluster": "core", // optional soft cluster; zone supplies the default
           "position": { "x": 720, "y": 280 }, // preferred approximate center point
-          "grid": { "col": 3, "row": 1 },// deprecated v1 fallback
-          "tech": "Elixir",              // optional
-          "note": "100k conns/node",     // required; shown in the canvas inspector
-          "state": {                      // optional in legacy artifacts; required for stateful components in new candidates
-            "role": "authoritative",      // authoritative | derived
+          "grid": { "col": 3, "row": 1 }, // deprecated v1 fallback
+          "tech": "Elixir", // optional
+          "note": "100k conns/node", // required; shown in the canvas inspector
+          "state": {
+            // optional in legacy artifacts; required for stateful components in new candidates
+            "role": "authoritative", // authoritative | derived
             "acknowledgement": "quorum WAL commit", // authoritative only: exact externally acknowledged durability point
             "failureDomain": "three independently powered zones", // authoritative only: failures the acknowledged copies do not share
             "rpo": "0 for one-zone loss; < 5 min for region loss", // authoritative only: maximum acceptable recovered-data age, scoped by failure
             "rto": "< 60 s zone failover; < 30 min region restore", // authoritative only: maximum acceptable recovery time, scoped by failure
-            "recovery": "promote by fenced quorum; restore snapshot plus WAL" // authoritative: promotion/restore procedure; optional for derived
+            "recovery": "promote by fenced quorum; restore snapshot plus WAL", // authoritative: promotion/restore procedure; optional for derived
           },
-          "change": "unchanged"          // added | removed | modified | unchanged — vs current; omit in greenfield
-        }
+          "change": "unchanged", // added | removed | modified | unchanged — vs current; omit in greenfield
+        },
       ],
       "edges": [
-        { "from": "lb", "to": "chat-svc", "kind": "sync", "label": "WSS",
-          "importance": "primary",        // kind: sync | async | stream; importance: primary | secondary
-          "contract": {                   // optional in legacy artifacts; required for every edge in new candidates
+        {
+          "from": "lb",
+          "to": "chat-svc",
+          "kind": "sync",
+          "label": "WSS",
+          "importance": "primary", // kind: sync | async | stream; importance: primary | secondary
+          "contract": {
+            // optional in legacy artifacts; required for every edge in new candidates
             "deadline": "500 ms of caller budget", // sync: completion deadline; async: handoff deadline or maximum acceptable age
             "retryOwner": "load balancer, once with jitter", // exactly one component/layer responsible for retries
-            "backlogBound": "2k in-flight calls/instance; shed above it" // concrete concurrency, queue, in-flight, retention, or age bound
-          }
-        }
+            "backlogBound": "2k in-flight calls/instance; shed above it", // concrete concurrency, queue, in-flight, retention, or age bound
+          },
+        },
       ],
       "flows": [
         {
           "id": "send-message",
           "name": "Send message (online recipient)",
           "steps": [
-            { "seq": 1, "from": "client", "to": "lb", "label": "WSS frame",
-              "note": "client-generated message id makes retries idempotent" }
-          ]
-        }
+            {
+              "seq": 1,
+              "from": "client",
+              "to": "lb",
+              "label": "WSS frame",
+              "note": "client-generated message id makes retries idempotent",
+            },
+          ],
+        },
       ],
       "tradeoffs": {
         "pros": ["one ACID store — no sagas at this write rate"],
@@ -218,84 +256,123 @@ If no opener works—headless box, remote session—print the absolute path and 
         // releases, or one bulk data migration · L = a compatibility path that runs beside the old
         // one for many releases. Notes name what data moves and whether rollback survives once
         // users write the new format.
-        "migration": { "cost": "M", "notes": [
-          "dual-write cutover on messages table",
-          "one-way after the first new-format write — downgrade loses unsynced drafts"
-        ] }
+        "migration": {
+          "cost": "M",
+          "notes": [
+            "dual-write cutover on messages table",
+            "one-way after the first new-format write — downgrade loses unsynced drafts",
+          ],
+        },
       },
-      "ratings": {                        // 1–5; cost: 5 = cheapest. Architecture 0 is rated too.
-        "deployability": 4, "elasticity": 2, "evolvability": 3, "faultTolerance": 3,
-        "modularity": 4, "cost": 4, "performance": 3, "reliability": 4,
-        "scalability": 3, "simplicity": 4, "testability": 4
-      }
-    }
+      "ratings": {
+        // 1–5; cost: 5 = cheapest. Architecture 0 is rated too.
+        "deployability": 4,
+        "elasticity": 2,
+        "evolvability": 3,
+        "faultTolerance": 3,
+        "modularity": 4,
+        "cost": 4,
+        "performance": 3,
+        "reliability": 4,
+        "scalability": 3,
+        "simplicity": 4,
+        "testability": 4,
+      },
+    },
   ],
 
   "comparison": {
-    "axes": ["scalability", "simplicity", "faultTolerance", "performance", "cost", "evolvability"],  // the columns to emphasise, led by requirements.priorities.top3
+    "axes": ["scalability", "simplicity", "faultTolerance", "performance", "cost", "evolvability"], // the columns to emphasise, led by requirements.priorities.top3
     "recommendation": {
       "architecture": "b",
       "reasoning": [
         "115k write QPS rules out a single-region relational core (partition by conversation)",
-        "read:write asymmetry favours fan-out-on-write inboxes with a celebrity pull path"
-      ]
-    }
+        "read:write asymmetry favours fan-out-on-write inboxes with a celebrity pull path",
+      ],
+    },
   },
 
-  "debt": {                              // repo mode only — omitted entirely in greenfield
-    "scheme": "pattern+components/v1",   // identity scheme; see AUDIT.md "Identity and merge"
-    "checked": ["boundaries", "data-ownership", "coupling", "dependency-contracts",
-                "failure-containment", "over-engineering", "obsolescence"],
-    "unverified": [                      // checks that wanted evidence the run could not reach
-      { "check": "change history before 2026-01", "reason": "shallow clone; nine months available" }
+  "debt": {
+    // repo mode only — omitted entirely in greenfield
+    "scheme": "pattern+components/v1", // identity scheme; see AUDIT.md "Identity and merge"
+    "checked": [
+      "boundaries",
+      "data-ownership",
+      "coupling",
+      "dependency-contracts",
+      "failure-containment",
+      "over-engineering",
+      "obsolescence",
+    ],
+    "unverified": [
+      // checks that wanted evidence the run could not reach
+      {
+        "check": "change history before 2026-01",
+        "reason": "shallow clone; nine months available",
+      },
     ],
     "findings": [
       {
-        "id": "dbt-shared-persistence--billing-svc-orders-db",  // pattern + sorted component ids; prose never contributes
-        "identity": { "scheme": "pattern+components/v1", "pattern": "shared-persistence",
-                      "components": ["billing-svc", "orders-db"] },
-        "aliases": [],                   // ids this finding carried under an earlier scheme
-        "subject": "repo",               // repo | design — where it was observed
-        "category": "data-ownership",    // one of AUDIT.md's seven; the grouping axis
-        "pattern": "shared-persistence", // the rule that fired
-        "affects": ["evolvability"],     // optional: other ratings axes it touches
-        "title": "Billing and fulfilment both write the orders table",  // one sentence, readable on one line
-        "components": ["billing-svc", "orders-db"],
-        "edges": [],                     // optional: for debt that lives in a relationship
-        "consequence": "breaking",       // breaking | friction — a severity input, stored so it can be disputed
-        "exposure": "on-path",           // on-path | off-path — the other input
-        "severity": "blocking",          // blocking | high | medium | low — looked up from the two above, never chosen
-        "confidence": "high",            // high | medium | low — shown beside severity, never folded into it
-        "evidence": [ { "text": "both map orders as authoritative",
-                        "source": "billing/models.py; fulfilment/schema.sql" } ],
-        "whyItMatters": "A column added for billing cannot ship until fulfilment has been read and re-tested.",
-        "remedy": { "action": "consolidate",   // cut | consolidate | extract | replace | isolate | document
-                    "text": "One owner writes orders; the other reads a view it does not migrate." },
-        "effort": "M",                   // XS | S | M | L | XL — ordinal only, never hours and never currency
-        "reversibility": "reversible",   // optional: reversible | one-way
-        "blastRadius": "every migration touching orders",       // optional
-        "resolvedBy": ["b"],             // architecture ids that remove it; [] when no candidate does
-        "disconfirming": "ADR-0004 records the shared table, but for reads only — writes were never decided.",
-        "verification": {                // what actually ran, so a reader can weigh the claim
-          "gates": { "real": "pass", "live": "pass" },
-          "lenses": [ { "lens": "uncovered", "refuted": false,
-                        "objection": "ADR-0004 covers reads, not writes" },
-                      { "lens": "unstated", "refuted": false, "objection": "no trade-off is recorded" } ],
-          "tools": ["repository", "change history"],
-          "survived": 2                  // refutation attempts survived, of those run
+        "id": "dbt-shared-persistence--billing-svc-orders-db", // pattern + sorted component ids; prose never contributes
+        "identity": {
+          "scheme": "pattern+components/v1",
+          "pattern": "shared-persistence",
+          "components": ["billing-svc", "orders-db"],
         },
-        "status": "open",                // open | accepted | planned | superseded | resolved
-        "justification": null,           // required once status leaves "open"
-        "acceptedUntil": null,           // optional condition that reopens an accepted finding
-        "firstSeen": "2026-08-11",       // carried forward across runs, never regenerated
-        "baselineState": "new"           // new | unchanged | updated | absent — on every finding or on none
-      }
-    ]
+        "aliases": [], // ids this finding carried under an earlier scheme
+        "subject": "repo", // repo | design — where it was observed
+        "category": "data-ownership", // one of AUDIT.md's seven; the grouping axis
+        "pattern": "shared-persistence", // the rule that fired
+        "affects": ["evolvability"], // optional: other ratings axes it touches
+        "title": "Billing and fulfilment both write the orders table", // one sentence, readable on one line
+        "components": ["billing-svc", "orders-db"],
+        "edges": [], // optional: for debt that lives in a relationship
+        "consequence": "breaking", // breaking | friction — a severity input, stored so it can be disputed
+        "exposure": "on-path", // on-path | off-path — the other input
+        "severity": "blocking", // blocking | high | medium | low — looked up from the two above, never chosen
+        "confidence": "high", // high | medium | low — shown beside severity, never folded into it
+        "evidence": [
+          {
+            "text": "both map orders as authoritative",
+            "source": "billing/models.py; fulfilment/schema.sql",
+          },
+        ],
+        "whyItMatters": "A column added for billing cannot ship until fulfilment has been read and re-tested.",
+        "remedy": {
+          "action": "consolidate", // cut | consolidate | extract | replace | isolate | document
+          "text": "One owner writes orders; the other reads a view it does not migrate.",
+        },
+        "effort": "M", // XS | S | M | L | XL — ordinal only, never hours and never currency
+        "reversibility": "reversible", // optional: reversible | one-way
+        "blastRadius": "every migration touching orders", // optional
+        "resolvedBy": ["b"], // architecture ids that remove it; [] when no candidate does
+        "disconfirming": "ADR-0004 records the shared table, but for reads only — writes were never decided.",
+        "verification": {
+          // what actually ran, so a reader can weigh the claim
+          "gates": { "real": "pass", "live": "pass" },
+          "lenses": [
+            {
+              "lens": "uncovered",
+              "refuted": false,
+              "objection": "ADR-0004 covers reads, not writes",
+            },
+            { "lens": "unstated", "refuted": false, "objection": "no trade-off is recorded" },
+          ],
+          "tools": ["repository", "change history"],
+          "survived": 2, // refutation attempts survived, of those run
+        },
+        "status": "open", // open | accepted | planned | superseded | resolved
+        "justification": null, // required once status leaves "open"
+        "acceptedUntil": null, // optional condition that reopens an accepted finding
+        "firstSeen": "2026-08-11", // carried forward across runs, never regenerated
+        "baselineState": "new", // new | unchanged | updated | absent — on every finding or on none
+      },
+    ],
   },
 
-  "risks": [ { "text": "presence fan-out dominates at 50M concurrent", "horizon": "at 10× DAU" } ],
+  "risks": [{ "text": "presence fan-out dominates at 50M concurrent", "horizon": "at 10× DAU" }],
   "nextSteps": ["prototype gateway heartbeat reaping"],
-  "adr": null                            // path to the ADR once written (repo mode, on decision)
+  "adr": null, // path to the ADR once written (repo mode, on decision)
 }
 ```
 
@@ -315,29 +392,29 @@ something is wrong.
 
 `type` selects a symbol from the template's inline library:
 
-| type | Symbol | Use for |
-|---|---|---|
-| `client` | person silhouette | End users, browsers |
-| `mobile` | phone outline | Mobile apps |
-| `lb` | diamond | Load balancers, traffic routing |
-| `gateway` | shield-hex | API gateways, edge auth |
-| `service` | hexagon | Stateless app services, monolith modules |
-| `ws` | double-arrow hexagon | Persistent-connection gateways (WebSocket) |
-| `worker` | bolt-in-loop | Async workers, consumers, transcoders |
-| `cron` | clock | Schedulers, periodic jobs |
-| `db-sql` | cylinder | Relational stores |
-| `db-nosql` | stacked cylinders | KV, wide-row, document stores |
-| `db-graph` | connected nodes | Graph stores |
-| `cache` | lightning chip | In-memory caches |
-| `queue` | striped pipe | Queues, task buffers |
-| `stream` | arrowed log | Replayable logs, event streams |
-| `blob` | bucket | Object storage |
-| `cdn` | globe | Edge delivery |
-| `search` | magnifier | Search/inverted indexes |
-| `ml` | sparkline chip | Model inference, ranking |
-| `ledger` | double-entry book | Append-only financial records |
-| `monitor` | pulse | Observability |
-| `external` | plug | Third-party APIs |
+| type       | Symbol               | Use for                                    |
+| ---------- | -------------------- | ------------------------------------------ |
+| `client`   | person silhouette    | End users, browsers                        |
+| `mobile`   | phone outline        | Mobile apps                                |
+| `lb`       | diamond              | Load balancers, traffic routing            |
+| `gateway`  | shield-hex           | API gateways, edge auth                    |
+| `service`  | hexagon              | Stateless app services, monolith modules   |
+| `ws`       | double-arrow hexagon | Persistent-connection gateways (WebSocket) |
+| `worker`   | bolt-in-loop         | Async workers, consumers, transcoders      |
+| `cron`     | clock                | Schedulers, periodic jobs                  |
+| `db-sql`   | cylinder             | Relational stores                          |
+| `db-nosql` | stacked cylinders    | KV, wide-row, document stores              |
+| `db-graph` | connected nodes      | Graph stores                               |
+| `cache`    | lightning chip       | In-memory caches                           |
+| `queue`    | striped pipe         | Queues, task buffers                       |
+| `stream`   | arrowed log          | Replayable logs, event streams             |
+| `blob`     | bucket               | Object storage                             |
+| `cdn`      | globe                | Edge delivery                              |
+| `search`   | magnifier            | Search/inverted indexes                    |
+| `ml`       | sparkline chip       | Model inference, ranking                   |
+| `ledger`   | double-entry book    | Append-only financial records              |
+| `monitor`  | pulse                | Observability                              |
+| `external` | plug                 | Third-party APIs                           |
 
 A client-side architecture uses the same enum: `mobile` or `client` for the shell, `service` for a state owner or sync engine, `db-sql`/`db-nosql` for the on-device store, `cache` for an in-memory tier, `queue` for a mutation outbox, `worker` for background refresh. Unknown or convention-less types render as a filled rectangle with an internal mark, so a missing symbol degrades rather than breaks.
 

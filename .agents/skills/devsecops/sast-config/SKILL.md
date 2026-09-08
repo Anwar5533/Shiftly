@@ -11,13 +11,13 @@ role: [security-engineer, appsec-engineer]
 phase: [build]
 frameworks: [OWASP-ASVS-4.0.3, CWE-Top-25]
 difficulty: intermediate
-time_estimate: "30-60min"
-version: "1.0.0"
+time_estimate: '30-60min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 injection-hardened: true
-argument-hint: "[target-file-or-directory]"
+argument-hint: '[target-file-or-directory]'
 ---
 
 # SAST Tool Configuration and Tuning
@@ -87,6 +87,7 @@ Use Glob and Grep to locate SAST tool configurations, custom rules, and CI integ
 ```
 
 Categorize by:
+
 - **Tool:** Semgrep, CodeQL, SonarQube, Bandit, ESLint-security, etc.
 - **Rule source:** Default/managed rules, community rules, custom org rules.
 - **Integration point:** Pre-commit, PR check, scheduled scan, IDE plugin.
@@ -99,20 +100,21 @@ Map the active SAST rule set against CWE Top 25 (2024) to identify coverage gaps
 
 #### 2.1 CWE Top 25 Coverage Matrix
 
-| Rank | CWE ID | Weakness | SAST Detectable | Semgrep Registry | CodeQL Coverage |
-|------|--------|----------|-----------------|-----------------|-----------------|
-| 1 | CWE-787 | Out-of-bounds Write | Partial (C/C++) | Limited | `cpp/overflow-buffer` |
-| 2 | CWE-79 | Cross-site Scripting (XSS) | Yes | `javascript.browser.security.*.xss` | `js/xss`, `js/reflected-xss` |
-| 3 | CWE-89 | SQL Injection | Yes | `python.django.security.injection.sql.*`, `java.lang.security.audit.sqli.*` | `java/sql-injection`, `python/sql-injection` |
-| 4 | CWE-416 | Use After Free | Partial (C/C++) | Limited | `cpp/use-after-free` |
-| 5 | CWE-78 | OS Command Injection | Yes | `python.lang.security.audit.dangerous-subprocess-use.*` | `python/command-injection`, `java/command-injection` |
-| 6 | CWE-20 | Improper Input Validation | Partial | Pattern-dependent | Pattern-dependent |
-| 7 | CWE-125 | Out-of-bounds Read | Partial (C/C++) | Limited | `cpp/out-of-bounds-read` |
-| 8 | CWE-22 | Path Traversal | Yes | `python.lang.security.audit.path-traversal.*` | `python/path-injection`, `java/path-injection` |
-| 9 | CWE-352 | CSRF | Partial | Framework-specific | `java/csrf`, `python/csrf` |
-| 10 | CWE-434 | Unrestricted Upload | Partial | Framework-specific | Pattern-dependent |
+| Rank | CWE ID  | Weakness                   | SAST Detectable | Semgrep Registry                                                            | CodeQL Coverage                                      |
+| ---- | ------- | -------------------------- | --------------- | --------------------------------------------------------------------------- | ---------------------------------------------------- |
+| 1    | CWE-787 | Out-of-bounds Write        | Partial (C/C++) | Limited                                                                     | `cpp/overflow-buffer`                                |
+| 2    | CWE-79  | Cross-site Scripting (XSS) | Yes             | `javascript.browser.security.*.xss`                                         | `js/xss`, `js/reflected-xss`                         |
+| 3    | CWE-89  | SQL Injection              | Yes             | `python.django.security.injection.sql.*`, `java.lang.security.audit.sqli.*` | `java/sql-injection`, `python/sql-injection`         |
+| 4    | CWE-416 | Use After Free             | Partial (C/C++) | Limited                                                                     | `cpp/use-after-free`                                 |
+| 5    | CWE-78  | OS Command Injection       | Yes             | `python.lang.security.audit.dangerous-subprocess-use.*`                     | `python/command-injection`, `java/command-injection` |
+| 6    | CWE-20  | Improper Input Validation  | Partial         | Pattern-dependent                                                           | Pattern-dependent                                    |
+| 7    | CWE-125 | Out-of-bounds Read         | Partial (C/C++) | Limited                                                                     | `cpp/out-of-bounds-read`                             |
+| 8    | CWE-22  | Path Traversal             | Yes             | `python.lang.security.audit.path-traversal.*`                               | `python/path-injection`, `java/path-injection`       |
+| 9    | CWE-352 | CSRF                       | Partial         | Framework-specific                                                          | `java/csrf`, `python/csrf`                           |
+| 10   | CWE-434 | Unrestricted Upload        | Partial         | Framework-specific                                                          | Pattern-dependent                                    |
 
 For each CWE, verify:
+
 - At least one active rule covers the weakness for each language in the codebase.
 - Rule is enabled (not suppressed in configuration).
 - Rule severity matches the CWE's risk (Top 10 CWEs should not be INFO level).
@@ -172,11 +174,11 @@ rules:
     severity: ERROR
     metadata:
       cwe:
-        - "CWE-327: Use of a Broken or Risky Cryptographic Algorithm"
+        - 'CWE-327: Use of a Broken or Risky Cryptographic Algorithm'
       owasp:
-        - "A02:2021 - Cryptographic Failures"
+        - 'A02:2021 - Cryptographic Failures'
       asvs:
-        - "V6.2.1"
+        - 'V6.2.1'
       confidence: HIGH
       impact: HIGH
       references:
@@ -193,9 +195,9 @@ rules:
     severity: ERROR
     metadata:
       cwe:
-        - "CWE-798: Use of Hard-coded Credentials"
+        - 'CWE-798: Use of Hard-coded Credentials'
       asvs:
-        - "V2.10.1"
+        - 'V2.10.1'
       confidence: HIGH
 
   - id: custom.crypto.weak-random
@@ -214,9 +216,9 @@ rules:
     severity: WARNING
     metadata:
       cwe:
-        - "CWE-330: Use of Insufficiently Random Values"
+        - 'CWE-330: Use of Insufficiently Random Values'
       asvs:
-        - "V6.3.1"
+        - 'V6.3.1'
 ```
 
 **Rule quality checklist:**
@@ -238,20 +240,20 @@ rules:
 
 ```yaml
 # .github/codeql/codeql-config.yml
-name: "Custom CodeQL Config"
+name: 'Custom CodeQL Config'
 queries:
-  - uses: security-extended          # More rules than default
-  - uses: security-and-quality       # Maximum coverage
-  - uses: ./codeql-queries           # Custom queries
+  - uses: security-extended # More rules than default
+  - uses: security-and-quality # Maximum coverage
+  - uses: ./codeql-queries # Custom queries
 
 paths-ignore:
   - test/**
   - vendor/**
-  - "**/*.test.js"
+  - '**/*.test.js'
 
 query-filters:
   - exclude:
-      id: js/redundant-assignment    # Documented false positive
+      id: js/redundant-assignment # Documented false positive
 ```
 
 **What to verify:**
@@ -315,11 +317,11 @@ select sink.getNode(), source, sink, "SQL injection from $@.", source.getNode(),
 
 Map tool-native severity levels to a consistent organizational severity:
 
-| ASVS Level | Risk Context | Semgrep Severity | CodeQL Severity | CI Action |
-|------------|-------------|------------------|-----------------|-----------|
-| L1 (Opportunistic) | Internet-facing, unauthenticated | ERROR | error, @security-severity >= 7.0 | Block merge |
-| L2 (Standard) | Authenticated, business-critical | ERROR or WARNING | error or warning, >= 4.0 | Block or warn |
-| L3 (Advanced) | High-value targets, regulated data | WARNING or INFO | All severities | Warn, review required |
+| ASVS Level         | Risk Context                       | Semgrep Severity | CodeQL Severity                  | CI Action             |
+| ------------------ | ---------------------------------- | ---------------- | -------------------------------- | --------------------- |
+| L1 (Opportunistic) | Internet-facing, unauthenticated   | ERROR            | error, @security-severity >= 7.0 | Block merge           |
+| L2 (Standard)      | Authenticated, business-critical   | ERROR or WARNING | error or warning, >= 4.0         | Block or warn         |
+| L3 (Advanced)      | High-value targets, regulated data | WARNING or INFO  | All severities                   | Warn, review required |
 
 #### 5.2 False Positive Management Workflow
 
@@ -385,10 +387,10 @@ jobs:
   semgrep:
     runs-on: ubuntu-latest
     container:
-      image: semgrep/semgrep        # Use official container
+      image: semgrep/semgrep # Use official container
     steps:
       - uses: actions/checkout@v4
-      - run: semgrep ci              # Uses .semgrep.yml config
+      - run: semgrep ci # Uses .semgrep.yml config
         env:
           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
 ```
@@ -402,7 +404,7 @@ on:
   push:
     branches: [main]
   schedule:
-    - cron: '0 6 * * 1'             # Weekly full scan
+    - cron: '0 6 * * 1' # Weekly full scan
 
 jobs:
   analyze:
@@ -439,12 +441,12 @@ jobs:
 
 Before applying or proposing configuration changes, classify each remediation path using [Security Fixer Policy](../../../docs/fixer-policy.md). Include the policy review gate, reviewer evidence, and rollback guidance in the remediation plan.
 
-| Severity | Definition |
-|----------|-----------|
-| **Critical** | No SAST tooling deployed; CWE Top 5 weaknesses with zero rule coverage for languages in active use. |
-| **High** | SAST not a required CI check; CWE Top 10 coverage gap; suppressions without justification; no triage workflow; custom rules with incorrect severity mapping. |
-| **Medium** | CWE 11-25 coverage gap; no false positive management process; no scheduled full-repo scan; no remediation SLA; excessive path exclusions; FP rate > 30%. |
-| **Low** | Rule naming convention inconsistencies; missing metadata on custom rules; suboptimal scan performance; cosmetic configuration issues. |
+| Severity     | Definition                                                                                                                                                   |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Critical** | No SAST tooling deployed; CWE Top 5 weaknesses with zero rule coverage for languages in active use.                                                          |
+| **High**     | SAST not a required CI check; CWE Top 10 coverage gap; suppressions without justification; no triage workflow; custom rules with incorrect severity mapping. |
+| **Medium**   | CWE 11-25 coverage gap; no false positive management process; no scheduled full-repo scan; no remediation SLA; excessive path exclusions; FP rate > 30%.     |
+| **Low**      | Rule naming convention inconsistencies; missing metadata on custom rules; suboptimal scan performance; cosmetic configuration issues.                        |
 
 ---
 
@@ -498,31 +500,31 @@ Before applying or proposing configuration changes, classify each remediation pa
 
 ### OWASP ASVS 4.0.3 (SAST-Relevant Chapters)
 
-| Chapter | Title | SAST Coverage |
-|---------|-------|---------------|
-| V2 | Authentication | Partial -- hardcoded credentials, weak password checks |
-| V3 | Session Management | Limited -- configuration review only |
-| V4 | Access Control | Partial -- missing authorization checks |
-| V5 | Validation, Sanitization, Encoding | Strong -- injection, XSS, path traversal |
-| V6 | Stored Cryptography | Moderate -- weak algorithms, hardcoded keys |
-| V8 | Data Protection | Partial -- sensitive data in logs |
-| V12 | File and Resources | Moderate -- upload validation, path traversal |
-| V13 | API and Web Service | Partial -- mass assignment, SSRF patterns |
+| Chapter | Title                              | SAST Coverage                                          |
+| ------- | ---------------------------------- | ------------------------------------------------------ |
+| V2      | Authentication                     | Partial -- hardcoded credentials, weak password checks |
+| V3      | Session Management                 | Limited -- configuration review only                   |
+| V4      | Access Control                     | Partial -- missing authorization checks                |
+| V5      | Validation, Sanitization, Encoding | Strong -- injection, XSS, path traversal               |
+| V6      | Stored Cryptography                | Moderate -- weak algorithms, hardcoded keys            |
+| V8      | Data Protection                    | Partial -- sensitive data in logs                      |
+| V12     | File and Resources                 | Moderate -- upload validation, path traversal          |
+| V13     | API and Web Service                | Partial -- mass assignment, SSRF patterns              |
 
 ### CWE Top 25 (2024)
 
-| Rank | CWE | Name |
-|------|-----|------|
-| 1 | 787 | Out-of-bounds Write |
-| 2 | 79 | Improper Neutralization of Input During Web Page Generation (XSS) |
-| 3 | 89 | Improper Neutralization of Special Elements in SQL Command (SQLi) |
-| 4 | 416 | Use After Free |
-| 5 | 78 | Improper Neutralization of Special Elements in OS Command |
-| 6 | 20 | Improper Input Validation |
-| 7 | 125 | Out-of-bounds Read |
-| 8 | 22 | Improper Limitation of a Pathname to a Restricted Directory |
-| 9 | 352 | Cross-Site Request Forgery |
-| 10 | 434 | Unrestricted Upload of File with Dangerous Type |
+| Rank | CWE | Name                                                              |
+| ---- | --- | ----------------------------------------------------------------- |
+| 1    | 787 | Out-of-bounds Write                                               |
+| 2    | 79  | Improper Neutralization of Input During Web Page Generation (XSS) |
+| 3    | 89  | Improper Neutralization of Special Elements in SQL Command (SQLi) |
+| 4    | 416 | Use After Free                                                    |
+| 5    | 78  | Improper Neutralization of Special Elements in OS Command         |
+| 6    | 20  | Improper Input Validation                                         |
+| 7    | 125 | Out-of-bounds Read                                                |
+| 8    | 22  | Improper Limitation of a Pathname to a Restricted Directory       |
+| 9    | 352 | Cross-Site Request Forgery                                        |
+| 10   | 434 | Unrestricted Upload of File with Dangerous Type                   |
 
 ---
 

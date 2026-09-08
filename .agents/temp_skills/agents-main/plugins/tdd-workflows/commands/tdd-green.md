@@ -1,6 +1,6 @@
 ---
-description: "Implement minimal code to make failing tests pass in TDD green phase"
-argument-hint: "<description of failing tests or test file paths>"
+description: 'Implement minimal code to make failing tests pass in TDD green phase'
+argument-hint: '<description of failing tests or test file paths>'
 ---
 
 # TDD Green Phase

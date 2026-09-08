@@ -1,6 +1,9 @@
 # design-systems
+
 Build, document, and maintain scalable design systems — from tokens and components to accessibility and theming.
+
 ## Skills (11)
+
 - **accessibility-audit** — Audit an existing interface against WCAG, producing findings with severity ratings and remediation steps. Use when you have a design or build to assess now. Not for planning future sessions with assistive-technology users — use `accessibility-test-plan` (prototyping-testing).
 - **component-spec** — Specify one component — props, states, variants, accessibility, and usage rules. Use when defining a library component. For the reusable doc scaffold use `documentation-template`; for a problem-solution pattern use `pattern-library`.
 - **design-system-governance** — Define how the system evolves — contribution model, versioning, deprecation, and change management. Use when multiple teams contribute. For driving uptake use `design-system-adoption` (designer-toolkit); for design file history use `version-control-strategy` (design-ops).
@@ -14,7 +17,7 @@ Build, document, and maintain scalable design systems — from tokens and compon
 - **theming-system** — Design theming architecture — brand variants, dark mode, and high-contrast — mapped through token layers. Use when one system must serve multiple themes. For a single palette use `color-system` (ui-design); for dark mode craft use `dark-mode-design` (ui-design).
 
 ## Commands (3)
+
 - `/audit-system` — Run a comprehensive audit of an existing design system for consistency, completeness, and accessibility.
 - `/create-component` — Scaffold a full component specification end to end — props, states, variants, accessibility, and documentation.
 - `/tokenize` — Extract tokens from an existing design or stylesheet and organise them — naming, structure, and theme mapping.
-

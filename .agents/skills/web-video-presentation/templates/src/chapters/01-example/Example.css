@@ -3,9 +3,13 @@
  * Replace this file freely; it's just demo content.
  * ───────────────────────────────────────────────────────────────────── */
 
-.ex-scene { color: var(--text); }
+.ex-scene {
+  color: var(--text);
+}
 
-.ex-em { color: var(--accent); }
+.ex-em {
+  color: var(--accent);
+}
 
 /* ─── step 0: cover ─── */
 .ex-cover-body {
@@ -61,7 +65,9 @@
 }
 
 /* ─── step 2: close pull-quote ─── */
-.ex-close { padding: 0; }
+.ex-close {
+  padding: 0;
+}
 .ex-close-inner {
   flex: 1;
   display: flex;

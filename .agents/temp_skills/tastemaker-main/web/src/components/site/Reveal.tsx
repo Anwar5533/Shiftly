@@ -1,6 +1,6 @@
-import { useRef, type ReactNode } from "react"
-import { useGSAP } from "@gsap/react"
-import { gsap } from "@/lib/gsap"
+import { useRef, type ReactNode } from 'react';
+import { useGSAP } from '@gsap/react';
+import { gsap } from '@/lib/gsap';
 
 /**
  * GSAP + ScrollTrigger reveal. Content is real, visible DOM by default —
@@ -14,46 +14,46 @@ import { gsap } from "@/lib/gsap"
 export function Reveal({
   children,
   delay = 0,
-  className = "",
+  className = '',
 }: {
-  children: ReactNode
-  delay?: number
-  className?: string
+  children: ReactNode;
+  delay?: number;
+  className?: string;
 }) {
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
-      const el = ref.current
-      if (!el) return
+      const el = ref.current;
+      if (!el) return;
 
-      const mm = gsap.matchMedia()
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.set(el, { opacity: 0, y: 18 })
+      const mm = gsap.matchMedia();
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        gsap.set(el, { opacity: 0, y: 18 });
         const tween = gsap.to(el, {
           opacity: 1,
           y: 0,
           duration: 0.62,
           delay: delay / 1000,
-          ease: "power3.out",
-          scrollTrigger: { trigger: el, start: "top 90%", once: true },
-        })
+          ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 90%', once: true },
+        });
 
         const watchdog = window.setTimeout(() => {
-          if (gsap.getProperty(el, "opacity") !== 1) tween.progress(1)
-        }, 2500)
+          if (gsap.getProperty(el, 'opacity') !== 1) tween.progress(1);
+        }, 2500);
 
-        return () => window.clearTimeout(watchdog)
-      })
+        return () => window.clearTimeout(watchdog);
+      });
 
-      return () => mm.revert()
+      return () => mm.revert();
     },
     { scope: ref, dependencies: [delay] },
-  )
+  );
 
   return (
     <div ref={ref} className={className}>
       {children}
     </div>
-  )
+  );
 }

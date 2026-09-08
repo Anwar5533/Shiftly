@@ -42,10 +42,10 @@ remediation:
     - path: app.js
       after: expected/app.js
       expected_diff_contains:
-        - "-  const sql = unsafeInput"
-        - "+  const rows = await db.query(query, [input]);"
+        - '-  const sql = unsafeInput'
+        - '+  const rows = await db.query(query, [input]);'
       expected_after_contains:
-        - "db.query(query, [input])"
+        - 'db.query(query, [input])'
 ```
 
 Use one `expected_files` entry per changed or generated file. For generated

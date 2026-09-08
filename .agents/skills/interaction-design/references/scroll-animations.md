@@ -3,7 +3,7 @@
 ## Intersection Observer Hook
 
 ```tsx
-import { useEffect, useRef, useState, type RefObject } from "react";
+import { useEffect, useRef, useState, type RefObject } from 'react';
 
 interface UseInViewOptions {
   threshold?: number | number[];
@@ -13,7 +13,7 @@ interface UseInViewOptions {
 
 function useInView<T extends HTMLElement>({
   threshold = 0,
-  rootMargin = "0px",
+  rootMargin = '0px',
   triggerOnce = false,
 }: UseInViewOptions = {}): [RefObject<T>, boolean] {
   const ref = useRef<T>(null);
@@ -49,7 +49,7 @@ function FadeInSection({ children }) {
     <div
       ref={ref}
       className={`transition-all duration-700 ${
-        isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        isInView ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
       }`}
     >
       {children}
@@ -61,7 +61,7 @@ function FadeInSection({ children }) {
 ## Scroll Progress Indicator
 
 ```tsx
-import { motion, useScroll, useSpring } from "framer-motion";
+import { motion, useScroll, useSpring } from 'framer-motion';
 
 function ScrollProgress() {
   const { scrollYProgress } = useScroll();
@@ -73,7 +73,7 @@ function ScrollProgress() {
 
   return (
     <motion.div
-      className="fixed top-0 left-0 right-0 h-1 bg-blue-600 origin-left z-50"
+      className="fixed top-0 right-0 left-0 z-50 h-1 origin-left bg-blue-600"
       style={{ scaleX }}
     />
   );
@@ -104,16 +104,16 @@ function ScrollProgress() {
 ### Framer Motion Parallax
 
 ```tsx
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 function ParallaxHero() {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start start", "end start"],
+    offset: ['start start', 'end start'],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
 
@@ -121,13 +121,13 @@ function ParallaxHero() {
     <section ref={ref} className="relative h-screen overflow-hidden">
       {/* Background image with parallax */}
       <motion.div style={{ y, scale }} className="absolute inset-0">
-        <img src="/hero-bg.jpg" alt="" className="w-full h-full object-cover" />
+        <img src="/hero-bg.jpg" alt="" className="h-full w-full object-cover" />
       </motion.div>
 
       {/* Content fades out on scroll */}
       <motion.div
         style={{ opacity }}
-        className="relative z-10 flex items-center justify-center h-full"
+        className="relative z-10 flex h-full items-center justify-center"
       >
         <h1 className="text-6xl font-bold text-white">Welcome</h1>
       </motion.div>
@@ -145,7 +145,7 @@ function ScrollAnimation() {
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end start"],
+    offset: ['start end', 'end start'],
   });
 
   // Different transformations based on scroll progress
@@ -154,16 +154,13 @@ function ScrollAnimation() {
   const backgroundColor = useTransform(
     scrollYProgress,
     [0, 0.5, 1],
-    ["#3b82f6", "#8b5cf6", "#ec4899"],
+    ['#3b82f6', '#8b5cf6', '#ec4899'],
   );
 
   return (
     <div ref={containerRef} className="h-[200vh] py-20">
-      <div className="sticky top-1/2 -translate-y-1/2 flex justify-center">
-        <motion.div
-          style={{ x, rotate, backgroundColor }}
-          className="w-32 h-32 rounded-2xl"
-        />
+      <div className="sticky top-1/2 flex -translate-y-1/2 justify-center">
+        <motion.div style={{ x, rotate, backgroundColor }} className="h-32 w-32 rounded-2xl" />
       </div>
     </div>
   );
@@ -177,24 +174,17 @@ function HorizontalScroll({ items }) {
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end end"],
+    offset: ['start start', 'end end'],
   });
 
-  const x = useTransform(
-    scrollYProgress,
-    [0, 1],
-    ["0%", `-${(items.length - 1) * 100}%`],
-  );
+  const x = useTransform(scrollYProgress, [0, 1], ['0%', `-${(items.length - 1) * 100}%`]);
 
   return (
     <section ref={containerRef} className="relative h-[300vh]">
       <div className="sticky top-0 h-screen overflow-hidden">
         <motion.div style={{ x }} className="flex h-full">
           {items.map((item, i) => (
-            <div
-              key={i}
-              className="flex-shrink-0 w-screen h-full flex items-center justify-center"
-            >
+            <div key={i} className="flex h-full w-screen flex-shrink-0 items-center justify-center">
               {item}
             </div>
           ))}
@@ -221,7 +211,7 @@ function StaggeredList({ items }) {
           initial={{ opacity: 0, x: -20 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ delay: i * 0.1, duration: 0.5 }}
-          className="p-4 bg-white rounded-lg shadow"
+          className="rounded-lg bg-white p-4 shadow"
         >
           {item.content}
         </motion.li>
@@ -236,7 +226,7 @@ function StaggeredList({ items }) {
 ```tsx
 function TextReveal({ text }) {
   const [ref, isInView] = useInView({ threshold: 0.5, triggerOnce: true });
-  const words = text.split(" ");
+  const words = text.split(' ');
 
   return (
     <p ref={ref} className="text-4xl font-bold">
@@ -246,7 +236,7 @@ function TextReveal({ text }) {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: i * 0.05, duration: 0.3 }}
-          className="inline-block mr-2"
+          className="mr-2 inline-block"
         >
           {word}
         </motion.span>
@@ -265,8 +255,8 @@ function ClipReveal({ children }) {
   return (
     <motion.div
       ref={ref}
-      initial={{ clipPath: "inset(0 100% 0 0)" }}
-      animate={isInView ? { clipPath: "inset(0 0% 0 0)" } : {}}
+      initial={{ clipPath: 'inset(0 100% 0 0)' }}
+      animate={isInView ? { clipPath: 'inset(0 0% 0 0)' } : {}}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
@@ -282,7 +272,7 @@ function StickySection({ title, content, image }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start start", "end start"],
+    offset: ['start start', 'end start'],
   });
 
   const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1, 0]);
@@ -290,11 +280,8 @@ function StickySection({ title, content, image }) {
 
   return (
     <section ref={ref} className="relative h-[200vh]">
-      <motion.div
-        style={{ opacity, scale }}
-        className="sticky top-0 h-screen flex items-center"
-      >
-        <div className="grid grid-cols-2 gap-16 container mx-auto">
+      <motion.div style={{ opacity, scale }} className="sticky top-0 flex h-screen items-center">
+        <div className="container mx-auto grid grid-cols-2 gap-16">
           <div>
             <h2 className="text-4xl font-bold">{title}</h2>
             <p className="mt-4 text-lg text-gray-600">{content}</p>
@@ -370,10 +357,7 @@ function FullPageScroll({ sections }) {
   return (
     <div className="snap-container">
       {sections.map((section, i) => (
-        <section
-          key={i}
-          className="snap-section flex items-center justify-center"
-        >
+        <section key={i} className="snap-section flex items-center justify-center">
           {section}
         </section>
       ))}
@@ -403,14 +387,14 @@ function useThrottledScroll(callback, delay = 16) {
       }
     };
 
-    window.addEventListener("scroll", handler, { passive: true });
-    return () => window.removeEventListener("scroll", handler);
+    window.addEventListener('scroll', handler, { passive: true });
+    return () => window.removeEventListener('scroll', handler);
   }, [callback, delay]);
 }
 
 // Use transform instead of top/left
 // Good
-const goodAnimation = { transform: "translateY(100px)" };
+const goodAnimation = { transform: 'translateY(100px)' };
 // Bad (causes reflow)
-const badAnimation = { top: "100px" };
+const badAnimation = { top: '100px' };
 ```

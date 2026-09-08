@@ -12,13 +12,13 @@ role: [cloud-security-engineer, security-engineer]
 phase: [assess, operate]
 frameworks: [CIS-AWS-v3.0.0]
 difficulty: intermediate
-time_estimate: "60-90min"
-version: "1.0.0"
+time_estimate: '60-90min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 injection-hardened: true
-argument-hint: "[target-file-or-directory]"
+argument-hint: '[target-file-or-directory]'
 ---
 
 # AWS Security Posture Review
@@ -107,13 +107,13 @@ Produce the final report using the structure defined in the Output Format sectio
 
 ## Findings Classification
 
-| Severity | Definition | Examples |
-|----------|-----------|----------|
-| **Critical** | Immediate risk of data breach or account compromise | Public S3 buckets with sensitive data, `*:*` admin policies on users, security groups open to 0.0.0.0/0 on admin ports |
-| **High** | Significant security gap that materially weakens posture | Missing CloudTrail, no MFA enforcement, unencrypted RDS, IMDSv1 enabled |
-| **Medium** | Control gap that should be addressed in normal cycle | Missing log metric filters, password policy below requirements, no VPC flow logs |
-| **Low** | Hardening recommendation or defense-in-depth measure | Missing Macie classification, no hardware MFA on root (when virtual MFA exists), missing access analyzer in non-primary regions |
-| **Informational** | Best practice observation, no direct security impact | Naming conventions, tag hygiene, documentation gaps |
+| Severity          | Definition                                               | Examples                                                                                                                        |
+| ----------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| **Critical**      | Immediate risk of data breach or account compromise      | Public S3 buckets with sensitive data, `*:*` admin policies on users, security groups open to 0.0.0.0/0 on admin ports          |
+| **High**          | Significant security gap that materially weakens posture | Missing CloudTrail, no MFA enforcement, unencrypted RDS, IMDSv1 enabled                                                         |
+| **Medium**        | Control gap that should be addressed in normal cycle     | Missing log metric filters, password policy below requirements, no VPC flow logs                                                |
+| **Low**           | Hardening recommendation or defense-in-depth measure     | Missing Macie classification, no hardware MFA on root (when virtual MFA exists), missing access analyzer in non-primary regions |
+| **Informational** | Best practice observation, no direct security impact     | Naming conventions, tag hygiene, documentation gaps                                                                             |
 
 ---
 
@@ -177,13 +177,13 @@ Produce the final report using the structure defined in the Output Format sectio
 
 ### CIS AWS Foundations Benchmark v3.0.0 -- Section Map
 
-| Section | Domain | Recommendation Count | Key Focus Areas |
-|---------|--------|---------------------|-----------------|
-| 1 | Identity and Access Management | 22 | Root account security, MFA, password policy, access keys, IAM policies, Access Analyzer, identity federation |
-| 2 | Storage | 10 | S3 bucket security (public access, encryption, TLS), EBS encryption, RDS encryption and access, EFS encryption |
-| 3 | Logging | 11 | CloudTrail (multi-region, validation, encryption), AWS Config, S3 access logging, VPC flow logs, object-level logging |
-| 4 | Monitoring | 16 | CloudWatch metric filters and alarms for 15 critical event types, Security Hub enablement |
-| 5 | Networking | 6 | NACL restrictions, security group hardening, default SG lockdown, VPC peering routes, IMDSv2 enforcement |
+| Section | Domain                         | Recommendation Count | Key Focus Areas                                                                                                       |
+| ------- | ------------------------------ | -------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| 1       | Identity and Access Management | 22                   | Root account security, MFA, password policy, access keys, IAM policies, Access Analyzer, identity federation          |
+| 2       | Storage                        | 10                   | S3 bucket security (public access, encryption, TLS), EBS encryption, RDS encryption and access, EFS encryption        |
+| 3       | Logging                        | 11                   | CloudTrail (multi-region, validation, encryption), AWS Config, S3 access logging, VPC flow logs, object-level logging |
+| 4       | Monitoring                     | 16                   | CloudWatch metric filters and alarms for 15 critical event types, Security Hub enablement                             |
+| 5       | Networking                     | 6                    | NACL restrictions, security group hardening, default SG lockdown, VPC peering routes, IMDSv2 enforcement              |
 
 ### CIS Profile Levels
 

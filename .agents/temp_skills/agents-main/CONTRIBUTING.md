@@ -102,7 +102,7 @@ Your content ships to six harnesses — some have stricter conventions than Clau
 - **Codex** hard-truncates skill bodies at 8 KB. Keep `SKILL.md` short; push detail
   into `references/details.md`.
 - **OpenCode** requires lowercase tool names. Don't write `` `Read` `` inline — write
-  *"open the file"* or use the lowercase form.
+  _"open the file"_ or use the lowercase form.
 - **Cursor** doesn't honor per-agent `tools:` allowlists — use it as a hint only.
 - **Copilot** maps Claude model aliases (`opus`/`sonnet`/`haiku`) to the GPT-5 family;
   agent `description` must be a plain string.

@@ -43,14 +43,9 @@ export function CategoryView({ all, filter, query, navigate }: Props) {
         const items = grouped[catKey];
         return (
           <section key={catKey} className="cat-sec">
-            <header
-              className="cat-sec-head"
-              style={{ '--ca': meta.accent } as React.CSSProperties}
-            >
+            <header className="cat-sec-head" style={{ '--ca': meta.accent } as React.CSSProperties}>
               <div className="cat-sec-head-l">
-                <div className="mono cat-sec-num">
-                  {String(ci + 1).padStart(2, '0')} / CATEGORY
-                </div>
+                <div className="mono cat-sec-num">{String(ci + 1).padStart(2, '0')} / CATEGORY</div>
                 <h3 className="cat-sec-title serif">{meta.cn}</h3>
                 <div className="mono cat-sec-en">{meta.label}</div>
               </div>

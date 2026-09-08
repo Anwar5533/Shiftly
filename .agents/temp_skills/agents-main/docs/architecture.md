@@ -203,13 +203,13 @@ See [Agent Skills](./agent-skills.md) for complete details on the 183 skills.
 
 The system uses Claude Fable, Opus, Sonnet, Haiku, and Inherit assignments strategically:
 
-| Model   | Count     | Use Case                                        |
-| ------- | --------- | ----------------------------------------------- |
-| Fable   | 2 agents  | Longest-horizon autonomous work (opt-in tier)   |
-| Opus    | 54 agents | Critical architecture, security, code review    |
-| Sonnet  | 70 agents | Complex tasks, support with intelligence        |
-| Haiku   | 24 agents | Fast operational tasks                          |
-| Inherit | 52 agents | Defers model choice to the user at runtime      |
+| Model   | Count     | Use Case                                      |
+| ------- | --------- | --------------------------------------------- |
+| Fable   | 2 agents  | Longest-horizon autonomous work (opt-in tier) |
+| Opus    | 54 agents | Critical architecture, security, code review  |
+| Sonnet  | 70 agents | Complex tasks, support with intelligence      |
+| Haiku   | 24 agents | Fast operational tasks                        |
+| Inherit | 52 agents | Defers model choice to the user at runtime    |
 
 ### Selection Criteria
 

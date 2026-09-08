@@ -96,7 +96,11 @@
     ],
     "rule": "每张卡都有: 卡片标题（小） + 主视觉（chart） + 简短数据备注（≤1 行）",
     "examples": [
-      { "type": "ranked_list", "title": "TOP 3 评分最高", "items": ["《...》 9.5", "《...》 9.3", "《...》 9.1"] },
+      {
+        "type": "ranked_list",
+        "title": "TOP 3 评分最高",
+        "items": ["《...》 9.5", "《...》 9.3", "《...》 9.1"]
+      },
       { "type": "donut_split", "title": "纸质 vs 电子", "values": "60% / 40%" },
       { "type": "trend_line", "title": "月度阅读量", "delta": "高峰：8 月 7 本" },
       { "type": "progress_ring", "title": "年度目标", "value": "94%（47/50）" },

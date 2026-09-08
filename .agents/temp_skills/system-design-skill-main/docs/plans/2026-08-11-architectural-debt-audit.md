@@ -4,21 +4,21 @@ Target version **1.1.0**. Every claim below traces to `synthesis.md`.
 
 ## Settled
 
-| | Decision |
-|---|---|
-| Subject | Repo **and** design.json; each finding carries `subject` |
-| Baseline | Currently-intended architecture (design.json + ADRs) → git history → principles-only |
-| Trigger | Every full run **in repo mode**. Greenfield: skipped. Below the step-0 gate: no run, no audit |
-| Delegation | Subagent where available, inline otherwise. **Never the detector** |
-| Scope | Architectural only + git change-coupling and churn |
-| New file | `AUDIT.md`, conditionally loaded (the `EXAMPLES.md` pattern) |
-| Storage | `debt` object inside `design.json` |
-| Volume | No cap. Five-part admission gate instead |
-| Write-back | Renders; may seed `risks[]` / `nextSteps[]`. No candidate generation, no ADR to-do list |
-| Tab | `#debt`, last, after `#compare` |
-| Categories | Seven, ratified |
-| User interaction | None. Unknowns → `confidence: low` + stated assumption; unverifiable → "could not verify" |
-| ADR conformance | Highest-weight lens, not the spine |
+|                  | Decision                                                                                      |
+| ---------------- | --------------------------------------------------------------------------------------------- |
+| Subject          | Repo **and** design.json; each finding carries `subject`                                      |
+| Baseline         | Currently-intended architecture (design.json + ADRs) → git history → principles-only          |
+| Trigger          | Every full run **in repo mode**. Greenfield: skipped. Below the step-0 gate: no run, no audit |
+| Delegation       | Subagent where available, inline otherwise. **Never the detector**                            |
+| Scope            | Architectural only + git change-coupling and churn                                            |
+| New file         | `AUDIT.md`, conditionally loaded (the `EXAMPLES.md` pattern)                                  |
+| Storage          | `debt` object inside `design.json`                                                            |
+| Volume           | No cap. Five-part admission gate instead                                                      |
+| Write-back       | Renders; may seed `risks[]` / `nextSteps[]`. No candidate generation, no ADR to-do list       |
+| Tab              | `#debt`, last, after `#compare`                                                               |
+| Categories       | Seven, ratified                                                                               |
+| User interaction | None. Unknowns → `confidence: low` + stated assumption; unverifiable → "could not verify"     |
+| ADR conformance  | Highest-weight lens, not the spine                                                            |
 
 ## Decisions I made rather than asked — veto any
 
@@ -29,7 +29,7 @@ Target version **1.1.0**. Every claim below traces to `synthesis.md`.
    decision" → 10. It has to sit after candidates (so `resolvedBy` can be computed) and before
    rendering (so findings are in `design.json` when the report is generated).
 3. **No new item in the nine-item completion contract.** `test-skill-contract.py` asserts exactly
-   nine and lists all nine markers; the audit is about the design's *debt*, not its *completeness*,
+   nine and lists all nine markers; the audit is about the design's _debt_, not its _completeness_,
    and conflating them is wrong. The grounding requirement goes in the unconstrained "Before
    rendering, verify:" list instead. Test stays green with no edit.
 4. **`render_report.py` is untouched.** Substitution only — the CLAUDE.md invariant holds.
@@ -50,12 +50,13 @@ Back-links `SKILL.md` in its opening lines (CLAUDE.md convention).
 
 **§ Evidence first.** The execution order is mandatory, not stylistic: gather structural facts —
 component graph, edge contracts, ADR list, git churn and change-coupling, the envelope rows — and
-write them down *before* forming any verdict. Rationale: reframing a prompt alone produced decision
+write them down _before_ forming any verdict. Rationale: reframing a prompt alone produced decision
 flip rates of 40–72%, and under a false premise ("this already passed static analysis") recall
 dropped to **0.00**. Evidence-first prompting cut flips to 12–26%. The brief must never contain a
 reassuring premise about the design's quality.
 
 **§ The admission gate.** Five parts; failing any one means not emitted.
+
 1. Cites evidence — file, component id, ADR id, git fact, or estimate row.
 2. States the interest — what it costs, concretely. Can't? It's a `note`.
 3. Survives its own `disconfirming` sentence — the strongest case that this is fine. If that case
@@ -68,15 +69,15 @@ reassuring premise about the design's quality.
 **§ The seven categories** — grouping axis, closed enum, plus optional `affects` drawn from the
 existing eleven ratings axes so a multi-quality finding isn't forced into one bucket.
 
-| Category | Patterns |
-|---|---|
-| `boundaries` | wrong cuts · feature concentration · scattered functionality · temporal decomposition · pass-through component · shallow component |
-| `data-ownership` | two writers · shared persistence · dual writes · derived-without-source · derived-without-cursor · no ordering authority · unstated conflict resolution |
-| `coupling` | dependency cycle · hub-like dependency · unstable dependency · information leakage · distributed monolith · special-general mixture |
-| `dependency-contracts` | no deadline · no retry owner · unbounded backlog · unbounded result set · unstated idempotency · unstated compatibility direction |
-| `failure-containment` | integration point without timeout · unbalanced capacities · no bulkhead · SLA inversion · no steady state · untested recovery · acknowledgement before durability |
-| `over-engineering` | machinery outruns envelope · gold plating · unexploited flexibility · cargo-culted architecture · unjustified distribution |
-| `obsolescence` | technological gap · superseded decision still implemented · stale reference model |
+| Category               | Patterns                                                                                                                                                          |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `boundaries`           | wrong cuts · feature concentration · scattered functionality · temporal decomposition · pass-through component · shallow component                                |
+| `data-ownership`       | two writers · shared persistence · dual writes · derived-without-source · derived-without-cursor · no ordering authority · unstated conflict resolution           |
+| `coupling`             | dependency cycle · hub-like dependency · unstable dependency · information leakage · distributed monolith · special-general mixture                               |
+| `dependency-contracts` | no deadline · no retry owner · unbounded backlog · unbounded result set · unstated idempotency · unstated compatibility direction                                 |
+| `failure-containment`  | integration point without timeout · unbalanced capacities · no bulkhead · SLA inversion · no steady state · untested recovery · acknowledgement before durability |
+| `over-engineering`     | machinery outruns envelope · gold plating · unexploited flexibility · cargo-culted architecture · unjustified distribution                                        |
+| `obsolescence`         | technological gap · superseded decision still implemented · stale reference model                                                                                 |
 
 Each pattern entry: signature detectable in the artifact · why it is debt · prescription · the
 `Not when` clause. Same shape as the archetype packs, so the file reads like the rest of the skill.
@@ -88,16 +89,16 @@ Each pattern entry: signature detectable in the artifact · why it is debt · pr
 `exposure` = `on-path` (on `canvas.primaryFlow`, inside a component the recommended candidate
 changes, or in a zone the migration touches) | `off-path`.
 
-| | on-path | off-path |
-|---|---|---|
-| **breaking** | `blocking` — *Fix with this change* | `high` — *Schedule it* |
-| **friction** | `medium` — *Fix while you're in there* | `low` — *Record only* |
+|              | on-path                                | off-path               |
+| ------------ | -------------------------------------- | ---------------------- |
+| **breaking** | `blocking` — _Fix with this change_    | `high` — _Schedule it_ |
+| **friction** | `medium` — _Fix while you're in there_ | `low` — _Record only_  |
 
 Plus `note`: an observation with no remedy. No severity, never counted in the badge — mirroring
 SARIF's rule that severity is only defined for actual failures.
 
 **§ Suppressions** — the ~30 anti-rules, each with its citation. The load-bearing ones:
-false DRY (identical code ≠ duplicated knowledge) · prototype and spike code is *supposed* to be bad ·
+false DRY (identical code ≠ duplicated knowledge) · prototype and spike code is _supposed_ to be bad ·
 a declared simple starting point with a stated upgrade trigger is correct, not debt · a missing
 component with a stated reason is a decision, not a gap · an unbalanced capacity ratio is a signal to
 require a breaker, never to equalise capacity · "count of patterns applied" is never a quality metric ·
@@ -130,7 +131,7 @@ on the old list → join → set `baselineState` → carry `status`/`justificati
 section, because for an LLM producer a disappearance is at least as likely to be a miss as a fix →
 first run omits `baselineState` entirely (SARIF's all-or-none constraint).
 
-**§ The honest limit.** Identity is stable for findings the model finds *again*. Recall is not stable
+**§ The honest limit.** Identity is stable for findings the model finds _again_. Recall is not stable
 and no published technique fixes that. `debt.checked[]` enumerates categories examined so a clean
 category reads as checked, not missed. The report states this in its own methodology line.
 
@@ -143,20 +144,20 @@ smells were expert-judged false positives; the most aggressive repair agent intr
 LLM-as-refuter is the strong one (κ up to 0.94 with human experts at spotting false positives). The
 pipeline is built on that asymmetry.
 
-| # | Stage | Input | Output | Effort |
-|---|---|---|---|---|
-| 0 | **Facts** — no judgment | repo, git, design.json, ADRs | component graph, edge contracts, ADR inventory with statuses, per-path churn, change-coupling pairs, envelope rows, `inv-*`/`nfr-*` ids | deterministic |
-| 1 | **Find** — one pass per category | facts + `AUDIT.md` rules | candidate findings: `pattern`, `components`, `evidence[]`, `claimedConsequence`, `claimedExposure`. Never primed with the prior run's findings | xhigh |
-| 2 | **Mechanical gates** — **every** finding | candidates + facts | *Fact*: re-read the cited files/ids; evidence doesn't hold → **delete**. *Inertness*: churn on cited components; untouched → **demote**, never delete (frozen code can still be blocking on the primary flow) | low |
-| 3 | **Red team** — scaled by provisional severity | facts + the claim, **not** the finder's argument | one agent per lens, each prompted to **refute**, defaulting to refuted on uncertainty. `blocking`/`high` → *Guardrail* and *Decision* separately. `medium`/`low` → one combined pass | xhigh |
-| 4 | **Re-derive severity** | verified facts | consequence × exposure recomputed from what survived, not what was claimed | deterministic |
-| 5 | **Remedy** — fresh author | confirmed finding + facts + the "never recommend" list | `remedy{action,text}`, `effort`, `resolvedBy` per candidate, `reversibility`. Never saw stages 1–3 | xhigh |
-| 6 | **Merge** | prior `design.json` | the eight-step protocol; `baselineState` set | deterministic |
-| 7 | **Render** | — | — | — |
+| #   | Stage                                         | Input                                                  | Output                                                                                                                                                                                                        | Effort        |
+| --- | --------------------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| 0   | **Facts** — no judgment                       | repo, git, design.json, ADRs                           | component graph, edge contracts, ADR inventory with statuses, per-path churn, change-coupling pairs, envelope rows, `inv-*`/`nfr-*` ids                                                                       | deterministic |
+| 1   | **Find** — one pass per category              | facts + `AUDIT.md` rules                               | candidate findings: `pattern`, `components`, `evidence[]`, `claimedConsequence`, `claimedExposure`. Never primed with the prior run's findings                                                                | xhigh         |
+| 2   | **Mechanical gates** — **every** finding      | candidates + facts                                     | _Fact_: re-read the cited files/ids; evidence doesn't hold → **delete**. _Inertness_: churn on cited components; untouched → **demote**, never delete (frozen code can still be blocking on the primary flow) | low           |
+| 3   | **Red team** — scaled by provisional severity | facts + the claim, **not** the finder's argument       | one agent per lens, each prompted to **refute**, defaulting to refuted on uncertainty. `blocking`/`high` → _Guardrail_ and _Decision_ separately. `medium`/`low` → one combined pass                          | xhigh         |
+| 4   | **Re-derive severity**                        | verified facts                                         | consequence × exposure recomputed from what survived, not what was claimed                                                                                                                                    | deterministic |
+| 5   | **Remedy** — fresh author                     | confirmed finding + facts + the "never recommend" list | `remedy{action,text}`, `effort`, `resolvedBy` per candidate, `reversibility`. Never saw stages 1–3                                                                                                            | xhigh         |
+| 6   | **Merge**                                     | prior `design.json`                                    | the eight-step protocol; `baselineState` set                                                                                                                                                                  | deterministic |
+| 7   | **Render**                                    | —                                                      | —                                                                                                                                                                                                             | —             |
 
-**Kill rules.** A *Fact* refutation deletes — the claim is simply untrue. A *Decision* refutation
-deletes — a recorded decision makes it a decision, not debt. A *Guardrail* refutation **demotes** and
-its objection becomes the finding's `disconfirming` text. An *Inertness* refutation demotes. The
+**Kill rules.** A _Fact_ refutation deletes — the claim is simply untrue. A _Decision_ refutation
+deletes — a recorded decision makes it a decision, not debt. A _Guardrail_ refutation **demotes** and
+its objection becomes the finding's `disconfirming` text. An _Inertness_ refutation demotes. The
 asymmetry is deliberate: a wrong kill loses a real finding silently, and Google's 10% budget prices
 false positives but says nothing about the cost of a silent miss.
 
@@ -182,15 +183,15 @@ and collapsing them discards the most trustworthy signal the loop produces.
 Mirrors every `##` heading. One row per claim carrying a number, threshold, or correctness claim.
 
 **Rejected** section — the most valuable part, so these can't be quietly re-added:
-Ousterhout's 10–20% investment figure (*he* labels Fig 3.1 qualitative and says no empirical
+Ousterhout's 10–20% investment figure (_he_ labels Fig 3.1 qualitative and says no empirical
 measurement exists) · "42% of developer time" (misattributed; the source never prints it and measures
 maintenance) · CISQ/CAST trillion-dollar figures (inflation projections, internally inconsistent,
 double-count the same survey) · debt in hours or dollars (SonarQube divides by an uncalibrated
 30-min-per-LOC constant; measured against real fix times it overestimates in >70% of projects) ·
 any headline score (Sonar's Maintainability Rating scores AUC 0.60 against 70 developers; a naive
-275-line count scores 0.95) · smell severity rankings (smell *type* does not significantly correlate
+275-line count scores 0.95) · smell severity rankings (smell _type_ does not significantly correlate
 with change, and the effect reverses in small artifacts) · "Vendor King" (not in FoSA) · the
-fitness-function taxonomy (in *Building Evolutionary Architectures*, not FoSA) · any DDIA citation for
+fitness-function taxonomy (in _Building Evolutionary Architectures_, not FoSA) · any DDIA citation for
 linearizability, partitioning, transactions, CDC, or schema compatibility (absent from the local 2015
 Early Release).
 
@@ -202,8 +203,8 @@ Also add `AUDIT.md` to `docs/provenance/README.md`'s Files list.
 
 **`HTML-REPORT.md`**: the `debt` object (24 fields, ~8 optional) · schema rule 8 on finding identity
 and merge · the new tab in the tab list and the "what the rendered report does" section · vocabulary
-additions — use exactly *finding · debt · severity · remedy · evidence*; never substitute *issue,
-problem, violation* for finding, or *score* for severity.
+additions — use exactly _finding · debt · severity · remedy · evidence_; never substitute _issue,
+problem, violation_ for finding, or _score_ for severity.
 
 **`SKILL.md`**: new step 8 "Audit the architecture for debt", renumber 9 and 10. Two lines in step 2
 noting that ADRs read there are the audit's reference model. Three lines added to "Before rendering,
@@ -226,7 +227,7 @@ New `#debt` tab, last. ~250 lines JS, ~120 lines CSS, in the existing Wikipedia-
   exposure of `<summary>` is inconsistent, and closed `<details>` content is invisible to Ctrl+F —
   fatal when the reader's first move is searching for a component name.
 - **Collapsed row carries every searchable token**: component names, pattern, remedy verb, severity
-  text, `resolvedBy`. Expanded body is Sonar's three: *Where · Why · How*.
+  text, `resolvedBy`. Expanded body is Sonar's three: _Where · Why · How_.
 - **Open findings never collapse as a group.** Only `Accepted (N)`, `No longer present (N)`, and
   `Notes (N)` are collapsible — matching Lighthouse's actual renderer, not the folk version of it.
 - **Filter chips** are `aria-pressed` toggles in a labelled `role="group"`, and they re-sort as well
@@ -271,13 +272,13 @@ the skill; keep under 1024 chars.
 
 ## Estimates
 
-| Phase | Work | Time |
-|---|---|---|
-| 1 | `AUDIT.md` (taxonomy, gate, suppressions, the eight stage briefs and their output contracts) + provenance pack | 3–4 h — the bulk, and the part needing your review |
-| 2 | Schema + process, incl. the `verification` sub-object | 1 h |
-| 3 | Renderer, incl. rendering the verification record | 2.5 h |
-| 4 | Tests | 1 h |
-| 5 | Docs + release | 30 min |
+| Phase | Work                                                                                                           | Time                                               |
+| ----- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| 1     | `AUDIT.md` (taxonomy, gate, suppressions, the eight stage briefs and their output contracts) + provenance pack | 3–4 h — the bulk, and the part needing your review |
+| 2     | Schema + process, incl. the `verification` sub-object                                                          | 1 h                                                |
+| 3     | Renderer, incl. rendering the verification record                                                              | 2.5 h                                              |
+| 4     | Tests                                                                                                          | 1 h                                                |
+| 5     | Docs + release                                                                                                 | 30 min                                             |
 
 ~8 hours total. Phase 1 is the one that's expensive to change later.
 

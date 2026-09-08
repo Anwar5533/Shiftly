@@ -41,11 +41,11 @@ to measure.
 Divide the labeled set three ways and keep the
 splits separate for the whole calibration cycle:
 
-| Split | Purpose | Size |
-|---|---|---|
-| train | Few-shot examples embedded in the judge prompt | ~20-30% |
-| dev | Iterate the prompt, catch obvious misses | ~30-40% |
-| sealed test | Report TPR/TNR once; never re-touch after | ~30-40% |
+| Split       | Purpose                                        | Size    |
+| ----------- | ---------------------------------------------- | ------- |
+| train       | Few-shot examples embedded in the judge prompt | ~20-30% |
+| dev         | Iterate the prompt, catch obvious misses       | ~30-40% |
+| sealed test | Report TPR/TNR once; never re-touch after      | ~30-40% |
 
 The sealed-test split is sealed: if a dev-split
 iteration cycle causes the reported test-split

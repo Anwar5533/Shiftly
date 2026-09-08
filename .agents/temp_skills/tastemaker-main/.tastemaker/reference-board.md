@@ -6,6 +6,7 @@ Design read: Tastemaker homepage for builders comparing AI coding tools, mode Pe
 Dials: variance 8, motion 7, density 5, art direction 9
 
 ## Quality bar
+
 - v0 (https://v0.app/): foregrounds the prompt-to-product loop and shows templates, design systems, apps, and deployment as visible artifacts.
 - Cursor (https://cursor.com/): sells agentic development through a live-feeling product surface, not abstract promises.
 - Linear (https://linear.app/): keeps trust through restraint, sharp hierarchy, and a disciplined system.
@@ -16,6 +17,7 @@ Dials: variance 8, motion 7, density 5, art direction 9
 - Floria (https://floria-landing-page.vercel.app/): sets an art-direction bar through strong photography, overlapping cutouts, gallery/archive structure, testimonial depth, and atmospheric CTA/footer.
 
 ## Borrow
+
 - Palette/material: shift the homepage to a tactile paper surface with dark technical proof bands, preserving Tastemaker teal/orchid as the brand signal.
 - Type/hierarchy: keep Archivo and IBM Plex; increase contrast between masthead-scale hero type and dense artifact labels.
 - Layout/composition: use Editorial Index plus Gallery Grid: hero collage, agent compatibility, anti-generic statement, skill catalog, change/proof band, demo gallery, memory close.
@@ -23,6 +25,7 @@ Dials: variance 8, motion 7, density 5, art direction 9
 - Asset language: use existing Tastemaker mark, custom SVG art, real before/after embeds, local proof screenshots, mode screenshots, and paper notes.
 
 ## Avoid
+
 - Indigo or purple gradient hero.
 - Fake browser chrome as the main proof.
 - Repeated numbered eyebrows on every section.
@@ -33,6 +36,7 @@ Dials: variance 8, motion 7, density 5, art direction 9
 - Tiny card headers that hide the section story.
 
 ## Direction contract
+
 - Thesis: Tastemaker is the taste layer for coding agents: study, art direction, assets, motion, checks, and memory.
 - First viewport: product name, install command, and a layered collage of artwork, proof screenshot, mode screenshot, notes, and swatches.
 - System: tactile paper sections, dark proof bands, orchid taste signals, teal execution states, real screenshots, mode gallery, and local memory files.

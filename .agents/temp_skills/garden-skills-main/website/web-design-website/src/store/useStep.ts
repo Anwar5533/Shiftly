@@ -23,8 +23,7 @@ interface Snapshot {
 
 let listeners = new Set<Listener>();
 
-const totalSteps = () =>
-  chapters.reduce((acc, c) => acc + c.steps, 0);
+const totalSteps = () => chapters.reduce((acc, c) => acc + c.steps, 0);
 
 /** 给定 globalStep，求章节 index 与 localStep */
 function locate(global: number): { chapterIndex: number; localStep: number } {
@@ -81,8 +80,12 @@ export const stepStore = {
   getSnapshot() {
     return snapshot;
   },
-  next() { set(snapshot.globalStep + 1, 1); },
-  prev() { set(snapshot.globalStep - 1, -1); },
+  next() {
+    set(snapshot.globalStep + 1, 1);
+  },
+  prev() {
+    set(snapshot.globalStep - 1, -1);
+  },
   goToGlobal(n: number) {
     const dir: 1 | -1 = n >= snapshot.globalStep ? 1 : -1;
     set(n, dir);

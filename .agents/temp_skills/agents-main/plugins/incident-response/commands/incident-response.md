@@ -1,6 +1,6 @@
 ---
-description: "Orchestrate multi-agent incident response with modern SRE practices for rapid resolution and learning"
-argument-hint: "<incident description> [--severity P0|P1|P2|P3]"
+description: 'Orchestrate multi-agent incident response with modern SRE practices for rapid resolution and learning'
+argument-hint: '<incident description> [--severity P0|P1|P2|P3]'
 ---
 
 # Incident Response Orchestrator

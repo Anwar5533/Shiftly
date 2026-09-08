@@ -24,18 +24,18 @@ learning. Each row below describes an
 architecture family's processor contract, not a
 model recommendation.
 
-| Architecture family | Tensor contract | Notes |
-|---|---|---|
-| Qwen-VL family | `pixel_values` + `image_grid_thw` | The grid tensor encodes the patch layout per image; a collator that drops it or mismatches its shape against `pixel_values` silently corrupts the vision-token layout. |
-| InternVL family | Variable-length pixel-value lists | Images can each contribute a different number of tiles/patches; the collator must pad or batch these variable-length lists per example rather than assuming a fixed tensor shape. |
-| Gemma 3 family | `token_type_ids` for loss masking | Loss masking between image and text spans is driven by `token_type_ids`, not just the usual assistant-turn attention mask — a collator built for a different family's masking convention silently masks the wrong spans. |
+| Architecture family | Tensor contract                   | Notes                                                                                                                                                                                                                    |
+| ------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Qwen-VL family      | `pixel_values` + `image_grid_thw` | The grid tensor encodes the patch layout per image; a collator that drops it or mismatches its shape against `pixel_values` silently corrupts the vision-token layout.                                                   |
+| InternVL family     | Variable-length pixel-value lists | Images can each contribute a different number of tiles/patches; the collator must pad or batch these variable-length lists per example rather than assuming a fixed tensor shape.                                        |
+| Gemma 3 family      | `token_type_ids` for loss masking | Loss masking between image and text spans is driven by `token_type_ids`, not just the usual assistant-turn attention mask — a collator built for a different family's masking convention silently masks the wrong spans. |
 
 Two practical consequences:
 
 - Picking a collator is an architecture-family
   decision, made once per base model, not a free
   parameter to tune.
-- A collator built for one family will often *run*
+- A collator built for one family will often _run_
   against another family's data without erroring —
   the shapes are superficially compatible — which
   is exactly how a mismatched collator becomes a

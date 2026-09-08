@@ -11,13 +11,13 @@ role: [appsec-engineer, security-engineer]
 phase: [build, deploy]
 frameworks: [SLSA-v1.0, CycloneDX, SPDX, CISA-KEV]
 difficulty: intermediate
-time_estimate: "15-30min"
-version: "1.0.0"
+time_estimate: '15-30min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 injection-hardened: true
-argument-hint: "[target-file-or-directory]"
+argument-hint: '[target-file-or-directory]'
 ---
 
 # Dependency Scanning
@@ -44,22 +44,22 @@ A Software Bill of Materials (SBOM) is a machine-readable inventory of every com
 
 ### Recommended Formats
 
-| Format | Specification | Best For |
-|---|---|---|
-| CycloneDX | [cyclonedx.org/specification](https://cyclonedx.org/specification/overview/) | Security-focused analysis, VEX integration, vulnerability tracking |
-| SPDX | [spdx.github.io/spdx-spec](https://spdx.github.io/spdx-spec/v2.3/) | License compliance, provenance, regulatory requirements (e.g., EO 14028) |
+| Format    | Specification                                                                | Best For                                                                 |
+| --------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| CycloneDX | [cyclonedx.org/specification](https://cyclonedx.org/specification/overview/) | Security-focused analysis, VEX integration, vulnerability tracking       |
+| SPDX      | [spdx.github.io/spdx-spec](https://spdx.github.io/spdx-spec/v2.3/)           | License compliance, provenance, regulatory requirements (e.g., EO 14028) |
 
 ### Generation Tools by Ecosystem
 
-| Ecosystem | Tool | Command |
-|---|---|---|
-| Node.js | `@cyclonedx/cyclonedx-npm` | `npx @cyclonedx/cyclonedx-npm --output-file sbom.json` |
-| Python | `cyclonedx-bom` | `cyclonedx-py requirements -i requirements.txt -o sbom.json` |
-| Go | `cyclonedx-gomod` | `cyclonedx-gomod mod -json -output sbom.json` |
-| Java/Maven | `cyclonedx-maven-plugin` | `mvn org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom` |
-| Rust | `cargo-cyclonedx` | `cargo cyclonedx --format json` |
-| Multi-ecosystem | `syft` (Anchore) | `syft dir:. -o cyclonedx-json > sbom.json` |
-| Multi-ecosystem | `trivy` (Aqua) | `trivy fs --format cyclonedx -o sbom.json .` |
+| Ecosystem       | Tool                       | Command                                                      |
+| --------------- | -------------------------- | ------------------------------------------------------------ |
+| Node.js         | `@cyclonedx/cyclonedx-npm` | `npx @cyclonedx/cyclonedx-npm --output-file sbom.json`       |
+| Python          | `cyclonedx-bom`            | `cyclonedx-py requirements -i requirements.txt -o sbom.json` |
+| Go              | `cyclonedx-gomod`          | `cyclonedx-gomod mod -json -output sbom.json`                |
+| Java/Maven      | `cyclonedx-maven-plugin`   | `mvn org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom`  |
+| Rust            | `cargo-cyclonedx`          | `cargo cyclonedx --format json`                              |
+| Multi-ecosystem | `syft` (Anchore)           | `syft dir:. -o cyclonedx-json > sbom.json`                   |
+| Multi-ecosystem | `trivy` (Aqua)             | `trivy fs --format cyclonedx -o sbom.json .`                 |
 
 ### SLSA v1.0 Alignment
 
@@ -97,22 +97,22 @@ Direct dependencies are explicitly declared. Transitive dependencies are pulled 
 
 Not all CVEs carry equal operational risk. Use a three-signal triage model to prioritize remediation:
 
-| Signal | Source | What It Measures | Action Threshold |
-|---|---|---|---|
-| **CVSS** | NVD / vendor advisory | Technical severity of the flaw | Critical (9.0-10.0) and High (7.0-8.9) warrant immediate review |
-| **EPSS** | [FIRST EPSS](https://www.first.org/epss/) | Probability of exploitation in the next 30 days | Score > 0.1 (10%) indicates elevated real-world risk |
-| **CISA KEV** | [CISA Known Exploited Vulnerabilities Catalog](https://www.cisa.gov/known-exploited-vulnerabilities-catalog) | Confirmed active exploitation in the wild | Any match requires remediation within the CISA-mandated timeline |
+| Signal       | Source                                                                                                       | What It Measures                                | Action Threshold                                                 |
+| ------------ | ------------------------------------------------------------------------------------------------------------ | ----------------------------------------------- | ---------------------------------------------------------------- |
+| **CVSS**     | NVD / vendor advisory                                                                                        | Technical severity of the flaw                  | Critical (9.0-10.0) and High (7.0-8.9) warrant immediate review  |
+| **EPSS**     | [FIRST EPSS](https://www.first.org/epss/)                                                                    | Probability of exploitation in the next 30 days | Score > 0.1 (10%) indicates elevated real-world risk             |
+| **CISA KEV** | [CISA Known Exploited Vulnerabilities Catalog](https://www.cisa.gov/known-exploited-vulnerabilities-catalog) | Confirmed active exploitation in the wild       | Any match requires remediation within the CISA-mandated timeline |
 
 ### Triage Decision Matrix
 
-| CVSS | EPSS | KEV Listed | Priority | Action |
-|---|---|---|---|---|
-| Critical/High | > 0.1 | Yes | P0 - Immediate | Patch or mitigate within 24-48 hours |
-| Critical/High | > 0.1 | No | P1 - Urgent | Patch within current sprint |
-| Critical/High | <= 0.1 | No | P2 - Scheduled | Patch in next release cycle |
-| Medium | > 0.1 | Yes | P1 - Urgent | Patch within current sprint |
-| Medium | <= 0.1 | No | P3 - Backlog | Track and remediate opportunistically |
-| Low | Any | No | P4 - Monitor | Document and revisit quarterly |
+| CVSS          | EPSS   | KEV Listed | Priority       | Action                                |
+| ------------- | ------ | ---------- | -------------- | ------------------------------------- |
+| Critical/High | > 0.1  | Yes        | P0 - Immediate | Patch or mitigate within 24-48 hours  |
+| Critical/High | > 0.1  | No         | P1 - Urgent    | Patch within current sprint           |
+| Critical/High | <= 0.1 | No         | P2 - Scheduled | Patch in next release cycle           |
+| Medium        | > 0.1  | Yes        | P1 - Urgent    | Patch within current sprint           |
+| Medium        | <= 0.1 | No         | P3 - Backlog   | Track and remediate opportunistically |
+| Low           | Any    | No         | P4 - Monitor   | Document and revisit quarterly        |
 
 ### Enrichment Process
 
@@ -126,12 +126,12 @@ Not all CVEs carry equal operational risk. Use a three-signal triage model to pr
 
 ### Risk Categories
 
-| Risk Level | Licenses | Concern |
-|---|---|---|
-| **High - Copyleft** | GPL-2.0, GPL-3.0, AGPL-3.0 | Requires derivative works to be distributed under the same license. AGPL-3.0 extends this to network use (SaaS). May force open-sourcing proprietary code. |
-| **Medium - Weak Copyleft** | LGPL-2.1, LGPL-3.0, MPL-2.0, EPL-2.0 | Copyleft applies to modifications of the licensed component itself but not to the larger work, provided linking requirements are met. |
-| **Low - Permissive** | MIT, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC | Minimal restrictions. Typically require attribution only. Apache-2.0 includes an explicit patent grant. |
-| **Unknown / No License** | NOASSERTION, unlicensed | No license means default copyright applies -- legally, the code cannot be used. Treat as high risk. |
+| Risk Level                 | Licenses                                         | Concern                                                                                                                                                    |
+| -------------------------- | ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **High - Copyleft**        | GPL-2.0, GPL-3.0, AGPL-3.0                       | Requires derivative works to be distributed under the same license. AGPL-3.0 extends this to network use (SaaS). May force open-sourcing proprietary code. |
+| **Medium - Weak Copyleft** | LGPL-2.1, LGPL-3.0, MPL-2.0, EPL-2.0             | Copyleft applies to modifications of the licensed component itself but not to the larger work, provided linking requirements are met.                      |
+| **Low - Permissive**       | MIT, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC | Minimal restrictions. Typically require attribution only. Apache-2.0 includes an explicit patent grant.                                                    |
+| **Unknown / No License**   | NOASSERTION, unlicensed                          | No license means default copyright applies -- legally, the code cannot be used. Treat as high risk.                                                        |
 
 ### Compliance Checks
 
@@ -157,14 +157,14 @@ Typosquatting (also called dependency confusion or combosquatting) is a supply c
 
 ### Common Patterns
 
-| Pattern | Legitimate | Typosquat Example |
-|---|---|---|
-| Character swap | `requests` | `reqeusts`, `requets` |
-| Hyphen/underscore confusion | `python-dateutil` | `python_dateutil` (may or may not be malicious; verify publisher) |
-| Scope/namespace omission | `@angular/core` | `angular-core` (unscoped) |
-| Prefix/suffix addition | `lodash` | `lodash-utils`, `lodash-js` |
-| Combosquatting | `colors` | `colors2`, `node-colors` |
-| Namespace confusion | Internal package `@company/auth` | Public `company-auth` on npm (dependency confusion) |
+| Pattern                     | Legitimate                       | Typosquat Example                                                 |
+| --------------------------- | -------------------------------- | ----------------------------------------------------------------- |
+| Character swap              | `requests`                       | `reqeusts`, `requets`                                             |
+| Hyphen/underscore confusion | `python-dateutil`                | `python_dateutil` (may or may not be malicious; verify publisher) |
+| Scope/namespace omission    | `@angular/core`                  | `angular-core` (unscoped)                                         |
+| Prefix/suffix addition      | `lodash`                         | `lodash-utils`, `lodash-js`                                       |
+| Combosquatting              | `colors`                         | `colors2`, `node-colors`                                          |
+| Namespace confusion         | Internal package `@company/auth` | Public `company-auth` on npm (dependency confusion)               |
 
 ### Detection Approach
 

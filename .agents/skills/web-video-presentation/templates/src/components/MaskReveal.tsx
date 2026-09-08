@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from "react";
+import type { CSSProperties, ReactNode } from 'react';
 
 interface Props {
   show: boolean;
@@ -12,19 +12,11 @@ interface Props {
  * clip-path text wipe. Pair with `.mask-reveal` and `.mask-reveal.in` from
  * animations.css. Use for any text that should appear (not fade).
  */
-export function MaskReveal({
-  show,
-  delay = 0,
-  duration,
-  className,
-  children,
-}: Props) {
-  const cls = ["mask-reveal", show ? "in" : "", className]
-    .filter(Boolean)
-    .join(" ");
+export function MaskReveal({ show, delay = 0, duration, className, children }: Props) {
+  const cls = ['mask-reveal', show ? 'in' : '', className].filter(Boolean).join(' ');
   const style: CSSProperties = {
-    display: "inline-block",
-    transitionDelay: show ? `${delay}ms` : "0ms",
+    display: 'inline-block',
+    transitionDelay: show ? `${delay}ms` : '0ms',
     ...(duration ? { transitionDuration: `${duration}ms` } : null),
   };
   return (

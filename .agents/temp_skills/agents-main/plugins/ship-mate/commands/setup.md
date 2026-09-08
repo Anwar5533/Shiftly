@@ -1,6 +1,6 @@
 ---
 description: Initialises the ShipMate pipeline in the current project. Creates the stories folder, sets up the pipeline state directory, and runs the initial codebase scan to generate project-doc.md and AGENTS.md.
-argument-hint: "[--force]"
+argument-hint: '[--force]'
 ---
 
 # ShipMate Setup
@@ -40,12 +40,14 @@ If the user says no, exit cleanly: `Setup cancelled. Run /setup when ready.`
 ## Step 2: Check Prerequisites
 
 1. **Git repository** — check if `.git/` exists in the project root. If not:
+
    ```
    ⚠️  This project is not a git repository.
    The pipeline uses git diff for delta scans.
 
    Initialise git now? [y/n]
    ```
+
    If yes: run `git init`. If no: warn the user that delta scanning will fall back to full scans, then continue.
 
 2. **Existing `stories/` folder** — if it already exists, note it and skip creation.
@@ -84,6 +86,7 @@ protect the context window during large scans.
 ## Step 6: Run Initial Scan
 
 Print:
+
 ```
 📡 Running initial codebase scan...
    This generates project-doc.md and AGENTS.md.
@@ -91,6 +94,7 @@ Print:
 ```
 
 Invoke the `scan` skill. This will:
+
 - Perform a full scan of the codebase
 - Write `.claude/pipeline/project-doc.md`
 - Write `AGENTS.md` at the project root

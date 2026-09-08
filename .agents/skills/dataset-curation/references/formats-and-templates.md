@@ -16,11 +16,18 @@ One JSONL row per example. Either key pair works;
 pick one and use it consistently across the dataset:
 
 ```json
-{"instruction": "Summarize the following text in one sentence.", "input": "Q3 revenue grew 14% year-over-year, driven primarily by...", "output": "Q3 revenue grew 14% YoY on strong core-segment demand."}
+{
+  "instruction": "Summarize the following text in one sentence.",
+  "input": "Q3 revenue grew 14% year-over-year, driven primarily by...",
+  "output": "Q3 revenue grew 14% YoY on strong core-segment demand."
+}
 ```
 
 ```json
-{"prompt": "Summarize the following text in one sentence: Q3 revenue grew 14%...", "completion": "Q3 revenue grew 14% YoY on strong core-segment demand."}
+{
+  "prompt": "Summarize the following text in one sentence: Q3 revenue grew 14%...",
+  "completion": "Q3 revenue grew 14% YoY on strong core-segment demand."
+}
 ```
 
 ## ChatML Conversation (SFT, Multi-Turn)
@@ -30,13 +37,21 @@ templates and loss-masks natively (see Applying the
 Chat Template below):
 
 ```json
-{"messages": [
-  {"role": "system", "content": "You are a concise technical assistant."},
-  {"role": "user", "content": "What does a KV cache do?"},
-  {"role": "assistant", "content": "It stores attention keys/values from prior tokens so decoding doesn't recompute them each step."},
-  {"role": "user", "content": "Does it grow with context length?"},
-  {"role": "assistant", "content": "Yes, linearly — that's why long-context serving is memory-bound on cache size, not compute."}
-]}
+{
+  "messages": [
+    { "role": "system", "content": "You are a concise technical assistant." },
+    { "role": "user", "content": "What does a KV cache do?" },
+    {
+      "role": "assistant",
+      "content": "It stores attention keys/values from prior tokens so decoding doesn't recompute them each step."
+    },
+    { "role": "user", "content": "Does it grow with context length?" },
+    {
+      "role": "assistant",
+      "content": "Yes, linearly — that's why long-context serving is memory-bound on cache size, not compute."
+    }
+  ]
+}
 ```
 
 Only the final two `assistant` turns' content
@@ -47,7 +62,11 @@ section.
 ## DPO / ORPO — Chosen/Rejected Pair
 
 ```json
-{"prompt": "Explain why the sky is blue.", "chosen": "Sunlight scatters off air molecules; shorter (blue) wavelengths scatter more, so blue dominates what reaches your eyes from all directions.", "rejected": "Because the sky reflects the ocean."}
+{
+  "prompt": "Explain why the sky is blue.",
+  "chosen": "Sunlight scatters off air molecules; shorter (blue) wavelengths scatter more, so blue dominates what reaches your eyes from all directions.",
+  "rejected": "Because the sky reflects the ocean."
+}
 ```
 
 `chosen` and `rejected` are both full responses to
@@ -60,11 +79,19 @@ not the naive minimum).
 ## KTO — Unpaired Binary Feedback
 
 ```json
-{"prompt": "Draft a one-line commit message for a null-check fix.", "completion": "Fix null pointer exception in user lookup", "label": true}
+{
+  "prompt": "Draft a one-line commit message for a null-check fix.",
+  "completion": "Fix null pointer exception in user lookup",
+  "label": true
+}
 ```
 
 ```json
-{"prompt": "Draft a one-line commit message for a null-check fix.", "completion": "misc changes", "label": false}
+{
+  "prompt": "Draft a one-line commit message for a null-check fix.",
+  "completion": "misc changes",
+  "label": false
+}
 ```
 
 No pairing between rows is required or expected —
@@ -75,7 +102,7 @@ labels represented across the set.
 ## GRPO / RLVR — Prompt-Only
 
 ```json
-{"prompt": "Solve: 17 * 24 = ?", "answer": "408", "verifier": "exact_match"}
+{ "prompt": "Solve: 17 * 24 = ?", "answer": "408", "verifier": "exact_match" }
 ```
 
 No response is stored — GRPO samples completions
@@ -132,7 +159,7 @@ everything — fix the template, don't fall back to
 flat text.
 
 `apply_chat_template(..., tokenize=False)` is still
-the right tool for *inspecting* what the template
+the right tool for _inspecting_ what the template
 produces — decode-and-read checks like the packing
 inspection in `SKILL.md` — just not for building
 the training dataset.

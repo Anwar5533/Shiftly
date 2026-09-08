@@ -1,5 +1,5 @@
 ---
-description: "Task delegation dashboard for managing team workload, assignments, and rebalancing"
+description: 'Task delegation dashboard for managing team workload, assignments, and rebalancing'
 argument-hint: "[team-name] [--assign task-id=member-name] [--message member-name 'content'] [--rebalance]"
 ---
 

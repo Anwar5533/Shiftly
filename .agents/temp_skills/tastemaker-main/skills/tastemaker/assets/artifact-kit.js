@@ -4,10 +4,10 @@ window.TastemakerArtifacts = {
     if (!window.gsap || !window.ScrollTrigger) return;
 
     const {
-      board = ".tmk-artifact-board",
-      modes = ".tmk-mode-runway",
-      ledger = ".tmk-ledger-card",
-      reduced = "(prefers-reduced-motion: reduce)",
+      board = '.tmk-artifact-board',
+      modes = '.tmk-mode-runway',
+      ledger = '.tmk-ledger-card',
+      reduced = '(prefers-reduced-motion: reduce)',
     } = options;
 
     gsap.registerPlugin(ScrollTrigger);
@@ -18,7 +18,12 @@ window.TastemakerArtifacts = {
         gsap.to(el, {
           yPercent: -14,
           rotation: 0,
-          scrollTrigger: { trigger: el.closest(board), start: "top bottom", end: "bottom top", scrub: true },
+          scrollTrigger: {
+            trigger: el.closest(board),
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
         });
       });
 
@@ -26,7 +31,12 @@ window.TastemakerArtifacts = {
         gsap.to(el, {
           yPercent: -8,
           rotation: -8,
-          scrollTrigger: { trigger: el.closest(board), start: "top bottom", end: "bottom top", scrub: true },
+          scrollTrigger: {
+            trigger: el.closest(board),
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
         });
       });
 
@@ -34,13 +44,18 @@ window.TastemakerArtifacts = {
         gsap.to(el, {
           y: index % 2 === 0 ? -56 : 42,
           rotation: index % 2 === 0 ? -4 : 5,
-          scrollTrigger: { trigger: el.closest(modes), start: "top bottom", end: "bottom top", scrub: true },
+          scrollTrigger: {
+            trigger: el.closest(modes),
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
         });
       });
 
       gsap.to(ledger, {
         x: (index) => (index % 2 === 0 ? -18 : 18),
-        scrollTrigger: { trigger: ledger, start: "top bottom", end: "bottom top", scrub: true },
+        scrollTrigger: { trigger: ledger, start: 'top bottom', end: 'bottom top', scrub: true },
       });
     });
   },

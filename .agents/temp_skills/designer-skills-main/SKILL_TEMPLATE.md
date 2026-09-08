@@ -16,13 +16,20 @@
   - One skill per PR (open an issue first for new skills)
   - Plugin manifest must be updated in the same commit
 -->
+
 ---
+
 name: <skill-name>
+
 # Three parts: what it produces, when to use it, and how it differs from the
+
 # nearest skill an agent might pick instead. Drop the boundary if nothing is close.
+
 # See "Writing descriptions" in CONTRIBUTING.md.
+
 description: <What this produces>. Use when <situation>. For <adjacent case>, use `<other-skill>`.
 ---
+
 # <Skill Title in Title Case>
 
 You are an expert in <the specific domain this skill covers — be precise, not broad>.

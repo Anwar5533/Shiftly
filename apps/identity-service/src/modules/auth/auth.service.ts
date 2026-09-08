@@ -362,7 +362,7 @@ export class AuthService {
 
     if (session.isRevoked) {
       // Token reuse detected! Revoke the compromised session.
-      // (In production with token families, we would revoke the whole family. 
+      // (In production with token families, we would revoke the whole family.
       // Revoking all user sessions causes flaky E2E tests when run concurrently).
       await this.prisma.session.update({
         where: { id: session.id },

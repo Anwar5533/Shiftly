@@ -50,10 +50,12 @@ redis://:[^@]+@
 ```
 
 **Checkov equivalent rules:**
+
 - CKV_SECRET_1 through CKV_SECRET_80 (various secret patterns)
 - CKV_AWS_41: Ensure RDS instance credentials are not in plaintext
 
 **tfsec equivalent rules:**
+
 - general-secrets-sensitive-in-variable
 - general-secrets-sensitive-in-attribute
 
@@ -111,7 +113,7 @@ Resources:
   MyBucket:
     Type: AWS::S3::Bucket
     Properties:
-      AccessControl: PublicRead  # FAIL
+      AccessControl: PublicRead # FAIL
 ```
 
 **KICS:** 3406e4d3 (S3 bucket with public ACL)
@@ -208,21 +210,21 @@ Verify that encryption at rest and in transit is enabled for all applicable reso
 
 **Resources that must have encryption enabled:**
 
-| Resource | Terraform Attribute | Checkov Rule |
-|----------|-------------------|--------------|
-| AWS S3 bucket | `server_side_encryption_configuration` | CKV_AWS_19 |
-| AWS EBS volume | `encrypted = true` | CKV_AWS_3 |
-| AWS RDS instance | `storage_encrypted = true` | CKV_AWS_16 |
-| AWS EFS | `encrypted = true` | CKV_AWS_42 |
-| AWS SNS topic | `kms_master_key_id` | CKV_AWS_26 |
-| AWS SQS queue | `kms_master_key_id` | CKV_AWS_27 |
-| AWS DynamoDB table | `server_side_encryption { enabled = true }` | CKV_AWS_28 |
-| AWS CloudWatch log group | `kms_key_id` | CKV_AWS_158 |
-| Azure Storage Account | `infrastructure_encryption_enabled` | CKV_AZURE_43 |
-| Azure SQL Database | `transparent_data_encryption_enabled` | CKV_AZURE_24 |
-| Azure VM OS Disk | `disk_encryption_set_id` | CKV_AZURE_2 |
-| GCP Compute Disk | `disk_encryption_key` | CKV_GCP_37 |
-| GCP BigQuery Dataset | `default_encryption_configuration` | CKV_GCP_81 |
+| Resource                 | Terraform Attribute                         | Checkov Rule |
+| ------------------------ | ------------------------------------------- | ------------ |
+| AWS S3 bucket            | `server_side_encryption_configuration`      | CKV_AWS_19   |
+| AWS EBS volume           | `encrypted = true`                          | CKV_AWS_3    |
+| AWS RDS instance         | `storage_encrypted = true`                  | CKV_AWS_16   |
+| AWS EFS                  | `encrypted = true`                          | CKV_AWS_42   |
+| AWS SNS topic            | `kms_master_key_id`                         | CKV_AWS_26   |
+| AWS SQS queue            | `kms_master_key_id`                         | CKV_AWS_27   |
+| AWS DynamoDB table       | `server_side_encryption { enabled = true }` | CKV_AWS_28   |
+| AWS CloudWatch log group | `kms_key_id`                                | CKV_AWS_158  |
+| Azure Storage Account    | `infrastructure_encryption_enabled`         | CKV_AZURE_43 |
+| Azure SQL Database       | `transparent_data_encryption_enabled`       | CKV_AZURE_24 |
+| Azure VM OS Disk         | `disk_encryption_set_id`                    | CKV_AZURE_2  |
+| GCP Compute Disk         | `disk_encryption_key`                       | CKV_GCP_37   |
+| GCP BigQuery Dataset     | `default_encryption_configuration`          | CKV_GCP_81   |
 
 **Grep patterns for missing encryption:**
 
@@ -344,17 +346,17 @@ Verify that resources have appropriate logging and monitoring enabled.
 
 **Required logging configurations:**
 
-| Resource | Logging Mechanism | Checkov Rule |
-|----------|------------------|--------------|
-| AWS S3 bucket | Access logging or CloudTrail data events | CKV_AWS_18 |
-| AWS CloudTrail | Multi-region, log validation, encryption | CKV_AWS_35, CKV_AWS_36 |
-| AWS VPC | Flow logs | CKV_AWS_9 |
-| AWS ELB/ALB | Access logging | CKV_AWS_91, CKV_AWS_92 |
-| AWS API Gateway | Execution logging | CKV_AWS_73 |
-| Azure NSG | Flow logs | CKV_AZURE_12 |
-| Azure Key Vault | Diagnostic settings | CKV_AZURE_110 |
-| GCP VPC subnet | VPC flow logs | CKV_GCP_26 |
-| GCP Cloud SQL | Database flags for logging | CKV_GCP_51, CKV_GCP_52 |
+| Resource        | Logging Mechanism                        | Checkov Rule           |
+| --------------- | ---------------------------------------- | ---------------------- |
+| AWS S3 bucket   | Access logging or CloudTrail data events | CKV_AWS_18             |
+| AWS CloudTrail  | Multi-region, log validation, encryption | CKV_AWS_35, CKV_AWS_36 |
+| AWS VPC         | Flow logs                                | CKV_AWS_9              |
+| AWS ELB/ALB     | Access logging                           | CKV_AWS_91, CKV_AWS_92 |
+| AWS API Gateway | Execution logging                        | CKV_AWS_73             |
+| Azure NSG       | Flow logs                                | CKV_AZURE_12           |
+| Azure Key Vault | Diagnostic settings                      | CKV_AZURE_110          |
+| GCP VPC subnet  | VPC flow logs                            | CKV_GCP_26             |
+| GCP Cloud SQL   | Database flags for logging               | CKV_GCP_51, CKV_GCP_52 |
 
 ---
 

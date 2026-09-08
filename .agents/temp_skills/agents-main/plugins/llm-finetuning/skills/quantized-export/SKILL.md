@@ -76,20 +76,20 @@ specific workloads (see Workload Overrides).
 The core format-selection tradeoff, read as a
 lookup table for common scenarios:
 
-| Target | Workload | Format |
-|---|---|---|
-| Datacenter GPU | generic chat | FP8 |
-| Datacenter GPU | long-context/code/math | FP8 or W8A8 — never INT4 |
-| Older GPU generation | generic | AWQ INT4 |
-| Edge device / laptop | llama.cpp serving | GGUF Q4_K_M + imatrix |
-| GB10 | any workload | FP8 via vLLM nightly, or GGUF via llama.cpp locally — skip NVFP4 |
+| Target               | Workload               | Format                                                           |
+| -------------------- | ---------------------- | ---------------------------------------------------------------- |
+| Datacenter GPU       | generic chat           | FP8                                                              |
+| Datacenter GPU       | long-context/code/math | FP8 or W8A8 — never INT4                                         |
+| Older GPU generation | generic                | AWQ INT4                                                         |
+| Edge device / laptop | llama.cpp serving      | GGUF Q4_K_M + imatrix                                            |
+| GB10                 | any workload           | FP8 via vLLM nightly, or GGUF via llama.cpp locally — skip NVFP4 |
 
 ```yaml
 # quick decision snippet — see the table above for the full map
 hopper_or_newer: fp8
 older_gpu: awq-int4
 edge_llama_cpp: gguf-q4_k_m+imatrix
-gb10_any_workload: fp8-vllm-nightly   # never nvfp4 on GB10
+gb10_any_workload: fp8-vllm-nightly # never nvfp4 on GB10
 ```
 
 ## Workload Overrides

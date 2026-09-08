@@ -137,7 +137,7 @@ export default function EmployerProfilePage(): React.ReactElement {
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-1">
-          <div className="glass-panel p-6 flex flex-col items-center text-center">
+          <div className="glass-panel flex flex-col items-center p-6 text-center">
             <div className="group relative mb-4 flex h-32 w-32 items-center justify-center overflow-hidden rounded-2xl border-4 border-primary/20 bg-gradient-to-br from-primary/30 to-primary/5 shadow-inner">
               <Building2 className="h-16 w-16 text-primary/60" />
               {isEditing && (
@@ -189,7 +189,7 @@ export default function EmployerProfilePage(): React.ReactElement {
         </div>
 
         <div className="space-y-6 lg:col-span-2">
-          <div className="glass-panel p-6 card-hover">
+          <div className="glass-panel card-hover p-6">
             <h3 className="mb-6 flex items-center gap-2 text-lg font-semibold text-foreground">
               <Building2 className="h-5 w-5 text-primary" />
               About Company
@@ -208,7 +208,7 @@ export default function EmployerProfilePage(): React.ReactElement {
             )}
           </div>
 
-          <div className="glass-panel p-6 card-hover">
+          <div className="glass-panel card-hover p-6">
             <h3 className="mb-6 flex items-center gap-2 text-lg font-semibold text-foreground">
               <Building2 className="h-5 w-5 text-primary" />
               Company Details
@@ -276,7 +276,7 @@ export default function EmployerProfilePage(): React.ReactElement {
             </div>
           </div>
 
-          <div className="glass-panel p-6 card-hover">
+          <div className="glass-panel card-hover p-6">
             <h3 className="mb-6 flex items-center gap-2 text-lg font-semibold text-foreground">
               <Building2 className="h-5 w-5 text-primary" />
               Departments

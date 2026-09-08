@@ -71,20 +71,20 @@ npx madge --image graph.png src/
 // compatibility-matrix.js
 const compatibilityMatrix = {
   react: {
-    "16.x": {
-      "react-dom": "^16.0.0",
-      "react-router-dom": "^5.0.0",
-      "@testing-library/react": "^11.0.0",
+    '16.x': {
+      'react-dom': '^16.0.0',
+      'react-router-dom': '^5.0.0',
+      '@testing-library/react': '^11.0.0',
     },
-    "17.x": {
-      "react-dom": "^17.0.0",
-      "react-router-dom": "^5.0.0 || ^6.0.0",
-      "@testing-library/react": "^12.0.0",
+    '17.x': {
+      'react-dom': '^17.0.0',
+      'react-router-dom': '^5.0.0 || ^6.0.0',
+      '@testing-library/react': '^12.0.0',
     },
-    "18.x": {
-      "react-dom": "^18.0.0",
-      "react-router-dom": "^6.0.0",
-      "@testing-library/react": "^13.0.0",
+    '18.x': {
+      'react-dom': '^18.0.0',
+      'react-router-dom': '^6.0.0',
+      '@testing-library/react': '^13.0.0',
     },
   },
 };
@@ -142,15 +142,15 @@ npm install react-router-dom@6
 
 ```javascript
 // tests/compatibility.test.js
-describe("Dependency Compatibility", () => {
-  it("should have compatible React versions", () => {
-    const reactVersion = require("react/package.json").version;
-    const reactDomVersion = require("react-dom/package.json").version;
+describe('Dependency Compatibility', () => {
+  it('should have compatible React versions', () => {
+    const reactVersion = require('react/package.json').version;
+    const reactDomVersion = require('react-dom/package.json').version;
 
     expect(reactVersion).toBe(reactDomVersion);
   });
 
-  it("should not have peer dependency warnings", () => {
+  it('should not have peer dependency warnings', () => {
     // Run npm ls and check for warnings
   });
 });
@@ -185,18 +185,15 @@ npx jscodeshift -t https://raw.githubusercontent.com/reactjs/react-codemod/maste
 
 ```javascript
 // migration-script.js
-const fs = require("fs");
-const glob = require("glob");
+const fs = require('fs');
+const glob = require('glob');
 
-glob("src/**/*.tsx", (err, files) => {
+glob('src/**/*.tsx', (err, files) => {
   files.forEach((file) => {
-    let content = fs.readFileSync(file, "utf8");
+    let content = fs.readFileSync(file, 'utf8');
 
     // Replace old API with new API
-    content = content.replace(
-      /componentWillMount/g,
-      "UNSAFE_componentWillMount",
-    );
+    content = content.replace(/componentWillMount/g, 'UNSAFE_componentWillMount');
 
     // Update imports
     content = content.replace(
@@ -225,15 +222,15 @@ npm install @testing-library/react@latest
 
 ```javascript
 // tests/integration/app.test.js
-describe("App Integration", () => {
-  it("should render without crashing", () => {
+describe('App Integration', () => {
+  it('should render without crashing', () => {
     render(<App />);
   });
 
-  it("should handle navigation", () => {
+  it('should handle navigation', () => {
     const { getByText } = render(<App />);
-    fireEvent.click(getByText("Navigate"));
-    expect(screen.getByText("New Page")).toBeInTheDocument();
+    fireEvent.click(getByText('Navigate'));
+    expect(screen.getByText('New Page')).toBeInTheDocument();
   });
 });
 ```
@@ -242,8 +239,8 @@ describe("App Integration", () => {
 
 ```javascript
 // visual-regression.test.js
-describe("Visual Regression", () => {
-  it("should match snapshot", () => {
+describe('Visual Regression', () => {
+  it('should match snapshot', () => {
     const { container } = render(<App />);
     expect(container.firstChild).toMatchSnapshot();
   });
@@ -254,13 +251,13 @@ describe("Visual Regression", () => {
 
 ```javascript
 // cypress/e2e/app.cy.js
-describe("E2E Tests", () => {
-  it("should complete user flow", () => {
-    cy.visit("/");
+describe('E2E Tests', () => {
+  it('should complete user flow', () => {
+    cy.visit('/');
     cy.get('[data-testid="login"]').click();
-    cy.get('input[name="email"]').type("user@example.com");
+    cy.get('input[name="email"]').type('user@example.com');
     cy.get('button[type="submit"]').click();
-    cy.url().should("include", "/dashboard");
+    cy.url().should('include', '/dashboard');
   });
 });
 ```
@@ -295,16 +292,16 @@ describe("E2E Tests", () => {
 # .github/dependabot.yml
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
     open-pull-requests-limit: 5
     reviewers:
-      - "team-leads"
+      - 'team-leads'
     commit-message:
-      prefix: "chore"
-      include: "scope"
+      prefix: 'chore'
+      include: 'scope'
 ```
 
 ## Rollback Plan

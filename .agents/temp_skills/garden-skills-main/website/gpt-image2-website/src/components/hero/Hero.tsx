@@ -329,15 +329,11 @@ export function Hero({ navigate }: Props) {
               <div className="hero-stat-label mono">CASE STUDIES</div>
             </div>
             <div className="hero-stat">
-              <div className="hero-stat-num serif">
-                {cases.summary.templates}
-              </div>
+              <div className="hero-stat-num serif">{cases.summary.templates}</div>
               <div className="hero-stat-label mono">PROMPT TEMPLATES</div>
             </div>
             <div className="hero-stat">
-              <div className="hero-stat-num serif">
-                {Object.keys(cases.categories).length}
-              </div>
+              <div className="hero-stat-num serif">{Object.keys(cases.categories).length}</div>
               <div className="hero-stat-label mono">CATEGORIES</div>
             </div>
             <div className="hero-stat">
@@ -352,9 +348,7 @@ export function Hero({ navigate }: Props) {
             <button
               className="btn btn-primary"
               onClick={() => {
-                document
-                  .getElementById('gallery')
-                  ?.scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('gallery')?.scrollIntoView({ behavior: 'smooth' });
               }}
             >
               <span>浏览图集</span>
@@ -378,10 +372,7 @@ export function Hero({ navigate }: Props) {
                 +
               </span>
             </button>
-            <button
-              className="btn btn-ghost-2"
-              onClick={() => navigate({ name: 'skills' })}
-            >
+            <button className="btn btn-ghost-2" onClick={() => navigate({ name: 'skills' })}>
               <span>查看 Skill 工程</span>
               <span className="btn-arrow" aria-hidden="true">
                 →

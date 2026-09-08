@@ -51,7 +51,7 @@ Motion should communicate, not decorate:
 ## Quick Start: Button Microinteraction
 
 ```tsx
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion';
 
 export function InteractiveButton({ children, onClick }) {
   return (
@@ -59,8 +59,8 @@ export function InteractiveButton({ children, onClick }) {
       onClick={onClick}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
-      transition={{ type: "spring", stiffness: 400, damping: 17 }}
-      className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+      transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+      className="rounded-lg bg-blue-600 px-4 py-2 text-white"
     >
       {children}
     </motion.button>
@@ -78,9 +78,9 @@ export function InteractiveButton({ children, onClick }) {
 function CardSkeleton() {
   return (
     <div className="animate-pulse">
-      <div className="h-48 bg-gray-200 rounded-lg" />
-      <div className="mt-4 h-4 bg-gray-200 rounded w-3/4" />
-      <div className="mt-2 h-4 bg-gray-200 rounded w-1/2" />
+      <div className="h-48 rounded-lg bg-gray-200" />
+      <div className="mt-4 h-4 w-3/4 rounded bg-gray-200" />
+      <div className="mt-2 h-4 w-1/2 rounded bg-gray-200" />
     </div>
   );
 }
@@ -91,12 +91,12 @@ function CardSkeleton() {
 ```tsx
 function ProgressBar({ progress }: { progress: number }) {
   return (
-    <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+    <div className="h-2 overflow-hidden rounded-full bg-gray-200">
       <motion.div
         className="h-full bg-blue-600"
         initial={{ width: 0 }}
         animate={{ width: `${progress}%` }}
-        transition={{ ease: "easeOut" }}
+        transition={{ ease: 'easeOut' }}
       />
     </div>
   );
@@ -114,15 +114,12 @@ function Toggle({ checked, onChange }) {
       role="switch"
       aria-checked={checked}
       onClick={() => onChange(!checked)}
-      className={`
-        relative w-12 h-6 rounded-full transition-colors duration-200
-        ${checked ? "bg-blue-600" : "bg-gray-300"}
-      `}
+      className={`relative h-6 w-12 rounded-full transition-colors duration-200 ${checked ? 'bg-blue-600' : 'bg-gray-300'} `}
     >
       <motion.span
-        className="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow"
+        className="absolute top-1 left-1 h-4 w-4 rounded-full bg-white shadow"
         animate={{ x: checked ? 24 : 0 }}
-        transition={{ type: "spring", stiffness: 500, damping: 30 }}
+        transition={{ type: 'spring', stiffness: 500, damping: 30 }}
       />
     </button>
   );
@@ -134,7 +131,7 @@ function Toggle({ checked, onChange }) {
 **Framer Motion layout animations**:
 
 ```tsx
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from 'framer-motion';
 
 function PageTransition({ children, key }) {
   return (
@@ -181,7 +178,7 @@ function RippleButton({ children, onClick }) {
       {ripples.map((ripple) => (
         <span
           key={ripple.id}
-          className="absolute bg-white/30 rounded-full animate-ripple"
+          className="animate-ripple absolute rounded-full bg-white/30"
           style={{ left: ripple.x, top: ripple.y }}
         />
       ))}
@@ -288,9 +285,7 @@ function SwipeCard({ children, onDismiss }) {
 
 ```tsx
 function AnimatedComponent() {
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   return (
     <motion.div

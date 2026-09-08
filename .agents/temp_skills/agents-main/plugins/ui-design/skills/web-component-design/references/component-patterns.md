@@ -15,7 +15,7 @@ import {
   type ReactNode,
   type Dispatch,
   type SetStateAction,
-} from "react";
+} from 'react';
 
 // Types
 interface TabsContextValue {
@@ -51,7 +51,7 @@ const TabsContext = createContext<TabsContextValue | null>(null);
 function useTabs() {
   const context = useContext(TabsContext);
   if (!context) {
-    throw new Error("Tabs components must be used within <Tabs>");
+    throw new Error('Tabs components must be used within <Tabs>');
   }
   return context;
 }
@@ -62,7 +62,7 @@ export function Tabs({ defaultValue, children, onChange }: TabsProps) {
 
   const handleChange: Dispatch<SetStateAction<string>> = useCallback(
     (value) => {
-      const newValue = typeof value === "function" ? value(activeTab) : value;
+      const newValue = typeof value === 'function' ? value(activeTab) : value;
       setActiveTab(newValue);
       onChange?.(newValue);
     },
@@ -98,15 +98,9 @@ Tabs.Tab = function Tab({ value, children, disabled }: TabProps) {
       tabIndex={isActive ? 0 : -1}
       disabled={disabled}
       onClick={() => setActiveTab(value)}
-      className={`
-        px-4 py-2 font-medium transition-colors
-        ${
-          isActive
-            ? "border-b-2 border-blue-600 text-blue-600"
-            : "text-gray-600 hover:text-gray-900"
-        }
-        ${disabled ? "opacity-50 cursor-not-allowed" : ""}
-      `}
+      className={`px-4 py-2 font-medium transition-colors ${
+        isActive ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-600 hover:text-gray-900'
+      } ${disabled ? 'cursor-not-allowed opacity-50' : ''} `}
     >
       {children}
     </button>
@@ -187,7 +181,7 @@ function DataLoader<T>({ url, children }: DataLoaderProps<T>) {
     setState((prev) => ({ ...prev, loading: true, error: null }));
     try {
       const response = await fetch(url);
-      if (!response.ok) throw new Error("Fetch failed");
+      if (!response.ok) throw new Error('Fetch failed');
       const data = await response.json();
       setState({ data, loading: false, error: null });
     } catch (error) {
@@ -346,16 +340,10 @@ interface CardProps {
 function Card({ children, header, footer, media }: CardProps) {
   return (
     <article className="rounded-lg border bg-white shadow-sm">
-      {media && (
-        <div className="aspect-video overflow-hidden rounded-t-lg">{media}</div>
-      )}
+      {media && <div className="aspect-video overflow-hidden rounded-t-lg">{media}</div>}
       {header && <header className="border-b px-4 py-3">{header}</header>}
       <div className="px-4 py-4">{children}</div>
-      {footer && (
-        <footer className="border-t px-4 py-3 bg-gray-50 rounded-b-lg">
-          {footer}
-        </footer>
-      )}
+      {footer && <footer className="rounded-b-lg border-t bg-gray-50 px-4 py-3">{footer}</footer>}
     </article>
   );
 }
@@ -375,7 +363,7 @@ function Card({ children, header, footer, media }: CardProps) {
 Allow parent components to access the underlying DOM node.
 
 ```tsx
-import { forwardRef, useRef, useImperativeHandle } from "react";
+import { forwardRef, useRef, useImperativeHandle } from 'react';
 
 interface InputHandle {
   focus: () => void;
@@ -388,33 +376,31 @@ interface FancyInputProps {
   placeholder?: string;
 }
 
-const FancyInput = forwardRef<InputHandle, FancyInputProps>(
-  ({ label, placeholder }, ref) => {
-    const inputRef = useRef<HTMLInputElement>(null);
+const FancyInput = forwardRef<InputHandle, FancyInputProps>(({ label, placeholder }, ref) => {
+  const inputRef = useRef<HTMLInputElement>(null);
 
-    useImperativeHandle(ref, () => ({
-      focus: () => inputRef.current?.focus(),
-      clear: () => {
-        if (inputRef.current) inputRef.current.value = "";
-      },
-      getValue: () => inputRef.current?.value ?? "",
-    }));
+  useImperativeHandle(ref, () => ({
+    focus: () => inputRef.current?.focus(),
+    clear: () => {
+      if (inputRef.current) inputRef.current.value = '';
+    },
+    getValue: () => inputRef.current?.value ?? '',
+  }));
 
-    return (
-      <div>
-        <label className="block text-sm font-medium mb-1">{label}</label>
-        <input
-          ref={inputRef}
-          type="text"
-          placeholder={placeholder}
-          className="w-full px-3 py-2 border rounded-md"
-        />
-      </div>
-    );
-  },
-);
+  return (
+    <div>
+      <label className="mb-1 block text-sm font-medium">{label}</label>
+      <input
+        ref={inputRef}
+        type="text"
+        placeholder={placeholder}
+        className="w-full rounded-md border px-3 py-2"
+      />
+    </div>
+  );
+});
 
-FancyInput.displayName = "FancyInput";
+FancyInput.displayName = 'FancyInput';
 
 // Usage
 function Form() {

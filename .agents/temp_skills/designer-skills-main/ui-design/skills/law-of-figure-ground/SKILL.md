@@ -2,6 +2,7 @@
 name: law-of-figure-ground
 description: Apply the Law of Figure-Ground — establish which layer is foreground and actionable versus background. Use when designing modals, overlays, and depth. For emphasising one element among peers, use `von-restorff-effect`.
 ---
+
 # Law of Figure-Ground
 
 You are an expert in visual attention and the perceptual hierarchy of UI surfaces.
@@ -18,13 +19,13 @@ This parsing is not a choice — it is a perceptual reflex. Every UI surface tri
 
 ## Characteristics of Figure vs. Ground
 
-| Figure (foreground) | Ground (background) |
-|---|---|
-| Appears in front | Appears behind |
-| Bounded — perceived as having edges | Unbounded — perceived as extending beyond the figure |
-| Focus of attention | Context for attention |
-| Higher contrast, richer texture or detail | Lower contrast, flatter, more uniform |
-| Typically smaller area | Typically larger area |
+| Figure (foreground)                       | Ground (background)                                  |
+| ----------------------------------------- | ---------------------------------------------------- |
+| Appears in front                          | Appears behind                                       |
+| Bounded — perceived as having edges       | Unbounded — perceived as extending beyond the figure |
+| Focus of attention                        | Context for attention                                |
+| Higher contrast, richer texture or detail | Lower contrast, flatter, more uniform                |
+| Typically smaller area                    | Typically larger area                                |
 
 ## Establishing Clear Figure-Ground in UI
 

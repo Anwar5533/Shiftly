@@ -20,14 +20,8 @@
     },
     "color_palette": {
       "position": "右上",
-      "primary": [
-        "#2F4F4F 松烟绿",
-        "#C7B89E 米汤白"
-      ],
-      "secondary": [
-        "#8C9A8E 鼠尾草灰绿",
-        "#1A1A1A 墨点黑"
-      ],
+      "primary": ["#2F4F4F 松烟绿", "#C7B89E 米汤白"],
+      "secondary": ["#8C9A8E 鼠尾草灰绿", "#1A1A1A 墨点黑"],
       "swatch_design": "圆角色块 + HEX + 中文名 + 5% 白细边"
     },
     "typography": {

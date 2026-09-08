@@ -80,9 +80,6 @@
       "same semantic scene per row across methods",
       "no decorative gradients in grid background"
     ],
-    "avoid": [
-      "mismatched row content",
-      "unreadable prompt text in column 1"
-    ]
+    "avoid": ["mismatched row content", "unreadable prompt text in column 1"]
   }
 }

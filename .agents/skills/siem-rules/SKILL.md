@@ -11,13 +11,13 @@ role: [soc-analyst, security-engineer]
 phase: [operate]
 frameworks: [MITRE-ATT&CK-v16]
 difficulty: intermediate
-time_estimate: "20-40min"
-version: "1.0.0"
+time_estimate: '20-40min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 injection-hardened: true
-argument-hint: "[technique-ID-or-log-source]"
+argument-hint: '[technique-ID-or-log-source]'
 ---
 
 # SIEM Detection Rule Development
@@ -68,15 +68,15 @@ Select the appropriate detection logic pattern based on the threat being detecte
 
 **Core detection patterns:**
 
-| Pattern | Use Case | Complexity |
-|---------|----------|------------|
-| **Simple match** | Known-bad indicators, specific event IDs | Low |
-| **Threshold** | Brute force, scanning, volume anomalies | Low-Medium |
-| **Time window** | Rapid successive events, timing-based attacks | Medium |
-| **Aggregation** | Group-by analysis, frequency counting | Medium |
-| **Correlation** | Multi-table joins, multi-stage attacks | High |
-| **Behavioral baseline** | Deviation from normal, first-seen analysis | High |
-| **Impossible travel** | Geographically implausible authentication | High |
+| Pattern                 | Use Case                                      | Complexity |
+| ----------------------- | --------------------------------------------- | ---------- |
+| **Simple match**        | Known-bad indicators, specific event IDs      | Low        |
+| **Threshold**           | Brute force, scanning, volume anomalies       | Low-Medium |
+| **Time window**         | Rapid successive events, timing-based attacks | Medium     |
+| **Aggregation**         | Group-by analysis, frequency counting         | Medium     |
+| **Correlation**         | Multi-table joins, multi-stage attacks        | High       |
+| **Behavioral baseline** | Deviation from normal, first-seen analysis    | High       |
+| **Impossible travel**   | Geographically implausible authentication     | High       |
 
 ### Step 2: Write the Detection Query
 
@@ -84,18 +84,18 @@ Select the appropriate detection logic pattern based on the threat being detecte
 
 **Common Sentinel tables:**
 
-| Table | Data Source | Key Fields |
-|-------|------------|------------|
-| `SigninLogs` | Azure AD interactive sign-ins | UserPrincipalName, ResultType, IPAddress, Location |
-| `AADNonInteractiveUserSignInLogs` | Azure AD non-interactive sign-ins | Same as SigninLogs |
-| `SecurityEvent` | Windows Security Event Log | EventID, Account, Computer, Activity |
-| `Syslog` | Linux syslog | SyslogMessage, ProcessName, Facility, SeverityLevel |
-| `DeviceProcessEvents` | Microsoft Defender for Endpoint | FileName, ProcessCommandLine, InitiatingProcessFileName |
-| `DeviceNetworkEvents` | MDE network events | RemoteIP, RemotePort, RemoteUrl |
-| `AzureActivity` | Azure control plane | OperationNameValue, Caller, ResourceGroup |
-| `CommonSecurityLog` | CEF-format logs (firewalls, proxies) | DeviceAction, SourceIP, DestinationIP |
-| `ThreatIntelligenceIndicator` | Threat intel feeds | NetworkIP, DomainName, Url, ExpirationDateTime |
-| `OfficeActivity` | Microsoft 365 audit logs | Operation, UserId, ClientIP |
+| Table                             | Data Source                          | Key Fields                                              |
+| --------------------------------- | ------------------------------------ | ------------------------------------------------------- |
+| `SigninLogs`                      | Azure AD interactive sign-ins        | UserPrincipalName, ResultType, IPAddress, Location      |
+| `AADNonInteractiveUserSignInLogs` | Azure AD non-interactive sign-ins    | Same as SigninLogs                                      |
+| `SecurityEvent`                   | Windows Security Event Log           | EventID, Account, Computer, Activity                    |
+| `Syslog`                          | Linux syslog                         | SyslogMessage, ProcessName, Facility, SeverityLevel     |
+| `DeviceProcessEvents`             | Microsoft Defender for Endpoint      | FileName, ProcessCommandLine, InitiatingProcessFileName |
+| `DeviceNetworkEvents`             | MDE network events                   | RemoteIP, RemotePort, RemoteUrl                         |
+| `AzureActivity`                   | Azure control plane                  | OperationNameValue, Caller, ResourceGroup               |
+| `CommonSecurityLog`               | CEF-format logs (firewalls, proxies) | DeviceAction, SourceIP, DestinationIP                   |
+| `ThreatIntelligenceIndicator`     | Threat intel feeds                   | NetworkIP, DomainName, Url, ExpirationDateTime          |
+| `OfficeActivity`                  | Microsoft 365 audit logs             | Operation, UserId, ClientIP                             |
 
 ---
 
@@ -134,17 +134,17 @@ SigninLogs
 
 **Key ResultType values (Azure AD):**
 
-| ResultType | Meaning |
-|------------|---------|
-| 0 | Success |
-| 50126 | Invalid username or password |
-| 50053 | Account locked |
-| 50055 | Password expired |
-| 50056 | Invalid or null password |
-| 50057 | Account disabled |
-| 50074 | MFA required |
-| 50076 | MFA prompt not satisfied |
-| 53003 | Conditional access block |
+| ResultType | Meaning                      |
+| ---------- | ---------------------------- |
+| 0          | Success                      |
+| 50126      | Invalid username or password |
+| 50053      | Account locked               |
+| 50055      | Password expired             |
+| 50056      | Invalid or null password     |
+| 50057      | Account disabled             |
+| 50074      | MFA required                 |
+| 50076      | MFA prompt not satisfied     |
+| 53003      | Conditional access block     |
 
 ---
 
@@ -251,16 +251,16 @@ SigninLogs
 
 **Common Splunk sourcetypes:**
 
-| Sourcetype | Data Source | Key Fields |
-|------------|------------|------------|
-| `WinEventLog:Security` | Windows Security Event Log | EventCode, Account_Name, ComputerName |
-| `WinEventLog:System` | Windows System Event Log | EventCode, SourceName |
-| `XmlWinEventLog:Microsoft-Windows-Sysmon/Operational` | Sysmon | EventCode, Image, CommandLine, ParentImage |
-| `linux_secure` | /var/log/secure (RHEL/CentOS) | action, user, src_ip |
-| `linux_audit` | auditd logs | type, uid, exe, key |
-| `pan:traffic` | Palo Alto firewall | src_ip, dest_ip, dest_port, action |
-| `aws:cloudtrail` | AWS CloudTrail | eventName, sourceIPAddress, userIdentity.arn |
-| `o365:management:activity` | Microsoft 365 | Operation, UserId, ClientIP |
+| Sourcetype                                            | Data Source                   | Key Fields                                   |
+| ----------------------------------------------------- | ----------------------------- | -------------------------------------------- |
+| `WinEventLog:Security`                                | Windows Security Event Log    | EventCode, Account_Name, ComputerName        |
+| `WinEventLog:System`                                  | Windows System Event Log      | EventCode, SourceName                        |
+| `XmlWinEventLog:Microsoft-Windows-Sysmon/Operational` | Sysmon                        | EventCode, Image, CommandLine, ParentImage   |
+| `linux_secure`                                        | /var/log/secure (RHEL/CentOS) | action, user, src_ip                         |
+| `linux_audit`                                         | auditd logs                   | type, uid, exe, key                          |
+| `pan:traffic`                                         | Palo Alto firewall            | src_ip, dest_ip, dest_port, action           |
+| `aws:cloudtrail`                                      | AWS CloudTrail                | eventName, sourceIPAddress, userIdentity.arn |
+| `o365:management:activity`                            | Microsoft 365                 | Operation, UserId, ClientIP                  |
 
 ---
 
@@ -436,14 +436,14 @@ index=wineventlog sourcetype="WinEventLog:Security" EventCode=4624 LogonType=3
 
 **Threshold tuning parameters:**
 
-| Parameter | Purpose | Example |
-|-----------|---------|---------|
-| `count threshold` | Minimum event count to trigger | `>= 10 failed logins` |
-| `distinct count threshold` | Minimum unique values | `>= 5 distinct accounts` |
-| `time window` | Aggregation period | `10m`, `1h`, `24h` |
-| `lookback period` | Historical data to evaluate | `ago(1h)`, `ago(24h)` |
-| `frequency` | How often the rule runs | Every 5m, 15m, 1h |
-| `suppression window` | Cooldown after firing to prevent duplicate alerts | 1h, 4h, 24h |
+| Parameter                  | Purpose                                           | Example                  |
+| -------------------------- | ------------------------------------------------- | ------------------------ |
+| `count threshold`          | Minimum event count to trigger                    | `>= 10 failed logins`    |
+| `distinct count threshold` | Minimum unique values                             | `>= 5 distinct accounts` |
+| `time window`              | Aggregation period                                | `10m`, `1h`, `24h`       |
+| `lookback period`          | Historical data to evaluate                       | `ago(1h)`, `ago(24h)`    |
+| `frequency`                | How often the rule runs                           | Every 5m, 15m, 1h        |
+| `suppression window`       | Cooldown after firing to prevent duplicate alerts | 1h, 4h, 24h              |
 
 **KQL alert rule scheduling (Sentinel Analytics Rule):**
 
@@ -460,25 +460,25 @@ Entity mapping:      Account -> UserPrincipalName, IP -> IPAddress, Host -> Comp
 
 **Lifecycle stages:**
 
-| Stage | Status | Description | Actions |
-|-------|--------|-------------|---------|
-| **Draft** | Development | Rule is being written and reviewed | Peer review, logic validation |
-| **Testing** | Experimental | Rule is deployed in non-alerting mode | Monitor output, validate true positives, measure FP rate |
-| **Active** | Production | Rule is alerting analysts | Monitor TP/FP ratio, tune thresholds, track MTTD |
-| **Tuning** | Maintenance | Rule requires adjustment | Add exclusions, modify thresholds, update logic |
-| **Deprecated** | End-of-life | Rule is being phased out (replaced or obsolete) | Disable alerting, retain for historical queries |
-| **Retired** | Archived | Rule is no longer in use | Remove from active rule set, archive documentation |
+| Stage          | Status       | Description                                     | Actions                                                  |
+| -------------- | ------------ | ----------------------------------------------- | -------------------------------------------------------- |
+| **Draft**      | Development  | Rule is being written and reviewed              | Peer review, logic validation                            |
+| **Testing**    | Experimental | Rule is deployed in non-alerting mode           | Monitor output, validate true positives, measure FP rate |
+| **Active**     | Production   | Rule is alerting analysts                       | Monitor TP/FP ratio, tune thresholds, track MTTD         |
+| **Tuning**     | Maintenance  | Rule requires adjustment                        | Add exclusions, modify thresholds, update logic          |
+| **Deprecated** | End-of-life  | Rule is being phased out (replaced or obsolete) | Disable alerting, retain for historical queries          |
+| **Retired**    | Archived     | Rule is no longer in use                        | Remove from active rule set, archive documentation       |
 
 **Rule health metrics to track:**
 
-| Metric | Target | Red Flag |
-|--------|--------|----------|
-| True Positive rate | > 80% | < 50% |
-| Mean Time to Detect (MTTD) | < 15 min | > 1 hour |
-| Alert volume per day | Manageable by team | > 50 alerts/day per analyst |
-| Last triggered date | Within 90 days | > 180 days (rule may be stale or ineffective) |
-| Query execution time | < 30 seconds | > 2 minutes (performance issue) |
-| Exclusion count | < 10 | > 20 (rule may need fundamental redesign) |
+| Metric                     | Target             | Red Flag                                      |
+| -------------------------- | ------------------ | --------------------------------------------- |
+| True Positive rate         | > 80%              | < 50%                                         |
+| Mean Time to Detect (MTTD) | < 15 min           | > 1 hour                                      |
+| Alert volume per day       | Manageable by team | > 50 alerts/day per analyst                   |
+| Last triggered date        | Within 90 days     | > 180 days (rule may be stale or ineffective) |
+| Query execution time       | < 30 seconds       | > 2 minutes (performance issue)               |
+| Exclusion count            | < 10               | > 20 (rule may need fundamental redesign)     |
 
 **Quarterly review checklist:**
 
@@ -493,12 +493,12 @@ Entity mapping:      Account -> UserPrincipalName, IP -> IPAddress, Host -> Comp
 
 ## 4. Findings Classification
 
-| Severity | Label | Definition | SLA |
-|----------|-------|------------|-----|
-| P1 | Critical | Detection gap for an actively exploited technique with no SIEM coverage. Available log sources exist to build the rule. | Develop and deploy within 24 hours |
-| P2 | High | Detection rule exists but has a high false negative rate or is disabled due to performance issues. | Fix and redeploy within 7 days |
-| P3 | Medium | Detection rule needs tuning (high FP rate) or coverage improvement (missing sub-technique variants). | Tune within 30 days |
-| P4 | Low | Rule health metric outside target range (stale rule, high exclusion count). No immediate security impact. | Review within 90 days |
+| Severity | Label    | Definition                                                                                                              | SLA                                |
+| -------- | -------- | ----------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| P1       | Critical | Detection gap for an actively exploited technique with no SIEM coverage. Available log sources exist to build the rule. | Develop and deploy within 24 hours |
+| P2       | High     | Detection rule exists but has a high false negative rate or is disabled due to performance issues.                      | Fix and redeploy within 7 days     |
+| P3       | Medium   | Detection rule needs tuning (high FP rate) or coverage improvement (missing sub-technique variants).                    | Tune within 30 days                |
+| P4       | Low      | Rule health metric outside target range (stale rule, high exclusion count). No immediate security impact.               | Review within 90 days              |
 
 ---
 
@@ -508,46 +508,54 @@ Produce SIEM rule deliverables in this structure:
 
 ```markdown
 ## SIEM Detection Rule: [Rule Name]
+
 **Date:** [YYYY-MM-DD]
 **Skill:** siem-rules v1.0.0
 **Framework:** MITRE ATT&CK v16
 **Platform:** [Microsoft Sentinel (KQL) | Splunk (SPL)]
 
 ### Rule Metadata
-| Field | Value |
-|-------|-------|
-| Rule Name | [Name] |
+
+| Field            | Value                                         |
+| ---------------- | --------------------------------------------- |
+| Rule Name        | [Name]                                        |
 | ATT&CK Technique | [T1110.003 -- Brute Force: Password Spraying] |
-| ATT&CK Tactic | [Credential Access (TA0006)] |
-| Severity | [High / Medium / Low / Informational] |
-| Data Source | [Table/Index name] |
-| Status | [Draft / Testing / Active] |
+| ATT&CK Tactic    | [Credential Access (TA0006)]                  |
+| Severity         | [High / Medium / Low / Informational]         |
+| Data Source      | [Table/Index name]                            |
+| Status           | [Draft / Testing / Active]                    |
 
 ### Detection Query
+
 [Full KQL or SPL query]
 
 ### Threshold Configuration
-| Parameter | Value | Rationale |
-|-----------|-------|-----------|
-| Count threshold | [N] | [Why this value] |
-| Time window | [Xm/h] | [Why this window] |
-| Frequency | [Xm/h] | [How often to run] |
-| Suppression | [Xh] | [Cooldown period] |
+
+| Parameter       | Value  | Rationale          |
+| --------------- | ------ | ------------------ |
+| Count threshold | [N]    | [Why this value]   |
+| Time window     | [Xm/h] | [Why this window]  |
+| Frequency       | [Xm/h] | [How often to run] |
+| Suppression     | [Xh]   | [Cooldown period]  |
 
 ### Entity Mapping
-| Entity Type | Source Field |
-|-------------|-------------|
-| Account | [UserPrincipalName / TargetUserName] |
-| IP | [IPAddress / IpAddress] |
-| Host | [Computer / ComputerName] |
+
+| Entity Type | Source Field                         |
+| ----------- | ------------------------------------ |
+| Account     | [UserPrincipalName / TargetUserName] |
+| IP          | [IPAddress / IpAddress]              |
+| Host        | [Computer / ComputerName]            |
 
 ### Known False Positives
+
 - [List specific FP sources]
 
 ### Tuning Guidance
+
 - [Specific tuning recommendations]
 
 ### Validation
+
 - [How to test the rule produces a true positive]
 ```
 
@@ -561,52 +569,52 @@ For SIEM rule development, ATT&CK provides the canonical mapping between adversa
 
 **Key ATT&CK techniques frequently detected via SIEM rules:**
 
-| Technique ID | Name | Primary SIEM Data Source |
-|-------------|------|--------------------------|
-| T1110 | Brute Force | Authentication logs (SigninLogs, EventCode 4625) |
-| T1078 | Valid Accounts | Authentication logs, impossible travel |
-| T1059 | Command and Scripting Interpreter | Process creation logs (Sysmon 1, 4688) |
-| T1021 | Remote Services | Network logon events (4624 Type 3/10) |
-| T1053 | Scheduled Task/Job | Event IDs 4698 (created), 4702 (updated) |
-| T1136 | Create Account | Event ID 4720 (user account created) |
-| T1098 | Account Manipulation | Event IDs 4728, 4732, 4756 (group membership changes) |
-| T1070 | Indicator Removal | Event ID 1102 (audit log cleared) |
-| T1003 | OS Credential Dumping | Sysmon EID 10 (process access to LSASS) |
-| T1486 | Data Encrypted for Impact | File modification patterns, ransomware note creation |
+| Technique ID | Name                              | Primary SIEM Data Source                              |
+| ------------ | --------------------------------- | ----------------------------------------------------- |
+| T1110        | Brute Force                       | Authentication logs (SigninLogs, EventCode 4625)      |
+| T1078        | Valid Accounts                    | Authentication logs, impossible travel                |
+| T1059        | Command and Scripting Interpreter | Process creation logs (Sysmon 1, 4688)                |
+| T1021        | Remote Services                   | Network logon events (4624 Type 3/10)                 |
+| T1053        | Scheduled Task/Job                | Event IDs 4698 (created), 4702 (updated)              |
+| T1136        | Create Account                    | Event ID 4720 (user account created)                  |
+| T1098        | Account Manipulation              | Event IDs 4728, 4732, 4756 (group membership changes) |
+| T1070        | Indicator Removal                 | Event ID 1102 (audit log cleared)                     |
+| T1003        | OS Credential Dumping             | Sysmon EID 10 (process access to LSASS)               |
+| T1486        | Data Encrypted for Impact         | File modification patterns, ransomware note creation  |
 
 ### KQL (Kusto Query Language) Quick Reference
 
-| Operator | Purpose | Example |
-|----------|---------|---------|
-| `where` | Filter rows | `where EventID == 4625` |
-| `summarize` | Aggregate | `summarize count() by UserName` |
-| `extend` | Add columns | `extend Hour = hourofday(TimeGenerated)` |
-| `project` | Select columns | `project TimeGenerated, User, IP` |
-| `join` | Combine tables | `T1 | join kind=inner (T2) on Key` |
-| `let` | Define variables | `let threshold = 10;` |
-| `ago()` | Time relative to now | `where TimeGenerated > ago(1h)` |
-| `bin()` | Time bucketing | `bin(TimeGenerated, 5m)` |
-| `dcount()` | Distinct count | `dcount(UserPrincipalName)` |
-| `make_set()` | Collect unique values | `make_set(IPAddress, 100)` |
-| `has_any` | Contains any value from list | `where User has_any (admin_list)` |
-| `serialize` | Enable row-order operators | Required before `prev()`, `next()` |
+| Operator     | Purpose                      | Example                                  |
+| ------------ | ---------------------------- | ---------------------------------------- |
+| `where`      | Filter rows                  | `where EventID == 4625`                  |
+| `summarize`  | Aggregate                    | `summarize count() by UserName`          |
+| `extend`     | Add columns                  | `extend Hour = hourofday(TimeGenerated)` |
+| `project`    | Select columns               | `project TimeGenerated, User, IP`        |
+| `join`       | Combine tables               | `T1                                      | join kind=inner (T2) on Key` |
+| `let`        | Define variables             | `let threshold = 10;`                    |
+| `ago()`      | Time relative to now         | `where TimeGenerated > ago(1h)`          |
+| `bin()`      | Time bucketing               | `bin(TimeGenerated, 5m)`                 |
+| `dcount()`   | Distinct count               | `dcount(UserPrincipalName)`              |
+| `make_set()` | Collect unique values        | `make_set(IPAddress, 100)`               |
+| `has_any`    | Contains any value from list | `where User has_any (admin_list)`        |
+| `serialize`  | Enable row-order operators   | Required before `prev()`, `next()`       |
 
 ### SPL (Search Processing Language) Quick Reference
 
-| Command | Purpose | Example |
-|---------|---------|---------|
-| `search` | Filter events | `index=main EventCode=4625` |
-| `stats` | Aggregate | `stats count by src_ip` |
-| `eval` | Compute fields | `eval hour=strftime(_time,"%H")` |
-| `table` | Display columns | `table _time, user, src_ip` |
-| `join` | Combine searches | `join type=inner user [search ...]` |
-| `transaction` | Group related events | `transaction user maxspan=30m` |
-| `bin` | Time bucketing | `bin _time span=5m` |
-| `dc()` | Distinct count | `dc(user) as unique_users` |
-| `values()` | Collect unique values | `values(src_ip) as source_ips` |
-| `streamstats` | Running calculations | `streamstats window=1 last(field) as prev_field` |
-| `iplocation` | GeoIP lookup | `iplocation ClientIP` |
-| `lookup` | Enrich with lookup table | `lookup threat_intel ip as src_ip` |
+| Command       | Purpose                  | Example                                          |
+| ------------- | ------------------------ | ------------------------------------------------ |
+| `search`      | Filter events            | `index=main EventCode=4625`                      |
+| `stats`       | Aggregate                | `stats count by src_ip`                          |
+| `eval`        | Compute fields           | `eval hour=strftime(_time,"%H")`                 |
+| `table`       | Display columns          | `table _time, user, src_ip`                      |
+| `join`        | Combine searches         | `join type=inner user [search ...]`              |
+| `transaction` | Group related events     | `transaction user maxspan=30m`                   |
+| `bin`         | Time bucketing           | `bin _time span=5m`                              |
+| `dc()`        | Distinct count           | `dc(user) as unique_users`                       |
+| `values()`    | Collect unique values    | `values(src_ip) as source_ips`                   |
+| `streamstats` | Running calculations     | `streamstats window=1 last(field) as prev_field` |
+| `iplocation`  | GeoIP lookup             | `iplocation ClientIP`                            |
+| `lookup`      | Enrich with lookup table | `lookup threat_intel ip as src_ip`               |
 
 ---
 

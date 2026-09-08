@@ -12,11 +12,11 @@
 
 特征（与现有 `banner-grid-2x2.md` 的区别）：
 
-| 维度 | `banner-grid-2x2.md`（已有） | 本模板（新增） |
-|---|---|---|
-| 主题统一性 | 同品牌系列、风格统一 | **每格行业 / 主题 / 配色完全不同** |
-| 视觉一致性 | 共享品牌色与 logo | 仅共享网格 + 留白节奏 |
-| 用途 | 课程 / SNS 投放四件套 | agency demo / 拼图素材集 / 多场景示意 |
+| 维度       | `banner-grid-2x2.md`（已有） | 本模板（新增）                        |
+| ---------- | ---------------------------- | ------------------------------------- |
+| 主题统一性 | 同品牌系列、风格统一         | **每格行业 / 主题 / 配色完全不同**    |
+| 视觉一致性 | 共享品牌色与 logo            | 仅共享网格 + 留白节奏                 |
+| 用途       | 课程 / SNS 投放四件套        | agency demo / 拼图素材集 / 多场景示意 |
 
 ## 适用范围
 
@@ -72,7 +72,9 @@
         "position": "top-left",
         "theme": "{argument name=\"theme 1\" default=\"Travel\"}",
         "subject": "{argument name=\"subject 1\" default=\"A couple holding hands on a white sand beach with turquoise ocean and bright blue sky\"}",
-        "elements": ["{argument name=\"deco 1\" default=\"red hibiscus flower in bottom-left corner\"}"],
+        "elements": [
+          "{argument name=\"deco 1\" default=\"red hibiscus flower in bottom-left corner\"}"
+        ],
         "text_labels": [
           "{argument name=\"text 1a\" default=\"今年こそ、解き放て。\"}",
           "{argument name=\"text 1b\" default=\"沖縄旅行\"}",
@@ -101,14 +103,22 @@
           "{argument name=\"discount 2\" default=\"初回限定 78%OFF\"}",
           "{argument name=\"price 2\" default=\"1,980円\"}"
         ],
-        "badges": { "count": 3, "style": "gold circular", "labels": ["毛穴ケア", "高保湿", "ハリ・ツヤ"] },
+        "badges": {
+          "count": 3,
+          "style": "gold circular",
+          "labels": ["毛穴ケア", "高保湿", "ハリ・ツヤ"]
+        },
         "color_palette": "blush pink, ivory, soft gold accent"
       },
       {
         "position": "bottom-left",
         "theme": "{argument name=\"theme 3\" default=\"Gourmet Food\"}",
         "subject": "{argument name=\"subject 3\" default=\"Thick medium-rare steak sizzling on a dark grill plate\"}",
-        "elements": ["garlic chips", "rosemary sprig", "dark background with smoke and glowing embers"],
+        "elements": [
+          "garlic chips",
+          "rosemary sprig",
+          "dark background with smoke and glowing embers"
+        ],
         "text_labels": [
           "とろける旨さ!",
           "{argument name=\"food 3\" default=\"黒毛和牛\"}",
@@ -184,9 +194,15 @@
   "layout": {
     "structure": "9 equal cells",
     "industries": [
-      "Travel", "Skincare", "Gourmet Food",
-      "Online Education", "Fashion", "Finance",
-      "Mobile Game", "Real Estate", "Healthcare"
+      "Travel",
+      "Skincare",
+      "Gourmet Food",
+      "Online Education",
+      "Fashion",
+      "Finance",
+      "Mobile Game",
+      "Real Estate",
+      "Healthcare"
     ]
   },
   "per_cell_required_elements": [
@@ -227,10 +243,7 @@
     "small brand watermark"
   ],
   "constraints": {
-    "must_keep": [
-      "竖版构图安全区（顶部 / 底部各留 12% 给平台 UI）",
-      "8 个 panel 行业差异明显"
-    ]
+    "must_keep": ["竖版构图安全区（顶部 / 底部各留 12% 给平台 UI）", "8 个 panel 行业差异明显"]
   }
 }
 ```

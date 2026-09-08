@@ -2,6 +2,7 @@
 name: conversational-ux
 description: Design voice and conversational interfaces — dialog flows, error recovery, and persona. Use when the interface speaks and listens rather than being tapped. For graphical input collection, use `form-design`.
 ---
+
 # Conversational UX
 
 You are an expert in designing voice interfaces, chatbots, and AI-driven conversational experiences.
@@ -29,6 +30,7 @@ Every conversational interaction is built from turns:
 Designing a conversational interface is designing the script for every meaningful path through this loop.
 
 ### What a good system prompt does
+
 - States one clear thing (not three)
 - Signals what kind of response is expected
 - Does not bury the call to action at the end of a long sentence
@@ -36,11 +38,11 @@ Designing a conversational interface is designing the script for every meaningfu
 
 ### Confirmation strategies
 
-| Confirmation type | When to use |
-|---|---|
-| Explicit ("You said Tuesday at 3pm — is that right?") | High-stakes actions, easily confused inputs |
-| Implicit ("Booking for Tuesday at 3pm…") | Low-stakes, recoverable actions |
-| None | When misrecognition is rare and recovery is easy |
+| Confirmation type                                     | When to use                                      |
+| ----------------------------------------------------- | ------------------------------------------------ |
+| Explicit ("You said Tuesday at 3pm — is that right?") | High-stakes actions, easily confused inputs      |
+| Implicit ("Booking for Tuesday at 3pm…")              | Low-stakes, recoverable actions                  |
+| None                                                  | When misrecognition is rare and recovery is easy |
 
 ## Error Handling
 
@@ -80,6 +82,7 @@ Never loop the same error prompt more than once. Each reprompt must add informat
 ### Multimodal (voice + screen)
 
 Alexa Show, Google Nest Hub, and phone assistants combine voice with a display. Design rules:
+
 - The spoken word must make sense without the screen — not all users look at the screen
 - The screen reinforces and disambiguates; it does not replace the spoken prompt
 - Interactive visual elements (cards, buttons) must also be activatable by voice
@@ -89,6 +92,7 @@ Alexa Show, Google Nest Hub, and phone assistants combine voice with a display. 
 ### Affordances in text interfaces
 
 Unlike voice, text conversational UI can show interface elements:
+
 - **Quick replies / suggestion chips**: constrain the interaction to reduce typing friction; use for common paths, not all paths
 - **Persistent menu**: hamburger or menu icon providing navigation outside the conversation thread
 - **Typing indicator**: shows the system is processing; suppresses user anxiety during latency
@@ -97,6 +101,7 @@ Unlike voice, text conversational UI can show interface elements:
 ### Distinguishing the conversation from navigation
 
 Text conversational UI tends toward one of two models:
+
 - **Pure conversation**: no persistent UI chrome; all navigation happens through dialogue
 - **Hybrid**: conversational input field within a screen-based product; the chat handles help, search, and action initiation; the rest of the product is conventional UI
 
@@ -105,6 +110,7 @@ Do not apply conversational UX patterns to workflows that are better served by a
 ## Persona and Tone
 
 The system's voice is a design decision, not a default:
+
 - **Name and identity**: does the assistant have a name? A consistent one reduces confusion in multimodal contexts
 - **Register**: formal, professional, warm, playful — should match the product's brand and the emotional context of the conversation
 - **Handling failures gracefully**: the persona must remain consistent when the system fails — robotic error messages that break the established voice undermine trust

@@ -23,10 +23,29 @@ import './Opening.css';
  */
 
 const VICTIMS = [
-  { product: 'Claude Cowork',        company: 'LegalZoom',       ticker: 'LZ',   drop: -20.0, field: '法律服务' },
-  { product: 'Claude Code Security', company: 'Circle Internet', ticker: 'CRCL', drop: -20.0, field: '云安全' },
-  { product: 'Claude Mythos',        company: 'CrowdStrike',     ticker: 'CRWD', drop: -7.0,  field: '终端安全' },
-  { product: 'Claude Design',        company: 'Figma',           ticker: 'FIG',  drop: -7.0,  field: '设计协作', current: true },
+  { product: 'Claude Cowork', company: 'LegalZoom', ticker: 'LZ', drop: -20.0, field: '法律服务' },
+  {
+    product: 'Claude Code Security',
+    company: 'Circle Internet',
+    ticker: 'CRCL',
+    drop: -20.0,
+    field: '云安全',
+  },
+  {
+    product: 'Claude Mythos',
+    company: 'CrowdStrike',
+    ticker: 'CRWD',
+    drop: -7.0,
+    field: '终端安全',
+  },
+  {
+    product: 'Claude Design',
+    company: 'Figma',
+    ticker: 'FIG',
+    drop: -7.0,
+    field: '设计协作',
+    current: true,
+  },
 ];
 
 function Opening({ localStep }: ChapterContext) {
@@ -87,13 +106,7 @@ function Opening({ localStep }: ChapterContext) {
             <Reveal kind="rise" duration={520} className="opening__crash-stat">
               <div className="opening__crash-stat-num">
                 <span className="opening__crash-stat-sign">−</span>
-                <NumberTicker
-                  to={7.0}
-                  from={0}
-                  duration={1200}
-                  decimals={1}
-                  delay={120}
-                />
+                <NumberTicker to={7.0} from={0} duration={1200} decimals={1} delay={120} />
                 <span className="opening__crash-stat-pct">%</span>
               </div>
               <div className="opening__crash-stat-label">单日跌幅 · 收盘</div>
@@ -130,12 +143,7 @@ function Opening({ localStep }: ChapterContext) {
               const showAt = 5 + i;
               if (!at(showAt)) return null;
               return (
-                <Reveal
-                  key={v.company}
-                  kind="wipe-r"
-                  duration={780}
-                  delay={i === 0 ? 80 : 0}
-                >
+                <Reveal key={v.company} kind="wipe-r" duration={780} delay={i === 0 ? 80 : 0}>
                   <VictimRow v={v} animate={localStep === showAt} />
                 </Reveal>
               );
@@ -156,12 +164,7 @@ function Opening({ localStep }: ChapterContext) {
           </Reveal>
 
           <h1 className="opening__reveal-title">
-            <Reveal
-              kind="blur"
-              duration={1100}
-              delay={120}
-              className="opening__reveal-word"
-            >
+            <Reveal kind="blur" duration={1100} delay={120} className="opening__reveal-word">
               Claude
             </Reveal>
             {at(10) && (
@@ -210,12 +213,7 @@ function Opening({ localStep }: ChapterContext) {
             <Reveal kind="blur" duration={900} delay={120}>
               我把它做成了一个
             </Reveal>
-            <Reveal
-              kind="blur"
-              duration={900}
-              delay={520}
-              className="opening__pivot-em"
-            >
+            <Reveal kind="blur" duration={900} delay={520} className="opening__pivot-em">
               人人都能用的 Skill。
             </Reveal>
           </h2>
@@ -247,12 +245,7 @@ function CrashChart({ phase }: { phase: number }) {
   const showEnd = phase >= 2;
 
   return (
-    <svg
-      className="opening__chart"
-      viewBox="0 0 1760 540"
-      preserveAspectRatio="none"
-      aria-hidden
-    >
+    <svg className="opening__chart" viewBox="0 0 1760 540" preserveAspectRatio="none" aria-hidden>
       <defs>
         <linearGradient id="crashGrad" x1="0" x2="0" y1="0" y2="1">
           <stop offset="0%" stopColor="oklch(0.560 0.200 22)" stopOpacity="0.5" />
@@ -296,8 +289,12 @@ function CrashChart({ phase }: { phase: number }) {
         <g className="opening__chart-end">
           <line x1="0" y1="258" x2="1760" y2="258" strokeDasharray="2 8" strokeWidth="1" />
           <circle cx="1760" cy="510" r="6" />
-          <text x="1740" y="245" textAnchor="end">前日收盘 51.95</text>
-          <text x="1740" y="495" textAnchor="end">今日收盘 48.32</text>
+          <text x="1740" y="245" textAnchor="end">
+            前日收盘 51.95
+          </text>
+          <text x="1740" y="495" textAnchor="end">
+            今日收盘 48.32
+          </text>
         </g>
       )}
     </svg>
@@ -305,7 +302,7 @@ function CrashChart({ phase }: { phase: number }) {
 }
 
 interface VictimRowProps {
-  v: typeof VICTIMS[number];
+  v: (typeof VICTIMS)[number];
   animate: boolean;
 }
 

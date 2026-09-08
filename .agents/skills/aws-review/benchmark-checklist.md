@@ -113,7 +113,7 @@ aws_iam_group_policy_attachment
 aws_iam_group_membership
 ```
 
-### CIS 1.16 -- Ensure IAM policies that allow full "*:*" administrative privileges are not attached
+### CIS 1.16 -- Ensure IAM policies that allow full "_:_" administrative privileges are not attached
 
 **Critical check -- search for overly permissive policies:**
 
@@ -378,23 +378,23 @@ resource "aws_cloudwatch_metric_alarm" {
 
 **Required metric filters and alarms (CIS 4.1 through 4.15):**
 
-| CIS ID | Monitoring Target | Filter Pattern Key Elements |
-|--------|------------------|-----------------------------|
-| 4.1 | Unauthorized API calls | `errorCode = "*UnauthorizedAccess*" \|\| errorCode = "AccessDenied*"` |
-| 4.2 | Management Console sign-in without MFA | `eventName = "ConsoleLogin" && additionalEventData.MFAUsed != "Yes"` |
-| 4.3 | Usage of 'root' account | `userIdentity.type = "Root" && userIdentity.invokedBy NOT EXISTS` |
-| 4.4 | IAM policy changes | `eventName = CreatePolicy \|\| DeletePolicy \|\| AttachRolePolicy ...` |
-| 4.5 | CloudTrail configuration changes | `eventName = CreateTrail \|\| UpdateTrail \|\| DeleteTrail \|\| StopLogging` |
-| 4.6 | AWS Management Console authentication failures | `eventName = "ConsoleLogin" && errorMessage = "Failed authentication"` |
-| 4.7 | Disabling or scheduled deletion of CMKs | `eventSource = kms.amazonaws.com && (DisableKey \|\| ScheduleKeyDeletion)` |
-| 4.8 | S3 bucket policy changes | `eventSource = s3.amazonaws.com && (PutBucketAcl \|\| PutBucketPolicy ...)` |
-| 4.9 | AWS Config configuration changes | `eventSource = config.amazonaws.com && (StopConfigurationRecorder ...)` |
-| 4.10 | Security group changes | `eventName = AuthorizeSecurityGroup* \|\| RevokeSecurityGroup* ...` |
-| 4.11 | Network ACL changes | `eventName = CreateNetworkAcl* \|\| DeleteNetworkAcl* ...` |
-| 4.12 | Network gateway changes | `eventName = CreateCustomerGateway \|\| AttachInternetGateway ...` |
-| 4.13 | Route table changes | `eventName = CreateRoute* \|\| DeleteRoute* \|\| ReplaceRoute* ...` |
-| 4.14 | VPC changes | `eventName = CreateVpc \|\| DeleteVpc \|\| ModifyVpcAttribute ...` |
-| 4.15 | AWS Organizations changes | `eventSource = organizations.amazonaws.com` |
+| CIS ID | Monitoring Target                              | Filter Pattern Key Elements                                                  |
+| ------ | ---------------------------------------------- | ---------------------------------------------------------------------------- |
+| 4.1    | Unauthorized API calls                         | `errorCode = "*UnauthorizedAccess*" \|\| errorCode = "AccessDenied*"`        |
+| 4.2    | Management Console sign-in without MFA         | `eventName = "ConsoleLogin" && additionalEventData.MFAUsed != "Yes"`         |
+| 4.3    | Usage of 'root' account                        | `userIdentity.type = "Root" && userIdentity.invokedBy NOT EXISTS`            |
+| 4.4    | IAM policy changes                             | `eventName = CreatePolicy \|\| DeletePolicy \|\| AttachRolePolicy ...`       |
+| 4.5    | CloudTrail configuration changes               | `eventName = CreateTrail \|\| UpdateTrail \|\| DeleteTrail \|\| StopLogging` |
+| 4.6    | AWS Management Console authentication failures | `eventName = "ConsoleLogin" && errorMessage = "Failed authentication"`       |
+| 4.7    | Disabling or scheduled deletion of CMKs        | `eventSource = kms.amazonaws.com && (DisableKey \|\| ScheduleKeyDeletion)`   |
+| 4.8    | S3 bucket policy changes                       | `eventSource = s3.amazonaws.com && (PutBucketAcl \|\| PutBucketPolicy ...)`  |
+| 4.9    | AWS Config configuration changes               | `eventSource = config.amazonaws.com && (StopConfigurationRecorder ...)`      |
+| 4.10   | Security group changes                         | `eventName = AuthorizeSecurityGroup* \|\| RevokeSecurityGroup* ...`          |
+| 4.11   | Network ACL changes                            | `eventName = CreateNetworkAcl* \|\| DeleteNetworkAcl* ...`                   |
+| 4.12   | Network gateway changes                        | `eventName = CreateCustomerGateway \|\| AttachInternetGateway ...`           |
+| 4.13   | Route table changes                            | `eventName = CreateRoute* \|\| DeleteRoute* \|\| ReplaceRoute* ...`          |
+| 4.14   | VPC changes                                    | `eventName = CreateVpc \|\| DeleteVpc \|\| ModifyVpcAttribute ...`           |
+| 4.15   | AWS Organizations changes                      | `eventSource = organizations.amazonaws.com`                                  |
 
 ### CIS 4.16 -- Ensure AWS Security Hub is enabled
 

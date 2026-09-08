@@ -22,21 +22,26 @@ finding. Do not present inference as fact.
 ## Steps
 
 ### 1: Pull recent logs
+
 ```bash
 {{LOG_QUERY}}
 ```
 
 ### 2: Filter for signal
+
 Grep for:
+
 - Errors, exceptions, stack traces
 - Timeouts, retries
 - Project-specific failure markers: `{{PROJECT_SPECIFIC_MARKERS}}`
 
 ### 3: Distinguish unique failures from retries
+
 The same job id appearing 5 times is one failure retried, not five failures.
 Cross-reference ids before reporting a count.
 
 ## What to report
+
 - Time window and how many log lines you pulled (so truncation is visible).
 - Errors grouped by root cause, with a representative excerpt each.
 - Distinct-failure count vs. total occurrences.

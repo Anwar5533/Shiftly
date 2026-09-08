@@ -84,7 +84,9 @@ describe('JwtAuthGuard', () => {
         }),
       } as unknown as ExecutionContext;
 
-      jest.spyOn(jwt, 'verify').mockReturnValue({ sub: 'user456', role: 'user' } as any);
+      jest
+        .spyOn(jwt, 'verify')
+        .mockReturnValue({ sub: 'user456', role: 'user' } as unknown as void);
 
       expect(guard.canActivate(context)).toBe(true);
       expect(mockRequest.user).toEqual({

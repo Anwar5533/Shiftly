@@ -9,7 +9,6 @@ description: "把用户提供的素材（网页 URL / PDF / DOCX / Markdown / �
 
 AI 生成内容越复杂，输出媒介越重要。HTML 的价值在于同时提升信息密度、视觉清晰度、分享便利性和交互能力：表格、SVG、CSS、代码片段、可调控件、复制与导出按钮，可以让读者不只是“看完”，而是能比较、定位、调整、复查和继续使用。Beautiful Article 的目的，是把原本枯燥、线性、难以消化的文字材料，转换成视觉体验更漂亮、阅读节奏更清晰、也更容易审阅和分享的单文件网页文章。
 
-
 ## 边界（先判断要不要进这个 Skill）
 
 - 最终主产物是 **single HTML 文章**，不是网页应用。
@@ -68,14 +67,14 @@ Phase 8  Delivery          ★Checkpoint 3 必须停。逐项确认交付决策 
 **质检方式按节点区分 —— 不是所有质检都要开 SubAgent，也不是所有质检都要写文件。**
 误开 SubAgent / 误写文件是首要性能问题，按下表严格执行：
 
-| 节点 | 质检方式 | 产物 | 为什么 |
-|---|---|---|---|
-| **Phase 1 Source（默认）** | 主 Agent 内联 5 条 checklist | 无文件 | 主 Agent 反正要通读 source.md |
-| Phase 1 Source（仅复杂/低置信源） | Source Reviewer SubAgent（对照 `original.*` diff） | `review/source-review.md` | 静默丢失只能 diff 抓到 |
-| **Phase 2 Plan / Checkpoint 1 前** | **主 Agent 内联自查（禁止开 SubAgent）** | **无文件** | plan 是文字决策且 200-400 行，上下文是热的，SubAgent 冷启反而更慢 |
-| **Phase 4 First Spread / Checkpoint 2 前** | First Spread Reviewer SubAgent | `review/first-spread-review.md` | 首屏定调，多一道独立眼睛更稳 |
-| **Phase 5 每个 Section** | Section Reviewer SubAgent | **以消息返回 pass/fail + 修复点（不写文件）** | 一篇可能 5-15 节，N 份 review 文件无人再读 |
-| **Phase 6 终审 / Checkpoint 3 前** | Editorial + Visual + Technical Reviewer SubAgent | `review/final-review.md` | 交付物的一部分，留档有价值 |
+| 节点                                       | 质检方式                                           | 产物                                          | 为什么                                                            |
+| ------------------------------------------ | -------------------------------------------------- | --------------------------------------------- | ----------------------------------------------------------------- |
+| **Phase 1 Source（默认）**                 | 主 Agent 内联 5 条 checklist                       | 无文件                                        | 主 Agent 反正要通读 source.md                                     |
+| Phase 1 Source（仅复杂/低置信源）          | Source Reviewer SubAgent（对照 `original.*` diff） | `review/source-review.md`                     | 静默丢失只能 diff 抓到                                            |
+| **Phase 2 Plan / Checkpoint 1 前**         | **主 Agent 内联自查（禁止开 SubAgent）**           | **无文件**                                    | plan 是文字决策且 200-400 行，上下文是热的，SubAgent 冷启反而更慢 |
+| **Phase 4 First Spread / Checkpoint 2 前** | First Spread Reviewer SubAgent                     | `review/first-spread-review.md`               | 首屏定调，多一道独立眼睛更稳                                      |
+| **Phase 5 每个 Section**                   | Section Reviewer SubAgent                          | **以消息返回 pass/fail + 修复点（不写文件）** | 一篇可能 5-15 节，N 份 review 文件无人再读                        |
+| **Phase 6 终审 / Checkpoint 3 前**         | Editorial + Visual + Technical Reviewer SubAgent   | `review/final-review.md`                      | 交付物的一部分，留档有价值                                        |
 
 **铁律：**
 
@@ -104,14 +103,14 @@ Phase 8  Delivery          ★Checkpoint 3 必须停。逐项确认交付决策 
 
 ## 各阶段文件读取指南（渐进加载，别一次全读）
 
-| 阶段 | 必读 | 按需查 |
-|---|---|---|
-| Phase 0 Intake | `references/harness.md` | —— |
-| Phase 1 Source→MD | `references/source-to-markdown.md` | `scripts/source-to-markdown-markitdown.py` · `scripts/source-to-markdown.py` |
-| Phase 2 Planning | `references/article-types.md` · `references/information-density.md` · `references/plan-template.md` · `references/theme-selection.md` · `references/layout.md` · `references/asset-policy.md` · `references/cover.md`（封面构图想法） | `references/article-types/<type>.md` · `theme-profiles/*.md` |
-| Phase 4 First Spread / Phase 5 Build（每节回看） | `references/section-build.md` · `references/component-policy.md` · `references/raw-policy.md` · 选定主题 `theme-profiles/<id>.md` · **封面：`references/cover.md`** | `references/scaffold.md`（建项目时一次）· `references/html-output.md` |
-| Phase 6/7 Review & Repair | `references/review-checklist.md` · `references/repair-policy.md` | —— |
-| Phase 8 Delivery | `references/html-output.md` | `references/pdf-output.md`（仅当用户选 PDF 导出） |
+| 阶段                                             | 必读                                                                                                                                                                                                                                  | 按需查                                                                       |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| Phase 0 Intake                                   | `references/harness.md`                                                                                                                                                                                                               | ——                                                                           |
+| Phase 1 Source→MD                                | `references/source-to-markdown.md`                                                                                                                                                                                                    | `scripts/source-to-markdown-markitdown.py` · `scripts/source-to-markdown.py` |
+| Phase 2 Planning                                 | `references/article-types.md` · `references/information-density.md` · `references/plan-template.md` · `references/theme-selection.md` · `references/layout.md` · `references/asset-policy.md` · `references/cover.md`（封面构图想法） | `references/article-types/<type>.md` · `theme-profiles/*.md`                 |
+| Phase 4 First Spread / Phase 5 Build（每节回看） | `references/section-build.md` · `references/component-policy.md` · `references/raw-policy.md` · 选定主题 `theme-profiles/<id>.md` · **封面：`references/cover.md`**                                                                   | `references/scaffold.md`（建项目时一次）· `references/html-output.md`        |
+| Phase 6/7 Review & Repair                        | `references/review-checklist.md` · `references/repair-policy.md`                                                                                                                                                                      | ——                                                                           |
+| Phase 8 Delivery                                 | `references/html-output.md`                                                                                                                                                                                                           | `references/pdf-output.md`（仅当用户选 PDF 导出）                            |
 
 > **长会话里 agent 容易遗忘原则** —— Phase 5 会重复实现 N 个 Section，**每次开工
 > 前回看** `component-policy.md` + `raw-policy.md` + 当前主题 `theme-profiles/<id>.md`。
@@ -122,11 +121,11 @@ Phase 8  Delivery          ★Checkpoint 3 必须停。逐项确认交付决策 
 
 判断是否进入本 Skill，给出初步文章类型与输出模式（默认 single HTML）。
 
-| 用户给的东西 | 该做的 |
-|---|---|
-| 一个或多个素材（URL/PDF/DOCX/MD/文本/截图） | 进入 Phase 1 |
-| 只说"帮我做篇 X 文章"但没素材 | **反问**：先要素材或大纲。Skill 不替用户凭空构思内容 |
-| 明显要的是应用 / 工具 / dashboard | 停下来澄清，不进入本 Skill |
+| 用户给的东西                                | 该做的                                               |
+| ------------------------------------------- | ---------------------------------------------------- |
+| 一个或多个素材（URL/PDF/DOCX/MD/文本/截图） | 进入 Phase 1                                         |
+| 只说"帮我做篇 X 文章"但没素材               | **反问**：先要素材或大纲。Skill 不替用户凭空构思内容 |
+| 明显要的是应用 / 工具 / dashboard           | 停下来澄清，不进入本 Skill                           |
 
 **捕获目标语言**：开场就记录用户**期望的最终文章语言**（如用户提到"用中文/做成英文版"等）。
 
@@ -195,19 +194,19 @@ Checkpoint 1，禁止开 SubAgent，禁止写 `review/plan-review.md`**。
 - **优先 `AskQuestion` 工具**：每项作为一个独立 question 传入（一次调用可传多个 question），
   用户用选择卡逐项确认。
 - **无 `AskQuestion` 工具**：停下来在消息里把每个问题**编号列出 + 独占一段 + 写清推荐项 + 理由
-  + 备选项**，明确说"我等你逐项答复后再继续"，**不要继续做任何后续工作**。
+  - 备选项**，明确说"我等你逐项答复后再继续"，**不要继续做任何后续工作**。
 
 无论哪种方式：每个**独立决策**对应**一个独立问题**，**不要打包成"全部 OK 吗？" yes/no**。
 
 **必须独立确认的 5 项**（缺一不可）：
 
-| # | 决策项 | 选项（语义化标签 · 含标配信息保留比例） | 备注 |
-|---|---|---|---|
-| 1 | **文章类型**（信息保留比例打包在内） | 完整长文 / 归档 `longform · ~100%` ／ 研究报告 / 正式分析 `full-report · ~80%` ／ 教学步骤 / 上手指南 `tutorial · ~90%` ／ 概念 / 系统解释 `explainer · ~80%` ／ 对话 / 访谈 / 播客 `dialogue · ~80%` ／ PR / 方案 / 事故审阅 `review · ~70%` ／ 观点 / 评论 / 叙事 `essay · ~70%` ／ 交互式学习 / 玩明白一个概念 `interactive-explainer · ~25% 原文摘录 + 75% AI 重构` ／ 决策摘要 / 给忙人看 `briefing · ~50%` ／ 图文为主 / 传播展示 `visual-essay · ~40%` | AI 推荐一个并写一句理由。**比例已绑进类型选项**，不再单独成题（否则会出现 `longform + 20%` 这种伪组合）。用户想偏离标配，用自由文本一句话覆盖（"我要 longform + 60%"），见下方"如何偏离标配" |
-| 2 | **主题** | tufte / press / 其它已注册主题（读 `theme-profiles/index.json`） | AI 推荐一个并写一句理由 |
-| 3 | **版式宽度** | narrow / regular / wide / full | AI 推荐一个；默认 `regular` |
-| 4 | **配图模式**（必选 · 不允许"默认通过"） | none / user-assets / placeholders / ai-generated | 一句话"只决定是否使用外部 `Image`；`Raw` 不受影响" |
-| 5 | **封面**（3:4 书封式题图，位于 TOC + 正文之上） | 开（默认） / 关 | AI 推荐"开"，并给一句构图想法（哪种主视觉 + 选哪个封面模板 A/B/C/D/E）。`briefing` / `dialogue` 可推荐"关"。详见 `references/cover.md` |
+| #   | 决策项                                          | 选项（语义化标签 · 含标配信息保留比例）                                                                                                                                                                                                                                                                                                                                                                                                                       | 备注                                                                                                                                                                                         |
+| --- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **文章类型**（信息保留比例打包在内）            | 完整长文 / 归档 `longform · ~100%` ／ 研究报告 / 正式分析 `full-report · ~80%` ／ 教学步骤 / 上手指南 `tutorial · ~90%` ／ 概念 / 系统解释 `explainer · ~80%` ／ 对话 / 访谈 / 播客 `dialogue · ~80%` ／ PR / 方案 / 事故审阅 `review · ~70%` ／ 观点 / 评论 / 叙事 `essay · ~70%` ／ 交互式学习 / 玩明白一个概念 `interactive-explainer · ~25% 原文摘录 + 75% AI 重构` ／ 决策摘要 / 给忙人看 `briefing · ~50%` ／ 图文为主 / 传播展示 `visual-essay · ~40%` | AI 推荐一个并写一句理由。**比例已绑进类型选项**，不再单独成题（否则会出现 `longform + 20%` 这种伪组合）。用户想偏离标配，用自由文本一句话覆盖（"我要 longform + 60%"），见下方"如何偏离标配" |
+| 2   | **主题**                                        | tufte / press / 其它已注册主题（读 `theme-profiles/index.json`）                                                                                                                                                                                                                                                                                                                                                                                              | AI 推荐一个并写一句理由                                                                                                                                                                      |
+| 3   | **版式宽度**                                    | narrow / regular / wide / full                                                                                                                                                                                                                                                                                                                                                                                                                                | AI 推荐一个；默认 `regular`                                                                                                                                                                  |
+| 4   | **配图模式**（必选 · 不允许"默认通过"）         | none / user-assets / placeholders / ai-generated                                                                                                                                                                                                                                                                                                                                                                                                              | 一句话"只决定是否使用外部 `Image`；`Raw` 不受影响"                                                                                                                                           |
+| 5   | **封面**（3:4 书封式题图，位于 TOC + 正文之上） | 开（默认） / 关                                                                                                                                                                                                                                                                                                                                                                                                                                               | AI 推荐"开"，并给一句构图想法（哪种主视觉 + 选哪个封面模板 A/B/C/D/E）。`briefing` / `dialogue` 可推荐"关"。详见 `references/cover.md`                                                       |
 
 **TOC 默认开**：因为它只有一个开关 + 几乎所有文章都该开，可以在 Plan Checkpoint 开场说明
 里以"默认 TOC 开，要关告诉我"一句话带过，**不必单独成题**。
@@ -413,10 +412,10 @@ Section，由**主 Agent 拥有**。大型 Raw 同样隔离到 `article/raw-bloc
   PDF 独占首页**的书封式题图外壳 + 占位（`--no-cover` 关闭）。封面位于 TOC + Hero + 正文之上，
   独立存在。Phase 4 First Spread 时主 Agent 把 `<CoverPlaceholder />` 替换为按 **主题 +
   文章主旨** 定制的图 + 字构图。**硬约束**：外壳比例 / 打印分页不可动、必须有视觉元素
-  + 文字、只用 `--ra-*` token、不要远程图片、不要重复 Hero 内容。**视觉技术全开放**：
-  SVG / CSS / Canvas / 复杂 React 组件 / 任意混搭由 Agent 自选，效果好就行。详见
-  `references/cover.md`（含 5 条自检 + 5 个构图模板 + 各主题封面起手）。PDF 导出会自动让
-  封面独占首页、TOC 从第二页开始。
+  - 文字、只用 `--ra-*` token、不要远程图片、不要重复 Hero 内容。**视觉技术全开放**：
+    SVG / CSS / Canvas / 复杂 React 组件 / 任意混搭由 Agent 自选，效果好就行。详见
+    `references/cover.md`（含 5 条自检 + 5 个构图模板 + 各主题封面起手）。PDF 导出会自动让
+    封面独占首页、TOC 从第二页开始。
 - **PDF 导出 · 可选**：主交付物始终是 `article/article.html`。**仅当** Checkpoint 3 用户选了
   "通过 · 同时导出 HTML + PDF"，才跑 `bash <skill>/scripts/html-to-pdf.sh` 生成
   `article/article.pdf`；不选则不动。不要替用户默认导。详见 `references/pdf-output.md`。
@@ -438,29 +437,29 @@ Section，由**主 Agent 拥有**。大型 Raw 同样隔离到 `article/raw-bloc
 
 ## 相关资源（按"何时读"标注）
 
-| 文件 | 何时读 | 内容 |
-|---|---|---|
-| `references/harness.md` | Phase 0 | Skill 的 harness 视角、六问、状态文件约定 |
-| `references/source-to-markdown.md` | Phase 1 | 各类输入 → source.md 规则、抽取自检、脚本用法 |
-| `references/article-types.md` | Phase 2 | 文章类型路由总览（含逐类型链接） |
-| `references/article-types/<type>.md` | Phase 2 选定类型后 | 单类型结构 / 组件 / Raw 边界 / 配图倾向 / 自检 |
-| `references/information-density.md` | Phase 2 | 信息密度等级、与组件 / 视觉比例的关系 |
-| `references/plan-template.md` | Phase 2 | 单一 `plan/plan.md` 模板（Brief / Outline / Theme / Assets 四段）与写法 |
-| `references/theme-selection.md` | Phase 2 | 主题选择、density 与 theme 解耦、新增主题约束 |
-| `references/layout.md` | Phase 2 / Checkpoint | 版式：宽度模式（与主题解耦）+ TOC，确认与用法 |
-| `references/asset-policy.md` | Phase 2 | 配图四种来源、AI 配图提示词原则、图片自检 |
-| `references/cover.md` | Phase 2 / Phase 4 写封面时 | 书封式封面设计指南（屏幕 3:4 / PDF 独占首页）：硬约束、视觉技术全开放、构图模板、各主题封面起手、5 条自检 |
-| `references/section-build.md` | Phase 4/5 | 一节一文件铁律、单/多 Agent 模式、并行 subagent prompt、主 Agent 合并 |
-| `references/component-policy.md` | Phase 4/5 每节 | reacticle 组件协议、prose-first、信息密度与组件比例 |
-| `references/raw-policy.md` | Phase 4/5 每节 | Raw 允许 / 禁止、token 驱动、Raw 自检 |
-| `references/html-output.md` | 构建 / 交付时 | dev / build / 单文件 HTML 命令与产物 |
-| `references/pdf-output.md` | Phase 8 Delivery 当用户选 PDF 导出时 | `html-to-pdf.sh` 用法、TOC 排版原理、Raw 在 PDF 的表现、故障排除 |
-| `references/review-checklist.md` | Phase 6 | 各阶段 Reviewer 清单与 prompt 模板 |
-| `references/repair-policy.md` | Phase 7 | 最小切片修复对照表 |
-| `references/scaffold.md` | Phase 4 建项目时 | 脚手架做什么、用法、工作区结构、切主题 |
-| `theme-profiles/index.json` + `*.md` | Phase 2 选主题 / Phase 5 写作 | 主题 authoring profile（给 AI 读，非 CSS） |
-| `scripts/scaffold.sh` | Phase 4 跑一次 | 一键创建文章工作区 |
-| `scripts/html-to-pdf.sh` | Phase 8 Delivery 仅当用户选 PDF | HTML → PDF（headless 浏览器 + 注入 print CSS，零 npm 依赖） |
-| `scripts/pdf-print-overrides.css` | 改 PDF 样式时 | `html-to-pdf.sh` 注入到 `<head>` 的 `@media print` 覆盖：A) TOC 塌成上下排布；B) 分页行为（撤销 `.ra-section` 原子化、标题不孤儿、寡行控制等）；C) 封面独占首页 |
-| `scripts/source-to-markdown-markitdown.py` | Phase 1 | MarkItDown 主路径，适合复杂 PDF / DOCX / HTML |
-| `scripts/source-to-markdown.py` | Phase 1 | 轻量 fallback，适合 Markdown / TXT / 简单 HTML 或 MarkItDown 不可用时 |
+| 文件                                       | 何时读                               | 内容                                                                                                                                                            |
+| ------------------------------------------ | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `references/harness.md`                    | Phase 0                              | Skill 的 harness 视角、六问、状态文件约定                                                                                                                       |
+| `references/source-to-markdown.md`         | Phase 1                              | 各类输入 → source.md 规则、抽取自检、脚本用法                                                                                                                   |
+| `references/article-types.md`              | Phase 2                              | 文章类型路由总览（含逐类型链接）                                                                                                                                |
+| `references/article-types/<type>.md`       | Phase 2 选定类型后                   | 单类型结构 / 组件 / Raw 边界 / 配图倾向 / 自检                                                                                                                  |
+| `references/information-density.md`        | Phase 2                              | 信息密度等级、与组件 / 视觉比例的关系                                                                                                                           |
+| `references/plan-template.md`              | Phase 2                              | 单一 `plan/plan.md` 模板（Brief / Outline / Theme / Assets 四段）与写法                                                                                         |
+| `references/theme-selection.md`            | Phase 2                              | 主题选择、density 与 theme 解耦、新增主题约束                                                                                                                   |
+| `references/layout.md`                     | Phase 2 / Checkpoint                 | 版式：宽度模式（与主题解耦）+ TOC，确认与用法                                                                                                                   |
+| `references/asset-policy.md`               | Phase 2                              | 配图四种来源、AI 配图提示词原则、图片自检                                                                                                                       |
+| `references/cover.md`                      | Phase 2 / Phase 4 写封面时           | 书封式封面设计指南（屏幕 3:4 / PDF 独占首页）：硬约束、视觉技术全开放、构图模板、各主题封面起手、5 条自检                                                       |
+| `references/section-build.md`              | Phase 4/5                            | 一节一文件铁律、单/多 Agent 模式、并行 subagent prompt、主 Agent 合并                                                                                           |
+| `references/component-policy.md`           | Phase 4/5 每节                       | reacticle 组件协议、prose-first、信息密度与组件比例                                                                                                             |
+| `references/raw-policy.md`                 | Phase 4/5 每节                       | Raw 允许 / 禁止、token 驱动、Raw 自检                                                                                                                           |
+| `references/html-output.md`                | 构建 / 交付时                        | dev / build / 单文件 HTML 命令与产物                                                                                                                            |
+| `references/pdf-output.md`                 | Phase 8 Delivery 当用户选 PDF 导出时 | `html-to-pdf.sh` 用法、TOC 排版原理、Raw 在 PDF 的表现、故障排除                                                                                                |
+| `references/review-checklist.md`           | Phase 6                              | 各阶段 Reviewer 清单与 prompt 模板                                                                                                                              |
+| `references/repair-policy.md`              | Phase 7                              | 最小切片修复对照表                                                                                                                                              |
+| `references/scaffold.md`                   | Phase 4 建项目时                     | 脚手架做什么、用法、工作区结构、切主题                                                                                                                          |
+| `theme-profiles/index.json` + `*.md`       | Phase 2 选主题 / Phase 5 写作        | 主题 authoring profile（给 AI 读，非 CSS）                                                                                                                      |
+| `scripts/scaffold.sh`                      | Phase 4 跑一次                       | 一键创建文章工作区                                                                                                                                              |
+| `scripts/html-to-pdf.sh`                   | Phase 8 Delivery 仅当用户选 PDF      | HTML → PDF（headless 浏览器 + 注入 print CSS，零 npm 依赖）                                                                                                     |
+| `scripts/pdf-print-overrides.css`          | 改 PDF 样式时                        | `html-to-pdf.sh` 注入到 `<head>` 的 `@media print` 覆盖：A) TOC 塌成上下排布；B) 分页行为（撤销 `.ra-section` 原子化、标题不孤儿、寡行控制等）；C) 封面独占首页 |
+| `scripts/source-to-markdown-markitdown.py` | Phase 1                              | MarkItDown 主路径，适合复杂 PDF / DOCX / HTML                                                                                                                   |
+| `scripts/source-to-markdown.py`            | Phase 1                              | 轻量 fallback，适合 Markdown / TXT / 简单 HTML 或 MarkItDown 不可用时                                                                                           |

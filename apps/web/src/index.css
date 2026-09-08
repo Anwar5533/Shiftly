@@ -155,7 +155,7 @@
 /* ─── Component Layer ──────────────────────────────────────────────────────── */
 @layer components {
   .skeleton {
-    @apply relative overflow-hidden bg-muted rounded-md;
+    @apply relative overflow-hidden rounded-md bg-muted;
     background-size: 200% 100%;
     background-image: linear-gradient(
       90deg,
@@ -168,13 +168,17 @@
 
   /* Sleek modern glass */
   .glass {
-    @apply border border-white/20 dark:border-white/5 backdrop-blur-2xl bg-white/40 dark:bg-black/40;
-    box-shadow: 0 4px 24px -4px rgb(0 0 0 / 0.05), inset 0 1px 0 0 rgb(255 255 255 / 0.2);
+    @apply border border-white/20 bg-white/40 backdrop-blur-2xl dark:border-white/5 dark:bg-black/40;
+    box-shadow:
+      0 4px 24px -4px rgb(0 0 0 / 0.05),
+      inset 0 1px 0 0 rgb(255 255 255 / 0.2);
   }
 
   .glass-panel {
-    @apply rounded-2xl border border-white/20 dark:border-white/10 bg-white/60 dark:bg-zinc-900/60 shadow-xl backdrop-blur-3xl;
-    box-shadow: 0 12px 32px -4px rgb(0 0 0 / 0.08), inset 0 1px 0 0 rgb(255 255 255 / 0.4);
+    @apply rounded-2xl border border-white/20 bg-white/60 shadow-xl backdrop-blur-3xl dark:border-white/10 dark:bg-zinc-900/60;
+    box-shadow:
+      0 12px 32px -4px rgb(0 0 0 / 0.08),
+      inset 0 1px 0 0 rgb(255 255 255 / 0.4);
   }
 
   .glass-header {
@@ -194,7 +198,7 @@
   }
 
   .badge-base {
-    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold tracking-wide uppercase;
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide;
   }
 
   .gradient-text {
@@ -206,7 +210,7 @@
     @apply relative text-primary transition-colors hover:text-primary/80;
   }
   .animated-link::after {
-    @apply absolute bottom-0 left-0 h-[2px] w-0 bg-primary transition-all duration-300 rounded-full;
+    @apply absolute bottom-0 left-0 h-[2px] w-0 rounded-full bg-primary transition-all duration-300;
     content: '';
   }
   .animated-link:hover::after {
@@ -231,7 +235,14 @@
 
 /* ─── Utility Layer ────────────────────────────────────────────────────────── */
 @layer utilities {
-  .text-balance { text-wrap: balance; }
-  .no-scrollbar::-webkit-scrollbar { display: none; }
-  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .text-balance {
+    text-wrap: balance;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }

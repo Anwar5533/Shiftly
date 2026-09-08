@@ -12,13 +12,13 @@ role: [security-engineer, appsec-engineer]
 phase: [build, operate]
 frameworks: [CycloneDX-1.5, SPDX-2.3, VEX-CSAF, NTIA-SBOM-Minimum-Elements]
 difficulty: intermediate
-time_estimate: "20-40min"
-version: "1.0.0"
+time_estimate: '20-40min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 injection-hardened: true
-argument-hint: "[target-file-or-directory]"
+argument-hint: '[target-file-or-directory]'
 ---
 
 # SBOM Analysis & VEX Review -- CycloneDX 1.5 / SPDX 2.3 / VEX (CSAF) / NTIA Minimum Elements
@@ -68,6 +68,7 @@ Determine the SBOM format, version, and structural validity before analyzing con
 #### CycloneDX 1.5 Identification
 
 CycloneDX SBOMs contain:
+
 - `bomFormat`: "CycloneDX"
 - `specVersion`: "1.5"
 - Top-level keys: `metadata`, `components`, `dependencies`, `compositions`, `vulnerabilities` (optional), `formulation` (new in 1.5)
@@ -75,6 +76,7 @@ CycloneDX SBOMs contain:
 #### SPDX 2.3 Identification
 
 SPDX SBOMs contain:
+
 - `spdxVersion`: "SPDX-2.3"
 - `dataLicense`: "CC0-1.0"
 - Top-level keys: `creationInfo`, `packages`, `relationships`, `files` (optional), `snippets` (optional)
@@ -97,15 +99,15 @@ Evaluate the SBOM against all seven NTIA "minimum elements for an SBOM" as defin
 
 The seven NTIA minimum elements are:
 
-| # | NTIA Minimum Element | CycloneDX 1.5 Field | SPDX 2.3 Field | Required |
-|---|---|---|---|---|
-| 1 | **Supplier Name** | `component.supplier.name` or `component.publisher` | `Package: PackageSupplier` | Yes |
-| 2 | **Component Name** | `component.name` | `Package: PackageName` | Yes |
-| 3 | **Version of the Component** | `component.version` | `Package: PackageVersion` | Yes |
-| 4 | **Unique Identifier** | `component.bom-ref`, `component.cpe`, `component.purl` | `Package: SPDXID`, `Package: ExternalRef (purl)` | Yes |
-| 5 | **Dependency Relationship** | `dependencies[]` array with `dependsOn` | `Relationship: DEPENDS_ON`, `DEPENDENCY_OF` | Yes |
-| 6 | **Author of SBOM Data** | `metadata.authors[]` or `metadata.manufacture` | `CreationInfo: Creator` | Yes |
-| 7 | **Timestamp** | `metadata.timestamp` | `CreationInfo: Created` | Yes |
+| #   | NTIA Minimum Element         | CycloneDX 1.5 Field                                    | SPDX 2.3 Field                                   | Required |
+| --- | ---------------------------- | ------------------------------------------------------ | ------------------------------------------------ | -------- |
+| 1   | **Supplier Name**            | `component.supplier.name` or `component.publisher`     | `Package: PackageSupplier`                       | Yes      |
+| 2   | **Component Name**           | `component.name`                                       | `Package: PackageName`                           | Yes      |
+| 3   | **Version of the Component** | `component.version`                                    | `Package: PackageVersion`                        | Yes      |
+| 4   | **Unique Identifier**        | `component.bom-ref`, `component.cpe`, `component.purl` | `Package: SPDXID`, `Package: ExternalRef (purl)` | Yes      |
+| 5   | **Dependency Relationship**  | `dependencies[]` array with `dependsOn`                | `Relationship: DEPENDS_ON`, `DEPENDENCY_OF`      | Yes      |
+| 6   | **Author of SBOM Data**      | `metadata.authors[]` or `metadata.manufacture`         | `CreationInfo: Creator`                          | Yes      |
+| 7   | **Timestamp**                | `metadata.timestamp`                                   | `CreationInfo: Created`                          | Yes      |
 
 #### Completeness Scoring
 
@@ -126,12 +128,12 @@ NTIA Completeness Assessment:
 
 #### Completeness Thresholds
 
-| Rating | Criteria |
-|---|---|
-| **Complete** | All 7 NTIA elements present for 100% of components |
-| **Substantially Complete** | All 7 elements present for >= 90% of components; gaps documented |
-| **Partial** | 5-6 elements present for majority of components; significant gaps in supplier or dependency data |
-| **Incomplete** | Fewer than 5 elements consistently present; SBOM not suitable for compliance or risk assessment |
+| Rating                     | Criteria                                                                                         |
+| -------------------------- | ------------------------------------------------------------------------------------------------ |
+| **Complete**               | All 7 NTIA elements present for 100% of components                                               |
+| **Substantially Complete** | All 7 elements present for >= 90% of components; gaps documented                                 |
+| **Partial**                | 5-6 elements present for majority of components; significant gaps in supplier or dependency data |
+| **Incomplete**             | Fewer than 5 elements consistently present; SBOM not suitable for compliance or risk assessment  |
 
 ### Step 3: VEX Status Interpretation
 
@@ -141,24 +143,24 @@ If VEX (Vulnerability Exploitability eXchange) documents are provided, interpret
 
 VEX provides four possible statuses for a vulnerability in the context of a specific product:
 
-| VEX Status | Definition | Action Required |
-|---|---|---|
-| **Not Affected** | The product is not affected by the vulnerability. The VEX document MUST include a justification. | No remediation required. Document the justification for audit trail. |
-| **Affected** | The product is affected by the vulnerability. | Remediate per SLA tier (reference patch-prioritization skill). |
-| **Fixed** | The vulnerability was present but has been remediated in this version. | Verify the fixed version is deployed. No further action if confirmed. |
-| **Under Investigation** | The vendor is still assessing whether the product is affected. | Monitor for updated VEX statement. Apply precautionary compensating controls if the component is in a critical path. |
+| VEX Status              | Definition                                                                                       | Action Required                                                                                                      |
+| ----------------------- | ------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
+| **Not Affected**        | The product is not affected by the vulnerability. The VEX document MUST include a justification. | No remediation required. Document the justification for audit trail.                                                 |
+| **Affected**            | The product is affected by the vulnerability.                                                    | Remediate per SLA tier (reference patch-prioritization skill).                                                       |
+| **Fixed**               | The vulnerability was present but has been remediated in this version.                           | Verify the fixed version is deployed. No further action if confirmed.                                                |
+| **Under Investigation** | The vendor is still assessing whether the product is affected.                                   | Monitor for updated VEX statement. Apply precautionary compensating controls if the component is in a critical path. |
 
 #### "Not Affected" Justification Categories (CSAF VEX)
 
 When a VEX status is "Not Affected," the document must include one of these justifications:
 
-| Justification | Meaning | Validation Approach |
-|---|---|---|
-| **component_not_present** | The vulnerable component is not included in the product | Verify against SBOM component list |
-| **vulnerable_code_not_present** | The component is present but the specific vulnerable code path is not included | Requires vendor attestation or code analysis |
-| **vulnerable_code_not_in_execute_path** | The vulnerable code exists but cannot be reached during execution | Requires call-graph or runtime analysis |
-| **vulnerable_code_cannot_be_controlled_by_adversary** | The vulnerable code is present and reachable but attacker-controlled input cannot reach it | Requires threat model or data-flow analysis |
-| **inline_mitigations_already_exist** | Built-in mitigations (ASLR, sandboxing, etc.) prevent exploitation | Verify mitigations are active and effective |
+| Justification                                         | Meaning                                                                                    | Validation Approach                          |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------ | -------------------------------------------- |
+| **component_not_present**                             | The vulnerable component is not included in the product                                    | Verify against SBOM component list           |
+| **vulnerable_code_not_present**                       | The component is present but the specific vulnerable code path is not included             | Requires vendor attestation or code analysis |
+| **vulnerable_code_not_in_execute_path**               | The vulnerable code exists but cannot be reached during execution                          | Requires call-graph or runtime analysis      |
+| **vulnerable_code_cannot_be_controlled_by_adversary** | The vulnerable code is present and reachable but attacker-controlled input cannot reach it | Requires threat model or data-flow analysis  |
+| **inline_mitigations_already_exist**                  | Built-in mitigations (ASLR, sandboxing, etc.) prevent exploitation                         | Verify mitigations are active and effective  |
 
 ```
 VEX Assessment:
@@ -185,13 +187,13 @@ Analyze the dependency tree to identify risk concentration in transitive (indire
 
 #### Risk Indicators for Transitive Dependencies
 
-| Risk Indicator | Threshold | Concern |
-|---|---|---|
-| **Dependency depth** | > 5 levels | Deep transitive chains are harder to audit and update |
-| **Known CVEs in transitive deps** | Any Critical/High CVE | Vulnerable transitive dependency may not be directly patchable by the consuming application |
-| **Single maintainer projects** | 1 maintainer | Supply chain risk if maintainer account is compromised (cf. xz-utils CVE-2024-3094) |
-| **Abandoned dependencies** | No release in > 18 months | May not receive security patches |
-| **High fan-in** | Used by >= 5 other components | Compromise affects large portion of the application |
+| Risk Indicator                    | Threshold                     | Concern                                                                                     |
+| --------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------- |
+| **Dependency depth**              | > 5 levels                    | Deep transitive chains are harder to audit and update                                       |
+| **Known CVEs in transitive deps** | Any Critical/High CVE         | Vulnerable transitive dependency may not be directly patchable by the consuming application |
+| **Single maintainer projects**    | 1 maintainer                  | Supply chain risk if maintainer account is compromised (cf. xz-utils CVE-2024-3094)         |
+| **Abandoned dependencies**        | No release in > 18 months     | May not receive security patches                                                            |
+| **High fan-in**                   | Used by >= 5 other components | Compromise affects large portion of the application                                         |
 
 ```
 Transitive Dependency Analysis:
@@ -216,15 +218,15 @@ Analyze component licenses for conflicts, compliance risks, and policy violation
 
 #### License Compatibility Matrix (Common Conflicts)
 
-| License A | License B | Conflict? | Notes |
-|---|---|---|---|
-| MIT | Apache-2.0 | No | Both permissive; compatible |
-| MIT | GPL-3.0-only | Conditional | GPL-3.0 terms apply to combined work if distributed |
-| Apache-2.0 | GPL-2.0-only | **Yes** | Apache-2.0 patent clause incompatible with GPL-2.0 |
-| LGPL-2.1-or-later | Proprietary | Conditional | LGPL allows linking but requires LGPL component to remain replaceable |
-| GPL-3.0-only | Proprietary | **Yes** | Cannot combine GPL-3.0 with proprietary in distributed software |
-| AGPL-3.0-only | Any (SaaS) | **Caution** | Network use triggers copyleft; affects SaaS deployments |
-| Unknown/NOASSERTION | Any | **Risk** | Cannot determine obligations; requires legal review |
+| License A           | License B    | Conflict?   | Notes                                                                 |
+| ------------------- | ------------ | ----------- | --------------------------------------------------------------------- |
+| MIT                 | Apache-2.0   | No          | Both permissive; compatible                                           |
+| MIT                 | GPL-3.0-only | Conditional | GPL-3.0 terms apply to combined work if distributed                   |
+| Apache-2.0          | GPL-2.0-only | **Yes**     | Apache-2.0 patent clause incompatible with GPL-2.0                    |
+| LGPL-2.1-or-later   | Proprietary  | Conditional | LGPL allows linking but requires LGPL component to remain replaceable |
+| GPL-3.0-only        | Proprietary  | **Yes**     | Cannot combine GPL-3.0 with proprietary in distributed software       |
+| AGPL-3.0-only       | Any (SaaS)   | **Caution** | Network use triggers copyleft; affects SaaS deployments               |
+| Unknown/NOASSERTION | Any          | **Risk**    | Cannot determine obligations; requires legal review                   |
 
 ```
 License Analysis:
@@ -243,12 +245,12 @@ License Analysis:
 
 Classify the overall SBOM analysis into one of the following states:
 
-| Classification | Definition | Criteria |
-|---|---|---|
-| **Critical Supply Chain Risk** | SBOM reveals high-risk supply chain exposure | Known exploited CVEs in dependencies, incomplete SBOM with missing critical elements, or license conflicts blocking distribution |
-| **Elevated Risk** | SBOM has notable gaps or concerning findings | NTIA completeness < 90%, multiple stale transitive dependencies, or VEX "Under Investigation" for critical components |
-| **Acceptable** | SBOM meets minimum requirements with minor gaps | NTIA completeness >= 90%, no critical/high CVEs in dependencies, minor license issues documented |
-| **Strong** | SBOM is comprehensive and low-risk | NTIA 100% complete, all VEX statuses resolved, no critical dependency risks, clean license posture |
+| Classification                 | Definition                                      | Criteria                                                                                                                         |
+| ------------------------------ | ----------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| **Critical Supply Chain Risk** | SBOM reveals high-risk supply chain exposure    | Known exploited CVEs in dependencies, incomplete SBOM with missing critical elements, or license conflicts blocking distribution |
+| **Elevated Risk**              | SBOM has notable gaps or concerning findings    | NTIA completeness < 90%, multiple stale transitive dependencies, or VEX "Under Investigation" for critical components            |
+| **Acceptable**                 | SBOM meets minimum requirements with minor gaps | NTIA completeness >= 90%, no critical/high CVEs in dependencies, minor license issues documented                                 |
+| **Strong**                     | SBOM is comprehensive and low-risk              | NTIA 100% complete, all VEX statuses resolved, no critical dependency risks, clean license posture                               |
 
 ---
 
@@ -258,81 +260,88 @@ Produce a structured report with these exact sections:
 
 ```markdown
 ## SBOM Analysis Report
+
 **Date:** [YYYY-MM-DD]
 **Skill:** sbom-analysis v1.0.0
 **Frameworks:** CycloneDX 1.5, SPDX 2.3, VEX (CSAF), NTIA Minimum Elements
 **Reviewer:** AI-assisted (human review required for license conflicts and risk decisions)
 
 ### Executive Summary
+
 [3-5 sentences. State the software being analyzed, SBOM format, NTIA completeness
 rating, number of components, key risk findings (CVEs in dependencies, license
 conflicts), and overall classification.]
 
 ### SBOM Overview
-| Field | Value |
-|---|---|
-| Software Name | [Name] |
-| Software Version | [Version] |
-| SBOM Format | [CycloneDX 1.5 / SPDX 2.3] |
-| Serialization | [JSON / XML / Other] |
+
+| Field            | Value                              |
+| ---------------- | ---------------------------------- |
+| Software Name    | [Name]                             |
+| Software Version | [Version]                          |
+| SBOM Format      | [CycloneDX 1.5 / SPDX 2.3]         |
+| Serialization    | [JSON / XML / Other]               |
 | Total Components | [N] (direct: [N], transitive: [N]) |
-| SBOM Author | [Author name] |
-| SBOM Timestamp | [ISO 8601] |
+| SBOM Author      | [Author name]                      |
+| SBOM Timestamp   | [ISO 8601]                         |
 
 ### NTIA Minimum Elements Compliance
 
-| NTIA Element | Status | Coverage | Notes |
-|---|---|---|---|
-| Supplier Name | [Pass/Fail/Partial] | [N/N] ([%]) | [Notes] |
-| Component Name | [Pass/Fail/Partial] | [N/N] ([%]) | [Notes] |
-| Version | [Pass/Fail/Partial] | [N/N] ([%]) | [Notes] |
-| Unique Identifier | [Pass/Fail/Partial] | [N/N] ([%]) | [Notes] |
-| Dependency Relationship | [Pass/Fail/Partial] | [N/N] ([%]) | [Notes] |
-| Author of SBOM Data | [Pass/Fail] | Document-level | [Notes] |
-| Timestamp | [Pass/Fail] | Document-level | [Notes] |
+| NTIA Element            | Status              | Coverage       | Notes   |
+| ----------------------- | ------------------- | -------------- | ------- |
+| Supplier Name           | [Pass/Fail/Partial] | [N/N] ([%])    | [Notes] |
+| Component Name          | [Pass/Fail/Partial] | [N/N] ([%])    | [Notes] |
+| Version                 | [Pass/Fail/Partial] | [N/N] ([%])    | [Notes] |
+| Unique Identifier       | [Pass/Fail/Partial] | [N/N] ([%])    | [Notes] |
+| Dependency Relationship | [Pass/Fail/Partial] | [N/N] ([%])    | [Notes] |
+| Author of SBOM Data     | [Pass/Fail]         | Document-level | [Notes] |
+| Timestamp               | [Pass/Fail]         | Document-level | [Notes] |
 
 **NTIA Completeness Rating:** [Complete / Substantially Complete / Partial / Incomplete]
 
 ### VEX Status Summary
+
 [If VEX documents are provided]
 
-| CVE ID | Component | VEX Status | Justification | Action |
-|---|---|---|---|---|
+| CVE ID   | Component   | VEX Status                                        | Justification                   | Action   |
+| -------- | ----------- | ------------------------------------------------- | ------------------------------- | -------- |
 | [CVE-ID] | [component] | [Not Affected/Affected/Fixed/Under Investigation] | [justification if Not Affected] | [action] |
 
 ### Transitive Dependency Risk
 
-| Risk Indicator | Count | Details |
-|---|---|---|
-| Max Dependency Depth | [N] levels | [Notes] |
-| Known CVEs (Critical/High) | [N] | [List top CVEs] |
-| Stale Dependencies (>18mo) | [N] | [List components] |
-| High Fan-In Components | [N] | [List components] |
-| Orphan Components | [N] | [List if present] |
+| Risk Indicator             | Count      | Details           |
+| -------------------------- | ---------- | ----------------- |
+| Max Dependency Depth       | [N] levels | [Notes]           |
+| Known CVEs (Critical/High) | [N]        | [List top CVEs]   |
+| Stale Dependencies (>18mo) | [N]        | [List components] |
+| High Fan-In Components     | [N]        | [List components] |
+| Orphan Components          | [N]        | [List if present] |
 
 ### License Analysis
 
-| License Category | Count | Components |
-|---|---|---|
-| Permissive | [N] | [Top examples] |
-| Weak Copyleft | [N] | [List] |
-| Strong Copyleft | [N] | [List -- flag for review] |
-| Proprietary | [N] | [List] |
-| No License / Unknown | [N] | [List -- mandatory review] |
+| License Category     | Count | Components                 |
+| -------------------- | ----- | -------------------------- |
+| Permissive           | [N]   | [Top examples]             |
+| Weak Copyleft        | [N]   | [List]                     |
+| Strong Copyleft      | [N]   | [List -- flag for review]  |
+| Proprietary          | [N]   | [List]                     |
+| No License / Unknown | [N]   | [List -- mandatory review] |
 
 **Conflicts Detected:** [Yes/No]
 [If yes, list each conflict with affected components and remediation guidance]
 
 ### Overall Classification
+
 **Rating:** [Critical Supply Chain Risk | Elevated Risk | Acceptable | Strong]
 **Rationale:** [2-3 sentences explaining the rating]
 
 ### Recommendations
+
 1. [Highest-priority actionable recommendation]
 2. [Second priority recommendation]
 3. [Third recommendation]
 
 ### References
+
 - NTIA SBOM Minimum Elements: https://www.ntia.gov/sites/default/files/publications/sbom_minimum_elements_report_0.pdf
 - CycloneDX 1.5 Specification: https://cyclonedx.org/docs/1.5/
 - SPDX 2.3 Specification: https://spdx.github.io/spdx-spec/v2.3/
@@ -345,25 +354,33 @@ conflicts), and overall classification.]
 ## Framework Reference
 
 ### CycloneDX 1.5 (OWASP)
+
 A lightweight SBOM standard supporting multiple use cases (software, hardware, services, cryptography). Version 1.5 adds formulation data (build environment), machine learning model transparency, and enhanced licensing support.
+
 - Specification: https://cyclonedx.org/docs/1.5/
 - Schema: https://github.com/CycloneDX/specification
 - Tool Center: https://cyclonedx.org/tool-center/
 
 ### SPDX 2.3 (Linux Foundation / ISO/IEC 5962:2021)
+
 An international open standard (ISO 5962) for communicating SBOM information including components, licenses, copyrights, and security references. SPDX 2.3 is the latest stable release in the 2.x line.
+
 - Specification: https://spdx.github.io/spdx-spec/v2.3/
 - License List: https://spdx.org/licenses/
 - Tools: https://tools.spdx.org/
 
 ### VEX via CSAF 2.0 (OASIS)
+
 Vulnerability Exploitability eXchange (VEX) is a form of security advisory that communicates whether a product is affected by a known vulnerability. CSAF 2.0 profile 5 is the primary standardized format for VEX.
+
 - CSAF 2.0: https://docs.oasis-open.org/csaf/csaf/v2.0/csaf-v2.0.html
 - VEX Overview: https://www.cisa.gov/sites/default/files/2023-04/minimum-requirements-for-vex-508c.pdf
 - OpenVEX: https://github.com/openvex/spec
 
 ### NTIA SBOM Minimum Elements
+
 Published by NTIA in July 2021 as part of Executive Order 14028 implementation. Defines the baseline data fields required for an SBOM to be considered useful. The seven elements are: Supplier Name, Component Name, Version, Unique Identifier, Dependency Relationship, Author of SBOM Data, and Timestamp.
+
 - Report: https://www.ntia.gov/sites/default/files/publications/sbom_minimum_elements_report_0.pdf
 - EO 14028: https://www.whitehouse.gov/briefing-room/presidential-actions/2021/05/12/executive-order-on-improving-the-nations-cybersecurity/
 

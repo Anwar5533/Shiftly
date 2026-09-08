@@ -12,13 +12,13 @@ role: [soc-analyst]
 phase: [operate, respond]
 frameworks: [MITRE-ATT&CK-v16, NIST-SP-800-61-Rev2]
 difficulty: beginner
-time_estimate: "10-20min per alert"
-version: "1.0.0"
+time_estimate: '10-20min per alert'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 injection-hardened: true
-argument-hint: "[CVE-ID-or-alert-ID]"
+argument-hint: '[CVE-ID-or-alert-ID]'
 ---
 
 # Alert Triage Playbook
@@ -70,15 +70,15 @@ Gather all data associated with the alert. Do not make a disposition decision un
 
 **Data collection checklist:**
 
-| Data Source | Information to Collect | Tool/Location |
-|-------------|----------------------|---------------|
-| **Alert payload** | Full alert details, raw events, matched rule logic | SIEM (Sentinel, Splunk, QRadar) |
-| **Asset inventory** | Hostname, IP, OS, owner, business unit, criticality tier | CMDB, asset management |
-| **User directory** | Username, role, department, manager, account status | Active Directory, Azure AD, HR system |
-| **EDR telemetry** | Process tree, file activity, network connections from the endpoint | CrowdStrike, Defender for Endpoint, SentinelOne |
-| **Network telemetry** | NetFlow, DNS queries, proxy logs for the source/destination | Firewall, proxy, DNS logs |
-| **Threat intelligence** | IOC lookups for IPs, domains, hashes, URLs | VirusTotal, OTX, MISP, TI platform |
-| **Previous alerts** | Historical alerts for same user, host, or IOC | SIEM, case management |
+| Data Source             | Information to Collect                                             | Tool/Location                                   |
+| ----------------------- | ------------------------------------------------------------------ | ----------------------------------------------- |
+| **Alert payload**       | Full alert details, raw events, matched rule logic                 | SIEM (Sentinel, Splunk, QRadar)                 |
+| **Asset inventory**     | Hostname, IP, OS, owner, business unit, criticality tier           | CMDB, asset management                          |
+| **User directory**      | Username, role, department, manager, account status                | Active Directory, Azure AD, HR system           |
+| **EDR telemetry**       | Process tree, file activity, network connections from the endpoint | CrowdStrike, Defender for Endpoint, SentinelOne |
+| **Network telemetry**   | NetFlow, DNS queries, proxy logs for the source/destination        | Firewall, proxy, DNS logs                       |
+| **Threat intelligence** | IOC lookups for IPs, domains, hashes, URLs                         | VirusTotal, OTX, MISP, TI platform              |
+| **Previous alerts**     | Historical alerts for same user, host, or IOC                      | SIEM, case management                           |
 
 **NIST SP 800-61 alignment:** This phase corresponds to Section 3.2 "Detection and Analysis" -- specifically the initial analysis and validation of the alert before classification.
 
@@ -96,13 +96,13 @@ Connect the alert data with surrounding context to build a picture of what happe
 
 **ATT&CK-based correlation framework:**
 
-| If the alert maps to... | Look for correlated activity in... |
-|-------------------------|------------------------------------|
-| Initial Access (TA0001) | Execution (TA0002), Persistence (TA0003) -- did the attacker establish a foothold? |
-| Execution (TA0002) | Defense Evasion (TA0005), Discovery (TA0007) -- what did the executed code do next? |
-| Credential Access (TA0006) | Lateral Movement (TA0008) -- were stolen credentials used to move? |
-| Lateral Movement (TA0008) | Collection (TA0009), Exfiltration (TA0010) -- what was the objective? |
-| Command and Control (TA0011) | All tactics -- C2 implies an active intrusion; look for the full chain |
+| If the alert maps to...      | Look for correlated activity in...                                                  |
+| ---------------------------- | ----------------------------------------------------------------------------------- |
+| Initial Access (TA0001)      | Execution (TA0002), Persistence (TA0003) -- did the attacker establish a foothold?  |
+| Execution (TA0002)           | Defense Evasion (TA0005), Discovery (TA0007) -- what did the executed code do next? |
+| Credential Access (TA0006)   | Lateral Movement (TA0008) -- were stolen credentials used to move?                  |
+| Lateral Movement (TA0008)    | Collection (TA0009), Exfiltration (TA0010) -- what was the objective?               |
+| Command and Control (TA0011) | All tactics -- C2 implies an active intrusion; look for the full chain              |
 
 ### Phase 3: Classify
 
@@ -110,33 +110,33 @@ Assign a disposition and priority based on collected and correlated data.
 
 #### Disposition Categories
 
-| Disposition | Code | Definition | Action |
-|-------------|------|------------|--------|
-| **True Positive (TP)** | TP | The alert correctly identifies malicious or unauthorized activity that poses a real threat. | Escalate to incident response. Create an incident ticket. |
-| **Benign True Positive (BTP)** | BTP | The alert correctly identified the activity described in the rule, but the activity is authorized, expected, or part of legitimate operations. | Document the legitimate reason. If recurring, request a rule tuning (filter/exclusion). Close alert. |
-| **False Positive (FP)** | FP | The alert fired incorrectly -- the underlying activity does not match what the rule intended to detect (rule logic error, data quality issue). | Document the false positive cause. Submit a tuning request to detection engineering. Close alert. |
+| Disposition                    | Code | Definition                                                                                                                                     | Action                                                                                               |
+| ------------------------------ | ---- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| **True Positive (TP)**         | TP   | The alert correctly identifies malicious or unauthorized activity that poses a real threat.                                                    | Escalate to incident response. Create an incident ticket.                                            |
+| **Benign True Positive (BTP)** | BTP  | The alert correctly identified the activity described in the rule, but the activity is authorized, expected, or part of legitimate operations. | Document the legitimate reason. If recurring, request a rule tuning (filter/exclusion). Close alert. |
+| **False Positive (FP)**        | FP   | The alert fired incorrectly -- the underlying activity does not match what the rule intended to detect (rule logic error, data quality issue). | Document the false positive cause. Submit a tuning request to detection engineering. Close alert.    |
 
 #### Priority Matrix
 
 Assign a priority level based on the combination of asset criticality, threat severity, and confidence.
 
-| Priority | Label | Criteria | Response SLA |
-|----------|-------|----------|-------------|
-| **P1** | Critical | Confirmed malicious activity on a business-critical asset. Active data exfiltration, ransomware execution, or compromise of authentication infrastructure. CISA KEV-listed exploit activity. | Begin response immediately. Escalate to IR team and management within 15 minutes. |
-| **P2** | High | High-confidence alert on a production or customer-facing system. Indicators match known threat actor TTPs. Successful exploitation detected but impact not yet confirmed. | Begin investigation within 30 minutes. Escalate to Tier 2/IR within 1 hour. |
-| **P3** | Medium | Moderate-confidence alert or suspicious activity on a non-critical system. Behavioral anomaly without confirmed malicious indicators. Requires additional investigation to determine disposition. | Begin investigation within 4 hours. Escalate if disposition is TP. |
-| **P4** | Low | Low-confidence alert, informational detection, or policy violation without immediate security impact. Reconnaissance activity from known scanning services. | Investigate within 24 hours. Batch with similar alerts if appropriate. |
+| Priority | Label    | Criteria                                                                                                                                                                                          | Response SLA                                                                      |
+| -------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| **P1**   | Critical | Confirmed malicious activity on a business-critical asset. Active data exfiltration, ransomware execution, or compromise of authentication infrastructure. CISA KEV-listed exploit activity.      | Begin response immediately. Escalate to IR team and management within 15 minutes. |
+| **P2**   | High     | High-confidence alert on a production or customer-facing system. Indicators match known threat actor TTPs. Successful exploitation detected but impact not yet confirmed.                         | Begin investigation within 30 minutes. Escalate to Tier 2/IR within 1 hour.       |
+| **P3**   | Medium   | Moderate-confidence alert or suspicious activity on a non-critical system. Behavioral anomaly without confirmed malicious indicators. Requires additional investigation to determine disposition. | Begin investigation within 4 hours. Escalate if disposition is TP.                |
+| **P4**   | Low      | Low-confidence alert, informational detection, or policy violation without immediate security impact. Reconnaissance activity from known scanning services.                                       | Investigate within 24 hours. Batch with similar alerts if appropriate.            |
 
 **Priority decision factors:**
 
-| Factor | Increases Priority | Decreases Priority |
-|--------|-------------------|-------------------|
-| Asset criticality | Crown jewel, revenue-generating, internet-facing | Development, test, non-production |
-| User privilege level | Domain admin, service account, C-suite | Standard user, contractor |
-| Threat intel match | IOCs match active campaign | No TI matches, known benign scanner |
-| Kill chain stage | Late-stage (exfiltration, impact) | Early-stage (reconnaissance) |
-| Confidence level | Multiple corroborating signals | Single low-fidelity signal |
-| Business context | During M&A, audit, or incident response | Normal operations |
+| Factor               | Increases Priority                               | Decreases Priority                  |
+| -------------------- | ------------------------------------------------ | ----------------------------------- |
+| Asset criticality    | Crown jewel, revenue-generating, internet-facing | Development, test, non-production   |
+| User privilege level | Domain admin, service account, C-suite           | Standard user, contractor           |
+| Threat intel match   | IOCs match active campaign                       | No TI matches, known benign scanner |
+| Kill chain stage     | Late-stage (exfiltration, impact)                | Early-stage (reconnaissance)        |
+| Confidence level     | Multiple corroborating signals                   | Single low-fidelity signal          |
+| Business context     | During M&A, audit, or incident response          | Normal operations                   |
 
 ### Phase 4: Escalate
 
@@ -144,15 +144,15 @@ Determine whether the alert requires escalation and to whom.
 
 **Escalation criteria:**
 
-| Condition | Escalation Target |
-|-----------|-------------------|
-| Disposition is TP with P1 or P2 priority | IR team lead + CISO/security management |
-| Confirmed data exfiltration or ransomware | IR team + legal + executive management |
-| Compromised privileged account (domain admin, cloud admin) | IR team + identity team + management |
-| Alert involves regulated data (PII, PHI, PCI) | IR team + compliance/privacy officer |
+| Condition                                                                | Escalation Target                        |
+| ------------------------------------------------------------------------ | ---------------------------------------- |
+| Disposition is TP with P1 or P2 priority                                 | IR team lead + CISO/security management  |
+| Confirmed data exfiltration or ransomware                                | IR team + legal + executive management   |
+| Compromised privileged account (domain admin, cloud admin)               | IR team + identity team + management     |
+| Alert involves regulated data (PII, PHI, PCI)                            | IR team + compliance/privacy officer     |
 | Analyst is uncertain about disposition after 20 minutes of investigation | Tier 2 analyst or team lead for guidance |
-| Alert matches a known active threat campaign | Threat intelligence team + IR team |
-| Multiple correlated alerts suggest a coordinated attack | IR team lead for incident declaration |
+| Alert matches a known active threat campaign                             | Threat intelligence team + IR team       |
+| Multiple correlated alerts suggest a coordinated attack                  | IR team lead for incident declaration    |
 
 **NIST SP 800-61 alignment:** This phase corresponds to Section 3.2.6 "Incident Notification" and Section 3.2.7 "Escalation." NIST recommends predefined escalation procedures with clear criteria and contact information.
 
@@ -178,12 +178,12 @@ Escalation Notice:
 
 ## 4. Findings Classification
 
-| Severity | Label | Definition | SLA |
-|----------|-------|------------|-----|
-| P1 | Critical | Confirmed true positive on business-critical asset. Active compromise with potential for data loss, service disruption, or regulatory impact. | Immediate escalation. Response begins within 15 minutes. |
-| P2 | High | High-confidence true positive on production asset. Exploitation detected but full impact not yet assessed. | Escalate within 1 hour. Investigation begins within 30 minutes. |
-| P3 | Medium | Moderate-confidence alert requiring further investigation. Suspicious activity without confirmed malicious intent. | Investigate within 4 hours. Escalate if confirmed TP. |
-| P4 | Low | Low-confidence or informational alert. Policy violation, reconnaissance from known scanners, or single low-fidelity signal. | Investigate within 24 hours. |
+| Severity | Label    | Definition                                                                                                                                    | SLA                                                             |
+| -------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| P1       | Critical | Confirmed true positive on business-critical asset. Active compromise with potential for data loss, service disruption, or regulatory impact. | Immediate escalation. Response begins within 15 minutes.        |
+| P2       | High     | High-confidence true positive on production asset. Exploitation detected but full impact not yet assessed.                                    | Escalate within 1 hour. Investigation begins within 30 minutes. |
+| P3       | Medium   | Moderate-confidence alert requiring further investigation. Suspicious activity without confirmed malicious intent.                            | Investigate within 4 hours. Escalate if confirmed TP.           |
+| P4       | Low      | Low-confidence or informational alert. Policy violation, reconnaissance from known scanners, or single low-fidelity signal.                   | Investigate within 24 hours.                                    |
 
 ---
 
@@ -193,53 +193,61 @@ Produce the triage decision as a structured report:
 
 ```markdown
 ## Alert Triage Report
+
 **Date:** [YYYY-MM-DD HH:MM UTC]
 **Skill:** alert-triage v1.0.0
 **Frameworks:** MITRE ATT&CK v16, NIST SP 800-61 Rev 2
 **Analyst:** [Name or AI-assisted]
 
 ### Alert Summary
-| Field | Value |
-|-------|-------|
-| Alert ID | [SIEM alert ID] |
-| Rule Name | [Detection rule name] |
-| Source System | [SIEM / EDR / IDS / Cloud Security] |
-| Timestamp | [YYYY-MM-DD HH:MM:SS UTC] |
-| ATT&CK Technique | [T1059.001 -- PowerShell or N/A] |
-| ATT&CK Tactic | [Execution (TA0002) or N/A] |
+
+| Field            | Value                               |
+| ---------------- | ----------------------------------- |
+| Alert ID         | [SIEM alert ID]                     |
+| Rule Name        | [Detection rule name]               |
+| Source System    | [SIEM / EDR / IDS / Cloud Security] |
+| Timestamp        | [YYYY-MM-DD HH:MM:SS UTC]           |
+| ATT&CK Technique | [T1059.001 -- PowerShell or N/A]    |
+| ATT&CK Tactic    | [Execution (TA0002) or N/A]         |
 
 ### Affected Entities
-| Entity | Value | Context |
-|--------|-------|---------|
-| Host | [hostname / IP] | [Asset criticality: Critical/High/Medium/Low] |
-| User | [username] | [Role, privilege level] |
-| Process | [process name] | [Expected / Unexpected for this host/user] |
+
+| Entity  | Value           | Context                                       |
+| ------- | --------------- | --------------------------------------------- |
+| Host    | [hostname / IP] | [Asset criticality: Critical/High/Medium/Low] |
+| User    | [username]      | [Role, privilege level]                       |
+| Process | [process name]  | [Expected / Unexpected for this host/user]    |
 
 ### Triage Decision
-| Field | Value |
-|-------|-------|
-| **Disposition** | **[True Positive / Benign True Positive / False Positive]** |
-| **Priority** | **[P1 Critical / P2 High / P3 Medium / P4 Low]** |
-| **Confidence** | [High / Medium / Low] |
-| **Escalation Required** | [Yes -- to IR team / Yes -- to Tier 2 / No] |
+
+| Field                   | Value                                                       |
+| ----------------------- | ----------------------------------------------------------- |
+| **Disposition**         | **[True Positive / Benign True Positive / False Positive]** |
+| **Priority**            | **[P1 Critical / P2 High / P3 Medium / P4 Low]**            |
+| **Confidence**          | [High / Medium / Low]                                       |
+| **Escalation Required** | [Yes -- to IR team / Yes -- to Tier 2 / No]                 |
 
 ### Evidence Summary
+
 1. [Key finding 1 -- what was observed]
 2. [Key finding 2 -- corroborating or contradicting evidence]
 3. [Key finding 3 -- threat intel or historical context]
 
 ### Correlation Results
+
 - **Temporal:** [Related events within +/- 30 min window]
 - **Lateral:** [Related alerts on other hosts/users]
 - **Threat Intel:** [IOC match results]
 - **Kill Chain Position:** [Where this falls in the attack lifecycle]
 
 ### Recommended Actions
+
 - [ ] [Action 1 -- e.g., isolate host, disable account, block IP]
 - [ ] [Action 2 -- e.g., collect forensic artifacts, memory dump]
 - [ ] [Action 3 -- e.g., notify asset owner, update ticket]
 
 ### Tuning Recommendation (if BTP or FP)
+
 [If disposition is BTP or FP, describe the recommended rule tuning
 to prevent recurrence -- e.g., add filter for specific parent process,
 exclude known-good IP range, adjust threshold.]
@@ -273,12 +281,12 @@ NIST SP 800-61 Revision 2 (published August 2012) provides the foundational fram
 
 **NIST Incident Response Lifecycle:**
 
-| Phase | Description | Triage Relevance |
-|-------|-------------|------------------|
-| 1. Preparation | Establishing IR capability, tools, procedures | Defines triage playbooks and escalation paths |
-| 2. Detection and Analysis | Identifying and validating potential incidents | **Primary triage phase** -- collect, correlate, classify |
-| 3. Containment, Eradication, and Recovery | Limiting damage, removing threat, restoring operations | Post-triage for confirmed TPs |
-| 4. Post-Incident Activity | Lessons learned, metric collection, process improvement | Feeds back into triage process improvement |
+| Phase                                     | Description                                             | Triage Relevance                                         |
+| ----------------------------------------- | ------------------------------------------------------- | -------------------------------------------------------- |
+| 1. Preparation                            | Establishing IR capability, tools, procedures           | Defines triage playbooks and escalation paths            |
+| 2. Detection and Analysis                 | Identifying and validating potential incidents          | **Primary triage phase** -- collect, correlate, classify |
+| 3. Containment, Eradication, and Recovery | Limiting damage, removing threat, restoring operations  | Post-triage for confirmed TPs                            |
+| 4. Post-Incident Activity                 | Lessons learned, metric collection, process improvement | Feeds back into triage process improvement               |
 
 **Key NIST 800-61 Rev 2 recommendations for triage:**
 
@@ -289,11 +297,11 @@ NIST SP 800-61 Revision 2 (published August 2012) provides the foundational fram
 
 **NIST prioritization factors (SP 800-61 Rev 2, Section 3.2.6):**
 
-| Factor | Rating Levels |
-|--------|---------------|
-| Functional Impact | None / Low / Medium / High |
+| Factor             | Rating Levels                                               |
+| ------------------ | ----------------------------------------------------------- |
+| Functional Impact  | None / Low / Medium / High                                  |
 | Information Impact | None / Privacy Breach / Proprietary Breach / Integrity Loss |
-| Recoverability | Regular / Supplemented / Extended / Not Recoverable |
+| Recoverability     | Regular / Supplemented / Extended / Not Recoverable         |
 
 ---
 

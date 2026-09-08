@@ -1,6 +1,6 @@
 ---
-description: "Build AI assistant application with NLU, dialog management, and integrations"
-argument-hint: "<assistant-type> [options]"
+description: 'Build AI assistant application with NLU, dialog management, and integrations'
+argument-hint: '<assistant-type> [options]'
 ---
 
 # AI Assistant Development

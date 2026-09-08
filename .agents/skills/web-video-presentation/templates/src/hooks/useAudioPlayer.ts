@@ -1,6 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
-export type PlaybackMode = "manual" | "audio" | "auto";
+export type PlaybackMode = 'manual' | 'audio' | 'auto';
 
 interface Options {
   /** Audio file path. `null` = no audio for this step (silent). */
@@ -55,44 +55,47 @@ export function useAudioPlayer({
     const prev = audioRef.current;
     if (prev) {
       prev.pause();
-      prev.removeAttribute("src");
+      prev.removeAttribute('src');
       prev.load();
       audioRef.current = null;
     }
 
-    if (mode === "manual") return;
-    if (mode === "auto" && !autoStarted) return;
+    if (mode === 'manual') return;
+    if (mode === 'auto' && !autoStarted) return;
 
     let advanced = false;
     let timer: number | null = null;
 
     const advanceAfter = (ms: number) => {
-      if (mode !== "auto" || advanced) return;
-      timer = window.setTimeout(() => {
-        if (advanced) return;
-        advanced = true;
-        onAdvanceRef.current();
-      }, Math.max(0, ms));
+      if (mode !== 'auto' || advanced) return;
+      timer = window.setTimeout(
+        () => {
+          if (advanced) return;
+          advanced = true;
+          onAdvanceRef.current();
+        },
+        Math.max(0, ms),
+      );
     };
 
     if (src) {
       const audio = new Audio(src);
       audioRef.current = audio;
-      audio.preload = "auto";
+      audio.preload = 'auto';
 
-      audio.addEventListener("ended", () => advanceAfter(trailMs));
-      audio.addEventListener("error", () => {
+      audio.addEventListener('ended', () => advanceAfter(trailMs));
+      audio.addEventListener('error', () => {
         // Audio file missing or undecodable — fall back to estimate.
-        if (mode === "auto") advanceAfter(estimateFallbackMs);
+        if (mode === 'auto') advanceAfter(estimateFallbackMs);
       });
 
       audio.play().catch((err) => {
         // Autoplay blocked (rare, AutoStartGate should prevent this) or
         // file missing — fall back to estimate in auto mode.
-        console.warn("audio play failed:", err);
-        if (mode === "auto") advanceAfter(estimateFallbackMs);
+        console.warn('audio play failed:', err);
+        if (mode === 'auto') advanceAfter(estimateFallbackMs);
       });
-    } else if (mode === "auto") {
+    } else if (mode === 'auto') {
       // No audio for this step (silent / empty narration) — use estimate.
       advanceAfter(estimateFallbackMs);
     }
@@ -103,7 +106,7 @@ export function useAudioPlayer({
       const a = audioRef.current;
       if (a) {
         a.pause();
-        a.removeAttribute("src");
+        a.removeAttribute('src');
         a.load();
         audioRef.current = null;
       }

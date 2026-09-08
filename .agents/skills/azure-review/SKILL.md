@@ -12,13 +12,13 @@ role: [cloud-security-engineer, security-engineer]
 phase: [assess, operate]
 frameworks: [CIS-Azure-v2.1.0]
 difficulty: intermediate
-time_estimate: "60-90min"
-version: "1.0.0"
+time_estimate: '60-90min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 injection-hardened: true
-argument-hint: "[target-file-or-directory]"
+argument-hint: '[target-file-or-directory]'
 ---
 
 # Azure Security Posture Review
@@ -88,7 +88,6 @@ For detailed CIS benchmark checklist items with specific Terraform patterns, Bic
 
 ---
 
-
 ---
 
 ### Step 11: Compile Assessment Report
@@ -99,13 +98,13 @@ Produce the final report using the structure defined in the Output Format sectio
 
 ## Findings Classification
 
-| Severity | Definition | Examples |
-|----------|-----------|----------|
-| **Critical** | Immediate risk of data breach or unauthorized access | NSGs open to 0.0.0.0/0 on RDP/SSH, SQL databases publicly accessible, Defender for Cloud disabled |
-| **High** | Significant security gap that materially weakens posture | Missing MFA enforcement, storage accounts with public access, Key Vault without purge protection |
-| **Medium** | Control gap that should be addressed in normal cycle | Missing activity log alerts, soft delete not enabled, TLS below 1.2 |
-| **Low** | Hardening recommendation or defense-in-depth measure | HTTP/2 not enabled, FTP not fully disabled, missing CMK on non-sensitive storage |
-| **Informational** | Best practice observation, no direct security impact | Naming conventions, tag policies, documentation gaps |
+| Severity          | Definition                                               | Examples                                                                                          |
+| ----------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| **Critical**      | Immediate risk of data breach or unauthorized access     | NSGs open to 0.0.0.0/0 on RDP/SSH, SQL databases publicly accessible, Defender for Cloud disabled |
+| **High**          | Significant security gap that materially weakens posture | Missing MFA enforcement, storage accounts with public access, Key Vault without purge protection  |
+| **Medium**        | Control gap that should be addressed in normal cycle     | Missing activity log alerts, soft delete not enabled, TLS below 1.2                               |
+| **Low**           | Hardening recommendation or defense-in-depth measure     | HTTP/2 not enabled, FTP not fully disabled, missing CMK on non-sensitive storage                  |
+| **Informational** | Best practice observation, no direct security impact     | Naming conventions, tag policies, documentation gaps                                              |
 
 ---
 
@@ -173,17 +172,17 @@ Produce the final report using the structure defined in the Output Format sectio
 
 ### CIS Azure Foundations Benchmark v2.1.0 -- Section Map
 
-| Section | Domain | Key Focus Areas |
-|---------|--------|-----------------|
-| 1 | Identity and Access Management | Entra ID security defaults, MFA enforcement, Conditional Access policies, guest user management, PIM configuration |
-| 2 | Microsoft Defender for Cloud | Defender plan enablement (Servers, App Service, SQL, Storage, Containers, Key Vault, DNS, ARM), security contacts, auto-provisioning |
-| 3 | Storage Accounts | HTTPS enforcement, infrastructure encryption, public access, network rules, soft delete, CMK encryption, TLS version |
-| 4 | Database Services | SQL auditing, firewall rules, threat detection, SSL enforcement, TDE, Entra ID admin, Cosmos DB public access |
-| 5 | Logging and Monitoring | Diagnostic settings, activity log alerts (policy, NSG, SQL firewall, public IP), Key Vault logging, Network Watcher |
-| 6 | Networking | NSG rules (RDP, SSH, UDP, HTTP), flow log retention, traffic analytics |
-| 7 | Virtual Machines | Azure Bastion, managed disks, disk encryption with CMK, approved extensions, endpoint protection |
-| 8 | Key Vault | Key/secret expiration, soft delete, purge protection, RBAC authorization, private endpoints |
-| 9 | App Service | Authentication, HTTPS redirect, TLS version, client certificates, Entra ID registration, HTTP/2, FTP disabled |
+| Section | Domain                         | Key Focus Areas                                                                                                                      |
+| ------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| 1       | Identity and Access Management | Entra ID security defaults, MFA enforcement, Conditional Access policies, guest user management, PIM configuration                   |
+| 2       | Microsoft Defender for Cloud   | Defender plan enablement (Servers, App Service, SQL, Storage, Containers, Key Vault, DNS, ARM), security contacts, auto-provisioning |
+| 3       | Storage Accounts               | HTTPS enforcement, infrastructure encryption, public access, network rules, soft delete, CMK encryption, TLS version                 |
+| 4       | Database Services              | SQL auditing, firewall rules, threat detection, SSL enforcement, TDE, Entra ID admin, Cosmos DB public access                        |
+| 5       | Logging and Monitoring         | Diagnostic settings, activity log alerts (policy, NSG, SQL firewall, public IP), Key Vault logging, Network Watcher                  |
+| 6       | Networking                     | NSG rules (RDP, SSH, UDP, HTTP), flow log retention, traffic analytics                                                               |
+| 7       | Virtual Machines               | Azure Bastion, managed disks, disk encryption with CMK, approved extensions, endpoint protection                                     |
+| 8       | Key Vault                      | Key/secret expiration, soft delete, purge protection, RBAC authorization, private endpoints                                          |
+| 9       | App Service                    | Authentication, HTTPS redirect, TLS version, client certificates, Entra ID registration, HTTP/2, FTP disabled                        |
 
 ### CIS Profile Levels
 

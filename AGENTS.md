@@ -20,13 +20,15 @@ This file documents the verified engineering conventions and architectural rules
 ## Coding Conventions
 
 ### TypeScript Conventions
+
 - **Strict Mode**: `strict: true` and `strictNullChecks: true` are enabled across all packages.
 - **Linting**: `@typescript-eslint` flat config (`eslint.config.mjs`) is used. Avoid `any` (`@typescript-eslint/no-explicit-any` is configured) and `@ts-ignore` comments.
-- **Path Aliases**: 
+- **Path Aliases**:
   - Backend: `@/*` maps to `./src/*`.
   - Shared packages are referenced via `@shiftly/shared-*`.
 
 ### Frontend Conventions (apps/web)
+
 - **Framework**: React 18, Vite.
 - **State Management**: Redux Toolkit & React Query (`@tanstack/react-query`).
 - **Styling**: Tailwind CSS combined with Radix UI headless components. `framer-motion` for animations.
@@ -34,12 +36,14 @@ This file documents the verified engineering conventions and architectural rules
 - **Architecture**: Feature-sliced design (`src/features/*`, `src/shared/*`, `src/layouts/*`).
 
 ### Backend/API Conventions (apps/*)
+
 - **Framework**: NestJS (v10).
 - **Communication**: Kafka (`kafkajs`) for event-driven microservice communication.
 - **Architecture**: Domain-Driven Design inspired (`src/modules/*`, `src/config/*`, `src/events/*`, `src/infrastructure/*`).
 - **Observability**: OpenTelemetry (`@opentelemetry/*`) and Prometheus (`prom-client`).
 
 ### Database Conventions
+
 - **ORM**: Prisma (`@prisma/client`).
 - **Database Engine**: PostgreSQL.
 - **Multi-Schema**: Uses PostgreSQL schemas (e.g., `@@schema("identity")`) and `previewFeatures = ["multiSchema"]`.
@@ -49,6 +53,7 @@ This file documents the verified engineering conventions and architectural rules
 ## Commands
 
 ### Testing Commands
+
 - **Backend Unit**: `pnpm exec jest --testPathPatterns=spec --runInBand`
 - **Backend Integration**: `pnpm exec jest --testPathPatterns=e2e-spec --runInBand`
 - **Frontend Unit**: `vitest run`
@@ -56,21 +61,25 @@ This file documents the verified engineering conventions and architectural rules
 - **Root**: `turbo run test`
 
 ### Build / Lint / Typecheck Commands
+
 - **Build**: `turbo run build`
 - **Lint**: `turbo run lint` (ESLint) and `pnpm run format` (Prettier).
 - **Typecheck**: `turbo run typecheck` (`tsc --noEmit`).
 - **Database**: `turbo run db:generate`, `turbo run db:migrate`.
 
 ### Git / Change Conventions
+
 - **Commit Format**: Conventional Commits (`@commitlint/config-conventional`).
 - **Pre-commit**: Husky runs `lint-staged` ensuring ESLint and Prettier format files automatically upon commit.
 
 ## Security Requirements
+
 - **Authentication**: JWT strategy via Passport.js (`@nestjs/jwt`, `passport-jwt`), `bcrypt` for password hashing.
 - **Headers & Rate Limiting**: `helmet` and `@nestjs/throttler` in backend apps.
-- **Secrets**: Do not expose environment variables or `.env` file contents in code. 
+- **Secrets**: Do not expose environment variables or `.env` file contents in code.
 
 ## Files/Directories That Should Not Be Modified
+
 - `pnpm-lock.yaml` (unless adding/removing dependencies via `pnpm`).
 - `.turbo/`, `node_modules/`, `dist/`, `out/`, `coverage/`.
 - Generated Prisma client directories within `node_modules/`.

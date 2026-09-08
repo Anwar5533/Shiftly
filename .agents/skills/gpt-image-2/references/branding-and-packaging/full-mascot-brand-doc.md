@@ -12,12 +12,12 @@
 
 特征（与现有 `mascot-brand-kit.md` 的区别）：
 
-| 维度 | `mascot-brand-kit.md`（已有） | 本模板（新增） |
-|---|---|---|
-| 模块数 | 4-6 个区块 | **18-24 个模块** |
-| 视角 | 主形象 + 三视图 + 表情 + 应用 | **DNA 分析 → moodboard → 探索草图 → 线稿 → 3D → 配色 → 材质 → 设计系统 → 数字应用 → 实物应用 → 终稿** |
-| 用途 | IP 介绍页 / 周边 catalog | **完整 brand book / 设计提案 / 投标稿** |
-| 渲染密度 | 中等 | 极高（接近 brand book PDF 的整页拼合） |
+| 维度     | `mascot-brand-kit.md`（已有） | 本模板（新增）                                                                                        |
+| -------- | ----------------------------- | ----------------------------------------------------------------------------------------------------- |
+| 模块数   | 4-6 个区块                    | **18-24 个模块**                                                                                      |
+| 视角     | 主形象 + 三视图 + 表情 + 应用 | **DNA 分析 → moodboard → 探索草图 → 线稿 → 3D → 配色 → 材质 → 设计系统 → 数字应用 → 实物应用 → 终稿** |
+| 用途     | IP 介绍页 / 周边 catalog      | **完整 brand book / 设计提案 / 投标稿**                                                               |
+| 渲染密度 | 中等                          | 极高（接近 brand book PDF 的整页拼合）                                                                |
 
 ## 适用范围
 
@@ -87,17 +87,30 @@
     {
       "id": "01",
       "title": "01 品牌DNA分析 / BRAND DNA ANALYSIS",
-      "elements": ["small logo lockup", "5 color swatches with HEX codes", "6 brand keyword icons", "small target audience donut chart"]
+      "elements": [
+        "small logo lockup",
+        "5 color swatches with HEX codes",
+        "6 brand keyword icons",
+        "small target audience donut chart"
+      ]
     },
     {
       "id": "02",
       "title": "02 概念构思 / CONCEPT MOODBOARD",
-      "elements": ["5 inspiration photo references", "4 mood / vibe icons", "1 design equation diagram (e.g. 茶 + 狗 + 温暖 = MUYANG)"]
+      "elements": [
+        "5 inspiration photo references",
+        "4 mood / vibe icons",
+        "1 design equation diagram (e.g. 茶 + 狗 + 温暖 = MUYANG)"
+      ]
     },
     {
       "id": "03",
       "title": "03 形态研究 / FORM STUDY",
-      "elements": ["4 logo anatomy icons", "4 evolution steps from primitive shape to refined silhouette", "4 final silhouette variants"]
+      "elements": [
+        "4 logo anatomy icons",
+        "4 evolution steps from primitive shape to refined silhouette",
+        "4 final silhouette variants"
+      ]
     },
     {
       "id": "04",
@@ -107,72 +120,120 @@
     {
       "id": "05",
       "title": "05 精细线稿 / REFINED LINE ART",
-      "elements": ["3 rows showing front and side line-art with proportion guides, head-body ratio markers, and grid alignment"]
+      "elements": [
+        "3 rows showing front and side line-art with proportion guides, head-body ratio markers, and grid alignment"
+      ]
     },
     {
       "id": "06",
       "title": "06 细节精修 / DETAIL REFINEMENT",
-      "elements": ["2 large full-body 3D renders with annotation labels", "4 circular close-up callouts (eyes, paw, apron stitch, tail)"]
+      "elements": [
+        "2 large full-body 3D renders with annotation labels",
+        "4 circular close-up callouts (eyes, paw, apron stitch, tail)"
+      ]
     },
     {
       "id": "07",
       "title": "07 表情设定 / EXPRESSION SHEET",
-      "elements": ["11 3D rendered head expressions: happy, sad, surprised, sleepy, angry, shy, proud, worried, laughing, wink, neutral"]
+      "elements": [
+        "11 3D rendered head expressions: happy, sad, surprised, sleepy, angry, shy, proud, worried, laughing, wink, neutral"
+      ]
     },
     {
       "id": "08",
       "title": "08 姿势库 / POSE LIBRARY",
-      "elements": ["9 full-body 3D rendered poses: waving, bowing, holding tea, jumping, sitting, sleeping, presenting, running, hugging cup"]
+      "elements": [
+        "9 full-body 3D rendered poses: waving, bowing, holding tea, jumping, sitting, sleeping, presenting, running, hugging cup"
+      ]
     },
     {
       "id": "09",
       "title": "09 转身视图 / TURNAROUND VIEW",
-      "elements": ["5 full-body 3D renders at 0°/45°/90°/135°/180°", "5 matching line-art turnaround views below"]
+      "elements": [
+        "5 full-body 3D renders at 0°/45°/90°/135°/180°",
+        "5 matching line-art turnaround views below"
+      ]
     },
     {
       "id": "10",
       "title": "10 色彩开发 / COLOR DEVELOPMENT",
-      "elements": ["5 rows of 5-color palettes (primary, accent, monochrome, seasonal, dark mode)", "short color psychology paragraph"]
+      "elements": [
+        "5 rows of 5-color palettes (primary, accent, monochrome, seasonal, dark mode)",
+        "short color psychology paragraph"
+      ]
     },
     {
       "id": "11",
       "title": "11 材质规格 / MATERIAL SPECIFICATION",
-      "elements": ["5 texture swatches (plush, vinyl, ceramic, fabric, plastic)", "property sliders (softness / glossiness / transparency)", "4 manufacturing process icons"]
+      "elements": [
+        "5 texture swatches (plush, vinyl, ceramic, fabric, plastic)",
+        "property sliders (softness / glossiness / transparency)",
+        "4 manufacturing process icons"
+      ]
     },
     {
       "id": "12",
       "title": "12 色彩应用 / COLOR APPLICATION",
-      "elements": ["4 mascot color variant renders", "2 light-mode and dark-mode renders", "4 contrast rating circles (AAA / AA / A / fail)"]
+      "elements": [
+        "4 mascot color variant renders",
+        "2 light-mode and dark-mode renders",
+        "4 contrast rating circles (AAA / AA / A / fail)"
+      ]
     },
     {
       "id": "13",
       "title": "13 构造指南 / CONSTRUCTION GUIDE",
-      "elements": ["1 line-art geometry construction diagram (with circles / triangles / proportion lines)", "1 grid alignment diagram"]
+      "elements": [
+        "1 line-art geometry construction diagram (with circles / triangles / proportion lines)",
+        "1 grid alignment diagram"
+      ]
     },
     {
       "id": "14",
       "title": "14 设计系统规则 / DESIGN SYSTEM RULES",
-      "elements": ["minimum size icons (16px / 24px / 48px)", "clear-space diagram with X-height markers", "4 do/don't usage examples"]
+      "elements": [
+        "minimum size icons (16px / 24px / 48px)",
+        "clear-space diagram with X-height markers",
+        "4 do/don't usage examples"
+      ]
     },
     {
       "id": "15",
       "title": "15 资产变体 / ASSET VARIANTS",
-      "elements": ["3 size variants (S / M / L)", "3 line-art variants", "3 simplified flat icon-style heads"]
+      "elements": [
+        "3 size variants (S / M / L)",
+        "3 line-art variants",
+        "3 simplified flat icon-style heads"
+      ]
     },
     {
       "id": "16",
       "title": "16 数字应用 / DIGITAL APPLICATIONS",
-      "elements": ["1 app icon mockup", "2 social avatar mockups", "small UI element row (button / loader / badge)", "3-step animation cycle thumbnails"]
+      "elements": [
+        "1 app icon mockup",
+        "2 social avatar mockups",
+        "small UI element row (button / loader / badge)",
+        "3-step animation cycle thumbnails"
+      ]
     },
     {
       "id": "17",
       "title": "17 实物应用 / PHYSICAL APPLICATIONS",
-      "elements": ["1 plush toy mockup", "1 product packaging mockup", "1 merchandise (tote / mug) mockup", "1 storefront / signage mockup"]
+      "elements": [
+        "1 plush toy mockup",
+        "1 product packaging mockup",
+        "1 merchandise (tote / mug) mockup",
+        "1 storefront / signage mockup"
+      ]
     },
     {
       "id": "18",
       "title": "18 最终主视觉 / FINAL RENDERING",
-      "elements": ["1 large hero-size 3D render of mascot in signature pose holding brand product", "logo lockup", "file format / deliverable list"]
+      "elements": [
+        "1 large hero-size 3D render of mascot in signature pose holding brand product",
+        "logo lockup",
+        "file format / deliverable list"
+      ]
     }
   ],
   "global_style": {

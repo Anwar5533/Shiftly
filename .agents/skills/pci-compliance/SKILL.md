@@ -270,4 +270,3 @@ Talisman(app, force_https=True)
 ## Additional patterns and templates
 
 More detailed templates and worked examples live in `references/details.md`. Read that file for the full pattern library.
-

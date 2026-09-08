@@ -130,7 +130,7 @@ class OrderProcessor {
   processOrder(order: Order): ProcessResult {
     // Validation
     if (!order.customerId || order.items.length === 0) {
-      return { success: false, error: "Invalid order" };
+      return { success: false, error: 'Invalid order' };
     }
 
     // Calculate totals
@@ -156,16 +156,10 @@ class OrderProcessor {
     if (!validation.isValid) return ProcessResult.failure(validation.error);
 
     const orderTotal = OrderTotal.calculate(order);
-    const inventoryCheck = await this.inventoryService.checkAvailability(
-      order.items,
-    );
-    if (!inventoryCheck.available)
-      return ProcessResult.failure(inventoryCheck.reason);
+    const inventoryCheck = await this.inventoryService.checkAvailability(order.items);
+    if (!inventoryCheck.available) return ProcessResult.failure(inventoryCheck.reason);
 
-    await this.paymentService.processPayment(
-      order.paymentMethod,
-      orderTotal.total,
-    );
+    await this.paymentService.processPayment(order.paymentMethod, orderTotal.total);
     await this.inventoryService.reserveItems(order.items);
     await this.notificationService.sendOrderConfirmation(order, orderTotal);
 
@@ -173,10 +167,8 @@ class OrderProcessor {
   }
 
   private validateOrder(order: Order): ValidationResult {
-    if (!order.customerId)
-      return ValidationResult.invalid("Customer ID required");
-    if (order.items.length === 0)
-      return ValidationResult.invalid("Order must contain items");
+    if (!order.customerId) return ValidationResult.invalid('Customer ID required');
+    if (order.items.length === 0) return ValidationResult.invalid('Order must contain items');
     return ValidationResult.valid();
   }
 }

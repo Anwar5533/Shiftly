@@ -14,11 +14,11 @@ model to use at a given size class.
 `lora_alpha = 2 * r` in every row — derive alpha
 from rank, don't set it independently.
 
-| Task type | Rank (`r`) | `lora_alpha` | Notes |
-|---|---|---|---|
-| RL adapters (GRPO/RLVR) | 1–32 | 2–64 | Lower end (1–8) is common for adapters on top of an already-capable base. |
-| General SFT default | 16–32 | 32–64 | Starting point absent a specific reason to go higher or lower. |
-| SFT at scale (large, diverse instruction sets) | up to ~256 | up to ~512 | Only justified when the dataset is large and diverse enough to use the extra capacity — see rsLoRA note below before defaulting here. |
+| Task type                                      | Rank (`r`) | `lora_alpha` | Notes                                                                                                                                 |
+| ---------------------------------------------- | ---------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
+| RL adapters (GRPO/RLVR)                        | 1–32       | 2–64         | Lower end (1–8) is common for adapters on top of an already-capable base.                                                             |
+| General SFT default                            | 16–32      | 32–64        | Starting point absent a specific reason to go higher or lower.                                                                        |
+| SFT at scale (large, diverse instruction sets) | up to ~256 | up to ~512   | Only justified when the dataset is large and diverse enough to use the extra capacity — see rsLoRA note below before defaulting here. |
 
 ## Learning Rate by Method
 
@@ -28,11 +28,11 @@ most common misconfiguration when porting a full-
 FT config to LoRA (leaving the LR unchanged
 under-trains the adapter).
 
-| Method | LR range | Use when |
-|---|---|---|
-| QLoRA (standard) | **2e-4** | Default starting point for QLoRA SFT. |
-| LoRA, conservative | 1e-4 | Larger base model, higher rank, or a run that showed instability at 2e-4. |
-| LoRA, very conservative | 5e-5 | Continuing a run, fine-grained behavior adjustment, or a base model that's already close to the target behavior. |
+| Method                  | LR range | Use when                                                                                                         |
+| ----------------------- | -------- | ---------------------------------------------------------------------------------------------------------------- |
+| QLoRA (standard)        | **2e-4** | Default starting point for QLoRA SFT.                                                                            |
+| LoRA, conservative      | 1e-4     | Larger base model, higher rank, or a run that showed instability at 2e-4.                                        |
+| LoRA, very conservative | 5e-5     | Continuing a run, fine-grained behavior adjustment, or a base model that's already close to the target behavior. |
 
 Treat these as starting points to sweep around,
 not fixed constants — but start here rather than
@@ -56,7 +56,7 @@ instability shows up.
 - Keep **effective batch size under 32** — the
   reference recipe was validated at that scale.
   Effective batch is `per_device_batch_size *
-  gradient_accumulation_steps * num_devices`; a
+gradient_accumulation_steps * num_devices`; a
   multi-GPU or high-accumulation setup can cross
   32 without the per-device batch size looking
   large, so compute the product, not just the

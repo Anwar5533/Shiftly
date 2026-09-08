@@ -25,7 +25,7 @@ Master database schema and data migrations across ORMs (Sequelize, TypeORM, Pris
 // migrations/20231201-create-users.js
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("users", {
+    await queryInterface.createTable('users', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -42,7 +42,7 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("users");
+    await queryInterface.dropTable('users');
   },
 };
 
@@ -54,30 +54,30 @@ module.exports = {
 
 ```typescript
 // migrations/1701234567-CreateUsers.ts
-import { MigrationInterface, QueryRunner, Table } from "typeorm";
+import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export class CreateUsers1701234567 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: "users",
+        name: 'users',
         columns: [
           {
-            name: "id",
-            type: "int",
+            name: 'id',
+            type: 'int',
             isPrimary: true,
             isGenerated: true,
-            generationStrategy: "increment",
+            generationStrategy: 'increment',
           },
           {
-            name: "email",
-            type: "varchar",
+            name: 'email',
+            type: 'varchar',
             isUnique: true,
           },
           {
-            name: "created_at",
-            type: "timestamp",
-            default: "CURRENT_TIMESTAMP",
+            name: 'created_at',
+            type: 'timestamp',
+            default: 'CURRENT_TIMESTAMP',
           },
         ],
       }),
@@ -85,7 +85,7 @@ export class CreateUsers1701234567 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable("users");
+    await queryRunner.dropTable('users');
   }
 }
 
@@ -115,15 +115,15 @@ model User {
 // Safe migration: add column with default
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.addColumn("users", "status", {
+    await queryInterface.addColumn('users', 'status', {
       type: Sequelize.STRING,
-      defaultValue: "active",
+      defaultValue: 'active',
       allowNull: false,
     });
   },
 
   down: async (queryInterface) => {
-    await queryInterface.removeColumn("users", "status");
+    await queryInterface.removeColumn('users', 'status');
   },
 };
 ```
@@ -134,16 +134,16 @@ module.exports = {
 // Step 1: Add new column
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.addColumn("users", "full_name", {
+    await queryInterface.addColumn('users', 'full_name', {
       type: Sequelize.STRING,
     });
 
     // Copy data from old column
-    await queryInterface.sequelize.query("UPDATE users SET full_name = name");
+    await queryInterface.sequelize.query('UPDATE users SET full_name = name');
   },
 
   down: async (queryInterface) => {
-    await queryInterface.removeColumn("users", "full_name");
+    await queryInterface.removeColumn('users', 'full_name');
   },
 };
 
@@ -152,11 +152,11 @@ module.exports = {
 // Step 3: Remove old column
 module.exports = {
   up: async (queryInterface) => {
-    await queryInterface.removeColumn("users", "name");
+    await queryInterface.removeColumn('users', 'name');
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.addColumn("users", "name", {
+    await queryInterface.addColumn('users', 'name', {
       type: Sequelize.STRING,
     });
   },
@@ -171,7 +171,7 @@ module.exports = {
     // For large tables, use multi-step approach
 
     // 1. Add new column
-    await queryInterface.addColumn("users", "age_new", {
+    await queryInterface.addColumn('users', 'age_new', {
       type: Sequelize.INTEGER,
     });
 
@@ -183,14 +183,14 @@ module.exports = {
     `);
 
     // 3. Drop old column
-    await queryInterface.removeColumn("users", "age");
+    await queryInterface.removeColumn('users', 'age');
 
     // 4. Rename new column
-    await queryInterface.renameColumn("users", "age_new", "age");
+    await queryInterface.renameColumn('users', 'age_new', 'age');
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.changeColumn("users", "age", {
+    await queryInterface.changeColumn('users', 'age', {
       type: Sequelize.STRING,
     });
   },
@@ -205,13 +205,11 @@ module.exports = {
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     // Get all records
-    const [users] = await queryInterface.sequelize.query(
-      "SELECT id, address_string FROM users",
-    );
+    const [users] = await queryInterface.sequelize.query('SELECT id, address_string FROM users');
 
     // Transform each record
     for (const user of users) {
-      const addressParts = user.address_string.split(",");
+      const addressParts = user.address_string.split(',');
 
       await queryInterface.sequelize.query(
         `UPDATE users
@@ -231,12 +229,12 @@ module.exports = {
     }
 
     // Drop old column
-    await queryInterface.removeColumn("users", "address_string");
+    await queryInterface.removeColumn('users', 'address_string');
   },
 
   down: async (queryInterface, Sequelize) => {
     // Reconstruct original column
-    await queryInterface.addColumn("users", "address_string", {
+    await queryInterface.addColumn('users', 'address_string', {
       type: Sequelize.STRING,
     });
 
@@ -245,9 +243,9 @@ module.exports = {
       SET address_string = CONCAT(street, ', ', city, ', ', state)
     `);
 
-    await queryInterface.removeColumn("users", "street");
-    await queryInterface.removeColumn("users", "city");
-    await queryInterface.removeColumn("users", "state");
+    await queryInterface.removeColumn('users', 'street');
+    await queryInterface.removeColumn('users', 'city');
+    await queryInterface.removeColumn('users', 'state');
   },
 };
 ```
@@ -263,14 +261,14 @@ module.exports = {
 
     try {
       await queryInterface.addColumn(
-        "users",
-        "verified",
+        'users',
+        'verified',
         { type: Sequelize.BOOLEAN, defaultValue: false },
         { transaction },
       );
 
       await queryInterface.sequelize.query(
-        "UPDATE users SET verified = true WHERE email_verified_at IS NOT NULL",
+        'UPDATE users SET verified = true WHERE email_verified_at IS NOT NULL',
         { transaction },
       );
 
@@ -282,7 +280,7 @@ module.exports = {
   },
 
   down: async (queryInterface) => {
-    await queryInterface.removeColumn("users", "verified");
+    await queryInterface.removeColumn('users', 'verified');
   },
 };
 ```
@@ -293,34 +291,30 @@ module.exports = {
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     // Create backup table
-    await queryInterface.sequelize.query(
-      "CREATE TABLE users_backup AS SELECT * FROM users",
-    );
+    await queryInterface.sequelize.query('CREATE TABLE users_backup AS SELECT * FROM users');
 
     try {
       // Perform migration
-      await queryInterface.addColumn("users", "new_field", {
+      await queryInterface.addColumn('users', 'new_field', {
         type: Sequelize.STRING,
       });
 
       // Verify migration
       const [result] = await queryInterface.sequelize.query(
-        "SELECT COUNT(*) as count FROM users WHERE new_field IS NULL",
+        'SELECT COUNT(*) as count FROM users WHERE new_field IS NULL',
       );
 
       if (result[0].count > 0) {
-        throw new Error("Migration verification failed");
+        throw new Error('Migration verification failed');
       }
 
       // Drop backup
-      await queryInterface.dropTable("users_backup");
+      await queryInterface.dropTable('users_backup');
     } catch (error) {
       // Restore from backup
-      await queryInterface.sequelize.query("DROP TABLE users");
-      await queryInterface.sequelize.query(
-        "CREATE TABLE users AS SELECT * FROM users_backup",
-      );
-      await queryInterface.dropTable("users_backup");
+      await queryInterface.sequelize.query('DROP TABLE users');
+      await queryInterface.sequelize.query('CREATE TABLE users AS SELECT * FROM users_backup');
+      await queryInterface.dropTable('users_backup');
       throw error;
     }
   },
@@ -330,4 +324,3 @@ module.exports = {
 ## Additional patterns and templates
 
 More detailed templates and worked examples live in `references/details.md`. Read that file for the full pattern library.
-

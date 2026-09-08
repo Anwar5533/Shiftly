@@ -3,6 +3,7 @@
 Selected from the router for [SKILL.md](../SKILL.md). Reusable mechanisms and decision ladders remain in [HEURISTICS.md](../HEURISTICS.md).
 
 ## Synchronised namespace with delta transfer
+
 - **Shape**: cross-device sync, revisions, strong consistency of file state.
 - **Match when** a mutable namespace is shared across devices and bandwidth makes whole-object transfer untenable. **Not when** the name is meant to be immutable — versioned artifacts want content addressing, and a mutable namespace fights that requirement.
 - **Moves**: clients chunk files, compress, encrypt, and upload by checksum; **delta sync** sends changed chunks only; content-defined chunking preserves reuse after insertions; relational metadata and immutable version rows provide namespace truth; a per-namespace journal makes "changes since offset N" a range read; long polling notifies; offline clients surface both copies on conflict; cold storage holds stale blocks.
@@ -11,6 +12,7 @@ Selected from the router for [SKILL.md](../SKILL.md). Reusable mechanisms and de
 - **Cases**: cloud drives, large-file source control, backup clients, photo libraries, design-tool asset sync.
 
 ## Stateful connection fabric
+
 - **Shape**: bidirectional real-time, offline delivery, multi-device, presence.
 - **Match when** the connection itself is state the architecture must manage — routing, presence, resume. **Not when** updates are infrequent and one-way; polling or long polling stays correct and costs nothing to operate.
 - **Moves**: WebSocket for both directions (HTTP for everything non-realtime); stateful chat servers + service discovery; expiring connection leases device→gateway; message-sync queue per device (inbox model; group send = bounded copies); wide-row store for history; message IDs time-sortable; heartbeat presence (~5 s ping, ~30 s timeout); content-free push for offline; per-device high-water mark for sync.
@@ -21,6 +23,7 @@ Selected from the router for [SKILL.md](../SKILL.md). Reusable mechanisms and de
 - **Cases**: chat and messaging, collaboration presence, trading and sports tickers, multiplayer lobbies, device command channels.
 
 ## Convergent replicated document
+
 - **Shape**: concurrent edits converging to one document, with offline support. The difficulty lives in the data model, not the component graph — generate candidates on the conflict-resolution axis and hold topology fixed.
 - **Match when** two writers may edit the same object with no coordination and both edits must survive. **Not when** one writer can be made authoritative cheaply — routing every write for an entity to one home leader dissolves the problem entirely.
 - **Moves**: choose the conflict-resolution mechanism with the rule in [HEURISTICS.md](../HEURISTICS.md) — pessimistic locking rules out real-time collaboration, and differential sync survives only weak conflicts. Apply locally and propagate asynchronously; 150 ms cross-region is unhideable otherwise. Version history is a compacted operation log or periodic snapshot, never the live state.
@@ -29,6 +32,7 @@ Selected from the router for [SKILL.md](../SKILL.md). Reusable mechanisms and de
 - **Cases**: collaborative documents and whiteboards, shared spreadsheets, design tools, note sync, code-review annotation.
 
 ## Offline-first client sync
+
 - **Shape**: the on-device store is the read and write path, the network is an optimisation, and correctness is decided on devices you cannot schedule, observe, or roll back.
 - **Match when** the product must work with no connectivity and the device holds authority between syncs. **Not when** the client is a thin view of a server that is always reachable — a cache with revalidation is simpler and has no merge semantics to get wrong.
 - **Moves**: writes apply locally and append to a durable mutation outbox — the operation id is the idempotency key, so a crash mid-flight replays instead of dropping the edit; pull is a server-issued cursor delta, never a full-collection scan; deletes travel as tombstones or change-feed entries, because an absent row is indistinguishable from an unsynced one; blobs sync lazily off the metadata path behind a bounded on-disk LRU; every pass is resumable because the OS kills the process mid-step; one high-water mark per device, persisted with the data it describes.

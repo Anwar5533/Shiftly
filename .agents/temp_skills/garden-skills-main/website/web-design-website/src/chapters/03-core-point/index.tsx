@@ -45,10 +45,12 @@ function CorePoint({ localStep }: ChapterContext) {
       {/* 装饰性背景网格 + 角落坐标 */}
       <div className="cp__grid" aria-hidden />
       <div className="cp__cornerTL" aria-hidden>
-        <span /><span />
+        <span />
+        <span />
       </div>
       <div className="cp__cornerBR" aria-hidden>
-        <span /><span />
+        <span />
+        <span />
       </div>
 
       {/* ───────── Scene HERO（step 0..1）───────── */}
@@ -62,7 +64,8 @@ function CorePoint({ localStep }: ChapterContext) {
 
           {at(1) && (
             <Reveal kind="rise" duration={1100} delay={80} className="cp__hero-title" as="h1">
-              Claude Design<br />
+              Claude Design
+              <br />
               <em className="cp__hero-em">为什么这么强？</em>
             </Reveal>
           )}
@@ -96,14 +99,19 @@ function CorePoint({ localStep }: ChapterContext) {
               <div className="cp__col-kicker">MODEL</div>
               <h2 className="cp__col-title">Opus 4.7</h2>
               <p className="cp__col-desc">
-                Anthropic 当前旗舰模型 ——<br />
+                Anthropic 当前旗舰模型 ——
+                <br />
                 决策力、品味、长链推理与代码能力的综合上限
               </p>
 
               <div className="cp__col-meter">
                 <div className="cp__col-meter-bar" style={{ width: at(2) ? '50%' : '0%' }} />
                 <div className="cp__col-meter-ticks">
-                  <span /><span /><span /><span /><span />
+                  <span />
+                  <span />
+                  <span />
+                  <span />
+                  <span />
                 </div>
               </div>
 
@@ -123,7 +131,8 @@ function CorePoint({ localStep }: ChapterContext) {
               <div className="cp__col-kicker">SYSTEM PROMPT</div>
               <h2 className="cp__col-title">提示词工程</h2>
               <p className="cp__col-desc">
-                ~420 行专家级 system prompt ——<br />
+                ~420 行专家级 system prompt ——
+                <br />
                 对模型的"角色 / 流程 / 边界 / 品味"做了极强约束
               </p>
 
@@ -136,18 +145,19 @@ function CorePoint({ localStep }: ChapterContext) {
                   <span className="cp__doc-bar-name">claude-design.system.md</span>
                 </div>
                 <div className="cp__doc-body">
-                  {at(3) && PROMPT_LINES.map((line, i) => (
-                    <Reveal
-                      key={`pl-${i}-${localStep}`}
-                      kind="fall"
-                      duration={520}
-                      delay={i * 90}
-                      className="cp__doc-line"
-                    >
-                      <span className="cp__doc-line-no">{String(i + 1).padStart(2, '0')}</span>
-                      <span className="cp__doc-line-text">{line}</span>
-                    </Reveal>
-                  ))}
+                  {at(3) &&
+                    PROMPT_LINES.map((line, i) => (
+                      <Reveal
+                        key={`pl-${i}-${localStep}`}
+                        kind="fall"
+                        duration={520}
+                        delay={i * 90}
+                        className="cp__doc-line"
+                      >
+                        <span className="cp__doc-line-no">{String(i + 1).padStart(2, '0')}</span>
+                        <span className="cp__doc-line-text">{line}</span>
+                      </Reveal>
+                    ))}
                   {at(3) && (
                     <Reveal kind="fade" duration={400} delay={PROMPT_LINES.length * 90 + 200}>
                       <span className="cp__doc-cursor">▍</span>
@@ -172,7 +182,8 @@ function CorePoint({ localStep }: ChapterContext) {
                   <span className="cp__leaked-meta-unit">HOURS</span>
                 </div>
                 <div className="cp__leaked-meta-text">
-                  上线不到 24 小时，完整系统提示词被扒出，<br />
+                  上线不到 24 小时，完整系统提示词被扒出，
+                  <br />
                   在安全 / 提示词圈广为流传
                 </div>
               </div>

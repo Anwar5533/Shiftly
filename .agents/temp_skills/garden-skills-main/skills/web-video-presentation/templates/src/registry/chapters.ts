@@ -1,6 +1,6 @@
-import type { ChapterDef } from "./types";
-import ExampleChapter from "../chapters/01-example/Example";
-import { narrations as exampleNarrations } from "../chapters/01-example/narrations";
+import type { ChapterDef } from './types';
+import ExampleChapter from '../chapters/01-example/Example';
+import { narrations as exampleNarrations } from '../chapters/01-example/narrations';
 
 /**
  * Order = order of presentation.
@@ -15,8 +15,8 @@ import { narrations as exampleNarrations } from "../chapters/01-example/narratio
  */
 export const CHAPTERS: ChapterDef[] = [
   {
-    id: "example",
-    title: "示例章节",
+    id: 'example',
+    title: '示例章节',
     narrations: exampleNarrations,
     Component: ExampleChapter,
   },

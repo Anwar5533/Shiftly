@@ -15,13 +15,7 @@
     "default": {
       "runner": "nx/tasks-runners/default",
       "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e",
-          "build-storybook"
-        ],
+        "cacheableOperations": ["build", "lint", "test", "e2e", "build-storybook"],
         "parallel": 3
       }
     }
@@ -54,10 +48,7 @@
       "!{projectRoot}/jest.config.[jt]s",
       "!{projectRoot}/.eslintrc.json"
     ],
-    "sharedGlobals": [
-      "{workspaceRoot}/babel.config.json",
-      "{workspaceRoot}/tsconfig.base.json"
-    ]
+    "sharedGlobals": ["{workspaceRoot}/babel.config.json", "{workspaceRoot}/tsconfig.base.json"]
   },
   "generators": {
     "@nx/react": {
@@ -179,11 +170,7 @@
               },
               {
                 "sourceTag": "type:feature",
-                "onlyDependOnLibsWithTags": [
-                  "type:ui",
-                  "type:data-access",
-                  "type:util"
-                ]
+                "onlyDependOnLibsWithTags": ["type:ui", "type:data-access", "type:util"]
               },
               {
                 "sourceTag": "type:ui",
@@ -229,8 +216,8 @@ import {
   joinPathFragments,
   names,
   readProjectConfiguration,
-} from "@nx/devkit";
-import { libraryGenerator } from "@nx/react";
+} from '@nx/devkit';
+import { libraryGenerator } from '@nx/react';
 
 interface FeatureLibraryGeneratorSchema {
   name: string;
@@ -243,39 +230,29 @@ export default async function featureLibraryGenerator(
   options: FeatureLibraryGeneratorSchema,
 ) {
   const { name, scope, directory } = options;
-  const projectDirectory = directory
-    ? `${directory}/${name}`
-    : `libs/${scope}/feature-${name}`;
+  const projectDirectory = directory ? `${directory}/${name}` : `libs/${scope}/feature-${name}`;
 
   // Generate base library
   await libraryGenerator(tree, {
     name: `feature-${name}`,
     directory: projectDirectory,
     tags: `type:feature,scope:${scope}`,
-    style: "css",
+    style: 'css',
     skipTsConfig: false,
     skipFormat: true,
-    unitTestRunner: "jest",
-    linter: "eslint",
+    unitTestRunner: 'jest',
+    linter: 'eslint',
   });
 
   // Add custom files
-  const projectConfig = readProjectConfiguration(
-    tree,
-    `${scope}-feature-${name}`,
-  );
+  const projectConfig = readProjectConfiguration(tree, `${scope}-feature-${name}`);
   const projectNames = names(name);
 
-  generateFiles(
-    tree,
-    joinPathFragments(__dirname, "files"),
-    projectConfig.sourceRoot,
-    {
-      ...projectNames,
-      scope,
-      tmpl: "",
-    },
-  );
+  generateFiles(tree, joinPathFragments(__dirname, 'files'), projectConfig.sourceRoot, {
+    ...projectNames,
+    scope,
+    tmpl: '',
+  });
 
   await formatFiles(tree);
 }
@@ -307,7 +284,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "npm"
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci

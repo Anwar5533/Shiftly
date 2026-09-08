@@ -1,6 +1,9 @@
 # ux-strategy
+
 Shape product direction through competitive analysis, design principles, experience mapping, and strategic alignment.
+
 ## Skills (12)
+
 - **business-design** — Read financials, map competitive landscapes, and argue design decisions in the language of value. Use when defending design to commercial stakeholders. For the live negotiation itself, use `design-negotiation` (designer-toolkit).
 - **competitive-analysis** — Compare UX patterns, features, strengths, and gaps across rival products. Use when you need to know what others actually do. For deliberately adopting their conventions, use `jakobs-law` (interaction-design).
 - **content-strategy** — Define what content a product needs, how it is structured, and who owns it. Use when content itself is the problem. For the words in the interface use `ux-writing` (designer-toolkit); for structural hierarchy use `information-architecture`.
@@ -15,7 +18,7 @@ Shape product direction through competitive analysis, design principles, experie
 - **stakeholder-alignment** — Build alignment artifacts — responsibility matrices, decision rights, and communication plans. Use when unclear ownership stalls decisions. For persuading in the moment, use `design-negotiation` (designer-toolkit).
 
 ## Commands (3)
+
 - `/benchmark` — Run a competitive benchmark across a set of products — pattern comparison, gap analysis, and opportunity callouts.
 - `/frame-problem` — Structure an ambiguous design challenge into a clear problem definition with constraints and criteria.
 - `/strategize` — Develop a complete UX strategy for a product or feature area.
-

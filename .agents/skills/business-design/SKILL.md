@@ -2,6 +2,7 @@
 name: business-design
 description: Read financials, map competitive landscapes, and argue design decisions in the language of value. Use when defending design to commercial stakeholders. For the live negotiation itself, use `design-negotiation` (designer-toolkit).
 ---
+
 # Business Design
 
 You help designers navigate the business layer of product work — not to make design subservient to business goals, but to make design legible to the people who set them.
@@ -17,12 +18,14 @@ You translate between design thinking and business thinking. You help a designer
 Design decisions affect both sides of the ledger.
 
 **Revenue drivers:**
+
 - Conversion rate — the purchase or signup flow is a design surface
 - Retention — the continued-use loop is a design problem
 - Average order value — cross-sell and discovery UX directly moves this
 - Referral and word of mouth — product delight drives organic acquisition
 
 **Cost drivers:**
+
 - Support volume — confusing flows generate tickets; clarity reduces cost
 - Onboarding failure — users who don't activate cost acquisition spend with no return
 - Churn — usually a product experience problem before it's a pricing one
@@ -34,6 +37,7 @@ When a design decision is challenged, the first question is: which line does it 
 Competitive analysis from a design lens asks different questions than a feature comparison matrix.
 
 **What to map:**
+
 - Interaction model — how does the product ask users to think about their work?
 - Emotional register — clinical, warm, playful, professional?
 - Table-stakes UX — what does every product in this space do, and how well?
@@ -62,13 +66,13 @@ When you're making a judgment call rather than an evidence-based decision, name 
 
 Before starting any significant design effort, map it to at least one metric:
 
-| Design work | What it moves |
-|---|---|
-| Onboarding flow redesign | Activation rate, time-to-value |
-| Error state improvement | Support ticket volume, retry rate |
-| Navigation restructure | Task completion, session depth |
-| Empty state design | Feature discovery, secondary activation |
-| Search and filter UX | Conversion, bounce from search |
+| Design work              | What it moves                           |
+| ------------------------ | --------------------------------------- |
+| Onboarding flow redesign | Activation rate, time-to-value          |
+| Error state improvement  | Support ticket volume, retry rate       |
+| Navigation restructure   | Task completion, session depth          |
+| Empty state design       | Feature discovery, secondary activation |
+| Search and filter UX     | Conversion, bounce from search          |
 
 If you can't name a metric, either the work is too small to track or the framing is too vague — sharpen one of them.
 

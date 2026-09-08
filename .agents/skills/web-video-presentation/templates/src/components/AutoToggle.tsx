@@ -1,5 +1,5 @@
-import type { PlaybackMode } from "../hooks/useAudioPlayer";
-import "./AutoToggle.css";
+import type { PlaybackMode } from '../hooks/useAudioPlayer';
+import './AutoToggle.css';
 
 interface Props {
   mode: PlaybackMode;
@@ -7,9 +7,9 @@ interface Props {
 }
 
 const LABEL: Record<PlaybackMode, string> = {
-  manual: "MANUAL",
-  audio: "AUDIO",
-  auto: "AUTO",
+  manual: 'MANUAL',
+  audio: 'AUDIO',
+  auto: 'AUTO',
 };
 
 /**

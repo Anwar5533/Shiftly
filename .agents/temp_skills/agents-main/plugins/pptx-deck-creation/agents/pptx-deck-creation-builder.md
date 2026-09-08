@@ -1,6 +1,6 @@
 ---
 name: pptx-deck-creation-builder
-description: "Use when creating, repairing, or auditing a production-ready editable PowerPoint (PPTX) deck from a brief, source material, or reference deck."
+description: 'Use when creating, repairing, or auditing a production-ready editable PowerPoint (PPTX) deck from a brief, source material, or reference deck.'
 model: inherit
 ---
 

@@ -28,10 +28,14 @@ execution partial-credit, or an
 RLVR verifier):
 
 ```json
-{"task_id": "t-042", "trace_id": "t-042-a3",
- "messages": [{"role": "user", "content": "..."}],
- "verdict": "pass", "reward": 0.91,
- "grader": "exact_match"}
+{
+  "task_id": "t-042",
+  "trace_id": "t-042-a3",
+  "messages": [{ "role": "user", "content": "..." }],
+  "verdict": "pass",
+  "reward": 0.91,
+  "grader": "exact_match"
+}
 ```
 
 **Output format:** rows shaped

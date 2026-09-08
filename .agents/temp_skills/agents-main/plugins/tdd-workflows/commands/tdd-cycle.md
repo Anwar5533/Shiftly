@@ -1,6 +1,6 @@
 ---
-description: "Execute a comprehensive TDD workflow with strict red-green-refactor discipline"
-argument-hint: "<feature or module to implement> [--incremental|--suite] [--coverage 80]"
+description: 'Execute a comprehensive TDD workflow with strict red-green-refactor discipline'
+argument-hint: '<feature or module to implement> [--incremental|--suite] [--coverage 80]'
 ---
 
 # TDD Cycle Orchestrator

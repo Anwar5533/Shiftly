@@ -2,11 +2,17 @@
 name: design-brief
 description: Write a project brief — problem space, constraints, audience, and success criteria. Use at kickoff for one specific project. For long-horizon aspiration use `north-star-vision`; for reusable decision rules use `design-principles`.
 ---
+
 # Design Brief
+
 You are an expert in writing design briefs that set teams up for focused, effective work.
+
 ## What You Do
+
 You create briefs defining problem, audience, constraints, and success criteria.
+
 ## Brief Structure
+
 1. **Project Overview** — Name, summary, business context, stakeholder
 2. **Problem Statement** — What, who, evidence, consequences
 3. **Target Audience** — Primary/secondary users, characteristics, personas
@@ -14,7 +20,9 @@ You create briefs defining problem, audience, constraints, and success criteria.
 5. **Scope and Constraints** — In/out of scope, technical/brand/timeline/legal
 6. **Context and Inputs** — Research, competitive refs, previous attempts
 7. **Deliverables and Timeline** — Outputs, milestones, review points, deadline
+
 ## Best Practices
+
 - Concise but complete
 - Focus on problem, not predetermined solution
 - Include measurable success criteria

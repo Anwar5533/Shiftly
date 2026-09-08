@@ -4,7 +4,7 @@ description: Design or evolve a production system from repository evidence, meas
 license: MIT
 metadata:
   author: pinchen147
-  version: "1.1.1"
+  version: '1.1.1'
 ---
 
 # System Design
@@ -59,7 +59,7 @@ Use [INTERVIEW.md](INTERVIEW.md) to fill only the unresolved frontier. Ask numbe
 
 ### 4. Run and challenge the envelope
 
-Compute the numbers that gate *this* system. For request-serving systems that is average and peak QPS, storage growth, bandwidth, cache footprint, concurrency, and the domain's load-bearing distribution (burst, skew, fan-out, hot keys, object sizes). Where the binding constraint sits on a device, compute it in the units that bind there: bytes and round trips per session, request volume against provider quotas and their cost, memory ceiling in a process the OS can kill, on-device storage growth, cold-start budget, and offline divergence window. Where money crosses a boundary, compute the unit economics of the events the design protects. Record any standard metric that does not apply as `n/a` with a one-line reason; never invent a number to fill a row. Show derivations and verify arithmetic with a shell command.
+Compute the numbers that gate _this_ system. For request-serving systems that is average and peak QPS, storage growth, bandwidth, cache footprint, concurrency, and the domain's load-bearing distribution (burst, skew, fan-out, hot keys, object sizes). Where the binding constraint sits on a device, compute it in the units that bind there: bytes and round trips per session, request volume against provider quotas and their cost, memory ceiling in a process the OS can kill, on-device storage growth, cold-start budget, and offline divergence window. Where money crosses a boundary, compute the unit economics of the events the design protects. Record any standard metric that does not apply as `n/a` with a one-line reason; never invent a number to fill a row. Show derivations and verify arithmetic with a shell command.
 
 Run the physics/CAP sanity pass in [INTERVIEW.md](INTERVIEW.md). Use the compact router in [ARCHETYPES.md](ARCHETYPES.md) to select by protected invariant, then load only the selected pack. Do not load every pack by default. Test the envelope against each selected archetype's **Shape**, and its **Numbers anchor** where it has one. An archetype whose **Not when** clause fires is the wrong match—drop it and say so, rather than importing machinery this system does not need. Resolve contradictions before drawing candidates.
 
@@ -144,7 +144,7 @@ The script opens the report itself once it is written, so there is no separate s
 
 If the skill directory is not known, find it rather than skipping the step: `ls ~/.claude/skills/system-design/scripts/render_report.py ~/.agents/skills/system-design/scripts/render_report.py 2>/dev/null` covers both standalone installs, and a plugin install lives under `~/.claude/plugins/cache/`. Never read [assets/report-template.html](assets/report-template.html) into context or rebuild the report by hand; see [HTML-REPORT.md](HTML-REPORT.md). The report must contain only its own title/date chrome—no prototype or harness wrapper.
 
-Then confirm the render survived. The *rendered page* must show the design's own `title` rather than the template's `System design report` placeholder—a mismatch means the JSON never parsed. The title is set at run time, so the static file still contains the placeholder in its `<title>` tag; grep the embedded `application/json` block instead, or check that no `__DESIGN_JSON__` remains. With a browser tool, load every architecture route and read the hidden `report-diagnostics` element: `data-component-overlaps`, `data-route-collisions`, `data-text-overflows`, `data-fit-overflows`, and `data-label-occlusions` must all be `0`. Any non-zero value is a `design.json` defect—shorten names, move positions, re-render. Without a browser tool, say the report was rendered but not inspected rather than claiming interactions you cannot see.
+Then confirm the render survived. The _rendered page_ must show the design's own `title` rather than the template's `System design report` placeholder—a mismatch means the JSON never parsed. The title is set at run time, so the static file still contains the placeholder in its `<title>` tag; grep the embedded `application/json` block instead, or check that no `__DESIGN_JSON__` remains. With a browser tool, load every architecture route and read the hidden `report-diagnostics` element: `data-component-overlaps`, `data-route-collisions`, `data-text-overflows`, `data-fit-overflows`, and `data-label-occlusions` must all be `0`. Any non-zero value is a `design.json` defect—shorten names, move positions, re-render. Without a browser tool, say the report was rendered but not inspected rather than claiming interactions you cannot see.
 
 Iterate through `design.json`, never by hand-editing rendered HTML.
 

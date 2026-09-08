@@ -516,9 +516,9 @@ const analyzeBundleSize = async (dependencies) => {
         // 1MB
         sizeAnalysis.recommendations.push({
           package: packageName,
-          issue: "Large bundle size",
+          issue: 'Large bundle size',
           size: `${(data.size / 1024 / 1024).toFixed(2)} MB`,
-          suggestion: "Consider lighter alternatives or lazy loading",
+          suggestion: 'Consider lighter alternatives or lazy loading',
         });
       }
     } catch (error) {
@@ -730,13 +730,13 @@ name: Dependency Audit
 
 on:
   schedule:
-    - cron: "0 0 * * *" # Daily
+    - cron: '0 0 * * *' # Daily
   push:
     paths:
-      - "package*.json"
-      - "requirements.txt"
-      - "Gemfile*"
-      - "go.mod"
+      - 'package*.json'
+      - 'requirements.txt'
+      - 'Gemfile*'
+      - 'go.mod'
   workflow_dispatch:
 
 jobs:

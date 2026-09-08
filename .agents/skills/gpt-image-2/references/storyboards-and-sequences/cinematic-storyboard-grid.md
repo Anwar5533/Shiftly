@@ -13,13 +13,13 @@
 
 特征（与现有 storyboards 模板的区别）：
 
-| 模板 | 性质 |
-|---|---|
-| `four-panel-comic.md`（已有） | 漫画 4 格 / 段子 / 反转 |
-| `manga-spread-page.md`（已有） | 漫画跨页（不规则格） |
-| `recipe-process-flowchart.md`（已有） | 流程示意（食谱 / 教程） |
-| `product-tvc-storyboard.md`（新增） | **商业广告 TVC 分镜（产品中心）** |
-| **本模板**（新增） | **电影 / 短片 / 概念片 叙事分镜**（事件 / 情绪 / 故事中心） |
+| 模板                                  | 性质                                                        |
+| ------------------------------------- | ----------------------------------------------------------- |
+| `four-panel-comic.md`（已有）         | 漫画 4 格 / 段子 / 反转                                     |
+| `manga-spread-page.md`（已有）        | 漫画跨页（不规则格）                                        |
+| `recipe-process-flowchart.md`（已有） | 流程示意（食谱 / 教程）                                     |
+| `product-tvc-storyboard.md`（新增）   | **商业广告 TVC 分镜（产品中心）**                           |
+| **本模板**（新增）                    | **电影 / 短片 / 概念片 叙事分镜**（事件 / 情绪 / 故事中心） |
 
 **核心区别**：本模板每个 panel 都是「电影级 cinematic still」，不强调产品 / 商业，而强调「这一秒发生了什么 + 镜头如何拍 + 情绪是什么」。
 
@@ -85,18 +85,54 @@
     "sheet_aspect_ratio": "{argument name=\"sheet ratio\" default=\"16:9 contact sheet\"}",
     "panel_borders": "thin white dividers, generous gutter",
     "sections": [
-      { "position": "row 1 col 1", "description": "{argument name=\"shot 1\" default=\"wide exterior shot of the ship entering the upper atmosphere of a colossal gas giant at extreme speed, glowing clouds streaked with fire and friction around the vessel, curved planetary horizon visible\"}" },
-      { "position": "row 1 col 2", "description": "{argument name=\"shot 2\" default=\"cockpit POV, dark interior filled with red and cyan holographic instruments, forward visibility collapsing into turbulent storm layers and electrical haze\"}" },
-      { "position": "row 1 col 3", "description": "{argument name=\"shot 3\" default=\"exterior mid-wide shot of the ship diving into a gigantic rotating cloud funnel, surrounded by violent spiraling storm structure\"}" },
-      { "position": "row 1 col 4", "description": "{argument name=\"shot 4\" default=\"extreme close exterior of the ship hull as bright lightning strikes dangerously close, white electric energy crawling across the metal surface\"}" },
-      { "position": "row 2 col 1", "description": "{argument name=\"shot 5\" default=\"dashboard warning screen in red, showing a critical systems failure interface with 4 warning lines and 1 large percentage readout: WARNING / ENGINES COMPROMISED / THRUST FLUCTUATION / GRAVITY SPIKE DETECTED / DESCENT RATE -453%\"}" },
-      { "position": "row 2 col 2", "description": "{argument name=\"shot 6\" default=\"rear three-quarter exterior of the ship fighting turbulence inside dense storm clouds, engines burning hard while the craft barely holds course\"}" },
-      { "position": "row 2 col 3", "description": "{argument name=\"shot 7\" default=\"massive circular disturbance forming in the clouds like an eye or maw, entire storm systems displaced by something huge moving beneath\"}" },
-      { "position": "row 2 col 4", "description": "{argument name=\"shot 8\" default=\"second cockpit view with radar-like navigation display and red alert text, pilot making a blind evasive maneuver through lightning-filled darkness\"}" },
-      { "position": "row 3 col 1", "description": "{argument name=\"shot 9\" default=\"first reveal of the colossal creature shape rising near the ship, black organic surface and immense curved anatomy emerging from darkness, ship tiny at lower left\"}" },
-      { "position": "row 3 col 2", "description": "{argument name=\"shot 10\" default=\"spiral descent shot, ship caught inside a vortex tunnel of clouds, spinning downward with engines flaring as it struggles to recover\"}" },
-      { "position": "row 3 col 3", "description": "{argument name=\"shot 11\" default=\"sudden breakthrough into a calm void, minimal composition, ship flying in eerie silence through dark open space with soft mist and no visible storm around it\"}" },
-      { "position": "row 3 col 4", "description": "{argument name=\"shot 12\" default=\"final reveal, gigantic leviathan fully emerging behind or beside the ship in cleared space, backlit by a pale circular storm opening, enormous open maw-like silhouette dwarfing the craft\"}" }
+      {
+        "position": "row 1 col 1",
+        "description": "{argument name=\"shot 1\" default=\"wide exterior shot of the ship entering the upper atmosphere of a colossal gas giant at extreme speed, glowing clouds streaked with fire and friction around the vessel, curved planetary horizon visible\"}"
+      },
+      {
+        "position": "row 1 col 2",
+        "description": "{argument name=\"shot 2\" default=\"cockpit POV, dark interior filled with red and cyan holographic instruments, forward visibility collapsing into turbulent storm layers and electrical haze\"}"
+      },
+      {
+        "position": "row 1 col 3",
+        "description": "{argument name=\"shot 3\" default=\"exterior mid-wide shot of the ship diving into a gigantic rotating cloud funnel, surrounded by violent spiraling storm structure\"}"
+      },
+      {
+        "position": "row 1 col 4",
+        "description": "{argument name=\"shot 4\" default=\"extreme close exterior of the ship hull as bright lightning strikes dangerously close, white electric energy crawling across the metal surface\"}"
+      },
+      {
+        "position": "row 2 col 1",
+        "description": "{argument name=\"shot 5\" default=\"dashboard warning screen in red, showing a critical systems failure interface with 4 warning lines and 1 large percentage readout: WARNING / ENGINES COMPROMISED / THRUST FLUCTUATION / GRAVITY SPIKE DETECTED / DESCENT RATE -453%\"}"
+      },
+      {
+        "position": "row 2 col 2",
+        "description": "{argument name=\"shot 6\" default=\"rear three-quarter exterior of the ship fighting turbulence inside dense storm clouds, engines burning hard while the craft barely holds course\"}"
+      },
+      {
+        "position": "row 2 col 3",
+        "description": "{argument name=\"shot 7\" default=\"massive circular disturbance forming in the clouds like an eye or maw, entire storm systems displaced by something huge moving beneath\"}"
+      },
+      {
+        "position": "row 2 col 4",
+        "description": "{argument name=\"shot 8\" default=\"second cockpit view with radar-like navigation display and red alert text, pilot making a blind evasive maneuver through lightning-filled darkness\"}"
+      },
+      {
+        "position": "row 3 col 1",
+        "description": "{argument name=\"shot 9\" default=\"first reveal of the colossal creature shape rising near the ship, black organic surface and immense curved anatomy emerging from darkness, ship tiny at lower left\"}"
+      },
+      {
+        "position": "row 3 col 2",
+        "description": "{argument name=\"shot 10\" default=\"spiral descent shot, ship caught inside a vortex tunnel of clouds, spinning downward with engines flaring as it struggles to recover\"}"
+      },
+      {
+        "position": "row 3 col 3",
+        "description": "{argument name=\"shot 11\" default=\"sudden breakthrough into a calm void, minimal composition, ship flying in eerie silence through dark open space with soft mist and no visible storm around it\"}"
+      },
+      {
+        "position": "row 3 col 4",
+        "description": "{argument name=\"shot 12\" default=\"final reveal, gigantic leviathan fully emerging behind or beside the ship in cleared space, backlit by a pale circular storm opening, enormous open maw-like silhouette dwarfing the craft\"}"
+      }
     ],
     "continuity": "all 12 panels depict one continuous narrative sequence with consistent hero design, color grading, and mood arc"
   },
@@ -149,7 +185,14 @@
 {
   "type": "9-shot short film storyboard",
   "layout": { "rows": 3, "columns": 3, "count": 9 },
-  "narrative_arc": ["1 establish", "2-3 inciting", "4-5 escalation", "6 turn", "7-8 climax", "9 resolve / cliffhanger"],
+  "narrative_arc": [
+    "1 establish",
+    "2-3 inciting",
+    "4-5 escalation",
+    "6 turn",
+    "7-8 climax",
+    "9 resolve / cliffhanger"
+  ],
   "use_case": "1-2 分钟短片 / 概念片 / TikTok 长视频"
 }
 ```

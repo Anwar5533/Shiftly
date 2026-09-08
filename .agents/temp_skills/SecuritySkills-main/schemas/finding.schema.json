@@ -164,7 +164,18 @@
               },
               "artifact_type": {
                 "type": "string",
-                "enum": ["source", "config", "policy", "log", "scan_result", "cloud_resource", "identity", "network", "document", "other"]
+                "enum": [
+                  "source",
+                  "config",
+                  "policy",
+                  "log",
+                  "scan_result",
+                  "cloud_resource",
+                  "identity",
+                  "network",
+                  "document",
+                  "other"
+                ]
               },
               "snippet": {
                 "$ref": "#/$defs/nonEmptyString",
@@ -231,7 +242,13 @@
     "remediation": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["guidance", "confidence", "blast_radius", "behavior_change_risk", "test_strategy"],
+      "required": [
+        "guidance",
+        "confidence",
+        "blast_radius",
+        "behavior_change_risk",
+        "test_strategy"
+      ],
       "properties": {
         "guidance": {
           "$ref": "#/$defs/nonEmptyString",

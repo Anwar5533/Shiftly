@@ -13,9 +13,7 @@
       "contact_avatar": "对话方头像：一位 40 岁出头的虚构男性科技 CEO，圆脸正面照、灰色 T 恤、浅色背景、表情略僵硬的微笑（不指向任何具体真实公众人物）",
       "contact_name": "Z",
       "online_status": "（无在线状态，微信不显示）",
-      "right_actions": [
-        "右上三点菜单"
-      ]
+      "right_actions": ["右上三点菜单"]
     }
   },
   "self_identity": {
@@ -94,14 +92,9 @@
   },
   "footer": {
     "input_bar": {
-      "left_icons": [
-        "语音 mic 图标"
-      ],
+      "left_icons": ["语音 mic 图标"],
       "placeholder": "（输入框为空）",
-      "right_icons": [
-        "+ 笑脸表情",
-        "+ 加号"
-      ]
+      "right_icons": ["+ 笑脸表情", "+ 加号"]
     },
     "home_indicator": "底部白色 home 指示条"
   },

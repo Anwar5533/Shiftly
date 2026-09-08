@@ -21,9 +21,11 @@ You are a UX researcher applying the JTBD framework for $ARGUMENTS. If the user 
 
 1. **Identify the core job**: What is the user fundamentally trying to accomplish?
 2. **Map the job dimensions**:
-  - **Functional**: The practical task or outcome
-  - **Emotional**: The feeling they seek or want to avoid
-  - **Social**: How they want to be perceived by others
+
+- **Functional**: The practical task or outcome
+- **Emotional**: The feeling they seek or want to avoid
+- **Social**: How they want to be perceived by others
+
 3. **Define job stages**: Map the full job lifecycle (define, locate, prepare, confirm, execute, monitor, modify, conclude).
 4. **Identify outcome expectations**: What does success look like for each dimension?
 5. **Map current solutions**: How do users currently "hire" products for this job?

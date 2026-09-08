@@ -37,14 +37,15 @@ Master Retrieval-Augmented Generation (RAG) to build LLM applications that provi
 **Purpose**: Convert text to numerical vectors for similarity search
 
 **Models (2026):**
-| Model | Dimensions | Best For |
-|-------|------------|----------|
-| **voyage-3-large** | 1024 | Claude apps (Anthropic recommended) |
-| **voyage-code-3** | 1024 | Code search |
-| **text-embedding-3-large** | 3072 | OpenAI apps, high accuracy |
-| **text-embedding-3-small** | 1536 | OpenAI apps, cost-effective |
-| **bge-large-en-v1.5** | 1024 | Open source, local deployment |
-| **multilingual-e5-large** | 1024 | Multi-language support |
+
+| Model                      | Dimensions | Best For                            |
+| -------------------------- | ---------- | ----------------------------------- |
+| **voyage-3-large**         | 1024       | Claude apps (Anthropic recommended) |
+| **voyage-code-3**          | 1024       | Code search                         |
+| **text-embedding-3-large** | 3072       | OpenAI apps, high accuracy          |
+| **text-embedding-3-small** | 1536       | OpenAI apps, cost-effective         |
+| **bge-large-en-v1.5**      | 1024       | Open source, local deployment       |
+| **multilingual-e5-large**  | 1024       | Multi-language support              |
 
 ### 3. Retrieval Strategies
 
@@ -135,4 +136,3 @@ print(result["answer"])
 ## Detailed patterns and worked examples
 
 Detailed pattern documentation lives in `references/details.md`. Read that file when the navigation tier above is insufficient.
-

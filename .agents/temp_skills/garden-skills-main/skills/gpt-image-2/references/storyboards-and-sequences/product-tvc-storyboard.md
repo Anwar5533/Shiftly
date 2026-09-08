@@ -12,12 +12,12 @@
 
 特征（与现有 storyboards 模板的区别）：
 
-| 模板 | 性质 | 风格 |
-|---|---|---|
-| `four-panel-comic.md`（已有） | 漫画 4 格 | 漫画 / 段子 / 反转 |
-| `manga-spread-page.md`（已有） | 漫画跨页分镜 | 日漫 / 不规则格 |
-| `recipe-process-flowchart.md`（已有） | 流程示意 | 食谱 / 教程插画 |
-| **本模板**（新增） | **真实拍摄分镜** | **商业广告级摄影** |
+| 模板                                  | 性质             | 风格               |
+| ------------------------------------- | ---------------- | ------------------ |
+| `four-panel-comic.md`（已有）         | 漫画 4 格        | 漫画 / 段子 / 反转 |
+| `manga-spread-page.md`（已有）        | 漫画跨页分镜     | 日漫 / 不规则格    |
+| `recipe-process-flowchart.md`（已有） | 流程示意         | 食谱 / 教程插画    |
+| **本模板**（新增）                    | **真实拍摄分镜** | **商业广告级摄影** |
 
 **核心区别**：本模板每个 panel 都是「真实摄影 / 拟真渲染」的成片画面，不是漫画分镜也不是流程图，而是「这部 15 秒广告会拍成什么样」的视觉答案。
 
@@ -87,15 +87,60 @@
   "scenes": {
     "count": 9,
     "items": [
-      { "id": 1, "title_zh": "{argument name=\"scene 1 title\" default=\"环境建立\"}", "timestamp": "0-2s", "description": "environment-establishing wide shot with desk, books, window, and the product placed in context; soft morning light" },
-      { "id": 2, "title_zh": "{argument name=\"scene 2 title\" default=\"主体亮相\"}", "timestamp": "2-3s", "description": "hero product medium shot on the table; warm rim light, shallow depth of field" },
-      { "id": 3, "title_zh": "{argument name=\"scene 3 title\" default=\"工艺特写\"}", "timestamp": "3-5s", "description": "extreme close-up of the {argument name=\"signature detail\" default=\"blue floral craftsmanship pattern\"}" },
-      { "id": 4, "title_zh": "{argument name=\"scene 4 title\" default=\"使用场景\"}", "timestamp": "5-7s", "description": "use case showing {argument name=\"use action\" default=\"a hand placing a cigarette into the ashtray with visible smoke\"}" },
-      { "id": 5, "title_zh": "{argument name=\"scene 5 title\" default=\"功能展示\"}", "timestamp": "7-8s", "description": "{argument name=\"function shot\" default=\"top-down capacity display showing multiple cigarette butts inside\"}" },
-      { "id": 6, "title_zh": "{argument name=\"scene 6 title\" default=\"清洁打理\"}", "timestamp": "8-10s", "description": "{argument name=\"care shot\" default=\"cleaning scene under running water in a sink with a hand holding the product\"}" },
-      { "id": 7, "title_zh": "{argument name=\"scene 7 title\" default=\"细节品质\"}", "timestamp": "10-11s", "description": "{argument name=\"quality detail\" default=\"bottom-detail close-up showing the underside and anti-slip pads\"}" },
-      { "id": 8, "title_zh": "{argument name=\"scene 8 title\" default=\"氛围生活\"}", "timestamp": "11-13s", "description": "{argument name=\"mood scene\" default=\"mood/lifestyle scene at night with the product on a desk, smoke rising, and ambient lamp light\"}" },
-      { "id": 9, "title_zh": "{argument name=\"scene 9 title\" default=\"品牌收尾\"}", "timestamp": "13-15s", "description": "brand closing frame with the product as the hero plus Chinese marketing text '{argument name=\"closing tagline\" default=\"匠心传承,品味生活\"}'" }
+      {
+        "id": 1,
+        "title_zh": "{argument name=\"scene 1 title\" default=\"环境建立\"}",
+        "timestamp": "0-2s",
+        "description": "environment-establishing wide shot with desk, books, window, and the product placed in context; soft morning light"
+      },
+      {
+        "id": 2,
+        "title_zh": "{argument name=\"scene 2 title\" default=\"主体亮相\"}",
+        "timestamp": "2-3s",
+        "description": "hero product medium shot on the table; warm rim light, shallow depth of field"
+      },
+      {
+        "id": 3,
+        "title_zh": "{argument name=\"scene 3 title\" default=\"工艺特写\"}",
+        "timestamp": "3-5s",
+        "description": "extreme close-up of the {argument name=\"signature detail\" default=\"blue floral craftsmanship pattern\"}"
+      },
+      {
+        "id": 4,
+        "title_zh": "{argument name=\"scene 4 title\" default=\"使用场景\"}",
+        "timestamp": "5-7s",
+        "description": "use case showing {argument name=\"use action\" default=\"a hand placing a cigarette into the ashtray with visible smoke\"}"
+      },
+      {
+        "id": 5,
+        "title_zh": "{argument name=\"scene 5 title\" default=\"功能展示\"}",
+        "timestamp": "7-8s",
+        "description": "{argument name=\"function shot\" default=\"top-down capacity display showing multiple cigarette butts inside\"}"
+      },
+      {
+        "id": 6,
+        "title_zh": "{argument name=\"scene 6 title\" default=\"清洁打理\"}",
+        "timestamp": "8-10s",
+        "description": "{argument name=\"care shot\" default=\"cleaning scene under running water in a sink with a hand holding the product\"}"
+      },
+      {
+        "id": 7,
+        "title_zh": "{argument name=\"scene 7 title\" default=\"细节品质\"}",
+        "timestamp": "10-11s",
+        "description": "{argument name=\"quality detail\" default=\"bottom-detail close-up showing the underside and anti-slip pads\"}"
+      },
+      {
+        "id": 8,
+        "title_zh": "{argument name=\"scene 8 title\" default=\"氛围生活\"}",
+        "timestamp": "11-13s",
+        "description": "{argument name=\"mood scene\" default=\"mood/lifestyle scene at night with the product on a desk, smoke rising, and ambient lamp light\"}"
+      },
+      {
+        "id": 9,
+        "title_zh": "{argument name=\"scene 9 title\" default=\"品牌收尾\"}",
+        "timestamp": "13-15s",
+        "description": "brand closing frame with the product as the hero plus Chinese marketing text '{argument name=\"closing tagline\" default=\"匠心传承,品味生活\"}'"
+      }
     ]
   },
   "global_style": {

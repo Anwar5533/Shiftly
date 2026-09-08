@@ -1,6 +1,6 @@
 ---
 name: eval-judge
-description: "LLM judge for plugin quality assessment. Scores skills on triggering accuracy, orchestration fitness, output quality, and scope calibration using anchored rubrics."
+description: 'LLM judge for plugin quality assessment. Scores skills on triggering accuracy, orchestration fitness, output quality, and scope calibration using anchored rubrics.'
 model: sonnet
 tools: Read, Grep, Glob
 ---
@@ -61,9 +61,9 @@ Return EXACTLY this JSON structure (no markdown fences, no explanation):
 
 ```json
 {
-  "triggering_accuracy": {"score": 0.0, "reasoning": "..."},
-  "orchestration_fitness": {"score": 0.0, "reasoning": "..."},
-  "output_quality": {"score": 0.0, "reasoning": "..."},
-  "scope_calibration": {"score": 0.0, "reasoning": "..."}
+  "triggering_accuracy": { "score": 0.0, "reasoning": "..." },
+  "orchestration_fitness": { "score": 0.0, "reasoning": "..." },
+  "output_quality": { "score": 0.0, "reasoning": "..." },
+  "scope_calibration": { "score": 0.0, "reasoning": "..." }
 }
 ```

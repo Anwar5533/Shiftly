@@ -39,16 +39,38 @@
   height: 1px;
   background: var(--line-mid);
 }
-.wf__eyebrow-bar--long { width: 96px; }
-.wf__eyebrow-text { color: var(--fg); letter-spacing: 0.18em; }
-.wf__eyebrow-mute { color: var(--fg-faint); font-size: 13px; }
+.wf__eyebrow-bar--long {
+  width: 96px;
+}
+.wf__eyebrow-text {
+  color: var(--fg);
+  letter-spacing: 0.18em;
+}
+.wf__eyebrow-mute {
+  color: var(--fg-faint);
+  font-size: 13px;
+}
 
 /* —— 通用 prompt 源标签子部件 —— */
-.wf__src-bracket { color: var(--accent); font-weight: 600; }
-.wf__src-label   { color: var(--fg);     font-weight: 600; letter-spacing: 0.22em; }
-.wf__src-sep     { color: var(--fg-faint); }
-.wf__src-line    { color: var(--accent); font-weight: 600; }
-.wf__src-mute    { color: var(--fg-mute); }
+.wf__src-bracket {
+  color: var(--accent);
+  font-weight: 600;
+}
+.wf__src-label {
+  color: var(--fg);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+}
+.wf__src-sep {
+  color: var(--fg-faint);
+}
+.wf__src-line {
+  color: var(--accent);
+  font-weight: 600;
+}
+.wf__src-mute {
+  color: var(--fg-mute);
+}
 
 /* ===================== Scene PIPELINE ===================== */
 
@@ -114,7 +136,7 @@
   margin-right: 6px;
 }
 .wf__excerpt-list code {
-  background: oklch(0.380 0.014 60);
+  background: oklch(0.38 0.014 60);
   padding: 0 6px;
   border-radius: 2px;
   color: var(--accent);
@@ -122,7 +144,7 @@
 .wf__excerpt-list em {
   font-style: italic;
   color: var(--accent);
-  background: linear-gradient(180deg, transparent 70%, oklch(0.700 0.170 42 / 0.25) 70%);
+  background: linear-gradient(180deg, transparent 70%, oklch(0.7 0.17 42 / 0.25) 70%);
   padding: 0 2px;
 }
 
@@ -148,7 +170,7 @@
 .wf__line-fill {
   height: 100%;
   background: linear-gradient(to right, var(--accent), var(--accent-deep));
-  transition: width 1100ms cubic-bezier(.2,.8,.2,1);
+  transition: width 1100ms cubic-bezier(0.2, 0.8, 0.2, 1);
   box-shadow: 0 0 12px var(--accent);
 }
 
@@ -204,14 +226,18 @@
   font-style: italic;
   color: var(--fg-mute);
   z-index: 1;
-  transition: border-color 540ms, background 540ms, color 540ms, transform 540ms;
+  transition:
+    border-color 540ms,
+    background 540ms,
+    color 540ms,
+    transform 540ms;
 }
 .wf__station.is-lit .wf__station-node {
   background: var(--accent);
   border-color: var(--accent);
   color: var(--paper);
   transform: scale(1.08);
-  box-shadow: 0 0 0 6px oklch(0.700 0.170 42 / 0.15);
+  box-shadow: 0 0 0 6px oklch(0.7 0.17 42 / 0.15);
 }
 .wf__station-no {
   z-index: 2;
@@ -228,8 +254,14 @@
   animation: wfPulse 1.6s ease-out infinite;
 }
 @keyframes wfPulse {
-  0%   { transform: scale(0.9); opacity: 0.7; }
-  100% { transform: scale(1.6); opacity: 0;   }
+  0% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
 }
 
 /* ===================== Scene DECIDE ===================== */
@@ -284,11 +316,17 @@
   background: var(--accent);
   opacity: 0.3;
   transform-origin: left;
-  animation: wfUnderline 800ms 320ms cubic-bezier(.2,.8,.2,1) backwards;
+  animation: wfUnderline 800ms 320ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
 }
 @keyframes wfUnderline {
-  from { transform: scaleX(0); opacity: 0; }
-  to   { transform: scaleX(1); opacity: 0.3; }
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 0.3;
+  }
 }
 .wf__decide-rule {
   display: inline-flex;
@@ -330,8 +368,12 @@
   border-radius: 4px;
   position: relative;
 }
-.wf__chat--ask { border-top: 3px solid var(--crimson); }
-.wf__chat--do  { border-top: 3px solid var(--accent);  }
+.wf__chat--ask {
+  border-top: 3px solid var(--crimson);
+}
+.wf__chat--do {
+  border-top: 3px solid var(--accent);
+}
 
 .wf__chat-tag {
   display: flex;
@@ -365,7 +407,9 @@
   font-size: 22px;
   line-height: 1.45;
 }
-.wf__bubble p { margin: 0; }
+.wf__bubble p {
+  margin: 0;
+}
 .wf__bubble-meta {
   display: block;
   font-family: var(--f-mono);
@@ -376,7 +420,7 @@
   margin-bottom: 6px;
 }
 .wf__bubble--user {
-  background: oklch(0.380 0.014 60);
+  background: oklch(0.38 0.014 60);
   border: 1px solid var(--line-mid);
   border-bottom-left-radius: 2px;
   align-self: flex-start;
@@ -384,11 +428,11 @@
 }
 .wf__bubble--ai {
   background: oklch(0.355 0.018 60);
-  border: 1px solid oklch(0.700 0.170 42 / 0.4);
+  border: 1px solid oklch(0.7 0.17 42 / 0.4);
   border-bottom-right-radius: 2px;
   align-self: flex-end;
   max-width: 92%;
-  box-shadow: 0 8px 16px -8px oklch(0.700 0.170 42 / 0.25);
+  box-shadow: 0 8px 16px -8px oklch(0.7 0.17 42 / 0.25);
 }
 
 .wf__qmarks {
@@ -408,8 +452,16 @@
   opacity: 0;
 }
 @keyframes wfQ {
-  0%, 100% { opacity: 0; transform: translateY(8px); }
-  20%, 70% { opacity: 0.9; transform: translateY(0); }
+  0%,
+  100% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  20%,
+  70% {
+    opacity: 0.9;
+    transform: translateY(0);
+  }
 }
 
 .wf__action {
@@ -423,15 +475,33 @@
   background: linear-gradient(to right, var(--accent) 0%, var(--accent-deep) 100%);
   border-radius: 1px;
   transform-origin: left;
-  animation: wfBar 1.2s cubic-bezier(.2,.8,.2,1) infinite;
+  animation: wfBar 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
 }
-.wf__action-bar:nth-child(1) { width: 70%; animation-delay: 0ms; }
-.wf__action-bar:nth-child(2) { width: 90%; animation-delay: 200ms; }
-.wf__action-bar:nth-child(3) { width: 50%; animation-delay: 400ms; }
+.wf__action-bar:nth-child(1) {
+  width: 70%;
+  animation-delay: 0ms;
+}
+.wf__action-bar:nth-child(2) {
+  width: 90%;
+  animation-delay: 200ms;
+}
+.wf__action-bar:nth-child(3) {
+  width: 50%;
+  animation-delay: 400ms;
+}
 @keyframes wfBar {
-  0%   { transform: scaleX(0); opacity: 0.4; }
-  60%  { transform: scaleX(1); opacity: 1;   }
-  100% { transform: scaleX(1); opacity: 0.4; }
+  0% {
+    transform: scaleX(0);
+    opacity: 0.4;
+  }
+  60% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 0.4;
+  }
 }
 
 .wf__chat-verdict {
@@ -445,8 +515,14 @@
   border: 1px dashed var(--line-mid);
   border-radius: 2px;
 }
-.wf__chat-verdict--ask { color: var(--crimson); border-color: var(--crimson); }
-.wf__chat-verdict--do  { color: var(--accent);  border-color: var(--accent);  }
+.wf__chat-verdict--ask {
+  color: var(--crimson);
+  border-color: var(--crimson);
+}
+.wf__chat-verdict--do {
+  color: var(--accent);
+  border-color: var(--accent);
+}
 
 .wf__decide-vs {
   display: flex;
@@ -566,7 +642,7 @@
 }
 .wf__sum-card--good {
   border-top: 3px solid var(--accent);
-  box-shadow: 0 16px 28px -18px oklch(0.700 0.170 42 / 0.35);
+  box-shadow: 0 16px 28px -18px oklch(0.7 0.17 42 / 0.35);
 }
 .wf__sum-card-tag {
   display: flex;
@@ -599,8 +675,12 @@
   line-height: 1.5;
   color: var(--fg-soft);
 }
-.wf__sum-card-body p { margin: 0 0 8px; }
-.wf__sum-card-body p:last-child { margin: 0; }
+.wf__sum-card-body p {
+  margin: 0 0 8px;
+}
+.wf__sum-card-body p:last-child {
+  margin: 0;
+}
 .wf__sum-card-body b {
   font-family: var(--f-mono);
   font-size: 16px;
@@ -624,10 +704,16 @@
   background: var(--crimson);
   transform: translateY(-50%) rotate(-3deg);
   opacity: 0;
-  animation: wfStrike 700ms 480ms cubic-bezier(.2,.8,.2,1) forwards;
+  animation: wfStrike 700ms 480ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   transform-origin: left;
 }
 @keyframes wfStrike {
-  from { opacity: 0; transform: translateY(-50%) rotate(-3deg) scaleX(0); }
-  to   { opacity: 0.7; transform: translateY(-50%) rotate(-3deg) scaleX(1); }
+  from {
+    opacity: 0;
+    transform: translateY(-50%) rotate(-3deg) scaleX(0);
+  }
+  to {
+    opacity: 0.7;
+    transform: translateY(-50%) rotate(-3deg) scaleX(1);
+  }
 }

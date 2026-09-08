@@ -39,9 +39,17 @@
   height: 1px;
   background: var(--line-mid);
 }
-.role__eyebrow-bar--long { width: 96px; }
-.role__eyebrow-text { color: var(--fg); letter-spacing: 0.18em; }
-.role__eyebrow-mute { color: var(--fg-faint); font-size: 13px; }
+.role__eyebrow-bar--long {
+  width: 96px;
+}
+.role__eyebrow-text {
+  color: var(--fg);
+  letter-spacing: 0.18em;
+}
+.role__eyebrow-mute {
+  color: var(--fg-faint);
+  font-size: 13px;
+}
 
 /* ===================== Scene QUOTE ===================== */
 
@@ -137,15 +145,21 @@
   opacity: 0;
 }
 .role__quote-keyword.is-marked .role__quote-mark {
-  animation: roleUnderline 720ms cubic-bezier(.2,.8,.2,1) forwards;
+  animation: roleUnderline 720ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 .role__quote-keyword--alt.is-marked .role__quote-mark {
   background: var(--accent-deep);
   animation-delay: 220ms;
 }
 @keyframes roleUnderline {
-  from { transform: scaleX(0); opacity: 0; }
-  to   { transform: scaleX(1); opacity: 0.7; }
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 0.7;
+  }
 }
 
 .role__quote-cn {
@@ -164,11 +178,11 @@
 }
 .role__quote-cn-key.is-marked {
   color: var(--accent);
-  background: linear-gradient(180deg, transparent 60%, oklch(0.860 0.060 60 / 0.6) 60%);
+  background: linear-gradient(180deg, transparent 60%, oklch(0.86 0.06 60 / 0.6) 60%);
 }
 .role__quote-cn-key--alt.is-marked {
   color: var(--accent-deep);
-  background: linear-gradient(180deg, transparent 60%, oklch(0.860 0.060 60 / 0.6) 60%);
+  background: linear-gradient(180deg, transparent 60%, oklch(0.86 0.06 60 / 0.6) 60%);
 }
 
 .role__quote-note {
@@ -201,7 +215,7 @@
   border: 1px solid var(--line-mid);
   border-radius: 6px;
   text-align: left;
-  box-shadow: 0 24px 40px -28px oklch(0.180 0.014 60 / 0.4);
+  box-shadow: 0 24px 40px -28px oklch(0.18 0.014 60 / 0.4);
 }
 
 .role__benefit-num {
@@ -258,7 +272,7 @@
   border-radius: 2px;
   padding: 22px 32px 26px;
   text-align: left;
-  box-shadow: 0 18px 32px -22px oklch(0.180 0.014 60 / 0.30);
+  box-shadow: 0 18px 32px -22px oklch(0.18 0.014 60 / 0.3);
 }
 .role__excerpt-head {
   display: flex;
@@ -295,7 +309,7 @@
 .role__excerpt-em {
   font-style: normal;
   color: var(--accent);
-  background: linear-gradient(180deg, transparent 70%, oklch(0.860 0.060 60 / 0.5) 70%);
+  background: linear-gradient(180deg, transparent 70%, oklch(0.86 0.06 60 / 0.5) 70%);
   padding: 0 2px;
 }
 .role__excerpt-list {
@@ -333,7 +347,7 @@
   background: var(--accent);
   opacity: 0.3;
   transform-origin: left;
-  animation: roleUnderline 800ms 220ms cubic-bezier(.2,.8,.2,1) backwards;
+  animation: roleUnderline 800ms 220ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
 }
 
 /* 翻牌窗：3 张卡片层叠，translateY 控制可见状态 */
@@ -348,24 +362,24 @@
   position: absolute;
   inset: 0;
   transition:
-    transform 760ms cubic-bezier(.2,.8,.2,1),
-    opacity 600ms cubic-bezier(.2,.8,.2,1),
+    transform 760ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 600ms cubic-bezier(0.2, 0.8, 0.2, 1),
     filter 600ms;
   transform-origin: 50% 50% -200px;
   will-change: transform, opacity;
 }
-.role__flip-slot[data-state="prev"] {
+.role__flip-slot[data-state='prev'] {
   transform: translateY(-30%) rotateX(50deg);
   opacity: 0;
   pointer-events: none;
   filter: blur(4px);
 }
-.role__flip-slot[data-state="current"] {
+.role__flip-slot[data-state='current'] {
   transform: translateY(0) rotateX(0deg);
   opacity: 1;
   filter: blur(0);
 }
-.role__flip-slot[data-state="next"] {
+.role__flip-slot[data-state='next'] {
   transform: translateY(30%) rotateX(-50deg);
   opacity: 0;
   pointer-events: none;
@@ -384,7 +398,9 @@
   align-items: center;
   gap: 8px;
   opacity: 0.32;
-  transition: opacity 380ms, transform 380ms;
+  transition:
+    opacity 380ms,
+    transform 380ms;
 }
 .role__flip-tick.is-active {
   opacity: 1;
@@ -418,8 +434,8 @@
   background: var(--paper);
   border: 1px solid var(--line-mid);
   box-shadow:
-    0 30px 50px -30px oklch(0.180 0.014 60 / 0.35),
-    0 12px 18px -10px oklch(0.180 0.014 60 / 0.18),
+    0 30px 50px -30px oklch(0.18 0.014 60 / 0.35),
+    0 12px 18px -10px oklch(0.18 0.014 60 / 0.18),
     inset 0 1px 0 oklch(0.965 0.018 78 / 1);
   display: flex;
   flex-direction: column;
@@ -431,12 +447,16 @@
   position: absolute;
   inset: 0;
   background-image:
-    radial-gradient(circle at 20% 20%, oklch(0.180 0.014 60 / 0.04) 0, transparent 50%),
-    radial-gradient(circle at 80% 80%, oklch(0.180 0.014 60 / 0.04) 0, transparent 50%);
+    radial-gradient(circle at 20% 20%, oklch(0.18 0.014 60 / 0.04) 0, transparent 50%),
+    radial-gradient(circle at 80% 80%, oklch(0.18 0.014 60 / 0.04) 0, transparent 50%);
   pointer-events: none;
 }
-.role__card--lg { padding: 32px 44px; }
-.role__card--sm { padding: 22px 26px; }
+.role__card--lg {
+  padding: 32px 44px;
+}
+.role__card--sm {
+  padding: 22px 26px;
+}
 
 .role__card-strip {
   display: flex;
@@ -556,10 +576,30 @@
   height: 12px;
   border: 1px solid var(--fg-faint);
 }
-.role__card-corner--tl { top: 8px; left: 8px;  border-right: 0; border-bottom: 0; }
-.role__card-corner--tr { top: 8px; right: 8px; border-left: 0;  border-bottom: 0; }
-.role__card-corner--bl { bottom: 8px; left: 8px;  border-right: 0; border-top: 0; }
-.role__card-corner--br { bottom: 8px; right: 8px; border-left: 0;  border-top: 0; }
+.role__card-corner--tl {
+  top: 8px;
+  left: 8px;
+  border-right: 0;
+  border-bottom: 0;
+}
+.role__card-corner--tr {
+  top: 8px;
+  right: 8px;
+  border-left: 0;
+  border-bottom: 0;
+}
+.role__card-corner--bl {
+  bottom: 8px;
+  left: 8px;
+  border-right: 0;
+  border-top: 0;
+}
+.role__card-corner--br {
+  bottom: 8px;
+  right: 8px;
+  border-left: 0;
+  border-top: 0;
+}
 
 /* ===================== Scene ALL ===================== */
 
@@ -584,14 +624,25 @@
 
 .role__all-slot {
   height: 280px;
-  animation: roleAllRise 720ms cubic-bezier(.2,.8,.2,1) backwards;
+  animation: roleAllRise 720ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
 }
-.role__all-slot:nth-child(1) { transform: rotate(-1.5deg); }
-.role__all-slot:nth-child(2) { transform: rotate(0.5deg); }
-.role__all-slot:nth-child(3) { transform: rotate(-0.8deg); }
+.role__all-slot:nth-child(1) {
+  transform: rotate(-1.5deg);
+}
+.role__all-slot:nth-child(2) {
+  transform: rotate(0.5deg);
+}
+.role__all-slot:nth-child(3) {
+  transform: rotate(-0.8deg);
+}
 @keyframes roleAllRise {
-  from { opacity: 0; transform: translateY(28px) rotate(-3deg); }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+    transform: translateY(28px) rotate(-3deg);
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .role__all-takeaway {

@@ -12,8 +12,15 @@
   overflow: hidden;
 }
 
-.rf__src-bracket { color: var(--accent); font-weight: 600; }
-.rf__src-label   { color: var(--fg);     font-weight: 600; letter-spacing: 0.22em; }
+.rf__src-bracket {
+  color: var(--accent);
+  font-weight: 600;
+}
+.rf__src-label {
+  color: var(--fg);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+}
 
 /* ===================== Scene HERO (step 0) ===================== */
 
@@ -72,11 +79,17 @@
   background: var(--accent);
   opacity: 0.18;
   transform-origin: left;
-  animation: rfHeroUnderline 1300ms 1100ms cubic-bezier(.2,.8,.2,1) backwards;
+  animation: rfHeroUnderline 1300ms 1100ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
 }
 @keyframes rfHeroUnderline {
-  from { transform: scaleX(0); opacity: 0; }
-  to   { transform: scaleX(1); opacity: 0.18; }
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 0.18;
+  }
 }
 .rf__hero-dim {
   color: var(--fg-faint);
@@ -148,12 +161,20 @@
   border-radius: 3px;
   min-height: 240px;
   opacity: 0;
-  animation: rfCardIn 720ms cubic-bezier(.2,.8,.2,1) forwards;
-  transition: transform 360ms, box-shadow 360ms;
+  animation: rfCardIn 720ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  transition:
+    transform 360ms,
+    box-shadow 360ms;
 }
 @keyframes rfCardIn {
-  from { opacity: 0; transform: translateY(28px); }
-  to   { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .rf__card-num {
@@ -217,7 +238,7 @@
 
 /* —— 第 8 格 hint —— */
 .rf__card--hint {
-  background: oklch(0.700 0.170 42 / 0.06);
+  background: oklch(0.7 0.17 42 / 0.06);
   border: 1px dashed var(--accent);
   border-top: 3px solid var(--accent);
   display: flex;
@@ -353,15 +374,15 @@
   left: 8px;
   right: 8px;
   height: 2px;
-  background: linear-gradient(90deg,
-    var(--fg-faint) 0%,
-    var(--accent) 100%);
+  background: linear-gradient(90deg, var(--fg-faint) 0%, var(--accent) 100%);
   transform: translateY(-50%) scaleX(0);
   transform-origin: left;
-  animation: rfOriginLine 720ms 200ms cubic-bezier(.2,.8,.2,1) forwards;
+  animation: rfOriginLine 720ms 200ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 @keyframes rfOriginLine {
-  to { transform: translateY(-50%) scaleX(1); }
+  to {
+    transform: translateY(-50%) scaleX(1);
+  }
 }
 .rf__origin-arrow-text {
   position: relative;

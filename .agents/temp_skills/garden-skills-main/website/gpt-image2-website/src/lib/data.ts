@@ -12,9 +12,7 @@ export function getCase(id: string) {
 export function getRelatedCases(id: string) {
   const c = getCase(id);
   if (!c) return [];
-  return cases.cases.filter(
-    (x) => x.id !== id && x.template_key === c.template_key,
-  );
+  return cases.cases.filter((x) => x.id !== id && x.template_key === c.template_key);
 }
 
 export const ORDERED_CATEGORIES = [

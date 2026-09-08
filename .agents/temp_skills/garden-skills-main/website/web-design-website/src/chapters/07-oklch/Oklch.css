@@ -14,11 +14,25 @@
 }
 
 /* —— 通用 prompt 源标签 —— */
-.ok__src-bracket { color: var(--accent); font-weight: 600; }
-.ok__src-label   { color: var(--fg);     font-weight: 600; letter-spacing: 0.22em; }
-.ok__src-sep     { color: var(--fg-faint); }
-.ok__src-line    { color: var(--accent); font-weight: 600; }
-.ok__src-mute    { color: var(--fg-mute); }
+.ok__src-bracket {
+  color: var(--accent);
+  font-weight: 600;
+}
+.ok__src-label {
+  color: var(--fg);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+}
+.ok__src-sep {
+  color: var(--fg-faint);
+}
+.ok__src-line {
+  color: var(--accent);
+  font-weight: 600;
+}
+.ok__src-mute {
+  color: var(--fg-mute);
+}
 
 /* ===================== Scene SOURCE (step 0) ===================== */
 
@@ -70,13 +84,22 @@
   color: var(--fg);
   opacity: 0;
   transform: translateY(10px);
-  animation: okSrcLineIn 720ms cubic-bezier(.2,.8,.2,1) forwards;
+  animation: okSrcLineIn 720ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
-.ok__src-line-row--1 { animation-delay: 380ms;  }
-.ok__src-line-row--2 { animation-delay: 980ms;  }
-.ok__src-line-row--3 { animation-delay: 1580ms; }
+.ok__src-line-row--1 {
+  animation-delay: 380ms;
+}
+.ok__src-line-row--2 {
+  animation-delay: 980ms;
+}
+.ok__src-line-row--3 {
+  animation-delay: 1580ms;
+}
 @keyframes okSrcLineIn {
-  to { opacity: 1; transform: none; }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .ok__src-num {
@@ -90,20 +113,26 @@
 .ok__src-text em.ok__src-h {
   font-style: normal;
   color: var(--accent);
-  background: linear-gradient(180deg, transparent 65%, oklch(0.860 0.060 60 / 0.7) 65%);
+  background: linear-gradient(180deg, transparent 65%, oklch(0.86 0.06 60 / 0.7) 65%);
   padding: 0 4px;
   font-weight: 600;
 }
-.ok__src-h--1 { animation: okSrcHi 700ms 700ms  cubic-bezier(.2,.8,.2,1) backwards; }
-.ok__src-h--2 { animation: okSrcHi 700ms 1300ms cubic-bezier(.2,.8,.2,1) backwards; }
-.ok__src-h--3 { animation: okSrcHi 700ms 1900ms cubic-bezier(.2,.8,.2,1) backwards; }
+.ok__src-h--1 {
+  animation: okSrcHi 700ms 700ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+}
+.ok__src-h--2 {
+  animation: okSrcHi 700ms 1300ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+}
+.ok__src-h--3 {
+  animation: okSrcHi 700ms 1900ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+}
 @keyframes okSrcHi {
   from {
-    background: linear-gradient(180deg, transparent 65%, oklch(0.860 0.060 60 / 0) 65%);
+    background: linear-gradient(180deg, transparent 65%, oklch(0.86 0.06 60 / 0) 65%);
     color: var(--fg);
   }
   to {
-    background: linear-gradient(180deg, transparent 65%, oklch(0.860 0.060 60 / 0.7) 65%);
+    background: linear-gradient(180deg, transparent 65%, oklch(0.86 0.06 60 / 0.7) 65%);
     color: var(--accent);
   }
 }
@@ -165,9 +194,16 @@
   border-radius: 3px;
   transition: border-color 360ms;
 }
-.ok__rule--good { border-left-color: var(--accent); }
-.ok__rule--ok   { border-left-color: var(--accent); }
-.ok__rule--bad  { border-left-color: var(--crimson); opacity: 0.94; }
+.ok__rule--good {
+  border-left-color: var(--accent);
+}
+.ok__rule--ok {
+  border-left-color: var(--accent);
+}
+.ok__rule--bad {
+  border-left-color: var(--crimson);
+  opacity: 0.94;
+}
 
 .ok__rule-num {
   font-family: var(--f-mono);
@@ -208,16 +244,32 @@
   height: 32px;
   border-radius: 2px;
   box-shadow: inset 0 0 0 1px oklch(0 0 0 / 0.08);
-  animation: okSwatchIn 520ms cubic-bezier(.2,.8,.2,1) backwards;
+  animation: okSwatchIn 520ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
 }
-.ok__rule-swatches span:nth-child(2) { animation-delay: 60ms; }
-.ok__rule-swatches span:nth-child(3) { animation-delay: 120ms; }
-.ok__rule-swatches span:nth-child(4) { animation-delay: 180ms; }
-.ok__rule-swatches span:nth-child(5) { animation-delay: 240ms; }
-.ok__rule-swatches span:nth-child(6) { animation-delay: 300ms; }
+.ok__rule-swatches span:nth-child(2) {
+  animation-delay: 60ms;
+}
+.ok__rule-swatches span:nth-child(3) {
+  animation-delay: 120ms;
+}
+.ok__rule-swatches span:nth-child(4) {
+  animation-delay: 180ms;
+}
+.ok__rule-swatches span:nth-child(5) {
+  animation-delay: 240ms;
+}
+.ok__rule-swatches span:nth-child(6) {
+  animation-delay: 300ms;
+}
 @keyframes okSwatchIn {
-  from { opacity: 0; transform: translateY(14px) scale(0.92); }
-  to   { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .ok__rule-mark {
@@ -228,8 +280,12 @@
   width: 56px;
   text-align: center;
 }
-.ok__rule-mark--good { color: var(--accent); }
-.ok__rule-mark--bad  { color: var(--crimson); }
+.ok__rule-mark--good {
+  color: var(--accent);
+}
+.ok__rule-mark--bad {
+  color: var(--crimson);
+}
 
 /* ===================== Scene PIVOT (step 2) ===================== */
 
@@ -272,11 +328,17 @@
   background: var(--accent);
   opacity: 0.22;
   transform-origin: left;
-  animation: okPivotUnderline 1100ms 380ms cubic-bezier(.2,.8,.2,1) backwards;
+  animation: okPivotUnderline 1100ms 380ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
 }
 @keyframes okPivotUnderline {
-  from { transform: scaleX(0); opacity: 0; }
-  to   { transform: scaleX(1); opacity: 0.22; }
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 0.22;
+  }
 }
 
 .ok__pivot-sub {
@@ -303,11 +365,13 @@
   background: var(--crimson);
   transform-origin: left;
   transform: translateY(-50%) scaleX(0);
-  animation: okPivotStrike 520ms 980ms cubic-bezier(.6,-0.05,.2,1.2) forwards;
+  animation: okPivotStrike 520ms 980ms cubic-bezier(0.6, -0.05, 0.2, 1.2) forwards;
   opacity: 0.75;
 }
 @keyframes okPivotStrike {
-  to { transform: translateY(-50%) scaleX(1); }
+  to {
+    transform: translateY(-50%) scaleX(1);
+  }
 }
 
 .ok__pivot-issue {
@@ -380,13 +444,13 @@
 }
 .ok__cmp-row-tag--bad {
   color: var(--crimson);
-  background: oklch(0.560 0.200 22 / 0.10);
-  border: 1px solid oklch(0.560 0.200 22 / 0.45);
+  background: oklch(0.56 0.2 22 / 0.1);
+  border: 1px solid oklch(0.56 0.2 22 / 0.45);
 }
 .ok__cmp-row-tag--good {
   color: var(--accent-deep);
-  background: oklch(0.700 0.170 42 / 0.12);
-  border: 1px solid oklch(0.700 0.170 42 / 0.45);
+  background: oklch(0.7 0.17 42 / 0.12);
+  border: 1px solid oklch(0.7 0.17 42 / 0.45);
 }
 .ok__cmp-row-formula {
   font-family: var(--f-mono);
@@ -406,27 +470,29 @@
   position: relative;
   border-radius: 2px;
   box-shadow: inset 0 0 0 1px oklch(0 0 0 / 0.06);
-  animation: okSwatchIn 620ms cubic-bezier(.2,.8,.2,1) backwards;
+  animation: okSwatchIn 620ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
 }
 /* HSL 行的"黄色"格子单独脉冲一下 */
 .ok__cmp-swatch.is-spot {
-  animation: okSwatchIn 620ms cubic-bezier(.2,.8,.2,1) backwards,
-             okSpotPulse 1600ms 1400ms ease-in-out infinite;
+  animation:
+    okSwatchIn 620ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards,
+    okSpotPulse 1600ms 1400ms ease-in-out infinite;
   box-shadow:
     inset 0 0 0 1px oklch(0 0 0 / 0.06),
-    0 0 0 0 oklch(0.560 0.200 22 / 0.5);
+    0 0 0 0 oklch(0.56 0.2 22 / 0.5);
 }
 @keyframes okSpotPulse {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow:
       inset 0 0 0 1px oklch(0 0 0 / 0.06),
-      0 0 0 0 oklch(0.560 0.200 22 / 0.45);
+      0 0 0 0 oklch(0.56 0.2 22 / 0.45);
     transform: translateY(0);
   }
   50% {
     box-shadow:
       inset 0 0 0 1px oklch(0 0 0 / 0.06),
-      0 0 0 8px oklch(0.560 0.200 22 / 0);
+      0 0 0 8px oklch(0.56 0.2 22 / 0);
     transform: translateY(-4px);
   }
 }
@@ -450,13 +516,23 @@
   width: 100%;
   height: 60px;
   pointer-events: none;
-  animation: okCurveIn 720ms cubic-bezier(.2,.8,.2,1) backwards;
+  animation: okCurveIn 720ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
 }
-.ok__cmp-curve--bad  { animation-delay: 1100ms; }
-.ok__cmp-curve--good { animation-delay: 1280ms; }
+.ok__cmp-curve--bad {
+  animation-delay: 1100ms;
+}
+.ok__cmp-curve--good {
+  animation-delay: 1280ms;
+}
 @keyframes okCurveIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .ok__cmp-callout {
@@ -470,13 +546,25 @@
   font-size: 22px;
   font-style: italic;
   opacity: 0;
-  animation: okCalloutIn 620ms cubic-bezier(.2,.8,.2,1) forwards;
+  animation: okCalloutIn 620ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
-.ok__cmp-callout--bad  { color: var(--crimson);    animation-delay: 1700ms; }
-.ok__cmp-callout--good { color: var(--accent-deep); animation-delay: 1900ms; }
+.ok__cmp-callout--bad {
+  color: var(--crimson);
+  animation-delay: 1700ms;
+}
+.ok__cmp-callout--good {
+  color: var(--accent-deep);
+  animation-delay: 1900ms;
+}
 @keyframes okCalloutIn {
-  from { opacity: 0; transform: translateX(-8px); }
-  to   { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 .ok__cmp-callout-arrow {
   font-family: var(--f-mono);
@@ -523,11 +611,17 @@
   color: var(--accent);
   line-height: 1;
   display: inline-block;
-  animation: okCloseArrow 1200ms 1100ms cubic-bezier(.6,-0.05,.2,1.2) backwards;
+  animation: okCloseArrow 1200ms 1100ms cubic-bezier(0.6, -0.05, 0.2, 1.2) backwards;
 }
 @keyframes okCloseArrow {
-  from { transform: translateY(40px); opacity: 0; }
-  to   { transform: none;             opacity: 1; }
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
 }
 
 .ok__close-caption {

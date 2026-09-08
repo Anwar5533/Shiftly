@@ -2,6 +2,7 @@
 name: law-of-continuity
 description: Apply the Law of Continuity — the eye follows alignment and unbroken paths. Use when sequencing steps, aligning content, or designing carousels and timelines. For grouping rather than sequencing, use `law-of-proximity`.
 ---
+
 # Law of Continuity
 
 You are an expert in visual flow, eye movement, and directional design.
@@ -21,6 +22,7 @@ Elements that continue a smooth trajectory are perceived as related; elements th
 ### Alignment and reading flow
 
 The most fundamental application of continuity is alignment:
+
 - Left-aligned text and elements create a continuous vertical edge the eye follows top to bottom
 - Consistently aligned items in a column imply a vertical axis that organises the reading path
 - Disrupting alignment — even by a few pixels — interrupts the eye's path and signals a boundary or an error
@@ -30,6 +32,7 @@ In a form, every input aligned on the same left edge creates a continuous readin
 ### Directional indicators
 
 Arrows and chevrons extend the trajectory the eye is already following:
+
 - A carousel arrow points in the direction of the next content — the eye follows the arrow to the implied continuation
 - A "show more" chevron at the end of a truncated list extends the reading path into the expanded state
 - Step indicators connected by lines create an explicit path through a process
@@ -43,6 +46,7 @@ Timeline components rely entirely on continuity. The connecting line implies tha
 ### Scroll and swipe affordances
 
 Implied directional paths signal interaction:
+
 - A scroll handle on a track implies a continuous vertical path of content
 - Dot indicators below a carousel imply a horizontal sequence of slides — the dots are the path made visible
 - A pull-to-refresh animation follows an implied vertical path that extends beyond the screen edge
@@ -52,6 +56,7 @@ The affordance works through continuity: the eye reads the implied path and the 
 ### Using interrupted continuity to separate groups
 
 Just as continuity groups, interrupted continuity separates. A deliberate break in an otherwise continuous path signals a transition:
+
 - A larger gap in a list signals a new section (even without a heading)
 - A divider line interrupts a vertical reading path to announce a category boundary
 - Indentation redirects the eye along a secondary path, signalling sub-hierarchy within the main flow
@@ -59,6 +64,7 @@ Just as continuity groups, interrupted continuity separates. A deliberate break 
 ## Continuity and Visual Hierarchy
 
 Continuity interacts with hierarchy:
+
 - A continuous left-aligned reading path implies equal-weight items
 - Breaking from the alignment for specific items — indenting, offsetting, or stepping right — signals sub-hierarchy without typography
 

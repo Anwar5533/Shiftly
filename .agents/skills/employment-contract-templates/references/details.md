@@ -358,11 +358,12 @@ action up to termination.
 ### Paid Time Off (PTO)
 
 **PTO Accrual:**
+
 | Years of Service | Annual PTO Days |
-|------------------|-----------------|
-| 0-2 years | 15 days |
-| 3-5 years | 20 days |
-| 6+ years | 25 days |
+| ---------------- | --------------- |
+| 0-2 years        | 15 days         |
+| 3-5 years        | 20 days         |
+| 6+ years         | 25 days         |
 
 **PTO Guidelines:**
 

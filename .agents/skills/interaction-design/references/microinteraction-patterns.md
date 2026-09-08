@@ -5,7 +5,7 @@
 ### Loading Button
 
 ```tsx
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface LoadingButtonProps {
   isLoading: boolean;
@@ -18,7 +18,7 @@ function LoadingButton({ isLoading, children, onClick }: LoadingButtonProps) {
     <button
       onClick={onClick}
       disabled={isLoading}
-      className="relative px-4 py-2 bg-blue-600 text-white rounded-lg overflow-hidden"
+      className="relative overflow-hidden rounded-lg bg-blue-600 px-4 py-2 text-white"
     >
       <AnimatePresence mode="wait">
         {isLoading ? (
@@ -29,7 +29,7 @@ function LoadingButton({ isLoading, children, onClick }: LoadingButtonProps) {
             exit={{ opacity: 0, y: -10 }}
             className="flex items-center gap-2"
           >
-            <Spinner className="w-4 h-4" />
+            <Spinner className="h-4 w-4" />
             Processing...
           </motion.span>
         ) : (
@@ -71,43 +71,41 @@ function Spinner({ className }: { className?: string }) {
 
 ```tsx
 function SubmitButton({ onSubmit }: { onSubmit: () => Promise<void> }) {
-  const [state, setState] = useState<"idle" | "loading" | "success" | "error">(
-    "idle",
-  );
+  const [state, setState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
   const handleClick = async () => {
-    setState("loading");
+    setState('loading');
     try {
       await onSubmit();
-      setState("success");
-      setTimeout(() => setState("idle"), 2000);
+      setState('success');
+      setTimeout(() => setState('idle'), 2000);
     } catch {
-      setState("error");
-      setTimeout(() => setState("idle"), 2000);
+      setState('error');
+      setTimeout(() => setState('idle'), 2000);
     }
   };
 
   const icons = {
     idle: null,
-    loading: <Spinner className="w-5 h-5" />,
-    success: <CheckIcon className="w-5 h-5" />,
-    error: <XIcon className="w-5 h-5" />,
+    loading: <Spinner className="h-5 w-5" />,
+    success: <CheckIcon className="h-5 w-5" />,
+    error: <XIcon className="h-5 w-5" />,
   };
 
   const colors = {
-    idle: "bg-blue-600 hover:bg-blue-700",
-    loading: "bg-blue-600",
-    success: "bg-green-600",
-    error: "bg-red-600",
+    idle: 'bg-blue-600 hover:bg-blue-700',
+    loading: 'bg-blue-600',
+    success: 'bg-green-600',
+    error: 'bg-red-600',
   };
 
   return (
     <motion.button
       onClick={handleClick}
-      disabled={state === "loading"}
-      className={`flex items-center gap-2 px-4 py-2 text-white rounded-lg transition-colors ${colors[state]}`}
+      disabled={state === 'loading'}
+      className={`flex items-center gap-2 rounded-lg px-4 py-2 text-white transition-colors ${colors[state]}`}
       animate={{
-        scale: state === "success" || state === "error" ? [1, 1.05, 1] : 1,
+        scale: state === 'success' || state === 'error' ? [1, 1.05, 1] : 1,
       }}
     >
       <AnimatePresence mode="wait">
@@ -122,10 +120,10 @@ function SubmitButton({ onSubmit }: { onSubmit: () => Promise<void> }) {
           </motion.span>
         )}
       </AnimatePresence>
-      {state === "idle" && "Submit"}
-      {state === "loading" && "Submitting..."}
-      {state === "success" && "Done!"}
-      {state === "error" && "Failed"}
+      {state === 'idle' && 'Submit'}
+      {state === 'loading' && 'Submitting...'}
+      {state === 'success' && 'Done!'}
+      {state === 'error' && 'Failed'}
     </motion.button>
   );
 }
@@ -136,16 +134,10 @@ function SubmitButton({ onSubmit }: { onSubmit: () => Promise<void> }) {
 ### Floating Label Input
 
 ```tsx
-import { useState, useId } from "react";
+import { useState, useId } from 'react';
 
-function FloatingInput({
-  label,
-  type = "text",
-}: {
-  label: string;
-  type?: string;
-}) {
-  const [value, setValue] = useState("");
+function FloatingInput({ label, type = 'text' }: { label: string; type?: string }) {
+  const [value, setValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const id = useId();
 
@@ -160,17 +152,15 @@ function FloatingInput({
         onChange={(e) => setValue(e.target.value)}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
-        className="peer w-full px-4 py-3 border rounded-lg outline-none transition-colors
-          focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
+        className="peer w-full rounded-lg border px-4 py-3 transition-colors outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
       />
       <label
         htmlFor={id}
-        className={`absolute left-4 transition-all duration-200 pointer-events-none
-          ${
-            isFloating
-              ? "top-0 -translate-y-1/2 text-xs bg-white px-1 text-blue-600"
-              : "top-1/2 -translate-y-1/2 text-gray-500"
-          }`}
+        className={`pointer-events-none absolute left-4 transition-all duration-200 ${
+          isFloating
+            ? 'top-0 -translate-y-1/2 bg-white px-1 text-xs text-blue-600'
+            : 'top-1/2 -translate-y-1/2 text-gray-500'
+        }`}
       >
         {label}
       </label>
@@ -182,7 +172,7 @@ function FloatingInput({
 ### Shake on Error
 
 ```tsx
-import { motion, useAnimation } from "framer-motion";
+import { motion, useAnimation } from 'framer-motion';
 
 function ShakeInput({ error, ...props }: InputProps & { error?: string }) {
   const controls = useAnimation();
@@ -200,8 +190,8 @@ function ShakeInput({ error, ...props }: InputProps & { error?: string }) {
     <motion.div animate={controls}>
       <input
         {...props}
-        className={`w-full px-4 py-2 border rounded-lg ${
-          error ? "border-red-500" : "border-gray-300"
+        className={`w-full rounded-lg border px-4 py-2 ${
+          error ? 'border-red-500' : 'border-gray-300'
         }`}
       />
       {error && (
@@ -222,7 +212,7 @@ function ShakeInput({ error, ...props }: InputProps & { error?: string }) {
 
 ```tsx
 function TextareaWithCount({ maxLength = 280 }: { maxLength?: number }) {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
   const remaining = maxLength - value.length;
   const isNearLimit = remaining <= 20;
   const isOverLimit = remaining < 0;
@@ -232,16 +222,12 @@ function TextareaWithCount({ maxLength = 280 }: { maxLength?: number }) {
       <textarea
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        className="w-full px-4 py-3 border rounded-lg resize-none"
+        className="w-full resize-none rounded-lg border px-4 py-3"
         rows={4}
       />
       <motion.span
-        className={`absolute bottom-2 right-2 text-sm ${
-          isOverLimit
-            ? "text-red-500"
-            : isNearLimit
-              ? "text-yellow-500"
-              : "text-gray-400"
+        className={`absolute right-2 bottom-2 text-sm ${
+          isOverLimit ? 'text-red-500' : isNearLimit ? 'text-yellow-500' : 'text-gray-400'
         }`}
         animate={{ scale: isNearLimit ? [1, 1.1, 1] : 1 }}
         transition={{ duration: 0.2 }}
@@ -258,23 +244,23 @@ function TextareaWithCount({ maxLength = 280 }: { maxLength?: number }) {
 ### Toast Notifications
 
 ```tsx
-import { motion, AnimatePresence } from "framer-motion";
-import { createContext, useContext, useState, useCallback } from "react";
+import { motion, AnimatePresence } from 'framer-motion';
+import { createContext, useContext, useState, useCallback } from 'react';
 
 interface Toast {
   id: string;
   message: string;
-  type: "success" | "error" | "info";
+  type: 'success' | 'error' | 'info';
 }
 
 const ToastContext = createContext<{
-  addToast: (message: string, type: Toast["type"]) => void;
+  addToast: (message: string, type: Toast['type']) => void;
 } | null>(null);
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
 
-  const addToast = useCallback((message: string, type: Toast["type"]) => {
+  const addToast = useCallback((message: string, type: Toast['type']) => {
     const id = Date.now().toString();
     setToasts((prev) => [...prev, { id, message, type }]);
     setTimeout(() => {
@@ -285,7 +271,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   return (
     <ToastContext.Provider value={{ addToast }}>
       {children}
-      <div className="fixed bottom-4 right-4 space-y-2 z-50">
+      <div className="fixed right-4 bottom-4 z-50 space-y-2">
         <AnimatePresence>
           {toasts.map((toast) => (
             <motion.div
@@ -293,12 +279,12 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
               initial={{ opacity: 0, y: 20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, x: 100, scale: 0.95 }}
-              className={`px-4 py-3 rounded-lg shadow-lg ${
-                toast.type === "success"
-                  ? "bg-green-600"
-                  : toast.type === "error"
-                    ? "bg-red-600"
-                    : "bg-blue-600"
+              className={`rounded-lg px-4 py-3 shadow-lg ${
+                toast.type === 'success'
+                  ? 'bg-green-600'
+                  : toast.type === 'error'
+                    ? 'bg-red-600'
+                    : 'bg-blue-600'
               } text-white`}
             >
               {toast.message}
@@ -312,7 +298,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
 
 export function useToast() {
   const context = useContext(ToastContext);
-  if (!context) throw new Error("useToast must be within ToastProvider");
+  if (!context) throw new Error('useToast must be within ToastProvider');
   return context;
 }
 ```
@@ -322,7 +308,7 @@ export function useToast() {
 ```tsx
 function ConfirmButton({
   onConfirm,
-  confirmText = "Click again to confirm",
+  confirmText = 'Click again to confirm',
   children,
 }: {
   onConfirm: () => void;
@@ -350,14 +336,14 @@ function ConfirmButton({
   return (
     <motion.button
       onClick={handleClick}
-      className={`px-4 py-2 rounded-lg transition-colors ${
-        isPending ? "bg-red-600 text-white" : "bg-gray-200 text-gray-800"
+      className={`rounded-lg px-4 py-2 transition-colors ${
+        isPending ? 'bg-red-600 text-white' : 'bg-gray-200 text-gray-800'
       }`}
       animate={{ scale: isPending ? [1, 1.02, 1] : 1 }}
     >
       <AnimatePresence mode="wait">
         <motion.span
-          key={isPending ? "confirm" : "idle"}
+          key={isPending ? 'confirm' : 'idle'}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
@@ -375,14 +361,14 @@ function ConfirmButton({
 ### Active Link Indicator
 
 ```tsx
-import { motion } from "framer-motion";
-import { usePathname } from "next/navigation";
+import { motion } from 'framer-motion';
+import { usePathname } from 'next/navigation';
 
 function Navigation({ items }: { items: { href: string; label: string }[] }) {
   const pathname = usePathname();
 
   return (
-    <nav className="flex gap-1 p-1 bg-gray-100 rounded-lg">
+    <nav className="flex gap-1 rounded-lg bg-gray-100 p-1">
       {items.map((item) => {
         const isActive = pathname === item.href;
         return (
@@ -390,14 +376,14 @@ function Navigation({ items }: { items: { href: string; label: string }[] }) {
             key={item.href}
             href={item.href}
             className={`relative px-4 py-2 text-sm font-medium ${
-              isActive ? "text-white" : "text-gray-600 hover:text-gray-900"
+              isActive ? 'text-white' : 'text-gray-600 hover:text-gray-900'
             }`}
           >
             {isActive && (
               <motion.div
                 layoutId="activeNav"
-                className="absolute inset-0 bg-blue-600 rounded-md"
-                transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                className="absolute inset-0 rounded-md bg-blue-600"
+                transition={{ type: 'spring', stiffness: 500, damping: 30 }}
               />
             )}
             <span className="relative z-10">{item.label}</span>
@@ -414,27 +400,27 @@ function Navigation({ items }: { items: { href: string; label: string }[] }) {
 ```tsx
 function MenuIcon({ isOpen }: { isOpen: boolean }) {
   return (
-    <button className="relative w-6 h-6" aria-label="Toggle menu">
+    <button className="relative h-6 w-6" aria-label="Toggle menu">
       <motion.span
         className="absolute left-0 h-0.5 w-6 bg-current"
         animate={{
-          top: isOpen ? "50%" : "25%",
+          top: isOpen ? '50%' : '25%',
           rotate: isOpen ? 45 : 0,
-          translateY: isOpen ? "-50%" : 0,
+          translateY: isOpen ? '-50%' : 0,
         }}
         transition={{ duration: 0.2 }}
       />
       <motion.span
-        className="absolute left-0 top-1/2 h-0.5 w-6 bg-current -translate-y-1/2"
+        className="absolute top-1/2 left-0 h-0.5 w-6 -translate-y-1/2 bg-current"
         animate={{ opacity: isOpen ? 0 : 1, scaleX: isOpen ? 0 : 1 }}
         transition={{ duration: 0.2 }}
       />
       <motion.span
         className="absolute left-0 h-0.5 w-6 bg-current"
         animate={{
-          bottom: isOpen ? "50%" : "25%",
+          bottom: isOpen ? '50%' : '25%',
           rotate: isOpen ? -45 : 0,
-          translateY: isOpen ? "50%" : 0,
+          translateY: isOpen ? '50%' : 0,
         }}
         transition={{ duration: 0.2 }}
       />
@@ -471,12 +457,9 @@ function LikeButton({ postId, initialLiked, initialCount }) {
     <motion.button
       onClick={handleLike}
       whileTap={{ scale: 0.9 }}
-      className={`flex items-center gap-2 ${liked ? "text-red-500" : "text-gray-500"}`}
+      className={`flex items-center gap-2 ${liked ? 'text-red-500' : 'text-gray-500'}`}
     >
-      <motion.span
-        animate={{ scale: liked ? [1, 1.3, 1] : 1 }}
-        transition={{ duration: 0.3 }}
-      >
+      <motion.span animate={{ scale: liked ? [1, 1.3, 1] : 1 }} transition={{ duration: 0.3 }}>
         {liked ? <HeartFilledIcon /> : <HeartIcon />}
       </motion.span>
       <AnimatePresence mode="wait">
@@ -497,7 +480,7 @@ function LikeButton({ postId, initialLiked, initialCount }) {
 ### Pull to Refresh
 
 ```tsx
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import { motion, useMotionValue, useTransform } from 'framer-motion';
 
 function PullToRefresh({ onRefresh, children }) {
   const y = useMotionValue(0);
@@ -517,9 +500,7 @@ function PullToRefresh({ onRefresh, children }) {
   return (
     <div className="overflow-hidden">
       <motion.div style={{ opacity }} className="flex justify-center py-4">
-        <motion.div style={{ rotate }}>
-          {isRefreshing ? <Spinner /> : <ArrowDownIcon />}
-        </motion.div>
+        <motion.div style={{ rotate }}>{isRefreshing ? <Spinner /> : <ArrowDownIcon />}</motion.div>
       </motion.div>
       <motion.div
         drag="y"

@@ -113,10 +113,12 @@ trustworthy if an earlier one was skipped.
 # Training Brief: <slug>
 
 ## Goal
+
 <one paragraph: the failure mode this run targets,
 in the interrogated terms from Method step 1>
 
 ## Chosen Method
+
 <SFT | DPO/ORPO/KTO | GRPO+RLVR | off-ramp (RAG /
 prompt-engineering / CPT-guidance)>
 
@@ -125,17 +127,20 @@ Why: <the specific branch of
 applies, and the data shape that drove it>
 
 ## Base Model
+
 <size class, e.g. "8B-class">
 <model name and provenance: pulled from
 `finetuning-method-selection`'s model catalog,
 with the catalog's last-verified date>
 
 ## Eval Baseline
+
 <path to `eval/baseline-<model>.json`; confirmation
 it was produced by `eval-harness-first` against the
 unmodified base model>
 
 ## Dataset Expectation
+
 - Source: <traces / synthetic / mixed, per
   `eval-harness-first`'s goldens-building guidance>
 - Size floor: <per the chosen method's skill —
@@ -150,6 +155,7 @@ unmodified base model>
   and why>
 
 ## Memory Budget
+
 <method + dtype + size class, sized per
 `finetuning-method-selection`'s memory-feasibility
 guidance (or the DGX Spark skill's worksheet, once
@@ -157,6 +163,7 @@ installed) — cite the worksheet used, not a
 freehand estimate>
 
 ## Success Criteria
+
 <which eval-harness graders and drift-suite items
 must move, and by how much, per the goldens and
 graders defined in `eval-harness-first`>
@@ -166,6 +173,7 @@ points at that gate rather than restating its
 thresholds>
 
 ## Risks
+
 <off-ramps considered and rejected, and why;
 catastrophic-forgetting exposure given the replay
 fraction decided above (0% replay is an explicit,

@@ -42,8 +42,8 @@
 > └─ screenshot-detail.png
 > ```
 
-| Hero | Gallery (Masonry) | Case Detail |
-| :--: | :--: | :--: |
+|                Hero                 |             Gallery (Masonry)             |               Case Detail               |
+| :---------------------------------: | :---------------------------------------: | :-------------------------------------: |
 | ![hero](./docs/screenshot-hero.png) | ![gallery](./docs/screenshot-gallery.png) | ![detail](./docs/screenshot-detail.png) |
 
 ## 特性
@@ -59,25 +59,25 @@
 
 ## 数据规模
 
-| 项目 | 数量 | 说明 |
-| --- | ---: | --- |
-| Categories | 17 | UI / 产品 / 海报 / 人物 / 信息图 / 学术 / 技术架构图 / 编辑工作流 / … |
-| Templates | 79 | 每个模板对应 [garden-skills](https://github.com/ConardLi/garden-skills) 中的一个 Skill 子模块 |
-| Cases | 161 | 每条都包含可直接喂给模型的 prompt + 真实出图 |
+| 项目       | 数量 | 说明                                                                                          |
+| ---------- | ---: | --------------------------------------------------------------------------------------------- |
+| Categories |   17 | UI / 产品 / 海报 / 人物 / 信息图 / 学术 / 技术架构图 / 编辑工作流 / …                         |
+| Templates  |   79 | 每个模板对应 [garden-skills](https://github.com/ConardLi/garden-skills) 中的一个 Skill 子模块 |
+| Cases      |  161 | 每条都包含可直接喂给模型的 prompt + 真实出图                                                  |
 
 数字来自当前仓库的 `src/data/cases.json`，每次 `npm run build:data` 都会刷新。
 
 ## 技术栈
 
-| 层 | 选型 |
-| --- | --- |
-| 视图框架 | React 19 + TypeScript 6 |
-| 构建工具 | Vite 8（自定义 Plugin: `safePublicCopy`, `casesDataWatcher`）|
-| 路由 | 自研 hash router (`src/lib/router.ts`)，使用 `history.pushState` 避免浏览器自动滚动 |
-| 样式 | CSS Custom Properties + 手写动画，无 UI 框架 |
-| 字体 | `Instrument Serif` / `Plus Jakarta Sans` / `JetBrains Mono`（Google Fonts）|
-| 数据 | 构建期由 `scripts/build-data.mjs` 把分散的 JSON / TXT / Markdown 聚合成两个 manifest |
-| Lint | ESLint 10 + typescript-eslint 8 |
+| 层       | 选型                                                                                 |
+| -------- | ------------------------------------------------------------------------------------ |
+| 视图框架 | React 19 + TypeScript 6                                                              |
+| 构建工具 | Vite 8（自定义 Plugin: `safePublicCopy`, `casesDataWatcher`）                        |
+| 路由     | 自研 hash router (`src/lib/router.ts`)，使用 `history.pushState` 避免浏览器自动滚动  |
+| 样式     | CSS Custom Properties + 手写动画，无 UI 框架                                         |
+| 字体     | `Instrument Serif` / `Plus Jakarta Sans` / `JetBrains Mono`（Google Fonts）          |
+| 数据     | 构建期由 `scripts/build-data.mjs` 把分散的 JSON / TXT / Markdown 聚合成两个 manifest |
+| Lint     | ESLint 10 + typescript-eslint 8                                                      |
 
 ## 快速开始
 
@@ -145,11 +145,11 @@ doc/img2.md                                        ├─►  src/data/docs.json
 
 **触发时机**
 
-| 时机 | 行为 |
-| --- | --- |
-| `npm run dev` / `npm run build` 之前 | `pre*` 钩子自动跑 `build:data` |
+| 时机                                                | 行为                                                             |
+| --------------------------------------------------- | ---------------------------------------------------------------- |
+| `npm run dev` / `npm run build` 之前                | `pre*` 钩子自动跑 `build:data`                                   |
 | 开发期改动 `public/case/**` 或 `references/**/*.md` | `casesDataWatcher` Vite 插件 250ms debounce 后增量重建，HMR 同步 |
-| 手动触发 | `npm run build:data` |
+| 手动触发                                            | `npm run build:data`                                             |
 
 **生产构建时的拷贝策略**
 

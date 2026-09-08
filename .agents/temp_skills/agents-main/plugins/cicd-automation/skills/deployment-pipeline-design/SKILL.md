@@ -56,14 +56,14 @@ Argo Rollouts requires a valid `AnalysisTemplate` to auto-promote. If the Promet
 ```yaml
 spec:
   metrics:
-  - name: error-rate
-    failureCondition: "result[0] > 0.05"
-    inconclusiveLimit: 2   # fail after 2 inconclusive results, not hang indefinitely
-    provider:
-      prometheus:
-        query: |
-          sum(rate(http_requests_total{status=~"5.."}[2m]))
-          / sum(rate(http_requests_total[2m]))
+    - name: error-rate
+      failureCondition: 'result[0] > 0.05'
+      inconclusiveLimit: 2 # fail after 2 inconclusive results, not hang indefinitely
+      provider:
+        prometheus:
+          query: |
+            sum(rate(http_requests_total{status=~"5.."}[2m]))
+            / sum(rate(http_requests_total[2m]))
 ```
 
 ### Staging deploy succeeds but production job never starts

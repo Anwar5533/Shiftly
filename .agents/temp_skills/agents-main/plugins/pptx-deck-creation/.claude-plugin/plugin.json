@@ -6,7 +6,14 @@
   "repository": "https://github.com/kimtth/agent-pptify-kit",
   "license": "MIT",
   "category": "creative",
-  "keywords": ["powerpoint", "pptx", "presentations", "slide-decks", "deck-generation", "slide-design"],
+  "keywords": [
+    "powerpoint",
+    "pptx",
+    "presentations",
+    "slide-decks",
+    "deck-generation",
+    "slide-design"
+  ],
   "agents": ["./agents"],
   "skills": [
     "./skills/pptx-deck-context",

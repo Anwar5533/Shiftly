@@ -4,16 +4,7 @@
   "title": "Veritas Acta Decision Receipt (v2 envelope)",
   "description": "Expected shape of a protect-mcp@0.7.4 receipt. Mirrors draft-farley-acta-signed-receipts; the decision facts live in payload, signed as a unit.",
   "type": "object",
-  "required": [
-    "v",
-    "type",
-    "algorithm",
-    "kid",
-    "issuer",
-    "issued_at",
-    "payload",
-    "signature"
-  ],
+  "required": ["v", "type", "algorithm", "kid", "issuer", "issued_at", "payload", "signature"],
   "properties": {
     "v": {
       "type": "integer",
@@ -21,10 +12,7 @@
     },
     "type": {
       "type": "string",
-      "enum": [
-        "decision_receipt",
-        "gateway_restraint"
-      ]
+      "enum": ["decision_receipt", "gateway_restraint"]
     },
     "algorithm": {
       "type": "string",
@@ -42,20 +30,14 @@
     },
     "payload": {
       "type": "object",
-      "required": [
-        "tool",
-        "decision"
-      ],
+      "required": ["tool", "decision"],
       "properties": {
         "tool": {
           "type": "string"
         },
         "decision": {
           "type": "string",
-          "enum": [
-            "allow",
-            "deny"
-          ]
+          "enum": ["allow", "deny"]
         },
         "reason_code": {
           "type": "string"

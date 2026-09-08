@@ -25,12 +25,12 @@ parameter count and dtype, then sum.
 
 `params × bytes/param`, by dtype:
 
-| dtype | bytes/param |
-|---|---|
-| fp32 | 4 |
-| bf16 / fp16 | 2 |
-| int8 | 1 |
-| int4 (QLoRA NF4) | 0.5 |
+| dtype            | bytes/param |
+| ---------------- | ----------- |
+| fp32             | 4           |
+| bf16 / fp16      | 2           |
+| int8             | 1           |
+| int4 (QLoRA NF4) | 0.5         |
 
 This term dominates for full fine-tuning, and the
 calculation (`params × bytes/param`) is the same
@@ -50,10 +50,10 @@ it only for the adapter parameters, which is why
 this term is negligible for them regardless of
 base model size.
 
-| Optimizer | bytes/param (trainable only) |
-|---|---|
-| AdamW, fp32 states | 8 (4B momentum + 4B variance) |
-| AdamW 8-bit | ≈2 (quantized momentum + variance) |
+| Optimizer          | bytes/param (trainable only)       |
+| ------------------ | ---------------------------------- |
+| AdamW, fp32 states | 8 (4B momentum + 4B variance)      |
+| AdamW 8-bit        | ≈2 (quantized momentum + variance) |
 
 8-bit AdamW roughly quarters this term versus the
 fp32 variant for any run that isn't LoRA/QLoRA-

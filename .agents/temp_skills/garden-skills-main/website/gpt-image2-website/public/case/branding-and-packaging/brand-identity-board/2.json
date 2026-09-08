@@ -11,23 +11,13 @@
     "logo": {
       "position": "左上",
       "primary_logo": "B 与 L 共用笔触形成砖缝，一道斜向光束负形从缝中穿过；下排小字「BRICKLIGHT COFFEE」",
-      "secondary_logos": [
-        "仅光束 + 砖线图标",
-        "横排长字标去图标",
-        "单黑版反白在烧橙色底"
-      ],
+      "secondary_logos": ["仅光束 + 砖线图标", "横排长字标去图标", "单黑版反白在烧橙色底"],
       "background_test": "浅暖灰 + 深燧石黑"
     },
     "color_palette": {
       "position": "右上",
-      "primary": [
-        "#1E1E1E 燧石黑",
-        "#D36135 窑变橙"
-      ],
-      "secondary": [
-        "#EDE6DB 米窑白",
-        "#5C6670 钢蓝灰"
-      ],
+      "primary": ["#1E1E1E 燧石黑", "#D36135 窑变橙"],
+      "secondary": ["#EDE6DB 米窑白", "#5C6670 钢蓝灰"],
       "swatch_design": "长条色带 + HEX + 用途小字如「主背景」「强强调」"
     },
     "typography": {
@@ -51,14 +41,7 @@
   },
   "aspect_ratio": "3:4",
   "constraints": {
-    "must_keep": [
-      "HEX 与圆角色块对应",
-      "四区呼吸感，避免色块糊满",
-      "杯上 logo 不跨越杯缝可识别区"
-    ],
-    "avoid": [
-      "过强锈迹与脏渍纹理",
-      "超过 6 个品牌色点"
-    ]
+    "must_keep": ["HEX 与圆角色块对应", "四区呼吸感，避免色块糊满", "杯上 logo 不跨越杯缝可识别区"],
+    "avoid": ["过强锈迹与脏渍纹理", "超过 6 个品牌色点"]
   }
 }

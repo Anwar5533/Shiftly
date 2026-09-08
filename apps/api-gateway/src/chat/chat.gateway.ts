@@ -42,11 +42,8 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('joinConversation')
-  handleJoinConversation(
-    @ConnectedSocket() client: Socket,
-    @MessageBody() conversationId: string,
-  ) {
-    client.join(conversationId);
+  handleJoinConversation(@ConnectedSocket() client: Socket, @MessageBody() conversationId: string) {
+    void client.join(conversationId);
     this.logger.log(`Client ${client.id} joined conversation: ${conversationId}`);
   }
 
@@ -55,7 +52,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @ConnectedSocket() client: Socket,
     @MessageBody() conversationId: string,
   ) {
-    client.leave(conversationId);
+    void client.leave(conversationId);
     this.logger.log(`Client ${client.id} left conversation: ${conversationId}`);
   }
 
@@ -71,7 +68,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       content: data.content,
       createdAt: new Date().toISOString(),
     };
-    
+
     this.messages.push(message);
     this.server.to(data.conversationId).emit('newMessage', message);
   }

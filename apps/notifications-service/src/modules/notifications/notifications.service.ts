@@ -33,22 +33,26 @@ export class NotificationsService {
 
       // Email dispatch via AWS SES
       if (payload.type === 'EMAIL' && payload.title) {
-        await this.sesClient.send(new SendEmailCommand({
-          Destination: { ToAddresses: ['test@shiftly.com'] }, // Mock target
-          Message: {
-            Body: { Text: { Data: payload.message } },
-            Subject: { Data: payload.title }
-          },
-          Source: process.env.AWS_SES_FROM_EMAIL || 'noreply@shiftly.com'
-        }));
+        await this.sesClient.send(
+          new SendEmailCommand({
+            Destination: { ToAddresses: ['test@shiftly.com'] }, // Mock target
+            Message: {
+              Body: { Text: { Data: String(payload.message) } },
+              Subject: { Data: String(payload.title) },
+            },
+            Source: process.env.AWS_SES_FROM_EMAIL || 'noreply@shiftly.com',
+          }),
+        );
       }
 
       // SMS dispatch via AWS SNS
       if (payload.type === 'SMS') {
-        await this.snsClient.send(new PublishCommand({
-          Message: payload.message,
-          TopicArn: process.env.AWS_SNS_SMS_TOPIC_ARN,
-        }));
+        await this.snsClient.send(
+          new PublishCommand({
+            Message: String(payload.message),
+            TopicArn: process.env.AWS_SNS_SMS_TOPIC_ARN,
+          }),
+        );
       }
     } catch (error) {
       console.error('Failed to create/dispatch notification via event:', error);

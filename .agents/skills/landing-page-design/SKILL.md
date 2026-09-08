@@ -1,6 +1,6 @@
 ---
 name: landing-page-design
-description: "Complete system for building high converting landing pages: intake questions, page structure, layout selection, conversion copywriting, SEO, plus strict visual rules for typography, spacing, corner radius, backgrounds, hero layout, icons, and motion. Use this skill whenever building, editing, styling, reviewing, or writing copy for ANY landing page, marketing site, web UI, page section, component, or prototype, even when the user does not mention design, conversion, tokens, or a design system. Always consult it before choosing page sections, headlines, CTAs, fonts, font sizes, spacing values, border radii, background colors, icons, or transitions."
+description: 'Complete system for building high converting landing pages: intake questions, page structure, layout selection, conversion copywriting, SEO, plus strict visual rules for typography, spacing, corner radius, backgrounds, hero layout, icons, and motion. Use this skill whenever building, editing, styling, reviewing, or writing copy for ANY landing page, marketing site, web UI, page section, component, or prototype, even when the user does not mention design, conversion, tokens, or a design system. Always consult it before choosing page sections, headlines, CTAs, fonts, font sizes, spacing values, border radii, background colors, icons, or transitions.'
 ---
 
 # Landing Page Design
@@ -15,7 +15,7 @@ This skill has two halves. **Part A** decides what the page says and how it is s
 
 Apply to all web UI work: landing pages, marketing sites, components, dashboards, prototypes, and design reviews. When a rule here conflicts with a framework default, this file wins. When the user's explicit prompt conflicts with a rule, the user wins.
 
-**Companion skill.** For upgrading an *existing* site rather than building a new one, use `redesign-existing-projects` ([github.com/elayadesign/redesign-skill](https://github.com/elayadesign/redesign-skill)). It diagnoses generic patterns and defers to this file for every concrete value.
+**Companion skill.** For upgrading an _existing_ site rather than building a new one, use `redesign-existing-projects` ([github.com/elayadesign/redesign-skill](https://github.com/elayadesign/redesign-skill)). It diagnoses generic patterns and defers to this file for every concrete value.
 
 ---
 
@@ -26,11 +26,13 @@ Apply to all web UI work: landing pages, marketing sites, components, dashboards
 Gather these before designing or writing. Ask only for what is missing, and ask in one batch rather than one question at a time.
 
 **Purpose**
+
 - What is the ONE primary action? (trial, demo, buy, waitlist, download)
 - What is the offer, exactly what do they get?
 - What counts as a conversion? (click, signup, purchase)
 
 **Audience and context**
+
 - Who is the ICP?
 - What problem are they trying to solve?
 - Top three objections, meaning why they do not convert today
@@ -38,11 +40,13 @@ Gather these before designing or writing. Ask only for what is missing, and ask 
 - What do visitors already know when they land?
 
 **Proof and assets**
+
 - Proof points: logos, testimonials, numbers, case studies
 - Screenshots, demo video, product GIFs
 - Guarantees, refund terms, cancellation terms
 
 **Constraints**
+
 - Brand voice: casual or professional
 - Design direction: minimal editorial, playful 3D, glass UI
 - Mobile priority?
@@ -52,22 +56,16 @@ If the user cannot answer, make a reasonable assumption, state it in one line, a
 ## A2. Page structure
 
 **Above the fold (required)**
+
 1. Headline, outcome plus audience
 2. Subheadline, clarifies how and adds specificity
 3. Primary CTA, clear verb plus what they get
 4. One proof signal, logo strip, stat, or short testimonial
 5. Hero visual, product screenshot or video, or a strong illustration
 
-**Mid page (the argument)**
-6. Problem to solution, one section
-7. Benefits, three to five, outcome driven
-8. How it works, three steps
-9. Social proof, testimonials or a case study
+**Mid page (the argument)** 6. Problem to solution, one section 7. Benefits, three to five, outcome driven 8. How it works, three steps 9. Social proof, testimonials or a case study
 
-**Bottom (objection handling)**
-10. FAQ, six to twelve questions
-11. Risk reversal, trial, cancel anytime, guarantee
-12. Final CTA, identical to the top
+**Bottom (objection handling)** 10. FAQ, six to twelve questions 11. Risk reversal, trial, cancel anytime, guarantee 12. Final CTA, identical to the top
 
 Include the mandatory tagline reveal section from B11 somewhere in the mid page argument, typically right after the hero or after benefits.
 
@@ -75,12 +73,12 @@ Include the mandatory tagline reveal section from B11 somewhere in the mid page 
 
 Pick one and say why.
 
-| Type | Use when |
-|---|---|
-| **A. Classic hero plus sections** | The product is understandable from a hero screenshot. Most common. |
-| **B. Long form story** | You need to educate and overcome skepticism. |
-| **C. Minimal conversion page** | High intent traffic (email to known users), or a short offer like a download or waitlist. |
-| **D. Comparison page** | Search intent includes alternatives ("X vs Y", "best for"). Usually paired with SEO pages. |
+| Type                              | Use when                                                                                   |
+| --------------------------------- | ------------------------------------------------------------------------------------------ |
+| **A. Classic hero plus sections** | The product is understandable from a hero screenshot. Most common.                         |
+| **B. Long form story**            | You need to educate and overcome skepticism.                                               |
+| **C. Minimal conversion page**    | High intent traffic (email to known users), or a short offer like a download or waitlist.  |
+| **D. Comparison page**            | Search intent includes alternatives ("X vs Y", "best for"). Usually paired with SEO pages. |
 
 ## A4. Conversion rules
 
@@ -91,6 +89,7 @@ Pick one and say why.
 **Write benefit first.** Features are what it does. Benefits are what that means for them.
 
 **Be specific.**
+
 - ❌ "Save time and streamline"
 - ✅ "Cut your weekly reporting from 4 hours to 15 minutes"
 
@@ -101,6 +100,7 @@ Pick one and say why.
 ## A5. Copywriting
 
 **Headline formulas**
+
 - "{Outcome} without {pain}"
 - "The {category} for {audience}"
 - "Ship {result} in {time}"
@@ -173,21 +173,21 @@ Always resolve font sizes to Tailwind's default type scale. Never leave arbitrar
 
 If an existing size does not land exactly on a step, snap it to the **closest step below**, taking both the size and its paired line height.
 
-| Class | Size | Line height |
-|---|---|---|
-| `text-xs` | 12px (0.75rem) | 16px |
-| `text-sm` | 14px (0.875rem) | 20px |
-| `text-base` | 16px (1rem) | 24px |
-| `text-lg` | 18px (1.125rem) | 28px |
-| `text-xl` | 20px (1.25rem) | 28px |
-| `text-2xl` | 24px (1.5rem) | 32px |
-| `text-3xl` | 30px (1.875rem) | 36px |
-| `text-4xl` | 36px (2.25rem) | 40px |
-| `text-5xl` | 48px (3rem) | 1 |
-| `text-6xl` | 60px (3.75rem) | 1 |
-| `text-7xl` | 72px (4.5rem) | 1 |
-| `text-8xl` | 96px (6rem) | 1 |
-| `text-9xl` | 128px (8rem) | 1 |
+| Class       | Size            | Line height |
+| ----------- | --------------- | ----------- |
+| `text-xs`   | 12px (0.75rem)  | 16px        |
+| `text-sm`   | 14px (0.875rem) | 20px        |
+| `text-base` | 16px (1rem)     | 24px        |
+| `text-lg`   | 18px (1.125rem) | 28px        |
+| `text-xl`   | 20px (1.25rem)  | 28px        |
+| `text-2xl`  | 24px (1.5rem)   | 32px        |
+| `text-3xl`  | 30px (1.875rem) | 36px        |
+| `text-4xl`  | 36px (2.25rem)  | 40px        |
+| `text-5xl`  | 48px (3rem)     | 1           |
+| `text-6xl`  | 60px (3.75rem)  | 1           |
+| `text-7xl`  | 72px (4.5rem)   | 1           |
+| `text-8xl`  | 96px (6rem)     | 1           |
+| `text-9xl`  | 128px (8rem)    | 1           |
 
 Do not combine scale snapping with independently set custom line heights elsewhere in an audit. Tracking and line height may only be adjusted **within** the value the matched step already provides, so the two rules never fight each other.
 
@@ -200,21 +200,21 @@ Do not combine scale snapping with independently set custom line heights elsewhe
 
 Only these values. Nothing between them, nothing outside them.
 
-| Token | Value |
-|---|---|
-| Spacing-0 | 0 |
-| Spacing-25 | 2px |
-| Spacing-50 | 4px |
-| Spacing-75 | 8px |
-| Spacing-100 | 12px |
-| Spacing-200 | 16px |
-| Spacing-300 | 24px |
-| Spacing-400 | 32px |
-| Spacing-500 | 40px |
-| Spacing-600 | 48px |
-| Spacing-700 | 64px |
-| Spacing-800 | 80px |
-| Spacing-900 | 96px |
+| Token       | Value |
+| ----------- | ----- |
+| Spacing-0   | 0     |
+| Spacing-25  | 2px   |
+| Spacing-50  | 4px   |
+| Spacing-75  | 8px   |
+| Spacing-100 | 12px  |
+| Spacing-200 | 16px  |
+| Spacing-300 | 24px  |
+| Spacing-400 | 32px  |
+| Spacing-500 | 40px  |
+| Spacing-600 | 48px  |
+| Spacing-700 | 64px  |
+| Spacing-800 | 80px  |
+| Spacing-900 | 96px  |
 
 **Main buttons:** 8px vertical padding, 12px horizontal padding.
 
@@ -343,14 +343,17 @@ Things that get forgotten and make a page feel unfinished:
 Every landing page includes one large type section stating the core benefit or tagline, separate from the hero. It sits further down the page as its own moment, not stacked directly under the hero.
 
 **Copy**
+
 - Minimum two lines of text.
 - A benefit statement or tagline, written in the voice of A5, not a generic section heading.
 
 **Typography**
+
 - Size `text-4xl` to `text-6xl` depending on line count, following the B1 type scale.
 - Max width capped like the hero, so lines break at meaningful points per B5.
 
 **Animation**
+
 - Text starts in a subtle, muted tone, roughly 25 to 35% opacity of the theme's base text color.
 - As the section scrolls into view, each word transitions individually from that muted tone to the full text color, in reading order.
 - Words activate one at a time as they cross a trigger line, not the entire block flipping at once. The transition uses the custom easing curve from B7, never a linear fade.
@@ -377,6 +380,7 @@ Then build section by section per A6.
 # Quick checklist
 
 **Strategy**
+
 - [ ] One offer, one audience, one primary action
 - [ ] No competing CTAs above the fold
 - [ ] Specific numbers instead of vague verbs
@@ -385,6 +389,7 @@ Then build section by section per A6.
 - [ ] Layout type chosen deliberately
 
 **Visual**
+
 - [ ] Single approved typeface, no italics, no ultra bold
 - [ ] No hyphens in copy, no orphaned words
 - [ ] Every font size lands on a Tailwind scale step
@@ -397,6 +402,7 @@ Then build section by section per A6.
 - [ ] Tagline reveal section present, minimum two lines, words activate one at a time on scroll
 
 **Content and ship**
+
 - [ ] No Lorem Ipsum, no placeholder brands, no AI cliches, no round fake numbers
 - [ ] Hover, active, focus, loading, empty, and error states all present
 - [ ] No dead links, current nav item indicated

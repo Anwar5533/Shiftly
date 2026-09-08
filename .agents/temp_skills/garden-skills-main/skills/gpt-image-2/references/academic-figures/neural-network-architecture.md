@@ -83,10 +83,22 @@
     "items": [
       { "id": "L1", "type": "Embedding / PatchEmbed", "name": "Patch Embed", "shape": "196×768" },
       { "id": "L2", "type": "Norm / Residual", "name": "LayerNorm", "shape": "196×768" },
-      { "id": "L3", "type": "Self-Attention", "name": "Multi-head Self-Attn (×8)", "shape": "196×768", "annotation": "× N=6 (encoder)" },
+      {
+        "id": "L3",
+        "type": "Self-Attention",
+        "name": "Multi-head Self-Attn (×8)",
+        "shape": "196×768",
+        "annotation": "× N=6 (encoder)"
+      },
       { "id": "L4", "type": "Feed Forward / MLP", "name": "FFN", "shape": "196×768" },
       { "id": "L5", "type": "Cross-Attention", "name": "Cross-Attn", "shape": "K×768" },
-      { "id": "L6", "type": "Self-Attention", "name": "Decoder Self-Attn", "shape": "K×768", "annotation": "× N=6 (decoder)" },
+      {
+        "id": "L6",
+        "type": "Self-Attention",
+        "name": "Decoder Self-Attn",
+        "shape": "K×768",
+        "annotation": "× N=6 (decoder)"
+      },
       { "id": "L7", "type": "Feed Forward / MLP", "name": "FFN", "shape": "K×768" },
       { "id": "L8", "type": "Norm / Residual", "name": "Output Head (Linear)", "shape": "K×C" }
     ]

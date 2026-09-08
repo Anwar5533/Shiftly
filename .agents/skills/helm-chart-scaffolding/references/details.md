@@ -50,7 +50,7 @@ name: my-app
 description: A Helm chart for My Application
 type: application
 version: 1.0.0 # Chart version
-appVersion: "2.1.0" # Application version
+appVersion: '2.1.0' # Application version
 
 # Keywords for chart discovery
 keywords:
@@ -77,12 +77,12 @@ icon: https://example.com/icon.png
 # Dependencies
 dependencies:
   - name: postgresql
-    version: "12.0.0"
-    repository: "https://charts.bitnami.com/bitnami"
+    version: '12.0.0'
+    repository: 'https://charts.bitnami.com/bitnami'
     condition: postgresql.enabled
   - name: redis
-    version: "17.0.0"
-    repository: "https://charts.bitnami.com/bitnami"
+    version: '17.0.0'
+    repository: 'https://charts.bitnami.com/bitnami'
     condition: redis.enabled
 ```
 
@@ -96,7 +96,7 @@ dependencies:
 # Image configuration
 image:
   repository: myapp
-  tag: "1.0.0"
+  tag: '1.0.0'
   pullPolicy: IfNotPresent
 
 # Number of replicas
@@ -121,11 +121,11 @@ ingress:
 # Resources
 resources:
   requests:
-    memory: "256Mi"
-    cpu: "250m"
+    memory: '256Mi'
+    cpu: '250m'
   limits:
-    memory: "512Mi"
-    cpu: "500m"
+    memory: '512Mi'
+    cpu: '500m'
 
 # Autoscaling
 autoscaling:
@@ -137,7 +137,7 @@ autoscaling:
 # Environment variables
 env:
   - name: LOG_LEVEL
-    value: "info"
+    value: 'info'
 
 # ConfigMap data
 configMap:
@@ -251,8 +251,8 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 ```yaml
 dependencies:
   - name: postgresql
-    version: "12.0.0"
-    repository: "https://charts.bitnami.com/bitnami"
+    version: '12.0.0'
+    repository: 'https://charts.bitnami.com/bitnami'
     condition: postgresql.enabled
 ```
 
@@ -366,15 +366,15 @@ my-app/
 replicaCount: 5
 
 image:
-  tag: "2.1.0"
+  tag: '2.1.0'
 
 resources:
   requests:
-    memory: "512Mi"
-    cpu: "500m"
+    memory: '512Mi'
+    cpu: '500m'
   limits:
-    memory: "1Gi"
-    cpu: "1000m"
+    memory: '1Gi'
+    cpu: '1000m'
 
 autoscaling:
   enabled: true

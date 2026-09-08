@@ -22,15 +22,17 @@ The catalog is a view over the analysis, not a copy plan. List every source slid
 {
   "source_deck": "reference.pptx",
   "slide_count": 12,
-  "slides": [{
-    "source_index": 0,
-    "layout_role": "cover",
-    "description": "Dark cover with title and subtitle regions",
-    "regions": ["title", "subtitle", "supporting visual"],
-    "placeholder_roles": ["ctrTitle", "subTitle"],
-    "visual_structures": ["full-bleed color field", "corner motif"],
-    "reuse_constraints": ["best for one title and one short subtitle"]
-  }]
+  "slides": [
+    {
+      "source_index": 0,
+      "layout_role": "cover",
+      "description": "Dark cover with title and subtitle regions",
+      "regions": ["title", "subtitle", "supporting visual"],
+      "placeholder_roles": ["ctrTitle", "subTitle"],
+      "visual_structures": ["full-bleed color field", "corner motif"],
+      "reuse_constraints": ["best for one title and one short subtitle"]
+    }
+  ]
 }
 ```
 

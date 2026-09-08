@@ -49,7 +49,7 @@ class Counter extends React.Component {
     super(props);
     this.state = {
       count: 0,
-      name: "",
+      name: '',
     };
   }
 
@@ -70,7 +70,7 @@ class Counter extends React.Component {
 // After: Functional component with hooks
 function Counter() {
   const [count, setCount] = useState(0);
-  const [name, setName] = useState("");
+  const [name, setName] = useState('');
 
   const increment = () => {
     setCount(count + 1);
@@ -168,11 +168,7 @@ class ThemedButton extends React.Component {
   static contextType = ThemeContext;
 
   render() {
-    return (
-      <button style={{ background: this.context.theme }}>
-        {this.props.children}
-      </button>
-    );
+    return <button style={{ background: this.context.theme }}>{this.props.children}</button>;
   }
 }
 
@@ -222,14 +218,14 @@ function UserProfile() {
 
 ```javascript
 // Before: React 17
-import ReactDOM from "react-dom";
+import ReactDOM from 'react-dom';
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById('root'));
 
 // After: React 18
-import { createRoot } from "react-dom/client";
+import { createRoot } from 'react-dom/client';
 
-const root = createRoot(document.getElementById("root"));
+const root = createRoot(document.getElementById('root'));
 root.render(<App />);
 ```
 
@@ -251,7 +247,7 @@ setTimeout(() => {
 }, 1000);
 
 // Opt out if needed
-import { flushSync } from "react-dom";
+import { flushSync } from 'react-dom';
 
 flushSync(() => {
   setCount((c) => c + 1);
@@ -264,10 +260,10 @@ setFlag((f) => !f);
 ### Transitions
 
 ```javascript
-import { useState, useTransition } from "react";
+import { useState, useTransition } from 'react';
 
 function SearchResults() {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [isPending, startTransition] = useTransition();
 
@@ -294,7 +290,7 @@ function SearchResults() {
 ### Suspense for Data Fetching
 
 ```javascript
-import { Suspense } from "react";
+import { Suspense } from 'react';
 
 // Resource-based data fetching (with React 18)
 const resource = fetchProfileData();
@@ -325,4 +321,3 @@ function ProfileTimeline() {
 ## Additional patterns and templates
 
 More detailed templates and worked examples live in `references/details.md`. Read that file for the full pattern library.
-

@@ -30,12 +30,12 @@ interface Section {
 }
 
 const SECTIONS: Section[] = [
-  { id: 'hero',     label: 'HERO',         cn: '主视觉' },
-  { id: 'feat',     label: 'FEATURES',     cn: '6 大特性' },
-  { id: 'social',   label: 'TESTIMONIALS', cn: '客户评价' },
-  { id: 'data',     label: 'DATA',         cn: '数据展示' },
-  { id: 'faq',      label: 'FAQ',          cn: '常见问题' },
-  { id: 'contact',  label: 'CONTACT',      cn: '联系方式' },
+  { id: 'hero', label: 'HERO', cn: '主视觉' },
+  { id: 'feat', label: 'FEATURES', cn: '6 大特性' },
+  { id: 'social', label: 'TESTIMONIALS', cn: '客户评价' },
+  { id: 'data', label: 'DATA', cn: '数据展示' },
+  { id: 'faq', label: 'FAQ', cn: '常见问题' },
+  { id: 'contact', label: 'CONTACT', cn: '联系方式' },
 ];
 
 function SectionBlock({
@@ -70,7 +70,9 @@ function SectionBlock({
         {filled && s.id === 'hero' && (
           <div className="re__filler re__filler--hero">
             <span className="re__filler-h">Build the Future. Today.</span>
-            <span className="re__filler-sub">The all-in-one platform for the modern team — fast, simple, powerful.</span>
+            <span className="re__filler-sub">
+              The all-in-one platform for the modern team — fast, simple, powerful.
+            </span>
             <span className="re__filler-cta">Get Started →</span>
           </div>
         )}
@@ -98,10 +100,18 @@ function SectionBlock({
         )}
         {filled && s.id === 'data' && (
           <div className="re__filler re__filler--data">
-            <span><b>10k+</b> users</span>
-            <span><b>99.9%</b> uptime</span>
-            <span><b>4.9★</b> rating</span>
-            <span><b>+42%</b> growth</span>
+            <span>
+              <b>10k+</b> users
+            </span>
+            <span>
+              <b>99.9%</b> uptime
+            </span>
+            <span>
+              <b>4.9★</b> rating
+            </span>
+            <span>
+              <b>+42%</b> growth
+            </span>
           </div>
         )}
         {filled && s.id === 'faq' && (
@@ -132,10 +142,10 @@ function Restraint({ localStep }: ChapterContext) {
   const at = (n: number) => localStep >= n;
   void at;
 
-  const sceneJobs   = localStep <= 0;
-  const scenePage   = localStep >= 1 && localStep <= 3;
-  const scenePrinc  = localStep === 4;
-  const sceneClose  = localStep >= 5;
+  const sceneJobs = localStep <= 0;
+  const scenePage = localStep >= 1 && localStep <= 3;
+  const scenePrinc = localStep === 4;
+  const sceneClose = localStep >= 5;
 
   const filled = localStep >= 2;
   const pruned = localStep >= 3;
@@ -150,7 +160,12 @@ function Restraint({ localStep }: ChapterContext) {
           </Reveal>
 
           <div className="re__jobs-row">
-            <Reveal kind="rise" duration={1100} delay={300} className="re__jobs-num re__jobs-num--no">
+            <Reveal
+              kind="rise"
+              duration={1100}
+              delay={300}
+              className="re__jobs-num re__jobs-num--no"
+            >
               <span className="re__jobs-num-figure">1000</span>
               <span className="re__jobs-num-label">No</span>
             </Reveal>
@@ -159,7 +174,12 @@ function Restraint({ localStep }: ChapterContext) {
               换
             </Reveal>
 
-            <Reveal kind="rise" duration={1100} delay={1000} className="re__jobs-num re__jobs-num--yes">
+            <Reveal
+              kind="rise"
+              duration={1100}
+              delay={1000}
+              className="re__jobs-num re__jobs-num--yes"
+            >
               <span className="re__jobs-num-figure">1</span>
               <span className="re__jobs-num-label">Yes</span>
             </Reveal>
@@ -204,13 +224,7 @@ function Restraint({ localStep }: ChapterContext) {
             <div className="re__browser-body">
               <div className="re__page">
                 {SECTIONS.map((s, i) => (
-                  <SectionBlock
-                    key={s.id}
-                    s={s}
-                    index={i}
-                    filled={filled}
-                    pruned={pruned}
-                  />
+                  <SectionBlock key={s.id} s={s} index={i} filled={filled} pruned={pruned} />
                 ))}
               </div>
             </div>
@@ -245,7 +259,9 @@ function Restraint({ localStep }: ChapterContext) {
             <Reveal kind="rise" duration={720} delay={1000} className="re__princ-rule">
               <span className="re__princ-q">页面看着空？</span>
               <span className="re__princ-arrow">→</span>
-              <span className="re__princ-a">用<em>留白</em>解决，不是塞内容</span>
+              <span className="re__princ-a">
+                用<em>留白</em>解决，不是塞内容
+              </span>
             </Reveal>
           </div>
 
@@ -260,9 +276,8 @@ function Restraint({ localStep }: ChapterContext) {
             <div className="re__princ-excerpt-body">
               <span className="re__princ-excerpt-gt">&gt;</span>
               <span className="re__princ-excerpt-text">
-                Never pad a design with{' '}
-                <em>placeholder text, dummy sections</em>{' '}
-                just to fill space. <em>Every element should earn its place.</em>
+                Never pad a design with <em>placeholder text, dummy sections</em> just to fill
+                space. <em>Every element should earn its place.</em>
               </span>
             </div>
           </Reveal>
@@ -276,7 +291,13 @@ function Restraint({ localStep }: ChapterContext) {
             一个大胆的<em>留白</em>，
           </Reveal>
 
-          <Reveal kind="rise" duration={1300} delay={780} className="re__close-line re__close-line--alt" as="h1">
+          <Reveal
+            kind="rise"
+            duration={1300}
+            delay={780}
+            className="re__close-line re__close-line--alt"
+            as="h1"
+          >
             比十个凑数的板块更有<em>表现力</em>。
           </Reveal>
 

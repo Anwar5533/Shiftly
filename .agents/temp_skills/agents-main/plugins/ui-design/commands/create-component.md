@@ -1,6 +1,6 @@
 ---
-description: "Guided component creation with proper patterns"
-argument-hint: "[component-name]"
+description: 'Guided component creation with proper patterns'
+argument-hint: '[component-name]'
 ---
 
 # Create Component

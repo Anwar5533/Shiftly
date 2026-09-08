@@ -28,15 +28,15 @@ or `grpo-rlvr-training`.
 
 ## Quick Reference
 
-| Situation | Route |
-|---|---|
-| Facts change often (prices, docs, news) | RAG, not fine-tuning |
-| Desired behavior still being figured out | Prompt engineering |
-| Stable domain knowledge, ≥500MB text | CPT then SFT — see Off-Ramps First |
-| Have input/output demonstrations | SFT — see `lora-qlora-recipes` |
-| Have preference pairs or thumbs-up/down | DPO/ORPO/KTO — see `preference-optimization` |
-| Have a verifiable pass/fail signal | GRPO+RLVR — see `grpo-rlvr-training` |
-| No eval harness yet | Stop — see `eval-harness-first` |
+| Situation                                | Route                                        |
+| ---------------------------------------- | -------------------------------------------- |
+| Facts change often (prices, docs, news)  | RAG, not fine-tuning                         |
+| Desired behavior still being figured out | Prompt engineering                           |
+| Stable domain knowledge, ≥500MB text     | CPT then SFT — see Off-Ramps First           |
+| Have input/output demonstrations         | SFT — see `lora-qlora-recipes`               |
+| Have preference pairs or thumbs-up/down  | DPO/ORPO/KTO — see `preference-optimization` |
+| Have a verifiable pass/fail signal       | GRPO+RLVR — see `grpo-rlvr-training`         |
+| No eval harness yet                      | Stop — see `eval-harness-first`              |
 
 ## Off-Ramps First
 
@@ -58,12 +58,12 @@ these off-ramps before opening a training run:
   where continued pretraining (CPT) enters, sized
   by how much domain text exists:
 
-| Domain text volume | Route |
-|---|---|
-| <10MB | RAG only |
-| 10MB–500MB | RAG + fine-tune |
-| 500MB–10GB | CPT, then SFT |
-| >10GB | CPT required |
+| Domain text volume | Route           |
+| ------------------ | --------------- |
+| <10MB              | RAG only        |
+| 10MB–500MB         | RAG + fine-tune |
+| 500MB–10GB         | CPT, then SFT   |
+| >10GB              | CPT required    |
 
 CPT learning rate ≈ **10% of the pretraining
 LR**. CPT is guidance-only in this plugin —
@@ -96,22 +96,22 @@ way around.
 
 ### Worked Routing Examples
 
-- *"Users want the assistant to follow our
-  support macros exactly."* Behavior is stable
+- _"Users want the assistant to follow our
+  support macros exactly."_ Behavior is stable
   and demonstrable from transcripts → demos →
   **SFT**.
-- *"We have pairs of good/bad responses from
-  reviewer thumbs-up/down, unpaired."* → unpaired
+- _"We have pairs of good/bad responses from
+  reviewer thumbs-up/down, unpaired."_ → unpaired
   signal → **KTO**, not DPO (DPO needs paired
   preferences).
-- *"The model can already solve some of these
+- _"The model can already solve some of these
   math problems and we can grade correctness
-  automatically."* → verifiable success signal →
+  automatically."_ → verifiable success signal →
   **GRPO+RLVR**, and only after confirming the
   model succeeds at least sometimes (see Key
   Routing Facts below).
-- *"We want the model to know this week's
-  pricing page."* → volatile facts → **RAG**, no
+- _"We want the model to know this week's
+  pricing page."_ → volatile facts → **RAG**, no
   training run at all.
 
 ## Key Routing Facts
@@ -176,7 +176,7 @@ model from it.
 
 **Precedence when the catalog and a method skill
 disagree:** the catalog's per-row Notes column
-states hardware/size-class *feasibility*, not a
+states hardware/size-class _feasibility_, not a
 method recommendation — `lora-qlora-recipes`'s
 LoRA vs QLoRA vs Full FT table (routed by task
 shape) governs the actual method choice.

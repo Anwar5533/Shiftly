@@ -1,6 +1,6 @@
 ---
-description: "Gracefully shut down an agent team, collect final results, and clean up resources"
-argument-hint: "[team-name] [--force] [--keep-tasks]"
+description: 'Gracefully shut down an agent team, collect final results, and clean up resources'
+argument-hint: '[team-name] [--force] [--keep-tasks]'
 ---
 
 # Team Shutdown

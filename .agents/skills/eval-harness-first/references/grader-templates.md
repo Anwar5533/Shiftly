@@ -243,7 +243,7 @@ domain_adjacent:
 drift_budget:
   noise_tolerance_pts: 1
   rerun_seed_variation_pts: [2, 5]
-  hard_fail_threshold_pts: 5   # >5pt drop is a hard fail regardless of task-metric gains
+  hard_fail_threshold_pts: 5 # >5pt drop is a hard fail regardless of task-metric gains
 ```
 
 **Minimum viable drift suite for a small/dogfood run:** the

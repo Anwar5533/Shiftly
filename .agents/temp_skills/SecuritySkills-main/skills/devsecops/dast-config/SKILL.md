@@ -11,13 +11,13 @@ role: [security-engineer, appsec-engineer]
 phase: [build, deploy]
 frameworks: [OWASP-Top-10-2021, OWASP-Testing-Guide-v4.2]
 difficulty: intermediate
-time_estimate: "30-60min"
-version: "1.0.0"
+time_estimate: '30-60min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 injection-hardened: true
-argument-hint: "[target-file-or-directory]"
+argument-hint: '[target-file-or-directory]'
 ---
 
 # DAST Tool Configuration
@@ -83,6 +83,7 @@ Use Glob and Grep to locate DAST tool configurations, scan policies, and CI inte
 ```
 
 Categorize by:
+
 - **Tool:** ZAP, Burp Suite Enterprise, Nuclei, HCL AppScan, Invicti.
 - **Scan type:** Baseline (passive only), full scan (active + passive), API scan.
 - **Integration:** CI/CD pipeline, scheduled, manual.
@@ -99,28 +100,28 @@ ZAP's Automation Framework (AF) is the preferred configuration method for CI/CD 
 # af-plan.yaml -- ZAP Automation Framework plan
 env:
   contexts:
-    - name: "target-app"
+    - name: 'target-app'
       urls:
-        - "https://staging.example.com"
+        - 'https://staging.example.com'
       includePaths:
-        - "https://staging.example.com/.*"
+        - 'https://staging.example.com/.*'
       excludePaths:
-        - "https://staging.example.com/logout.*"
-        - "https://staging.example.com/admin/destroy.*"
+        - 'https://staging.example.com/logout.*'
+        - 'https://staging.example.com/admin/destroy.*'
       authentication:
-        method: "browser"
+        method: 'browser'
         parameters:
-          loginPageUrl: "https://staging.example.com/login"
+          loginPageUrl: 'https://staging.example.com/login'
           loginPageWait: 5
         verification:
-          method: "response"
+          method: 'response'
           loggedInRegex: "\\QSign Out\\E"
           loggedOutRegex: "\\QSign In\\E"
       users:
-        - name: "test-user"
+        - name: 'test-user'
           credentials:
-            username: "${DAST_USERNAME}"
-            password: "${DAST_PASSWORD}"
+            username: '${DAST_USERNAME}'
+            password: '${DAST_PASSWORD}'
   parameters:
     failOnError: true
     failOnWarning: false
@@ -134,7 +135,7 @@ jobs:
 
   - type: spider
     parameters:
-      maxDuration: 5           # minutes
+      maxDuration: 5 # minutes
       maxDepth: 10
       maxChildren: 20
 
@@ -156,9 +157,9 @@ jobs:
 
   - type: report
     parameters:
-      template: "traditional-json"
-      reportDir: "/zap/reports/"
-      reportFile: "zap-report"
+      template: 'traditional-json'
+      reportDir: '/zap/reports/'
+      reportFile: 'zap-report'
     risks:
       - high
       - medium
@@ -181,42 +182,42 @@ jobs:
 
 #### 2.2 Scan Policy -- Active vs. Passive Scanning
 
-| Scan Type | What It Does | Risk to Target | OWASP Testing Guide Coverage |
-|-----------|-------------|----------------|------------------------------|
-| **Passive scanning** | Analyzes responses without sending attack payloads | None (read-only) | WSTG-INFO, WSTG-CONF, partial WSTG-CRYP |
-| **Active scanning** | Sends injection payloads, fuzzes parameters | Moderate (may cause errors, data modification) | WSTG-INPV, WSTG-ATHZ, WSTG-SESS, WSTG-BUSL |
+| Scan Type            | What It Does                                       | Risk to Target                                 | OWASP Testing Guide Coverage               |
+| -------------------- | -------------------------------------------------- | ---------------------------------------------- | ------------------------------------------ |
+| **Passive scanning** | Analyzes responses without sending attack payloads | None (read-only)                               | WSTG-INFO, WSTG-CONF, partial WSTG-CRYP    |
+| **Active scanning**  | Sends injection payloads, fuzzes parameters        | Moderate (may cause errors, data modification) | WSTG-INPV, WSTG-ATHZ, WSTG-SESS, WSTG-BUSL |
 
 **Passive scan rules to verify are enabled:**
 
-| ZAP Rule ID | Rule Name | OWASP Top 10 | WSTG Reference |
-|-------------|-----------|-------------|----------------|
-| 10010 | Cookie No HttpOnly Flag | A05:2021 | WSTG-SESS-02 |
-| 10011 | Cookie Without Secure Flag | A05:2021 | WSTG-SESS-02 |
-| 10015 | Incomplete or No Cache-control Header | A05:2021 | WSTG-CONF-06 |
-| 10017 | Cross-Domain JavaScript Source | A05:2021 | WSTG-CLNT-01 |
-| 10020 | X-Frame-Options Header | A05:2021 | WSTG-CLNT-09 |
-| 10021 | X-Content-Type-Options Header | A05:2021 | WSTG-CONF-06 |
-| 10023 | Information Disclosure - Debug Errors | A05:2021 | WSTG-ERRH-01 |
-| 10035 | Strict-Transport-Security Header | A05:2021 | WSTG-CONF-07 |
-| 10036 | Server Leaks Version Information | A05:2021 | WSTG-INFO-02 |
-| 10038 | Content Security Policy Header | A05:2021 | WSTG-CONF-12 |
-| 10063 | Permissions Policy Header | A05:2021 | WSTG-CONF-06 |
-| 90004 | Insufficient Site Isolation Against Spectre | A05:2021 | N/A |
+| ZAP Rule ID | Rule Name                                   | OWASP Top 10 | WSTG Reference |
+| ----------- | ------------------------------------------- | ------------ | -------------- |
+| 10010       | Cookie No HttpOnly Flag                     | A05:2021     | WSTG-SESS-02   |
+| 10011       | Cookie Without Secure Flag                  | A05:2021     | WSTG-SESS-02   |
+| 10015       | Incomplete or No Cache-control Header       | A05:2021     | WSTG-CONF-06   |
+| 10017       | Cross-Domain JavaScript Source              | A05:2021     | WSTG-CLNT-01   |
+| 10020       | X-Frame-Options Header                      | A05:2021     | WSTG-CLNT-09   |
+| 10021       | X-Content-Type-Options Header               | A05:2021     | WSTG-CONF-06   |
+| 10023       | Information Disclosure - Debug Errors       | A05:2021     | WSTG-ERRH-01   |
+| 10035       | Strict-Transport-Security Header            | A05:2021     | WSTG-CONF-07   |
+| 10036       | Server Leaks Version Information            | A05:2021     | WSTG-INFO-02   |
+| 10038       | Content Security Policy Header              | A05:2021     | WSTG-CONF-12   |
+| 10063       | Permissions Policy Header                   | A05:2021     | WSTG-CONF-06   |
+| 90004       | Insufficient Site Isolation Against Spectre | A05:2021     | N/A            |
 
 **Active scan rules to verify for OWASP Top 10 coverage:**
 
-| OWASP Top 10 | ZAP Active Scanner | WSTG Reference |
-|-------------|-------------------|----------------|
-| A01:2021 Broken Access Control | Path Traversal (6), Remote File Inclusion (7) | WSTG-ATHZ-01 |
-| A02:2021 Cryptographic Failures | Passive rules + TLS config check | WSTG-CRYP-01 |
-| A03:2021 Injection | SQL Injection (40018, 40019, 40020, 40021, 40022), XSS Reflected (40012, 40014), XSS Persistent (40016, 40017), OS Command Injection (90020), SSTI (90035) | WSTG-INPV-05, WSTG-INPV-01 |
-| A04:2021 Insecure Design | Limited DAST coverage -- manual testing required | WSTG-BUSL-* |
-| A05:2021 Security Misconfiguration | Directory Browsing (0), Backup File Disclosure (10095) | WSTG-CONF-04, WSTG-CONF-03 |
-| A06:2021 Vulnerable Components | Passive technology fingerprinting + Retire.js | WSTG-INFO-02 |
-| A07:2021 Auth Failures | Brute Force (not default), Session Fixation (40013) | WSTG-ATHN-*, WSTG-SESS-* |
-| A08:2021 Software/Data Integrity | Limited DAST coverage | N/A |
-| A09:2021 Logging Failures | Not DAST-testable | N/A |
-| A10:2021 SSRF | SSRF (40046) | WSTG-INPV-19 |
+| OWASP Top 10                       | ZAP Active Scanner                                                                                                                                         | WSTG Reference             |
+| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
+| A01:2021 Broken Access Control     | Path Traversal (6), Remote File Inclusion (7)                                                                                                              | WSTG-ATHZ-01               |
+| A02:2021 Cryptographic Failures    | Passive rules + TLS config check                                                                                                                           | WSTG-CRYP-01               |
+| A03:2021 Injection                 | SQL Injection (40018, 40019, 40020, 40021, 40022), XSS Reflected (40012, 40014), XSS Persistent (40016, 40017), OS Command Injection (90020), SSTI (90035) | WSTG-INPV-05, WSTG-INPV-01 |
+| A04:2021 Insecure Design           | Limited DAST coverage -- manual testing required                                                                                                           | WSTG-BUSL-*                |
+| A05:2021 Security Misconfiguration | Directory Browsing (0), Backup File Disclosure (10095)                                                                                                     | WSTG-CONF-04, WSTG-CONF-03 |
+| A06:2021 Vulnerable Components     | Passive technology fingerprinting + Retire.js                                                                                                              | WSTG-INFO-02               |
+| A07:2021 Auth Failures             | Brute Force (not default), Session Fixation (40013)                                                                                                        | WSTG-ATHN-_, WSTG-SESS-_   |
+| A08:2021 Software/Data Integrity   | Limited DAST coverage                                                                                                                                      | N/A                        |
+| A09:2021 Logging Failures          | Not DAST-testable                                                                                                                                          | N/A                        |
+| A10:2021 SSRF                      | SSRF (40046)                                                                                                                                               | WSTG-INPV-19               |
 
 **Finding classification:** Active scanning disabled entirely is **High**. OWASP Top 10 A03 (Injection) scan rules disabled is **Critical**. Missing passive scan rules for security headers is **Medium**.
 
@@ -233,11 +234,11 @@ ZAP supports importing OpenAPI (Swagger) definitions to drive API scanning.
 jobs:
   - type: openapi
     parameters:
-      apiUrl: "https://staging.example.com/api/v1/openapi.json"
+      apiUrl: 'https://staging.example.com/api/v1/openapi.json'
       # OR
-      apiFile: "/zap/openapi-spec.yaml"
-      targetUrl: "https://staging.example.com"
-      context: "target-app"
+      apiFile: '/zap/openapi-spec.yaml'
+      targetUrl: 'https://staging.example.com'
+      context: 'target-app'
 ```
 
 **What to verify:**
@@ -255,11 +256,11 @@ jobs:
 jobs:
   - type: graphql
     parameters:
-      endpoint: "https://staging.example.com/graphql"
+      endpoint: 'https://staging.example.com/graphql'
       maxQueryDepth: 5
       maxArgsCount: 10
       optionalArgsEnabled: true
-      argsType: BOTH                # Test with both valid and invalid types
+      argsType: BOTH # Test with both valid and invalid types
 ```
 
 **What to verify:**
@@ -278,28 +279,28 @@ Unauthenticated DAST scans miss the majority of an application's attack surface.
 
 #### 4.1 Authentication Methods in ZAP
 
-| Method | Use Case | Configuration |
-|--------|----------|--------------|
-| **Form-based** | Traditional login forms | Login URL, username/password fields, logged-in/out indicators |
-| **Browser-based** | JavaScript-heavy SPAs, MFA flows | Selenium-based login script, ZAP browser launch |
-| **Header-based** | API tokens, Bearer auth | Static header injection (Authorization: Bearer <token>) |
-| **Script-based** | Complex auth flows (OAuth2, SAML) | Custom Zest or Python script |
+| Method            | Use Case                          | Configuration                                                 |
+| ----------------- | --------------------------------- | ------------------------------------------------------------- |
+| **Form-based**    | Traditional login forms           | Login URL, username/password fields, logged-in/out indicators |
+| **Browser-based** | JavaScript-heavy SPAs, MFA flows  | Selenium-based login script, ZAP browser launch               |
+| **Header-based**  | API tokens, Bearer auth           | Static header injection (Authorization: Bearer <token>)       |
+| **Script-based**  | Complex auth flows (OAuth2, SAML) | Custom Zest or Python script                                  |
 
 **Browser-based authentication (preferred for modern apps):**
 
 ```yaml
 authentication:
-  method: "browser"
+  method: 'browser'
   parameters:
-    loginPageUrl: "https://staging.example.com/login"
+    loginPageUrl: 'https://staging.example.com/login'
     loginPageWait: 5
-    browserId: "firefox-headless"
+    browserId: 'firefox-headless'
   verification:
-    method: "response"
+    method: 'response'
     loggedInRegex: "\\Qdashboard\\E"
     loggedOutRegex: "\\Qlogin\\E"
     pollFrequency: 60
-    pollUnits: "requests"
+    pollUnits: 'requests'
 ```
 
 **Header-based authentication (for APIs):**
@@ -308,14 +309,14 @@ authentication:
 # ZAP Automation Framework -- header-based auth
 env:
   contexts:
-    - name: "api-context"
+    - name: 'api-context'
       urls:
-        - "https://staging.example.com/api"
+        - 'https://staging.example.com/api'
       authentication:
-        method: "header"
+        method: 'header'
         parameters:
-          - header: "Authorization"
-            value: "Bearer ${API_TOKEN}"
+          - header: 'Authorization'
+            value: 'Bearer ${API_TOKEN}'
 ```
 
 **Verification checklist:**
@@ -355,16 +356,16 @@ jobs:
       - name: ZAP Baseline Scan
         uses: zaproxy/action-baseline@v0.12.0
         with:
-          target: "http://app:8080"
-          rules_file_name: "zap-baseline-rules.tsv"
-          fail_action: "warn"            # Baseline: warn only
-          artifact_name: "zap-baseline"
+          target: 'http://app:8080'
+          rules_file_name: 'zap-baseline-rules.tsv'
+          fail_action: 'warn' # Baseline: warn only
+          artifact_name: 'zap-baseline'
 
       - name: Upload SARIF
         if: always()
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: "report_sarif.json"
+          sarif_file: 'report_sarif.json'
 ```
 
 **GitHub Actions -- ZAP Full Scan (active scanning, staging environment):**
@@ -373,24 +374,24 @@ jobs:
 name: DAST Full Scan
 on:
   push:
-    branches: [main]              # After merge to main, scan staging
+    branches: [main] # After merge to main, scan staging
   schedule:
-    - cron: '0 2 * * 1'          # Weekly full scan
+    - cron: '0 2 * * 1' # Weekly full scan
 
 jobs:
   dast-full:
     runs-on: ubuntu-latest
-    environment: staging           # Requires environment approval
+    environment: staging # Requires environment approval
     steps:
       - uses: actions/checkout@v4
       - name: ZAP Full Scan
         uses: zaproxy/action-full-scan@v0.10.0
         with:
-          target: "https://staging.example.com"
-          rules_file_name: "zap-full-rules.tsv"
+          target: 'https://staging.example.com'
+          rules_file_name: 'zap-full-rules.tsv'
           cmd_options: >
             -config automation.plan=/zap/af-plan.yaml
-          fail_action: "error"     # Full scan: fail on high findings
+          fail_action: 'error' # Full scan: fail on high findings
 ```
 
 **What to verify:**
@@ -424,9 +425,9 @@ excludePaths:
   - "https://staging\\.example\\.com/logout.*"
   - "https://staging\\.example\\.com/.*/delete.*"
   - "https://staging\\.example\\.com/admin/reset.*"
-  - ".*\\.googleapis\\.com/.*"         # Third-party services
-  - ".*\\.stripe\\.com/.*"            # Payment processor
-  - ".*\\.auth0\\.com/.*"             # Auth provider
+  - ".*\\.googleapis\\.com/.*" # Third-party services
+  - ".*\\.stripe\\.com/.*" # Payment processor
+  - ".*\\.auth0\\.com/.*" # Auth provider
 ```
 
 **What to verify:**
@@ -481,12 +482,12 @@ DAST tools report findings per-URL, producing hundreds of duplicate alerts for t
 
 Before applying or proposing configuration changes, classify each remediation path using [Security Fixer Policy](../../../docs/fixer-policy.md). Include the policy review gate, reviewer evidence, and rollback guidance in the remediation plan.
 
-| Severity | Definition |
-|----------|-----------|
-| **Critical** | No authenticated scanning; active scanning targeting production; injection scan rules disabled; no scope restrictions. |
-| **High** | No DAST in CI/CD; no API scanning for API endpoints; active scanning disabled entirely; hardcoded credentials in config; destructive endpoints not excluded; authentication verification absent. |
-| **Medium** | No passive scanning on PRs; no scheduled full scan; OpenAPI spec out of date; no triage workflow; no deduplication; ZAP action unpinned; missing GraphQL scanning; missing security header rules. |
-| **Low** | Suboptimal scan duration settings; cosmetic report formatting; non-critical passive rules disabled. |
+| Severity     | Definition                                                                                                                                                                                        |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Critical** | No authenticated scanning; active scanning targeting production; injection scan rules disabled; no scope restrictions.                                                                            |
+| **High**     | No DAST in CI/CD; no API scanning for API endpoints; active scanning disabled entirely; hardcoded credentials in config; destructive endpoints not excluded; authentication verification absent.  |
+| **Medium**   | No passive scanning on PRs; no scheduled full scan; OpenAPI spec out of date; no triage workflow; no deduplication; ZAP action unpinned; missing GraphQL scanning; missing security header rules. |
+| **Low**      | Suboptimal scan duration settings; cosmetic report formatting; non-critical passive rules disabled.                                                                                               |
 
 ---
 
@@ -543,34 +544,34 @@ Before applying or proposing configuration changes, classify each remediation pa
 
 ### OWASP Top 10:2021
 
-| Category | Name | DAST Testability |
-|----------|------|-----------------|
-| A01 | Broken Access Control | Moderate -- path traversal, IDOR (with authenticated scanning) |
-| A02 | Cryptographic Failures | Limited -- TLS config, cleartext transmission |
-| A03 | Injection | Strong -- SQLi, XSS, Command Injection, SSTI, SSRF |
-| A04 | Insecure Design | Minimal -- business logic flaws require manual testing |
-| A05 | Security Misconfiguration | Strong -- headers, directory listing, default pages, error handling |
-| A06 | Vulnerable Components | Moderate -- technology fingerprinting, Retire.js |
-| A07 | Identification and Authentication Failures | Moderate -- session fixation, weak session IDs |
-| A08 | Software and Data Integrity Failures | Minimal -- SRI checks, limited CSP analysis |
-| A09 | Security Logging and Monitoring Failures | Not testable via DAST |
-| A10 | Server-Side Request Forgery | Moderate -- SSRF active scanner |
+| Category | Name                                       | DAST Testability                                                    |
+| -------- | ------------------------------------------ | ------------------------------------------------------------------- |
+| A01      | Broken Access Control                      | Moderate -- path traversal, IDOR (with authenticated scanning)      |
+| A02      | Cryptographic Failures                     | Limited -- TLS config, cleartext transmission                       |
+| A03      | Injection                                  | Strong -- SQLi, XSS, Command Injection, SSTI, SSRF                  |
+| A04      | Insecure Design                            | Minimal -- business logic flaws require manual testing              |
+| A05      | Security Misconfiguration                  | Strong -- headers, directory listing, default pages, error handling |
+| A06      | Vulnerable Components                      | Moderate -- technology fingerprinting, Retire.js                    |
+| A07      | Identification and Authentication Failures | Moderate -- session fixation, weak session IDs                      |
+| A08      | Software and Data Integrity Failures       | Minimal -- SRI checks, limited CSP analysis                         |
+| A09      | Security Logging and Monitoring Failures   | Not testable via DAST                                               |
+| A10      | Server-Side Request Forgery                | Moderate -- SSRF active scanner                                     |
 
 ### OWASP Testing Guide v4.2 (WSTG) -- DAST-Relevant Categories
 
-| Category | ID Prefix | DAST Coverage |
-|----------|-----------|--------------|
-| Information Gathering | WSTG-INFO | Strong (passive fingerprinting) |
-| Configuration and Deployment Management | WSTG-CONF | Strong (passive + active) |
-| Identity Management | WSTG-IDNT | Limited |
-| Authentication | WSTG-ATHN | Moderate (with auth scanning) |
-| Authorization | WSTG-ATHZ | Moderate (IDOR, path traversal) |
-| Session Management | WSTG-SESS | Moderate (passive cookie analysis, session fixation) |
-| Input Validation | WSTG-INPV | Strong (injection scanners) |
-| Error Handling | WSTG-ERRH | Strong (error message analysis) |
-| Cryptography | WSTG-CRYP | Limited (TLS only) |
-| Business Logic | WSTG-BUSL | Minimal (manual testing required) |
-| Client-Side | WSTG-CLNT | Moderate (DOM XSS, clickjacking) |
+| Category                                | ID Prefix | DAST Coverage                                        |
+| --------------------------------------- | --------- | ---------------------------------------------------- |
+| Information Gathering                   | WSTG-INFO | Strong (passive fingerprinting)                      |
+| Configuration and Deployment Management | WSTG-CONF | Strong (passive + active)                            |
+| Identity Management                     | WSTG-IDNT | Limited                                              |
+| Authentication                          | WSTG-ATHN | Moderate (with auth scanning)                        |
+| Authorization                           | WSTG-ATHZ | Moderate (IDOR, path traversal)                      |
+| Session Management                      | WSTG-SESS | Moderate (passive cookie analysis, session fixation) |
+| Input Validation                        | WSTG-INPV | Strong (injection scanners)                          |
+| Error Handling                          | WSTG-ERRH | Strong (error message analysis)                      |
+| Cryptography                            | WSTG-CRYP | Limited (TLS only)                                   |
+| Business Logic                          | WSTG-BUSL | Minimal (manual testing required)                    |
+| Client-Side                             | WSTG-CLNT | Moderate (DOM XSS, clickjacking)                     |
 
 ---
 

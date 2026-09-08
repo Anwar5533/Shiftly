@@ -1,6 +1,6 @@
 ---
-description: "Open a review-action approval window by creating the ./.review-approved flag file. Takes an optional reason string that is embedded in the receipt chain."
-argument-hint: "[reason for approval]"
+description: 'Open a review-action approval window by creating the ./.review-approved flag file. Takes an optional reason string that is embedded in the receipt chain.'
+argument-hint: '[reason for approval]'
 ---
 
 # Approve Review

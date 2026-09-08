@@ -9,7 +9,7 @@ carries the scripts, templates, and edge cases.
 its raw source, and compares each fingerprint with the current tree. It uses only the standard
 library and `git`.
 
-```python
+````python
 #!/usr/bin/env python3
 """Grounding and drift checks for a grounded vault. Run from the vault root."""
 
@@ -116,7 +116,7 @@ def main(strict: bool) -> int:
 
 if __name__ == "__main__":
     sys.exit(main(strict="--strict" in sys.argv))
-```
+````
 
 What it checks, and what it deliberately does not:
 
@@ -158,8 +158,8 @@ grep -rh '^> Fingerprint: git:' wiki | sort -u | sed 's/^> Fingerprint: git://' 
 ```markdown
 # Vault index
 
-| Page | Status | Fingerprint | Sources |
-|---|---|---|---|
+| Page                                                     | Status  | Fingerprint | Sources                                   |
+| -------------------------------------------------------- | ------- | ----------- | ----------------------------------------- |
 | [Authentication architecture](wiki/auth-architecture.md) | Current | git:5b237fa | raw/notes/auth-v1.md, raw/adr/0007-jwt.md |
 ```
 

@@ -92,11 +92,11 @@ where the real savings are.
 
 ### Drift Budget
 
-| Drift (pts) | Verdict |
-|---|---|
-| ≤1 | Noise — proceed |
-| 2–5 | Rerun with seed variation before deciding |
-| >5 | **HARD FAIL** — no exception for task gains |
+| Drift (pts) | Verdict                                     |
+| ----------- | ------------------------------------------- |
+| ≤1          | Noise — proceed                             |
+| 2–5         | Rerun with seed variation before deciding   |
+| >5          | **HARD FAIL** — no exception for task gains |
 
 The >5pt row governs regardless
 of the others: a checkpoint that
@@ -127,11 +127,12 @@ PASS/HARD FAIL. Full math and a
 seed-variation rerun completes —
 `PROMOTE` requires landing back
 at ≤1pt (noise); any rerun still
->1pt — 2–5pt band or >5pt breach
-alike — resolves stage 2 to a
-hard `REJECT`. No report may
-reach the Verdict section with
-stage 2 still showing `RERUN`.
+
+> 1pt — 2–5pt band or >5pt breach
+> alike — resolves stage 2 to a
+> hard `REJECT`. No report may
+> reach the Verdict section with
+> stage 2 still showing `RERUN`.
 
 ## Catastrophic Forgetting
 

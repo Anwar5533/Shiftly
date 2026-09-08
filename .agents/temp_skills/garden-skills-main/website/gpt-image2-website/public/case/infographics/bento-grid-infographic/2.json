@@ -15,12 +15,7 @@
   "palette": {
     "primary": "#0F172A",
     "accent": "#D62828",
-    "module_tints": [
-      "#DDE2E5",
-      "#CFE8DC",
-      "#C8D8F0",
-      "#F2E4D0"
-    ],
+    "module_tints": ["#DDE2E5", "#CFE8DC", "#C8D8F0", "#F2E4D0"],
     "rule": "accent 用于强调「长续航后驱」和「家充」"
   },
   "layout": {
@@ -86,12 +81,7 @@
     "imagery": "车影为简洁矢量剪影"
   },
   "constraints": {
-    "must_keep": [
-      "价格与官方权益若出现须注明示意",
-      "不与其他品牌实车对比拼贴真实前脸"
-    ],
-    "avoid": [
-      "全模块等高栅格"
-    ]
+    "must_keep": ["价格与官方权益若出现须注明示意", "不与其他品牌实车对比拼贴真实前脸"],
+    "avoid": ["全模块等高栅格"]
   }
 }

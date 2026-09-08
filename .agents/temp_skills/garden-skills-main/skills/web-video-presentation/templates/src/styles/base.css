@@ -19,10 +19,32 @@
  * ───────────────────────────────────────────────────────────────────── */
 
 /* ─── 0. Reset ─── */
-*, *::before, *::after { box-sizing: border-box; }
-html, body, #root { margin: 0; padding: 0; height: 100%; overflow: hidden; }
-img, svg, video { display: block; max-width: 100%; }
-button { font: inherit; color: inherit; background: none; border: 0; padding: 0; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+}
 
 /* ─── 1. Body defaults (theme palette + features applied here) ─── */
 body {
@@ -33,11 +55,14 @@ body {
   text-rendering: geometricPrecision;
   text-wrap: pretty;
   /* OpenType feature settings (themes can override the value) */
-  font-feature-settings: var(--font-features, "tnum", "ss01");
+  font-feature-settings: var(--font-features, 'tnum', 'ss01');
   letter-spacing: var(--track-snug, -0.005em);
   cursor: default;
 }
-::selection { background: var(--accent); color: var(--surface); }
+::selection {
+  background: var(--accent);
+  color: var(--surface);
+}
 
 /* ─────────────────────────────────────────────────────────────────────
  * 2. Design tokens — defaults for things themes RARELY need to change.
@@ -46,25 +71,25 @@ body {
 :root {
   /* ── Type scale (used by primitive classes below; chapters can use
         these OR write hard-coded sizes — whatever the content needs) ── */
-  --t-display-1:   clamp(140px, 11vw, 200px);
-  --t-display-2:   clamp(80px, 7vw, 128px);
-  --t-h1:          clamp(56px, 5vw, 88px);
-  --t-h2:          clamp(40px, 3.6vw, 60px);
-  --t-body:        20px;
-  --t-micro:       12px;
+  --t-display-1: clamp(140px, 11vw, 200px);
+  --t-display-2: clamp(80px, 7vw, 128px);
+  --t-h1: clamp(56px, 5vw, 88px);
+  --t-h2: clamp(40px, 3.6vw, 60px);
+  --t-body: 20px;
+  --t-micro: 12px;
 
   /* ── Tracking presets (used by primitive classes) ── */
-  --track-tight:   -0.025em;   /* large serif display */
-  --track-snug:    -0.005em;   /* body */
-  --track-caps:     0.22em;    /* mono uppercase labels */
+  --track-tight: -0.025em; /* large serif display */
+  --track-snug: -0.005em; /* body */
+  --track-caps: 0.22em; /* mono uppercase labels */
 
   /* ── Spacing scale (used by primitive classes) ── */
-  --space-2:    8px;
-  --space-3:    12px;
-  --space-4:    16px;
-  --space-5:    24px;
-  --space-7:    48px;
-  --space-9:    96px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-7: 48px;
+  --space-9: 96px;
 
   /* ── Stage padding (theme can dial density) ── */
   --stage-pad-x: 96px;
@@ -72,44 +97,42 @@ body {
 
   /* ── Radius scale (themes reference these via --r-card; chapters write
         their own radii freely) ── */
-  --r-flat:    0;
-  --r-xs:      4px;
-  --r-sm:      8px;
-  --r-md:      16px;
-  --r-xl:      32px;
-  --r-pill:    999px;
+  --r-flat: 0;
+  --r-xs: 4px;
+  --r-sm: 8px;
+  --r-md: 16px;
+  --r-xl: 32px;
+  --r-pill: 999px;
   /* "default card radius" — theme sets identity (sharp / soft / keynote) */
-  --r-card:    var(--r-md);
+  --r-card: var(--r-md);
 
   /* ── Border weights (used by primitive classes) ── */
-  --bw-1:      1px;
-  --bw-2:      2px;
-  --bw-4:      4px;
+  --bw-1: 1px;
+  --bw-2: 2px;
+  --bw-4: 4px;
   /* "default rule" — theme sets identity (hairline / thick / dashed) */
-  --rule-w:        1px;
-  --rule-style:    solid;
+  --rule-w: 1px;
+  --rule-style: solid;
 
   /* ── Motion (used by primitive class transitions; chapters time their
         own motion freely, ideally guided by theme.json `mood`) ── */
-  --ease-quart:     cubic-bezier(0.19, 1, 0.22, 1);
-  --ease-expo:      cubic-bezier(0.86, 0, 0.07, 1);
-  --ease-soft:      cubic-bezier(0.4, 0, 0.1, 1);
+  --ease-quart: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-expo: cubic-bezier(0.86, 0, 0.07, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.1, 1);
   --ease-overshoot: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --dur-quick:      280ms;
-  --dur-base:       600ms;
-  --dur-slow:       900ms;
-  --dur-cinematic:  1400ms;
+  --dur-quick: 280ms;
+  --dur-base: 600ms;
+  --dur-slow: 900ms;
+  --dur-cinematic: 1400ms;
 
   /* ── Hero number style (themes redefine for terminal / chunky / chalk) ── */
-  --hero-num-font:    var(--font-display-en);
-  --hero-num-style:   italic;
-  --hero-num-weight:  400;
-  --hero-num-track:   var(--track-tight);
+  --hero-num-font: var(--font-display-en);
+  --hero-num-style: italic;
+  --hero-num-weight: 400;
+  --hero-num-track: var(--track-tight);
 
   /* ── Stage shadow (themes override for paper / glow / flat) ── */
-  --shadow-stage:
-    0 60px 160px rgba(0, 0, 0, 0.55),
-    0 0 0 1px rgba(255, 255, 255, 0.025);
+  --shadow-stage: 0 60px 160px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.025);
 }
 
 /* ─────────────────────────────────────────────────────────────────────
@@ -148,7 +171,7 @@ body {
 
 /* OPTIONAL pattern layer drawn ON the stage so screen recordings catch it */
 .stage-frame::after {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -160,7 +183,7 @@ body {
 }
 /* OPTIONAL radial vignette overlay (chalkboard / cinematic edges) */
 .stage-frame::before {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -169,7 +192,11 @@ body {
 }
 
 /* every chapter root */
-.scene { position: absolute; inset: 0; z-index: 2; }
+.scene {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
 
 /* ─────────────────────────────────────────────────────────────────────
  * 4. Type primitives — chapters compose with these instead of hard sizes.
@@ -177,7 +204,7 @@ body {
 .serif-cn {
   font-family: var(--font-display-cn);
   font-weight: 700;
-  font-style: normal;          /* prevent inherited italic on CJK */
+  font-style: normal; /* prevent inherited italic on CJK */
   letter-spacing: var(--track-tight);
   text-shadow: var(--text-shadow, none);
 }
@@ -195,7 +222,9 @@ body {
   letter-spacing: var(--track-tight);
   text-shadow: var(--text-shadow, none);
 }
-.mono { font-family: var(--font-mono); }
+.mono {
+  font-family: var(--font-mono);
+}
 
 /* small uppercase mono label — the workhorse caption / kicker */
 .label-mono {
@@ -235,10 +264,21 @@ body {
   display: flex;
   flex-direction: column;
 }
-.stack { display: flex; flex-direction: column; }
-.row   { display: flex; flex-direction: row; }
-.fill  { flex: 1; }
-.center { display: grid; place-items: center; }
+.stack {
+  display: flex;
+  flex-direction: column;
+}
+.row {
+  display: flex;
+  flex-direction: row;
+}
+.fill {
+  flex: 1;
+}
+.center {
+  display: grid;
+  place-items: center;
+}
 
 /* hairline divider — theme controls weight + style (solid / dashed) */
 .rule {
@@ -295,7 +335,10 @@ body {
   letter-spacing: 0;
   color: var(--text);
 }
-.corner-mark .slash { opacity: 0.3; font-size: 16px; }
+.corner-mark .slash {
+  opacity: 0.3;
+  font-size: 16px;
+}
 
 /* bottom-right next-step hint — fades on first step */
 .click-cue {
@@ -315,7 +358,9 @@ body {
   transition: opacity var(--dur-slow) var(--ease-quart);
   pointer-events: none;
 }
-.click-cue.visible { opacity: 0.6; }
+.click-cue.visible {
+  opacity: 0.6;
+}
 .click-cue .arrow {
   display: inline-block;
   font-family: var(--font-display-en);
@@ -325,8 +370,13 @@ body {
   animation: nudge 2.4s var(--ease-soft) infinite;
 }
 @keyframes nudge {
-  0%, 100% { transform: translateX(0); }
-  50%      { transform: translateX(6px); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(6px);
+  }
 }
 
 /* mono badge / pill */
@@ -343,7 +393,10 @@ body {
   text-transform: uppercase;
   color: var(--text-mute);
 }
-.badge-mono.is-accent { color: var(--accent); border-color: var(--accent); }
+.badge-mono.is-accent {
+  color: var(--accent);
+  border-color: var(--accent);
+}
 
 /* pull-quote — left-bordered editorial block */
 .pull-quote {
@@ -408,8 +461,14 @@ body {
  * chapter mark themselves with this so a click on them does NOT advance
  * the global step. The marker is consumed by Stage.tsx; no styles needed.
  * ───────────────────────────────────────────────────────────────────── */
-.fade-in { animation: fade-in var(--dur-base) var(--ease-quart) both; }
+.fade-in {
+  animation: fade-in var(--dur-base) var(--ease-quart) both;
+}
 @keyframes fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

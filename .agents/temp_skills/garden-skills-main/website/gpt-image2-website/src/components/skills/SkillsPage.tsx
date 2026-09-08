@@ -174,13 +174,7 @@ export function SkillsPage({ navigate }: Props) {
             rel="noopener noreferrer"
             aria-label="View source on GitHub: ConardLi/garden-skills"
           >
-            <svg
-              width="11"
-              height="11"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              aria-hidden="true"
-            >
+            <svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
               <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.34c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.16-.89-1.16-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.96 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.13 0 0 .67-.21 2.2.82a7.5 7.5 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.11.16 1.93.08 2.13.51.56.82 1.28.82 2.15 0 3.08-1.87 3.76-3.65 3.96.29.25.54.74.54 1.49v2.21c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
             </svg>
             <span>SOURCE · ConardLi/garden-skills</span>
@@ -195,11 +189,12 @@ export function SkillsPage({ navigate }: Props) {
         </h1>
 
         <p className="sp-hero-lede">
-          这是一个面向 GPT‑Image‑2 的<strong>聚焦型</strong>技能。它只做两件事——
-          生成 (<code className="mono">/images/generations</code>) 和编辑
-          (<code className="mono">/images/edits</code>)；
-          但能在 Garden 本地、Host‑Native 委托、Advisor 顾问 三种环境下自适应地工作，
-          并把 {Object.keys(cases.categories).length} 大类、{cases.summary.templates}+ 个结构化模板沉淀到 <code className="mono">references/</code> 里。
+          这是一个面向 GPT‑Image‑2 的<strong>聚焦型</strong>技能。它只做两件事—— 生成 (
+          <code className="mono">/images/generations</code>) 和编辑 (
+          <code className="mono">/images/edits</code>)； 但能在 Garden 本地、Host‑Native
+          委托、Advisor 顾问 三种环境下自适应地工作， 并把 {Object.keys(cases.categories).length}{' '}
+          大类、{cases.summary.templates}+ 个结构化模板沉淀到{' '}
+          <code className="mono">references/</code> 里。
         </p>
 
         <dl className="sp-hero-stats">
@@ -224,8 +219,8 @@ export function SkillsPage({ navigate }: Props) {
         <div className="sp-hero-divider" />
 
         <p className="sp-hero-quote serif-italic">
-          “最终交给图像模型的，永远是渲染后的 prompt 字符串本身——
-          可以是拍平的 JSON，也可以是结构化自然语言段落。”
+          “最终交给图像模型的，永远是渲染后的 prompt 字符串本身—— 可以是拍平的
+          JSON，也可以是结构化自然语言段落。”
         </p>
       </header>
 
@@ -274,7 +269,9 @@ export function SkillsPage({ navigate }: Props) {
               <ol className="sp-mode-card-flow">
                 {m.flow.map((step, i) => (
                   <li key={i} className="sp-mode-card-flow-item">
-                    <span className="mono sp-mode-card-flow-n">{String(i + 1).padStart(2, '0')}</span>
+                    <span className="mono sp-mode-card-flow-n">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
                     <code className="mono">{step}</code>
                   </li>
                 ))}
@@ -306,7 +303,9 @@ export function SkillsPage({ navigate }: Props) {
                 <h3 className="serif sp-step-title">{s.title}</h3>
                 <p className="sp-step-desc">{s.body}</p>
                 {s.code && (
-                  <pre className="mono sp-step-code"><code>{s.code}</code></pre>
+                  <pre className="mono sp-step-code">
+                    <code>{s.code}</code>
+                  </pre>
                 )}
               </div>
             </li>
@@ -322,17 +321,27 @@ export function SkillsPage({ navigate }: Props) {
             <div className="sp-fork-cell">
               <span className="mono sp-fork-tag">07‑A</span>
               <h4 className="serif sp-fork-name">保存 + 调脚本</h4>
-              <p>把最终 prompt 保存到 <code className="mono">prompt/</code>，调 <code className="mono">generate.js</code> / <code className="mono">edit.js</code>，图片落到 <code className="mono">image/</code>。</p>
+              <p>
+                把最终 prompt 保存到 <code className="mono">prompt/</code>，调{' '}
+                <code className="mono">generate.js</code> / <code className="mono">edit.js</code>
+                ，图片落到 <code className="mono">image/</code>。
+              </p>
             </div>
             <div className="sp-fork-cell">
               <span className="mono sp-fork-tag">07‑B</span>
               <h4 className="serif sp-fork-name">交给宿主工具</h4>
-              <p>不要调 <code className="mono">generate.js</code>（必失败）。直接把 prompt 喂进宿主自带的 <code className="mono">image_generation</code> 类工具。</p>
+              <p>
+                不要调 <code className="mono">generate.js</code>（必失败）。直接把 prompt
+                喂进宿主自带的 <code className="mono">image_generation</code> 类工具。
+              </p>
             </div>
             <div className="sp-fork-cell">
               <span className="mono sp-fork-tag">07‑C</span>
               <h4 className="serif sp-fork-name">写给用户</h4>
-              <p>必须保存 prompt 到 <code className="mono">prompt/</code> 并在对话中完整展示，附一句"如何使用 / 推荐工具"。</p>
+              <p>
+                必须保存 prompt 到 <code className="mono">prompt/</code>{' '}
+                并在对话中完整展示，附一句"如何使用 / 推荐工具"。
+              </p>
             </div>
           </div>
         </div>
@@ -363,9 +372,7 @@ export function SkillsPage({ navigate }: Props) {
                 style={{ '--cat-acc': cat.accent } as React.CSSProperties}
               >
                 <header className="sp-cat-head">
-                  <span className="mono sp-cat-n">
-                    {String(idx + 1).padStart(2, '0')}
-                  </span>
+                  <span className="mono sp-cat-n">{String(idx + 1).padStart(2, '0')}</span>
                   <div className="sp-cat-stack">
                     <h3 className="serif sp-cat-name">{cat.cn}</h3>
                     <span className="mono sp-cat-en">{cat.label}</span>
@@ -411,19 +418,20 @@ export function SkillsPage({ navigate }: Props) {
       <section className="sp-cta">
         <div className="sp-cta-text">
           <h3 className="serif sp-cta-title">
-            准备好了？回去看 <span className="serif-italic">{cases.summary.cases} 张</span> 已经跑通的图。
+            准备好了？回去看 <span className="serif-italic">{cases.summary.cases} 张</span>{' '}
+            已经跑通的图。
           </h3>
           <p className="sp-cta-sub">
-            想自己跑这个 Skill？源码 / 模板 / 三种运行模式都开源在 <code className="mono">ConardLi/garden-skills</code>。
+            想自己跑这个 Skill？源码 / 模板 / 三种运行模式都开源在{' '}
+            <code className="mono">ConardLi/garden-skills</code>。
           </p>
         </div>
         <div className="sp-cta-actions">
-          <button
-            className="sp-cta-btn"
-            onClick={() => navigate({ name: 'home' })}
-          >
+          <button className="sp-cta-btn" onClick={() => navigate({ name: 'home' })}>
             <span>浏览图集</span>
-            <span className="sp-cta-btn-arrow" aria-hidden="true">→</span>
+            <span className="sp-cta-btn-arrow" aria-hidden="true">
+              →
+            </span>
           </button>
           <a
             className="sp-cta-btn sp-cta-btn-ghost"
@@ -431,17 +439,13 @@ export function SkillsPage({ navigate }: Props) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              aria-hidden="true"
-            >
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
               <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.34c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.16-.89-1.16-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.96 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.13 0 0 .67-.21 2.2.82a7.5 7.5 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.11.16 1.93.08 2.13.51.56.82 1.28.82 2.15 0 3.08-1.87 3.76-3.65 3.96.29.25.54.74.54 1.49v2.21c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
             </svg>
             <span>Star on GitHub</span>
-            <span className="sp-cta-btn-arrow" aria-hidden="true">↗</span>
+            <span className="sp-cta-btn-arrow" aria-hidden="true">
+              ↗
+            </span>
           </a>
         </div>
       </section>

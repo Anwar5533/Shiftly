@@ -47,11 +47,11 @@ Aim to get the user to the interview without bothering them with installation te
 
 Read these files at the indicated moments. Do not re-read them on every iteration.
 
-| File | When to read | Contains |
-|------|-------------|----------|
-| `references/interview-framework.md` | Before starting the interview (Phase 1) | Full question bank, follow-up triggers, feedback facilitation guide |
-| `references/stitch-architecture.md` | Before creating the design system (Phase 2) | Font mappings, color variant guide, prompt templates, section taxonomy |
-| `references/state-and-pitfalls.md` | At project start and before delivery (Phase 4) | metadata.json schema, state rules, common pitfalls, DEPLOY.md template |
+| File                                | When to read                                   | Contains                                                               |
+| ----------------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------- |
+| `references/interview-framework.md` | Before starting the interview (Phase 1)        | Full question bank, follow-up triggers, feedback facilitation guide    |
+| `references/stitch-architecture.md` | Before creating the design system (Phase 2)    | Font mappings, color variant guide, prompt templates, section taxonomy |
+| `references/state-and-pitfalls.md`  | At project start and before delivery (Phase 4) | metadata.json schema, state rules, common pitfalls, DEPLOY.md template |
 
 ---
 
@@ -123,13 +123,13 @@ Read `references/stitch-architecture.md` before starting this phase.
 
 Map interview answers to Stitch design system parameters:
 
-| Interview answer | Design system parameter | Reference |
-|-----------------|------------------------|-----------|
-| 3 brand adjectives | `colorVariant` enum | Color Variant Decision Tree in `references/stitch-architecture.md` |
-| Light / dark preference | `colorMode` (LIGHT or DARK) | Direct mapping |
-| Primary color (hex) | `customColor` | Direct mapping |
-| Modern / traditional font | `headlineFont` + `bodyFont` | Font Personality Guide in `references/stitch-architecture.md` |
-| Sharp / rounded shapes | `roundness` enum | ROUND_FOUR (sharp) through ROUND_FULL (rounded) |
+| Interview answer          | Design system parameter     | Reference                                                          |
+| ------------------------- | --------------------------- | ------------------------------------------------------------------ |
+| 3 brand adjectives        | `colorVariant` enum         | Color Variant Decision Tree in `references/stitch-architecture.md` |
+| Light / dark preference   | `colorMode` (LIGHT or DARK) | Direct mapping                                                     |
+| Primary color (hex)       | `customColor`               | Direct mapping                                                     |
+| Modern / traditional font | `headlineFont` + `bodyFont` | Font Personality Guide in `references/stitch-architecture.md`      |
+| Sharp / rounded shapes    | `roundness` enum            | ROUND_FOUR (sharp) through ROUND_FULL (rounded)                    |
 
 ### Steps
 
@@ -183,16 +183,16 @@ Draw the user's attention to specific design dimensions (see Feedback Facilitati
 
 ### Feedback Translation
 
-| Feedback pattern | Action | Tool |
-|-----------------|--------|------|
-| Specific targeted change ("move X", "change the headline to Y") | Direct edit | `edit_screens` |
-| General dissatisfaction ("I don't like it", "it's boring") | Explore alternatives | `generate_variants` with EXPLORE (2-3 variants) |
-| Partial approval ("love the layout, hate the colors") | Targeted variant | `generate_variants` with specific aspects only |
-| Wants to compare ("show me some options") | Broad exploration | `generate_variants` with 3 variants, EXPLORE |
-| "Something totally different" | Full rethink | `generate_variants` with REIMAGINE |
-| "I liked the earlier version better" | Rollback | Re-fetch from `screens.desktop.history` |
-| CSS-level feedback ("needs more padding", "font too small") | Translate to design intent | `edit_screens` with design-level instruction |
-| Explicit approval ("looks good", "ship it") | Exit loop | Proceed to mobile question, then Phase 4 |
+| Feedback pattern                                                | Action                     | Tool                                            |
+| --------------------------------------------------------------- | -------------------------- | ----------------------------------------------- |
+| Specific targeted change ("move X", "change the headline to Y") | Direct edit                | `edit_screens`                                  |
+| General dissatisfaction ("I don't like it", "it's boring")      | Explore alternatives       | `generate_variants` with EXPLORE (2-3 variants) |
+| Partial approval ("love the layout, hate the colors")           | Targeted variant           | `generate_variants` with specific aspects only  |
+| Wants to compare ("show me some options")                       | Broad exploration          | `generate_variants` with 3 variants, EXPLORE    |
+| "Something totally different"                                   | Full rethink               | `generate_variants` with REIMAGINE              |
+| "I liked the earlier version better"                            | Rollback                   | Re-fetch from `screens.desktop.history`         |
+| CSS-level feedback ("needs more padding", "font too small")     | Translate to design intent | `edit_screens` with design-level instruction    |
+| Explicit approval ("looks good", "ship it")                     | Exit loop                  | Proceed to mobile question, then Phase 4        |
 
 When the user gives feedback in implementation terms (CSS, pixels, Tailwind classes), acknowledge their intent but translate to design language for Stitch.
 

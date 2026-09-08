@@ -100,9 +100,17 @@
   animation-delay: 600ms;
 }
 @keyframes hk-stamp-drop {
-  0%   { transform: rotate(-8deg) scale(2.4); opacity: 0; }
-  60%  { transform: rotate(-8deg) scale(0.92); opacity: 1; }
-  100% { transform: rotate(-8deg) scale(1); }
+  0% {
+    transform: rotate(-8deg) scale(2.4);
+    opacity: 0;
+  }
+  60% {
+    transform: rotate(-8deg) scale(0.92);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(-8deg) scale(1);
+  }
 }
 .hk-solo-meta {
   display: flex;
@@ -114,7 +122,9 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
-.hk-solo-label  { color: var(--accent); }
+.hk-solo-label {
+  color: var(--accent);
+}
 .hk-solo-caption {
   font-family: var(--font-display-cn);
   font-size: var(--t-body);
@@ -144,8 +154,14 @@
   animation: hk-mini-shrink var(--dur-base) var(--ease-quart) backwards;
 }
 @keyframes hk-mini-shrink {
-  from { transform: scale(2.4); opacity: 0; }
-  to   { transform: scale(1);  opacity: 1; }
+  from {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 .hk-accent-bar {
   width: 60%;
@@ -154,8 +170,12 @@
   animation: hk-bar-grow 700ms var(--ease-quart) 250ms backwards;
 }
 @keyframes hk-bar-grow {
-  from { transform: scaleX(0); }
-  to   { transform: scaleX(1); }
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
 }
 .hk-hero {
   margin: 0;
@@ -193,5 +213,7 @@
   animation: hk-brush-strike 700ms var(--ease-expo) 500ms forwards;
 }
 @keyframes hk-brush-strike {
-  to { transform: scaleX(1) translateY(-50%); }
+  to {
+    transform: scaleX(1) translateY(-50%);
+  }
 }

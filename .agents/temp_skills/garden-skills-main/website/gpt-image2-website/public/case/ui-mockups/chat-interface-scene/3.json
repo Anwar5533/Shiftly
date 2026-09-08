@@ -9,11 +9,7 @@
   "header": {
     "title": "硅谷周报草稿 - 4/26",
     "model_label": "Claude Opus 4.7",
-    "right_actions": [
-      "+ 新建对话",
-      "🕘 历史",
-      "⚙ 设置"
-    ]
+    "right_actions": ["+ 新建对话", "🕘 历史", "⚙ 设置"]
   },
   "sidebar": {
     "logo": "左上 Anthropic 'A' logo + 'Claude' 字样",
@@ -44,11 +40,7 @@
         "content": [
           "**🥇 Top 1 — the GPU guy 一统江湖**\n排队论再次胜利：H100 供不应求，前排是微软、Meta、xAI、特斯拉。\n吐槽：地球上唯一不缺 GPU 的人，是发 GPU 的那个人。\n\n**🥈 Top 2 — the Apple guy 在线求安慰**\nVision Pro 退货率据称冲到 21%。\n吐槽：'最棒的产品'升级成'最棒的产品体验店'。\n\n**🥉 Top 3 — the Meta guy 撤回了一条消息**\n刚说完 'Quest 3 欢迎抄作业'，立刻撤回。\n吐槽：硅谷最快撤回速度纪录刷新。\n\n**🏅 Top 4 — the Search guy 推迟发布**\nGemini 3 发布会再往后推一周。\n吐槽：'倒计时图先别发了' = 我们也没准备好。\n\n**🏅 Top 5 — the Cloud guy 心态需要安抚**\nCopilot 又上 X 热搜，被群嘲。\n吐槽：每次出问题都先怪'前端'，再怪'底模'。\n\n**🌟 神补刀 — the Books guy 发红包**\n'熬夜辛苦费' 红包，金色封面。被领走 3/8，剩下 5 位 CEO 估计已经睡了。"
         ],
-        "trailing_actions": [
-          "📋 复制",
-          "🔄 再生成",
-          "📤 导出 Markdown"
-        ]
+        "trailing_actions": ["📋 复制", "🔄 再生成", "📤 导出 Markdown"]
       },
       {
         "role": "user",
@@ -68,13 +60,7 @@
       "placeholder": "继续问 Claude...",
       "right_button": "↑ 发送（橙色圆形按钮）"
     },
-    "tools_row": [
-      "📎 附件",
-      "🌐 网页",
-      "🐍 代码",
-      "🖼 图像",
-      "🧠 项目"
-    ]
+    "tools_row": ["📎 附件", "🌐 网页", "🐍 代码", "🖼 图像", "🧠 项目"]
   },
   "style": {
     "rendering": "Claude 桌面应用浅色模式，米色 #FAF9F5 底 + Anthropic 橙色品牌色，信息层级清晰",

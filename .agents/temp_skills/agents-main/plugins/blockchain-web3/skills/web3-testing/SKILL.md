@@ -21,14 +21,14 @@ Master comprehensive testing strategies for smart contracts using Hardhat, Found
 
 ```javascript
 // hardhat.config.js
-require("@nomicfoundation/hardhat-toolbox");
-require("@nomiclabs/hardhat-etherscan");
-require("hardhat-gas-reporter");
-require("solidity-coverage");
+require('@nomicfoundation/hardhat-toolbox');
+require('@nomiclabs/hardhat-etherscan');
+require('hardhat-gas-reporter');
+require('solidity-coverage');
 
 module.exports = {
   solidity: {
-    version: "0.8.19",
+    version: '0.8.19',
     settings: {
       optimizer: {
         enabled: true,
@@ -50,7 +50,7 @@ module.exports = {
   },
   gasReporter: {
     enabled: true,
-    currency: "USD",
+    currency: 'USD',
     coinmarketcap: process.env.COINMARKETCAP_API_KEY,
   },
   etherscan: {
@@ -62,39 +62,36 @@ module.exports = {
 ## Unit Testing Patterns
 
 ```javascript
-const { expect } = require("chai");
-const { ethers } = require("hardhat");
-const {
-  loadFixture,
-  time,
-} = require("@nomicfoundation/hardhat-network-helpers");
+const { expect } = require('chai');
+const { ethers } = require('hardhat');
+const { loadFixture, time } = require('@nomicfoundation/hardhat-network-helpers');
 
-describe("Token Contract", function () {
+describe('Token Contract', function () {
   // Fixture for test setup
   async function deployTokenFixture() {
     const [owner, addr1, addr2] = await ethers.getSigners();
 
-    const Token = await ethers.getContractFactory("Token");
+    const Token = await ethers.getContractFactory('Token');
     const token = await Token.deploy();
 
     return { token, owner, addr1, addr2 };
   }
 
-  describe("Deployment", function () {
-    it("Should set the right owner", async function () {
+  describe('Deployment', function () {
+    it('Should set the right owner', async function () {
       const { token, owner } = await loadFixture(deployTokenFixture);
       expect(await token.owner()).to.equal(owner.address);
     });
 
-    it("Should assign total supply to owner", async function () {
+    it('Should assign total supply to owner', async function () {
       const { token, owner } = await loadFixture(deployTokenFixture);
       const ownerBalance = await token.balanceOf(owner.address);
       expect(await token.totalSupply()).to.equal(ownerBalance);
     });
   });
 
-  describe("Transactions", function () {
-    it("Should transfer tokens between accounts", async function () {
+  describe('Transactions', function () {
+    it('Should transfer tokens between accounts', async function () {
       const { token, owner, addr1 } = await loadFixture(deployTokenFixture);
 
       await expect(token.transfer(addr1.address, 50)).to.changeTokenBalances(
@@ -108,22 +105,22 @@ describe("Token Contract", function () {
       const { token, addr1 } = await loadFixture(deployTokenFixture);
       const initialBalance = await token.balanceOf(addr1.address);
 
-      await expect(
-        token.connect(addr1).transfer(owner.address, 1),
-      ).to.be.revertedWith("Insufficient balance");
+      await expect(token.connect(addr1).transfer(owner.address, 1)).to.be.revertedWith(
+        'Insufficient balance',
+      );
     });
 
-    it("Should emit Transfer event", async function () {
+    it('Should emit Transfer event', async function () {
       const { token, owner, addr1 } = await loadFixture(deployTokenFixture);
 
       await expect(token.transfer(addr1.address, 50))
-        .to.emit(token, "Transfer")
+        .to.emit(token, 'Transfer')
         .withArgs(owner.address, addr1.address, 50);
     });
   });
 
-  describe("Time-based tests", function () {
-    it("Should handle time-locked operations", async function () {
+  describe('Time-based tests', function () {
+    it('Should handle time-locked operations', async function () {
       const { token } = await loadFixture(deployTokenFixture);
 
       // Increase time by 1 day
@@ -133,8 +130,8 @@ describe("Token Contract", function () {
     });
   });
 
-  describe("Gas optimization", function () {
-    it("Should use gas efficiently", async function () {
+  describe('Gas optimization', function () {
+    it('Should use gas efficiently', async function () {
       const { token } = await loadFixture(deployTokenFixture);
 
       const tx = await token.transfer(addr1.address, 100);
@@ -227,22 +224,22 @@ contract TokenTest is Test {
 ### Snapshot and Revert
 
 ```javascript
-describe("Complex State Changes", function () {
+describe('Complex State Changes', function () {
   let snapshotId;
 
   beforeEach(async function () {
-    snapshotId = await network.provider.send("evm_snapshot");
+    snapshotId = await network.provider.send('evm_snapshot');
   });
 
   afterEach(async function () {
-    await network.provider.send("evm_revert", [snapshotId]);
+    await network.provider.send('evm_revert', [snapshotId]);
   });
 
-  it("Test 1", async function () {
+  it('Test 1', async function () {
     // Make state changes
   });
 
-  it("Test 2", async function () {
+  it('Test 2', async function () {
     // State reverted, clean slate
   });
 });
@@ -251,12 +248,12 @@ describe("Complex State Changes", function () {
 ### Mainnet Forking
 
 ```javascript
-describe("Mainnet Fork Tests", function () {
+describe('Mainnet Fork Tests', function () {
   let uniswapRouter, dai, usdc;
 
   before(async function () {
     await network.provider.request({
-      method: "hardhat_reset",
+      method: 'hardhat_reset',
       params: [
         {
           forking: {
@@ -269,17 +266,14 @@ describe("Mainnet Fork Tests", function () {
 
     // Connect to existing mainnet contracts
     uniswapRouter = await ethers.getContractAt(
-      "IUniswapV2Router",
-      "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
+      'IUniswapV2Router',
+      '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D',
     );
 
-    dai = await ethers.getContractAt(
-      "IERC20",
-      "0x6B175474E89094C44Da98b954EedeAC495271d0F",
-    );
+    dai = await ethers.getContractAt('IERC20', '0x6B175474E89094C44Da98b954EedeAC495271d0F');
   });
 
-  it("Should swap on Uniswap", async function () {
+  it('Should swap on Uniswap', async function () {
     // Test with real Uniswap contracts
   });
 });
@@ -288,24 +282,21 @@ describe("Mainnet Fork Tests", function () {
 ### Impersonating Accounts
 
 ```javascript
-it("Should impersonate whale account", async function () {
-  const whaleAddress = "0x...";
+it('Should impersonate whale account', async function () {
+  const whaleAddress = '0x...';
 
   await network.provider.request({
-    method: "hardhat_impersonateAccount",
+    method: 'hardhat_impersonateAccount',
     params: [whaleAddress],
   });
 
   const whale = await ethers.getSigner(whaleAddress);
 
   // Use whale's tokens
-  await dai
-    .connect(whale)
-    .transfer(addr1.address, ethers.utils.parseEther("1000"));
+  await dai.connect(whale).transfer(addr1.address, ethers.utils.parseEther('1000'));
 });
 ```
 
 ## Additional patterns and templates
 
 More detailed templates and worked examples live in `references/details.md`. Read that file for the full pattern library.
-

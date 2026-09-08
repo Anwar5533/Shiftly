@@ -45,13 +45,17 @@ export class WalletsService {
 
     // --- MOCK STRIPE PAYLOAD PROCESSING ---
     if (paymentMethodId) {
-      this.logger.log(`Processing Stripe payment for user ${userId} with method ${paymentMethodId} for amount ${amount}`);
+      this.logger.log(
+        `Processing Stripe payment for user ${userId} with method ${paymentMethodId} for amount ${amount}`,
+      );
       // Simulate network delay to Stripe API
-      await new Promise(resolve => setTimeout(resolve, 800));
-      
+      await new Promise((resolve) => setTimeout(resolve, 800));
+
       // Simulate Stripe decline on specific token
       if (paymentMethodId === 'tok_chargeDeclined') {
-        throw new BadRequestException('Stripe Charge Declined: Insufficient funds or card blocked.');
+        throw new BadRequestException(
+          'Stripe Charge Declined: Insufficient funds or card blocked.',
+        );
       }
       this.logger.log(`Stripe payment successful (Mocked)`);
     }

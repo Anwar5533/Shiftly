@@ -21,22 +21,22 @@ High-level approach to solving the problem.
 
 ## Target Users
 
-| Persona | Needs | Pain Points |
-|---|---|---|
+| Persona   | Needs          | Pain Points          |
+| --------- | -------------- | -------------------- |
 | Persona 1 | What they need | What frustrates them |
 
 ## Core Features
 
-| Feature | Status | Description |
-|---|---|---|
-| Feature A | planned | What it does |
+| Feature   | Status      | Description  |
+| --------- | ----------- | ------------ |
+| Feature A | planned     | What it does |
 | Feature B | implemented | What it does |
 
 ## Success Metrics
 
-| Metric | Target | Current |
-|---|---|---|
-| Metric 1 | target value | - |
+| Metric   | Target       | Current |
+| -------- | ------------ | ------- |
+| Metric 1 | target value | -       |
 
 ## Roadmap
 
@@ -51,32 +51,32 @@ High-level approach to solving the problem.
 
 ## Languages & Frameworks
 
-| Technology | Version | Purpose |
-|---|---|---|
-| Python | 3.12 | Backend API |
-| React | 18.x | Frontend UI |
+| Technology | Version | Purpose     |
+| ---------- | ------- | ----------- |
+| Python     | 3.12    | Backend API |
+| React      | 18.x    | Frontend UI |
 
 ## Key Dependencies
 
-| Package | Version | Rationale |
-|---|---|---|
-| FastAPI | 0.100+ | REST API framework |
-| SQLAlchemy | 2.x | ORM and database access |
+| Package    | Version | Rationale               |
+| ---------- | ------- | ----------------------- |
+| FastAPI    | 0.100+  | REST API framework      |
+| SQLAlchemy | 2.x     | ORM and database access |
 
 ## Infrastructure
 
-| Component | Choice | Notes |
-|---|---|---|
-| Hosting | AWS ECS | Production containers |
-| Database | PostgreSQL 16 | Primary data store |
-| CI/CD | GitHub Actions | Build and deploy |
+| Component | Choice         | Notes                 |
+| --------- | -------------- | --------------------- |
+| Hosting   | AWS ECS        | Production containers |
+| Database  | PostgreSQL 16  | Primary data store    |
+| CI/CD     | GitHub Actions | Build and deploy      |
 
 ## Dev Tools
 
-| Tool | Purpose | Config |
-|---|---|---|
+| Tool   | Purpose                        | Config         |
+| ------ | ------------------------------ | -------------- |
 | pytest | Testing (target: 80% coverage) | pyproject.toml |
-| ruff | Linting + formatting | ruff.toml |
+| ruff   | Linting + formatting           | ruff.toml      |
 ```
 
 ## workflow.md
@@ -96,12 +96,12 @@ TDD with trunk-based development.
 
 ## Quality Gates
 
-| Gate | Requirement |
-|---|---|
-| Tests | All pass, coverage >= 80% |
-| Lint | Zero errors |
-| Review | At least 1 approval |
-| Types | No type errors |
+| Gate   | Requirement               |
+| ------ | ------------------------- |
+| Tests  | All pass, coverage >= 80% |
+| Lint   | Zero errors               |
+| Review | At least 1 approval       |
+| Types  | No type errors            |
 
 ## Deployment
 
@@ -118,14 +118,14 @@ TDD with trunk-based development.
 
 ## Active
 
-| ID | Title | Status | Priority | Assignee |
-|---|---|---|---|---|
-| TRACK-001 | Feature name | in-progress | high | @person |
+| ID        | Title        | Status      | Priority | Assignee |
+| --------- | ------------ | ----------- | -------- | -------- |
+| TRACK-001 | Feature name | in-progress | high     | @person  |
 
 ## Completed
 
-| ID | Title | Completed |
-|---|---|---|
+| ID        | Title         | Completed  |
+| --------- | ------------- | ---------- |
 | TRACK-000 | Initial setup | 2024-01-15 |
 ```
 
@@ -142,10 +142,10 @@ TDD with trunk-based development.
 
 ## Terminology
 
-| Term | Use | Don't Use |
-|---|---|---|
+| Term      | Use       | Don't Use     |
+| --------- | --------- | ------------- |
 | workspace | preferred | project, repo |
-| track | preferred | ticket, issue |
+| track     | preferred | ticket, issue |
 
 ## Error Messages
 

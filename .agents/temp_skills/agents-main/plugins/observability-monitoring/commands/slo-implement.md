@@ -456,7 +456,7 @@ groups:
           severity: critical
           team: platform
         annotations:
-          summary: "Fast error budget burn for {{ $labels.service }}"
+          summary: 'Fast error budget burn for {{ $labels.service }}'
           description: |
             Service {{ $labels.service }} is burning error budget at 14.4x rate.
             Current burn rate: {{ $value }}x
@@ -475,7 +475,7 @@ groups:
           severity: warning
           team: platform
         annotations:
-          summary: "Slow error budget burn for {{ $labels.service }}"
+          summary: 'Slow error budget burn for {{ $labels.service }}'
           description: |
             Service {{ $labels.service }} is burning error budget at 3x rate.
             Current burn rate: {{ $value }}x

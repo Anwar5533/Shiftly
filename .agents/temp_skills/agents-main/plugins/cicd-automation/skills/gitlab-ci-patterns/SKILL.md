@@ -29,7 +29,7 @@ stages:
 
 variables:
   DOCKER_DRIVER: overlay2
-  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_TLS_CERTDIR: '/certs'
 
 build:
   stage: build
@@ -140,7 +140,7 @@ stages:
 
 variables:
   TF_ROOT: ${CI_PROJECT_DIR}/terraform
-  TF_VERSION: "1.6.0"
+  TF_VERSION: '1.6.0'
 
 before_script:
   - cd ${TF_ROOT}
@@ -245,7 +245,6 @@ trigger-child:
         job: generate-pipeline
     strategy: depend
 ```
-
 
 ## Best Practices
 

@@ -57,11 +57,17 @@
   background: var(--accent);
   opacity: 0.18;
   transform-origin: left;
-  animation: otOpenUnder 1100ms 800ms cubic-bezier(.2,.8,.2,1) backwards;
+  animation: otOpenUnder 1100ms 800ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
 }
 @keyframes otOpenUnder {
-  from { transform: scaleX(0); opacity: 0; }
-  to   { transform: scaleX(1); opacity: 0.18; }
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 0.18;
+  }
 }
 
 .ot__open-grid {
@@ -86,11 +92,14 @@
   min-height: 280px;
   opacity: 0;
   transform: translateY(28px);
-  animation: otOpenCardIn 720ms cubic-bezier(.2,.8,.2,1) forwards;
+  animation: otOpenCardIn 720ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   box-shadow: 0 24px 48px -36px oklch(0 0 0 / 0.18);
 }
 @keyframes otOpenCardIn {
-  to { opacity: 1; transform: none; }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .ot__open-card-num {
@@ -177,8 +186,16 @@
   text-transform: uppercase;
   color: var(--fg-mute);
 }
-.ot__src-bracket { color: var(--fg-faint); font-family: var(--f-serif); font-style: italic; font-size: 26px; letter-spacing: 0; }
-.ot__src-label   { letter-spacing: 0.18em; }
+.ot__src-bracket {
+  color: var(--fg-faint);
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-size: 26px;
+  letter-spacing: 0;
+}
+.ot__src-label {
+  letter-spacing: 0.18em;
+}
 
 .ot__easy-pre {
   font-family: var(--f-serif);
@@ -214,12 +231,18 @@
   background: var(--accent);
   opacity: 0.16;
   transform-origin: left;
-  animation: otEasyUnder 1100ms 1100ms cubic-bezier(.2,.8,.2,1) backwards;
+  animation: otEasyUnder 1100ms 1100ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
   z-index: -1;
 }
 @keyframes otEasyUnder {
-  from { transform: scaleX(0); opacity: 0; }
-  to   { transform: scaleX(1); opacity: 0.16; }
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 0.16;
+  }
 }
 
 .ot__easy-sub {
@@ -301,7 +324,7 @@
 }
 .ot__goal-step--to {
   border-left: 3px solid var(--accent);
-  background: oklch(0.965 0.030 38);
+  background: oklch(0.965 0.03 38);
 }
 
 .ot__goal-step-tag {
@@ -311,7 +334,10 @@
   text-transform: uppercase;
   color: var(--fg-faint);
 }
-.ot__goal-step-tag--alt { color: var(--accent); font-weight: 600; }
+.ot__goal-step-tag--alt {
+  color: var(--accent);
+  font-weight: 600;
+}
 
 .ot__goal-step-line {
   font-family: var(--f-serif);
@@ -420,12 +446,18 @@
   background: var(--accent);
   opacity: 0.18;
   transform-origin: left;
-  animation: otTripleUnder 1100ms 800ms cubic-bezier(.2,.8,.2,1) backwards;
+  animation: otTripleUnder 1100ms 800ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
   z-index: -1;
 }
 @keyframes otTripleUnder {
-  from { transform: scaleX(0); opacity: 0; }
-  to   { transform: scaleX(1); opacity: 0.18; }
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 0.18;
+  }
 }
 
 .ot__triple-row {
@@ -445,12 +477,17 @@
   border: 1px solid var(--line-mid);
   opacity: 0;
   transform: translateY(28px) scale(0.94);
-  animation: otTripleCardIn 720ms cubic-bezier(.6,-0.05,.2,1.2) forwards;
+  animation: otTripleCardIn 720ms cubic-bezier(0.6, -0.05, 0.2, 1.2) forwards;
 }
 @keyframes otTripleCardIn {
-  to { opacity: 1; transform: none; }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
-.ot__triple-card:hover .ot__icon { color: var(--accent); }
+.ot__triple-card:hover .ot__icon {
+  color: var(--accent);
+}
 
 .ot__triple-icon-wrap {
   width: 96px;
@@ -464,17 +501,35 @@
 .ot__icon {
   width: 100%;
   height: 100%;
-  transition: color 280ms cubic-bezier(.2,.8,.2,1), transform 320ms cubic-bezier(.6,-0.05,.2,1.2);
+  transition:
+    color 280ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 320ms cubic-bezier(0.6, -0.05, 0.2, 1.2);
 }
 
 /* hover-like 自动节奏脉冲 —— icon 颜色随节奏从 fg → accent → fg */
-.ot__triple-card:nth-child(1) .ot__icon { animation: otIconPulse 2400ms 1100ms cubic-bezier(.2,.8,.2,1) infinite; }
-.ot__triple-card:nth-child(2) .ot__icon { animation: otIconPulse 2400ms 1500ms cubic-bezier(.2,.8,.2,1) infinite; }
-.ot__triple-card:nth-child(3) .ot__icon { animation: otIconPulse 2400ms 1900ms cubic-bezier(.2,.8,.2,1) infinite; }
+.ot__triple-card:nth-child(1) .ot__icon {
+  animation: otIconPulse 2400ms 1100ms cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+.ot__triple-card:nth-child(2) .ot__icon {
+  animation: otIconPulse 2400ms 1500ms cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+.ot__triple-card:nth-child(3) .ot__icon {
+  animation: otIconPulse 2400ms 1900ms cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
 @keyframes otIconPulse {
-  0%, 100% { color: var(--fg); transform: scale(1); }
-  20%      { color: var(--accent); transform: scale(1.06); }
-  60%      { color: var(--fg); transform: scale(1); }
+  0%,
+  100% {
+    color: var(--fg);
+    transform: scale(1);
+  }
+  20% {
+    color: var(--accent);
+    transform: scale(1.06);
+  }
+  60% {
+    color: var(--fg);
+    transform: scale(1);
+  }
 }
 
 .ot__triple-label {
@@ -552,12 +607,18 @@
   background: var(--accent);
   opacity: 0.18;
   transform-origin: left;
-  animation: otByeUnder 1100ms 1300ms cubic-bezier(.2,.8,.2,1) backwards;
+  animation: otByeUnder 1100ms 1300ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
   z-index: -1;
 }
 @keyframes otByeUnder {
-  from { transform: scaleX(0); opacity: 0; }
-  to   { transform: scaleX(1); opacity: 0.18; }
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 0.18;
+  }
 }
 .ot__bye-arrow {
   font-family: var(--f-serif);
@@ -566,11 +627,17 @@
   color: var(--fg-faint);
   line-height: 1;
   align-self: center;
-  animation: otByeArrow 1100ms 1700ms cubic-bezier(.6,-0.05,.2,1.2) backwards;
+  animation: otByeArrow 1100ms 1700ms cubic-bezier(0.6, -0.05, 0.2, 1.2) backwards;
 }
 @keyframes otByeArrow {
-  from { transform: translate(-12px, 12px); opacity: 0; }
-  to   { transform: none; opacity: 1; }
+  from {
+    transform: translate(-12px, 12px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
 }
 
 .ot__bye-sig {

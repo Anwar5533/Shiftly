@@ -1,6 +1,6 @@
 ---
-description: "Initialize a design system with tokens"
-argument-hint: "[--preset minimal|standard|comprehensive]"
+description: 'Initialize a design system with tokens'
+argument-hint: '[--preset minimal|standard|comprehensive]'
 ---
 
 # Design System Setup
@@ -406,7 +406,7 @@ Create `.ui-design/tokens/tokens.css`:
 
   /* Typography */
   --font-family-sans: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-family-mono: ui-monospace, "Fira Code", monospace;
+  --font-family-mono: ui-monospace, 'Fira Code', monospace;
 
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
@@ -449,7 +449,7 @@ Create `.ui-design/tokens/tokens.css`:
   }
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   --color-neutral-50: #111827;
   --color-neutral-100: #1f2937;
   --color-neutral-500: #9ca3af;
@@ -471,23 +471,23 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          50: "#EFF6FF",
-          100: "#DBEAFE",
-          200: "#BFDBFE",
-          300: "#93C5FD",
-          400: "#60A5FA",
-          500: "#3B82F6",
-          600: "#2563EB",
-          700: "#1D4ED8",
-          800: "#1E40AF",
-          900: "#1E3A8A",
-          950: "#172554",
+          50: '#EFF6FF',
+          100: '#DBEAFE',
+          200: '#BFDBFE',
+          300: '#93C5FD',
+          400: '#60A5FA',
+          500: '#3B82F6',
+          600: '#2563EB',
+          700: '#1D4ED8',
+          800: '#1E40AF',
+          900: '#1E3A8A',
+          950: '#172554',
         },
         // ... other colors
       },
       fontFamily: {
-        sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
-        mono: ["ui-monospace", "Fira Code", "monospace"],
+        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        mono: ['ui-monospace', 'Fira Code', 'monospace'],
       },
       // ... other tokens
     },
@@ -505,7 +505,7 @@ Create `.ui-design/tokens/tokens.ts`:
 
 export const colors = {
   primary: {
-    50: "#EFF6FF",
+    50: '#EFF6FF',
     // ... full palette
   },
   // ... other color groups
@@ -513,17 +513,17 @@ export const colors = {
 
 export const typography = {
   fontFamily: {
-    sans: "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+    sans: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
     mono: "ui-monospace, 'Fira Code', monospace",
   },
   fontSize: {
-    xs: "0.75rem",
+    xs: '0.75rem',
     // ... full scale
   },
 } as const;
 
 export const spacing = {
-  1: "0.25rem",
+  1: '0.25rem',
   // ... full scale
 } as const;
 
@@ -599,7 +599,7 @@ Use spacing tokens for consistent margins and padding:
 ### Tailwind
 
 ```html
-<button class="bg-primary-500 px-4 py-2 rounded-md">Click me</button>
+<button class="bg-primary-500 rounded-md px-4 py-2">Click me</button>
 ```
 
 ```

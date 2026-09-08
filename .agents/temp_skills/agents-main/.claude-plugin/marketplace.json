@@ -1168,15 +1168,7 @@
       "homepage": "https://veritasacta.com",
       "license": "MIT",
       "category": "governance",
-      "keywords": [
-        "cedar",
-        "receipts",
-        "ed25519",
-        "policy",
-        "governance",
-        "audit",
-        "compliance"
-      ]
+      "keywords": ["cedar", "receipts", "ed25519", "policy", "governance", "audit", "compliance"]
     },
     {
       "name": "signed-audit-trails",

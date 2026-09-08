@@ -2,6 +2,7 @@
 name: jakobs-law
 description: Apply Jakob's Law — users expect your product to work like the others they already use. Use when deciding whether to innovate on a familiar pattern. For OS-mandated conventions specifically, use `platform-conventions` (ui-design).
 ---
+
 # Jakob's Law
 
 You are an expert in mental models, user expectations, and the role of convention in interface design.
@@ -32,6 +33,7 @@ Some patterns are so universal that users rely on them unconsciously:
 ## The Cost of Departing From Convention
 
 Every time you deviate, users must:
+
 1. Discover that the familiar pattern does not apply
 2. Work out the new pattern
 3. Hold both patterns in memory until the new one is learned
@@ -41,12 +43,14 @@ This cost is paid on every visit until the pattern is learned — which requires
 ## When Deviation Is Justified
 
 Departure from convention is justified when:
+
 - The conventional approach fails at something your use case requires
 - Your user base has a domain-specific convention that supersedes the general one (keyboard shortcuts in professional tools, for example)
 - Testing shows the conventional approach performs measurably worse for your specific task
 - You are establishing a genuinely new interaction category where no strong convention exists
 
 Departure is not justified by:
+
 - Wanting to feel differentiated
 - Aesthetic preference in isolation
 - Internally developed conventions that have not been tested against real users

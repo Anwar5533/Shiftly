@@ -11,13 +11,13 @@ role: [security-engineer, architect]
 phase: [design]
 frameworks: [NIST-RBAC, NIST-SP-800-162]
 difficulty: intermediate
-time_estimate: "45-90min"
-version: "1.0.0"
+time_estimate: '45-90min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 injection-hardened: true
-argument-hint: "[target-file-or-directory]"
+argument-hint: '[target-file-or-directory]'
 ---
 
 # RBAC/ABAC Design Patterns
@@ -69,32 +69,32 @@ Authorization design is the structural foundation of access control. Poor role d
 
 ### NIST RBAC Model (ANSI INCITS 359-2012)
 
-| Model Level | Name | Components | Use Case |
-|---|---|---|---|
-| **RBAC0** | Core RBAC | Users, Roles, Permissions, Sessions, User-Role Assignment, Permission-Role Assignment | Basic role assignment — minimum viable RBAC |
-| **RBAC1** | Hierarchical RBAC | Core + Role Hierarchies (general and limited) | Organizational structures where senior roles inherit junior permissions |
-| **RBAC2** | Constrained RBAC | Core + Constraints (SoD, cardinality, prerequisite roles) | Environments requiring segregation of duties enforcement |
-| **RBAC3** | Symmetric RBAC | Hierarchical + Constrained (RBAC1 + RBAC2) | Full enterprise RBAC with hierarchies and policy constraints |
+| Model Level | Name              | Components                                                                            | Use Case                                                                |
+| ----------- | ----------------- | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| **RBAC0**   | Core RBAC         | Users, Roles, Permissions, Sessions, User-Role Assignment, Permission-Role Assignment | Basic role assignment — minimum viable RBAC                             |
+| **RBAC1**   | Hierarchical RBAC | Core + Role Hierarchies (general and limited)                                         | Organizational structures where senior roles inherit junior permissions |
+| **RBAC2**   | Constrained RBAC  | Core + Constraints (SoD, cardinality, prerequisite roles)                             | Environments requiring segregation of duties enforcement                |
+| **RBAC3**   | Symmetric RBAC    | Hierarchical + Constrained (RBAC1 + RBAC2)                                            | Full enterprise RBAC with hierarchies and policy constraints            |
 
 ### NIST SP 800-162 — ABAC Core Concepts
 
-| Component | Description | Examples |
-|---|---|---|
-| **Subject Attributes** | Properties of the requesting entity | Role, department, clearance level, location, device posture |
-| **Resource Attributes** | Properties of the target resource | Classification, owner, sensitivity label, data type |
-| **Action Attributes** | Properties of the requested operation | Read, write, delete, approve, execute |
-| **Environment Attributes** | Contextual conditions at decision time | Time of day, IP range, threat level, network zone |
-| **Policy** | Rules combining attributes to produce an access decision | "Allow if subject.department == resource.department AND action == read AND time within business_hours" |
+| Component                  | Description                                              | Examples                                                                                               |
+| -------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| **Subject Attributes**     | Properties of the requesting entity                      | Role, department, clearance level, location, device posture                                            |
+| **Resource Attributes**    | Properties of the target resource                        | Classification, owner, sensitivity label, data type                                                    |
+| **Action Attributes**      | Properties of the requested operation                    | Read, write, delete, approve, execute                                                                  |
+| **Environment Attributes** | Contextual conditions at decision time                   | Time of day, IP range, threat level, network zone                                                      |
+| **Policy**                 | Rules combining attributes to produce an access decision | "Allow if subject.department == resource.department AND action == read AND time within business_hours" |
 
 ### ABAC Functional Architecture (NIST SP 800-162 Section 4)
 
-| Component | Abbreviation | Function |
-|---|---|---|
-| **Policy Decision Point** | PDP | Evaluates access requests against policies, returns permit/deny |
-| **Policy Enforcement Point** | PEP | Intercepts access requests, enforces PDP decisions |
-| **Policy Information Point** | PIP | Provides attribute values to PDP from external sources |
-| **Policy Administration Point** | PAP | Interface for policy creation, management, and lifecycle |
-| **Policy Retrieval Point** | PRP | Stores and retrieves policies for PDP consumption |
+| Component                       | Abbreviation | Function                                                        |
+| ------------------------------- | ------------ | --------------------------------------------------------------- |
+| **Policy Decision Point**       | PDP          | Evaluates access requests against policies, returns permit/deny |
+| **Policy Enforcement Point**    | PEP          | Intercepts access requests, enforces PDP decisions              |
+| **Policy Information Point**    | PIP          | Provides attribute values to PDP from external sources          |
+| **Policy Administration Point** | PAP          | Interface for policy creation, management, and lifecycle        |
+| **Policy Retrieval Point**      | PRP          | Stores and retrieves policies for PDP consumption               |
 
 ---
 
@@ -184,13 +184,13 @@ RBAC-HIER-07: Role hierarchy does not reflect organizational structure or job fu
 
 #### Constraint Types
 
-| Constraint | Type | Description | Example |
-|---|---|---|---|
-| **Static SoD (SSoD)** | Assignment-time | User cannot be assigned to conflicting roles simultaneously | Cannot hold both `payment-initiator` and `payment-approver` |
-| **Dynamic SoD (DSoD)** | Session-time | User may hold conflicting roles but cannot activate both in same session | Can hold `developer` and `auditor` but cannot activate both simultaneously |
-| **Cardinality** | Assignment-time | Maximum number of users assignable to a role | `global-admin` limited to 3 concurrent holders |
-| **Prerequisite** | Assignment-time | User must hold role A before being assigned role B | Must hold `developer` before being assigned `senior-developer` |
-| **Temporal** | Session-time | Role can only be activated during specific time windows | `maintenance-admin` only active during change windows |
+| Constraint             | Type            | Description                                                              | Example                                                                    |
+| ---------------------- | --------------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| **Static SoD (SSoD)**  | Assignment-time | User cannot be assigned to conflicting roles simultaneously              | Cannot hold both `payment-initiator` and `payment-approver`                |
+| **Dynamic SoD (DSoD)** | Session-time    | User may hold conflicting roles but cannot activate both in same session | Can hold `developer` and `auditor` but cannot activate both simultaneously |
+| **Cardinality**        | Assignment-time | Maximum number of users assignable to a role                             | `global-admin` limited to 3 concurrent holders                             |
+| **Prerequisite**       | Assignment-time | User must hold role A before being assigned role B                       | Must hold `developer` before being assigned `senior-developer`             |
+| **Temporal**           | Session-time    | Role can only be activated during specific time windows                  | `maintenance-admin` only active during change windows                      |
 
 **What to look for:**
 
@@ -206,14 +206,14 @@ RBAC-CONST-07: Constraint violations not logged or alerted
 
 **Common SoD conflict pairs for constraint definition:**
 
-| Role A | Role B | Risk | Constraint Type |
-|---|---|---|---|
-| `code-commit` | `prod-deploy` | Unauthorized code in production | SSoD or DSoD |
-| `user-provisioning` | `access-certifier` | Self-approval | SSoD |
-| `payment-initiation` | `payment-approval` | Financial fraud | SSoD |
-| `security-admin` | `audit-log-admin` | Evidence tampering | SSoD |
-| `key-management` | `app-deployment` | Credential exfiltration | SSoD |
-| `vendor-onboarding` | `payment-approval` | Vendor fraud | SSoD |
+| Role A               | Role B             | Risk                            | Constraint Type |
+| -------------------- | ------------------ | ------------------------------- | --------------- |
+| `code-commit`        | `prod-deploy`      | Unauthorized code in production | SSoD or DSoD    |
+| `user-provisioning`  | `access-certifier` | Self-approval                   | SSoD            |
+| `payment-initiation` | `payment-approval` | Financial fraud                 | SSoD            |
+| `security-admin`     | `audit-log-admin`  | Evidence tampering              | SSoD            |
+| `key-management`     | `app-deployment`   | Credential exfiltration         | SSoD            |
+| `vendor-onboarding`  | `payment-approval` | Vendor fraud                    | SSoD            |
 
 ---
 
@@ -225,13 +225,13 @@ Permission boundaries act as guardrails — even if a role is misconfigured, it 
 
 #### Platform-Specific Patterns
 
-| Platform | Mechanism | Design Pattern |
-|---|---|---|
-| **AWS** | IAM Permission Boundaries | Attach to all IAM entities created by delegated admins; boundary = union of allowed permissions |
-| **AWS** | Service Control Policies (SCPs) | Org-level guardrails applied to all accounts in an OU; deny-list pattern preferred |
-| **Azure** | Management Group policies, Deny assignments | Azure Policy deny effects at management group scope; custom role `NotActions` |
-| **GCP** | Organization Policy constraints, IAM Deny Policies | Org-level constraints (e.g., `constraints/iam.allowedPolicyMemberDomains`); deny policies for hard limits |
-| **Application** | Scope/claim limits in OAuth tokens | Token scopes constrain maximum permissions regardless of role assignment |
+| Platform        | Mechanism                                          | Design Pattern                                                                                            |
+| --------------- | -------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| **AWS**         | IAM Permission Boundaries                          | Attach to all IAM entities created by delegated admins; boundary = union of allowed permissions           |
+| **AWS**         | Service Control Policies (SCPs)                    | Org-level guardrails applied to all accounts in an OU; deny-list pattern preferred                        |
+| **Azure**       | Management Group policies, Deny assignments        | Azure Policy deny effects at management group scope; custom role `NotActions`                             |
+| **GCP**         | Organization Policy constraints, IAM Deny Policies | Org-level constraints (e.g., `constraints/iam.allowedPolicyMemberDomains`); deny policies for hard limits |
+| **Application** | Scope/claim limits in OAuth tokens                 | Token scopes constrain maximum permissions regardless of role assignment                                  |
 
 **What to look for:**
 
@@ -254,14 +254,14 @@ RBAC-BOUND-06: OAuth scopes overly broad — default tokens get maximum permissi
 
 #### When ABAC Adds Value Over Pure RBAC
 
-| Scenario | Why RBAC Falls Short | ABAC Policy Pattern |
-|---|---|---|
-| Multi-tenant data isolation | Roles per tenant cause explosion | `subject.tenant_id == resource.tenant_id` |
-| Data classification enforcement | Roles per classification level are rigid | `subject.clearance >= resource.classification` |
-| Time-based access windows | Temporal roles are operationally complex | `environment.time within resource.access_window` |
-| Geographic restrictions | Per-region roles do not scale | `subject.location in resource.allowed_regions` |
-| Owner-based access | Separate role per owner is impractical | `subject.id == resource.owner_id OR subject.role == 'admin'` |
-| Risk-adaptive access | Static roles cannot respond to risk signals | `environment.risk_score < resource.max_risk_threshold` |
+| Scenario                        | Why RBAC Falls Short                        | ABAC Policy Pattern                                          |
+| ------------------------------- | ------------------------------------------- | ------------------------------------------------------------ |
+| Multi-tenant data isolation     | Roles per tenant cause explosion            | `subject.tenant_id == resource.tenant_id`                    |
+| Data classification enforcement | Roles per classification level are rigid    | `subject.clearance >= resource.classification`               |
+| Time-based access windows       | Temporal roles are operationally complex    | `environment.time within resource.access_window`             |
+| Geographic restrictions         | Per-region roles do not scale               | `subject.location in resource.allowed_regions`               |
+| Owner-based access              | Separate role per owner is impractical      | `subject.id == resource.owner_id OR subject.role == 'admin'` |
+| Risk-adaptive access            | Static roles cannot respond to risk signals | `environment.risk_score < resource.max_risk_threshold`       |
 
 #### ABAC Policy Structure (NIST SP 800-162 Section 3.2)
 
@@ -327,23 +327,23 @@ RBAC-MINE-06: Mining does not account for SoD constraints (mined roles may creat
 
 #### Role Rationalization Targets
 
-| Metric | Before Rationalization | Target After | Method |
-|---|---|---|---|
-| Total role count | Baseline count | 30-50% reduction | Merge overlapping roles, retire unused |
-| Single-user roles | Baseline count | < 5% of total | Convert to ABAC policies or merge |
-| Unassigned roles | Baseline count | 0 | Delete or archive |
-| Average permissions per role | Baseline | Aligned to job function scope | Trim excess, apply least privilege |
+| Metric                       | Before Rationalization | Target After                  | Method                                 |
+| ---------------------------- | ---------------------- | ----------------------------- | -------------------------------------- |
+| Total role count             | Baseline count         | 30-50% reduction              | Merge overlapping roles, retire unused |
+| Single-user roles            | Baseline count         | < 5% of total                 | Convert to ABAC policies or merge      |
+| Unassigned roles             | Baseline count         | 0                             | Delete or archive                      |
+| Average permissions per role | Baseline               | Aligned to job function scope | Trim excess, apply least privilege     |
 
 ---
 
 ## Findings Classification
 
-| Severity | Definition | Examples |
-|---|---|---|
-| **Critical** | Authorization model allows privilege escalation or bypasses SoD | No permission boundaries; SSoD violations in production financial systems |
-| **High** | Significant design flaw creating excessive access risk | Role explosion (>0.7:1 ratio); no centralized PDP; wildcard boundaries |
-| **Medium** | Design deficiency undermining governance | No role lifecycle process; ABAC policies without testing; missing constraints |
-| **Low** | Design improvement opportunity | Naming inconsistencies; missing documentation; single-user roles < 5% |
+| Severity     | Definition                                                      | Examples                                                                      |
+| ------------ | --------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| **Critical** | Authorization model allows privilege escalation or bypasses SoD | No permission boundaries; SSoD violations in production financial systems     |
+| **High**     | Significant design flaw creating excessive access risk          | Role explosion (>0.7:1 ratio); no centralized PDP; wildcard boundaries        |
+| **Medium**   | Design deficiency undermining governance                        | No role lifecycle process; ABAC policies without testing; missing constraints |
+| **Low**      | Design improvement opportunity                                  | Naming inconsistencies; missing documentation; single-user roles < 5%         |
 
 ---
 
@@ -351,16 +351,16 @@ RBAC-MINE-06: Mining does not account for SoD constraints (mined roles may creat
 
 ### Findings Table
 
-| Field | Description |
-|---|---|
-| **Finding ID** | Unique identifier (e.g., RBAC-HIER-01) |
-| **Title** | Brief description |
-| **Severity** | Critical / High / Medium / Low |
-| **Framework Ref** | NIST RBAC model level or NIST SP 800-162 section |
-| **Current State** | What exists today |
-| **Recommended State** | Target design |
-| **Remediation** | Steps to implement the design change |
-| **Effort** | Low / Medium / High |
+| Field                 | Description                                      |
+| --------------------- | ------------------------------------------------ |
+| **Finding ID**        | Unique identifier (e.g., RBAC-HIER-01)           |
+| **Title**             | Brief description                                |
+| **Severity**          | Critical / High / Medium / Low                   |
+| **Framework Ref**     | NIST RBAC model level or NIST SP 800-162 section |
+| **Current State**     | What exists today                                |
+| **Recommended State** | Target design                                    |
+| **Remediation**       | Steps to implement the design change             |
+| **Effort**            | Low / Medium / High                              |
 
 ### Summary Report Structure
 
@@ -405,25 +405,25 @@ RBAC-MINE-06: Mining does not account for SoD constraints (mined roles may creat
 
 ### NIST RBAC Standard — Key Definitions
 
-| Term | Definition (per ANSI INCITS 359-2012) |
-|---|---|
-| **User** | A human being or autonomous agent |
-| **Role** | A job function within the context of an organization with associated semantics regarding authority and responsibility |
-| **Permission** | An approval to perform an operation on one or more protected objects |
-| **Session** | A mapping of one user to potentially many roles |
-| **User Assignment (UA)** | Many-to-many mapping of users to roles |
-| **Permission Assignment (PA)** | Many-to-many mapping of permissions to roles |
+| Term                           | Definition (per ANSI INCITS 359-2012)                                                                                 |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------------- |
+| **User**                       | A human being or autonomous agent                                                                                     |
+| **Role**                       | A job function within the context of an organization with associated semantics regarding authority and responsibility |
+| **Permission**                 | An approval to perform an operation on one or more protected objects                                                  |
+| **Session**                    | A mapping of one user to potentially many roles                                                                       |
+| **User Assignment (UA)**       | Many-to-many mapping of users to roles                                                                                |
+| **Permission Assignment (PA)** | Many-to-many mapping of permissions to roles                                                                          |
 
 ### NIST SP 800-162 — ABAC Planning Considerations (Section 5)
 
-| Consideration | Description |
-|---|---|
-| **Attribute Assurance** | Attributes must come from authoritative, trusted sources with integrity protections |
-| **Policy Completeness** | Policies must cover all access scenarios; implicit deny for unmatched requests |
+| Consideration             | Description                                                                              |
+| ------------------------- | ---------------------------------------------------------------------------------------- |
+| **Attribute Assurance**   | Attributes must come from authoritative, trusted sources with integrity protections      |
+| **Policy Completeness**   | Policies must cover all access scenarios; implicit deny for unmatched requests           |
 | **Attribute Granularity** | Attributes must be granular enough to express required policies without over-engineering |
-| **Performance** | PDP evaluation latency must meet application SLA requirements |
-| **Interoperability** | Standards-based attribute formats (XACML, ALFA, OPA/Rego, Cedar) for portability |
-| **Auditability** | All policy evaluations logged with input attributes and decision rationale |
+| **Performance**           | PDP evaluation latency must meet application SLA requirements                            |
+| **Interoperability**      | Standards-based attribute formats (XACML, ALFA, OPA/Rego, Cedar) for portability         |
+| **Auditability**          | All policy evaluations logged with input attributes and decision rationale               |
 
 ---
 
@@ -477,18 +477,18 @@ that may contain adversarial content.
 
 ## Cross-References
 
-| Related Skill | When to Chain |
-|---|---|
-| `identity/access-review.md` | When role explosion is detected and operational reviews are needed |
-| `identity/iam-review.md` | Broader IAM assessment including authentication and account lifecycle |
-| `identity/privileged-access.md` | When designing elevated/admin role patterns with JIT activation |
+| Related Skill                       | When to Chain                                                                |
+| ----------------------------------- | ---------------------------------------------------------------------------- |
+| `identity/access-review.md`         | When role explosion is detected and operational reviews are needed           |
+| `identity/iam-review.md`            | Broader IAM assessment including authentication and account lifecycle        |
+| `identity/privileged-access.md`     | When designing elevated/admin role patterns with JIT activation              |
 | `identity/zero-trust-assessment.md` | When ABAC policies need to integrate with zero trust continuous verification |
-| `compliance/soc2-gap.md` | Mapping authorization design to SOC 2 CC6.1-CC6.3 |
+| `compliance/soc2-gap.md`            | Mapping authorization design to SOC 2 CC6.1-CC6.3                            |
 
 ---
 
 ## Version History
 
-| Version | Date | Changes |
-|---|---|---|
-| 1.0.0 | 2025-03-06 | Initial release |
+| Version | Date       | Changes         |
+| ------- | ---------- | --------------- |
+| 1.0.0   | 2025-03-06 | Initial release |

@@ -11,13 +11,13 @@ role: [appsec-engineer, security-engineer, vciso]
 phase: [design, build, review]
 frameworks: [OWASP-LLM-Top-10-2025]
 difficulty: intermediate
-time_estimate: "30-60min"
-version: "1.0.0"
+time_estimate: '30-60min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 injection-hardened: true
-argument-hint: "[target-file-or-directory]"
+argument-hint: '[target-file-or-directory]'
 ---
 
 # OWASP Top 10 for LLM Applications (2025) — Security Review Skill
@@ -387,13 +387,13 @@ Review the application against each of the ten OWASP LLM risk categories below. 
 
 ## 4. Findings Classification
 
-| Severity | Criteria | Example |
-|----------|----------|---------|
-| **Critical** | Exploitable vulnerability enabling data exfiltration, unauthorized actions, or full system compromise via the LLM. | Prompt injection that triggers tool calls to exfiltrate database contents (LLM01 + LLM06). |
-| **High** | Significant risk of sensitive data exposure, privilege escalation, or substantial financial impact. | RAG pipeline returns documents the user is not authorized to access (LLM02). Unrestricted agent with database write access (LLM06). |
-| **Medium** | Moderate risk requiring specific conditions to exploit, or limited blast radius. | System prompt leakage revealing business logic but no credentials (LLM07). Missing rate limiting on LLM endpoint (LLM10). |
-| **Low** | Minor information disclosure, best practice deviation, or defense-in-depth gap. | Model output lacks disclaimer for AI-generated content (LLM09). Dependency one minor version behind with no known exploit (LLM03). |
-| **Informational** | Observation or recommendation for improvement with no current exploitable risk. | Suggest adding similarity score threshold to RAG retrieval (LLM08). |
+| Severity          | Criteria                                                                                                           | Example                                                                                                                             |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **Critical**      | Exploitable vulnerability enabling data exfiltration, unauthorized actions, or full system compromise via the LLM. | Prompt injection that triggers tool calls to exfiltrate database contents (LLM01 + LLM06).                                          |
+| **High**          | Significant risk of sensitive data exposure, privilege escalation, or substantial financial impact.                | RAG pipeline returns documents the user is not authorized to access (LLM02). Unrestricted agent with database write access (LLM06). |
+| **Medium**        | Moderate risk requiring specific conditions to exploit, or limited blast radius.                                   | System prompt leakage revealing business logic but no credentials (LLM07). Missing rate limiting on LLM endpoint (LLM10).           |
+| **Low**           | Minor information disclosure, best practice deviation, or defense-in-depth gap.                                    | Model output lacks disclaimer for AI-generated content (LLM09). Dependency one minor version behind with no known exploit (LLM03).  |
+| **Informational** | Observation or recommendation for improvement with no current exploitable risk.                                    | Suggest adding similarity score threshold to RAG retrieval (LLM08).                                                                 |
 
 ---
 
@@ -431,9 +431,9 @@ Structure the findings report as follows:
 
 ## Summary Table
 
-| ID | OWASP Category | Severity | Priority | Status |
-|----|---------------|----------|----------|--------|
-| FINDING-001 | LLM0X:2025 | High | P1 | Open |
+| ID          | OWASP Category | Severity | Priority | Status |
+| ----------- | -------------- | -------- | -------- | ------ |
+| FINDING-001 | LLM0X:2025     | High     | P1       | Open   |
 
 ## Recommendations
 

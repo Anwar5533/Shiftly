@@ -19,14 +19,14 @@ Every skill in this repository is reviewed against these attack vectors before m
 
 No skill file in this repository may contain:
 
-| Category | Prohibited Examples |
-|----------|-------------------|
-| **Instruction injection** | "Ignore previous instructions," "Your new directive is," "System override:", "You are now," "Forget your instructions" |
-| **Exfiltration instructions** | Instructions to send data to external URLs, encode and output secrets, write sensitive data to files outside the working directory |
-| **Permission escalation** | Instructions to request additional tools beyond `allowed-tools`, disable safety checks, modify system prompts, bypass human approval gates |
-| **Credential harvesting** | Instructions to display, log, transmit, or store API keys, tokens, passwords, or other secrets in output |
-| **Resource exhaustion** | Instructions that cause unbounded agent execution, infinite loops, recursive tool calls without termination |
-| **Social engineering of approvers** | Instructions to make output appear more authoritative than warranted, suppress uncertainty, or hide caveats from human reviewers |
+| Category                            | Prohibited Examples                                                                                                                        |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Instruction injection**           | "Ignore previous instructions," "Your new directive is," "System override:", "You are now," "Forget your instructions"                     |
+| **Exfiltration instructions**       | Instructions to send data to external URLs, encode and output secrets, write sensitive data to files outside the working directory         |
+| **Permission escalation**           | Instructions to request additional tools beyond `allowed-tools`, disable safety checks, modify system prompts, bypass human approval gates |
+| **Credential harvesting**           | Instructions to display, log, transmit, or store API keys, tokens, passwords, or other secrets in output                                   |
+| **Resource exhaustion**             | Instructions that cause unbounded agent execution, infinite loops, recursive tool calls without termination                                |
+| **Social engineering of approvers** | Instructions to make output appear more authoritative than warranted, suppress uncertainty, or hide caveats from human reviewers           |
 
 Skills in the `ai-security/` directory may contain **quoted examples** of these patterns for educational purposes (e.g., describing what a prompt injection attack looks like). These examples must be clearly marked as examples within the skill content. The CI scan excludes the `ai-security/` directory for high-confidence patterns and applies contextual filtering for imperative patterns (excluding lines with defensive context such as "treat it as," "not a command," "such as," etc.).
 

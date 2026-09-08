@@ -192,11 +192,11 @@ Chromium 的 `--print-to-pdf` 不支持命令行页面尺寸 / 边距参数。�
 
 ## 与 Skill 流程的关系
 
-| 阶段 | 触发 | 动作 |
-|---|---|---|
-| Phase 8 Delivery | 用户在 Checkpoint 3 选 "通过 · 同时导出 HTML + PDF" | 跑 `npm run html` → 跑 `bash <skill>/scripts/html-to-pdf.sh` → 交付 `article.html` + `article.pdf` |
-| Checkpoint 3 其它选项 | 用户选 "通过 · 导出 HTML 交付" | 不跑 PDF |
-| 用户事后想补 PDF | 任何时刻 | 在工作区根目录手动跑 `bash <skill>/scripts/html-to-pdf.sh` |
+| 阶段                  | 触发                                                | 动作                                                                                               |
+| --------------------- | --------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| Phase 8 Delivery      | 用户在 Checkpoint 3 选 "通过 · 同时导出 HTML + PDF" | 跑 `npm run html` → 跑 `bash <skill>/scripts/html-to-pdf.sh` → 交付 `article.html` + `article.pdf` |
+| Checkpoint 3 其它选项 | 用户选 "通过 · 导出 HTML 交付"                      | 不跑 PDF                                                                                           |
+| 用户事后想补 PDF      | 任何时刻                                            | 在工作区根目录手动跑 `bash <skill>/scripts/html-to-pdf.sh`                                         |
 
 ---
 

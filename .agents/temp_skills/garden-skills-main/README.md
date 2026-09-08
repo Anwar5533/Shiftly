@@ -47,8 +47,8 @@
 
 ## Table of contents
 
-| Install | Use | Contribute |
-|---|---|---|
+| Install                                                                                                                                                                                                                                                                                                                             | Use                                                                     | Contribute                                                                                  |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
 | [Install](#install)<br>[`skills` CLI (npx)](#option-a--skills-cli-npx)<br>[Claude Code plugin marketplace](#option-b--claude-code-plugin-marketplace)<br>[Pinned `.zip` from Releases](#option-c--pinned-zip-from-releases)<br>[Manual copy](#option-d--manual-copy-into-your-project)<br>[Git submodule](#option-e--git-submodule) | [Compatibility](#compatibility)<br>[What is a Skill?](#what-is-a-skill) | [Contributing](#contributing)<br>[Acknowledgments](#acknowledgments)<br>[License](#license) |
 
 ---
@@ -262,7 +262,7 @@ Links: [README](./skills/kb-retriever/README.md) · [SKILL.md](./skills/kb-retri
 
 Highlights:
 
-- **Article first** — the focus is the *article*: better reading, better pacing, better aesthetics. Delivery is a self-contained file (HTML, optional PDF), but that's a delivery detail, not the goal
+- **Article first** — the focus is the _article_: better reading, better pacing, better aesthetics. Delivery is a self-contained file (HTML, optional PDF), but that's a delivery detail, not the goal
 - **Reacticle component protocol** — prose-first semantic components (Hero / Lead / Section / Quote / Callout / Image / Formula / CodeBlock / Table…) plus a theme-token-only `Raw` free layer; the underlying React library lives at [`ConardLi/reacticle`](https://github.com/ConardLi/reacticle)
 - **10 article types with bundled retention ratios** — `longform · ~100%` / `tutorial · ~90%` / `full-report · ~80%` / `explainer · ~80%` / `dialogue · ~80%` / `review · ~70%` / `essay · ~70%` / `briefing · ~50%` / `visual-essay · ~40%` / `interactive-explainer · ~25% excerpt + 75% AI-rebuild`
 - **11 authoring theme profiles** (`tufte`, `press`, `bayer`, `bodoni`, `vignelli`, `sottsass`, `freddie`, `andy`, `fuller`, `knuth`, `shannon`) — each is a Markdown contract for the agent rather than a CSS file
@@ -294,13 +294,13 @@ Links: [README](./skills/beautiful-article/README.md) · [SKILL.md](./skills/bea
 
 There are five supported install paths. Pick the one that fits your stack:
 
-| # | Method | Best for | Pinned version? |
-|---|---|---|---|
-| A | [`skills` CLI (`npx skills add`)](#option-a--skills-cli-npx) | Any agent, one-line install, pick & choose skills | ✅ via tag URL |
-| B | [Claude Code plugin marketplace](#option-b--claude-code-plugin-marketplace) | Claude Code users who want to subscribe to plugin packs | ✅ via marketplace version |
-| C | [Pinned `.zip` from GitHub Releases](#option-c--pinned-zip-from-releases) | CI / air-gapped envs / reproducible installs | ✅ ✅ (immutable) |
-| D | [Manual copy after `git clone`](#option-d--manual-copy-into-your-project) | Local hacking on the skill itself | ❌ (tracks `main`) |
-| E | [Git submodule](#option-e--git-submodule) | Vendored into a larger project, want upstream updates | ✅ via submodule SHA |
+| #   | Method                                                                      | Best for                                                | Pinned version?            |
+| --- | --------------------------------------------------------------------------- | ------------------------------------------------------- | -------------------------- |
+| A   | [`skills` CLI (`npx skills add`)](#option-a--skills-cli-npx)                | Any agent, one-line install, pick & choose skills       | ✅ via tag URL             |
+| B   | [Claude Code plugin marketplace](#option-b--claude-code-plugin-marketplace) | Claude Code users who want to subscribe to plugin packs | ✅ via marketplace version |
+| C   | [Pinned `.zip` from GitHub Releases](#option-c--pinned-zip-from-releases)   | CI / air-gapped envs / reproducible installs            | ✅ ✅ (immutable)          |
+| D   | [Manual copy after `git clone`](#option-d--manual-copy-into-your-project)   | Local hacking on the skill itself                       | ❌ (tracks `main`)         |
+| E   | [Git submodule](#option-e--git-submodule)                                   | Vendored into a larger project, want upstream updates   | ✅ via submodule SHA       |
 
 > Each skill section above also has a **`Download v<version> .zip`** link in
 > its "Links:" row that points at the current pinned release artifact. Those
@@ -367,12 +367,12 @@ more skills together:
 
 Plugin packs are declared in [`.claude-plugin/marketplace.json`](./.claude-plugin/marketplace.json):
 
-| Plugin pack | Skills included |
-|---|---|
-| `presentation-skills` | `web-video-presentation` |
-| `web-design-skills` | `web-design-engineer` |
-| `knowledge-base-skills` | `kb-retriever` |
-| `image-generation-skills` | `gpt-image-2` |
+| Plugin pack               | Skills included          |
+| ------------------------- | ------------------------ |
+| `presentation-skills`     | `web-video-presentation` |
+| `web-design-skills`       | `web-design-engineer`    |
+| `knowledge-base-skills`   | `kb-retriever`           |
+| `image-generation-skills` | `gpt-image-2`            |
 
 ### Option C · Pinned `.zip` from Releases
 
@@ -442,14 +442,14 @@ git checkout web-design-engineer-v1.0.0
 
 ## Compatibility
 
-| Agent / Runtime | Skill location | Status |
-|---|---|---|
-| **Claude Code** | `.claude/skills/<name>/` or via plugin marketplace | ✅ Tested |
-| **Claude.ai** (web) | Settings → Capabilities → Skills | ✅ Tested |
-| **Cursor** | `.agents/skills/<name>/` | ✅ Tested |
-| **Codex CLI** | `.codex/skills/<name>/` | ✅ Tested |
-| **Gemini CLI** | extension manifest | ✅ Tested |
-| **OpenCode** | `.opencode/skills/<name>/` | ✅ Tested |
+| Agent / Runtime     | Skill location                                     | Status    |
+| ------------------- | -------------------------------------------------- | --------- |
+| **Claude Code**     | `.claude/skills/<name>/` or via plugin marketplace | ✅ Tested |
+| **Claude.ai** (web) | Settings → Capabilities → Skills                   | ✅ Tested |
+| **Cursor**          | `.agents/skills/<name>/`                           | ✅ Tested |
+| **Codex CLI**       | `.codex/skills/<name>/`                            | ✅ Tested |
+| **Gemini CLI**      | extension manifest                                 | ✅ Tested |
+| **OpenCode**        | `.opencode/skills/<name>/`                         | ✅ Tested |
 
 > The `SKILL.md` format is portable by design — if your agent supports skills, copy the folder into the directory it scans, and it should work. PRs welcome to extend this matrix.
 
@@ -509,19 +509,18 @@ This collection stands on the shoulders of:
 
 ## Connect
 
-| 平台 | 账号名称 | 链接 |
-| --- | --- | --- |
-| X/Twitter | code秘密花园 | https://x.com/GardenConardLi  |
-| B 站 | code秘密花园 | https://space.bilibili.com/474921808 |
-| 抖音 | code秘密花园 | https://v.douyin.com/i5b33Xfv/ |
-| YouTube | code秘密花园 | https://www.youtube.com/@garden-conard |
-| 小红书 | code秘密花园 | https://www.xiaohongshu.com/user/profile/5af45e78f7e8b903d6e04618 |
-| 公众号 | code秘密花园 | https://cdn.jsdelivr.net/gh/ConardLi/easy-dataset@main/public/imgs/weichat.jpg |
-| GitHub | ConardLi | https://github.com/ConardLi |
-| 个人网站 | Easy AI | https://mmh1.top |
+| 平台      | 账号名称     | 链接                                                                           |
+| --------- | ------------ | ------------------------------------------------------------------------------ |
+| X/Twitter | code秘密花园 | https://x.com/GardenConardLi                                                   |
+| B 站      | code秘密花园 | https://space.bilibili.com/474921808                                           |
+| 抖音      | code秘密花园 | https://v.douyin.com/i5b33Xfv/                                                 |
+| YouTube   | code秘密花园 | https://www.youtube.com/@garden-conard                                         |
+| 小红书    | code秘密花园 | https://www.xiaohongshu.com/user/profile/5af45e78f7e8b903d6e04618              |
+| 公众号    | code秘密花园 | https://cdn.jsdelivr.net/gh/ConardLi/easy-dataset@main/public/imgs/weichat.jpg |
+| GitHub    | ConardLi     | https://github.com/ConardLi                                                    |
+| 个人网站  | Easy AI      | https://mmh1.top                                                               |
 
 ---
-
 
 ## License
 

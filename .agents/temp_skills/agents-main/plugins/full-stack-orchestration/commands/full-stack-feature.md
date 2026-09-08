@@ -1,6 +1,6 @@
 ---
-description: "Orchestrate end-to-end full-stack feature development across backend, frontend, database, and infrastructure layers"
-argument-hint: "<feature description> [--stack react/fastapi/postgres] [--api-style rest|graphql] [--complexity simple|medium|complex]"
+description: 'Orchestrate end-to-end full-stack feature development across backend, frontend, database, and infrastructure layers'
+argument-hint: '<feature description> [--stack react/fastapi/postgres] [--api-style rest|graphql] [--complexity simple|medium|complex]'
 ---
 
 # Full-Stack Feature Orchestrator

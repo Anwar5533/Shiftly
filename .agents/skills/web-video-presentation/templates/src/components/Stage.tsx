@@ -1,5 +1,5 @@
-import type { CSSProperties, ReactNode } from "react";
-import { useStageScale } from "../hooks/useStageScale";
+import type { CSSProperties, ReactNode } from 'react';
+import { useStageScale } from '../hooks/useStageScale';
 
 interface Props {
   onAdvance(): void;
@@ -36,7 +36,7 @@ export function Stage({ onAdvance, children }: Props) {
           style={frameStyle}
           onClick={(e) => {
             const t = e.target as HTMLElement;
-            if (t.closest("button, a, input, [data-no-advance]")) return;
+            if (t.closest('button, a, input, [data-no-advance]')) return;
             onAdvance();
           }}
         >

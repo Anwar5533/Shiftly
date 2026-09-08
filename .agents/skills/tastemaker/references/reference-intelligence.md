@@ -17,12 +17,12 @@ Modes:
 
 Default dials, then adjust from the brief:
 
-| Dial | Default | Meaning |
-|---|---:|---|
-| Variance | 7 | 1 = symmetrical and conventional, 10 = asymmetric and art-directed |
-| Motion | 5 | 1 = still, 10 = cinematic or physics-led |
-| Density | 4 | 1 = gallery-airy, 10 = cockpit-dense |
-| Art direction | 7 | 1 = safe commercial, 10 = strong point of view |
+| Dial          | Default | Meaning                                                            |
+| ------------- | ------: | ------------------------------------------------------------------ |
+| Variance      |       7 | 1 = symmetrical and conventional, 10 = asymmetric and art-directed |
+| Motion        |       5 | 1 = still, 10 = cinematic or physics-led                           |
+| Density       |       4 | 1 = gallery-airy, 10 = cockpit-dense                               |
+| Art direction |       7 | 1 = safe commercial, 10 = strong point of view                     |
 
 Adjust by surface:
 
@@ -58,9 +58,11 @@ Design read: <one-line read>
 Dials: variance <n>, motion <n>, density <n>, art direction <n>
 
 ## Quality bar
+
 - <source or inferred reference>: <what sets the craft bar>
 
 ## Borrow
+
 - Palette/material: <source> -> <trait, not copied pixels>
 - Type/hierarchy: <source> -> <trait>
 - Layout/composition: <source> -> <trait>
@@ -68,9 +70,11 @@ Dials: variance <n>, motion <n>, density <n>, art direction <n>
 - Asset language: <source> -> <trait>
 
 ## Avoid
+
 - <category rut or anti-reference>
 
 ## Direction contract
+
 - Thesis: <what this surface proves>
 - First viewport: <composition and primary visual>
 - System: <tokens, structure, motion, assets>
@@ -81,16 +85,16 @@ Dials: variance <n>, motion <n>, density <n>, art direction <n>
 
 Use official systems when the brief clearly lives inside one:
 
-| Brief reads as | Reach for |
-|---|---|
-| Microsoft or enterprise productivity | Fluent UI |
-| Google or Android-adjacent product | Material 3 |
-| IBM or enterprise analytics | Carbon |
-| Shopify admin surface | Polaris |
-| GitHub/dev community | Primer |
-| UK public service | GOV.UK Frontend |
-| US public service | USWDS |
-| Accessible custom React app | Radix primitives or shadcn/ui, adapted away from defaults |
+| Brief reads as                       | Reach for                                                 |
+| ------------------------------------ | --------------------------------------------------------- |
+| Microsoft or enterprise productivity | Fluent UI                                                 |
+| Google or Android-adjacent product   | Material 3                                                |
+| IBM or enterprise analytics          | Carbon                                                    |
+| Shopify admin surface                | Polaris                                                   |
+| GitHub/dev community                 | Primer                                                    |
+| UK public service                    | GOV.UK Frontend                                           |
+| US public service                    | USWDS                                                     |
+| Accessible custom React app          | Radix primitives or shadcn/ui, adapted away from defaults |
 
 One system per project. Check the repo's dependency files before importing anything. If the package is missing, either install it or use the existing stack and record the reason.
 

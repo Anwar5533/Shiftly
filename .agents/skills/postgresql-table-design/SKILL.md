@@ -47,14 +47,14 @@ and worked DDL examples are in `references/details.md`; open it when a section b
 
 ### Types to avoid
 
-| Avoid | Use instead |
-|---|---|
-| `timestamp` (without time zone) | `timestamptz` |
-| `char(n)`, `varchar(n)` | `text` (+ `CHECK` on length if needed) |
-| `money` | `numeric` |
-| `timetz` | `timestamptz` |
-| `timestamptz(0)` or any precision | `timestamptz` |
-| `serial` | `generated always as identity` |
+| Avoid                             | Use instead                            |
+| --------------------------------- | -------------------------------------- |
+| `timestamp` (without time zone)   | `timestamptz`                          |
+| `char(n)`, `varchar(n)`           | `text` (+ `CHECK` on length if needed) |
+| `money`                           | `numeric`                              |
+| `timetz`                          | `timestamptz`                          |
+| `timestamptz(0)` or any precision | `timestamptz`                          |
+| `serial`                          | `generated always as identity`         |
 
 ## Constraints
 

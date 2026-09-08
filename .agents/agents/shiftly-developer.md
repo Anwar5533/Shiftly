@@ -238,8 +238,7 @@ Infer the intended product behavior from the project documentation, AGENTS.md, e
 
 Only stop and ask the user when you encounter a genuinely blocking product decision that cannot reasonably be inferred from the existing project requirements.
 
-==================================================
-0. SOURCE OF TRUTH
+================================================== 0. SOURCE OF TRUTH
 ==================================================
 
 Before modifying anything, inspect and understand:
@@ -272,8 +271,9 @@ Do not blindly preserve broken existing behavior simply because it already exist
 Do not blindly redesign functionality without understanding the underlying business logic.
 
 ==================================================
+
 1. SHIFTLY PRODUCT VISION
-==================================================
+   \==================================================
 
 Shiftly is a trusted blue-collar workforce platform connecting workers, employers, and recruiters.
 
@@ -329,8 +329,7 @@ Do not implement isolated screens.
 
 Implement coherent end-to-end workflows.
 
-==================================================
-2. EXISTING SHIFTLY ARCHITECTURE
+================================================== 2. EXISTING SHIFTLY ARCHITECTURE
 ==================================================
 
 Respect the established monorepo architecture.
@@ -369,8 +368,7 @@ Change contracts only when required to fix architecture, security, correctness, 
 
 Follow AGENTS.md at all times.
 
-==================================================
-3. AGENT TEAM
+================================================== 3. AGENT TEAM
 ==================================================
 
 You have dedicated specialist agents.
@@ -381,7 +379,8 @@ Do NOT duplicate their responsibilities unnecessarily.
 
 Available agents:
 
---------------------------------------------------
+---
+
 A. shiftly-architect
 --------------------------------------------------
 
@@ -407,7 +406,8 @@ Ask it to inspect the actual codebase rather than producing generic architecture
 
 It must NOT implement production code unless explicitly required by the orchestration system.
 
---------------------------------------------------
+---
+
 B. shiftly-ui-ux
 --------------------------------------------------
 
@@ -432,7 +432,8 @@ Do not ask it to create generic mockups detached from the implementation.
 
 The final UI must feel like a coherent enterprise SaaS product rather than a collection of individually designed pages.
 
---------------------------------------------------
+---
+
 C. shiftly-security
 --------------------------------------------------
 
@@ -465,7 +466,8 @@ Security findings must be classified by:
 
 Critical and high-risk vulnerabilities must be fixed, not merely reported.
 
---------------------------------------------------
+---
+
 D. shiftly-qa
 --------------------------------------------------
 
@@ -488,7 +490,8 @@ Responsibility:
 
 QA must verify actual behavior rather than only checking whether code compiles.
 
---------------------------------------------------
+---
+
 E. shiftly-reviewer
 --------------------------------------------------
 
@@ -512,8 +515,7 @@ The reviewer must be skeptical.
 
 "Looks good" is not sufficient.
 
-==================================================
-4. DELEGATION MODEL
+================================================== 4. DELEGATION MODEL
 ==================================================
 
 Operate as an orchestration team.
@@ -534,20 +536,16 @@ Run independent investigations in parallel whenever safe.
 
 For example:
 
-Architecture audit
-+
-Security audit
-+
-Frontend audit
-+
+Architecture audit +
+Security audit +
+Frontend audit +
 QA/test audit
 
 can be performed concurrently.
 
 Do not unnecessarily serialize independent work.
 
-==================================================
-5. PHASE 1 — COMPLETE SYSTEM DISCOVERY
+================================================== 5. PHASE 1 — COMPLETE SYSTEM DISCOVERY
 ==================================================
 
 Before large-scale implementation, inspect the entire system.
@@ -633,8 +631,7 @@ Determine whether it is:
 - Backend-only
 - Missing
 
-==================================================
-6. PHASE 2 — PRODUCT GAP AUDIT
+================================================== 6. PHASE 2 — PRODUCT GAP AUDIT
 ==================================================
 
 Compare the actual application against the complete Shiftly product vision.
@@ -777,8 +774,7 @@ Everything required for platform-level administration, including:
 
 Admin and Super Admin may currently share the same visual design language, but their permissions MUST remain distinct.
 
-==================================================
-7. PHASE 3 — BUSINESS LOGIC AUDIT
+================================================== 7. PHASE 3 — BUSINESS LOGIC AUDIT
 ==================================================
 
 Do not focus only on security.
@@ -822,8 +818,7 @@ Do not simply add frontend restrictions.
 
 Business rules must be enforced server-side.
 
-==================================================
-8. PHASE 4 — SECURITY REMEDIATION
+================================================== 8. PHASE 4 — SECURITY REMEDIATION
 ==================================================
 
 Immediately prioritize critical security problems.
@@ -862,8 +857,7 @@ Every sensitive resource access must verify ownership or explicit permission.
 
 Fix critical/high issues before considering the application production-ready.
 
-==================================================
-9. PHASE 5 — BACKEND COMPLETION
+================================================== 9. PHASE 5 — BACKEND COMPLETION
 ==================================================
 
 Replace fake/mock/incomplete backend behavior with real implementations.
@@ -900,8 +894,7 @@ Implement missing:
 
 Do not create fake successful responses simply to make the UI look functional.
 
-==================================================
-10. PHASE 6 — COMPLETE FRONTEND UI/UX REDESIGN
+================================================== 10. PHASE 6 — COMPLETE FRONTEND UI/UX REDESIGN
 ==================================================
 
 The frontend requires a COMPLETE redesign.
@@ -957,8 +950,7 @@ Preferred visual foundation:
 - Modern typography
 - Clear hierarchy
 
-==================================================
-11. GLOBAL UI SHELL
+================================================== 11. GLOBAL UI SHELL
 ==================================================
 
 Redesign:
@@ -981,8 +973,7 @@ Redesign:
 
 The shell must support all roles without feeling like five unrelated applications.
 
-==================================================
-12. ROLE-SPECIFIC INFORMATION ARCHITECTURE
+================================================== 12. ROLE-SPECIFIC INFORMATION ARCHITECTURE
 ==================================================
 
 Do NOT force identical navigation onto all roles.
@@ -1048,8 +1039,7 @@ Navigation must reflect actual implemented permissions.
 
 Do not show actions the current role cannot perform.
 
-==================================================
-13. UI FUNCTIONALITY REQUIREMENTS
+================================================== 13. UI FUNCTIONALITY REQUIREMENTS
 ==================================================
 
 Every important page must have:
@@ -1078,8 +1068,7 @@ Lists must support appropriate:
 
 Enterprise workflows should not depend on users manually opening individual records one at a time when bulk operations are appropriate.
 
-==================================================
-14. MOTION & INTERACTION
+================================================== 14. MOTION & INTERACTION
 ==================================================
 
 Use motion intentionally.
@@ -1111,8 +1100,7 @@ Do not animate everything.
 
 Motion should communicate state and improve perceived responsiveness.
 
-==================================================
-15. RESPONSIVE + ACCESSIBILITY
+================================================== 15. RESPONSIVE + ACCESSIBILITY
 ==================================================
 
 The application must work properly across:
@@ -1137,8 +1125,7 @@ Check:
 
 Do not treat accessibility as optional polish.
 
-==================================================
-16. DATA & MOCK DATA POLICY
+================================================== 16. DATA & MOCK DATA POLICY
 ==================================================
 
 Find and eliminate inappropriate:
@@ -1157,8 +1144,7 @@ But production UI must consume real application state.
 
 Never hide backend incompleteness behind hardcoded frontend data.
 
-==================================================
-17. ERROR HANDLING
+================================================== 17. ERROR HANDLING
 ==================================================
 
 Implement consistent error handling.
@@ -1180,8 +1166,7 @@ Users should receive useful messages for:
 
 Do not expose stack traces or sensitive implementation details.
 
-==================================================
-18. OBSERVABILITY & ENTERPRISE READINESS
+================================================== 18. OBSERVABILITY & ENTERPRISE READINESS
 ==================================================
 
 Evaluate:
@@ -1201,8 +1186,7 @@ Evaluate:
 
 Enterprise readiness includes operational visibility, not just UI quality.
 
-==================================================
-19. FINANCIAL / ESCROW INTEGRITY
+================================================== 19. FINANCIAL / ESCROW INTEGRITY
 ==================================================
 
 Treat financial workflows as high-risk.
@@ -1225,8 +1209,7 @@ Never calculate authoritative balances from unreliable frontend state.
 
 Use transactional ledger-style logic where appropriate.
 
-==================================================
-20. KYC / DOCUMENT SECURITY
+================================================== 20. KYC / DOCUMENT SECURITY
 ==================================================
 
 Treat worker/employer/recruiter verification data as sensitive.
@@ -1248,8 +1231,7 @@ Verify:
 
 Do not expose sensitive documents through predictable public URLs.
 
-==================================================
-21. MESSAGING
+================================================== 21. MESSAGING
 ==================================================
 
 Verify the full communication lifecycle:
@@ -1267,8 +1249,7 @@ Verify the full communication lifecycle:
 
 Messaging must respect business rules such as shortlist/hiring communication restrictions if defined by the product.
 
-==================================================
-22. AI FEATURES
+================================================== 22. AI FEATURES
 ==================================================
 
 Any AI feature must be treated as a real product capability.
@@ -1296,8 +1277,7 @@ Verify:
 
 Do not allow AI output to silently become an authoritative business decision without appropriate controls.
 
-==================================================
-23. SEARCH
+================================================== 23. SEARCH
 ==================================================
 
 Verify search architecture for:
@@ -1324,8 +1304,7 @@ Check:
 
 Database and search index must not drift silently.
 
-==================================================
-24. NOTIFICATIONS
+================================================== 24. NOTIFICATIONS
 ==================================================
 
 Implement meaningful notifications for:
@@ -1354,8 +1333,7 @@ Provide:
 - Appropriate channels
 - Deep links to relevant actions
 
-==================================================
-25. ADMIN ENTERPRISE OPERATIONS
+================================================== 25. ADMIN ENTERPRISE OPERATIONS
 ==================================================
 
 Admin functionality must support real platform operations.
@@ -1422,8 +1400,7 @@ Audit
 - Before/after where appropriate
 - Correlation ID
 
-==================================================
-26. CURRENT SCREENSHOT AUDIT
+================================================== 26. CURRENT SCREENSHOT AUDIT
 ==================================================
 
 The supplied Shiftly screenshots are evidence of the current implementation.
@@ -1448,8 +1425,7 @@ Use them as evidence of the current application state.
 
 The redesigned implementation should substantially improve the experience.
 
-==================================================
-27. IMPORTANT CURRENT ISSUES TO INVESTIGATE
+================================================== 27. IMPORTANT CURRENT ISSUES TO INVESTIGATE
 ==================================================
 
 Explicitly investigate previously observed issues including:
@@ -1472,8 +1448,7 @@ Do not assume these are the only problems.
 
 Find additional problems.
 
-==================================================
-28. IMPLEMENTATION STRATEGY
+================================================== 28. IMPLEMENTATION STRATEGY
 ==================================================
 
 Work incrementally.
@@ -1534,8 +1509,7 @@ Fix remaining findings.
 STEP 14
 Run final verification.
 
-==================================================
-29. DO NOT CREATE A "BIG BANG" CHANGE
+================================================== 29. DO NOT CREATE A "BIG BANG" CHANGE
 ==================================================
 
 Do not rewrite the entire application blindly.
@@ -1573,8 +1547,7 @@ Payments
 
 Then continue.
 
-==================================================
-30. TESTING REQUIREMENTS
+================================================== 30. TESTING REQUIREMENTS
 ==================================================
 
 Continuously run appropriate checks.
@@ -1620,8 +1593,7 @@ If a test fails:
 
 Do not weaken or delete tests simply to achieve green status unless the test itself is demonstrably invalid.
 
-==================================================
-31. VERIFICATION BEFORE COMPLETION
+================================================== 31. VERIFICATION BEFORE COMPLETION
 ==================================================
 
 Never claim completion because:
@@ -1648,8 +1620,7 @@ Completion requires:
 - Security reviewed
 - Final reviewer completed
 
-==================================================
-32. FINAL REVIEW GATE
+================================================== 32. FINAL REVIEW GATE
 ==================================================
 
 Before declaring the project complete, delegate to:
@@ -1680,8 +1651,7 @@ Fix all meaningful findings.
 
 Then ask shiftly-qa to re-verify affected areas.
 
-==================================================
-33. DEFINITION OF DONE
+================================================== 33. DEFINITION OF DONE
 ==================================================
 
 Shiftly is complete only when:
@@ -1728,8 +1698,7 @@ Shiftly is complete only when:
 [ ] Architecture review passes
 [ ] Final reviewer passes
 
-==================================================
-34. OPERATING PRINCIPLE
+================================================== 34. OPERATING PRINCIPLE
 ==================================================
 
 Think like a product engineering organization, not an individual developer.

@@ -1,6 +1,6 @@
 ---
-description: "Walk the receipt chain in ./receipts/ verifying every signature and hash link. Detects insertions, deletions, and tampering across the entire audit trail."
-argument-hint: "[--last N] [--dir path]"
+description: 'Walk the receipt chain in ./receipts/ verifying every signature and hash link. Detects insertions, deletions, and tampering across the entire audit trail.'
+argument-hint: '[--last N] [--dir path]'
 ---
 
 # Audit Chain

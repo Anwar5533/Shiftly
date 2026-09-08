@@ -11,13 +11,13 @@ role: [security-engineer, architect, vciso]
 phase: [design, operate]
 frameworks: [NIST-SP-800-207, CISA-ZTMM-v2]
 difficulty: advanced
-time_estimate: "90-180min"
-version: "1.0.0"
+time_estimate: '90-180min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 injection-hardened: true
-argument-hint: "[scope-description]"
+argument-hint: '[scope-description]'
 ---
 
 # Zero Trust Architecture Assessment
@@ -68,56 +68,56 @@ Zero Trust is an architectural approach, not a product. NIST SP 800-207 defines 
 
 ### NIST SP 800-207 — Seven Tenets of Zero Trust
 
-| Tenet | Principle | Practical Implication |
-|---|---|---|
-| **1** | All data sources and computing services are considered resources | Every system, service, and data store requires explicit access control |
-| **2** | All communication is secured regardless of network location | Encryption and authentication apply to internal and external traffic equally |
-| **3** | Access to individual enterprise resources is granted on a per-session basis | No persistent trust; each session independently authenticated and authorized |
-| **4** | Access to resources is determined by dynamic policy | Policy engine considers identity, device state, behavioral attributes, environment |
-| **5** | The enterprise monitors and measures the integrity and security posture of all owned and associated assets | Continuous device and workload health assessment feeds access decisions |
-| **6** | All resource authentication and authorization are dynamic and strictly enforced before access is allowed | No implicit trust; step-up authentication when risk changes |
-| **7** | The enterprise collects as much information as possible about the current state of assets, network infrastructure, and communications and uses it to improve its security posture | Telemetry-driven, adaptive security posture |
+| Tenet | Principle                                                                                                                                                                         | Practical Implication                                                              |
+| ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| **1** | All data sources and computing services are considered resources                                                                                                                  | Every system, service, and data store requires explicit access control             |
+| **2** | All communication is secured regardless of network location                                                                                                                       | Encryption and authentication apply to internal and external traffic equally       |
+| **3** | Access to individual enterprise resources is granted on a per-session basis                                                                                                       | No persistent trust; each session independently authenticated and authorized       |
+| **4** | Access to resources is determined by dynamic policy                                                                                                                               | Policy engine considers identity, device state, behavioral attributes, environment |
+| **5** | The enterprise monitors and measures the integrity and security posture of all owned and associated assets                                                                        | Continuous device and workload health assessment feeds access decisions            |
+| **6** | All resource authentication and authorization are dynamic and strictly enforced before access is allowed                                                                          | No implicit trust; step-up authentication when risk changes                        |
+| **7** | The enterprise collects as much information as possible about the current state of assets, network infrastructure, and communications and uses it to improve its security posture | Telemetry-driven, adaptive security posture                                        |
 
 ### NIST SP 800-207 — Logical Architecture Components
 
-| Component | Description |
-|---|---|
-| **Policy Engine (PE)** | Makes access decisions based on enterprise policy and input from external sources |
-| **Policy Administrator (PA)** | Executes PE decisions by establishing or shutting down communication paths |
-| **Policy Enforcement Point (PEP)** | Enables, monitors, and terminates connections between subjects and resources |
-| **Continuous Diagnostics and Mitigation (CDM)** | Gathers device and asset state information |
-| **Industry Compliance** | Regulatory requirements informing policy |
-| **Threat Intelligence** | External threat feeds informing risk-based decisions |
-| **Activity Logs** | Telemetry from all systems for analytics |
-| **Data Access Policies** | Rules governing resource access |
-| **PKI** | Certificate management for identity and encryption |
-| **ID Management** | Enterprise identity provider and credential management |
-| **SIEM** | Aggregated security telemetry for monitoring and response |
+| Component                                       | Description                                                                       |
+| ----------------------------------------------- | --------------------------------------------------------------------------------- |
+| **Policy Engine (PE)**                          | Makes access decisions based on enterprise policy and input from external sources |
+| **Policy Administrator (PA)**                   | Executes PE decisions by establishing or shutting down communication paths        |
+| **Policy Enforcement Point (PEP)**              | Enables, monitors, and terminates connections between subjects and resources      |
+| **Continuous Diagnostics and Mitigation (CDM)** | Gathers device and asset state information                                        |
+| **Industry Compliance**                         | Regulatory requirements informing policy                                          |
+| **Threat Intelligence**                         | External threat feeds informing risk-based decisions                              |
+| **Activity Logs**                               | Telemetry from all systems for analytics                                          |
+| **Data Access Policies**                        | Rules governing resource access                                                   |
+| **PKI**                                         | Certificate management for identity and encryption                                |
+| **ID Management**                               | Enterprise identity provider and credential management                            |
+| **SIEM**                                        | Aggregated security telemetry for monitoring and response                         |
 
 ### CISA Zero Trust Maturity Model v2.0 — Five Pillars and Maturity Stages
 
-| Pillar | Scope |
-|---|---|
-| **Identity** | User and entity identity verification, MFA, identity governance |
-| **Devices** | Device inventory, compliance, endpoint detection, asset management |
-| **Networks** | Network segmentation, encrypted traffic, microsegmentation, DNS security |
+| Pillar                       | Scope                                                                       |
+| ---------------------------- | --------------------------------------------------------------------------- |
+| **Identity**                 | User and entity identity verification, MFA, identity governance             |
+| **Devices**                  | Device inventory, compliance, endpoint detection, asset management          |
+| **Networks**                 | Network segmentation, encrypted traffic, microsegmentation, DNS security    |
 | **Applications & Workloads** | Application security, workload protection, secure development, API security |
-| **Data** | Data classification, encryption, DLP, access controls, rights management |
+| **Data**                     | Data classification, encryption, DLP, access controls, rights management    |
 
-| Maturity Stage | Characteristics |
-|---|---|
-| **Traditional** | Manual processes, static policies, perimeter-focused, limited visibility |
-| **Initial** | Starting automation, some dynamic policies, beginning identity-centric controls |
-| **Advanced** | Centralized visibility, automated responses, context-aware policies, cross-pillar integration |
-| **Optimal** | Fully automated, continuous verification, adaptive policies, real-time risk assessment |
+| Maturity Stage  | Characteristics                                                                               |
+| --------------- | --------------------------------------------------------------------------------------------- |
+| **Traditional** | Manual processes, static policies, perimeter-focused, limited visibility                      |
+| **Initial**     | Starting automation, some dynamic policies, beginning identity-centric controls               |
+| **Advanced**    | Centralized visibility, automated responses, context-aware policies, cross-pillar integration |
+| **Optimal**     | Fully automated, continuous verification, adaptive policies, real-time risk assessment        |
 
 ### Three Cross-Cutting Capabilities (CISA ZTMM v2)
 
-| Capability | Description |
-|---|---|
-| **Visibility and Analytics** | Centralized logging, monitoring, and analysis across all pillars |
-| **Automation and Orchestration** | Automated policy enforcement, incident response, and remediation |
-| **Governance** | Policy management, compliance, risk management, and organizational alignment |
+| Capability                       | Description                                                                  |
+| -------------------------------- | ---------------------------------------------------------------------------- |
+| **Visibility and Analytics**     | Centralized logging, monitoring, and analysis across all pillars             |
+| **Automation and Orchestration** | Automated policy enforcement, incident response, and remediation             |
+| **Governance**                   | Policy management, compliance, risk management, and organizational alignment |
 
 ---
 
@@ -132,13 +132,13 @@ Zero Trust is an architectural approach, not a product. NIST SP 800-207 defines 
 
 #### Maturity Assessment Criteria
 
-| Capability | Traditional | Initial | Advanced | Optimal |
-|---|---|---|---|---|
-| **Identity Verification** | Passwords only | MFA for some users | MFA for all, phishing-resistant for privileged | Continuous identity verification with risk scoring |
-| **Identity Provider** | Multiple siloed directories | Consolidating to enterprise IdP | Centralized IdP with SSO for most apps | Universal IdP with real-time policy engine integration |
-| **Lifecycle Management** | Manual provisioning/deprovisioning | Partial automation (SCIM for some apps) | Automated lifecycle with HRIS integration | Fully automated with continuous compliance validation |
-| **Identity Governance** | No formal reviews | Annual access reviews | Quarterly reviews with automated certifications | Continuous access verification with anomaly detection |
-| **Risk-Based Authentication** | Static policies | Basic conditional access (location, device) | Context-aware with device posture, risk signals | Adaptive, ML-driven with behavioral analytics |
+| Capability                    | Traditional                        | Initial                                     | Advanced                                        | Optimal                                                |
+| ----------------------------- | ---------------------------------- | ------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------ |
+| **Identity Verification**     | Passwords only                     | MFA for some users                          | MFA for all, phishing-resistant for privileged  | Continuous identity verification with risk scoring     |
+| **Identity Provider**         | Multiple siloed directories        | Consolidating to enterprise IdP             | Centralized IdP with SSO for most apps          | Universal IdP with real-time policy engine integration |
+| **Lifecycle Management**      | Manual provisioning/deprovisioning | Partial automation (SCIM for some apps)     | Automated lifecycle with HRIS integration       | Fully automated with continuous compliance validation  |
+| **Identity Governance**       | No formal reviews                  | Annual access reviews                       | Quarterly reviews with automated certifications | Continuous access verification with anomaly detection  |
+| **Risk-Based Authentication** | Static policies                    | Basic conditional access (location, device) | Context-aware with device posture, risk signals | Adaptive, ML-driven with behavioral analytics          |
 
 **What to look for:**
 
@@ -166,13 +166,13 @@ ZT-ID-10: Session management lacks continuous evaluation (no CAE or equivalent)
 
 #### Maturity Assessment Criteria
 
-| Capability | Traditional | Initial | Advanced | Optimal |
-|---|---|---|---|---|
-| **Asset Inventory** | Partial inventory, manual updates | Automated discovery for managed devices | Real-time inventory including unmanaged devices | Comprehensive CMDB with real-time asset intelligence |
-| **Device Compliance** | No compliance checks | Basic compliance (OS version, antivirus) | Compliance as access condition, automated remediation | Continuous compliance with risk-adaptive enforcement |
-| **Endpoint Security** | Signature-based AV | EDR deployed on managed endpoints | EDR with behavioral detection, automated response | XDR with cross-signal correlation, automated containment |
-| **Device Identity** | No device certificates | Device certificates for managed devices | Device attestation (TPM/Secure Enclave) | Hardware-rooted identity with continuous attestation |
-| **BYOD/Unmanaged** | Full access or blocked | Basic MAM for BYOD | Risk-based access (managed = full, BYOD = limited) | Continuous posture assessment for all device types |
+| Capability            | Traditional                       | Initial                                  | Advanced                                              | Optimal                                                  |
+| --------------------- | --------------------------------- | ---------------------------------------- | ----------------------------------------------------- | -------------------------------------------------------- |
+| **Asset Inventory**   | Partial inventory, manual updates | Automated discovery for managed devices  | Real-time inventory including unmanaged devices       | Comprehensive CMDB with real-time asset intelligence     |
+| **Device Compliance** | No compliance checks              | Basic compliance (OS version, antivirus) | Compliance as access condition, automated remediation | Continuous compliance with risk-adaptive enforcement     |
+| **Endpoint Security** | Signature-based AV                | EDR deployed on managed endpoints        | EDR with behavioral detection, automated response     | XDR with cross-signal correlation, automated containment |
+| **Device Identity**   | No device certificates            | Device certificates for managed devices  | Device attestation (TPM/Secure Enclave)               | Hardware-rooted identity with continuous attestation     |
+| **BYOD/Unmanaged**    | Full access or blocked            | Basic MAM for BYOD                       | Risk-based access (managed = full, BYOD = limited)    | Continuous posture assessment for all device types       |
 
 **What to look for:**
 
@@ -200,13 +200,13 @@ ZT-DEV-10: Endpoint telemetry not fed into policy engine for risk scoring
 
 #### Maturity Assessment Criteria
 
-| Capability | Traditional | Initial | Advanced | Optimal |
-|---|---|---|---|---|
-| **Segmentation** | Flat network or basic VLANs | Zone-based segmentation (DMZ, internal, prod/dev) | Microsegmentation at workload level | Identity-aware microsegmentation with dynamic policies |
-| **Encrypted Traffic** | Encryption for external only | TLS for web applications | Mutual TLS (mTLS) for service-to-service | Universal encryption with automated certificate lifecycle |
-| **DNS Security** | Basic DNS | DNS filtering for known bad domains | Encrypted DNS (DoH/DoT), DNS logging | DNS as policy enforcement point with threat intelligence |
-| **Network Monitoring** | Perimeter IDS/IPS | Network flow analysis | Full packet capture for critical segments, NDR | AI-driven NDR with real-time behavioral analysis |
-| **Software-Defined Perimeter** | VPN-based remote access | Initial SDP/ZTNA deployment | ZTNA replacing VPN for most use cases | Universal ZTNA for all users, all locations, all resources |
+| Capability                     | Traditional                  | Initial                                           | Advanced                                       | Optimal                                                    |
+| ------------------------------ | ---------------------------- | ------------------------------------------------- | ---------------------------------------------- | ---------------------------------------------------------- |
+| **Segmentation**               | Flat network or basic VLANs  | Zone-based segmentation (DMZ, internal, prod/dev) | Microsegmentation at workload level            | Identity-aware microsegmentation with dynamic policies     |
+| **Encrypted Traffic**          | Encryption for external only | TLS for web applications                          | Mutual TLS (mTLS) for service-to-service       | Universal encryption with automated certificate lifecycle  |
+| **DNS Security**               | Basic DNS                    | DNS filtering for known bad domains               | Encrypted DNS (DoH/DoT), DNS logging           | DNS as policy enforcement point with threat intelligence   |
+| **Network Monitoring**         | Perimeter IDS/IPS            | Network flow analysis                             | Full packet capture for critical segments, NDR | AI-driven NDR with real-time behavioral analysis           |
+| **Software-Defined Perimeter** | VPN-based remote access      | Initial SDP/ZTNA deployment                       | ZTNA replacing VPN for most use cases          | Universal ZTNA for all users, all locations, all resources |
 
 **What to look for:**
 
@@ -226,14 +226,14 @@ ZT-NET-11: Legacy protocols (Telnet, FTP, unencrypted LDAP) in use
 
 #### Microsegmentation Readiness Assessment
 
-| Readiness Factor | Assessment Criteria |
-|---|---|
+| Readiness Factor                   | Assessment Criteria                                                            |
+| ---------------------------------- | ------------------------------------------------------------------------------ |
 | **Application dependency mapping** | Are all application communication flows documented? (Required before microseg) |
-| **Workload identity** | Do workloads have identity (certificates, service mesh sidecar, agent)? |
-| **Policy granularity** | Can policies specify source-workload to destination-workload:port? |
-| **Environment support** | Does the tool cover VMs, containers, serverless, and multi-cloud? |
-| **Monitoring and alerting** | Can violations be detected and alerted in real-time? |
-| **Rollback capability** | Can policies be rolled back without outage if misconfigured? |
+| **Workload identity**              | Do workloads have identity (certificates, service mesh sidecar, agent)?        |
+| **Policy granularity**             | Can policies specify source-workload to destination-workload:port?             |
+| **Environment support**            | Does the tool cover VMs, containers, serverless, and multi-cloud?              |
+| **Monitoring and alerting**        | Can violations be detected and alerted in real-time?                           |
+| **Rollback capability**            | Can policies be rolled back without outage if misconfigured?                   |
 
 ---
 
@@ -246,13 +246,13 @@ ZT-NET-11: Legacy protocols (Telnet, FTP, unencrypted LDAP) in use
 
 #### Maturity Assessment Criteria
 
-| Capability | Traditional | Initial | Advanced | Optimal |
-|---|---|---|---|---|
-| **Application Access** | Network-based access (VPN + firewall rules) | Application-aware proxy for some apps | All apps behind identity-aware proxy/ZTNA | Per-request authorization with continuous verification |
-| **Workload Security** | Perimeter firewall only | WAF for web applications | Runtime protection (RASP, CWPP) | Automated workload protection with immutable infrastructure |
-| **Secure Development** | Ad hoc security testing | SAST/DAST in pipeline | Shift-left with SCA, secrets scanning, IaC scanning | Automated security gates, policy-as-code, supply chain verification |
-| **API Security** | No API-specific controls | API gateway with basic auth | API gateway with rate limiting, schema validation | API security with behavioral analysis, automated threat response |
-| **Supply Chain** | No SBOM | SBOM generation for some apps | SBOM for all apps, vulnerability tracking | Verified supply chain with attestation (SLSA, Sigstore) |
+| Capability             | Traditional                                 | Initial                               | Advanced                                            | Optimal                                                             |
+| ---------------------- | ------------------------------------------- | ------------------------------------- | --------------------------------------------------- | ------------------------------------------------------------------- |
+| **Application Access** | Network-based access (VPN + firewall rules) | Application-aware proxy for some apps | All apps behind identity-aware proxy/ZTNA           | Per-request authorization with continuous verification              |
+| **Workload Security**  | Perimeter firewall only                     | WAF for web applications              | Runtime protection (RASP, CWPP)                     | Automated workload protection with immutable infrastructure         |
+| **Secure Development** | Ad hoc security testing                     | SAST/DAST in pipeline                 | Shift-left with SCA, secrets scanning, IaC scanning | Automated security gates, policy-as-code, supply chain verification |
+| **API Security**       | No API-specific controls                    | API gateway with basic auth           | API gateway with rate limiting, schema validation   | API security with behavioral analysis, automated threat response    |
+| **Supply Chain**       | No SBOM                                     | SBOM generation for some apps         | SBOM for all apps, vulnerability tracking           | Verified supply chain with attestation (SLSA, Sigstore)             |
 
 **What to look for:**
 
@@ -280,13 +280,13 @@ ZT-APP-10: Legacy applications with no path to zero trust integration
 
 #### Maturity Assessment Criteria
 
-| Capability | Traditional | Initial | Advanced | Optimal |
-|---|---|---|---|---|
-| **Data Classification** | No classification scheme | Classification policy exists, manual labeling | Automated classification with ML/pattern matching | Continuous classification with sensitivity-adaptive controls |
-| **Data Encryption** | Encryption at rest for some | Encryption at rest for all, TLS in transit | Customer-managed keys, field-level encryption | End-to-end encryption with automated key lifecycle |
-| **Data Access Control** | Broad file-share permissions | Role-based access to data stores | Attribute-based data access (classification + clearance) | Dynamic data masking, real-time DLP |
-| **DLP** | No DLP | Basic DLP on email/web | DLP across endpoints, cloud, and SaaS | Intelligent DLP with context-aware policies and automated response |
-| **Data Rights Management** | No DRM/IRM | IRM for some sensitive documents | Automated rights based on classification | Persistent protection that follows data across boundaries |
+| Capability                 | Traditional                  | Initial                                       | Advanced                                                 | Optimal                                                            |
+| -------------------------- | ---------------------------- | --------------------------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------ |
+| **Data Classification**    | No classification scheme     | Classification policy exists, manual labeling | Automated classification with ML/pattern matching        | Continuous classification with sensitivity-adaptive controls       |
+| **Data Encryption**        | Encryption at rest for some  | Encryption at rest for all, TLS in transit    | Customer-managed keys, field-level encryption            | End-to-end encryption with automated key lifecycle                 |
+| **Data Access Control**    | Broad file-share permissions | Role-based access to data stores              | Attribute-based data access (classification + clearance) | Dynamic data masking, real-time DLP                                |
+| **DLP**                    | No DLP                       | Basic DLP on email/web                        | DLP across endpoints, cloud, and SaaS                    | Intelligent DLP with context-aware policies and automated response |
+| **Data Rights Management** | No DRM/IRM                   | IRM for some sensitive documents              | Automated rights based on classification                 | Persistent protection that follows data across boundaries          |
 
 **What to look for:**
 
@@ -345,12 +345,12 @@ ZT-GOV-05: Regulatory zero trust mandates not tracked (OMB M-22-09 for federal)
 
 ## Findings Classification
 
-| Severity | Definition | Examples |
-|---|---|---|
-| **Critical** | Fundamental zero trust gap enabling undetected compromise | Flat network with no segmentation; no MFA; no device compliance |
-| **High** | Major pillar at Traditional maturity with exploitation potential | No microsegmentation; VPN as sole remote access; no DLP |
-| **Medium** | Pillar at Initial maturity or cross-cutting capability gap | Partial ZTNA deployment; SIEM without cross-pillar correlation |
-| **Low** | Pillar at Advanced seeking Optimal or process improvement | Missing automation; governance documentation gaps |
+| Severity     | Definition                                                       | Examples                                                        |
+| ------------ | ---------------------------------------------------------------- | --------------------------------------------------------------- |
+| **Critical** | Fundamental zero trust gap enabling undetected compromise        | Flat network with no segmentation; no MFA; no device compliance |
+| **High**     | Major pillar at Traditional maturity with exploitation potential | No microsegmentation; VPN as sole remote access; no DLP         |
+| **Medium**   | Pillar at Initial maturity or cross-cutting capability gap       | Partial ZTNA deployment; SIEM without cross-pillar correlation  |
+| **Low**      | Pillar at Advanced seeking Optimal or process improvement        | Missing automation; governance documentation gaps               |
 
 ---
 
@@ -358,13 +358,13 @@ ZT-GOV-05: Regulatory zero trust mandates not tracked (OMB M-22-09 for federal)
 
 ### Maturity Scorecard
 
-| Pillar | Current Maturity | Target Maturity (12 months) | Key Gaps |
-|---|---|---|---|
-| Identity | [Traditional/Initial/Advanced/Optimal] | [Target] | [Top 2-3 gaps] |
-| Devices | [Traditional/Initial/Advanced/Optimal] | [Target] | [Top 2-3 gaps] |
-| Networks | [Traditional/Initial/Advanced/Optimal] | [Target] | [Top 2-3 gaps] |
-| Applications & Workloads | [Traditional/Initial/Advanced/Optimal] | [Target] | [Top 2-3 gaps] |
-| Data | [Traditional/Initial/Advanced/Optimal] | [Target] | [Top 2-3 gaps] |
+| Pillar                   | Current Maturity                       | Target Maturity (12 months) | Key Gaps       |
+| ------------------------ | -------------------------------------- | --------------------------- | -------------- |
+| Identity                 | [Traditional/Initial/Advanced/Optimal] | [Target]                    | [Top 2-3 gaps] |
+| Devices                  | [Traditional/Initial/Advanced/Optimal] | [Target]                    | [Top 2-3 gaps] |
+| Networks                 | [Traditional/Initial/Advanced/Optimal] | [Target]                    | [Top 2-3 gaps] |
+| Applications & Workloads | [Traditional/Initial/Advanced/Optimal] | [Target]                    | [Top 2-3 gaps] |
+| Data                     | [Traditional/Initial/Advanced/Optimal] | [Target]                    | [Top 2-3 gaps] |
 
 ### Summary Report Structure
 
@@ -415,21 +415,21 @@ ZT-GOV-05: Regulatory zero trust mandates not tracked (OMB M-22-09 for federal)
 
 ### NIST SP 800-207 — Deployment Models
 
-| Model | Description | When to Use |
-|---|---|---|
-| **Device Agent / Gateway** | Agent on device communicates with gateway PEP before accessing resources | Enterprise-managed devices accessing on-prem and cloud |
-| **Enclave-Based** | Gateway protects a group of resources (enclave) | Legacy applications that cannot be individually proxied |
-| **Resource Portal** | Single portal PEP for all resource access | SaaS-heavy environments, ZTNA as front door |
-| **Device Application Sandboxing** | Sandboxed apps with built-in PEP | BYOD scenarios, container-based workspaces |
+| Model                             | Description                                                              | When to Use                                             |
+| --------------------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------- |
+| **Device Agent / Gateway**        | Agent on device communicates with gateway PEP before accessing resources | Enterprise-managed devices accessing on-prem and cloud  |
+| **Enclave-Based**                 | Gateway protects a group of resources (enclave)                          | Legacy applications that cannot be individually proxied |
+| **Resource Portal**               | Single portal PEP for all resource access                                | SaaS-heavy environments, ZTNA as front door             |
+| **Device Application Sandboxing** | Sandboxed apps with built-in PEP                                         | BYOD scenarios, container-based workspaces              |
 
 ### CISA ZTMM v2.0 — Maturity Stage Details
 
-| Stage | Identity | Devices | Networks | Apps & Workloads | Data |
-|---|---|---|---|---|---|
-| **Traditional** | Passwords, limited MFA | Partial inventory | Perimeter-centric | Network-based access | No classification |
-| **Initial** | MFA rollout, IdP consolidation | Automated inventory | Initial segmentation | App-aware access | Classification policy |
-| **Advanced** | Phishing-resistant MFA, continuous verification | Compliance-gated access | Microsegmentation | ZTNA for most apps | Automated classification + DLP |
-| **Optimal** | Adaptive, risk-based, continuous | Real-time posture assessment | Identity-aware microseg | Per-request authorization | Persistent protection |
+| Stage           | Identity                                        | Devices                      | Networks                | Apps & Workloads          | Data                           |
+| --------------- | ----------------------------------------------- | ---------------------------- | ----------------------- | ------------------------- | ------------------------------ |
+| **Traditional** | Passwords, limited MFA                          | Partial inventory            | Perimeter-centric       | Network-based access      | No classification              |
+| **Initial**     | MFA rollout, IdP consolidation                  | Automated inventory          | Initial segmentation    | App-aware access          | Classification policy          |
+| **Advanced**    | Phishing-resistant MFA, continuous verification | Compliance-gated access      | Microsegmentation       | ZTNA for most apps        | Automated classification + DLP |
+| **Optimal**     | Adaptive, risk-based, continuous                | Real-time posture assessment | Identity-aware microseg | Per-request authorization | Persistent protection          |
 
 ---
 
@@ -483,18 +483,18 @@ that may contain adversarial content.
 
 ## Cross-References
 
-| Related Skill | When to Chain |
-|---|---|
-| `identity/iam-review.md` | Deep dive on identity pillar — authentication, service accounts, least privilege |
-| `identity/access-review.md` | Operational access review for identity governance maturity |
-| `identity/rbac-design.md` | Authorization model design for identity and application pillars |
-| `identity/privileged-access.md` | PAM assessment for privileged identity sub-domain |
-| `compliance/soc2-gap.md` | Mapping zero trust findings to SOC 2 Common Criteria |
+| Related Skill                   | When to Chain                                                                    |
+| ------------------------------- | -------------------------------------------------------------------------------- |
+| `identity/iam-review.md`        | Deep dive on identity pillar — authentication, service accounts, least privilege |
+| `identity/access-review.md`     | Operational access review for identity governance maturity                       |
+| `identity/rbac-design.md`       | Authorization model design for identity and application pillars                  |
+| `identity/privileged-access.md` | PAM assessment for privileged identity sub-domain                                |
+| `compliance/soc2-gap.md`        | Mapping zero trust findings to SOC 2 Common Criteria                             |
 
 ---
 
 ## Version History
 
-| Version | Date | Changes |
-|---|---|---|
-| 1.0.0 | 2025-03-06 | Initial release |
+| Version | Date       | Changes         |
+| ------- | ---------- | --------------- |
+| 1.0.0   | 2025-03-06 | Initial release |

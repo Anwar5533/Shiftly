@@ -91,13 +91,7 @@
   },
   "swim_lanes": {
     "enabled": "true",
-    "lanes": [
-      "User",
-      "Merchant BFF",
-      "order-service",
-      "payment-adapter",
-      "Finance"
-    ]
+    "lanes": ["User", "Merchant BFF", "order-service", "payment-adapter", "Finance"]
   },
   "edges": {
     "items": [
@@ -175,12 +169,7 @@
     "position": "bottom-right"
   },
   "constraints": {
-    "must_keep": [
-      "泳道竖列均分",
-      "微信 为对外支付品牌用语"
-    ],
-    "avoid": [
-      "decision 非菱形"
-    ]
+    "must_keep": ["泳道竖列均分", "微信 为对外支付品牌用语"],
+    "avoid": ["decision 非菱形"]
   }
 }

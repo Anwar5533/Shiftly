@@ -6,25 +6,29 @@ frontmatter values and each section; delete these comments before submitting.
 Domains: appsec · ai-security · identity · cloud · network · secops ·
          compliance · devsecops · vuln-management · incident-response
 -->
+
 ---
-name: my-skill-name                       # kebab-case, MUST match the directory name
-description: >                            # 2-4 sentences: what it does + when it auto-invokes.
-  One-line summary of the security outcome, then the trigger conditions
-  ("Auto-invoked when the user ... or asks ..."). This is what an agent reads
-  to decide whether to load the skill, so lead with behavior, not jargon.
-tags: [appsec, review]                    # domain + activity keywords (see index.yaml tag_vocabulary)
+
+name: my-skill-name # kebab-case, MUST match the directory name
+description: > # 2-4 sentences: what it does + when it auto-invokes.
+One-line summary of the security outcome, then the trigger conditions
+("Auto-invoked when the user ... or asks ..."). This is what an agent reads
+to decide whether to load the skill, so lead with behavior, not jargon.
+tags: [appsec, review] # domain + activity keywords (see index.yaml tag_vocabulary)
 role: [security-engineer, appsec-engineer]# role bundles that should include this skill
-phase: [build, review]                    # design | build | deploy | operate | respond | review | ...
-frameworks: [OWASP-ASVS-4.0.3, CWE]       # frameworks you cite — REAL control IDs only, no invented refs
-difficulty: intermediate                  # beginner | intermediate | advanced
+phase: [build, review] # design | build | deploy | operate | respond | review | ...
+frameworks: [OWASP-ASVS-4.0.3, CWE] # frameworks you cite — REAL control IDs only, no invented refs
+difficulty: intermediate # beginner | intermediate | advanced
 time_estimate: "30-60min"
 version: "1.0.0"
-author: your-handle                       # GitHub handle or agent session ID
+author: your-handle # GitHub handle or agent session ID
 license: MIT
-allowed-tools: Read, Grep, Glob           # tools the skill may use
-injection-hardened: true                  # set true once reviewed against OWASP LLM01:2025
+allowed-tools: Read, Grep, Glob # tools the skill may use
+injection-hardened: true # set true once reviewed against OWASP LLM01:2025
 argument-hint: "[target-file-or-directory]"
-# context: fork                           # optional
+
+# context: fork # optional
+
 ---
 
 # <Skill Name> — <Methodology / Framework>
@@ -44,11 +48,11 @@ Invoke this skill when:
 What signals tell the agent this issue is present? Be precise — give patterns
 the agent can match, not just descriptions.
 
-| Signal | Pattern | Confidence |
-|---|---|---|
-| Regex | `(api_key\|secret\|token)\s*=\s*['"][A-Za-z0-9]{16,}['"]` | HIGH |
-| Structural | `.env` committed alongside source | HIGH |
-| Behavioral | agent reads from env, then writes value into a generated file | MEDIUM |
+| Signal     | Pattern                                                       | Confidence |
+| ---------- | ------------------------------------------------------------- | ---------- |
+| Regex      | `(api_key\|secret\|token)\s*=\s*['"][A-Za-z0-9]{16,}['"]`     | HIGH       |
+| Structural | `.env` committed alongside source                             | HIGH       |
+| Behavioral | agent reads from env, then writes value into a generated file | MEDIUM     |
 
 > For long pattern libraries, put them in a sibling reference file (see §7) and link here.
 
@@ -86,50 +90,54 @@ evidence, owner, SLA, and remediation without performing live tracker
 integration.
 
 **Before (vulnerable):**
+
 ```
 <minimal vulnerable example>
 ```
 
 **After (remediated):**
+
 ```
 <what the agent should produce>
 ```
 
 **Fix recommendation output:**
+
 ```yaml
 remediations:
-  - guidance: "<concrete remediation steps or patch guidance>"
-    confidence: high                    # low | medium | high
-    blast_radius: "<affected files, users, systems, integrations, or workflows>"
-    behavior_change_risk: medium        # low | medium | high
+  - guidance: '<concrete remediation steps or patch guidance>'
+    confidence: high # low | medium | high
+    blast_radius: '<affected files, users, systems, integrations, or workflows>'
+    behavior_change_risk: medium # low | medium | high
     test_strategy:
-      summary: "<what proves this remediation fixed the finding>"
+      summary: '<what proves this remediation fixed the finding>'
       recommended_tests:
-        - name: "<test name>"
-          type: regression              # static | unit | integration | e2e | regression | manual
-          purpose: "<vulnerable behavior or regression this test proves>"
-          command: "<command or manual check to run>"
-          expected_result: "<binary passing result>"
+        - name: '<test name>'
+          type: regression # static | unit | integration | e2e | regression | manual
+          purpose: '<vulnerable behavior or regression this test proves>'
+          command: '<command or manual check to run>'
+          expected_result: '<binary passing result>'
       generated_tests:
-        - path: "<path/to/generated_test_file>"
-          type: regression              # static | unit | integration | e2e | regression
-          purpose: "<vulnerable behavior or regression this generated test proves>"
-          command: "<command that runs the generated test>"
-          expected_result: "<binary passing result>"
+        - path: '<path/to/generated_test_file>'
+          type: regression # static | unit | integration | e2e | regression
+          purpose: '<vulnerable behavior or regression this generated test proves>'
+          command: '<command that runs the generated test>'
+          expected_result: '<binary passing result>'
 ```
 
 ## 5. Verification (falsifiable)
 
 The skill is not "done" until this passes — binary, not aspirational.
 
-| | |
-|---|---|
-| **Input** | minimal vulnerable case the agent can test against |
-| **Expected output** | what the remediated version produces |
-| **Pass condition** | specific + binary |
-| **Fail condition** | specific + binary |
+|                     |                                                    |
+| ------------------- | -------------------------------------------------- |
+| **Input**           | minimal vulnerable case the agent can test against |
+| **Expected output** | what the remediated version produces               |
+| **Pass condition**  | specific + binary                                  |
+| **Fail condition**  | specific + binary                                  |
 
 Step-by-step confirmation the fix held:
+
 1. Re-scan the modified file with the §2 pattern.
 2. Confirm no matches.
 3. Confirm intended behavior is unchanged.
@@ -140,10 +148,12 @@ Minimum 2 false positives + 1 precision trap on creation; add more after each ru
 This section is how the skill gets sharper over time.
 
 **False positives**
+
 - **Pattern:** <what trips it> — **Why:** <context> — **Suppress:** <guidance>
 - **Pattern:** ... — **Why:** ... — **Suppress:** ...
 
 **Precision traps**
+
 - **Trap:** where the remediation breaks behavior — **Mitigation:** how to preserve intent.
 
 **Do NOT flag:** example.com URLs, `YOUR_API_KEY_HERE` placeholders, clearly mocked test data.
@@ -185,4 +195,4 @@ skills/<domain>/<skill-name>/
 - [ ] `injection-hardened: true` only after reviewing the body against OWASP LLM01:2025
 - [ ] Commit message: `feat(skill): <skill-name> — <what it detects>`
 
-*SecuritySkills Skill Template v2 — UnitOne.ai · matches the format all shipped skills use.*
+_SecuritySkills Skill Template v2 — UnitOne.ai · matches the format all shipped skills use._

@@ -102,7 +102,7 @@ npm run validate  # 跑一遍和 PR CI 完全一样的检查
 ---
 name: my-skill
 description: 用一句话清楚说明这个 Skill 是干什么的、什么时候应该用。
-              Agent 会用这段话判断是否激活本 Skill。
+  Agent 会用这段话判断是否激活本 Skill。
 ---
 
 # My Skill
@@ -119,14 +119,7 @@ description: 用一句话清楚说明这个 Skill 是干什么的、什么时候
   "category": "Design / Frontend",
   "description": "做什么的、适合什么场景。会显示在安装界面里。",
   "homepage": "https://github.com/ConardLi/garden-skills/tree/main/skills/my-skill",
-  "compat": [
-    "claude-code",
-    "claude-ai",
-    "cursor",
-    "codex-cli",
-    "gemini-cli",
-    "opencode"
-  ]
+  "compat": ["claude-code", "claude-ai", "cursor", "codex-cli", "gemini-cli", "opencode"]
 }
 ```
 
@@ -143,7 +136,7 @@ description: 用一句话清楚说明这个 Skill 是干什么的、什么时候
 1. 创建 `skills/<new-name>/`，至少要有 `SKILL.md` + `manifest.json`。
    实验性的可以用 `version: "0.1.0"` 起步，比较成熟的就直接 `1.0.0`。
 2. 在所有根目录多语言 README 里新 Skill 的"链接：" / "Links:" 行末尾
-   追加 inline DOWNLOAD marker（前面加 ` · ` 保持视觉一致）：
+   追加 inline DOWNLOAD marker（前面加 `·` 保持视觉一致）：
    ```markdown
    链接：[README](...) · [SKILL.md](...) · <!-- DOWNLOAD:<new-name>:start --><!-- DOWNLOAD:<new-name>:end -->
    ```
@@ -234,11 +227,11 @@ release，每个带 zip + sha256 + 自动 changelog，README 的下载链接也�
 
 每个 Skill **独立**版本号，遵循 [SemVer](https://semver.org/)。
 
-| 变更 | bump |
-|---|---|
-| 拼写修正、新增可选 reference、`SKILL.md` 微调 | **patch** |
+| 变更                                                        | bump      |
+| ----------------------------------------------------------- | --------- |
+| 拼写修正、新增可选 reference、`SKILL.md` 微调               | **patch** |
 | `SKILL.md` 工作流改动、`references/` 结构调整、新增必需步骤 | **minor** |
-| 重命名 Skill、删除文件、frontmatter 破坏性变更 | **major** |
+| 重命名 Skill、删除文件、frontmatter 破坏性变更              | **major** |
 
 预发布后缀（`1.2.0-beta.1`、`1.2.0-rc.1`）在 tag 正则和 workflow 里都允许，
 但 `cut-release.mjs` 只提供 patch / minor / major 三个选项。要发预发布版本，
@@ -354,14 +347,14 @@ gh release delete <name>-v<X.Y.Z> --yes
 
 ## 常见问题
 
-| 现象 | 原因 | 解决 |
-|---|---|---|
-| `release-skill` 失败：`Version drift: tag asks for 1.1.0 but manifest is 1.0.0` | tag 推了但 `manifest.json#version` 没 bump | bump manifest 后 commit + 重 tag |
-| `validate-skills` 失败：`README out of date` | 有人手改了 README 的 Download 链接，或者改了 manifest 但忘了 `npm run readme:sync` | 跑 `npm run readme:sync` 然后 commit |
-| `validate-skills` 失败：missing `manifest.json` | 新加 skill 文件夹但没补 manifest | 在 `skills/<name>/manifest.json` 至少补上 `name` / `version` / `description` / `category` / `compat` |
-| `cut-release.mjs` exit `Tag 'foo' does not match <skill>-v<semver>` | tag 名字格式不对 | tag 必须严格是 `<lower-kebab-skill-name>-v<X.Y.Z>` |
-| `cut-release.mjs` 提示 "Local main is N commit(s) behind origin/main" | bot 在你上次 pull 后又 push 了 README sync | `git pull origin main` 后重跑 |
-| `npm run release` 在 dirty tree 报错 | 有未 commit 的改动 | 先 commit / stash，或者用 `npm run release:dry` 只预览 |
+| 现象                                                                            | 原因                                                                               | 解决                                                                                                 |
+| ------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `release-skill` 失败：`Version drift: tag asks for 1.1.0 but manifest is 1.0.0` | tag 推了但 `manifest.json#version` 没 bump                                         | bump manifest 后 commit + 重 tag                                                                     |
+| `validate-skills` 失败：`README out of date`                                    | 有人手改了 README 的 Download 链接，或者改了 manifest 但忘了 `npm run readme:sync` | 跑 `npm run readme:sync` 然后 commit                                                                 |
+| `validate-skills` 失败：missing `manifest.json`                                 | 新加 skill 文件夹但没补 manifest                                                   | 在 `skills/<name>/manifest.json` 至少补上 `name` / `version` / `description` / `category` / `compat` |
+| `cut-release.mjs` exit `Tag 'foo' does not match <skill>-v<semver>`             | tag 名字格式不对                                                                   | tag 必须严格是 `<lower-kebab-skill-name>-v<X.Y.Z>`                                                   |
+| `cut-release.mjs` 提示 "Local main is N commit(s) behind origin/main"           | bot 在你上次 pull 后又 push 了 README sync                                         | `git pull origin main` 后重跑                                                                        |
+| `npm run release` 在 dirty tree 报错                                            | 有未 commit 的改动                                                                 | 先 commit / stash，或者用 `npm run release:dry` 只预览                                               |
 
 ---
 

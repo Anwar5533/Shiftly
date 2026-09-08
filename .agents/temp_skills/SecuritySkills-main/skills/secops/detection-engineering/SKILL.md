@@ -12,13 +12,13 @@ role: [soc-analyst, security-engineer]
 phase: [operate]
 frameworks: [MITRE-ATT&CK-v16, Sigma, Palantir-ADS]
 difficulty: advanced
-time_estimate: "30-60min"
-version: "1.0.0"
+time_estimate: '30-60min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 injection-hardened: true
-argument-hint: "[technique-ID-or-log-source]"
+argument-hint: '[technique-ID-or-log-source]'
 ---
 
 # Detection Engineering & Sigma Rules
@@ -92,17 +92,18 @@ Design the detection logic before writing the rule. Consider:
 
 **Detection approaches (ordered by reliability):**
 
-| Approach | Description | Example |
-|----------|-------------|---------|
-| **Exact match** | Known-bad indicator (hash, command string) | Specific malware hash in process creation |
-| **Behavioral pattern** | Sequence of actions characteristic of the technique | PowerShell spawning net.exe followed by nltest.exe |
-| **Anomaly from baseline** | Deviation from established normal behavior | PowerShell execution from a user who has never run PowerShell |
-| **Threshold-based** | Volume or frequency exceeding expected levels | More than 10 failed logons in 5 minutes |
-| **Correlation** | Multiple low-fidelity signals combining to high-fidelity | Suspicious logon + process creation + network connection to rare destination |
+| Approach                  | Description                                              | Example                                                                      |
+| ------------------------- | -------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| **Exact match**           | Known-bad indicator (hash, command string)               | Specific malware hash in process creation                                    |
+| **Behavioral pattern**    | Sequence of actions characteristic of the technique      | PowerShell spawning net.exe followed by nltest.exe                           |
+| **Anomaly from baseline** | Deviation from established normal behavior               | PowerShell execution from a user who has never run PowerShell                |
+| **Threshold-based**       | Volume or frequency exceeding expected levels            | More than 10 failed logons in 5 minutes                                      |
+| **Correlation**           | Multiple low-fidelity signals combining to high-fidelity | Suspicious logon + process creation + network connection to rare destination |
 
 **True positive / false positive analysis:**
 
 Before writing the rule, enumerate:
+
 - Known legitimate use cases that will match the detection logic (expected false positives)
 - Evasion techniques an adversary might use to avoid the detection (known blind spots)
 - Tuning parameters that can reduce false positives without creating blind spots
@@ -118,81 +119,81 @@ title: Suspicious PowerShell Encoded Command Execution
 id: b5c2a0a0-7d5a-4b8c-9c3f-1a2b3c4d5e6f
 status: experimental
 description: |
-    Detects execution of PowerShell with encoded command-line arguments,
-    a technique commonly used by adversaries to obfuscate malicious
-    commands and evade simple string-based detections.
+  Detects execution of PowerShell with encoded command-line arguments,
+  a technique commonly used by adversaries to obfuscate malicious
+  commands and evade simple string-based detections.
 references:
-    - https://attack.mitre.org/techniques/T1059/001/
-    - https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_powershell_exe
+  - https://attack.mitre.org/techniques/T1059/001/
+  - https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_powershell_exe
 author: Detection Engineering Team
 date: 2025/01/15
 modified: 2025/01/15
 tags:
-    - attack.execution
-    - attack.t1059.001
+  - attack.execution
+  - attack.t1059.001
 logsource:
-    category: process_creation
-    product: windows
+  category: process_creation
+  product: windows
 detection:
-    selection_process:
-        Image|endswith:
-            - '\powershell.exe'
-            - '\pwsh.exe'
-    selection_encoded:
-        CommandLine|contains:
-            - '-enc'
-            - '-EncodedCommand'
-            - '-ec '
-    filter_legitimate:
-        ParentImage|endswith:
-            - '\sccm\\'
-            - '\ccmexec.exe'
-        CommandLine|contains:
-            - 'ConfigurationManager'
-    condition: selection_process and selection_encoded and not filter_legitimate
+  selection_process:
+    Image|endswith:
+      - '\powershell.exe'
+      - '\pwsh.exe'
+  selection_encoded:
+    CommandLine|contains:
+      - '-enc'
+      - '-EncodedCommand'
+      - '-ec '
+  filter_legitimate:
+    ParentImage|endswith:
+      - '\sccm\\'
+      - '\ccmexec.exe'
+    CommandLine|contains:
+      - 'ConfigurationManager'
+  condition: selection_process and selection_encoded and not filter_legitimate
 falsepositives:
-    - SCCM/ConfigMgr client operations
-    - Some legitimate IT automation scripts using encoded commands
-    - Software deployment tools
+  - SCCM/ConfigMgr client operations
+  - Some legitimate IT automation scripts using encoded commands
+  - Software deployment tools
 level: medium
 fields:
-    - CommandLine
-    - ParentImage
-    - ParentCommandLine
-    - User
-    - Computer
+  - CommandLine
+  - ParentImage
+  - ParentCommandLine
+  - User
+  - Computer
 ```
 
 **Sigma rule field requirements:**
 
-| Field | Required | Description |
-|-------|----------|-------------|
-| `title` | Yes | Short descriptive name (max 256 chars) |
-| `id` | Yes | UUIDv4, globally unique identifier |
-| `status` | Yes | `experimental`, `test`, or `stable` |
-| `description` | Yes | Detailed explanation of what the rule detects and why |
-| `references` | Recommended | URLs to ATT&CK technique, blog posts, threat reports |
-| `author` | Yes | Rule author name or team |
-| `date` | Yes | Creation date in YYYY/MM/DD format |
-| `modified` | Recommended | Last modification date |
-| `tags` | Yes | ATT&CK mappings using `attack.tXXXX.XXX` format |
-| `logsource` | Yes | Category, product, and optionally service |
-| `detection` | Yes | Selection criteria, filters, and condition logic |
-| `falsepositives` | Recommended | Known sources of false positives |
-| `level` | Yes | `informational`, `low`, `medium`, `high`, `critical` |
-| `fields` | Recommended | Fields to include in alert output for analyst context |
+| Field            | Required    | Description                                           |
+| ---------------- | ----------- | ----------------------------------------------------- |
+| `title`          | Yes         | Short descriptive name (max 256 chars)                |
+| `id`             | Yes         | UUIDv4, globally unique identifier                    |
+| `status`         | Yes         | `experimental`, `test`, or `stable`                   |
+| `description`    | Yes         | Detailed explanation of what the rule detects and why |
+| `references`     | Recommended | URLs to ATT&CK technique, blog posts, threat reports  |
+| `author`         | Yes         | Rule author name or team                              |
+| `date`           | Yes         | Creation date in YYYY/MM/DD format                    |
+| `modified`       | Recommended | Last modification date                                |
+| `tags`           | Yes         | ATT&CK mappings using `attack.tXXXX.XXX` format       |
+| `logsource`      | Yes         | Category, product, and optionally service             |
+| `detection`      | Yes         | Selection criteria, filters, and condition logic      |
+| `falsepositives` | Recommended | Known sources of false positives                      |
+| `level`          | Yes         | `informational`, `low`, `medium`, `high`, `critical`  |
+| `fields`         | Recommended | Fields to include in alert output for analyst context |
 
 **Sigma detection logic operators:**
 
-| Operator | Usage | Example |
-|----------|-------|---------|
-| `|contains` | Substring match | `CommandLine|contains: '-enc'` |
-| `|endswith` | Suffix match | `Image|endswith: '\powershell.exe'` |
-| `|startswith` | Prefix match | `TargetFilename|startswith: 'C:\Windows\Temp'` |
-| `|re` | Regular expression | `CommandLine|re: '(?i)invoke-(mimikatz|expression)'` |
-| `|cidr` | CIDR network match | `SourceIP|cidr: '10.0.0.0/8'` |
-| `|all` | All values must match | `CommandLine|all|contains: ['-nop', '-w hidden']` |
-| `|base64offset` | Base64 encoded value match | `CommandLine|base64offset|contains: 'IEX'` |
+| Operator    | Usage         | Example                                           |
+| ----------- | ------------- | ------------------------------------------------- |
+| `           | contains`     | Substring match                                   | `CommandLine    | contains: '-enc'`              |
+| `           | endswith`     | Suffix match                                      | `Image          | endswith: '\powershell.exe'`   |
+| `           | startswith`   | Prefix match                                      | `TargetFilename | startswith: 'C:\Windows\Temp'` |
+| `           | re`           | Regular expression                                | `CommandLine    | re: '(?i)invoke-(mimikatz      | expression)'`                    |
+| `           | cidr`         | CIDR network match                                | `SourceIP       | cidr: '10.0.0.0/8'`            |
+| `           | all`          | All values must match                             | `CommandLine    | all                            | contains: ['-nop', '-w hidden']` |
+| `           | base64offset` | Base64 encoded value match                        | `CommandLine    | base64offset                   | contains: 'IEX'`                 |
 | `condition` | Boolean logic | `selection_a and selection_b and not filter_main` |
 
 ### Step 4: Build ADS Documentation
@@ -202,31 +203,36 @@ Document the detection using the Palantir Alerting and Detection Strategy (ADS) 
 **ADS Framework Components:**
 
 #### Goal
+
 State the objective of the detection in one to two sentences. What adversary behavior are you trying to identify?
 
 > Example: Detect the use of encoded PowerShell commands, which adversaries use to obfuscate malicious payloads and evade command-line logging inspection.
 
 #### Categorization
+
 Map the detection to the relevant framework classifications.
 
-| Field | Value |
-|-------|-------|
-| MITRE ATT&CK Tactic | Execution (TA0002) |
+| Field                  | Value                                                      |
+| ---------------------- | ---------------------------------------------------------- |
+| MITRE ATT&CK Tactic    | Execution (TA0002)                                         |
 | MITRE ATT&CK Technique | T1059.001 -- Command and Scripting Interpreter: PowerShell |
-| Kill Chain Phase | Installation / Actions on Objectives |
-| Data Sources | Process Creation (Sysmon EID 1, Security EID 4688) |
+| Kill Chain Phase       | Installation / Actions on Objectives                       |
+| Data Sources           | Process Creation (Sysmon EID 1, Security EID 4688)         |
 
 #### Strategy Abstract
+
 Describe at a high level how the detection works without getting into implementation specifics. An analyst or manager should understand the approach from this section alone.
 
 > Example: This detection monitors process creation events for instances of powershell.exe or pwsh.exe where the command line contains encoded command parameters (-enc, -EncodedCommand). Filters exclude known legitimate automation tools (SCCM) to reduce false positives.
 
 #### Technical Context
+
 Provide the technical details an analyst needs to understand the alert. Explain the underlying technology, why the behavior is suspicious, and what normal versus malicious usage looks like.
 
 > Example: PowerShell's -EncodedCommand parameter accepts a Base64-encoded string and executes it as a command. Adversaries use this to bypass command-line logging that looks for plaintext strings like "Invoke-Mimikatz" or "Net.WebClient". Legitimate use exists (SCCM, some deployment tools) but is typically from known parent processes and contains identifiable content when decoded.
 
 #### Blind Spots and Assumptions
+
 Document what this detection will NOT catch and what assumptions it relies on.
 
 - **Assumption:** PowerShell process creation events are being logged (Sysmon installed or advanced audit policy enabled for process creation with command-line logging).
@@ -236,6 +242,7 @@ Document what this detection will NOT catch and what assumptions it relies on.
 - **Blind spot:** Use of alternative encoding or obfuscation that does not use the -EncodedCommand flag.
 
 #### False Positives
+
 List known sources of false positives and recommended tuning actions.
 
 - SCCM/ConfigMgr client operations (filtered in rule)
@@ -245,13 +252,15 @@ List known sources of false positives and recommended tuning actions.
 **Tuning recommendation:** Add parent process exclusions for validated automation tools after confirming their encoded command usage is benign. Document each exclusion with a ticket reference.
 
 #### Priority
+
 Define the alert priority and its justification.
 
-| Priority | Justification |
-|----------|---------------|
-| Medium | Encoded PowerShell is a common adversary technique but also has legitimate uses. Priority should escalate to High if combined with other indicators (unusual parent process, network connection to rare domain, execution from temp directory). |
+| Priority | Justification                                                                                                                                                                                                                                   |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Medium   | Encoded PowerShell is a common adversary technique but also has legitimate uses. Priority should escalate to High if combined with other indicators (unusual parent process, network connection to rare domain, execution from temp directory). |
 
 #### Validation
+
 Describe how to test that this detection works correctly.
 
 1. **True positive test:** Open a command prompt and execute `powershell.exe -EncodedCommand ZQBjAGgAbwAgACIAdABlAHMAdAAiAA==` (Base64 of `echo "test"`). Verify the alert fires.
@@ -260,6 +269,7 @@ Describe how to test that this detection works correctly.
 4. **ATT&CK technique coverage:** Validate with atomic red team test `T1059.001` (https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md).
 
 #### Response
+
 Define the analyst response procedure when this alert fires.
 
 1. **Identify the user and host:** Determine who executed the command and on which system.
@@ -275,13 +285,13 @@ Map detection coverage against the ATT&CK matrix to identify gaps.
 
 **Coverage levels:**
 
-| Level | Color | Definition |
-|-------|-------|------------|
-| **None** | White | No detection rule exists for this technique |
-| **Theoretical** | Light Yellow | A rule exists but has not been validated or tested |
-| **Tested** | Light Green | Rule has been validated with synthetic test data (e.g., Atomic Red Team) |
-| **Operational** | Green | Rule is deployed in production, has been tuned, and has generated actionable alerts |
-| **Robust** | Dark Green | Multiple complementary rules cover different procedure examples; rule has caught real-world activity |
+| Level           | Color        | Definition                                                                                           |
+| --------------- | ------------ | ---------------------------------------------------------------------------------------------------- |
+| **None**        | White        | No detection rule exists for this technique                                                          |
+| **Theoretical** | Light Yellow | A rule exists but has not been validated or tested                                                   |
+| **Tested**      | Light Green  | Rule has been validated with synthetic test data (e.g., Atomic Red Team)                             |
+| **Operational** | Green        | Rule is deployed in production, has been tuned, and has generated actionable alerts                  |
+| **Robust**      | Dark Green   | Multiple complementary rules cover different procedure examples; rule has caught real-world activity |
 
 **Heatmap construction process:**
 
@@ -294,13 +304,13 @@ Map detection coverage against the ATT&CK matrix to identify gaps.
 
 **Gap prioritization factors:**
 
-| Factor | Weight | Description |
-|--------|--------|-------------|
-| Threat intelligence relevance | High | Techniques actively used by threat groups targeting your industry |
-| Log source availability | High | Data exists to detect the technique but no rule has been written |
-| Attack chain position | Medium | Early-stage techniques (Initial Access, Execution) catch attacks sooner |
-| Ease of detection | Medium | Some techniques have clear observable artifacts; prioritize those first |
-| Compliance requirements | Medium | Regulatory frameworks may mandate detection of specific techniques |
+| Factor                        | Weight | Description                                                             |
+| ----------------------------- | ------ | ----------------------------------------------------------------------- |
+| Threat intelligence relevance | High   | Techniques actively used by threat groups targeting your industry       |
+| Log source availability       | High   | Data exists to detect the technique but no rule has been written        |
+| Attack chain position         | Medium | Early-stage techniques (Initial Access, Execution) catch attacks sooner |
+| Ease of detection             | Medium | Some techniques have clear observable artifacts; prioritize those first |
+| Compliance requirements       | Medium | Regulatory frameworks may mandate detection of specific techniques      |
 
 ### Step 6: Detection-as-Code Practices
 
@@ -349,12 +359,12 @@ detections/
 
 ## 4. Findings Classification
 
-| Severity | Label | Definition | SLA |
-|----------|-------|------------|-----|
-| P1 | Critical | Detection gap for an actively exploited technique targeting the organization's industry. No compensating detection exists. | Create and deploy detection within 24 hours |
-| P2 | High | Detection gap for a technique with known procedure examples and available log sources. Threat intelligence indicates active use by relevant threat groups. | Create and deploy detection within 7 days |
-| P3 | Medium | Detection gap for a technique with available log sources but lower threat intelligence relevance. Coverage improvement opportunity. | Create and deploy detection within 30 days |
-| P4 | Low | Detection exists but has not been validated or tuned. Coverage is theoretical only. | Validate and tune within 90 days |
+| Severity | Label    | Definition                                                                                                                                                 | SLA                                         |
+| -------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| P1       | Critical | Detection gap for an actively exploited technique targeting the organization's industry. No compensating detection exists.                                 | Create and deploy detection within 24 hours |
+| P2       | High     | Detection gap for a technique with known procedure examples and available log sources. Threat intelligence indicates active use by relevant threat groups. | Create and deploy detection within 7 days   |
+| P3       | Medium   | Detection gap for a technique with available log sources but lower threat intelligence relevance. Coverage improvement opportunity.                        | Create and deploy detection within 30 days  |
+| P4       | Low      | Detection exists but has not been validated or tuned. Coverage is theoretical only.                                                                        | Validate and tune within 90 days            |
 
 ---
 
@@ -364,32 +374,38 @@ Produce detection engineering deliverables in this structure:
 
 ```markdown
 ## Detection Engineering Report: [ATT&CK Technique ID]
+
 **Date:** [YYYY-MM-DD]
 **Skill:** detection-engineering v1.0.0
 **Frameworks:** MITRE ATT&CK v16, Sigma, Palantir ADS
 
 ### ATT&CK Technique Summary
-| Field | Value |
-|-------|-------|
-| Technique ID | [T1059.001] |
-| Technique Name | [Name] |
-| Tactic(s) | [Execution (TA0002)] |
-| Data Sources | [Process Creation, Command Execution] |
+
+| Field          | Value                                 |
+| -------------- | ------------------------------------- |
+| Technique ID   | [T1059.001]                           |
+| Technique Name | [Name]                                |
+| Tactic(s)      | [Execution (TA0002)]                  |
+| Data Sources   | [Process Creation, Command Execution] |
 
 ### Sigma Rule
+
 [Full Sigma YAML rule]
 
 ### ADS Documentation
+
 [Complete ADS framework documentation per Step 4]
 
 ### Coverage Assessment
-| Level | Status |
-|-------|--------|
-| Current Coverage | [None / Theoretical / Tested / Operational / Robust] |
-| Target Coverage | [Operational / Robust] |
-| Validation Method | [Atomic Red Team test ID / manual test procedure] |
+
+| Level             | Status                                               |
+| ----------------- | ---------------------------------------------------- |
+| Current Coverage  | [None / Theoretical / Tested / Operational / Robust] |
+| Target Coverage   | [Operational / Robust]                               |
+| Validation Method | [Atomic Red Team test ID / manual test procedure]    |
 
 ### Deployment Notes
+
 - **Target SIEM:** [Platform]
 - **Converted Query:** [KQL/SPL/EQL equivalent if requested]
 - **Estimated False Positive Rate:** [Low / Medium / High]
@@ -410,20 +426,20 @@ MITRE ATT&CK (Adversarial Tactics, Techniques, and Common Knowledge) is a knowle
 
 Key ATT&CK tactics relevant to detection engineering:
 
-| Tactic | ID | Detection Priority |
-|--------|----|--------------------|
-| Initial Access | TA0001 | High -- earliest detection opportunity |
-| Execution | TA0002 | High -- most techniques produce observable process/command artifacts |
-| Persistence | TA0003 | High -- modifications to auto-start locations are reliably detectable |
-| Privilege Escalation | TA0004 | High -- often produces distinct event log entries |
-| Defense Evasion | TA0005 | Medium -- adversaries specifically try to avoid detection here |
-| Credential Access | TA0006 | High -- credential dumping tools produce known signatures |
-| Discovery | TA0007 | Medium -- many discovery commands are also used legitimately |
-| Lateral Movement | TA0008 | High -- network logon events and remote service usage are observable |
-| Collection | TA0009 | Medium -- depends heavily on the collection method |
-| Command and Control | TA0011 | High -- network telemetry often reveals C2 communication patterns |
-| Exfiltration | TA0010 | Medium -- volume-based and protocol-based detection |
-| Impact | TA0040 | High -- destructive actions produce clear artifacts |
+| Tactic               | ID     | Detection Priority                                                    |
+| -------------------- | ------ | --------------------------------------------------------------------- |
+| Initial Access       | TA0001 | High -- earliest detection opportunity                                |
+| Execution            | TA0002 | High -- most techniques produce observable process/command artifacts  |
+| Persistence          | TA0003 | High -- modifications to auto-start locations are reliably detectable |
+| Privilege Escalation | TA0004 | High -- often produces distinct event log entries                     |
+| Defense Evasion      | TA0005 | Medium -- adversaries specifically try to avoid detection here        |
+| Credential Access    | TA0006 | High -- credential dumping tools produce known signatures             |
+| Discovery            | TA0007 | Medium -- many discovery commands are also used legitimately          |
+| Lateral Movement     | TA0008 | High -- network logon events and remote service usage are observable  |
+| Collection           | TA0009 | Medium -- depends heavily on the collection method                    |
+| Command and Control  | TA0011 | High -- network telemetry often reveals C2 communication patterns     |
+| Exfiltration         | TA0010 | Medium -- volume-based and protocol-based detection                   |
+| Impact               | TA0040 | High -- destructive actions produce clear artifacts                   |
 
 ### Sigma Rule Specification
 
@@ -436,19 +452,19 @@ Sigma is a generic and open signature format for SIEM systems. It allows writing
 
 **Log source categories (Sigma standard):**
 
-| Category | Product | Description |
-|----------|---------|-------------|
-| `process_creation` | `windows` | Process start events (Sysmon 1, Security 4688) |
-| `network_connection` | `windows` | Outbound network connections (Sysmon 3) |
-| `file_event` | `windows` | File creation/modification (Sysmon 11) |
-| `registry_event` | `windows` | Registry modifications (Sysmon 12/13/14) |
-| `dns_query` | `windows` | DNS resolution requests (Sysmon 22) |
-| `image_load` | `windows` | DLL/image load events (Sysmon 7) |
-| `process_creation` | `linux` | Process start events (auditd, syslog) |
-| `file_event` | `linux` | File creation/modification |
-| `firewall` | (various) | Firewall allow/deny logs |
-| `proxy` | (various) | Web proxy access logs |
-| `webserver` | (various) | Web server access/error logs |
+| Category             | Product   | Description                                    |
+| -------------------- | --------- | ---------------------------------------------- |
+| `process_creation`   | `windows` | Process start events (Sysmon 1, Security 4688) |
+| `network_connection` | `windows` | Outbound network connections (Sysmon 3)        |
+| `file_event`         | `windows` | File creation/modification (Sysmon 11)         |
+| `registry_event`     | `windows` | Registry modifications (Sysmon 12/13/14)       |
+| `dns_query`          | `windows` | DNS resolution requests (Sysmon 22)            |
+| `image_load`         | `windows` | DLL/image load events (Sysmon 7)               |
+| `process_creation`   | `linux`   | Process start events (auditd, syslog)          |
+| `file_event`         | `linux`   | File creation/modification                     |
+| `firewall`           | (various) | Firewall allow/deny logs                       |
+| `proxy`              | (various) | Web proxy access logs                          |
+| `webserver`          | (various) | Web server access/error logs                   |
 
 ### Palantir Alerting and Detection Strategy (ADS)
 
@@ -456,17 +472,17 @@ The ADS framework, published by Palantir, provides a structured methodology for 
 
 **ADS components:**
 
-| Component | Purpose |
-|-----------|---------|
-| Goal | What adversary behavior are you trying to detect? |
-| Categorization | ATT&CK mapping, kill chain phase, data sources |
-| Strategy Abstract | High-level description of the detection approach |
-| Technical Context | Deep technical explanation for the analyst |
-| Blind Spots and Assumptions | What will this detection miss? What must be true for it to work? |
-| False Positives | Known benign triggers and tuning guidance |
-| Priority | Alert priority level and justification |
-| Validation | How to test the detection produces true positives and does not produce false positives |
-| Response | Step-by-step analyst response procedure |
+| Component                   | Purpose                                                                                |
+| --------------------------- | -------------------------------------------------------------------------------------- |
+| Goal                        | What adversary behavior are you trying to detect?                                      |
+| Categorization              | ATT&CK mapping, kill chain phase, data sources                                         |
+| Strategy Abstract           | High-level description of the detection approach                                       |
+| Technical Context           | Deep technical explanation for the analyst                                             |
+| Blind Spots and Assumptions | What will this detection miss? What must be true for it to work?                       |
+| False Positives             | Known benign triggers and tuning guidance                                              |
+| Priority                    | Alert priority level and justification                                                 |
+| Validation                  | How to test the detection produces true positives and does not produce false positives |
+| Response                    | Step-by-step analyst response procedure                                                |
 
 **Reference:** https://blog.palantir.com/alerting-and-detection-strategy-framework-52dc33722f68
 

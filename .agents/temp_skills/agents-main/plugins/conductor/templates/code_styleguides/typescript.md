@@ -62,9 +62,7 @@ function parseJSON(json: string): unknown {
 
 // Then narrow with type guards
 function isUser(obj: unknown): obj is User {
-  return (
-    typeof obj === "object" && obj !== null && "id" in obj && "name" in obj
-  );
+  return typeof obj === 'object' && obj !== null && 'id' in obj && 'name' in obj;
 }
 ```
 
@@ -79,7 +77,7 @@ const items: Item[] = [];
 
 // Also good: Type inference when obvious
 const count = 0; // number inferred
-const name = "John"; // string inferred
+const name = 'John'; // string inferred
 ```
 
 ## Interfaces vs Types
@@ -109,7 +107,7 @@ interface User {
 
 ```typescript
 // Union types
-type Status = "pending" | "active" | "completed";
+type Status = 'pending' | 'active' | 'completed';
 
 // Primitive aliases
 type UserId = string;
@@ -170,7 +168,7 @@ async function fetchUser(id: string): Promise<User> {
     if (error instanceof ApiError) {
       throw error;
     }
-    throw new NetworkError("Network request failed", { cause: error });
+    throw new NetworkError('Network request failed', { cause: error });
   }
 }
 ```
@@ -233,16 +231,16 @@ export class UserService { ... }
 
 ```typescript
 // 1. External dependencies
-import { useState, useEffect } from "react";
-import { z } from "zod";
+import { useState, useEffect } from 'react';
+import { z } from 'zod';
 
 // 2. Internal absolute imports
-import { ApiClient } from "@/services/api";
-import { User } from "@/types";
+import { ApiClient } from '@/services/api';
+import { User } from '@/types';
 
 // 3. Relative imports
-import { formatDate } from "./utils";
-import { UserCard } from "./UserCard";
+import { formatDate } from './utils';
+import { UserCard } from './UserCard';
 ```
 
 ## Utility Types
@@ -257,10 +255,10 @@ type UpdateUser = Partial<User>;
 type CompleteUser = Required<User>;
 
 // Pick - select properties
-type UserPreview = Pick<User, "id" | "name">;
+type UserPreview = Pick<User, 'id' | 'name'>;
 
 // Omit - exclude properties
-type UserWithoutPassword = Omit<User, "password">;
+type UserWithoutPassword = Omit<User, 'password'>;
 
 // Record - dictionary type
 type UserRoles = Record<string, Role>;
@@ -294,14 +292,14 @@ type DeepReadonly<T> = {
 ```typescript
 // Enums have runtime overhead
 enum Status {
-  Pending = "pending",
-  Active = "active",
+  Pending = 'pending',
+  Active = 'active',
 }
 
 // Prefer const objects
 const Status = {
-  Pending: "pending",
-  Active: "active",
+  Pending: 'pending',
+  Active: 'active',
 } as const;
 
 type Status = (typeof Status)[keyof typeof Status];
@@ -342,10 +340,7 @@ interface Repository<T> {
 
 ```typescript
 // Constrain to objects with id
-function findById<T extends { id: string }>(
-  items: T[],
-  id: string,
-): T | undefined {
+function findById<T extends { id: string }>(items: T[], id: string): T | undefined {
   return items.find((item) => item.id === id);
 }
 
@@ -367,7 +362,7 @@ class AppError extends Error {
     public readonly statusCode: number = 500,
   ) {
     super(message);
-    this.name = "AppError";
+    this.name = 'AppError';
   }
 }
 
@@ -376,8 +371,8 @@ class ValidationError extends AppError {
     message: string,
     public readonly field: string,
   ) {
-    super(message, "VALIDATION_ERROR", 400);
-    this.name = "ValidationError";
+    super(message, 'VALIDATION_ERROR', 400);
+    this.name = 'ValidationError';
   }
 }
 ```
@@ -395,7 +390,7 @@ function handleError(error: unknown): void {
   } else if (error instanceof Error) {
     console.error(`Unexpected error: ${error.message}`);
   } else {
-    console.error("Unknown error occurred");
+    console.error('Unknown error occurred');
   }
 }
 ```
@@ -413,7 +408,7 @@ type _TestUserHasId = Assert<{ id: string }, User>;
 
 // Expect error (compile-time check)
 // @ts-expect-error - User should require id
-const invalidUser: User = { name: "John" };
+const invalidUser: User = { name: 'John' };
 ```
 
 ## Common Patterns
@@ -438,13 +433,11 @@ class QueryBuilder<T> {
 ### Result Type
 
 ```typescript
-type Result<T, E = Error> =
-  | { success: true; data: T }
-  | { success: false; error: E };
+type Result<T, E = Error> = { success: true; data: T } | { success: false; error: E };
 
 function divide(a: number, b: number): Result<number> {
   if (b === 0) {
-    return { success: false, error: new Error("Division by zero") };
+    return { success: false, error: new Error('Division by zero') };
   }
   return { success: true, data: a / b };
 }

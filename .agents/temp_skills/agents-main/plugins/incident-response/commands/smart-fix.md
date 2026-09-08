@@ -1,6 +1,6 @@
 ---
-description: "Intelligent issue resolution with multi-agent debugging, root cause analysis, and verified fix implementation"
-argument-hint: "<issue description> [--verification minimal|standard|comprehensive] [--prevention none|immediate|comprehensive]"
+description: 'Intelligent issue resolution with multi-agent debugging, root cause analysis, and verified fix implementation'
+argument-hint: '<issue description> [--verification minimal|standard|comprehensive] [--prevention none|immediate|comprehensive]'
 ---
 
 # Intelligent Issue Resolution Orchestrator

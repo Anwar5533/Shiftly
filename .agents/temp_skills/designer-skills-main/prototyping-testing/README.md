@@ -1,6 +1,9 @@
 # prototyping-testing
+
 Plan and execute design validation through prototyping strategies, usability testing, heuristic evaluation, and A/B experiments.
+
 ## Skills (8)
+
 - **a-b-test-design** — Design an A/B experiment — hypothesis, variants, primary metric, and sample size. Use when a change can be measured quantitatively at scale. For observing behaviour qualitatively, use `test-scenario`.
 - **accessibility-test-plan** — Plan accessibility testing — assistive technologies, participant criteria, WCAG coverage, and session protocol. Use when scheduling testing with real AT users. Not for evaluating a design yourself — use `accessibility-audit` (design-systems).
 - **click-test-plan** — Design first-click and click tests for findability and navigation. Use when testing whether people can locate something. For full task-based observation, use `test-scenario`.
@@ -11,8 +14,8 @@ Plan and execute design validation through prototyping strategies, usability tes
 - **wireframe-spec** — Specify wireframe layout — content priority, component placement, and annotation. Use when defining structure before visual design. For grid mechanics, use `layout-grid` (ui-design).
 
 ## Commands (4)
+
 - `/evaluate` — Run a heuristic evaluation end to end — expert review against heuristics with severity ratings and recommended fixes.
 - `/experiment` — Design an A/B experiment end to end — hypothesis, variants, primary metric, and sample size.
 - `/prototype-plan` — Create a prototyping and testing plan for a design initiative.
 - `/test-plan` — Choose a testing method and build the plan around it — method selection, task scenarios, click tests, and accessibility coverage.
-

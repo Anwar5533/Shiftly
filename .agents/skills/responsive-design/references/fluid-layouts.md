@@ -37,12 +37,7 @@ The preferred value in `clamp()` typically combines a base size with a viewport-
 
 ```javascript
 // Generate a fluid type scale
-function fluidType({
-  minFontSize,
-  maxFontSize,
-  minViewport = 320,
-  maxViewport = 1200,
-}) {
+function fluidType({ minFontSize, maxFontSize, minViewport = 320, maxViewport = 1200 }) {
   const minFontRem = minFontSize / 16;
   const maxFontRem = maxFontSize / 16;
   const minViewportRem = minViewport / 16;
@@ -61,9 +56,9 @@ const typeScale = {
   base: fluidType({ minFontSize: 16, maxFontSize: 18 }),
   lg: fluidType({ minFontSize: 18, maxFontSize: 20 }),
   xl: fluidType({ minFontSize: 20, maxFontSize: 24 }),
-  "2xl": fluidType({ minFontSize: 24, maxFontSize: 32 }),
-  "3xl": fluidType({ minFontSize: 30, maxFontSize: 48 }),
-  "4xl": fluidType({ minFontSize: 36, maxFontSize: 60 }),
+  '2xl': fluidType({ minFontSize: 24, maxFontSize: 32 }),
+  '3xl': fluidType({ minFontSize: 30, maxFontSize: 48 }),
+  '4xl': fluidType({ minFontSize: 36, maxFontSize: 60 }),
 };
 ```
 

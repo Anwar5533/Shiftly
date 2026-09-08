@@ -180,11 +180,11 @@ npx @veritasacta/verify ./receipts/*.json
 
 Exit codes:
 
-| Code | Meaning |
-|------|---------|
-| `0`  | All receipts verified; chain intact |
+| Code | Meaning                                                          |
+| ---- | ---------------------------------------------------------------- |
+| `0`  | All receipts verified; chain intact                              |
 | `1`  | A receipt failed signature verification (tampered, or wrong key) |
-| `2`  | A receipt was malformed |
+| `2`  | A receipt was malformed                                          |
 
 ## Step 6: Demonstrate tamper detection
 
@@ -230,12 +230,12 @@ For the formal wire format see
 
 The receipt format has four independent implementations today:
 
-| Implementation | Language | Use case |
-|----------------|----------|----------|
-| [protect-mcp](https://www.npmjs.com/package/protect-mcp) | TypeScript | Claude Code, Cursor, MCP hosts |
-| [protect-mcp-adk](https://pypi.org/project/protect-mcp-adk/) | Python | Google Agent Development Kit |
-| [sb-runtime](https://github.com/ScopeBlind/sb-runtime) | Rust | OS-level sandbox (Landlock + seccomp) |
-| APS governance hook | Python | CrewAI, LangChain |
+| Implementation                                               | Language   | Use case                              |
+| ------------------------------------------------------------ | ---------- | ------------------------------------- |
+| [protect-mcp](https://www.npmjs.com/package/protect-mcp)     | TypeScript | Claude Code, Cursor, MCP hosts        |
+| [protect-mcp-adk](https://pypi.org/project/protect-mcp-adk/) | Python     | Google Agent Development Kit          |
+| [sb-runtime](https://github.com/ScopeBlind/sb-runtime)       | Rust       | OS-level sandbox (Landlock + seccomp) |
+| APS governance hook                                          | Python     | CrewAI, LangChain                     |
 
 A receipt produced by any of them verifies against
 [`@veritasacta/verify`](https://www.npmjs.com/package/@veritasacta/verify).
@@ -268,12 +268,12 @@ jobs:
 Archive the receipts as an artifact so the chain survives beyond the job run:
 
 ```yaml
-      - name: Upload receipts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: decision-receipts
-          path: receipts/
+- name: Upload receipts
+  if: always()
+  uses: actions/upload-artifact@v4
+  with:
+    name: decision-receipts
+    path: receipts/
 ```
 
 ## Composition with SLSA provenance for agent-built software

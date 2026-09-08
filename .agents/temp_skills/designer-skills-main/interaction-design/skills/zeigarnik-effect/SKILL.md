@@ -2,6 +2,7 @@
 name: zeigarnik-effect
 description: Apply the Zeigarnik Effect — incomplete tasks stay mentally active. Use when designing progress indicators, saved drafts, and return hooks. For the emotional shape of the ending, use `peak-end-rule`.
 ---
+
 # Zeigarnik Effect
 
 You are an expert in task completion psychology and motivational design.
@@ -21,6 +22,7 @@ Bluma Zeigarnik observed that people remember uncompleted or interrupted tasks b
 ### Progress indicators and multi-step flows
 
 Showing a user how far they have come — and that a defined, finite distance remains — is more motivating than showing neither:
+
 - Progress bars on profile completion, course modules, or setup flows activate the Zeigarnik loop
 - "You're 60% done" is more compelling than "complete your profile" without a completion signal
 - Named steps with clear endpoints give working memory something concrete to hold and return to
@@ -28,6 +30,7 @@ Showing a user how far they have come — and that a defined, finite distance re
 ### Re-engagement touchpoints
 
 "You left something in your cart" works because the Zeigarnik loop is already open — the user started a task and did not finish it. The re-engagement surfaces a real cognitive state:
+
 - **Draft resumption**: "You have an unsaved draft" keeps an open loop visible
 - **Onboarding re-entry**: "You're one step away from completing setup" references the specific uncompleted state
 - **Abandoned flow recovery**: showing the exact step where the user stopped is more effective than a generic call to action
@@ -35,6 +38,7 @@ Showing a user how far they have come — and that a defined, finite distance re
 ### Interruption handling
 
 If a flow can be interrupted mid-completion, the product must:
+
 1. Save state automatically, without requiring the user to act
 2. Signal clearly that the task can be resumed exactly where it was left
 3. Restore context completely on return — the user's mental model of "where I was" must match the actual state
@@ -42,6 +46,7 @@ If a flow can be interrupted mid-completion, the product must:
 ### Checklists and completion meters
 
 Checklists make open loops explicit and visible. Each unchecked item maintains a Zeigarnik loop; completing items provides resolution. This is the mechanism behind:
+
 - Onboarding checklists
 - Profile completion meters and nudges
 - Achievement and progress systems in productivity and learning tools

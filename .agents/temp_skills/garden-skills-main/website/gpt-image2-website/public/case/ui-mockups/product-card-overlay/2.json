@@ -6,20 +6,10 @@
     "name": "NEX SKIN",
     "subtext": "MEN · ALL-IN-ONE"
   },
-  "color_palette": [
-    "深海军蓝 #0A1A33",
-    "白",
-    "电光蓝渐变"
-  ],
+  "color_palette": ["深海军蓝 #0A1A33", "白", "电光蓝渐变"],
   "header": {
     "logo": "左上 'NEX SKIN' 极细无衬线大写字 + 下方银灰色 'MEN · ALL-IN-ONE'",
-    "navigation": [
-      "HOME",
-      "PRODUCT",
-      "TECH",
-      "FEATURE",
-      "FAQ"
-    ],
+    "navigation": ["HOME", "PRODUCT", "TECH", "FEATURE", "FAQ"],
     "cta_button": "立即开始 → （蓝色高光按钮）"
   },
   "hero": {
@@ -54,10 +44,6 @@
   },
   "constraints": {
     "must_feel": "硬朗、专业、可信赖，像高端男士护肤品牌的真实落地页",
-    "avoid": [
-      "出现粉色、暖色等少女风元素",
-      "模特表情过度温柔或假笑",
-      "瓶身字模糊不可读"
-    ]
+    "avoid": ["出现粉色、暖色等少女风元素", "模特表情过度温柔或假笑", "瓶身字模糊不可读"]
   }
 }

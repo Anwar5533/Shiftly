@@ -73,7 +73,7 @@ export default function RecruiterProfilePage(): React.ReactElement {
         </button>
       </div>
 
-      <div className="overflow-hidden glass-panel">
+      <div className="glass-panel overflow-hidden">
         <div className="relative h-32 bg-gradient-to-r from-primary/20 to-accent/20">
           <div className="absolute -bottom-12 left-8">
             <div className="group relative flex h-24 w-24 cursor-pointer items-center justify-center overflow-hidden rounded-2xl border-4 border-background bg-card shadow-sm">

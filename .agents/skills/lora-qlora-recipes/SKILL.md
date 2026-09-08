@@ -65,11 +65,11 @@ Mode below, not a valid optimization.
 
 Rank is task-shaped, not a single global default:
 
-| Task | Rank |
-|---|---|
-| RL (GRPO/RLVR adapters) | 1–32 |
-| General default | 16–32 |
-| SFT at scale | up to ~256 |
+| Task                    | Rank       |
+| ----------------------- | ---------- |
+| RL (GRPO/RLVR adapters) | 1–32       |
+| General default         | 16–32      |
+| SFT at scale            | up to ~256 |
 
 Higher rank isn't automatically better — it
 raises capacity to memorize as fast as it raises
@@ -138,12 +138,12 @@ and `references/hyperparameters.md`.
 
 ## LoRA vs QLoRA vs Full FT
 
-| Situation | Default choice |
-|---|---|
-| Adapting behavior on demonstrations | LoRA |
-| Base model doesn't fit in bf16 at target rank | QLoRA |
-| Injecting dense new domain knowledge | Full FT (see `finetuning-method-selection`) |
-| Unsure which one | LoRA — upgrade to QLoRA only if memory forces it |
+| Situation                                     | Default choice                                   |
+| --------------------------------------------- | ------------------------------------------------ |
+| Adapting behavior on demonstrations           | LoRA                                             |
+| Base model doesn't fit in bf16 at target rank | QLoRA                                            |
+| Injecting dense new domain knowledge          | Full FT (see `finetuning-method-selection`)      |
+| Unsure which one                              | LoRA — upgrade to QLoRA only if memory forces it |
 
 - **QLoRA** = NF4-quantized frozen base weights +
   BF16 adapters. This is what makes a 65B-class

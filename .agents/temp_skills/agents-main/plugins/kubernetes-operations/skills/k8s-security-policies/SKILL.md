@@ -137,9 +137,9 @@ metadata:
   name: pod-reader
   namespace: production
 rules:
-  - apiGroups: [""]
-    resources: ["pods"]
-    verbs: ["get", "watch", "list"]
+  - apiGroups: ['']
+    resources: ['pods']
+    verbs: ['get', 'watch', 'list']
 ```
 
 ### ClusterRole (Cluster-wide)
@@ -150,9 +150,9 @@ kind: ClusterRole
 metadata:
   name: secret-reader
 rules:
-  - apiGroups: [""]
-    resources: ["secrets"]
-    verbs: ["get", "watch", "list"]
+  - apiGroups: ['']
+    resources: ['secrets']
+    verbs: ['get', 'watch', 'list']
 ```
 
 ### RoleBinding
@@ -250,10 +250,10 @@ metadata:
 spec:
   match:
     kinds:
-      - apiGroups: ["apps"]
-        kinds: ["Deployment"]
+      - apiGroups: ['apps']
+        kinds: ['Deployment']
   parameters:
-    labels: ["app", "environment"]
+    labels: ['app', 'environment']
 ```
 
 ## Service Mesh Security (Istio)
@@ -287,7 +287,7 @@ spec:
   rules:
     - from:
         - source:
-            principals: ["cluster.local/ns/production/sa/frontend"]
+            principals: ['cluster.local/ns/production/sa/frontend']
 ```
 
 ## Best Practices
@@ -339,7 +339,6 @@ kubectl describe networkpolicy <name>
 kubectl auth can-i list pods --as system:serviceaccount:default:my-sa
 kubectl auth can-i '*' '*' --as system:serviceaccount:default:my-sa
 ```
-
 
 ## Related Skills
 

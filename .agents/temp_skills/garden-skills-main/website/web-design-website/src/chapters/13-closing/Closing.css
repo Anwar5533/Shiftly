@@ -58,11 +58,17 @@
   background: var(--accent);
   opacity: 0.2;
   transform-origin: left;
-  animation: clFairUnderline 1100ms 800ms cubic-bezier(.2,.8,.2,1) backwards;
+  animation: clFairUnderline 1100ms 800ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
 }
 @keyframes clFairUnderline {
-  from { transform: scaleX(0); opacity: 0; }
-  to   { transform: scaleX(1); opacity: 0.2; }
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 0.2;
+  }
 }
 
 .cl__fair-cap {
@@ -138,12 +144,18 @@
   background: var(--accent);
   opacity: 0.18;
   transform-origin: left;
-  animation: clJumpUnder 1100ms 2400ms cubic-bezier(.2,.8,.2,1) backwards;
+  animation: clJumpUnder 1100ms 2400ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
   z-index: -1;
 }
 @keyframes clJumpUnder {
-  from { transform: scaleX(0); opacity: 0; }
-  to   { transform: scaleX(1); opacity: 0.18; }
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 0.18;
+  }
 }
 
 .cl__jump-num-tag {
@@ -165,11 +177,17 @@
   color: var(--fg-faint);
   line-height: 1;
   align-self: center;
-  animation: clJumpArrow 800ms 1500ms cubic-bezier(.6,-0.05,.2,1.2) backwards;
+  animation: clJumpArrow 800ms 1500ms cubic-bezier(0.6, -0.05, 0.2, 1.2) backwards;
 }
 @keyframes clJumpArrow {
-  from { transform: translateX(-12px); opacity: 0; }
-  to   { transform: none;             opacity: 1; }
+  from {
+    transform: translateX(-12px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
 }
 
 .cl__jump-meta {
@@ -241,12 +259,18 @@
   font-size: 88px;
   line-height: 1.05;
   opacity: 0;
-  animation: clTrioIn 900ms cubic-bezier(.2,.8,.2,1) forwards;
+  animation: clTrioIn 900ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   animation-delay: var(--d, 0ms);
 }
 @keyframes clTrioIn {
-  from { opacity: 0; transform: translateY(28px); }
-  to   { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .cl__trio-from {
@@ -285,13 +309,19 @@
   background: var(--accent);
   opacity: 0.2;
   transform-origin: left;
-  animation: clTrioUnderline 900ms cubic-bezier(.2,.8,.2,1) backwards;
+  animation: clTrioUnderline 900ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
   animation-delay: calc(var(--d, 0ms) + 600ms);
   z-index: -1;
 }
 @keyframes clTrioUnderline {
-  from { transform: scaleX(0); opacity: 0; }
-  to   { transform: scaleX(1); opacity: 0.2; }
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 0.2;
+  }
 }
 
 /* ===================== Scene RULES (step 3) ===================== */
@@ -362,7 +392,7 @@
   white-space: nowrap;
   opacity: 0;
   transform: translateY(28px) translateX(var(--shift, 0)) rotate(var(--rot, 0));
-  animation: clRulesChipIn 720ms cubic-bezier(.6,-0.05,.2,1.2) forwards;
+  animation: clRulesChipIn 720ms cubic-bezier(0.6, -0.05, 0.2, 1.2) forwards;
   box-shadow: 0 12px 24px -16px oklch(0 0 0 / 0.18);
 }
 @keyframes clRulesChipIn {
@@ -371,10 +401,19 @@
     transform: translateY(0) translateX(0) rotate(var(--rot, 0));
   }
 }
-.cl__rules-chip--0 { border-left: 3px solid var(--accent); }
-.cl__rules-chip--1 { border-left: 3px solid var(--accent); }
-.cl__rules-chip--2 { border-left: 3px solid var(--accent); opacity: 0.92; }
-.cl__rules-chip--3 { border-left: 3px solid var(--accent); }
+.cl__rules-chip--0 {
+  border-left: 3px solid var(--accent);
+}
+.cl__rules-chip--1 {
+  border-left: 3px solid var(--accent);
+}
+.cl__rules-chip--2 {
+  border-left: 3px solid var(--accent);
+  opacity: 0.92;
+}
+.cl__rules-chip--3 {
+  border-left: 3px solid var(--accent);
+}
 .cl__rules-chip-mark {
   font-family: var(--f-mono);
   font-style: normal;
@@ -441,14 +480,24 @@
   background: var(--accent);
   opacity: 0.18;
   transform-origin: left;
-  animation: clCloseUnderline 1100ms cubic-bezier(.2,.8,.2,1) backwards;
+  animation: clCloseUnderline 1100ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
   z-index: -1;
 }
-.cl__close-l2 em:nth-of-type(1)::after { animation-delay: 1500ms; }
-.cl__close-l2 em:nth-of-type(2)::after { animation-delay: 1900ms; }
+.cl__close-l2 em:nth-of-type(1)::after {
+  animation-delay: 1500ms;
+}
+.cl__close-l2 em:nth-of-type(2)::after {
+  animation-delay: 1900ms;
+}
 @keyframes clCloseUnderline {
-  from { transform: scaleX(0); opacity: 0; }
-  to   { transform: scaleX(1); opacity: 0.18; }
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 0.18;
+  }
 }
 
 .cl__close-cap {

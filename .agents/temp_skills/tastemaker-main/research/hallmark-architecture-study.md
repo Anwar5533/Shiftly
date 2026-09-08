@@ -12,7 +12,7 @@ Studied [Nutlope/hallmark](https://github.com/Nutlope/hallmark) (15.7k stars, by
 
 Hallmark's core mechanism is a **combinatorial catalog of named page shapes and component archetypes with stable IDs**, plus a **project-memory diversification engine** that forces each build to differ structurally from the last one. That's the thing tastemaker didn't have.
 
-The gap it exposed: tastemaker's *structure* was monocultured even while its *color* wasn't. Every generated landing page reached for the same hero → three-feature-cards → CTA → footer rhythm. That's the strongest "an AI built this" tell at the page level, and it survives a perfect palette — two color-swaps of the same template still read as the same template.
+The gap it exposed: tastemaker's _structure_ was monocultured even while its _color_ wasn't. Every generated landing page reached for the same hero → three-feature-cards → CTA → footer rhythm. That's the strongest "an AI built this" tell at the page level, and it survives a perfect palette — two color-swaps of the same template still read as the same template.
 
 ## The honest head-to-head
 

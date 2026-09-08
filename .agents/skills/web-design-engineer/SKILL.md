@@ -1,6 +1,6 @@
 ---
 name: web-design-engineer
-description: "Build or redesign polished browser-rendered visual artifacts with HTML/CSS/JavaScript/React: pages, dashboards, prototypes, slide decks, animations, UI mockups, and data visualizations. Use for visual front-end creation, design-system exploration, design critique, or explicit browser acceptance / QA of a web artifact. Not for back-end, CLI, non-visual coding, source-to-longform article conversion, or narration-driven click-through video presentations."
+description: 'Build or redesign polished browser-rendered visual artifacts with HTML/CSS/JavaScript/React: pages, dashboards, prototypes, slide decks, animations, UI mockups, and data visualizations. Use for visual front-end creation, design-system exploration, design critique, or explicit browser acceptance / QA of a web artifact. Not for back-end, CLI, non-visual coding, source-to-longform article conversion, or narration-driven click-through video presentations.'
 ---
 
 # Web Design Engineer
@@ -34,23 +34,24 @@ When the request mentions a specific product, brand, technology, SDK, or event y
 - You catch yourself thinking "I think it's…" / "should still be…" / "probably not released yet" / "I don't think that exists"
 - The user asks you to design materials for a specific company or product
 
-If search returns nothing or is ambiguous → ask the user. Don't guess. Forbidden phrases without prior search: *"I think X hasn't released yet" / "X is currently version N" / "X probably doesn't exist" / "As I recall, X's specs are…"*
+If search returns nothing or is ambiguous → ask the user. Don't guess. Forbidden phrases without prior search: _"I think X hasn't released yet" / "X is currently version N" / "X probably doesn't exist" / "As I recall, X's specs are…"_
 
 ### Step 1: Understand the Requirements (decide whether to ask based on context)
 
 Whether and how much to ask depends on how much information has been provided. **Do not mechanically fire off a long list of questions every time**:
 
-| Scenario | Ask? |
-|---|---|
-| "Make a deck" (no PRD, no audience) | ✅ Ask extensively: audience, duration, tone, variants |
-| "Use this PRD to make a 10-min deck for Eng All Hands" | ❌ Enough info — start building |
-| "Turn this screenshot into an interactive prototype" | ⚠️ Only ask if the intended interactions are unclear |
-| "Make 6 slides about the history of butter" | ✅ Too vague — at least ask about tone and audience |
-| "Design onboarding for my food-delivery app" | ✅ Ask heavily: users, flows, brand, variants |
-| "Recreate the composer UI from this codebase" | ❌ Read the code directly — no questions needed |
-| "Make me something nice / I don't know what style I want" | ⚡ Switch to **Design Direction Advisor** (see below) |
+| Scenario                                                  | Ask?                                                   |
+| --------------------------------------------------------- | ------------------------------------------------------ |
+| "Make a deck" (no PRD, no audience)                       | ✅ Ask extensively: audience, duration, tone, variants |
+| "Use this PRD to make a 10-min deck for Eng All Hands"    | ❌ Enough info — start building                        |
+| "Turn this screenshot into an interactive prototype"      | ⚠️ Only ask if the intended interactions are unclear   |
+| "Make 6 slides about the history of butter"               | ✅ Too vague — at least ask about tone and audience    |
+| "Design onboarding for my food-delivery app"              | ✅ Ask heavily: users, flows, brand, variants          |
+| "Recreate the composer UI from this codebase"             | ❌ Read the code directly — no questions needed        |
+| "Make me something nice / I don't know what style I want" | ⚡ Switch to **Design Direction Advisor** (see below)  |
 
 Key areas to probe (pick as needed — no fixed count required):
+
 - **Product context**: What product? Target users? Existing design system / brand guidelines / codebase?
 - **Output type**: Web page / prototype / slide deck / animation / dashboard? Fidelity level?
 - **Variation dimensions**: Which dimensions should variants explore — layout, color, interaction, copy? How many?
@@ -76,13 +77,13 @@ When analyzing reference materials, focus on: color system, typography scheme, s
 
 **Asset > Spec.** A brand's identity is "being recognized." Recognition is driven by assets in this order — **not by hex codes**:
 
-| Asset | Recognition contribution | When required |
-|---|---|---|
-| **Logo** (SVG / PNG, both light & dark variants if available) | Highest — any brand is identified by its logo | **Any brand task** — non-negotiable |
-| **Product imagery** (hero shots, detail, in-context) | Very high — physical products' "main character" *is* the product itself | **Physical products** (hardware, packaging, consumer goods) |
-| **UI screenshots** (latest version, real data scrubbed) | Very high — digital products' "main character" *is* the interface | **Digital products** (apps, SaaS, websites) |
-| Color tokens | Medium — auxiliary; without the assets above, brands collide | Auxiliary |
-| Typography | Low — needs the above to land | Auxiliary |
+| Asset                                                         | Recognition contribution                                                | When required                                               |
+| ------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------- |
+| **Logo** (SVG / PNG, both light & dark variants if available) | Highest — any brand is identified by its logo                           | **Any brand task** — non-negotiable                         |
+| **Product imagery** (hero shots, detail, in-context)          | Very high — physical products' "main character" _is_ the product itself | **Physical products** (hardware, packaging, consumer goods) |
+| **UI screenshots** (latest version, real data scrubbed)       | Very high — digital products' "main character" _is_ the interface       | **Digital products** (apps, SaaS, websites)                 |
+| Color tokens                                                  | Medium — auxiliary; without the assets above, brands collide            | Auxiliary                                                   |
+| Typography                                                    | Low — needs the above to land                                           | Auxiliary                                                   |
 
 **Hard rules**:
 
@@ -133,6 +134,7 @@ The system that follows must serve these answers. Picking aesthetics in a vacuum
 
 ```markdown
 Design Decisions:
+
 - Design Read: [one-line synthesis + five dials]
 - Anchor / recipe (if any): [e.g., "linear" → `references/style-recipes/linear.md`, or "custom"]
 - Color palette: [primary / secondary / neutral / accent]
@@ -175,13 +177,13 @@ Run an executable browser acceptance harness **only when the user explicitly ask
 
 When the user asks "review this", "is it good?", "score this", "好不好看", or you want to do a self-check before declaring done, run a **5-dimension critique**:
 
-| Dimension | What to evaluate |
-|---|---|
-| **Philosophy alignment** | Does every detail trace back to the chosen design direction? Or has it drifted into a generic mishmash? |
-| **Visual hierarchy** | Does the eye flow where intended? Squint test passes? Title/body ratio ≥ 2.5×? |
-| **Craft quality** | Pixel-level alignment, consistent spacing system (e.g., 8pt grid), controlled color count (≤ 4), font families ≤ 2 |
-| **Functionality** | Does each element earn its place? "If I delete this, does the design get worse?" If no → delete |
-| **Originality** | Avoids clichés while staying coherent? Any "unexpected but right" decisions, or pure template? |
+| Dimension                | What to evaluate                                                                                                   |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| **Philosophy alignment** | Does every detail trace back to the chosen design direction? Or has it drifted into a generic mishmash?            |
+| **Visual hierarchy**     | Does the eye flow where intended? Squint test passes? Title/body ratio ≥ 2.5×?                                     |
+| **Craft quality**        | Pixel-level alignment, consistent spacing system (e.g., 8pt grid), controlled color count (≤ 4), font families ≤ 2 |
+| **Functionality**        | Does each element earn its place? "If I delete this, does the design get worse?" If no → delete                    |
+| **Originality**          | Avoids clichés while staying coherent? Any "unexpected but right" decisions, or pure template?                     |
 
 Score each 0–10; report overall score, dimension scores, Keep, severity-sorted Fixes, and three Quick Wins. **Critique the design, not the designer.** Read `references/critique-guide.md` for the exact format, weighting, issue catalog, and detailed rubrics.
 
@@ -190,11 +192,13 @@ Score each 0–10; report overall score, dimension scores, Keep, severity-sorted
 ## Fallback: Design Direction Advisor
 
 **When to trigger**:
+
 - The request is genuinely ambiguous ("make something nice", "I don't know what style I want", "give me some directions")
 - No design context exists, and the user can't or won't provide reference material
 - The user explicitly asks "recommend a style" / "give me a few directions" / "pick a vibe"
 
 **When to skip**:
+
 - The user already provided a Figma / screenshots / brand reference → go straight to the main workflow
 - The user stated a specific direction ("make an Apple-Silicon-style launch animation") → main workflow
 - Small tweaks or explicit tool calls ("convert this HTML to PDF") → skip
@@ -210,14 +214,14 @@ Don't ask the user 10 generic taste questions. Instead, propose **3 design direc
 
 ### School library — pick 3 from different rows
 
-| School | Vibe | Sample anchors | Best for |
-|---|---|---|---|
-| **Information architecture** | Rational, data-driven, restrained | Pentagram, Edward Tufte, Massimo Vignelli, Bloomberg Terminal | Safe / professional / B2B / data products |
-| **Editorial / minimalist** | Whitespace, refined typography, quiet luxury | Kenya Hara (MUJI), Apple HIG, Dieter Rams, Aesop | Premium / high-end / quiet |
-| **Modern tool / Builder SaaS** | Hairline detail, warm dark, single accent, monospace chips | Linear, Vercel, Raycast, Notion | Developer tools / B2B SaaS / AI tools / infra |
-| **Motion / experimental** | Bold, generative, sensory | Field.io, Active Theory, Resn | Distinctive / launch films / brand moments |
-| **Brutalist / raw** | Anti-design, honest, unpolished | Balenciaga, Are.na, Bloomberg Businessweek covers | Differentiated / confident / counter-culture |
-| **Warm humanist** | Approachable, organic, hand-touched | Mailchimp (early), Stripe Press, Headspace | Lifestyle / education / approachable B2C / wellness |
+| School                         | Vibe                                                       | Sample anchors                                                | Best for                                            |
+| ------------------------------ | ---------------------------------------------------------- | ------------------------------------------------------------- | --------------------------------------------------- |
+| **Information architecture**   | Rational, data-driven, restrained                          | Pentagram, Edward Tufte, Massimo Vignelli, Bloomberg Terminal | Safe / professional / B2B / data products           |
+| **Editorial / minimalist**     | Whitespace, refined typography, quiet luxury               | Kenya Hara (MUJI), Apple HIG, Dieter Rams, Aesop              | Premium / high-end / quiet                          |
+| **Modern tool / Builder SaaS** | Hairline detail, warm dark, single accent, monospace chips | Linear, Vercel, Raycast, Notion                               | Developer tools / B2B SaaS / AI tools / infra       |
+| **Motion / experimental**      | Bold, generative, sensory                                  | Field.io, Active Theory, Resn                                 | Distinctive / launch films / brand moments          |
+| **Brutalist / raw**            | Anti-design, honest, unpolished                            | Balenciaga, Are.na, Bloomberg Businessweek covers             | Differentiated / confident / counter-culture        |
+| **Warm humanist**              | Approachable, organic, hand-touched                        | Mailchimp (early), Stripe Press, Headspace                    | Lifestyle / education / approachable B2C / wellness |
 
 ❌ **Hard rule**: never recommend 3 picks from the same row — the user can't tell them apart and the contrast that makes the choice meaningful collapses.
 
@@ -225,7 +229,7 @@ Don't ask the user 10 generic taste questions. Instead, propose **3 design direc
 
 The chosen direction becomes the design context for Step 2 onward. Document it in `brand-spec.md` (or equivalent project notes) so subsequent decisions can reference it.
 
-> **Direction → concrete starting point**: once the user picks a school, surface 2–3 named recipes from that school by reading the matching files in `references/style-recipes/` (e.g., picked *Information Architecture* → read `references/style-recipes/pentagram.md`, `references/style-recipes/bloomberg-terminal.md`, etc.). Each recipe file brings concrete palette, typography, spacing, and signature moves you can paste into the Step 3 design-system declaration.
+> **Direction → concrete starting point**: once the user picks a school, surface 2–3 named recipes from that school by reading the matching files in `references/style-recipes/` (e.g., picked _Information Architecture_ → read `references/style-recipes/pentagram.md`, `references/style-recipes/bloomberg-terminal.md`, etc.). Each recipe file brings concrete palette, typography, spacing, and signature moves you can paste into the Step 3 design-system declaration.
 
 > Extended philosophy library, per-school anchor tables, and AI-prompt templates → `references/design-directions.md`. Anchored recipe catalog → `references/style-recipes/INDEX.md` (catalog index + 3 indexes + cross-cutting anti-patterns) + 25 single-recipe files alongside it.
 
@@ -280,16 +284,16 @@ Anti-cliché is **not aesthetic snobbery** — it's protecting the user's brand 
 
 This is why the only legitimate exception to every anti-cliché rule below is **"the brand spec uses it"** — at that point it stops being slop and becomes a brand signature.
 
-| Pattern | Why it's slop | When it's actually fine |
-|---|---|---|
-| Aggressive purple → pink → blue gradient | The "tech vibe" formula AI training data converged on; on every SaaS / AI / web3 landing page | The brand itself uses it, or the task is satirizing this aesthetic |
-| Rounded card + colored left-border accent | Material/Tailwind era leftover; now visual noise in every dashboard | The user explicitly asks, or the brand spec preserves it |
-| Emoji as icon substitute | "Not professional → slap emoji on it" tic from training data | The brand uses emoji (Notion, Slack, early Linear), or audience is kids / casual |
-| SVG-drawn imagery (faces, scenes, objects) | AI-drawn SVG humans always have misaligned features and feel cheap | **Almost never** — use real images, AI-generated images, or honest placeholder |
-| CSS silhouette substituting for real product imagery | Generic "tech aesthetic" — same look across every brand | **Never** for branded work — go fetch the real product image |
-| Inter / Roboto / Arial / Fraunces / system-ui as display | Too common; reads as "demo page" rather than "designed product" | The brand spec specifies these (and usually with custom adjustments) |
-| Cyber-neon on `#0D1117` dark | GitHub-dark cosplay; baseline noise in dev-tool clones | The brand actually lives in this aesthetic |
-| Fabricated stats, fake logo walls, dummy testimonials | Damages credibility; users notice when numbers don't match reality | **Never** — use placeholders that say "real data needed" |
+| Pattern                                                  | Why it's slop                                                                                 | When it's actually fine                                                          |
+| -------------------------------------------------------- | --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Aggressive purple → pink → blue gradient                 | The "tech vibe" formula AI training data converged on; on every SaaS / AI / web3 landing page | The brand itself uses it, or the task is satirizing this aesthetic               |
+| Rounded card + colored left-border accent                | Material/Tailwind era leftover; now visual noise in every dashboard                           | The user explicitly asks, or the brand spec preserves it                         |
+| Emoji as icon substitute                                 | "Not professional → slap emoji on it" tic from training data                                  | The brand uses emoji (Notion, Slack, early Linear), or audience is kids / casual |
+| SVG-drawn imagery (faces, scenes, objects)               | AI-drawn SVG humans always have misaligned features and feel cheap                            | **Almost never** — use real images, AI-generated images, or honest placeholder   |
+| CSS silhouette substituting for real product imagery     | Generic "tech aesthetic" — same look across every brand                                       | **Never** for branded work — go fetch the real product image                     |
+| Inter / Roboto / Arial / Fraunces / system-ui as display | Too common; reads as "demo page" rather than "designed product"                               | The brand spec specifies these (and usually with custom adjustments)             |
+| Cyber-neon on `#0D1117` dark                             | GitHub-dark cosplay; baseline noise in dev-tool clones                                        | The brand actually lives in this aesthetic                                       |
+| Fabricated stats, fake logo walls, dummy testimonials    | Damages credibility; users notice when numbers don't match reality                            | **Never** — use placeholders that say "real data needed"                         |
 
 These are baseline examples, not the whole taxonomy. When designing a multi-section marketing page, redesign, dashboard, or motion-heavy artifact, read only the matching parts of `references/failure-patterns.md`. Treat each pattern as **default → reason → exceptions → detection → repair**, not as an unconditional aesthetic ban.
 
@@ -329,12 +333,12 @@ CSS, HTML, JS, and SVG are far more capable than most people realize — **use t
 
 ### Appropriate Scale
 
-| Context | Minimum Size |
-|---|---|
+| Context                 | Minimum Size                 |
+| ----------------------- | ---------------------------- |
 | 1920×1080 presentations | Text ≥ 24px (ideally larger) |
-| Mobile mockups | Touch targets ≥ 44px |
-| Print documents | ≥ 12pt |
-| Web body text | Start at 16–18px |
+| Mobile mockups          | Touch targets ≥ 44px         |
+| Print documents         | ≥ 12pt                       |
+| Web body text           | Start at 16–18px             |
 
 ### Content Principles
 
@@ -412,6 +416,7 @@ Strategy: **Start the first few variants safely within the design system; then p
 Let users adjust design parameters in real time: theme color, font size, dark mode, spacing, component variants, content density, animation toggles, etc.
 
 Design guidelines:
+
 - A floating panel in the bottom-right corner (see the reference implementation)
 - Title consistently labeled **"Tweaks"**
 - **Completely hidden** when closed, ensuring the design looks final during presentations
@@ -424,16 +429,16 @@ Design guidelines:
 
 **Default to hand-written CSS or resources from the brand/design system.** Only load a CDN when the scenario clearly calls for it — never include everything by default.
 
-| When clearly needed | Library |
-|---|---|
-| Charts (line / bar / pie) | Chart.js (`https://cdn.jsdelivr.net/npm/chart.js`) |
-| Complex custom visualizations | D3 v7 (`https://d3js.org/d3.v7.min.js`) |
-| Custom typography | Google Fonts (avoid Inter / Roboto / Arial / Fraunces / system-ui as display) |
+| When clearly needed           | Library                                                                       |
+| ----------------------------- | ----------------------------------------------------------------------------- |
+| Charts (line / bar / pie)     | Chart.js (`https://cdn.jsdelivr.net/npm/chart.js`)                            |
+| Complex custom visualizations | D3 v7 (`https://d3js.org/d3.v7.min.js`)                                       |
+| Custom typography             | Google Fonts (avoid Inter / Roboto / Arial / Fraunces / system-ui as display) |
 
-| Use only on explicit user request or throwaway prototypes | Why |
-|---|---|
-| Tailwind CDN | Conflicts with the "declare design tokens first" workflow |
-| Lucide Icons CDN | Prefer placeholders over inserting icons "to look complete" when no icon library was specified |
+| Use only on explicit user request or throwaway prototypes | Why                                                                                            |
+| --------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| Tailwind CDN                                              | Conflicts with the "declare design tokens first" workflow                                      |
+| Lucide Icons CDN                                          | Prefer placeholders over inserting icons "to look complete" when no icon library was specified |
 
 > React + Babel pinned CDN script tags → `references/advanced-patterns.md`. Do not change versions.
 
@@ -478,15 +483,15 @@ Complete this lightweight self-check before delivery. It does **not** require la
 
 Read on demand based on task type — don't preload everything:
 
-| Task | Read |
-|---|---|
-| Infer Design Read + five dials; resolve dial conflicts; decide whether image-first exploration is justified | `references/design-calibration.md` |
-| Extend or redesign an existing project; classify Extension / Preserve / Overhaul; protect routes, IA, analytics, forms, accessibility, and brand | `references/redesign-protocol.md` |
-| Check recurring AI-design failure modes by artifact type; apply contextual detection and repairs | `references/failure-patterns.md` |
-| User explicitly asks for browser acceptance / 验收 / QA / responsive verification / visual regression | `references/browser-acceptance.md` |
-| Reuse a known working component pattern before inventing a new implementation | `references/block-library.md` → targeted section in `references/advanced-patterns.md` |
-| Slide engine, device frames, Tweaks panel, animation timeline, design canvas, dark mode, data viz, oklch color system, font recommendations | `references/advanced-patterns.md` |
-| Vague request → recommend 3 design directions; extended philosophy library + per-direction visual recipes + AI-prompt templates | `references/design-directions.md` |
-| User named an anchor ("Linear-style" / "Aesop feeling") → load **only that one file** | `references/style-recipes/<anchor>.md` (e.g., `linear.md`, `aesop.md`) |
-| Browse the recipe catalog / compare options after Direction Advisor picks a school | `references/style-recipes/INDEX.md` (3 indexes + cross-cutting anti-patterns; then read 1–3 specific recipe files) |
-| Critique mode — detailed scoring rubrics, per-output-type weighting, common-issue catalog (top 10) | `references/critique-guide.md` |
+| Task                                                                                                                                             | Read                                                                                                               |
+| ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| Infer Design Read + five dials; resolve dial conflicts; decide whether image-first exploration is justified                                      | `references/design-calibration.md`                                                                                 |
+| Extend or redesign an existing project; classify Extension / Preserve / Overhaul; protect routes, IA, analytics, forms, accessibility, and brand | `references/redesign-protocol.md`                                                                                  |
+| Check recurring AI-design failure modes by artifact type; apply contextual detection and repairs                                                 | `references/failure-patterns.md`                                                                                   |
+| User explicitly asks for browser acceptance / 验收 / QA / responsive verification / visual regression                                            | `references/browser-acceptance.md`                                                                                 |
+| Reuse a known working component pattern before inventing a new implementation                                                                    | `references/block-library.md` → targeted section in `references/advanced-patterns.md`                              |
+| Slide engine, device frames, Tweaks panel, animation timeline, design canvas, dark mode, data viz, oklch color system, font recommendations      | `references/advanced-patterns.md`                                                                                  |
+| Vague request → recommend 3 design directions; extended philosophy library + per-direction visual recipes + AI-prompt templates                  | `references/design-directions.md`                                                                                  |
+| User named an anchor ("Linear-style" / "Aesop feeling") → load **only that one file**                                                            | `references/style-recipes/<anchor>.md` (e.g., `linear.md`, `aesop.md`)                                             |
+| Browse the recipe catalog / compare options after Direction Advisor picks a school                                                               | `references/style-recipes/INDEX.md` (3 indexes + cross-cutting anti-patterns; then read 1–3 specific recipe files) |
+| Critique mode — detailed scoring rubrics, per-output-type weighting, common-issue catalog (top 10)                                               | `references/critique-guide.md`                                                                                     |

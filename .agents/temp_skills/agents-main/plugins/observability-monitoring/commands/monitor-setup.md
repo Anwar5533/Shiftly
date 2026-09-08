@@ -26,28 +26,28 @@ global:
   scrape_interval: 15s
   evaluation_interval: 15s
   external_labels:
-    cluster: "production"
-    region: "us-east-1"
+    cluster: 'production'
+    region: 'us-east-1'
 
 alerting:
   alertmanagers:
     - static_configs:
-        - targets: ["alertmanager:9093"]
+        - targets: ['alertmanager:9093']
 
 rule_files:
-  - "alerts/*.yml"
-  - "recording_rules/*.yml"
+  - 'alerts/*.yml'
+  - 'recording_rules/*.yml'
 
 scrape_configs:
-  - job_name: "prometheus"
+  - job_name: 'prometheus'
     static_configs:
-      - targets: ["localhost:9090"]
+      - targets: ['localhost:9090']
 
-  - job_name: "node"
+  - job_name: 'node'
     static_configs:
-      - targets: ["node-exporter:9100"]
+      - targets: ['node-exporter:9100']
 
-  - job_name: "application"
+  - job_name: 'application'
     kubernetes_sd_configs:
       - role: pod
     relabel_configs:
@@ -60,7 +60,7 @@ scrape_configs:
 
 ```typescript
 // metrics.ts
-import { Counter, Histogram, Gauge, Registry } from "prom-client";
+import { Counter, Histogram, Gauge, Registry } from 'prom-client';
 
 export class MetricsCollector {
   private registry: Registry;
@@ -74,16 +74,16 @@ export class MetricsCollector {
 
   private initializeMetrics() {
     this.httpRequestDuration = new Histogram({
-      name: "http_request_duration_seconds",
-      help: "Duration of HTTP requests in seconds",
-      labelNames: ["method", "route", "status_code"],
+      name: 'http_request_duration_seconds',
+      help: 'Duration of HTTP requests in seconds',
+      labelNames: ['method', 'route', 'status_code'],
       buckets: [0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1, 2, 5],
     });
 
     this.httpRequestTotal = new Counter({
-      name: "http_requests_total",
-      help: "Total number of HTTP requests",
-      labelNames: ["method", "route", "status_code"],
+      name: 'http_requests_total',
+      help: 'Total number of HTTP requests',
+      labelNames: ['method', 'route', 'status_code'],
     });
 
     this.registry.registerMetric(this.httpRequestDuration);
@@ -95,7 +95,7 @@ export class MetricsCollector {
       const start = Date.now();
       const route = req.route?.path || req.path;
 
-      res.on("finish", () => {
+      res.on('finish', () => {
         const duration = (Date.now() - start) / 1000;
         const labels = {
           method: req.method,
@@ -127,50 +127,50 @@ export const createServiceDashboard = (serviceName: string) => {
   return {
     title: `${serviceName} Service Dashboard`,
     uid: `${serviceName}-overview`,
-    tags: ["service", serviceName],
-    time: { from: "now-6h", to: "now" },
-    refresh: "30s",
+    tags: ['service', serviceName],
+    time: { from: 'now-6h', to: 'now' },
+    refresh: '30s',
 
     panels: [
       // Golden Signals
       {
-        title: "Request Rate",
-        type: "graph",
+        title: 'Request Rate',
+        type: 'graph',
         gridPos: { x: 0, y: 0, w: 6, h: 8 },
         targets: [
           {
             expr: `sum(rate(http_requests_total{service="${serviceName}"}[5m])) by (method)`,
-            legendFormat: "{{method}}",
+            legendFormat: '{{method}}',
           },
         ],
       },
       {
-        title: "Error Rate",
-        type: "graph",
+        title: 'Error Rate',
+        type: 'graph',
         gridPos: { x: 6, y: 0, w: 6, h: 8 },
         targets: [
           {
             expr: `sum(rate(http_requests_total{service="${serviceName}",status_code=~"5.."}[5m])) / sum(rate(http_requests_total{service="${serviceName}"}[5m]))`,
-            legendFormat: "Error %",
+            legendFormat: 'Error %',
           },
         ],
       },
       {
-        title: "Latency Percentiles",
-        type: "graph",
+        title: 'Latency Percentiles',
+        type: 'graph',
         gridPos: { x: 12, y: 0, w: 12, h: 8 },
         targets: [
           {
             expr: `histogram_quantile(0.50, sum(rate(http_request_duration_seconds_bucket{service="${serviceName}"}[5m])) by (le))`,
-            legendFormat: "p50",
+            legendFormat: 'p50',
           },
           {
             expr: `histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{service="${serviceName}"}[5m])) by (le))`,
-            legendFormat: "p95",
+            legendFormat: 'p95',
           },
           {
             expr: `histogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket{service="${serviceName}"}[5m])) by (le))`,
-            legendFormat: "p99",
+            legendFormat: 'p99',
           },
         ],
       },
@@ -185,27 +185,25 @@ export const createServiceDashboard = (serviceName: string) => {
 
 ```typescript
 // tracing.ts
-import { NodeSDK } from "@opentelemetry/sdk-node";
-import { getNodeAutoInstrumentations } from "@opentelemetry/auto-instrumentations-node";
-import { Resource } from "@opentelemetry/resources";
-import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
-import { JaegerExporter } from "@opentelemetry/exporter-jaeger";
-import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
+import { NodeSDK } from '@opentelemetry/sdk-node';
+import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
+import { Resource } from '@opentelemetry/resources';
+import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
+import { JaegerExporter } from '@opentelemetry/exporter-jaeger';
+import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-base';
 
 export class TracingSetup {
   private sdk: NodeSDK;
 
   constructor(serviceName: string, environment: string) {
     const jaegerExporter = new JaegerExporter({
-      endpoint:
-        process.env.JAEGER_ENDPOINT || "http://localhost:14268/api/traces",
+      endpoint: process.env.JAEGER_ENDPOINT || 'http://localhost:14268/api/traces',
     });
 
     this.sdk = new NodeSDK({
       resource: new Resource({
         [SemanticResourceAttributes.SERVICE_NAME]: serviceName,
-        [SemanticResourceAttributes.SERVICE_VERSION]:
-          process.env.SERVICE_VERSION || "1.0.0",
+        [SemanticResourceAttributes.SERVICE_VERSION]: process.env.SERVICE_VERSION || '1.0.0',
         [SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT]: environment,
       }),
 
@@ -214,7 +212,7 @@ export class TracingSetup {
 
       instrumentations: [
         getNodeAutoInstrumentations({
-          "@opentelemetry/instrumentation-fs": { enabled: false },
+          '@opentelemetry/instrumentation-fs': { enabled: false },
         }),
       ],
     });
@@ -223,8 +221,8 @@ export class TracingSetup {
   start() {
     this.sdk
       .start()
-      .then(() => console.log("Tracing initialized"))
-      .catch((error) => console.error("Error initializing tracing", error));
+      .then(() => console.log('Tracing initialized'))
+      .catch((error) => console.error('Error initializing tracing', error));
   }
 
   shutdown() {
@@ -348,8 +346,8 @@ groups:
         labels:
           severity: critical
         annotations:
-          summary: "High error rate on {{ $labels.service }}"
-          description: "Error rate is {{ $value | humanizePercentage }}"
+          summary: 'High error rate on {{ $labels.service }}'
+          description: 'Error rate is {{ $value | humanizePercentage }}'
 
       - alert: SlowResponseTime
         expr: |
@@ -360,7 +358,7 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "Slow response time on {{ $labels.service }}"
+          summary: 'Slow response time on {{ $labels.service }}'
 
   - name: infrastructure
     rules:
@@ -384,14 +382,14 @@ groups:
 # alertmanager.yml
 global:
   resolve_timeout: 5m
-  slack_api_url: "$SLACK_API_URL"
+  slack_api_url: '$SLACK_API_URL'
 
 route:
-  group_by: ["alertname", "cluster", "service"]
+  group_by: ['alertname', 'cluster', 'service']
   group_wait: 10s
   group_interval: 10s
   repeat_interval: 12h
-  receiver: "default"
+  receiver: 'default'
 
   routes:
     - match:
@@ -404,17 +402,17 @@ route:
       receiver: slack
 
 receivers:
-  - name: "slack"
+  - name: 'slack'
     slack_configs:
-      - channel: "#alerts"
-        title: "{{ .GroupLabels.alertname }}"
-        text: "{{ range .Alerts }}{{ .Annotations.description }}{{ end }}"
+      - channel: '#alerts'
+        title: '{{ .GroupLabels.alertname }}'
+        text: '{{ range .Alerts }}{{ .Annotations.description }}{{ end }}'
         send_resolved: true
 
-  - name: "pagerduty"
+  - name: 'pagerduty'
     pagerduty_configs:
-      - service_key: "$PAGERDUTY_SERVICE_KEY"
-        description: "{{ .GroupLabels.alertname }}: {{ .Annotations.summary }}"
+      - service_key: '$PAGERDUTY_SERVICE_KEY'
+        description: '{{ .GroupLabels.alertname }}: {{ .Annotations.summary }}'
 ```
 
 ### 6. SLO Implementation
@@ -433,19 +431,19 @@ interface SLO {
 export class SLOManager {
   private slos: SLO[] = [
     {
-      name: "API Availability",
+      name: 'API Availability',
       target: 99.9,
-      window: "30d",
+      window: '30d',
       burnRates: [
-        { window: "1h", threshold: 14.4, severity: "critical" },
-        { window: "6h", threshold: 6, severity: "critical" },
-        { window: "1d", threshold: 3, severity: "warning" },
+        { window: '1h', threshold: 14.4, severity: 'critical' },
+        { window: '6h', threshold: 6, severity: 'critical' },
+        { window: '1d', threshold: 3, severity: 'warning' },
       ],
     },
   ];
 
   generateSLOQueries(): string {
-    return this.slos.map((slo) => this.generateSLOQuery(slo)).join("\n\n");
+    return this.slos.map((slo) => this.generateSLOQuery(slo)).join('\n\n');
   }
 
   private generateSLOQuery(slo: SLO): string {

@@ -7,6 +7,7 @@
 ## 快速入门
 
 **最常用的读取方式**：
+
 ```python
 import pandas as pd
 
@@ -67,6 +68,7 @@ df = pd.read_excel("data.xlsx", usecols=["column1", "column2", "column3"])
 ## 处理大文件
 
 对于非常大的 Excel 文件，避免一次性读取整个文件：
+
 - 使用 `nrows` 参数限制读取的行数
 - 先读取前若干行了解数据结构
 - 按需分批处理数据

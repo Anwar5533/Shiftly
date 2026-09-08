@@ -34,10 +34,10 @@ npm run synthesize-audio -- --force
 
 ## 内置 provider
 
-| 文件 | 后端 | 鉴权 | 备注 |
-|---|---|---|---|
-| `minimax.sh` | MiniMax `mmx` CLI | `mmx auth login --api-key` | **默认**；中文口播质量稳 |
-| `openai.sh` | OpenAI Audio Speech API | `OPENAI_API_KEY` env var | curl-based；多数 agent 已有 key |
+| 文件         | 后端                    | 鉴权                       | 备注                            |
+| ------------ | ----------------------- | -------------------------- | ------------------------------- |
+| `minimax.sh` | MiniMax `mmx` CLI       | `mmx auth login --api-key` | **默认**；中文口播质量稳        |
+| `openai.sh`  | OpenAI Audio Speech API | `OPENAI_API_KEY` env var   | curl-based；多数 agent 已有 key |
 
 只内置这两个 —— 我们不替你做更多技术选型。其它后端的代码片段在下面，
 复制到 `tts-providers/<name>.sh` 即可启用。
@@ -59,11 +59,11 @@ npm run synthesize-audio -- --force
 
 把一段文字写成 mp3 / 任意 web 可播的音频文件到 `<out_path>`。
 
-| 参数 | 说明 |
-|---|---|
-| `$1` | 要合成的文本（已是 UTF-8 字符串，可能包含中英文混排和标点） |
+| 参数 | 说明                                                               |
+| ---- | ------------------------------------------------------------------ |
+| `$1` | 要合成的文本（已是 UTF-8 字符串，可能包含中英文混排和标点）        |
 | `$2` | 目标文件绝对路径（runner 已 `mkdir -p` 它的父目录），扩展名 `.mp3` |
-| `$3` | 音色 id（可能为空字符串，provider 自行决定默认） |
+| `$3` | 音色 id（可能为空字符串，provider 自行决定默认）                   |
 
 成功 → exit 0 并把音频写到 `$2`。失败 → 非零退出（runner 会标 FAILED 继续下一段，不会终止全局合成）。
 

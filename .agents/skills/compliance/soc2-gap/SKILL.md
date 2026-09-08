@@ -11,14 +11,14 @@ role: [vciso, security-engineer]
 phase: [assess, operate]
 frameworks: [AICPA-TSC, NIST-CSF-2.0]
 difficulty: intermediate
-time_estimate: "60-120min"
-version: "1.0.0"
+time_estimate: '60-120min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 context: fork
 injection-hardened: true
-argument-hint: "[scope-description]"
+argument-hint: '[scope-description]'
 ---
 
 # SOC 2 Type II Readiness Gap Analysis
@@ -60,33 +60,37 @@ Determine which Trust Services Categories are in scope. Security (Common Criteri
 
 #### 1.1 Mandatory Category
 
-| Category | Criteria | Always In Scope |
-|----------|----------|-----------------|
-| **Security** | CC1-CC9 (Common Criteria) | Yes |
+| Category     | Criteria                  | Always In Scope |
+| ------------ | ------------------------- | --------------- |
+| **Security** | CC1-CC9 (Common Criteria) | Yes             |
 
 #### 1.2 Optional Categories
 
 Evaluate each optional category by asking the scoping questions below:
 
 **Availability (A1.1-A1.3)**
+
 - Does the organization commit to SLAs or uptime guarantees?
 - Are there customer-facing availability commitments in contracts or service descriptions?
 - Is the system critical to customer business operations?
 - If YES to any: include Availability in scope.
 
 **Confidentiality (C1.1-C1.2)**
+
 - Does the system process, store, or transmit confidential business information (trade secrets, financial data, IP)?
 - Are there contractual confidentiality obligations beyond standard PII handling?
 - Does the organization classify data by sensitivity level?
 - If YES to any: include Confidentiality in scope.
 
 **Processing Integrity (PI1.1-PI1.5)**
+
 - Does the system perform calculations, transactions, or data transformations that customers rely on for accuracy?
 - Are there financial, healthcare, or other regulated data processing flows?
 - Would processing errors have material impact on customers?
 - If YES to any: include Processing Integrity in scope.
 
 **Privacy (P1.1-P1.8)**
+
 - Does the system collect, use, retain, disclose, or dispose of personal information?
 - Is the organization subject to GDPR, CCPA, HIPAA, or similar privacy regulations?
 - Does the organization's privacy notice make specific commitments about data handling?
@@ -123,6 +127,7 @@ Walk through each Common Criteria category. For every criterion, assess: (a) whe
 The control environment sets the tone for the organization's commitment to integrity, ethical values, and security.
 
 **CC1.1 — COSO Principle 1: The entity demonstrates a commitment to integrity and ethical values.**
+
 - Questions to ask:
   - Is there a Code of Conduct or Ethics policy?
   - Do employees acknowledge the Code of Conduct upon hire and annually?
@@ -137,6 +142,7 @@ The control environment sets the tone for the organization's commitment to integ
   - Policy has not been updated in more than two years
 
 **CC1.2 — COSO Principle 2: The board of directors demonstrates independence from management and exercises oversight.**
+
 - Questions to ask:
   - Is there a board or governance body with oversight of security?
   - Does the board receive regular security briefings?
@@ -151,6 +157,7 @@ The control environment sets the tone for the organization's commitment to integ
   - No documented governance structure
 
 **CC1.3 — COSO Principle 3: Management establishes structures, reporting lines, and authorities.**
+
 - Questions to ask:
   - Is there an organizational chart showing security responsibilities?
   - Is there a designated security leader (CISO, VP Security, or equivalent)?
@@ -164,6 +171,7 @@ The control environment sets the tone for the organization's commitment to integ
   - No dedicated security role (security is "everyone's job" with no owner)
 
 **CC1.4 — COSO Principle 4: The entity demonstrates a commitment to attract, develop, and retain competent individuals.**
+
 - Questions to ask:
   - Are background checks performed for employees with access to sensitive systems?
   - Is there a security awareness training program?
@@ -178,6 +186,7 @@ The control environment sets the tone for the organization's commitment to integ
   - No tracking of training completion rates
 
 **CC1.5 — COSO Principle 5: The entity holds individuals accountable for their internal control responsibilities.**
+
 - Questions to ask:
   - Are security responsibilities included in performance evaluations?
   - Is there a disciplinary process for security policy violations?
@@ -195,6 +204,7 @@ The control environment sets the tone for the organization's commitment to integ
 #### CC2: Communication and Information
 
 **CC2.1 — COSO Principle 13: The entity obtains or generates and uses relevant, quality information to support internal control.**
+
 - Questions to ask:
   - Are information assets inventoried and classified?
   - Is there a data classification policy?
@@ -209,6 +219,7 @@ The control environment sets the tone for the organization's commitment to integ
   - Architecture diagrams do not reflect current state
 
 **CC2.2 — COSO Principle 14: The entity internally communicates information necessary to support internal control.**
+
 - Questions to ask:
   - Are security policies accessible to all employees?
   - Is there a process for communicating policy changes?
@@ -222,6 +233,7 @@ The control environment sets the tone for the organization's commitment to integ
   - No formal change notification process for policy updates
 
 **CC2.3 — COSO Principle 15: The entity communicates with external parties regarding matters affecting internal control.**
+
 - Questions to ask:
   - Is there an external-facing security page or trust center?
   - Are customers notified of security incidents per contractual obligations?
@@ -240,6 +252,7 @@ The control environment sets the tone for the organization's commitment to integ
 #### CC3: Risk Assessment
 
 **CC3.1 — COSO Principle 6: The entity specifies objectives with sufficient clarity to enable identification of risks.**
+
 - Questions to ask:
   - Are security objectives documented and aligned with business objectives?
   - Are security objectives measurable?
@@ -251,6 +264,7 @@ The control environment sets the tone for the organization's commitment to integ
   - No alignment between security and business objectives
 
 **CC3.2 — COSO Principle 7: The entity identifies risks to the achievement of its objectives and analyzes risks as a basis for determining how to manage them.**
+
 - Questions to ask:
   - Is there a formal risk assessment process?
   - How frequently are risk assessments performed?
@@ -265,6 +279,7 @@ The control environment sets the tone for the organization's commitment to integ
   - Risk assessments do not cover all in-scope systems
 
 **CC3.3 — COSO Principle 8: The entity considers the potential for fraud in assessing risks.**
+
 - Questions to ask:
   - Does the risk assessment process include fraud risk factors?
   - Are insider threat scenarios considered?
@@ -279,6 +294,7 @@ The control environment sets the tone for the organization's commitment to integ
   - Segregation of duties is not formally evaluated
 
 **CC3.4 — COSO Principle 9: The entity identifies and assesses changes that could significantly impact the system of internal controls.**
+
 - Questions to ask:
   - Is there a process for assessing risks associated with significant changes?
   - Are new vendors, technologies, or business processes evaluated for risk before adoption?
@@ -303,17 +319,18 @@ Prioritize remediation by audit readiness impact. Items that would result in exa
 
 #### 6.1 Priority Framework
 
-| Priority | Criteria | Timeline | Description |
-|----------|----------|----------|-------------|
-| **P0 — Critical** | Score 0-1 on CC6.x, CC7.x, CC8.1 | Days 1-30 | Access controls, monitoring, and change management are the most frequently tested areas. Gaps here almost certainly result in exceptions. |
-| **P1 — High** | Score 0-1 on CC3.x, CC5.x, CC9.2 | Days 1-30 | Risk assessment, control activities, and vendor management are foundational. Auditors expect these to be established. |
-| **P2 — Medium** | Score 0-2 on CC1.x, CC2.x, CC4.x | Days 31-60 | Control environment, communication, and monitoring support the overall program. Gaps here indicate program immaturity. |
-| **P3 — Standard** | Score 0-2 on CC9.1, additional criteria | Days 31-60 | Risk mitigation and optional category criteria. Important for completeness. |
-| **P4 — Enhancement** | Score 3 on any criteria (improving to 4) | Days 61-90 | Polishing controls that are defined but need evidence of sustained operating effectiveness. |
+| Priority             | Criteria                                 | Timeline   | Description                                                                                                                               |
+| -------------------- | ---------------------------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| **P0 — Critical**    | Score 0-1 on CC6.x, CC7.x, CC8.1         | Days 1-30  | Access controls, monitoring, and change management are the most frequently tested areas. Gaps here almost certainly result in exceptions. |
+| **P1 — High**        | Score 0-1 on CC3.x, CC5.x, CC9.2         | Days 1-30  | Risk assessment, control activities, and vendor management are foundational. Auditors expect these to be established.                     |
+| **P2 — Medium**      | Score 0-2 on CC1.x, CC2.x, CC4.x         | Days 31-60 | Control environment, communication, and monitoring support the overall program. Gaps here indicate program immaturity.                    |
+| **P3 — Standard**    | Score 0-2 on CC9.1, additional criteria  | Days 31-60 | Risk mitigation and optional category criteria. Important for completeness.                                                               |
+| **P4 — Enhancement** | Score 3 on any criteria (improving to 4) | Days 61-90 | Polishing controls that are defined but need evidence of sustained operating effectiveness.                                               |
 
 #### 6.2 90-Day Action Plan Template
 
 **Days 1-30: Foundation and Critical Gaps**
+
 - [ ] Establish or update access control policy and enforce MFA universally (CC6.1)
 - [ ] Implement formal access provisioning and deprovisioning procedures (CC6.1, CC6.2, CC6.3, CC6.5)
 - [ ] Conduct initial quarterly access review (CC6.1)
@@ -324,6 +341,7 @@ Prioritize remediation by audit readiness impact. Items that would result in exa
 - [ ] Conduct initial risk assessment (CC3.2)
 
 **Days 31-60: Program Development**
+
 - [ ] Develop and publish security policy library (CC5.3)
 - [ ] Implement security awareness training program (CC1.4)
 - [ ] Establish risk register and risk treatment plans (CC3.2, CC9.1)
@@ -334,6 +352,7 @@ Prioritize remediation by audit readiness impact. Items that would result in exa
 - [ ] Complete vendor risk assessments for critical vendors (CC9.2)
 
 **Days 61-90: Maturation and Evidence Collection**
+
 - [ ] Conduct incident response tabletop exercise (CC7.4)
 - [ ] Perform second quarterly access review to establish pattern (CC6.1)
 - [ ] Complete business impact analysis (CC9.1)

@@ -1,3 +1,5 @@
+import api from '../../../shared/lib/api';
+
 export type ApplicationStatus =
   'PENDING' | 'SHORTLISTED' | 'ACCEPTED' | 'REJECTED' | 'WITHDRAWN' | 'COMPLETED';
 
@@ -26,7 +28,10 @@ export const applicationsApi = {
     applicationId: string,
     status: ApplicationStatus,
   ): Promise<Application> => {
-    const response = await api.patch<{ data: Application }>(`/applications/${applicationId}/status`, { status });
+    const response = await api.patch<{ data: Application }>(
+      `/applications/${applicationId}/status`,
+      { status },
+    );
     return response.data.data;
   },
 };

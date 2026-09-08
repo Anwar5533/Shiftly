@@ -42,18 +42,18 @@ marts/            Final analytics tables
 
 ```yaml
 # dbt_project.yml
-name: "analytics"
-version: "1.0.0"
-profile: "analytics"
+name: 'analytics'
+version: '1.0.0'
+profile: 'analytics'
 
-model-paths: ["models"]
-analysis-paths: ["analyses"]
-test-paths: ["tests"]
-seed-paths: ["seeds"]
-macro-paths: ["macros"]
+model-paths: ['models']
+analysis-paths: ['analyses']
+test-paths: ['tests']
+seed-paths: ['seeds']
+macro-paths: ['macros']
 
 vars:
-  start_date: "2020-01-01"
+  start_date: '2020-01-01'
 
 models:
   analytics:

@@ -137,12 +137,12 @@
     "common_theme": "同一主题的 6 个时代演化"
   },
   "panels": [
-    {"label": "1900s", "style": "复古黑白胶片"},
-    {"label": "1950s", "style": "复古彩色海报"},
-    {"label": "1980s", "style": "新蒸汽波"},
-    {"label": "2000s", "style": "数字摄影"},
-    {"label": "2020s", "style": "现代写实"},
-    {"label": "2050s", "style": "赛博朋克概念图"}
+    { "label": "1900s", "style": "复古黑白胶片" },
+    { "label": "1950s", "style": "复古彩色海报" },
+    { "label": "1980s", "style": "新蒸汽波" },
+    { "label": "2000s", "style": "数字摄影" },
+    { "label": "2020s", "style": "现代写实" },
+    { "label": "2050s", "style": "赛博朋克概念图" }
   ],
   "constraints": {
     "must_feel": "时间感 + 演化感"
@@ -162,10 +162,10 @@
     "common_theme": "同一身份在不同国家文化里的视觉表达"
   },
   "panels": [
-    {"label": "JAPAN", "style": "日式喫茶店 + 木质温馨"},
-    {"label": "ITALY", "style": "意式街角咖啡 + 拼花地板"},
-    {"label": "ETHIOPIA", "style": "传统咖啡仪式 + 红色织物"},
-    {"label": "USA", "style": "工业风咖啡店 + 黑金属"}
+    { "label": "JAPAN", "style": "日式喫茶店 + 木质温馨" },
+    { "label": "ITALY", "style": "意式街角咖啡 + 拼花地板" },
+    { "label": "ETHIOPIA", "style": "传统咖啡仪式 + 红色织物" },
+    { "label": "USA", "style": "工业风咖啡店 + 黑金属" }
   ],
   "constraints": {
     "must_feel": "文化感 + 同一身份"

@@ -1,6 +1,9 @@
 # interaction-design
+
 Design meaningful interactions with micro-animations, state machines, gestures, error handling, and feedback patterns.
+
 ## Skills (22)
+
 - **animation-principles** — Apply animation principles — easing, staging, follow-through — to one specific UI motion. Use when tuning how an animation feels. For product-wide duration and easing tokens use `motion-system` (design-systems); for a full interaction spec use `micro-interaction-spec`.
 - **conversational-ux** — Design voice and conversational interfaces — dialog flows, error recovery, and persona. Use when the interface speaks and listens rather than being tapped. For graphical input collection, use `form-design`.
 - **doherty-threshold** — Apply the Doherty Threshold — keep system response under 400ms to preserve user flow. Use when diagnosing perceived slowness or setting a performance budget. For what to show during unavoidable waits, use `loading-states`.
@@ -25,9 +28,9 @@ Design meaningful interactions with micro-animations, state machines, gestures, 
 - **zeigarnik-effect** — Apply the Zeigarnik Effect — incomplete tasks stay mentally active. Use when designing progress indicators, saved drafts, and return hooks. For the emotional shape of the ending, use `peak-end-rule`.
 
 ## Commands (5)
+
 - `/design-form` — Design a form end to end — structure, decision points, chunking, validation, errors, and completion.
 - `/design-interaction` — Design a complete interaction flow for a feature or component.
 - `/design-onboarding` — Design a first-run experience end to end — activation path, progressive disclosure, and time to first value.
 - `/error-flow` — Design an error flow end to end — prevention, detection, messaging, and recovery paths.
 - `/map-states` — Model a component's states and transitions end to end — states, events, guards, and edge cases.
-

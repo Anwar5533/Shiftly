@@ -235,36 +235,36 @@ Implement correlation IDs to track requests across distributed systems:
 **Node.js/Express Middleware:**
 
 ```javascript
-const { v4: uuidv4 } = require("uuid");
-const asyncLocalStorage = require("async-local-storage");
+const { v4: uuidv4 } = require('uuid');
+const asyncLocalStorage = require('async-local-storage');
 
 // Middleware to generate/propagate correlation ID
 function correlationIdMiddleware(req, res, next) {
-  const correlationId = req.headers["x-correlation-id"] || uuidv4();
+  const correlationId = req.headers['x-correlation-id'] || uuidv4();
   req.correlationId = correlationId;
-  res.setHeader("x-correlation-id", correlationId);
+  res.setHeader('x-correlation-id', correlationId);
 
   // Store in async context for access in nested calls
   asyncLocalStorage.run(new Map(), () => {
-    asyncLocalStorage.set("correlationId", correlationId);
+    asyncLocalStorage.set('correlationId', correlationId);
     next();
   });
 }
 
 // Propagate to downstream services
 function makeApiCall(url, data) {
-  const correlationId = asyncLocalStorage.get("correlationId");
+  const correlationId = asyncLocalStorage.get('correlationId');
   return axios.post(url, data, {
     headers: {
-      "x-correlation-id": correlationId,
-      "x-source-service": "api-gateway",
+      'x-correlation-id': correlationId,
+      'x-source-service': 'api-gateway',
     },
   });
 }
 
 // Include in all log statements
 function log(level, message, context = {}) {
-  const correlationId = asyncLocalStorage.get("correlationId");
+  const correlationId = asyncLocalStorage.get('correlationId');
   console.log(
     JSON.stringify({
       timestamp: new Date().toISOString(),
@@ -449,8 +449,8 @@ For errors in production environments where debuggers aren't available:
 
 ```javascript
 // Node.js heap snapshot comparison
-const v8 = require("v8");
-const fs = require("fs");
+const v8 = require('v8');
+const fs = require('fs');
 
 function takeHeapSnapshot(filename) {
   const snapshot = v8.writeHeapSnapshot(filename);
@@ -458,9 +458,9 @@ function takeHeapSnapshot(filename) {
 }
 
 // Take snapshots at intervals
-takeHeapSnapshot("heap-before.heapsnapshot");
+takeHeapSnapshot('heap-before.heapsnapshot');
 // ... run operations that might leak ...
-takeHeapSnapshot("heap-after.heapsnapshot");
+takeHeapSnapshot('heap-after.heapsnapshot');
 
 // Analyze in Chrome DevTools Memory profiler
 // Look for objects with increasing retained size
@@ -506,17 +506,17 @@ interface PaymentRequest {
 function processPayment(request: PaymentRequest): PaymentResult {
   // Runtime validation for external inputs
   if (request.amount <= 0) {
-    throw new ValidationError("Amount must be positive");
+    throw new ValidationError('Amount must be positive');
   }
 
-  if (!["USD", "EUR", "GBP"].includes(request.currency)) {
-    throw new ValidationError("Unsupported currency");
+  if (!['USD', 'EUR', 'GBP'].includes(request.currency)) {
+    throw new ValidationError('Unsupported currency');
   }
 
   // Use Zod or Yup for complex validation
   const schema = z.object({
     amount: z.number().positive().max(1000000),
-    currency: z.enum(["USD", "EUR", "GBP"]),
+    currency: z.enum(['USD', 'EUR', 'GBP']),
     customerId: z.string().uuid(),
     paymentMethodId: z.string().min(1),
   });
@@ -716,10 +716,7 @@ async function retryWithBackoff<T>(
       lastError = error as Error;
 
       // Check if error is retryable
-      if (
-        options.retryableErrors &&
-        !options.retryableErrors.includes(error.name)
-      ) {
+      if (options.retryableErrors && !options.retryableErrors.includes(error.name)) {
         throw error; // Don't retry non-retryable errors
       }
 
@@ -733,9 +730,7 @@ async function retryWithBackoff<T>(
         const jitter = Math.random() * 0.1 * delay;
         const actualDelay = delay + jitter;
 
-        console.log(
-          `Attempt ${attempt + 1} failed, retrying in ${actualDelay}ms`,
-        );
+        console.log(`Attempt ${attempt + 1} failed, retrying in ${actualDelay}ms`);
         await new Promise((resolve) => setTimeout(resolve, actualDelay));
       }
     }
@@ -745,16 +740,13 @@ async function retryWithBackoff<T>(
 }
 
 // Usage
-const result = await retryWithBackoff(
-  () => fetch("https://api.example.com/data"),
-  {
-    maxAttempts: 3,
-    baseDelayMs: 1000,
-    maxDelayMs: 10000,
-    exponentialBase: 2,
-    retryableErrors: ["NetworkError", "TimeoutError"],
-  },
-);
+const result = await retryWithBackoff(() => fetch('https://api.example.com/data'), {
+  maxAttempts: 3,
+  baseDelayMs: 1000,
+  maxDelayMs: 10000,
+  exponentialBase: 2,
+  retryableErrors: ['NetworkError', 'TimeoutError'],
+});
 ```
 
 ## Monitoring and Alerting Integration
@@ -775,8 +767,8 @@ const result = await retryWithBackoff(
 **Node.js/Express Setup:**
 
 ```javascript
-const Sentry = require("@sentry/node");
-const { ProfilingIntegration } = require("@sentry/profiling-node");
+const Sentry = require('@sentry/node');
+const { ProfilingIntegration } = require('@sentry/profiling-node');
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
@@ -828,7 +820,7 @@ function processOrder(orderId) {
   } catch (error) {
     Sentry.captureException(error, {
       tags: {
-        operation: "process_order",
+        operation: 'process_order',
         order_id: orderId,
       },
       contexts: {
@@ -982,9 +974,9 @@ func chargeCard(ctx context.Context, paymentReq PaymentRequest) error {
 ```yaml
 # DataDog Monitor Configuration
 monitors:
-  - name: "High Error Rate - Payment Service"
+  - name: 'High Error Rate - Payment Service'
     type: metric
-    query: "avg(last_5m):sum:trace.express.request.errors{service:payment-service} / sum:trace.express.request.hits{service:payment-service} > 0.05"
+    query: 'avg(last_5m):sum:trace.express.request.errors{service:payment-service} / sum:trace.express.request.hits{service:payment-service} > 0.05'
     message: |
       Payment service error rate is {{value}}% (threshold: 5%)
 
@@ -1004,9 +996,9 @@ monitors:
     options:
       notify_no_data: true
       no_data_timeframe: 10
-      escalation_message: "Error rate still elevated after 10 minutes"
+      escalation_message: 'Error rate still elevated after 10 minutes'
 
-  - name: "New Error Type Detected"
+  - name: 'New Error Type Detected'
     type: log
     query: 'logs("level:ERROR service:payment-service").rollup("count").by("error.fingerprint").last("5m") > 0'
     message: |
@@ -1020,9 +1012,9 @@ monitors:
     options:
       enable_logs_sample: true
 
-  - name: "Payment Service - P95 Latency High"
+  - name: 'Payment Service - P95 Latency High'
     type: metric
-    query: "avg(last_10m):p95:trace.express.request.duration{service:payment-service} > 2000"
+    query: 'avg(last_10m):p95:trace.express.request.duration{service:payment-service} > 2000'
     message: |
       Payment service P95 latency is {{value}}ms (threshold: 2000ms)
 

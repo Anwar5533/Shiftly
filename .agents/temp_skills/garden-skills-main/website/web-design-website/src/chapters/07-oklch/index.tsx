@@ -31,26 +31,43 @@ function hslPerceived(h: number): number {
   const c = (1 - Math.abs(2 * l - 1)) * s;
   const hh = h / 60;
   const x = c * (1 - Math.abs((hh % 2) - 1));
-  let r = 0, g = 0, b = 0;
-  if      (hh < 1) { r = c; g = x; }
-  else if (hh < 2) { r = x; g = c; }
-  else if (hh < 3) { g = c; b = x; }
-  else if (hh < 4) { g = x; b = c; }
-  else if (hh < 5) { r = x; b = c; }
-  else             { r = c; b = x; }
+  let r = 0,
+    g = 0,
+    b = 0;
+  if (hh < 1) {
+    r = c;
+    g = x;
+  } else if (hh < 2) {
+    r = x;
+    g = c;
+  } else if (hh < 3) {
+    g = c;
+    b = x;
+  } else if (hh < 4) {
+    g = x;
+    b = c;
+  } else if (hh < 5) {
+    r = x;
+    b = c;
+  } else {
+    r = c;
+    b = x;
+  }
   const m = l - c / 2;
-  r += m; g += m; b += m;
+  r += m;
+  g += m;
+  b += m;
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
 
 function Oklch({ localStep }: ChapterContext) {
   const at = (n: number) => localStep >= n;
 
-  const sceneSrc     = localStep <= 0;
-  const sceneRules   = localStep === 1;
-  const scenePivot   = localStep === 2;
+  const sceneSrc = localStep <= 0;
+  const sceneRules = localStep === 1;
+  const scenePivot = localStep === 2;
   const sceneCompare = localStep === 3;
-  const sceneClose   = localStep >= 4;
+  const sceneClose = localStep >= 4;
 
   return (
     <section className="ok">
@@ -78,16 +95,14 @@ function Oklch({ localStep }: ChapterContext) {
             <div className="ok__src-line-row ok__src-line-row--2">
               <span className="ok__src-num">L42</span>
               <span className="ok__src-text">
-                If too restrictive, use{' '}
-                <em className="ok__src-h ok__src-h--2">oklch</em>{' '}
-                to define harmonious colors that match.
+                If too restrictive, use <em className="ok__src-h ok__src-h--2">oklch</em> to define
+                harmonious colors that match.
               </span>
             </div>
             <div className="ok__src-line-row ok__src-line-row--3">
               <span className="ok__src-num">L43</span>
               <span className="ok__src-text">
-                <em className="ok__src-h ok__src-h--3">Avoid inventing</em>{' '}
-                new colors from scratch.
+                <em className="ok__src-h ok__src-h--3">Avoid inventing</em> new colors from scratch.
               </span>
             </div>
           </Reveal>
@@ -125,7 +140,9 @@ function Oklch({ localStep }: ChapterContext) {
             <Reveal kind="rise" duration={780} delay={420} className="ok__rule ok__rule--ok">
               <div className="ok__rule-num">02</div>
               <div className="ok__rule-body">
-                <div className="ok__rule-title">不够用？<em>oklch 派生</em></div>
+                <div className="ok__rule-title">
+                  不够用？<em>oklch 派生</em>
+                </div>
                 <div className="ok__rule-desc">L / C 不变，h 旋转 —— 自动得到和谐衍生色</div>
                 <div className="ok__rule-swatches">
                   {[42, 90, 150, 200, 260, 320].map((h) => (

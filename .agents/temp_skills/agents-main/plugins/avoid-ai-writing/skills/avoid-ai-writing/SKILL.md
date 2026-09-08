@@ -9,7 +9,7 @@ Find the patterns that make text read as machine-generated, then fix them withou
 
 ## What a flag proves
 
-These patterns are more common in model output, and people produce them too, especially under deadline, in an unfamiliar genre, or in a second language. The evidence on machine detection cuts both ways. A Stanford audit found seven detectors flagged 61% of TOEFL essays by non-native English writers as AI-generated, against roughly 5% of essays by native writers (Liang et al., *Patterns*, 2023). A 2025 audit found open-source detection unsuitable for high-stakes use, with false-positive rates around 30% to 78% depending on the scenario, while the strongest commercial detector it tested approached zero error on medium and long passages (Jabarian and Imas, BFI Working Paper 2025-116). Adversarial paraphrasing still degrades the detectors it targets, averaging an 87.9% drop in true-positive rate at a 1% false-positive threshold, ranging from 64% to 99% by detector (arXiv:2506.07001).
+These patterns are more common in model output, and people produce them too, especially under deadline, in an unfamiliar genre, or in a second language. The evidence on machine detection cuts both ways. A Stanford audit found seven detectors flagged 61% of TOEFL essays by non-native English writers as AI-generated, against roughly 5% of essays by native writers (Liang et al., _Patterns_, 2023). A 2025 audit found open-source detection unsuitable for high-stakes use, with false-positive rates around 30% to 78% depending on the scenario, while the strongest commercial detector it tested approached zero error on medium and long passages (Jabarian and Imas, BFI Working Paper 2025-116). Adversarial paraphrasing still degrades the detectors it targets, averaging an 87.9% drop in true-positive rate at a 1% false-positive threshold, ranging from 64% to 99% by detector (arXiv:2506.07001).
 
 Treat every flag here as a writing-quality signal. This skill classifies nothing, and no flag it raises should decide an academic-integrity, hiring, or attribution question.
 
@@ -51,7 +51,7 @@ For each edit, ask where the information came from. Subtraction and sharpening a
 
 ## Escape hatch
 
-When the text is *about* AI writing patterns, quoted examples are exempt. Text inside quotation marks, code blocks, or marked as illustrative stays as written. Flag only the author's own prose. Protected spans work the same in every mode: a tell inside one belongs in the issues list, and it does not count against the rewrite's completeness or the second pass.
+When the text is _about_ AI writing patterns, quoted examples are exempt. Text inside quotation marks, code blocks, or marked as illustrative stays as written. Flag only the author's own prose. Protected spans work the same in every mode: a tell inside one belongs in the issues list, and it does not count against the rewrite's completeness or the second pass.
 
 ## Output
 

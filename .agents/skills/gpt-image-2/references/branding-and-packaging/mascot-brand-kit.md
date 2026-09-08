@@ -133,13 +133,11 @@
 {
   "type": "吉祥物周边 catalog",
   "regions": {
-    "hero": {"content": "吉祥物 + IP 名"},
+    "hero": { "content": "吉祥物 + IP 名" },
     "three_view": null,
     "expressions": null,
     "applications": {
-      "items": [
-        "T 恤", "马克杯", "手机壳", "贴纸包", "钥匙扣", "毛绒玩偶", "帆布包", "手机支架"
-      ]
+      "items": ["T 恤", "马克杯", "手机壳", "贴纸包", "钥匙扣", "毛绒玩偶", "帆布包", "手机支架"]
     }
   },
   "constraints": {
@@ -156,9 +154,9 @@
 {
   "type": "极简吉祥物介绍页",
   "regions": {
-    "hero": {"content": "吉祥物 + 名 + 性格"},
+    "hero": { "content": "吉祥物 + 名 + 性格" },
     "three_view": null,
-    "expressions": {"count": 4},
+    "expressions": { "count": 4 },
     "applications": null
   },
   "constraints": {

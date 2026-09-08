@@ -918,39 +918,39 @@ private static bool IsPrivateOrLoopback(IPAddress address)
 
 Use these regex patterns to locate potential vulnerabilities in C# source files.
 
-| Vulnerability | Pattern |
-|---|---|
-| SQL Injection (EF Core) | `FromSqlRaw\s*\(.*[\+\$]` |
-| SQL Injection (ADO.NET) | `new SqlCommand\s*\(.*[\+\$]` |
-| SQL Injection (string concat) | `(SELECT\|INSERT\|UPDATE\|DELETE).*["']\s*\+` |
-| XSS (Razor) | `Html\.Raw\s*\(` |
-| XSS (Blazor) | `MarkupString\)` |
-| OS Command Injection | `Process\.Start\s*\(.*[\+\$]` |
-| Path Traversal | `Path\.Combine\s*\(.*Request` |
-| XXE | `XmlResolver\s*=\s*new\s+XmlUrlResolver` |
-| XXE (DTD) | `DtdProcessing\s*=\s*DtdProcessing\.Parse` |
-| LDAP Injection | `DirectorySearcher.*Filter\s*=.*[\+\$]` |
-| ReDoS | `new\s+Regex\s*\([^)]*\)\s*[^,]` (missing timeout parameter) |
-| Hard-coded credentials | `(Password\|Secret\|Key)\s*=\s*"[^"]{8,}"` |
-| BinaryFormatter | `BinaryFormatter` |
-| NetDataContractSerializer | `NetDataContractSerializer` |
-| ObjectStateFormatter | `ObjectStateFormatter` |
-| LosFormatter | `LosFormatter` |
-| SoapFormatter | `SoapFormatter` |
-| Newtonsoft TypeNameHandling | `TypeNameHandling\s*=\s*TypeNameHandling\.\s*(All\|Auto\|Objects\|Arrays)` |
-| Insecure random | `new\s+Random\s*\(` |
-| Weak crypto (MD5) | `MD5\.Create\s*\(` |
-| Weak crypto (SHA1) | `SHA1\.Create\s*\(` |
-| Weak crypto (DES) | `DESCryptoServiceProvider` |
-| ECB mode | `CipherMode\.ECB` |
-| Missing Authorize | `\[HttpPost\]` or `\[HttpDelete\]` without preceding `\[Authorize` |
-| Developer exception in prod | `UseDeveloperExceptionPage` |
-| Insecure cookie | `SecurePolicy\s*=\s*CookieSecurePolicy\.None` |
-| JWT validation disabled | `Validate(Issuer\|Audience\|Lifetime\|IssuerSigningKey)\s*=\s*false` |
-| Anti-forgery missing | `\[HttpPost\]` without `\[ValidateAntiForgeryToken\]` (MVC only) |
-| Sensitive data in logs | `Log(Information\|Debug\|Warning)\s*\(.*([Pp]assword\|[Tt]oken\|[Ss]ecret)` |
-| Unrestricted upload | `IFormFile.*CopyToAsync` (inspect for missing validation) |
-| SSRF | `HttpClient.*GetAsync\s*\(.*Request` |
+| Vulnerability                 | Pattern                                                                     |
+| ----------------------------- | --------------------------------------------------------------------------- |
+| SQL Injection (EF Core)       | `FromSqlRaw\s*\(.*[\+\$]`                                                   |
+| SQL Injection (ADO.NET)       | `new SqlCommand\s*\(.*[\+\$]`                                               |
+| SQL Injection (string concat) | `(SELECT\|INSERT\|UPDATE\|DELETE).*["']\s*\+`                               |
+| XSS (Razor)                   | `Html\.Raw\s*\(`                                                            |
+| XSS (Blazor)                  | `MarkupString\)`                                                            |
+| OS Command Injection          | `Process\.Start\s*\(.*[\+\$]`                                               |
+| Path Traversal                | `Path\.Combine\s*\(.*Request`                                               |
+| XXE                           | `XmlResolver\s*=\s*new\s+XmlUrlResolver`                                    |
+| XXE (DTD)                     | `DtdProcessing\s*=\s*DtdProcessing\.Parse`                                  |
+| LDAP Injection                | `DirectorySearcher.*Filter\s*=.*[\+\$]`                                     |
+| ReDoS                         | `new\s+Regex\s*\([^)]*\)\s*[^,]` (missing timeout parameter)                |
+| Hard-coded credentials        | `(Password\|Secret\|Key)\s*=\s*"[^"]{8,}"`                                  |
+| BinaryFormatter               | `BinaryFormatter`                                                           |
+| NetDataContractSerializer     | `NetDataContractSerializer`                                                 |
+| ObjectStateFormatter          | `ObjectStateFormatter`                                                      |
+| LosFormatter                  | `LosFormatter`                                                              |
+| SoapFormatter                 | `SoapFormatter`                                                             |
+| Newtonsoft TypeNameHandling   | `TypeNameHandling\s*=\s*TypeNameHandling\.\s*(All\|Auto\|Objects\|Arrays)`  |
+| Insecure random               | `new\s+Random\s*\(`                                                         |
+| Weak crypto (MD5)             | `MD5\.Create\s*\(`                                                          |
+| Weak crypto (SHA1)            | `SHA1\.Create\s*\(`                                                         |
+| Weak crypto (DES)             | `DESCryptoServiceProvider`                                                  |
+| ECB mode                      | `CipherMode\.ECB`                                                           |
+| Missing Authorize             | `\[HttpPost\]` or `\[HttpDelete\]` without preceding `\[Authorize`          |
+| Developer exception in prod   | `UseDeveloperExceptionPage`                                                 |
+| Insecure cookie               | `SecurePolicy\s*=\s*CookieSecurePolicy\.None`                               |
+| JWT validation disabled       | `Validate(Issuer\|Audience\|Lifetime\|IssuerSigningKey)\s*=\s*false`        |
+| Anti-forgery missing          | `\[HttpPost\]` without `\[ValidateAntiForgeryToken\]` (MVC only)            |
+| Sensitive data in logs        | `Log(Information\|Debug\|Warning)\s*\(.*([Pp]assword\|[Tt]oken\|[Ss]ecret)` |
+| Unrestricted upload           | `IFormFile.*CopyToAsync` (inspect for missing validation)                   |
+| SSRF                          | `HttpClient.*GetAsync\s*\(.*Request`                                        |
 
 ---
 
@@ -1053,15 +1053,15 @@ builder.Services.AddDataProtection()
 
 ## .NET-Specific Tooling
 
-| Tool | Purpose | Command / Integration |
-|---|---|---|
-| Roslyn Security Guard | Roslyn-based SAST analyzer for C# | Add `SecurityCodeScan.VS2019` NuGet package; findings appear as compiler warnings |
-| Semgrep .NET rules | Pattern-matching SAST | `semgrep --config p/csharp` |
-| `dotnet list package --vulnerable` | Known-vulnerable NuGet dependencies | `dotnet list package --vulnerable --include-transitive` |
-| SonarQube / SonarCloud | Comprehensive SAST with C# support | Integrate via `dotnet-sonarscanner`: `dotnet sonarscanner begin /k:project-key` then `dotnet build` then `dotnet sonarscanner end` |
-| `dotnet format analyzers` | Run all configured Roslyn analyzers | `dotnet format analyzers --severity warn` |
-| DevSkim | Microsoft security linter | VS Code extension or CLI: `devskim analyze --source-code ./src` |
-| NuGet Audit | Built-in audit on restore (.NET 8+) | `dotnet restore` (audit runs automatically; configure in `Directory.Build.props`) |
+| Tool                               | Purpose                             | Command / Integration                                                                                                              |
+| ---------------------------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Roslyn Security Guard              | Roslyn-based SAST analyzer for C#   | Add `SecurityCodeScan.VS2019` NuGet package; findings appear as compiler warnings                                                  |
+| Semgrep .NET rules                 | Pattern-matching SAST               | `semgrep --config p/csharp`                                                                                                        |
+| `dotnet list package --vulnerable` | Known-vulnerable NuGet dependencies | `dotnet list package --vulnerable --include-transitive`                                                                            |
+| SonarQube / SonarCloud             | Comprehensive SAST with C# support  | Integrate via `dotnet-sonarscanner`: `dotnet sonarscanner begin /k:project-key` then `dotnet build` then `dotnet sonarscanner end` |
+| `dotnet format analyzers`          | Run all configured Roslyn analyzers | `dotnet format analyzers --severity warn`                                                                                          |
+| DevSkim                            | Microsoft security linter           | VS Code extension or CLI: `devskim analyze --source-code ./src`                                                                    |
+| NuGet Audit                        | Built-in audit on restore (.NET 8+) | `dotnet restore` (audit runs automatically; configure in `Directory.Build.props`)                                                  |
 
 ---
 

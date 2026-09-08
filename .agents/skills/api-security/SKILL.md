@@ -10,13 +10,13 @@ role: [appsec-engineer, security-engineer]
 phase: [design, build, review]
 frameworks: [OWASP-API-Security-2023, OWASP-ASVS]
 difficulty: intermediate
-time_estimate: "20-40min"
-version: "1.0.0"
+time_estimate: '20-40min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 injection-hardened: true
-argument-hint: "[target-file-or-directory]"
+argument-hint: '[target-file-or-directory]'
 ---
 
 # API Security Review -- OWASP API Security Top 10:2023
@@ -57,29 +57,29 @@ Before applying or proposing patches, classify each remediation path using [Secu
 
 Each finding produced by this review must include the following fields:
 
-| Field | Description |
-|---|---|
-| **ID** | Sequential finding identifier (e.g., API-SEC-001) |
-| **Title** | Brief, descriptive name of the vulnerability |
-| **OWASP API Risk** | API1:2023 through API10:2023 identifier |
-| **Severity** | Critical, High, Medium, Low, or Informational |
-| **CWE** | Applicable CWE identifier (e.g., CWE-639) |
-| **API Style** | REST, GraphQL, gRPC, or General |
-| **Location** | File path and line number(s), or OpenAPI spec path |
-| **Description** | What the vulnerability is and why it matters |
-| **Evidence** | Relevant code snippet or spec excerpt demonstrating the issue |
-| **Remediation** | Specific fix with code example where possible |
-| **Status** | Open, Mitigated, Accepted Risk, False Positive |
+| Field              | Description                                                   |
+| ------------------ | ------------------------------------------------------------- |
+| **ID**             | Sequential finding identifier (e.g., API-SEC-001)             |
+| **Title**          | Brief, descriptive name of the vulnerability                  |
+| **OWASP API Risk** | API1:2023 through API10:2023 identifier                       |
+| **Severity**       | Critical, High, Medium, Low, or Informational                 |
+| **CWE**            | Applicable CWE identifier (e.g., CWE-639)                     |
+| **API Style**      | REST, GraphQL, gRPC, or General                               |
+| **Location**       | File path and line number(s), or OpenAPI spec path            |
+| **Description**    | What the vulnerability is and why it matters                  |
+| **Evidence**       | Relevant code snippet or spec excerpt demonstrating the issue |
+| **Remediation**    | Specific fix with code example where possible                 |
+| **Status**         | Open, Mitigated, Accepted Risk, False Positive                |
 
 ### Severity Definitions
 
-| Severity | Criteria |
-|---|---|
-| **Critical** | Remotely exploitable without authentication, or by any authenticated user, leading to mass unauthorized data access, full account takeover, or complete API compromise. CVSS 9.0-10.0 equivalent. |
-| **High** | Exploitable with low complexity by authenticated users, leading to significant data exposure, privilege escalation, or service disruption. CVSS 7.0-8.9 equivalent. |
-| **Medium** | Requires specific conditions, chained vulnerabilities, or elevated access to exploit. Partial data exposure or limited business impact. CVSS 4.0-6.9 equivalent. |
-| **Low** | Minor security weakness with limited real-world exploitability. Defense-in-depth gap. CVSS 0.1-3.9 equivalent. |
-| **Informational** | Best-practice deviation or hardening recommendation. Not directly exploitable. |
+| Severity          | Criteria                                                                                                                                                                                          |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Critical**      | Remotely exploitable without authentication, or by any authenticated user, leading to mass unauthorized data access, full account takeover, or complete API compromise. CVSS 9.0-10.0 equivalent. |
+| **High**          | Exploitable with low complexity by authenticated users, leading to significant data exposure, privilege escalation, or service disruption. CVSS 7.0-8.9 equivalent.                               |
+| **Medium**        | Requires specific conditions, chained vulnerabilities, or elevated access to exploit. Partial data exposure or limited business impact. CVSS 4.0-6.9 equivalent.                                  |
+| **Low**           | Minor security weakness with limited real-world exploitability. Defense-in-depth gap. CVSS 0.1-3.9 equivalent.                                                                                    |
+| **Informational** | Best-practice deviation or hardening recommendation. Not directly exploitable.                                                                                                                    |
 
 ---
 
@@ -87,7 +87,7 @@ Each finding produced by this review must include the following fields:
 
 The final review output must be structured as follows:
 
-```
+````
 ## API Security Review Report
 
 **Scope:** [API name, version, endpoints reviewed]
@@ -126,12 +126,14 @@ The final review output must be structured as follows:
 - **Evidence:**
   ```[language]
   [code snippet]
-  ```
+````
+
 - **Remediation:** [specific fix with code example]
 - **Status:** Open
 
 [Repeat for each finding]
-```
+
+````
 
 ---
 
@@ -171,7 +173,7 @@ GraphQL APIs share all ten OWASP API risks with REST but introduce additional at
     }
   }
 }
-```
+````
 
 **Mitigation:** Disable introspection in production. If introspection is required for internal tooling, restrict it to authenticated internal consumers.
 

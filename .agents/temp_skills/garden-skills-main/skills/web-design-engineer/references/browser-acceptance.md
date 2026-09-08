@@ -33,12 +33,12 @@ Use the project's existing dev command and dependencies. Do not replace the stac
 
 Default viewports only when the user asked for responsive acceptance but did not provide targets:
 
-| Name | Viewport |
-|---|---|
-| Small mobile | 390 × 844 |
-| Tablet | 768 × 1024 |
+| Name         | Viewport   |
+| ------------ | ---------- |
+| Small mobile | 390 × 844  |
+| Tablet       | 768 × 1024 |
 | Small laptop | 1280 × 720 |
-| Desktop | 1440 × 900 |
+| Desktop      | 1440 × 900 |
 
 For fixed 16:9 artifacts, test the intended internal canvas plus at least one smaller outer viewport to verify non-distorting scale behavior.
 

@@ -190,9 +190,9 @@ on:
     types: [created]
 
 env:
-  NODE_VERSION: "18"
-  PYTHON_VERSION: "3.11"
-  GO_VERSION: "1.21"
+  NODE_VERSION: '18'
+  PYTHON_VERSION: '3.11'
+  GO_VERSION: '1.21'
 
 jobs:
   # Code quality checks
@@ -208,7 +208,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "npm"
+          cache: 'npm'
 
       - name: Cache dependencies
         uses: actions/cache@v3
@@ -255,7 +255,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
-          cache: "npm"
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
@@ -291,7 +291,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "npm"
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
@@ -317,13 +317,13 @@ jobs:
         uses: aquasecurity/trivy-action@0.28.0
         with:
           image-ref: ${{ github.repository }}:${{ matrix.environment }}-${{ github.sha }}
-          format: "sarif"
-          output: "trivy-results.sarif"
+          format: 'sarif'
+          output: 'trivy-results.sarif'
 
       - name: Upload scan results
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: "trivy-results.sarif"
+          sarif_file: 'trivy-results.sarif'
 
       - name: Push to registry
         if: github.event_name != 'pull_request'
@@ -508,30 +508,25 @@ jobs:
 ```javascript
 // .releaserc.js
 module.exports = {
-  branches: [
-    "main",
-    { name: "beta", prerelease: true },
-    { name: "alpha", prerelease: true },
-  ],
+  branches: ['main', { name: 'beta', prerelease: true }, { name: 'alpha', prerelease: true }],
   plugins: [
-    "@semantic-release/commit-analyzer",
-    "@semantic-release/release-notes-generator",
+    '@semantic-release/commit-analyzer',
+    '@semantic-release/release-notes-generator',
     [
-      "@semantic-release/changelog",
+      '@semantic-release/changelog',
       {
-        changelogFile: "CHANGELOG.md",
+        changelogFile: 'CHANGELOG.md',
       },
     ],
-    "@semantic-release/npm",
+    '@semantic-release/npm',
     [
-      "@semantic-release/git",
+      '@semantic-release/git',
       {
-        assets: ["CHANGELOG.md", "package.json"],
-        message:
-          "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
+        assets: ['CHANGELOG.md', 'package.json'],
+        message: 'chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}',
       },
     ],
-    "@semantic-release/github",
+    '@semantic-release/github',
   ],
 };
 ```
@@ -552,7 +547,7 @@ repos:
       - id: end-of-file-fixer
       - id: check-yaml
       - id: check-added-large-files
-        args: ["--maxkb=1000"]
+        args: ['--maxkb=1000']
       - id: check-case-conflict
       - id: check-merge-conflict
       - id: detect-private-key
@@ -567,7 +562,7 @@ repos:
     rev: 5.12.0
     hooks:
       - id: isort
-        args: ["--profile", "black"]
+        args: ['--profile', 'black']
 
   - repo: https://github.com/pycqa/flake8
     rev: 6.1.0
@@ -707,16 +702,16 @@ name: Terraform
 on:
   pull_request:
     paths:
-      - "terraform/**"
-      - ".github/workflows/terraform.yml"
+      - 'terraform/**'
+      - '.github/workflows/terraform.yml'
   push:
     branches:
       - main
     paths:
-      - "terraform/**"
+      - 'terraform/**'
 
 env:
-  TF_VERSION: "1.6.0"
+  TF_VERSION: '1.6.0'
   TF_VAR_project_name: ${{ github.event.repository.name }}
 
 jobs:
@@ -803,8 +798,8 @@ name: Deploy Monitoring
 on:
   push:
     paths:
-      - "monitoring/**"
-      - ".github/workflows/monitoring.yml"
+      - 'monitoring/**'
+      - '.github/workflows/monitoring.yml'
     branches:
       - main
 
@@ -819,7 +814,7 @@ jobs:
       - name: Setup Helm
         uses: azure/setup-helm@v3
         with:
-          version: "3.12.0"
+          version: '3.12.0'
 
       - name: Configure Kubernetes
         run: |
@@ -870,11 +865,7 @@ Automate dependency updates:
     ":automergeDigest",
     ":automergeMinor"
   ],
-  "schedule": [
-    "after 10pm every weekday",
-    "before 5am every weekday",
-    "every weekend"
-  ],
+  "schedule": ["after 10pm every weekday", "before 5am every weekday", "every weekend"],
   "timezone": "America/New_York",
   "vulnerabilityAlerts": {
     "labels": ["security"],
@@ -925,9 +916,9 @@ on:
   push:
     branches: [main]
     paths:
-      - "src/**"
-      - "docs/**"
-      - "README.md"
+      - 'src/**'
+      - 'docs/**'
+      - 'README.md'
 
 jobs:
   generate-docs:
@@ -971,9 +962,9 @@ jobs:
 
 ```typescript
 // scripts/generate-docs.ts
-import { Application, TSConfigReader, TypeDocReader } from "typedoc";
-import { generateMarkdown } from "./markdown-generator";
-import { createApiReference } from "./api-reference";
+import { Application, TSConfigReader, TypeDocReader } from 'typedoc';
+import { generateMarkdown } from './markdown-generator';
+import { createApiReference } from './api-reference';
 
 async function generateDocumentation() {
   // TypeDoc for TypeScript documentation
@@ -982,30 +973,30 @@ async function generateDocumentation() {
   app.options.addReader(new TypeDocReader());
 
   app.bootstrap({
-    entryPoints: ["src/index.ts"],
-    out: "docs/api",
-    theme: "default",
+    entryPoints: ['src/index.ts'],
+    out: 'docs/api',
+    theme: 'default',
     includeVersion: true,
     excludePrivate: true,
-    readme: "README.md",
-    plugin: ["typedoc-plugin-markdown"],
+    readme: 'README.md',
+    plugin: ['typedoc-plugin-markdown'],
   });
 
   const project = app.convert();
   if (project) {
-    await app.generateDocs(project, "docs/api");
+    await app.generateDocs(project, 'docs/api');
 
     // Generate custom markdown docs
     await generateMarkdown(project, {
-      output: "docs/guides",
+      output: 'docs/guides',
       includeExamples: true,
       generateTOC: true,
     });
 
     // Create API reference
     await createApiReference(project, {
-      format: "openapi",
-      output: "docs/openapi.json",
+      format: 'openapi',
+      output: 'docs/openapi.json',
       includeSchemas: true,
     });
   }
@@ -1029,7 +1020,7 @@ async function generateArchitectureDocs() {
   `;
 
   // Save diagrams and generate documentation
-  await fs.writeFile("docs/architecture.mmd", mermaidDiagrams);
+  await fs.writeFile('docs/architecture.mmd', mermaidDiagrams);
 }
 ```
 
@@ -1048,7 +1039,7 @@ on:
     branches: [main, develop]
   pull_request:
   schedule:
-    - cron: "0 0 * * 0" # Weekly on Sunday
+    - cron: '0 0 * * 0' # Weekly on Sunday
 
 jobs:
   security-scan:
@@ -1061,16 +1052,16 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@0.28.0
         with:
-          scan-type: "fs"
-          scan-ref: "."
-          format: "sarif"
-          output: "trivy-results.sarif"
-          severity: "CRITICAL,HIGH"
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
 
       - name: Upload Trivy results
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: "trivy-results.sarif"
+          sarif_file: 'trivy-results.sarif'
 
       - name: Run Snyk security scan
         uses: snyk/actions/node@0.4.0
@@ -1083,8 +1074,8 @@ jobs:
         uses: dependency-check/Dependency-Check_Action@v6
         with:
           project: ${{ github.repository }}
-          path: "."
-          format: "ALL"
+          path: '.'
+          format: 'ALL'
           args: >
             --enableRetired
             --enableExperimental
@@ -1117,18 +1108,18 @@ Create complex workflow orchestration:
 
 ```typescript
 // workflow-orchestrator.ts
-import { EventEmitter } from "events";
-import { Logger } from "winston";
+import { EventEmitter } from 'events';
+import { Logger } from 'winston';
 
 interface WorkflowStep {
   name: string;
-  type: "parallel" | "sequential";
+  type: 'parallel' | 'sequential';
   steps?: WorkflowStep[];
   action?: () => Promise<any>;
   retries?: number;
   timeout?: number;
   condition?: () => boolean;
-  onError?: "fail" | "continue" | "retry";
+  onError?: 'fail' | 'continue' | 'retry';
 }
 
 export class WorkflowOrchestrator extends EventEmitter {
@@ -1152,11 +1143,11 @@ export class WorkflowOrchestrator extends EventEmitter {
     } catch (error) {
       result.success = false;
       result.error = error;
-      this.emit("workflow:failed", result);
+      this.emit('workflow:failed', result);
     }
 
     result.duration = Date.now() - startTime;
-    this.emit("workflow:completed", result);
+    this.emit('workflow:completed', result);
 
     return result;
   }
@@ -1164,16 +1155,16 @@ export class WorkflowOrchestrator extends EventEmitter {
   private async executeStep(
     step: WorkflowStep,
     result: WorkflowResult,
-    parentPath: string = "",
+    parentPath: string = '',
   ): Promise<void> {
     const stepPath = parentPath ? `${parentPath}.${step.name}` : step.name;
 
-    this.emit("step:start", { step: stepPath });
+    this.emit('step:start', { step: stepPath });
 
     // Check condition
     if (step.condition && !step.condition()) {
       this.logger.info(`Skipping step ${stepPath} due to condition`);
-      this.emit("step:skipped", { step: stepPath });
+      this.emit('step:skipped', { step: stepPath });
       return;
     }
 
@@ -1190,7 +1181,7 @@ export class WorkflowOrchestrator extends EventEmitter {
         await this.executeAction(step, stepResult);
       } else if (step.steps) {
         // Execute sub-steps
-        if (step.type === "parallel") {
+        if (step.type === 'parallel') {
           await this.executeParallel(step.steps, result, stepPath);
         } else {
           await this.executeSequential(step.steps, result, stepPath);
@@ -1201,24 +1192,21 @@ export class WorkflowOrchestrator extends EventEmitter {
       stepResult.duration = stepResult.endTime - stepResult.startTime;
       result.steps.push(stepResult);
 
-      this.emit("step:complete", { step: stepPath, result: stepResult });
+      this.emit('step:complete', { step: stepPath, result: stepResult });
     } catch (error) {
       stepResult.success = false;
       stepResult.error = error;
       result.steps.push(stepResult);
 
-      this.emit("step:failed", { step: stepPath, error });
+      this.emit('step:failed', { step: stepPath, error });
 
-      if (step.onError === "fail") {
+      if (step.onError === 'fail') {
         throw error;
       }
     }
   }
 
-  private async executeAction(
-    step: WorkflowStep,
-    stepResult: StepResult,
-  ): Promise<void> {
+  private async executeAction(step: WorkflowStep, stepResult: StepResult): Promise<void> {
     const timeout = step.timeout || this.config.defaultTimeout;
     const retries = step.retries || 0;
 
@@ -1226,10 +1214,7 @@ export class WorkflowOrchestrator extends EventEmitter {
 
     for (let attempt = 0; attempt <= retries; attempt++) {
       try {
-        const result = await Promise.race([
-          step.action!(),
-          this.createTimeout(timeout),
-        ]);
+        const result = await Promise.race([step.action!(), this.createTimeout(timeout)]);
 
         stepResult.output = result;
         return;
@@ -1237,9 +1222,7 @@ export class WorkflowOrchestrator extends EventEmitter {
         lastError = error as Error;
 
         if (attempt < retries) {
-          this.logger.warn(
-            `Step ${step.name} failed, retry ${attempt + 1}/${retries}`,
-          );
+          this.logger.warn(`Step ${step.name} failed, retry ${attempt + 1}/${retries}`);
           await this.delay(this.calculateBackoff(attempt));
         }
       }
@@ -1253,9 +1236,7 @@ export class WorkflowOrchestrator extends EventEmitter {
     result: WorkflowResult,
     parentPath: string,
   ): Promise<void> {
-    await Promise.all(
-      steps.map((step) => this.executeStep(step, result, parentPath)),
-    );
+    await Promise.all(steps.map((step) => this.executeStep(step, result, parentPath)));
   }
 
   private async executeSequential(
@@ -1285,22 +1266,22 @@ export class WorkflowOrchestrator extends EventEmitter {
 
 // Example workflow definition
 export const deploymentWorkflow: WorkflowStep = {
-  name: "deployment",
-  type: "sequential",
+  name: 'deployment',
+  type: 'sequential',
   steps: [
     {
-      name: "pre-deployment",
-      type: "parallel",
+      name: 'pre-deployment',
+      type: 'parallel',
       steps: [
         {
-          name: "backup-database",
+          name: 'backup-database',
           action: async () => {
             // Backup database
           },
           timeout: 300000, // 5 minutes
         },
         {
-          name: "health-check",
+          name: 'health-check',
           action: async () => {
             // Check system health
           },
@@ -1309,39 +1290,39 @@ export const deploymentWorkflow: WorkflowStep = {
       ],
     },
     {
-      name: "deployment",
-      type: "sequential",
+      name: 'deployment',
+      type: 'sequential',
       steps: [
         {
-          name: "blue-green-switch",
+          name: 'blue-green-switch',
           action: async () => {
             // Switch traffic to new version
           },
-          onError: "retry",
+          onError: 'retry',
           retries: 2,
         },
         {
-          name: "smoke-tests",
+          name: 'smoke-tests',
           action: async () => {
             // Run smoke tests
           },
-          onError: "fail",
+          onError: 'fail',
         },
       ],
     },
     {
-      name: "post-deployment",
-      type: "parallel",
+      name: 'post-deployment',
+      type: 'parallel',
       steps: [
         {
-          name: "notify-teams",
+          name: 'notify-teams',
           action: async () => {
             // Send notifications
           },
-          onError: "continue",
+          onError: 'continue',
         },
         {
-          name: "update-monitoring",
+          name: 'update-monitoring',
           action: async () => {
             // Update monitoring dashboards
           },

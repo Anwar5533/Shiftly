@@ -25,18 +25,18 @@ before a long run, not after hour six.
 
 ## Common Issues Quick Reference
 
-| # | Symptom | Fix |
-|---|---|---|
-| G1 | undefined symbol / segfault | cu130 wheel or container |
-| G2 | flash-attn wrong backend used | skip pip build; monkeypatch on NGC |
-| G3 | OOM despite headroom | drop page cache |
-| G4 | throughput drop / reboot | expect ~100W sustained cap |
-| G5 | memory-bound step slow | budget 180–192 GB/s |
-| G6 | cache evicted mid-run | one GPU server at a time |
-| G7 | NVFP4 slower than FP8 | stay FP8 unless `sm_121a` |
-| G8 | playbook fails outright | check upstream issues |
-| G9 | env breaks after install | use a container |
-| G10 | 2-Spark TP hangs | DDP/FSDP only, never TP |
+| #   | Symptom                       | Fix                                |
+| --- | ----------------------------- | ---------------------------------- |
+| G1  | undefined symbol / segfault   | cu130 wheel or container           |
+| G2  | flash-attn wrong backend used | skip pip build; monkeypatch on NGC |
+| G3  | OOM despite headroom          | drop page cache                    |
+| G4  | throughput drop / reboot      | expect ~100W sustained cap         |
+| G5  | memory-bound step slow        | budget 180–192 GB/s                |
+| G6  | cache evicted mid-run         | one GPU server at a time           |
+| G7  | NVFP4 slower than FP8         | stay FP8 unless `sm_121a`          |
+| G8  | playbook fails outright       | check upstream issues              |
+| G9  | env breaks after install      | use a container                    |
+| G10 | 2-Spark TP hangs              | DDP/FSDP only, never TP            |
 
 ## The Ten Gotchas
 
@@ -72,7 +72,7 @@ before a long run, not after hour six.
   `nvidia-smi` still reports free memory under the 128GB cap
   — or, on some setups, `[N/A]` outright instead of a number.
 - **CAUSE:** mmap and the CUDA allocator double-count pages
-  during safetensors load; QLoRA can OOM *earlier* than bf16
+  during safetensors load; QLoRA can OOM _earlier_ than bf16
   since dequantization adds transient allocs.
 - **CHECK:** `references/gotcha-checks.md` G3 — read `free -g`
   and `/proc/meminfo`, not `nvidia-smi`.

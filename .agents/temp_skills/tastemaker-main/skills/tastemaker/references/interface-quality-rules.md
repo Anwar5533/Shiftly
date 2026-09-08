@@ -1,6 +1,6 @@
 # Interface quality rules
 
-The craft details that separate a page that *looks* designed from one that *is* built well. `references/anti-slop-checklist.md` catches output that reads as AI-generated; this file catches output that reads as amateur — broken keyboard access, layout shift, dead paste handlers, hardcoded date formats.
+The craft details that separate a page that _looks_ designed from one that _is_ built well. `references/anti-slop-checklist.md` catches output that reads as AI-generated; this file catches output that reads as amateur — broken keyboard access, layout shift, dead paste handlers, hardcoded date formats.
 
 Adapted from **Vercel's Web Interface Guidelines** (`github.com/vercel-labs/web-interface-guidelines`), which is the best public codification of this layer. Fetch the current version when it matters — it's actively maintained and this is a snapshot:
 
@@ -76,7 +76,7 @@ These overlap with `references/animation-guidelines.md`'s motion gate and `scrip
 - Explicit `width`/`height` to prevent layout shift.
 - `loading="lazy"` below the fold; `fetchpriority="high"` for the critical above-fold image.
 
-> Related real bug worth remembering: setting HTML `width`/`height` attributes *and* a CSS `aspect-ratio` without `height: auto` makes the browser use the literal attribute height. It silently blew up a card layout on this project's own site. Set `height: auto` when `aspect-ratio` drives the box.
+> Related real bug worth remembering: setting HTML `width`/`height` attributes _and_ a CSS `aspect-ratio` without `height: auto` makes the browser use the literal attribute height. It silently blew up a card layout on this project's own site. Set `height: auto` when `aspect-ratio` drives the box.
 
 ## Performance
 

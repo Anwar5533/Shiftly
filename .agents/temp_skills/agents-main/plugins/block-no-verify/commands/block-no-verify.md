@@ -1,6 +1,6 @@
 ---
-description: "Set up PreToolUse hook to block --no-verify and other git bypass flags in Claude Code projects"
-argument-hint: "[--global] [--extend <additional-flags>]"
+description: 'Set up PreToolUse hook to block --no-verify and other git bypass flags in Claude Code projects'
+argument-hint: '[--global] [--extend <additional-flags>]'
 ---
 
 # Block No-Verify Setup
@@ -55,11 +55,13 @@ Add or merge the following PreToolUse hook configuration:
 ```
 
 If a settings file already exists:
+
 - Preserve all existing configuration
 - Merge the new hook into the existing `hooks.PreToolUse` array
 - Do not overwrite existing hooks
 
 If `--extend` flag is passed with additional flags:
+
 - Add those flags to the grep pattern (e.g., `--extend "force,force-with-lease"`)
 
 ### 4. Verify the Configuration

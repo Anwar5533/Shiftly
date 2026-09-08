@@ -11,8 +11,12 @@
   animation: auto-gate-fade-in 320ms ease-out;
 }
 @keyframes auto-gate-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .auto-gate-card {

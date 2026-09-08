@@ -1,6 +1,6 @@
 ---
-description: "Orchestrate comprehensive multi-dimensional code review using specialized review agents across architecture, security, performance, testing, and best practices"
-argument-hint: "<target path or description> [--security-focus] [--performance-critical] [--strict-mode] [--framework react|spring|django|rails]"
+description: 'Orchestrate comprehensive multi-dimensional code review using specialized review agents across architecture, security, performance, testing, and best practices'
+argument-hint: '<target path or description> [--security-focus] [--performance-critical] [--strict-mode] [--framework react|spring|django|rails]'
 ---
 
 # Comprehensive Code Review Orchestrator

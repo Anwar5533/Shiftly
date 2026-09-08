@@ -21,12 +21,12 @@ the job starts.
 
 ## Common Issues Quick Reference
 
-| Situation | Do this |
-|---|---|
-| Planning headroom before launch | Budget against `free -g`, not `nvidia-smi` — see UMA Memory Model |
-| Job OOMs on unified memory | Work the OOM Ladder in order: flush, then batch/pack, then method downgrade |
-| Throughput drops mid-run | Check the power/temp log before assuming a config bug — see Thermal Monitoring |
-| Trainer + inference server both wanted | Run one at a time — see Concurrent Workloads |
+| Situation                              | Do this                                                                        |
+| -------------------------------------- | ------------------------------------------------------------------------------ |
+| Planning headroom before launch        | Budget against `free -g`, not `nvidia-smi` — see UMA Memory Model              |
+| Job OOMs on unified memory             | Work the OOM Ladder in order: flush, then batch/pack, then method downgrade    |
+| Throughput drops mid-run               | Check the power/temp log before assuming a config bug — see Thermal Monitoring |
+| Trainer + inference server both wanted | Run one at a time — see Concurrent Workloads                                   |
 
 ## When to Use This Skill
 
@@ -213,7 +213,7 @@ an OOM:
   under uncapped/near-capacity contention, and
   vice versa — neither logs an error, so a slow
   run or lost KV cache is a contention symptom to
-  check for. Stop unrelated *uncapped* servers
+  check for. Stop unrelated _uncapped_ servers
   before a long or full-pool run.
 
 Check for GPU-resident processes first:

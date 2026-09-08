@@ -24,10 +24,12 @@ The user will describe their user type and available research data. Work through
 
 1. **Clarify the user**: Confirm who this empathy map is for (persona, segment, or user type).
 2. **Map each quadrant**:
-  - **Says**: Direct quotes and statements from research (use actual quotes where available)
-  - **Thinks**: Beliefs, concerns, and thoughts inferred from behavior and context
-  - **Does**: Observable actions, behaviors, and workarounds
-  - **Feels**: Emotional states, anxieties, and motivations
+
+- **Says**: Direct quotes and statements from research (use actual quotes where available)
+- **Thinks**: Beliefs, concerns, and thoughts inferred from behavior and context
+- **Does**: Observable actions, behaviors, and workarounds
+- **Feels**: Emotional states, anxieties, and motivations
+
 3. **Identify goals**: What is this user trying to achieve?
 4. **Identify pain points**: What barriers, frustrations, or unmet needs exist?
 5. **Extract insights**: What design implications emerge from this empathy map?

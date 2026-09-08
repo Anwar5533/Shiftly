@@ -270,7 +270,7 @@ is lossless or lossy — pick before running:**
   design**, not a signal of a bug. A quantized
   checkpoint legitimately perturbs logits, so
   0/5 exact matches with 5/5 schema-valid,
-  on-template outputs is the *expected healthy*
+  on-template outputs is the _expected healthy_
   result for a lossy export. **The gate for a lossy
   export is the task grader's verdict**, per
   `SKILL.md`'s Workload Overrides section — run
@@ -278,7 +278,7 @@ is lossless or lossy — pick before running:**
   `eval-harness-first`) against both the pre- and
   post-export output, and diff verdicts, not text.
   A byte-match diff is still worth logging for
-  triage (it tells you *how much* the output
+  triage (it tells you _how much_ the output
   changed), but it must never gate a lossy export by
   itself.
 

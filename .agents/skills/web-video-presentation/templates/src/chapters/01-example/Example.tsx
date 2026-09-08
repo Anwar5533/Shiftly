@@ -1,6 +1,6 @@
-import { MaskReveal } from "../../components/MaskReveal";
-import type { ChapterStepProps } from "../../registry/types";
-import "./Example.css";
+import { MaskReveal } from '../../components/MaskReveal';
+import type { ChapterStepProps } from '../../registry/types';
+import './Example.css';
 
 /**
  * Reference chapter — replace with your own.
@@ -20,7 +20,7 @@ export default function ExampleChapter({ step }: ChapterStepProps) {
           <span className="brand">Your Presentation</span>
           <span className="issue">Issue · 01 — Replace this</span>
         </header>
-        <hr className="rule" style={{ marginTop: "var(--space-5)" }} />
+        <hr className="rule" style={{ marginTop: 'var(--space-5)' }} />
 
         <div className="ex-cover-body">
           <div className="kicker">Chapter 01 — Example</div>
@@ -51,7 +51,7 @@ export default function ExampleChapter({ step }: ChapterStepProps) {
           <span className="brand">Your Presentation</span>
           <span className="issue">Issue · 01</span>
         </header>
-        <hr className="rule" style={{ marginTop: "var(--space-5)" }} />
+        <hr className="rule" style={{ marginTop: 'var(--space-5)' }} />
 
         <div className="ex-split">
           <div className="ex-split-num hero-num">02</div>
@@ -69,9 +69,8 @@ export default function ExampleChapter({ step }: ChapterStepProps) {
               </MaskReveal>
             </h2>
             <p className="ex-split-p">
-              The current theme controls every visual detail — palette,
-              fonts, hero-number style, rule weight, decoration, motion.
-              The chapter code is theme-agnostic.
+              The current theme controls every visual detail — palette, fonts, hero-number style,
+              rule weight, decoration, motion. The chapter code is theme-agnostic.
             </p>
           </div>
         </div>
@@ -95,9 +94,7 @@ export default function ExampleChapter({ step }: ChapterStepProps) {
             <span className="serif-cn">chapters.</span>
           </MaskReveal>
         </div>
-        <div className="ex-close-foot label-mono">
-          See SKILL.md / CHAPTER-CRAFT.md / THEMES.md
-        </div>
+        <div className="ex-close-foot label-mono">See SKILL.md / CHAPTER-CRAFT.md / THEMES.md</div>
       </div>
     </div>
   );

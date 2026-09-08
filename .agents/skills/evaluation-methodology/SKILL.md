@@ -25,14 +25,14 @@ per-dimension blend weights.
 
 The static analyzer (`layers/static.py`) runs six sub-checks directly against the parsed SKILL.md:
 
-| Sub-check | What it measures |
-|---|---|
-| `frontmatter_quality` | Name presence, description length, trigger-phrase quality |
-| `orchestration_wiring` | Output/input documentation, code block count, orchestrator anti-pattern |
-| `progressive_disclosure` | Line count vs. sweet-spot (200–600 lines), references/ and assets/ bonuses |
-| `structural_completeness` | Heading density, code blocks, examples section, troubleshooting section |
-| `token_efficiency` | MUST/NEVER/ALWAYS density, duplicate-line repetition ratio |
-| `ecosystem_coherence` | Cross-references to other skills/agents, "related"/"see also" mentions |
+| Sub-check                 | What it measures                                                           |
+| ------------------------- | -------------------------------------------------------------------------- |
+| `frontmatter_quality`     | Name presence, description length, trigger-phrase quality                  |
+| `orchestration_wiring`    | Output/input documentation, code block count, orchestrator anti-pattern    |
+| `progressive_disclosure`  | Line count vs. sweet-spot (200–600 lines), references/ and assets/ bonuses |
+| `structural_completeness` | Heading density, code blocks, examples section, troubleshooting section    |
+| `token_efficiency`        | MUST/NEVER/ALWAYS density, duplicate-line repetition ratio                 |
+| `ecosystem_coherence`     | Cross-references to other skills/agents, "related"/"see also" mentions     |
 
 These six sub-checks feed directly into six of the ten final dimensions (via `STATIC_TO_DIMENSION`
 mapping). The remaining four dimensions — `output_quality`, `scope_calibration`,
@@ -97,36 +97,36 @@ composite = Σ(dimension_weight × blended_dimension_score) × 100 × anti_patte
 
 ### Dimension Weights
 
-| Dimension | Weight | Why it matters |
-|---|---|---|
-| `triggering_accuracy` | 0.25 | A skill that never fires — or fires incorrectly — has no value |
-| `orchestration_fitness` | 0.20 | Skills must be pure workers; supervisor logic belongs in agents |
-| `output_quality` | 0.15 | Correct, complete output is the primary deliverable |
-| `scope_calibration` | 0.12 | Neither a stub nor a bloated monster |
-| `progressive_disclosure` | 0.10 | SKILL.md is lean; detail lives in references/ |
-| `token_efficiency` | 0.06 | Minimal context waste per invocation |
-| `robustness` | 0.05 | Handles edge cases without crashing |
-| `structural_completeness` | 0.03 | Correct sections in the right order |
-| `code_template_quality` | 0.02 | Working, copy-paste-ready examples |
-| `ecosystem_coherence` | 0.02 | Cross-references; no duplication with siblings |
+| Dimension                 | Weight | Why it matters                                                  |
+| ------------------------- | ------ | --------------------------------------------------------------- |
+| `triggering_accuracy`     | 0.25   | A skill that never fires — or fires incorrectly — has no value  |
+| `orchestration_fitness`   | 0.20   | Skills must be pure workers; supervisor logic belongs in agents |
+| `output_quality`          | 0.15   | Correct, complete output is the primary deliverable             |
+| `scope_calibration`       | 0.12   | Neither a stub nor a bloated monster                            |
+| `progressive_disclosure`  | 0.10   | SKILL.md is lean; detail lives in references/                   |
+| `token_efficiency`        | 0.06   | Minimal context waste per invocation                            |
+| `robustness`              | 0.05   | Handles edge cases without crashing                             |
+| `structural_completeness` | 0.03   | Correct sections in the right order                             |
+| `code_template_quality`   | 0.02   | Working, copy-paste-ready examples                              |
+| `ecosystem_coherence`     | 0.02   | Cross-references; no duplication with siblings                  |
 
 ### Layer Blend Weights
 
 Each dimension draws from different layers at different ratios. With all three layers active
 (`--depth deep` or `certify`):
 
-| Dimension | Static | Judge | Monte Carlo |
-|---|---|---|---|
-| `triggering_accuracy` | 0.15 | 0.25 | 0.60 |
-| `orchestration_fitness` | 0.10 | 0.70 | 0.20 |
-| `output_quality` | 0.00 | 0.40 | 0.60 |
-| `scope_calibration` | 0.30 | 0.55 | 0.15 |
-| `progressive_disclosure` | 0.80 | 0.20 | 0.00 |
-| `token_efficiency` | 0.40 | 0.10 | 0.50 |
-| `robustness` | 0.00 | 0.20 | 0.80 |
-| `structural_completeness` | 0.90 | 0.10 | 0.00 |
-| `code_template_quality` | 0.30 | 0.70 | 0.00 |
-| `ecosystem_coherence` | 0.85 | 0.15 | 0.00 |
+| Dimension                 | Static | Judge | Monte Carlo |
+| ------------------------- | ------ | ----- | ----------- |
+| `triggering_accuracy`     | 0.15   | 0.25  | 0.60        |
+| `orchestration_fitness`   | 0.10   | 0.70  | 0.20        |
+| `output_quality`          | 0.00   | 0.40  | 0.60        |
+| `scope_calibration`       | 0.30   | 0.55  | 0.15        |
+| `progressive_disclosure`  | 0.80   | 0.20  | 0.00        |
+| `token_efficiency`        | 0.40   | 0.10  | 0.50        |
+| `robustness`              | 0.00   | 0.20  | 0.80        |
+| `structural_completeness` | 0.90   | 0.10  | 0.00        |
+| `code_template_quality`   | 0.30   | 0.70  | 0.00        |
+| `ecosystem_coherence`     | 0.85   | 0.15  | 0.00        |
 
 At `--depth standard` (static + judge only), blends are renormalized to drop the Monte Carlo
 column. At `--depth quick` (static only), all weight falls on Layer 1.
@@ -150,13 +150,13 @@ deflate scores.
 
 Each dimension score is a float in `[0.0, 1.0]`. The CLI converts it to a letter grade:
 
-| Grade | Score range | Meaning |
-|---|---|---|
-| A | 0.90 – 1.00 | Excellent — no meaningful improvement needed |
-| B | 0.80 – 0.89 | Good — minor gaps only |
-| C | 0.70 – 0.79 | Adequate — one or two clear improvement areas |
-| D | 0.60 – 0.69 | Marginal — needs targeted work |
-| F | < 0.60 | Failing — significant remediation required |
+| Grade | Score range | Meaning                                       |
+| ----- | ----------- | --------------------------------------------- |
+| A     | 0.90 – 1.00 | Excellent — no meaningful improvement needed  |
+| B     | 0.80 – 0.89 | Good — minor gaps only                        |
+| C     | 0.70 – 0.79 | Adequate — one or two clear improvement areas |
+| D     | 0.60 – 0.69 | Marginal — needs targeted work                |
+| F     | < 0.60      | Failing — significant remediation required    |
 
 When reading a report, focus first on the lowest-graded dimension that has the highest weight.
 A D in `triggering_accuracy` (weight 0.25) costs far more than a D in `ecosystem_coherence`
@@ -173,13 +173,13 @@ description or instructions that work for some prompt styles but not others.
 Badges require both a composite score threshold AND an Elo threshold (when Elo is available).
 The `Badge.from_scores()` logic checks composite first, then Elo if provided:
 
-| Badge | Composite | Elo | Meaning |
-|---|---|---|---|
-| Platinum ★★★★★ | ≥ 90 | ≥ 1600 | Reference quality — suitable for gold corpus |
-| Gold ★★★★ | ≥ 80 | ≥ 1500 | Production ready |
-| Silver ★★★ | ≥ 70 | ≥ 1400 | Functional, has improvement opportunities |
-| Bronze ★★ | ≥ 60 | ≥ 1300 | Minimum viable — not yet recommended for users |
-| — | < 60 | any | Does not meet minimum bar |
+| Badge          | Composite | Elo    | Meaning                                        |
+| -------------- | --------- | ------ | ---------------------------------------------- |
+| Platinum ★★★★★ | ≥ 90      | ≥ 1600 | Reference quality — suitable for gold corpus   |
+| Gold ★★★★      | ≥ 80      | ≥ 1500 | Production ready                               |
+| Silver ★★★     | ≥ 70      | ≥ 1400 | Functional, has improvement opportunities      |
+| Bronze ★★      | ≥ 60      | ≥ 1300 | Minimum viable — not yet recommended for users |
+| —              | < 60      | any    | Does not meet minimum bar                      |
 
 The Elo threshold is skipped when Elo has not been computed (i.e., at quick or standard depth
 without `certify`). A skill can earn a badge on composite score alone in those cases.
@@ -211,6 +211,7 @@ fewer than 10 such directives per 100 lines.
 when to invoke the skill. The skill becomes invisible to autonomous invocation.
 
 **Fix:** Write a description of at least 60–120 characters that includes:
+
 - A "Use this skill when..." or "Use when..." trigger clause
 - Two or more concrete contexts separated by commas or "or"
 
@@ -234,6 +235,7 @@ explaining badge thresholds to a team."
 wasting tokens on content only needed in edge cases.
 
 **Fix:** Create a `references/` directory and move supporting material there:
+
 - Detailed rubrics → `references/rubrics.md`
 - Extended examples → `references/examples.md`
 - Configuration reference → `references/config.md`
@@ -396,8 +398,8 @@ Top-level shape of `--output json`:
 {
   "composite": { "score": 76.5, "badge": "Silver", "elo": null },
   "dimensions": {
-    "triggering_accuracy": { "score": 0.65, "grade": "D", "ci_low": 0.60, "ci_high": 0.70 },
-    "orchestration_fitness": { "score": 0.85, "grade": "B", "ci_low": 0.80, "ci_high": 0.90 }
+    "triggering_accuracy": { "score": 0.65, "grade": "D", "ci_low": 0.6, "ci_high": 0.7 },
+    "orchestration_fitness": { "score": 0.85, "grade": "B", "ci_low": 0.8, "ci_high": 0.9 }
   },
   "layers": [
     { "name": "static", "duration_ms": 1243, "anti_patterns": ["OVER_CONSTRAINED"] },
@@ -427,18 +429,18 @@ dimensions first.
 
 Use this table when a score report shows multiple D/F grades and you need to prioritize effort.
 
-| Dimension | Weight | Typical fix effort | Score impact / hour | Fix first if… |
-|---|---|---|---|---|
-| `triggering_accuracy` | 0.25 | Low — description rewrite | High | Score < 70 overall |
-| `orchestration_fitness` | 0.20 | Medium — restructure sections | High | Skill mixes worker + supervisor logic |
-| `output_quality` | 0.15 | Medium — add examples | Medium | Judge score < 0.70 |
-| `scope_calibration` | 0.12 | Low — move content to references/ | Medium | File is < 100 or > 800 lines |
-| `progressive_disclosure` | 0.10 | Low — create references/ dir | Medium | No references/ directory exists |
-| `token_efficiency` | 0.06 | Low — reduce MUST/ALWAYS/NEVER | Low | Anti-pattern count ≥ 3 |
-| `robustness` | 0.05 | Low — add Troubleshooting section | Low | No edge-case handling documented |
-| `structural_completeness` | 0.03 | Very low — add headings/code blocks | Low | Fewer than 4 H2 headings |
-| `code_template_quality` | 0.02 | Very low — add language tags | Very low | Code blocks missing language tags |
-| `ecosystem_coherence` | 0.02 | Very low — add Related section | Very low | No cross-references at all |
+| Dimension                 | Weight | Typical fix effort                  | Score impact / hour | Fix first if…                         |
+| ------------------------- | ------ | ----------------------------------- | ------------------- | ------------------------------------- |
+| `triggering_accuracy`     | 0.25   | Low — description rewrite           | High                | Score < 70 overall                    |
+| `orchestration_fitness`   | 0.20   | Medium — restructure sections       | High                | Skill mixes worker + supervisor logic |
+| `output_quality`          | 0.15   | Medium — add examples               | Medium              | Judge score < 0.70                    |
+| `scope_calibration`       | 0.12   | Low — move content to references/   | Medium              | File is < 100 or > 800 lines          |
+| `progressive_disclosure`  | 0.10   | Low — create references/ dir        | Medium              | No references/ directory exists       |
+| `token_efficiency`        | 0.06   | Low — reduce MUST/ALWAYS/NEVER      | Low                 | Anti-pattern count ≥ 3                |
+| `robustness`              | 0.05   | Low — add Troubleshooting section   | Low                 | No edge-case handling documented      |
+| `structural_completeness` | 0.03   | Very low — add headings/code blocks | Low                 | Fewer than 4 H2 headings              |
+| `code_template_quality`   | 0.02   | Very low — add language tags        | Very low            | Code blocks missing language tags     |
+| `ecosystem_coherence`     | 0.02   | Very low — add Related section      | Very low            | No cross-references at all            |
 
 **Rule of thumb:** Fix `triggering_accuracy` before anything else — at weight 0.25 it delivers
 more composite-score gain per hour than all low-weight dimensions combined.
@@ -452,7 +454,7 @@ more composite-score gain per hour than all low-weight dimensions combined.
 
 ### Orchestration Fitness (weight 0.20)
 
-- Document what the skill *receives* and what it *returns* — not what it orchestrates.
+- Document what the skill _receives_ and what it _returns_ — not what it orchestrates.
 - Avoid "orchestrate", "coordinate", "dispatch", "manage workflow" in SKILL.md.
 - Include an "Output format" section and 2+ code blocks showing concrete worker behavior.
 

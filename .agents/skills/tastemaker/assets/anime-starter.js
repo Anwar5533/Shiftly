@@ -37,16 +37,18 @@
   forcing that initial check — the fix, not a workaround to route around.
 */
 (function (global) {
-  "use strict";
+  'use strict';
 
   function init(options) {
     var opts = Object.assign(
-      { duration: 220, distance: 16, ease: "outQuad", staggerStep: 60 },
-      options || {}
+      { duration: 220, distance: 16, ease: 'outQuad', staggerStep: 60 },
+      options || {},
     );
 
-    if (typeof anime === "undefined") {
-      console.warn("TastemakerAnimeMotion.init: anime.js is not loaded. Include anime.min.js before this script.");
+    if (typeof anime === 'undefined') {
+      console.warn(
+        'TastemakerAnimeMotion.init: anime.js is not loaded. Include anime.min.js before this script.',
+      );
       return;
     }
 
@@ -55,40 +57,42 @@
     // anime.js's createScope({ mediaQueries }) is the direct equivalent of
     // gsap.matchMedia() — the same idiomatic branch on prefers-reduced-motion,
     // just anime.js's own API shape.
-    var scope = anime.createScope({
-      mediaQueries: {
-        reduce: "(prefers-reduced-motion: reduce)",
-      },
-    }).add(function (self) {
-      var reduce = self.matches.reduce;
-      var duration = reduce ? 1 : opts.duration;
-      var distance = reduce ? 0 : opts.distance;
+    var scope = anime
+      .createScope({
+        mediaQueries: {
+          reduce: '(prefers-reduced-motion: reduce)',
+        },
+      })
+      .add(function (self) {
+        var reduce = self.matches.reduce;
+        var duration = reduce ? 1 : opts.duration;
+        var distance = reduce ? 0 : opts.distance;
 
-      document.querySelectorAll("[data-reveal]").forEach(function (el) {
-        var isGroup = el.hasAttribute("data-reveal-group");
-        var targets = isGroup ? el.children : el;
+        document.querySelectorAll('[data-reveal]').forEach(function (el) {
+          var isGroup = el.hasAttribute('data-reveal-group');
+          var targets = isGroup ? el.children : el;
 
-        var observer = anime.onScroll({ target: el });
+          var observer = anime.onScroll({ target: el });
 
-        anime.animate(targets, {
-          opacity: [0, 1],
-          translateY: [distance, 0],
-          duration: duration,
-          ease: opts.ease,
-          delay: isGroup ? anime.stagger(reduce ? 0 : opts.staggerStep) : 0,
-          autoplay: observer,
+          anime.animate(targets, {
+            opacity: [0, 1],
+            translateY: [distance, 0],
+            duration: duration,
+            ease: opts.ease,
+            delay: isGroup ? anime.stagger(reduce ? 0 : opts.staggerStep) : 0,
+            autoplay: observer,
+          });
+
+          observers.push(observer);
         });
 
-        observers.push(observer);
+        observers.forEach(function (o) {
+          o.handleScroll();
+        });
       });
-
-      observers.forEach(function (o) {
-        o.handleScroll();
-      });
-    });
 
     return scope;
   }
 
   global.TastemakerAnimeMotion = { init: init };
-})(typeof window !== "undefined" ? window : this);
+})(typeof window !== 'undefined' ? window : this);

@@ -24,12 +24,12 @@ Debt is a structural choice that makes future change more expensive, where the c
 
 A candidate finding is debt only if it passes all four tests. Each is a separate stage in the pipeline, and each is checked by something other than the agent that raised it.
 
-| Test | The question | Fails when |
-|---|---|---|
-| **Real** | Does the repository actually do this? | The cited file, schema, identifier, or edge does not support the claim |
-| **Uncovered** | Has this already been decided? | A settled ADR, a recorded conflict, a stated assumption, or a declared trade-off already accounts for it |
-| **Unstated** | Was the cost written down? | The design names the trade-off and accepts it — a trade-off is not debt, an undeclared one is |
-| **Live** | Does anyone touch it? | The components carry no changes in the observed history and sit outside the primary flow |
+| Test          | The question                          | Fails when                                                                                               |
+| ------------- | ------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| **Real**      | Does the repository actually do this? | The cited file, schema, identifier, or edge does not support the claim                                   |
+| **Uncovered** | Has this already been decided?        | A settled ADR, a recorded conflict, a stated assumption, or a declared trade-off already accounts for it |
+| **Unstated**  | Was the cost written down?            | The design names the trade-off and accepts it — a trade-off is not debt, an undeclared one is            |
+| **Live**      | Does anyone touch it?                 | The components carry no changes in the observed history and sit outside the primary flow                 |
 
 Weight every finding by how often its components actually change, and say when that history was unavailable. Complexity nobody reads and nobody edits costs almost nothing; the same complexity on a path the team works weekly is expensive.
 
@@ -41,16 +41,16 @@ A model is an unreliable detector of architectural problems and a reliable dispr
 
 Stages pass conclusions, never arguments. A stage that reads the previous stage's reasoning adopts it, and the verification becomes agreement. Each stage restarts from the artifact before it.
 
-| # | Stage | Runs on | Produces |
-|---|---|---|---|
-| 0 | **Facts** | always | the component graph, edge contracts, the ADR inventory with statuses, per-path change counts, components that change together, the envelope rows, and the ids of every invariant and non-functional target |
-| 1 | **Find** | once per category | candidate findings with a pattern, components, evidence, and a claimed consequence and exposure |
-| 2 | **Gates** | every candidate | the `real` and `live` verdicts |
-| 3 | **Red team** | scaled by provisional severity | one refutation attempt per lens, each with its objection |
-| 4 | **Re-derive** | every survivor | severity recomputed from what was verified |
-| 5 | **Remedy** | every survivor | the action, its cost, which candidates resolve it, and whether it can be undone |
-| 6 | **Merge** | always | the prior run joined in, baseline states set |
-| 7 | **Record** | always | the `debt` object, including what could not be established |
+| #   | Stage         | Runs on                        | Produces                                                                                                                                                                                                   |
+| --- | ------------- | ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0   | **Facts**     | always                         | the component graph, edge contracts, the ADR inventory with statuses, per-path change counts, components that change together, the envelope rows, and the ids of every invariant and non-functional target |
+| 1   | **Find**      | once per category              | candidate findings with a pattern, components, evidence, and a claimed consequence and exposure                                                                                                            |
+| 2   | **Gates**     | every candidate                | the `real` and `live` verdicts                                                                                                                                                                             |
+| 3   | **Red team**  | scaled by provisional severity | one refutation attempt per lens, each with its objection                                                                                                                                                   |
+| 4   | **Re-derive** | every survivor                 | severity recomputed from what was verified                                                                                                                                                                 |
+| 5   | **Remedy**    | every survivor                 | the action, its cost, which candidates resolve it, and whether it can be undone                                                                                                                            |
+| 6   | **Merge**     | always                         | the prior run joined in, baseline states set                                                                                                                                                               |
+| 7   | **Record**    | always                         | the `debt` object, including what could not be established                                                                                                                                                 |
 
 Only stages 1 to 3 carry the argument; the rest is reading, a lookup, and bookkeeping. Spend the budget on generating findings per category and then trying to destroy them.
 
@@ -58,16 +58,16 @@ Only stages 1 to 3 carry the argument; the rest is reading, a lookup, and bookke
 
 ### Kill rules
 
-| Verdict | Effect | Why |
-|---|---|---|
-| **Real** refuted | Delete | The claim is untrue; there is nothing to weigh |
-| **Uncovered** refuted | Delete | A recorded decision makes this a decision, not debt |
-| **Unstated** refuted | Drop `confidence` one level, and the objection becomes the finding's disconfirming line | Whether a trade-off is adequately stated is a judgement, and a wrong deletion is invisible |
-| **Live** refuted | Set `exposure` to `off-path` | Change history is a proxy, so this lowers the finding rather than removing it — and an untouched component on the primary flow can still break |
+| Verdict               | Effect                                                                                  | Why                                                                                                                                            |
+| --------------------- | --------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Real** refuted      | Delete                                                                                  | The claim is untrue; there is nothing to weigh                                                                                                 |
+| **Uncovered** refuted | Delete                                                                                  | A recorded decision makes this a decision, not debt                                                                                            |
+| **Unstated** refuted  | Drop `confidence` one level, and the objection becomes the finding's disconfirming line | Whether a trade-off is adequately stated is a judgement, and a wrong deletion is invisible                                                     |
+| **Live** refuted      | Set `exposure` to `off-path`                                                            | Change history is a proxy, so this lowers the finding rather than removing it — and an untouched component on the primary flow can still break |
 
 Deletion is silent, survival is visible: reserve it for the two verdicts that make a finding factually wrong, and let the reader adjudicate the rest.
 
-`severity` has exactly one source — the lookup in [Severity](#severity) — so a lens that lowers a finding moves an **input** instead: *Live* moves `exposure`, *Unstated* moves `confidence`, which the lookup never reads. Stage 4 re-derives from whatever the lenses left, so a reader who disagrees is arguing with an axis rather than a verdict that appeared from nowhere.
+`severity` has exactly one source — the lookup in [Severity](#severity) — so a lens that lowers a finding moves an **input** instead: _Live_ moves `exposure`, _Unstated_ moves `confidence`, which the lookup never reads. Stage 4 re-derives from whatever the lenses left, so a reader who disagrees is arguing with an axis rather than a verdict that appeared from nowhere.
 
 ### Tools
 
@@ -88,24 +88,34 @@ The framing each stage runs under is load-bearing: a verification prompt that op
 **Stage 1 — Find.** One pass per category, reading the facts and this file's patterns. Do not read the prior run's findings: a finder primed with last week's list reproduces it and discovers nothing. Emit candidates only; prose is rewritten later, so spend the effort on the evidence.
 
 ```jsonc
-{ "pattern": "shared-persistence", "components": ["billing-svc", "orders-db"],
-  "evidence": [ { "text": "both services map the orders table as authoritative",
-                  "source": "billing/models.py; fulfilment/schema.sql" } ],
-  "claimedConsequence": "breaking",   // breaking | friction
-  "claimedExposure": "on-path" }      // on-path | off-path
+{
+  "pattern": "shared-persistence",
+  "components": ["billing-svc", "orders-db"],
+  "evidence": [
+    {
+      "text": "both services map the orders table as authoritative",
+      "source": "billing/models.py; fulfilment/schema.sql",
+    },
+  ],
+  "claimedConsequence": "breaking", // breaking | friction
+  "claimedExposure": "on-path",
+} // on-path | off-path
 ```
 
-**Stage 2 — Gates.** Cheap, mechanical, and run on every candidate without exception. *Real*: open what the evidence cites and confirm it says what the finding claims. *Live*: look up the change counts for the cited components. These two catch the errors that cost the least to find and the most to publish.
+**Stage 2 — Gates.** Cheap, mechanical, and run on every candidate without exception. _Real_: open what the evidence cites and confirm it says what the finding claims. _Live_: look up the change counts for the cited components. These two catch the errors that cost the least to find and the most to publish.
 
-**Stage 3 — Red team.** One agent per lens, each seeing the facts and the claim but not the finder's argument. Each is asked to **destroy** the finding, and to report it refuted when it cannot decide. A verifier asked whether a finding is correct will agree; a verifier asked to break it will try. `blocking` and `high` candidates get *Uncovered* and *Unstated* as separate agents. `medium` and `low` get one combined pass.
+**Stage 3 — Red team.** One agent per lens, each seeing the facts and the claim but not the finder's argument. Each is asked to **destroy** the finding, and to report it refuted when it cannot decide. A verifier asked whether a finding is correct will agree; a verifier asked to break it will try. `blocking` and `high` candidates get _Uncovered_ and _Unstated_ as separate agents. `medium` and `low` get one combined pass.
 
 ```jsonc
-{ "lens": "uncovered", "refuted": false,
+{
+  "lens": "uncovered",
+  "refuted": false,
   "objection": "ADR-0004 records the shared table but only for reads; writes were never decided",
-  "confidence": "high" }
+  "confidence": "high",
+}
 ```
 
-**Stage 4 — Re-derive.** Recompute consequence and exposure from what the gates and lenses established, not from what stage 1 claimed, then look up severity. A finding whose `breaking` claim rested on evidence the *Real* gate softened is no longer breaking.
+**Stage 4 — Re-derive.** Recompute consequence and exposure from what the gates and lenses established, not from what stage 1 claimed, then look up severity. A finding whose `breaking` claim rested on evidence the _Real_ gate softened is no longer breaking.
 
 **Stage 5 — Remedy.** A fresh author who has not seen stages 1 through 3. It receives a confirmed problem, the facts, and the [Never recommend](#never-recommend) list, and it is not defending anything. Give the action, what it costs, which candidates already resolve it, and whether it can be undone once shipped.
 
@@ -121,78 +131,78 @@ Every pattern carries a **Not when** clause. Without one a signature gets matche
 
 ### boundaries — where responsibility is drawn
 
-| Pattern | Signature | Remedy | Not when |
-|---|---|---|---|
-| `wrong-cuts` | Components split by technical layer rather than capability; one product flow crosses every component | Re-cut along the flow | The layers are separate deployment units with genuinely different scaling or trust needs |
-| `feature-concentration` | One component protects more than one invariant, or its own description needs "and" to state its job | Split by protected invariant | The concerns share more state than they own, so splitting distributes a transaction |
-| `scattered-functionality` | The same rule is implemented at two or more hops of one flow, or named in two components' notes | Consolidate to one owner | The repetition is a deliberate isolation boundary with a stated reason |
-| `temporal-decomposition` | Component names track pipeline stages, and consecutive stages both parse the same format | Merge the stages that share the format knowledge | The stages scale independently and the format between them is a published contract |
-| `pass-through-component` | Almost every edge forwards, and the contract is near-identical to the downstream's | Expose the downstream, redistribute the work, or merge | It terminates a trust boundary, or it dispatches among two or more implementations |
-| `shallow-component` | The interface is a one-to-one projection of the store behind it | Deepen it, or fold it into its caller | It is a deliberate insulating layer over a contract you do not control |
+| Pattern                   | Signature                                                                                            | Remedy                                                 | Not when                                                                                 |
+| ------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| `wrong-cuts`              | Components split by technical layer rather than capability; one product flow crosses every component | Re-cut along the flow                                  | The layers are separate deployment units with genuinely different scaling or trust needs |
+| `feature-concentration`   | One component protects more than one invariant, or its own description needs "and" to state its job  | Split by protected invariant                           | The concerns share more state than they own, so splitting distributes a transaction      |
+| `scattered-functionality` | The same rule is implemented at two or more hops of one flow, or named in two components' notes      | Consolidate to one owner                               | The repetition is a deliberate isolation boundary with a stated reason                   |
+| `temporal-decomposition`  | Component names track pipeline stages, and consecutive stages both parse the same format             | Merge the stages that share the format knowledge       | The stages scale independently and the format between them is a published contract       |
+| `pass-through-component`  | Almost every edge forwards, and the contract is near-identical to the downstream's                   | Expose the downstream, redistribute the work, or merge | It terminates a trust boundary, or it dispatches among two or more implementations       |
+| `shallow-component`       | The interface is a one-to-one projection of the store behind it                                      | Deepen it, or fold it into its caller                  | It is a deliberate insulating layer over a contract you do not control                   |
 
 ### data-ownership — who may write, and who decides the order
 
-| Pattern | Signature | Remedy | Not when |
-|---|---|---|---|
-| `two-writers` | Two or more components write one entity and no ordering authority is named | Name one authority, or prove the writes commute | The writes are to disjoint fields with an entity-level merge already stated |
-| `shared-persistence` | Two or more components treat the same table or collection as authoritative | One owner; the others read a derived view or call the owner | One is a read-only consumer and its read path is declared |
-| `dual-write` | A flow writes two stores in sequence with no outbox, change log, or compensation | Tail the authority's change log, or write an outbox row in the effect's transaction | The second write is a cache whose staleness bound is stated |
-| `derived-without-source` | A component marked derived names no reconstruction input | Name the authoritative source, or reclassify it as authoritative | It starts empty and repopulates on demand, and the cold-start cost is stated |
-| `derived-without-cursor` | A derived component names a source but no durable position | Record the cursor that proves how far the source has been applied | The view is rebuilt whole on every refresh and the rebuild cost is stated |
+| Pattern                        | Signature                                                                                                                                          | Remedy                                                                                                                                     | Not when                                                                      |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
+| `two-writers`                  | Two or more components write one entity and no ordering authority is named                                                                         | Name one authority, or prove the writes commute                                                                                            | The writes are to disjoint fields with an entity-level merge already stated   |
+| `shared-persistence`           | Two or more components treat the same table or collection as authoritative                                                                         | One owner; the others read a derived view or call the owner                                                                                | One is a read-only consumer and its read path is declared                     |
+| `dual-write`                   | A flow writes two stores in sequence with no outbox, change log, or compensation                                                                   | Tail the authority's change log, or write an outbox row in the effect's transaction                                                        | The second write is a cache whose staleness bound is stated                   |
+| `derived-without-source`       | A component marked derived names no reconstruction input                                                                                           | Name the authoritative source, or reclassify it as authoritative                                                                           | It starts empty and repopulates on demand, and the cold-start cost is stated  |
+| `derived-without-cursor`       | A derived component names a source but no durable position                                                                                         | Record the cursor that proves how far the source has been applied                                                                          | The view is rebuilt whole on every refresh and the rebuild cost is stated     |
 | `unstated-conflict-resolution` | An entity reachable by concurrent writers with no per-field-class resolution, or whole-entity last-write-wins beside a claim that no write is lost | Apply the conflict-resolution ladder in [HEURISTICS.md](HEURISTICS.md#replication-and-consistency), and name what the chosen rule discards | Writes for one entity are routed to a single home and the routing is enforced |
 
 ### coupling — what cannot move without something else moving
 
-| Pattern | Signature | Remedy | Not when |
-|---|---|---|---|
-| `dependency-cycle` | A directed cycle in the component graph | Break it with an interface, an event, or a merge | The cycle is inside one deployment unit and one team's ownership |
-| `hub-like-dependency` | One component's inbound plus outbound degree stands far above the graph's median | Split by consumer group, or invert the direction | It is a gateway or a bus whose whole purpose is fan-in |
-| `unstable-dependency` | A component depends on one that is more volatile than itself | Invert through an interface the stable side owns | The volatile side is a vendor boundary already wrapped |
-| `information-leakage` | One decision — a wire format, a partition key, a retry policy, a token shape — is encoded in two or more components | Merge the components, or extract the decision behind an interface that hides it | Extracting it would replace a hidden dependency with an equally wide public one |
-| `distributed-monolith` | Components that change in the same commit repeatedly and cannot deploy independently | Merge them, or make the seam asynchronous | They are versioned and released together on purpose, and that is recorded |
-| `special-general-mixture` | A shared, common, or platform component whose code, schema, or configuration names one specific consumer | Pull the specific part up into that consumer | The consumer is the only one and the component is not shared in fact |
+| Pattern                   | Signature                                                                                                           | Remedy                                                                          | Not when                                                                        |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| `dependency-cycle`        | A directed cycle in the component graph                                                                             | Break it with an interface, an event, or a merge                                | The cycle is inside one deployment unit and one team's ownership                |
+| `hub-like-dependency`     | One component's inbound plus outbound degree stands far above the graph's median                                    | Split by consumer group, or invert the direction                                | It is a gateway or a bus whose whole purpose is fan-in                          |
+| `unstable-dependency`     | A component depends on one that is more volatile than itself                                                        | Invert through an interface the stable side owns                                | The volatile side is a vendor boundary already wrapped                          |
+| `information-leakage`     | One decision — a wire format, a partition key, a retry policy, a token shape — is encoded in two or more components | Merge the components, or extract the decision behind an interface that hides it | Extracting it would replace a hidden dependency with an equally wide public one |
+| `distributed-monolith`    | Components that change in the same commit repeatedly and cannot deploy independently                                | Merge them, or make the seam asynchronous                                       | They are versioned and released together on purpose, and that is recorded       |
+| `special-general-mixture` | A shared, common, or platform component whose code, schema, or configuration names one specific consumer            | Pull the specific part up into that consumer                                    | The consumer is the only one and the component is not shared in fact            |
 
 ### dependency-contracts — what each caller is owed
 
-| Pattern | Signature | Remedy | Not when |
-|---|---|---|---|
-| `no-deadline` | An edge crossing a process boundary with no completion budget, in the artifact or in the code | Assign a deadline inside the caller's remaining budget | The call is in-process and cannot block on a network |
-| `no-retry-owner` | No layer owns the retry, or two layers both retry the same call | Name exactly one owner, with capped backoff and jitter | The operation is not safely retryable and says so |
-| `unbounded-backlog` | A queue, stream, pool, or edge with no bound on the work that can accumulate | State the bound and what happens at saturation: block, shed, or spill | The producer is rate-limited upstream and that limit is stated |
-| `unbounded-result-set` | An interface returning a collection with no caller-specified limit | Put the limit in the protocol, and paginate with a stable cursor | The result is provably bounded by the domain, and the bound is stated |
-| `unstated-idempotency` | A retryable operation with no key, or a key whose scope and retention are unstated | Scope the key to caller and operation, and state its retention | The operation is naturally idempotent and that is stated |
-| `unstated-compatibility` | A schema or wire change with no compatibility direction and no deploy order | State the direction from the deploy order, and put the check in the build | Reader and writer ship as one unit and can never skew |
+| Pattern                  | Signature                                                                                     | Remedy                                                                    | Not when                                                              |
+| ------------------------ | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `no-deadline`            | An edge crossing a process boundary with no completion budget, in the artifact or in the code | Assign a deadline inside the caller's remaining budget                    | The call is in-process and cannot block on a network                  |
+| `no-retry-owner`         | No layer owns the retry, or two layers both retry the same call                               | Name exactly one owner, with capped backoff and jitter                    | The operation is not safely retryable and says so                     |
+| `unbounded-backlog`      | A queue, stream, pool, or edge with no bound on the work that can accumulate                  | State the bound and what happens at saturation: block, shed, or spill     | The producer is rate-limited upstream and that limit is stated        |
+| `unbounded-result-set`   | An interface returning a collection with no caller-specified limit                            | Put the limit in the protocol, and paginate with a stable cursor          | The result is provably bounded by the domain, and the bound is stated |
+| `unstated-idempotency`   | A retryable operation with no key, or a key whose scope and retention are unstated            | Scope the key to caller and operation, and state its retention            | The operation is naturally idempotent and that is stated              |
+| `unstated-compatibility` | A schema or wire change with no compatibility direction and no deploy order                   | State the direction from the deploy order, and put the check in the build | Reader and writer ship as one unit and can never skew                 |
 
 ### failure-containment — what stops one failure becoming all of them
 
-| Pattern | Signature | Remedy | Not when |
-|---|---|---|---|
-| `unbalanced-capacity` | A synchronous edge whose caller concurrency materially exceeds what the callee can serve, with no breaker, handshake, or bulkhead | Add the protection; do not equalise the capacity | The callee sheds load explicitly and the caller handles the rejection |
-| `no-bulkhead` | One pool, fleet, or queue serves callers of different criticality | Partition by caller or by capability, and accept the lower utilisation | Every caller shares one criticality and one failure consequence |
-| `sla-inversion` | An availability target above what the product of its synchronous dependencies can support | Decouple, degrade, or lower the target to what the dependencies allow | The dependency is on a path that degrades rather than fails |
-| `no-steady-state` | Something accumulates — logs, sessions, tombstones, rows, cache entries — with no named reclamation | Name the reclaiming mechanism and prove it keeps up | The accumulation is bounded by a stated retention that is enforced |
-| `acknowledgement-before-durability` | The acknowledgement point precedes the durability the recovery target promises | Move the acknowledgement, or restate the promise | The loss window is stated and accepted |
-| `untested-recovery` | An authoritative store with recovery targets and no evidence any restore has been exercised | Run a timed restore and record what it achieved | The store is derived and its rebuild path runs routinely |
-| `unfenced-ownership` | A leader or lease with no epoch that the resource itself validates | Add a monotonic token and check it at the resource | Ownership never moves, and the design says what happens when the owner dies |
+| Pattern                             | Signature                                                                                                                         | Remedy                                                                 | Not when                                                                    |
+| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `unbalanced-capacity`               | A synchronous edge whose caller concurrency materially exceeds what the callee can serve, with no breaker, handshake, or bulkhead | Add the protection; do not equalise the capacity                       | The callee sheds load explicitly and the caller handles the rejection       |
+| `no-bulkhead`                       | One pool, fleet, or queue serves callers of different criticality                                                                 | Partition by caller or by capability, and accept the lower utilisation | Every caller shares one criticality and one failure consequence             |
+| `sla-inversion`                     | An availability target above what the product of its synchronous dependencies can support                                         | Decouple, degrade, or lower the target to what the dependencies allow  | The dependency is on a path that degrades rather than fails                 |
+| `no-steady-state`                   | Something accumulates — logs, sessions, tombstones, rows, cache entries — with no named reclamation                               | Name the reclaiming mechanism and prove it keeps up                    | The accumulation is bounded by a stated retention that is enforced          |
+| `acknowledgement-before-durability` | The acknowledgement point precedes the durability the recovery target promises                                                    | Move the acknowledgement, or restate the promise                       | The loss window is stated and accepted                                      |
+| `untested-recovery`                 | An authoritative store with recovery targets and no evidence any restore has been exercised                                       | Run a timed restore and record what it achieved                        | The store is derived and its rebuild path runs routinely                    |
+| `unfenced-ownership`                | A leader or lease with no epoch that the resource itself validates                                                                | Add a monotonic token and check it at the resource                     | Ownership never moves, and the design says what happens when the owner dies |
 
 ### over-engineering — machinery that outruns its evidence
 
-| Pattern | Signature | Remedy | Not when |
-|---|---|---|---|
-| `machinery-outruns-envelope` | A mechanism whose anti-gate the measured envelope does not clear | Remove it and name the number that would bring it back | The envelope is projected rather than measured, and the projection is stated |
-| `gold-plating` | Extension points, configuration, or generality with no consumer exercising them | Delete the unused path; make the thing replaceable instead of extensible | A second consumer is committed and dated |
-| `unjustified-distribution` | Components split with no differing characteristic, no independent scaling, and no separate failure domain | Merge them | The split follows a team or trust boundary that is real |
-| `cargo-culted-architecture` | A pattern present with no chain to a number, an invariant, or a named failure mode | Remove it, or supply the chain | The pattern is the conventional baseline and the deviation would need the argument |
-| `unexercised-abstraction` | An interface with exactly one implementation and no second named | Inline it | It exists to make an untestable dependency testable, and that is stated |
+| Pattern                      | Signature                                                                                                 | Remedy                                                                   | Not when                                                                           |
+| ---------------------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
+| `machinery-outruns-envelope` | A mechanism whose anti-gate the measured envelope does not clear                                          | Remove it and name the number that would bring it back                   | The envelope is projected rather than measured, and the projection is stated       |
+| `gold-plating`               | Extension points, configuration, or generality with no consumer exercising them                           | Delete the unused path; make the thing replaceable instead of extensible | A second consumer is committed and dated                                           |
+| `unjustified-distribution`   | Components split with no differing characteristic, no independent scaling, and no separate failure domain | Merge them                                                               | The split follows a team or trust boundary that is real                            |
+| `cargo-culted-architecture`  | A pattern present with no chain to a number, an invariant, or a named failure mode                        | Remove it, or supply the chain                                           | The pattern is the conventional baseline and the deviation would need the argument |
+| `unexercised-abstraction`    | An interface with exactly one implementation and no second named                                          | Inline it                                                                | It exists to make an untestable dependency testable, and that is stated            |
 
 ### obsolescence — decisions the world moved past
 
-| Pattern | Signature | Remedy | Not when |
-|---|---|---|---|
-| `technological-gap` | A choice that was correct when made and that context has since invalidated | Restate the decision against today's constraints | The original constraint still holds |
-| `superseded-decision-still-implemented` | An ADR marked superseded whose structure is still in the code | Finish the migration, or un-supersede the ADR | The migration is in flight with a recorded end date |
-| `stale-reference-model` | The design or an ADR describes something the code has deliberately and correctly moved past | **Update the document.** The finding is against the reference model, not the system | The code is wrong and the document is right — then it is a different finding |
-| `abandoned-component` | A component with no inbound edges and no external trigger | Remove it | It is invoked out of band — by an operator, a schedule, or a disaster path — and that is recorded |
+| Pattern                                 | Signature                                                                                   | Remedy                                                                              | Not when                                                                                          |
+| --------------------------------------- | ------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `technological-gap`                     | A choice that was correct when made and that context has since invalidated                  | Restate the decision against today's constraints                                    | The original constraint still holds                                                               |
+| `superseded-decision-still-implemented` | An ADR marked superseded whose structure is still in the code                               | Finish the migration, or un-supersede the ADR                                       | The migration is in flight with a recorded end date                                               |
+| `stale-reference-model`                 | The design or an ADR describes something the code has deliberately and correctly moved past | **Update the document.** The finding is against the reference model, not the system | The code is wrong and the document is right — then it is a different finding                      |
+| `abandoned-component`                   | A component with no inbound edges and no external trigger                                   | Remove it                                                                           | It is invoked out of band — by an operator, a schedule, or a disaster path — and that is recorded |
 
 `stale-reference-model` is the finding an audit is most likely to get backwards. The intended architecture is what the team currently wants, not what it wrote on day one. When the implementation has moved on for good reasons and nobody updated the design, the debt is in the document — and raising that as a violation punishes correct work.
 
@@ -204,10 +214,10 @@ Severity is looked up from two axes and never chosen directly. Store both axes w
 
 **Exposure** — `on-path` when the components sit on the primary flow, inside something the recommended candidate changes, or in a zone the migration touches. `off-path` otherwise.
 
-| | on-path | off-path |
-|---|---|---|
-| **breaking** | `blocking` — fix with this change | `high` — schedule it |
-| **friction** | `medium` — fix while you are in there | `low` — record only |
+|              | on-path                               | off-path             |
+| ------------ | ------------------------------------- | -------------------- |
+| **breaking** | `blocking` — fix with this change     | `high` — schedule it |
+| **friction** | `medium` — fix while you are in there | `low` — record only  |
 
 `note` is not a severity. It is an observation with no remedy, and it carries none of the four verdicts; severity belongs only to findings that assert something is wrong.
 
@@ -220,7 +230,7 @@ Rules that keep the scale honest:
 
 ## Suppressions
 
-Patterns that look like debt and are not. Check them before emitting, and again in the *Unstated* lens.
+Patterns that look like debt and are not. Check them before emitting, and again in the _Unstated_ lens.
 
 **About repetition and duplication.** Identical code is not duplicated knowledge — two rules that happen to coincide today and would change for different reasons tomorrow are correctly separate. Deliberate near-duplication can encode a different intent. Duplication against an external contract you do not control is unavoidable; report it as something to mitigate, never to eliminate. A cached derived value is only a finding when the duplication escapes its module. Where decoupling is the stated goal, duplication is the intended trade and not a defect.
 

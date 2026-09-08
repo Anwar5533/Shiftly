@@ -48,7 +48,7 @@
   }
 
   .ra-root::before {
-    content: "";
+    content: '';
     position: fixed;
     inset: 0;
     background: var(--ra-color-bg, #ffffff);

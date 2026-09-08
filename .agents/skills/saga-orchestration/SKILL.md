@@ -10,6 +10,7 @@ Patterns for managing distributed transactions and long-running business process
 ## Inputs and Outputs
 
 **What you provide:**
+
 - Service boundaries and ownership (which service owns which step)
 - Transaction requirements (which steps must be atomic, which can be eventual)
 - Failure modes for each step (transient vs. permanent, retry policy)
@@ -17,6 +18,7 @@ Patterns for managing distributed transactions and long-running business process
 - Existing event/messaging infrastructure (Kafka, RabbitMQ, SQS, etc.)
 
 **What this skill produces:**
+
 - Saga definition with ordered steps, action commands, and compensation commands
 - Orchestrator or choreography implementation for your chosen pattern
 - Compensation logic for each participant service (idempotent, always-succeeds)

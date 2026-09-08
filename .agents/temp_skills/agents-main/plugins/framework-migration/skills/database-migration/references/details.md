@@ -9,7 +9,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     // Add new column (both old and new code can work)
-    await queryInterface.addColumn("users", "email_new", {
+    await queryInterface.addColumn('users', 'email_new', {
       type: Sequelize.STRING,
     });
   },
@@ -33,7 +33,7 @@ module.exports = {
 // Phase 5: Remove old column
 module.exports = {
   up: async (queryInterface) => {
-    await queryInterface.removeColumn("users", "email");
+    await queryInterface.removeColumn('users', 'email');
   },
 };
 ```
@@ -48,8 +48,8 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     const dialectName = queryInterface.sequelize.getDialect();
 
-    if (dialectName === "mysql") {
-      await queryInterface.createTable("users", {
+    if (dialectName === 'mysql') {
+      await queryInterface.createTable('users', {
         id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
@@ -59,8 +59,8 @@ module.exports = {
           type: Sequelize.JSON, // MySQL JSON type
         },
       });
-    } else if (dialectName === "postgres") {
-      await queryInterface.createTable("users", {
+    } else if (dialectName === 'postgres') {
+      await queryInterface.createTable('users', {
         id: {
           type: Sequelize.INTEGER,
           primaryKey: true,

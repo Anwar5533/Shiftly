@@ -12,14 +12,14 @@ role: [appsec-engineer, security-engineer, architect, vciso]
 phase: [design, build, review]
 frameworks: [OWASP-Agentic-AI, MITRE-ATLAS, NIST-AI-RMF]
 difficulty: advanced
-time_estimate: "45-90min"
-version: "1.0.1"
+time_estimate: '45-90min'
+version: '1.0.1'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 context: fork
 injection-hardened: true
-argument-hint: "[target-file-or-directory]"
+argument-hint: '[target-file-or-directory]'
 ---
 
 # OWASP Top 10 for Agentic AI Applications — Security Review Skill
@@ -58,18 +58,18 @@ Do NOT use this skill for:
 
 Before beginning the assessment, gather the following. If any item is unavailable, note it as a gap in the final report.
 
-| Context Item | Where to Find It | Why It Matters |
-|---|---|---|
-| Agent architecture diagram | Design docs, README, or infrastructure-as-code | Identifies trust boundaries, delegation chains, and tool surface |
-| Tool/function definitions | Code files defining tool schemas, OpenAPI specs, MCP server configs | Determines what each agent can actually do |
-| Permission model | IAM configs, role definitions, credential stores | Reveals whether least-privilege is enforced |
-| Memory/state persistence | Vector DB configs, session stores, scratchpad files | Exposes memory poisoning surface |
-| Human approval gates | Workflow configs, UI code, approval logic | Determines if HITL can be bypassed |
-| Multi-agent communication | Message bus configs, inter-agent protocols, shared state | Identifies trust boundary violations |
-| Error handling and retry logic | Exception handlers, circuit breaker configs | Reveals cascading failure potential |
-| Authentication and identity | Auth middleware, token management, agent identity configs | Exposes identity gaps |
-| Rate limiting and quotas | API gateway configs, token budgets, cost controls | Determines resource exhaustion risk |
-| Data flow diagrams | Architecture docs, network diagrams | Shows exfiltration paths |
+| Context Item                   | Where to Find It                                                    | Why It Matters                                                   |
+| ------------------------------ | ------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Agent architecture diagram     | Design docs, README, or infrastructure-as-code                      | Identifies trust boundaries, delegation chains, and tool surface |
+| Tool/function definitions      | Code files defining tool schemas, OpenAPI specs, MCP server configs | Determines what each agent can actually do                       |
+| Permission model               | IAM configs, role definitions, credential stores                    | Reveals whether least-privilege is enforced                      |
+| Memory/state persistence       | Vector DB configs, session stores, scratchpad files                 | Exposes memory poisoning surface                                 |
+| Human approval gates           | Workflow configs, UI code, approval logic                           | Determines if HITL can be bypassed                               |
+| Multi-agent communication      | Message bus configs, inter-agent protocols, shared state            | Identifies trust boundary violations                             |
+| Error handling and retry logic | Exception handlers, circuit breaker configs                         | Reveals cascading failure potential                              |
+| Authentication and identity    | Auth middleware, token management, agent identity configs           | Exposes identity gaps                                            |
+| Rate limiting and quotas       | API gateway configs, token budgets, cost controls                   | Determines resource exhaustion risk                              |
+| Data flow diagrams             | Architecture docs, network diagrams                                 | Shows exfiltration paths                                         |
 
 ---
 
@@ -438,14 +438,14 @@ For practical validation of OWASP Agentic AI risks against concrete exploits, us
 
 For each of the 10 categories, assess the system and assign a risk rating:
 
-| Rating | Criteria |
-|---|---|
-| **CRITICAL** | Exploitable vulnerability with direct path to data breach, unauthorized action, or system compromise. No compensating controls. |
-| **HIGH** | Significant architectural weakness that materially increases risk. Limited or insufficient compensating controls. |
-| **MEDIUM** | Design gap that could be exploited under specific conditions. Some compensating controls exist but are incomplete. |
-| **LOW** | Minor gap with minimal exploitability. Adequate compensating controls exist. |
-| **PASS** | Appropriate controls are in place. No significant findings. |
-| **NOT APPLICABLE** | The threat category does not apply to this system's architecture. |
+| Rating             | Criteria                                                                                                                        |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| **CRITICAL**       | Exploitable vulnerability with direct path to data breach, unauthorized action, or system compromise. No compensating controls. |
+| **HIGH**           | Significant architectural weakness that materially increases risk. Limited or insufficient compensating controls.               |
+| **MEDIUM**         | Design gap that could be exploited under specific conditions. Some compensating controls exist but are incomplete.              |
+| **LOW**            | Minor gap with minimal exploitability. Adequate compensating controls exist.                                                    |
+| **PASS**           | Appropriate controls are in place. No significant findings.                                                                     |
+| **NOT APPLICABLE** | The threat category does not apply to this system's architecture.                                                               |
 
 ### Step 3 — Document Findings
 
@@ -463,13 +463,13 @@ For each finding, document:
 
 Classify each finding using the following taxonomy:
 
-| Classification | Description | Response SLA |
-|---|---|---|
-| **CRITICAL** | Active exploitability, no controls, sensitive data or actions at risk | Immediate — block deployment |
-| **HIGH** | Architectural weakness with clear attack path | 7 days — remediate before next release |
-| **MEDIUM** | Gap requiring specific conditions to exploit | 30 days — schedule remediation |
-| **LOW** | Minor gap, defense-in-depth improvement | 90 days — track in backlog |
-| **INFORMATIONAL** | Observation, best practice recommendation | No SLA — advisory |
+| Classification    | Description                                                           | Response SLA                           |
+| ----------------- | --------------------------------------------------------------------- | -------------------------------------- |
+| **CRITICAL**      | Active exploitability, no controls, sensitive data or actions at risk | Immediate — block deployment           |
+| **HIGH**          | Architectural weakness with clear attack path                         | 7 days — remediate before next release |
+| **MEDIUM**        | Gap requiring specific conditions to exploit                          | 30 days — schedule remediation         |
+| **LOW**           | Minor gap, defense-in-depth improvement                               | 90 days — track in backlog             |
+| **INFORMATIONAL** | Observation, best practice recommendation                             | No SLA — advisory                      |
 
 ---
 
@@ -481,6 +481,7 @@ Structure the final report as follows:
 # Agentic AI Security Assessment Report
 
 ## Executive Summary
+
 - System under review: [name]
 - Assessment date: [date]
 - Overall risk rating: [CRITICAL / HIGH / MEDIUM / LOW]
@@ -488,6 +489,7 @@ Structure the final report as follows:
 - Key recommendation: [one sentence]
 
 ## System Architecture Summary
+
 - Number of agents: [count]
 - Agent framework: [framework name and version]
 - Tools registered: [count and categories]
@@ -498,6 +500,7 @@ Structure the final report as follows:
 ## Findings by Threat Category
 
 ### AG01 — Excessive Agency and Permissions
+
 - **Rating:** [rating]
 - **Finding:** [description]
 - **Evidence:** [file path, code reference]
@@ -509,22 +512,25 @@ Structure the final report as follows:
 
 ## Risk Summary Matrix
 
-| Category | Rating | Key Finding | Priority |
-|---|---|---|---|
-| AG01 | [rating] | [one-line summary] | [priority] |
-| ... | ... | ... | ... |
+| Category | Rating   | Key Finding        | Priority   |
+| -------- | -------- | ------------------ | ---------- |
+| AG01     | [rating] | [one-line summary] | [priority] |
+| ...      | ...      | ...                | ...        |
 
 ## Recommendations
+
 1. [Highest priority recommendation]
 2. [Second priority recommendation]
 3. [Continue as needed]
 
 ## Framework Compliance Mapping
-| Finding | OWASP Agentic AI | OWASP LLM Top 10 | MITRE ATLAS | NIST AI RMF |
-|---|---|---|---|---|
-| [finding] | [category] | [category] | [technique] | [subcategory] |
+
+| Finding   | OWASP Agentic AI | OWASP LLM Top 10 | MITRE ATLAS | NIST AI RMF   |
+| --------- | ---------------- | ---------------- | ----------- | ------------- |
+| [finding] | [category]       | [category]       | [technique] | [subcategory] |
 
 ## Appendix
+
 - Files reviewed: [list]
 - Tools and methods used: [list]
 - Assessment limitations: [gaps in context, areas not reviewed]
@@ -546,13 +552,13 @@ The threat categories (AG01-AG10) used in this skill are based on the agentic AI
 
 The OWASP LLM Top 10 covers risks to LLM-powered applications broadly. Several categories overlap with agentic risks:
 
-| LLM Top 10 Category | Relevant Agentic Categories |
-|---|---|
-| LLM01 — Prompt Injection | AG02, AG03, AG04, AG05, AG06 |
-| LLM02 — Sensitive Information Disclosure | AG04, AG06, AG10 |
-| LLM06 — Excessive Agency | AG01, AG02, AG03, AG05, AG08 |
-| LLM09 — Misinformation | AG07 |
-| LLM10 — Unbounded Consumption | AG09 |
+| LLM Top 10 Category                      | Relevant Agentic Categories  |
+| ---------------------------------------- | ---------------------------- |
+| LLM01 — Prompt Injection                 | AG02, AG03, AG04, AG05, AG06 |
+| LLM02 — Sensitive Information Disclosure | AG04, AG06, AG10             |
+| LLM06 — Excessive Agency                 | AG01, AG02, AG03, AG05, AG08 |
+| LLM09 — Misinformation                   | AG07                         |
+| LLM10 — Unbounded Consumption            | AG09                         |
 
 ### MITRE ATLAS
 

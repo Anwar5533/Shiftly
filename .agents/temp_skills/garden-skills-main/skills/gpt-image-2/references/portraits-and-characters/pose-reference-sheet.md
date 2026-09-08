@@ -13,11 +13,11 @@
 
 特征（与现有 portraits 模板的区别）：
 
-| 模板 | 重点 |
-|---|---|
-| `character-sheet.md`（已有） | 一个角色的"完整设定"（三视图 + 表情 + 服装 + 配饰）|
-| `avatars-and-profile/character-grid-portrait.md`（已有） | n×n 角色网格（多职业 / 多朝代肖像）|
-| **本模板**（新增） | **同角色 N 个不同姿势 / 动作 / 舞蹈 pose 的纯动作字典** |
+| 模板                                                     | 重点                                                    |
+| -------------------------------------------------------- | ------------------------------------------------------- |
+| `character-sheet.md`（已有）                             | 一个角色的"完整设定"（三视图 + 表情 + 服装 + 配饰）     |
+| `avatars-and-profile/character-grid-portrait.md`（已有） | n×n 角色网格（多职业 / 多朝代肖像）                     |
+| **本模板**（新增）                                       | **同角色 N 个不同姿势 / 动作 / 舞蹈 pose 的纯动作字典** |
 
 **核心区别**：本模板不变服装、不换角色、不换风格，只变姿势——每格的差异完全在 body language 上。
 
@@ -103,7 +103,24 @@
     },
     "numbering": {
       "count": "{argument name=\"panel count\" default=\"16\"}",
-      "labels": ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"],
+      "labels": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16"
+      ],
       "position": "top-left corner of each cell"
     },
     "cell_borders": "thin black divider lines between all panels",
@@ -112,22 +129,70 @@
   "poses": {
     "count": 16,
     "items": [
-      { "label": "1", "description": "{argument name=\"pose 1\" default=\"wide low squat, knees bent outward, torso angled slightly left, both arms extended loosely in a defensive dance stance\"}" },
-      { "label": "2", "description": "{argument name=\"pose 2\" default=\"deep side lunge to the left, left arm pointing straight left, right hand near the head, energetic directional pose\"}" },
-      { "label": "3", "description": "{argument name=\"pose 3\" default=\"low crouch with one hand touching the floor, one knee bent under the body, opposite arm extended horizontally\"}" },
-      { "label": "4", "description": "{argument name=\"pose 4\" default=\"upright one-leg balance, left knee lifted high, both arms spread outward for rhythm and balance\"}" },
-      { "label": "5", "description": "{argument name=\"pose 5\" default=\"similar one-leg raised pose with the other leg supporting, arms stretched outward in a lighter dance variation\"}" },
-      { "label": "6", "description": "{argument name=\"pose 6\" default=\"very wide grounded squat, torso pitched forward, one hand reaching toward the floor between the legs, other arm extended back\"}" },
-      { "label": "7", "description": "{argument name=\"pose 7\" default=\"dramatic standing back arch, chest lifted upward, hips forward, both arms opened behind and to the sides\"}" },
-      { "label": "8", "description": "{argument name=\"pose 8\" default=\"small jump or suspended squat, both feet off the floor, knees bent, arms spread wide symmetrically\"}" },
-      { "label": "9", "description": "{argument name=\"pose 9\" default=\"floor-supported seated lean, one hand planted behind, one arm reaching diagonally upward, legs bent to one side\"}" },
-      { "label": "10", "description": "{argument name=\"pose 10\" default=\"front-facing balance with one knee raised to hip height, one arm bent in guard position and the other extended sideways\"}" },
-      { "label": "11", "description": "{argument name=\"pose 11\" default=\"deep lateral stance, feet far apart, knees bent, both hands raised open near shoulder level like a ready combat pose\"}" },
-      { "label": "12", "description": "{argument name=\"pose 12\" default=\"low side lunge split, one hand planted on the floor, the other arm reaching vertically overhead, torso arched upward\"}" },
-      { "label": "13", "description": "{argument name=\"pose 13\" default=\"standing backward lean with relaxed bent knees, chest up, arms hanging loosely behind in a groove pose\"}" },
-      { "label": "14", "description": "{argument name=\"pose 14\" default=\"compact twisting crouch, weight low over bent legs, torso rotated, one arm pulled in and the other extended outward\"}" },
-      { "label": "15", "description": "{argument name=\"pose 15\" default=\"very wide side lunge stretch, one hand to the floor near the front foot, opposite arm reaching diagonally overhead\"}" },
-      { "label": "16", "description": "{argument name=\"pose 16\" default=\"one-leg lifted pose with knee high, one hand behind the head and the other arm extended forward, confident finishing stance\"}" }
+      {
+        "label": "1",
+        "description": "{argument name=\"pose 1\" default=\"wide low squat, knees bent outward, torso angled slightly left, both arms extended loosely in a defensive dance stance\"}"
+      },
+      {
+        "label": "2",
+        "description": "{argument name=\"pose 2\" default=\"deep side lunge to the left, left arm pointing straight left, right hand near the head, energetic directional pose\"}"
+      },
+      {
+        "label": "3",
+        "description": "{argument name=\"pose 3\" default=\"low crouch with one hand touching the floor, one knee bent under the body, opposite arm extended horizontally\"}"
+      },
+      {
+        "label": "4",
+        "description": "{argument name=\"pose 4\" default=\"upright one-leg balance, left knee lifted high, both arms spread outward for rhythm and balance\"}"
+      },
+      {
+        "label": "5",
+        "description": "{argument name=\"pose 5\" default=\"similar one-leg raised pose with the other leg supporting, arms stretched outward in a lighter dance variation\"}"
+      },
+      {
+        "label": "6",
+        "description": "{argument name=\"pose 6\" default=\"very wide grounded squat, torso pitched forward, one hand reaching toward the floor between the legs, other arm extended back\"}"
+      },
+      {
+        "label": "7",
+        "description": "{argument name=\"pose 7\" default=\"dramatic standing back arch, chest lifted upward, hips forward, both arms opened behind and to the sides\"}"
+      },
+      {
+        "label": "8",
+        "description": "{argument name=\"pose 8\" default=\"small jump or suspended squat, both feet off the floor, knees bent, arms spread wide symmetrically\"}"
+      },
+      {
+        "label": "9",
+        "description": "{argument name=\"pose 9\" default=\"floor-supported seated lean, one hand planted behind, one arm reaching diagonally upward, legs bent to one side\"}"
+      },
+      {
+        "label": "10",
+        "description": "{argument name=\"pose 10\" default=\"front-facing balance with one knee raised to hip height, one arm bent in guard position and the other extended sideways\"}"
+      },
+      {
+        "label": "11",
+        "description": "{argument name=\"pose 11\" default=\"deep lateral stance, feet far apart, knees bent, both hands raised open near shoulder level like a ready combat pose\"}"
+      },
+      {
+        "label": "12",
+        "description": "{argument name=\"pose 12\" default=\"low side lunge split, one hand planted on the floor, the other arm reaching vertically overhead, torso arched upward\"}"
+      },
+      {
+        "label": "13",
+        "description": "{argument name=\"pose 13\" default=\"standing backward lean with relaxed bent knees, chest up, arms hanging loosely behind in a groove pose\"}"
+      },
+      {
+        "label": "14",
+        "description": "{argument name=\"pose 14\" default=\"compact twisting crouch, weight low over bent legs, torso rotated, one arm pulled in and the other extended outward\"}"
+      },
+      {
+        "label": "15",
+        "description": "{argument name=\"pose 15\" default=\"very wide side lunge stretch, one hand to the floor near the front foot, opposite arm reaching diagonally overhead\"}"
+      },
+      {
+        "label": "16",
+        "description": "{argument name=\"pose 16\" default=\"one-leg lifted pose with knee high, one hand behind the head and the other arm extended forward, confident finishing stance\"}"
+      }
     ]
   },
   "composition": "show the same person in all 16 panels with consistent outfit and scale, centered within each frame, designed like a movement library or choreography reference chart",

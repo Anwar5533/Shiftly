@@ -114,8 +114,8 @@ Implement integrations with popular error tracking services:
 
 ```javascript
 // sentry-setup.js
-import * as Sentry from "@sentry/node";
-import { ProfilingIntegration } from "@sentry/profiling-node";
+import * as Sentry from '@sentry/node';
+import { ProfilingIntegration } from '@sentry/profiling-node';
 
 class SentryErrorTracker {
   constructor(config) {
@@ -142,7 +142,7 @@ class SentryErrorTracker {
         new Sentry.Integrations.Express({
           app: this.config.app,
           router: true,
-          methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+          methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
         }),
 
         // Database integration
@@ -176,7 +176,7 @@ class SentryErrorTracker {
       // Breadcrumbs
       beforeBreadcrumb: (breadcrumb, hint) => {
         // Filter sensitive breadcrumbs
-        if (breadcrumb.category === "console" && breadcrumb.level === "debug") {
+        if (breadcrumb.category === 'console' && breadcrumb.level === 'debug') {
           return null;
         }
 
@@ -208,11 +208,11 @@ class SentryErrorTracker {
 
   setupErrorHandlers() {
     // Global error handler
-    process.on("uncaughtException", (error) => {
-      console.error("Uncaught Exception:", error);
+    process.on('uncaughtException', (error) => {
+      console.error('Uncaught Exception:', error);
       Sentry.captureException(error, {
-        tags: { type: "uncaught_exception" },
-        level: "fatal",
+        tags: { type: 'uncaught_exception' },
+        level: 'fatal',
       });
 
       // Graceful shutdown
@@ -220,10 +220,10 @@ class SentryErrorTracker {
     });
 
     // Promise rejection handler
-    process.on("unhandledRejection", (reason, promise) => {
-      console.error("Unhandled Rejection:", reason);
+    process.on('unhandledRejection', (reason, promise) => {
+      console.error('Unhandled Rejection:', reason);
       Sentry.captureException(reason, {
-        tags: { type: "unhandled_rejection" },
+        tags: { type: 'unhandled_rejection' },
         extra: { promise: promise.toString() },
       });
     });
@@ -256,7 +256,7 @@ class SentryErrorTracker {
     const fingerprint = [];
 
     // Group by error type
-    fingerprint.push(error.name || "Error");
+    fingerprint.push(error.name || 'Error');
 
     // Group by error location
     if (error.stack) {
@@ -297,7 +297,7 @@ export const sentryMiddleware = {
 // error-tracker.ts
 interface ErrorEvent {
   timestamp: Date;
-  level: "debug" | "info" | "warning" | "error" | "fatal";
+  level: 'debug' | 'info' | 'warning' | 'error' | 'fatal';
   message: string;
   stack?: string;
   context: {
@@ -320,10 +320,10 @@ class ErrorTracker {
     this.startBatchProcessor();
   }
 
-  captureException(error: Error, context?: Partial<ErrorEvent["context"]>) {
+  captureException(error: Error, context?: Partial<ErrorEvent['context']>) {
     const event: ErrorEvent = {
       timestamp: new Date(),
-      level: "error",
+      level: 'error',
       message: error.message,
       stack: error.stack,
       context: {
@@ -339,7 +339,7 @@ class ErrorTracker {
     this.addToQueue(event);
   }
 
-  captureMessage(message: string, level: ErrorEvent["level"] = "info") {
+  captureMessage(message: string, level: ErrorEvent['level'] = 'info') {
     const event: ErrorEvent = {
       timestamp: new Date(),
       level,
@@ -376,17 +376,17 @@ class ErrorTracker {
 
   private sanitizeEvent(event: ErrorEvent): ErrorEvent {
     // Remove sensitive data
-    const sensitiveKeys = ["password", "token", "secret", "api_key"];
+    const sensitiveKeys = ['password', 'token', 'secret', 'api_key'];
 
     const sanitize = (obj: any): any => {
-      if (!obj || typeof obj !== "object") return obj;
+      if (!obj || typeof obj !== 'object') return obj;
 
       const cleaned = Array.isArray(obj) ? [] : {};
 
       for (const [key, value] of Object.entries(obj)) {
         if (sensitiveKeys.some((k) => key.toLowerCase().includes(k))) {
-          cleaned[key] = "[REDACTED]";
-        } else if (typeof value === "object") {
+          cleaned[key] = '[REDACTED]';
+        } else if (typeof value === 'object') {
           cleaned[key] = sanitize(value);
         } else {
           cleaned[key] = value;
@@ -410,7 +410,7 @@ class ErrorTracker {
     try {
       await this.sendEvents(events);
     } catch (error) {
-      console.error("Failed to send error events:", error);
+      console.error('Failed to send error events:', error);
       // Re-queue events
       this.queue.unshift(...events);
     }
@@ -418,9 +418,9 @@ class ErrorTracker {
 
   private async sendEvents(events: ErrorEvent[]) {
     const response = await fetch(this.config.endpoint, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${this.config.apiKey}`,
       },
       body: JSON.stringify({ events }),
@@ -445,148 +445,153 @@ import winston from 'winston';
 import { ElasticsearchTransport } from 'winston-elasticsearch';
 
 class StructuredLogger {
-    private logger: winston.Logger;
+  private logger: winston.Logger;
 
-    constructor(config: LoggerConfig) {
-        this.logger = winston.createLogger({
-            level: config.level || 'info',
-            format: winston.format.combine(
-                winston.format.timestamp(),
-                winston.format.errors({ stack: true }),
-                winston.format.metadata(),
-                winston.format.json()
-            ),
-            defaultMeta: {
-                service: config.service,
-                environment: config.environment,
-                version: config.version
-            },
-            transports: this.createTransports(config)
-        });
+  constructor(config: LoggerConfig) {
+    this.logger = winston.createLogger({
+      level: config.level || 'info',
+      format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.errors({ stack: true }),
+        winston.format.metadata(),
+        winston.format.json(),
+      ),
+      defaultMeta: {
+        service: config.service,
+        environment: config.environment,
+        version: config.version,
+      },
+      transports: this.createTransports(config),
+    });
+  }
+
+  private createTransports(config: LoggerConfig): winston.transport[] {
+    const transports: winston.transport[] = [];
+
+    // Console transport for development
+    if (config.environment === 'development') {
+      transports.push(
+        new winston.transports.Console({
+          format: winston.format.combine(winston.format.colorize(), winston.format.simple()),
+        }),
+      );
     }
 
-    private createTransports(config: LoggerConfig): winston.transport[] {
-        const transports: winston.transport[] = [];
+    // File transport for all environments
+    transports.push(
+      new winston.transports.File({
+        filename: 'logs/error.log',
+        level: 'error',
+        maxsize: 5242880, // 5MB
+        maxFiles: 5,
+      }),
+    );
 
-        // Console transport for development
-        if (config.environment === 'development') {
-            transports.push(new winston.transports.Console({
-                format: winston.format.combine(
-                    winston.format.colorize(),
-                    winston.format.simple()
-                )
-            }));
-        }
+    transports.push(
+      new winston.transports.File({
+        filename: 'logs/combined.log',
+        maxsize: 5242880,
+        maxFiles: 5,
+      }),
+    );
 
-        // File transport for all environments
-        transports.push(new winston.transports.File({
-            filename: 'logs/error.log',
-            level: 'error',
-            maxsize: 5242880, // 5MB
-            maxFiles: 5
-        }));
-
-        transports.push(new winston.transports.File({
-            filename: 'logs/combined.log',
-            maxsize: 5242880,
-            maxFiles: 5
-        }));
-
-        // Elasticsearch transport for production
-        if (config.elasticsearch) {
-            transports.push(new ElasticsearchTransport({
-                level: 'info',
-                clientOpts: config.elasticsearch,
-                index: `logs-${config.service}`,
-                transformer: (logData) => {
-                    return {
-                        '@timestamp': logData.timestamp,
-                        severity: logData.level,
-                        message: logData.message,
-                        fields: {
-                            ...logData.metadata,
-                            ...logData.defaultMeta
-                        }
-                    };
-                }
-            }));
-        }
-
-        return transports;
+    // Elasticsearch transport for production
+    if (config.elasticsearch) {
+      transports.push(
+        new ElasticsearchTransport({
+          level: 'info',
+          clientOpts: config.elasticsearch,
+          index: `logs-${config.service}`,
+          transformer: (logData) => {
+            return {
+              '@timestamp': logData.timestamp,
+              severity: logData.level,
+              message: logData.message,
+              fields: {
+                ...logData.metadata,
+                ...logData.defaultMeta,
+              },
+            };
+          },
+        }),
+      );
     }
 
-    // Logging methods with context
-    error(message: string, error?: Error, context?: any) {
-        this.logger.error(message, {
-            error: {
-                message: error?.message,
-                stack: error?.stack,
-                name: error?.name
-            },
-            ...context
-        });
-    }
+    return transports;
+  }
 
-    warn(message: string, context?: any) {
-        this.logger.warn(message, context);
-    }
+  // Logging methods with context
+  error(message: string, error?: Error, context?: any) {
+    this.logger.error(message, {
+      error: {
+        message: error?.message,
+        stack: error?.stack,
+        name: error?.name,
+      },
+      ...context,
+    });
+  }
 
-    info(message: string, context?: any) {
-        this.logger.info(message, context);
-    }
+  warn(message: string, context?: any) {
+    this.logger.warn(message, context);
+  }
 
-    debug(message: string, context?: any) {
-        this.logger.debug(message, context);
-    }
+  info(message: string, context?: any) {
+    this.logger.info(message, context);
+  }
 
-    // Performance logging
-    startTimer(label: string): () => void {
-        const start = Date.now();
-        return () => {
-            const duration = Date.now() - start;
-            this.info(`Timer ${label}`, { duration, label });
-        };
-    }
+  debug(message: string, context?: any) {
+    this.logger.debug(message, context);
+  }
 
-    // Audit logging
-    audit(action: string, userId: string, details: any) {
-        this.info('Audit Event', {
-            type: 'audit',
-            action,
-            userId,
-            timestamp: new Date().toISOString(),
-            details
-        });
-    }
+  // Performance logging
+  startTimer(label: string): () => void {
+    const start = Date.now();
+    return () => {
+      const duration = Date.now() - start;
+      this.info(`Timer ${label}`, { duration, label });
+    };
+  }
+
+  // Audit logging
+  audit(action: string, userId: string, details: any) {
+    this.info('Audit Event', {
+      type: 'audit',
+      action,
+      userId,
+      timestamp: new Date().toISOString(),
+      details,
+    });
+  }
 }
 
 // Request logging middleware
 export function requestLoggingMiddleware(logger: StructuredLogger) {
-    return (req: Request, res: Response, next: NextFunction) => {
-        const start = Date.now();
+  return (req: Request, res: Response, next: NextFunction) => {
+    const start = Date.now();
 
-        // Log request
-        logger.info('Incoming request', {
-            method: req.method,
-            url: req.url,
-            ip: req.ip,
-            userAgent: req.get('user-agent')
-        });
+    // Log request
+    logger.info('Incoming request', {
+      method: req.method,
+      url: req.url,
+      ip: req.ip,
+      userAgent: req.get('user-agent'),
+    });
 
-        // Log response
-        res.on('finish', () => {
-            const duration = Date.now() - start;
-            logger.info('Request completed', {
-                method: req.method,
-                url: req.url,
-                status: res.statusCode,
-                duration,
-                contentLength: res.get('content-length')
-            });
-        });
+    // Log response
+    res.on('finish', () => {
+      const duration = Date.now() - start;
+      logger.info('Request completed', {
+        method: req.method,
+        url: req.url,
+        status: res.statusCode,
+        duration,
+        contentLength: res.get('content-length'),
+      });
+    });
 
-        next();
-    };
+    next();
+  };
 }
 ```
 
@@ -943,8 +948,8 @@ class PerformanceMonitor {
 
     if (current.responseTime > baseline.responseTime * 2) {
       anomalies.push({
-        type: "response_time_spike",
-        severity: "warning",
+        type: 'response_time_spike',
+        severity: 'warning',
         value: current.responseTime,
         baseline: baseline.responseTime,
       });
@@ -952,8 +957,8 @@ class PerformanceMonitor {
 
     if (current.errorRate > baseline.errorRate + 0.05) {
       anomalies.push({
-        type: "error_rate_increase",
-        severity: "critical",
+        type: 'error_rate_increase',
+        severity: 'critical',
         value: current.errorRate,
         baseline: baseline.errorRate,
       });
@@ -991,11 +996,7 @@ class PerformanceMonitor {
   async calculateApdex(service: string, threshold: number = 500) {
     // Apdex = (Satisfied + Tolerating/2) / Total
     const satisfied = await this.countRequests(service, 0, threshold);
-    const tolerating = await this.countRequests(
-      service,
-      threshold,
-      threshold * 4,
-    );
+    const tolerating = await this.countRequests(service, threshold, threshold * 4);
     const total = await this.getTotalRequests(service);
 
     if (total === 0) return 1;
@@ -1027,7 +1028,7 @@ class RecoveryManager {
 
   registerDefaultStrategies() {
     // Network errors
-    this.registerStrategy("NetworkError", async (error, context) => {
+    this.registerStrategy('NetworkError', async (error, context) => {
       return this.retryWithBackoff(
         context.operation,
         this.retryPolicies.network || {
@@ -1039,9 +1040,9 @@ class RecoveryManager {
     });
 
     // Database errors
-    this.registerStrategy("DatabaseError", async (error, context) => {
+    this.registerStrategy('DatabaseError', async (error, context) => {
       // Try read replica if available
-      if (context.operation.type === "read" && context.readReplicas) {
+      if (context.operation.type === 'read' && context.readReplicas) {
         return this.tryReadReplica(context);
       }
 
@@ -1057,14 +1058,14 @@ class RecoveryManager {
     });
 
     // Rate limit errors
-    this.registerStrategy("RateLimitError", async (error, context) => {
+    this.registerStrategy('RateLimitError', async (error, context) => {
       const retryAfter = error.retryAfter || 60;
       await this.delay(retryAfter * 1000);
       return context.operation();
     });
 
     // Circuit breaker for external services
-    this.registerStrategy("ExternalServiceError", async (error, context) => {
+    this.registerStrategy('ExternalServiceError', async (error, context) => {
       const breaker = this.getCircuitBreaker(context.service);
 
       try {
@@ -1092,12 +1093,12 @@ class RecoveryManager {
       const result = await strategy(error, context);
 
       // Log recovery success
-      this.logRecovery(error, errorType, "success");
+      this.logRecovery(error, errorType, 'success');
 
       return result;
     } catch (recoveryError) {
       // Log recovery failure
-      this.logRecovery(error, errorType, "failure", recoveryError);
+      this.logRecovery(error, errorType, 'failure', recoveryError);
 
       // Throw original error
       throw error;
@@ -1144,24 +1145,24 @@ class RecoveryManager {
 
   classifyError(error) {
     // Classify by error code
-    if (error.code === "ECONNREFUSED" || error.code === "ETIMEDOUT") {
-      return "NetworkError";
+    if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT') {
+      return 'NetworkError';
     }
 
-    if (error.code === "ER_LOCK_DEADLOCK" || error.code === "SQLITE_BUSY") {
-      return "DatabaseError";
+    if (error.code === 'ER_LOCK_DEADLOCK' || error.code === 'SQLITE_BUSY') {
+      return 'DatabaseError';
     }
 
     if (error.status === 429) {
-      return "RateLimitError";
+      return 'RateLimitError';
     }
 
     if (error.isExternalService) {
-      return "ExternalServiceError";
+      return 'ExternalServiceError';
     }
 
     // Default
-    return "UnknownError";
+    return 'UnknownError';
   }
 }
 
@@ -1169,27 +1170,24 @@ class RecoveryManager {
 class CircuitBreaker {
   constructor(options) {
     this.options = options;
-    this.state = "CLOSED";
+    this.state = 'CLOSED';
     this.failures = 0;
     this.successes = 0;
     this.nextAttempt = Date.now();
   }
 
   async execute(operation) {
-    if (this.state === "OPEN") {
+    if (this.state === 'OPEN') {
       if (Date.now() < this.nextAttempt) {
-        throw new Error("Circuit breaker is OPEN");
+        throw new Error('Circuit breaker is OPEN');
       }
 
       // Try half-open
-      this.state = "HALF_OPEN";
+      this.state = 'HALF_OPEN';
     }
 
     try {
-      const result = await Promise.race([
-        operation(),
-        this.timeout(this.options.timeout),
-      ]);
+      const result = await Promise.race([operation(), this.timeout(this.options.timeout)]);
 
       this.onSuccess();
       return result;
@@ -1202,10 +1200,10 @@ class CircuitBreaker {
   onSuccess() {
     this.failures = 0;
 
-    if (this.state === "HALF_OPEN") {
+    if (this.state === 'HALF_OPEN') {
       this.successes++;
       if (this.successes >= this.options.volumeThreshold) {
-        this.state = "CLOSED";
+        this.state = 'CLOSED';
         this.successes = 0;
       }
     }
@@ -1214,11 +1212,11 @@ class CircuitBreaker {
   onFailure() {
     this.failures++;
 
-    if (this.state === "HALF_OPEN") {
-      this.state = "OPEN";
+    if (this.state === 'HALF_OPEN') {
+      this.state = 'OPEN';
       this.nextAttempt = Date.now() + this.options.resetTimeout;
     } else if (this.failures >= this.options.volumeThreshold) {
-      this.state = "OPEN";
+      this.state = 'OPEN';
       this.nextAttempt = Date.now() + this.options.resetTimeout;
     }
   }

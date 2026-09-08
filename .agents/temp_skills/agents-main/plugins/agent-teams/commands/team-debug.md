@@ -1,6 +1,6 @@
 ---
-description: "Debug issues using competing hypotheses with parallel investigation by multiple agents"
-argument-hint: "<error-description-or-file> [--hypotheses N] [--scope files|module|project]"
+description: 'Debug issues using competing hypotheses with parallel investigation by multiple agents'
+argument-hint: '<error-description-or-file> [--hypotheses N] [--scope files|module|project]'
 ---
 
 # Team Debug

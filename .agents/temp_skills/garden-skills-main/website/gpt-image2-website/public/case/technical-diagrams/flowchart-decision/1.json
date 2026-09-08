@@ -195,12 +195,7 @@
     "position": "bottom-right"
   },
   "constraints": {
-    "must_keep": [
-      "决策必有 Yes/No 或等义标签",
-      "子流程为双框"
-    ],
-    "avoid": [
-      ">15 节点"
-    ]
+    "must_keep": ["决策必有 Yes/No 或等义标签", "子流程为双框"],
+    "avoid": [">15 节点"]
   }
 }

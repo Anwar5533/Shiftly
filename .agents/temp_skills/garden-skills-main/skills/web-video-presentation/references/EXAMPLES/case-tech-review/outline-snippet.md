@@ -26,10 +26,10 @@
   · 手段：clip-path inset 慢 reveal + filter: blur 反向 + linear-gradient 暖光晕 + linear-gradient scanline 永动
   · article 补：第 2 名具体名字（article §1）+ 差距分（具体数字 vs 模糊"低很多"）+ 趋势注释（"过去 N 周首次反超"）
 
-- **step 4** (~6s) — 官方原话 pull-quote 慢镜入场（电影感引文）
+- **step 4** (~~6s) — 官方原话 pull-quote 慢镜入场（电影感引文）
   · 动画：左右两枚巨大引号 SVG 从 opacity 0 + blur(15px) 慢速锐化进场（1.0s 错峰 200ms，**无砸下**）→ 引文文字 mono 打字机逐字打出（每字 80ms）→ 落款慢速 blur clear 浮出（0.8s）；持续微动：引号暖橙慢光晕呼吸 + 镜头 ken burns 缓推
   · 手段：filter: blur 反向锐化 + JS typewriter + transform translateY 慢推 + filter: drop-shadow 呼吸
-  · article 补：原话直引（来自 article §1，1~2 句）+ 落款来源（"— 出处.AI"）—— 引文是 article 里口播完全省略的"权威背书"
+  · article 补：原话直引（来自 article §1，1~~2 句）+ 落款来源（"— 出处.AI"）—— 引文是 article 里口播完全省略的"权威背书"
 
 - **step 5** (~5s) — 主持人介绍 + 4 件事预告速览
   · 动画：第一行自我介绍 blur clear 慢入场（1.2s ease-out）→ 4 张占位卡分别从 blur(15px) 慢速景深聚焦 stagger 出现（每张 250ms 错峰，每张 1.0s 慢镜），卡内 mono 数字 01/02/03/04 + 关键词；持续微动：每张卡暖橙边线慢光晕呼吸（错峰 400ms）+ 远景粒子永漂
@@ -37,6 +37,7 @@
   · article 补：4 件事的关键词（来自 article 章节标题，简化）
 
 口播节选：
+
 > 我刷到一张图，愣了三秒……今天讲清楚四件事。
 
 ---
@@ -48,10 +49,10 @@
   · 手段：filter: blur 反向 + transform scaleX 慢延展 + opacity 阶梯填充 + filter: drop-shadow 永动呼吸
   · article 补：4 个方向各自的关键词（mono cue 标签，"01 X / 02 Y / 03 Z / 04 W"）
 
-- **step 2** (~16s) — 第 1/4 项填实 + 大图慢镜 takeover
+- **step 2** (~~16s) — 第 1/4 项填实 + 大图慢镜 takeover
   · 动画：卡片 1 从 ghost 状态慢速 mask 填实（0.8s 暖暗底色 + 边线慢光晕亮起）→ 中央 hero 大图从 blur(15px) 慢速景深聚焦（1.5s ease-out）→ mono cue 标签从暗角慢速 blur clear 入场（0.8s）→ 副标打字机逐字打出（每字 80ms）；持续微动：暖橙 accent 高亮条永动呼吸 + 大图 ken burns 缓推（0.5% scale 12s 周期）+ scanline 慢移
   · 手段：filter: blur 反向 + clip-path 慢 reveal + JS typewriter + transform scale 永动 ken burns + linear-gradient scanline 永动
-  · article 补：本项的具体表现（article §2 抽 1~2 个数据点 / 案例标签）—— 口播只说"它强在 X"，画面挂"具体强到 N% / 跑赢 M / 测评分数 K"
+  · article 补：本项的具体表现（article §2 抽 1~~2 个数据点 / 案例标签）—— 口播只说"它强在 X"，画面挂"具体强到 N% / 跑赢 M / 测评分数 K"
 
 - **step 3** (~16s) — 第 2/4 项填实 + 列表/演示
   · 动画：卡片 2 慢速 mask 填实（0.8s）→ mono cue 标签 blur clear 慢入场（0.8s）→ 4 行具体细则 typewriter 逐行打出（每行 0.8s 错峰 350ms）→ 每行末尾 mono 光标闪烁后追加暖橙对勾 SVG path stroke 慢绘制；持续微动：mono 光标永闪烁（800ms blink）+ scanline 慢移
@@ -62,6 +63,7 @@
 - **step 5** (~16s) — 第 4/4 项填实 + 多参数预览 + redacted 注释
 
 口播节选：
+
 > 实测下来强在四个方向 ……
 
 ---

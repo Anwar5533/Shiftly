@@ -155,10 +155,7 @@ Design effective Grafana dashboards for monitoring applications, infrastructure,
       "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100)"
     }
   ],
-  "yaxes": [
-    { "format": "percent", "max": 100, "min": 0 },
-    { "format": "short" }
-  ]
+  "yaxes": [{ "format": "percent", "max": 100, "min": 0 }, { "format": "short" }]
 }
 ```
 
@@ -284,9 +281,9 @@ sum(rate(http_requests_total{namespace="$namespace", service=~"$service"}[5m]))
 apiVersion: 1
 
 providers:
-  - name: "default"
+  - name: 'default'
     orgId: 1
-    folder: "General"
+    folder: 'General'
     type: file
     disableDeletion: false
     updateIntervalSeconds: 10
@@ -368,13 +365,12 @@ resource "grafana_folder" "monitoring" {
 ```yaml
 - name: Deploy Grafana dashboards
   copy:
-    src: "{{ item }}"
+    src: '{{ item }}'
     dest: /etc/grafana/dashboards/
   with_fileglob:
-    - "dashboards/*.json"
+    - 'dashboards/*.json'
   notify: restart grafana
 ```
-
 
 ## Related Skills
 

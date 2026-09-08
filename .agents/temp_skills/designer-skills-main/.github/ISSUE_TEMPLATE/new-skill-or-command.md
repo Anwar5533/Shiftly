@@ -20,8 +20,8 @@ labels: proposal
 <!-- Skills are nouns (e.g. `color-token`). Commands are verbs (e.g. `audit-contrast`).
      Paste a draft `name:` and `description:` line so we can discuss the scope. -->
 
-**name:** 
-**description:** 
+**name:**
+**description:**
 
 ## Why does this belong in this collection?
 

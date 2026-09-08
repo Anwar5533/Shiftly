@@ -3,6 +3,7 @@
 Selected from the router for [SKILL.md](../SKILL.md). Reusable mechanisms and decision ladders remain in [HEURISTICS.md](../HEURISTICS.md).
 
 ## Media pipeline and edge delivery
+
 - **Shape**: upload-transcode-stream; reads greatly outnumber writes; cost is a first-class constraint.
 - **Match when** bytes are large, immutable once published, and the bill is dominated by egress. **Not when** the payload is small or mutable — that is a metadata problem with a cache in front of it.
 - **Moves**: pre-signed multipart uploads—bytes go client→blob directly, each part checksummed and resumable; transcoding as a replayable DAG over few-second chunks; adaptive bitrate via segmented HLS/DASH manifests; CDN for the popular long tail, origin/on-demand encoding for the rest; fire-and-forget progress writes; signed URLs + DRM.
@@ -12,6 +13,7 @@ Selected from the router for [SKILL.md](../SKILL.md). Reusable mechanisms and de
 - **Cases**: video platforms, podcast and audio hosting, image pipelines, game asset delivery, model weight distribution.
 
 ## Immutable artifact distribution
+
 - **Shape**: a version identifier always means the same bytes, forever, and whatever is running can be traced to the source and the process that produced it.
 - **Match when** something built once is consumed many times by parties who must verify and reproduce it — packages, container images, model weights, deployment bundles, firmware. **Not when** the name is supposed to track changing content: a document namespace, a user's file tree, a configuration value whose whole purpose is to change under a stable key. That is a mutable namespace with versions, and content addressing there fights the requirement.
 - **Minimum state**: a content digest per artifact, an immutable mapping from version identifier to digest, and a signed statement binding the digest to its inputs and its builder. Tags are a separate, mutable, deliberately untrusted layer above that.

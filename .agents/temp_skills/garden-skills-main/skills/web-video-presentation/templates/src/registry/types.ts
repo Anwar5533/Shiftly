@@ -1,4 +1,4 @@
-import type { ComponentType } from "react";
+import type { ComponentType } from 'react';
 
 export interface ChapterStepProps {
   step: number; // 0..(narrations.length - 1)

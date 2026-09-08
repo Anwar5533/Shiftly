@@ -1,6 +1,6 @@
 ---
-description: "Audit UI code for WCAG compliance"
-argument-hint: "[file-path|component-name|--level AA|AAA]"
+description: 'Audit UI code for WCAG compliance'
+argument-hint: '[file-path|component-name|--level AA|AAA]'
 ---
 
 # Accessibility Audit
@@ -382,11 +382,11 @@ Add these tests to catch regressions:
 
 ```javascript
 // Example jest-axe test
-import { axe, toHaveNoViolations } from "jest-axe";
+import { axe, toHaveNoViolations } from 'jest-axe';
 
 expect.extend(toHaveNoViolations);
 
-test("component has no accessibility violations", async () => {
+test('component has no accessibility violations', async () => {
   const { container } = render(<Component />);
   const results = await axe(container);
   expect(results).toHaveNoViolations();

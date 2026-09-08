@@ -64,10 +64,6 @@
       "no 3D bars",
       "Ours visually distinct from baselines"
     ],
-    "avoid": [
-      "implying fabricated p-values are real",
-      "rainbow fill",
-      "axis without tick values"
-    ]
+    "avoid": ["implying fabricated p-values are real", "rainbow fill", "axis without tick values"]
   }
 }

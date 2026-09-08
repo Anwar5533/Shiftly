@@ -5,8 +5,8 @@
 ### Modal Dialog
 
 ```tsx
-import { useEffect, useRef, type ReactNode } from "react";
-import { createPortal } from "react-dom";
+import { useEffect, useRef, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 
 interface ModalProps {
   isOpen: boolean;
@@ -23,42 +23,35 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
     if (isOpen) {
       previousActiveElement.current = document.activeElement;
       dialogRef.current?.focus();
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = "";
+      document.body.style.overflow = '';
       (previousActiveElement.current as HTMLElement)?.focus();
     }
 
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = '';
     };
   }, [isOpen]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-      if (e.key === "Tab") trapFocus(e, dialogRef.current);
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'Tab') trapFocus(e, dialogRef.current);
     };
 
     if (isOpen) {
-      document.addEventListener("keydown", handleKeyDown);
+      document.addEventListener('keydown', handleKeyDown);
     }
-    return () => document.removeEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
   return createPortal(
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center"
-      aria-hidden={!isOpen}
-    >
+    <div className="fixed inset-0 z-50 flex items-center justify-center" aria-hidden={!isOpen}>
       {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/50"
-        onClick={onClose}
-        aria-hidden="true"
-      />
+      <div className="absolute inset-0 bg-black/50" onClick={onClose} aria-hidden="true" />
 
       {/* Dialog */}
       <div
@@ -72,11 +65,7 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
         <h2 id="modal-title" className="text-lg font-semibold">
           {title}
         </h2>
-        <button
-          onClick={onClose}
-          aria-label="Close dialog"
-          className="absolute right-4 top-4 p-1"
-        >
+        <button onClick={onClose} aria-label="Close dialog" className="absolute top-4 right-4 p-1">
           <XIcon aria-hidden="true" />
         </button>
         <div className="mt-4">{children}</div>
@@ -108,7 +97,7 @@ function trapFocus(e: KeyboardEvent, container: HTMLElement | null) {
 ### Dropdown Menu
 
 ```tsx
-import { useState, useRef, useEffect, type ReactNode } from "react";
+import { useState, useRef, useEffect, type ReactNode } from 'react';
 
 interface DropdownProps {
   trigger: ReactNode;
@@ -124,25 +113,22 @@ export function Dropdown({ trigger, children, label }: DropdownProps) {
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(e.target as Node)
-      ) {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
         setIsOpen(false);
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     switch (e.key) {
-      case "Escape":
+      case 'Escape':
         setIsOpen(false);
         triggerRef.current?.focus();
         break;
-      case "ArrowDown":
+      case 'ArrowDown':
         e.preventDefault();
         if (!isOpen) {
           setIsOpen(true);
@@ -150,17 +136,17 @@ export function Dropdown({ trigger, children, label }: DropdownProps) {
           focusNextItem(menuRef.current, 1);
         }
         break;
-      case "ArrowUp":
+      case 'ArrowUp':
         e.preventDefault();
         if (isOpen) {
           focusNextItem(menuRef.current, -1);
         }
         break;
-      case "Home":
+      case 'Home':
         e.preventDefault();
         focusFirstItem(menuRef.current);
         break;
-      case "End":
+      case 'End':
         e.preventDefault();
         focusLastItem(menuRef.current);
         break;
@@ -180,7 +166,7 @@ export function Dropdown({ trigger, children, label }: DropdownProps) {
         {trigger}
         <ChevronDownIcon
           aria-hidden="true"
-          className={`transition-transform ${isOpen ? "rotate-180" : ""}`}
+          className={`transition-transform ${isOpen ? 'rotate-180' : ''}`}
         />
       </button>
 
@@ -220,26 +206,18 @@ export function MenuItem({ children, onClick, disabled }: MenuItemProps) {
 
 function focusNextItem(menu: HTMLElement | null, direction: 1 | -1) {
   if (!menu) return;
-  const items = menu.querySelectorAll<HTMLElement>(
-    '[role="menuitem"]:not([disabled])',
-  );
-  const currentIndex = Array.from(items).indexOf(
-    document.activeElement as HTMLElement,
-  );
+  const items = menu.querySelectorAll<HTMLElement>('[role="menuitem"]:not([disabled])');
+  const currentIndex = Array.from(items).indexOf(document.activeElement as HTMLElement);
   const nextIndex = (currentIndex + direction + items.length) % items.length;
   items[nextIndex]?.focus();
 }
 
 function focusFirstItem(menu: HTMLElement | null) {
-  menu
-    ?.querySelector<HTMLElement>('[role="menuitem"]:not([disabled])')
-    ?.focus();
+  menu?.querySelector<HTMLElement>('[role="menuitem"]:not([disabled])')?.focus();
 }
 
 function focusLastItem(menu: HTMLElement | null) {
-  const items = menu?.querySelectorAll<HTMLElement>(
-    '[role="menuitem"]:not([disabled])',
-  );
+  const items = menu?.querySelectorAll<HTMLElement>('[role="menuitem"]:not([disabled])');
   items?.[items.length - 1]?.focus();
 }
 ```
@@ -247,13 +225,7 @@ function focusLastItem(menu: HTMLElement | null) {
 ### Combobox / Autocomplete
 
 ```tsx
-import {
-  useState,
-  useRef,
-  useId,
-  type ChangeEvent,
-  type KeyboardEvent,
-} from "react";
+import { useState, useRef, useId, type ChangeEvent, type KeyboardEvent } from 'react';
 
 interface Option {
   value: string;
@@ -268,15 +240,9 @@ interface ComboboxProps {
   placeholder?: string;
 }
 
-export function Combobox({
-  options,
-  value,
-  onChange,
-  label,
-  placeholder,
-}: ComboboxProps) {
+export function Combobox({ options, value, onChange, label, placeholder }: ComboboxProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState('');
   const [activeIndex, setActiveIndex] = useState(-1);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -303,27 +269,25 @@ export function Combobox({
 
   const handleKeyDown = (e: KeyboardEvent) => {
     switch (e.key) {
-      case "ArrowDown":
+      case 'ArrowDown':
         e.preventDefault();
         if (!isOpen) {
           setIsOpen(true);
         } else {
-          setActiveIndex((prev) =>
-            prev < filteredOptions.length - 1 ? prev + 1 : prev,
-          );
+          setActiveIndex((prev) => (prev < filteredOptions.length - 1 ? prev + 1 : prev));
         }
         break;
-      case "ArrowUp":
+      case 'ArrowUp':
         e.preventDefault();
         setActiveIndex((prev) => (prev > 0 ? prev - 1 : prev));
         break;
-      case "Enter":
+      case 'Enter':
         e.preventDefault();
         if (activeIndex >= 0 && filteredOptions[activeIndex]) {
           handleSelect(filteredOptions[activeIndex]);
         }
         break;
-      case "Escape":
+      case 'Escape':
         setIsOpen(false);
         break;
     }
@@ -331,7 +295,7 @@ export function Combobox({
 
   return (
     <div className="relative">
-      <label htmlFor={inputId} className="block text-sm font-medium mb-1">
+      <label htmlFor={inputId} className="mb-1 block text-sm font-medium">
         {label}
       </label>
       <input
@@ -342,9 +306,7 @@ export function Combobox({
         aria-expanded={isOpen}
         aria-autocomplete="list"
         aria-controls={listboxId}
-        aria-activedescendant={
-          activeIndex >= 0 ? `option-${activeIndex}` : undefined
-        }
+        aria-activedescendant={activeIndex >= 0 ? `option-${activeIndex}` : undefined}
         value={inputValue}
         placeholder={placeholder}
         onChange={handleInputChange}
@@ -370,8 +332,8 @@ export function Combobox({
               aria-selected={activeIndex === index}
               onClick={() => handleSelect(option)}
               className={`cursor-pointer px-3 py-2 ${
-                activeIndex === index ? "bg-blue-100" : "hover:bg-gray-100"
-              } ${value === option.value ? "font-medium" : ""}`}
+                activeIndex === index ? 'bg-blue-100' : 'hover:bg-gray-100'
+              } ${value === option.value ? 'font-medium' : ''}`}
             >
               {option.label}
             </li>
@@ -392,7 +354,7 @@ export function Combobox({
 ### Form Validation
 
 ```tsx
-import { useId, type FormEvent } from "react";
+import { useId, type FormEvent } from 'react';
 
 interface FormFieldProps {
   label: string;
@@ -400,17 +362,12 @@ interface FormFieldProps {
   required?: boolean;
   children: (props: {
     id: string;
-    "aria-describedby": string | undefined;
-    "aria-invalid": boolean;
+    'aria-describedby': string | undefined;
+    'aria-invalid': boolean;
   }) => ReactNode;
 }
 
-export function FormField({
-  label,
-  error,
-  required,
-  children,
-}: FormFieldProps) {
+export function FormField({ label, error, required, children }: FormFieldProps) {
   const id = useId();
   const errorId = `${id}-error`;
 
@@ -427,8 +384,8 @@ export function FormField({
 
       {children({
         id,
-        "aria-describedby": error ? errorId : undefined,
-        "aria-invalid": !!error,
+        'aria-describedby': error ? errorId : undefined,
+        'aria-invalid': !!error,
       })}
 
       {error && (
@@ -458,16 +415,13 @@ function ContactForm() {
             type="email"
             required
             className={`w-full rounded border px-3 py-2 ${
-              props["aria-invalid"] ? "border-red-500" : "border-gray-300"
+              props['aria-invalid'] ? 'border-red-500' : 'border-gray-300'
             }`}
           />
         )}
       </FormField>
 
-      <button
-        type="submit"
-        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
-      >
+      <button type="submit" className="mt-4 rounded bg-blue-600 px-4 py-2 text-white">
         Submit
       </button>
     </form>
@@ -483,13 +437,13 @@ export function SkipLinks() {
     <div className="sr-only focus-within:not-sr-only">
       <a
         href="#main-content"
-        className="absolute left-4 top-4 z-50 rounded bg-blue-600 px-4 py-2 text-white focus:outline-none focus:ring-2"
+        className="absolute top-4 left-4 z-50 rounded bg-blue-600 px-4 py-2 text-white focus:ring-2 focus:outline-none"
       >
         Skip to main content
       </a>
       <a
         href="#main-navigation"
-        className="absolute left-4 top-16 z-50 rounded bg-blue-600 px-4 py-2 text-white focus:outline-none focus:ring-2"
+        className="absolute top-16 left-4 z-50 rounded bg-blue-600 px-4 py-2 text-white focus:ring-2 focus:outline-none"
       >
         Skip to navigation
       </a>
@@ -501,49 +455,33 @@ export function SkipLinks() {
 ## Live Regions
 
 ```tsx
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 interface LiveAnnouncerProps {
   message: string;
-  politeness?: "polite" | "assertive";
+  politeness?: 'polite' | 'assertive';
 }
 
-export function LiveAnnouncer({
-  message,
-  politeness = "polite",
-}: LiveAnnouncerProps) {
-  const [announcement, setAnnouncement] = useState("");
+export function LiveAnnouncer({ message, politeness = 'polite' }: LiveAnnouncerProps) {
+  const [announcement, setAnnouncement] = useState('');
 
   useEffect(() => {
     // Clear first, then set - ensures screen readers pick up the change
-    setAnnouncement("");
+    setAnnouncement('');
     const timer = setTimeout(() => setAnnouncement(message), 100);
     return () => clearTimeout(timer);
   }, [message]);
 
   return (
-    <div
-      role="status"
-      aria-live={politeness}
-      aria-atomic="true"
-      className="sr-only"
-    >
+    <div role="status" aria-live={politeness} aria-atomic="true" className="sr-only">
       {announcement}
     </div>
   );
 }
 
 // Usage in a search component
-function SearchResults({
-  results,
-  loading,
-}: {
-  results: Item[];
-  loading: boolean;
-}) {
-  const message = loading
-    ? "Loading results..."
-    : `${results.length} results found`;
+function SearchResults({ results, loading }: { results: Item[]; loading: boolean }) {
+  const message = loading ? 'Loading results...' : `${results.length} results found`;
 
   return (
     <>
@@ -582,10 +520,9 @@ function useFocusTrap(containerRef: RefObject<HTMLElement>, isActive: boolean) {
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key !== "Tab") return;
+      if (e.key !== 'Tab') return;
 
-      const focusableElements =
-        container.querySelectorAll<HTMLElement>(focusableSelector);
+      const focusableElements = container.querySelectorAll<HTMLElement>(focusableSelector);
       const first = focusableElements[0];
       const last = focusableElements[focusableElements.length - 1];
 
@@ -598,8 +535,8 @@ function useFocusTrap(containerRef: RefObject<HTMLElement>, isActive: boolean) {
       }
     };
 
-    container.addEventListener("keydown", handleKeyDown);
-    return () => container.removeEventListener("keydown", handleKeyDown);
+    container.addEventListener('keydown', handleKeyDown);
+    return () => container.removeEventListener('keydown', handleKeyDown);
   }, [containerRef, isActive]);
 }
 ```
@@ -631,12 +568,8 @@ function getContrastRatio(fg: string, bg: string): number {
   return (lighter + 0.05) / (darker + 0.05);
 }
 
-function meetsWCAG(
-  fg: string,
-  bg: string,
-  level: "AA" | "AAA" = "AA",
-): boolean {
+function meetsWCAG(fg: string, bg: string, level: 'AA' | 'AAA' = 'AA'): boolean {
   const ratio = getContrastRatio(fg, bg);
-  return level === "AAA" ? ratio >= 7 : ratio >= 4.5;
+  return level === 'AAA' ? ratio >= 7 : ratio >= 4.5;
 }
 ```

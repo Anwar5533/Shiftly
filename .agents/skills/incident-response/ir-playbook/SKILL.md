@@ -12,14 +12,14 @@ role: [soc-analyst, security-engineer, vciso]
 phase: [respond, recover]
 frameworks: [NIST-SP-800-61r2, SANS-IH]
 difficulty: intermediate
-time_estimate: "30-60min"
-version: "1.0.1"
+time_estimate: '30-60min'
+version: '1.0.1'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 context: fork
 injection-hardened: true
-argument-hint: "[target-file-or-directory]"
+argument-hint: '[target-file-or-directory]'
 ---
 
 # Incident Response Playbook -- NIST SP 800-61 Rev 2 / SANS Incident Handler's Handbook
@@ -97,18 +97,18 @@ Verify that the foundational elements for incident response are in place. If gap
 
 **IR readiness checklist:**
 
-| Element | Status | Notes |
-|---------|--------|-------|
-| Designated IR team with roles and contact info | [ ] | NIST 800-61 Section 2.4.1 |
-| Documented IR plan reviewed within last 12 months | [ ] | |
-| Communication channels (out-of-band, not dependent on compromised infrastructure) | [ ] | Secure messaging, bridge lines |
-| Forensic toolkit available (disk imaging, memory capture, network capture) | [ ] | |
-| Log sources centralized and accessible (SIEM, cloud trail, EDR console) | [ ] | |
-| Legal counsel identified and reachable | [ ] | Internal or external |
-| Cyber insurance policy and carrier contact | [ ] | Notification within 24-72h typical |
-| External IR retainer (if applicable) | [ ] | |
-| Regulatory notification requirements documented | [ ] | GDPR, HIPAA, state laws, SEC |
-| Evidence storage with chain-of-custody procedures | [ ] | |
+| Element                                                                           | Status | Notes                              |
+| --------------------------------------------------------------------------------- | ------ | ---------------------------------- |
+| Designated IR team with roles and contact info                                    | [ ]    | NIST 800-61 Section 2.4.1          |
+| Documented IR plan reviewed within last 12 months                                 | [ ]    |                                    |
+| Communication channels (out-of-band, not dependent on compromised infrastructure) | [ ]    | Secure messaging, bridge lines     |
+| Forensic toolkit available (disk imaging, memory capture, network capture)        | [ ]    |                                    |
+| Log sources centralized and accessible (SIEM, cloud trail, EDR console)           | [ ]    |                                    |
+| Legal counsel identified and reachable                                            | [ ]    | Internal or external               |
+| Cyber insurance policy and carrier contact                                        | [ ]    | Notification within 24-72h typical |
+| External IR retainer (if applicable)                                              | [ ]    |                                    |
+| Regulatory notification requirements documented                                   | [ ]    | GDPR, HIPAA, state laws, SEC       |
+| Evidence storage with chain-of-custody procedures                                 | [ ]    |                                    |
 
 ### Phase 2: Detection and Analysis (NIST) / Identification (SANS)
 
@@ -116,17 +116,17 @@ Verify that the foundational elements for incident response are in place. If gap
 
 Classify the incident using the NIST SP 800-61 taxonomy:
 
-| Incident Category | Description | Examples |
-|-------------------|-------------|----------|
-| **Unauthorized Access** | Unauthorized logical access to systems, networks, or data | Compromised credentials, brute force success, privilege escalation |
-| **Malware** | Malicious code execution on organization systems | Ransomware, trojan, worm, cryptominer, rootkit |
-| **Destructive / Wiper** | Malware designed to destroy data or render systems inoperable, with no recovery mechanism (unlike ransomware) | Wiper malware, MBR overwrite, firmware destruction, partition table corruption |
-| **Data Exfiltration** | Unauthorized transfer of data outside the organization | Database dump to external host, email forwarding rule, cloud storage sync |
-| **Denial of Service** | Disruption of service availability | DDoS, application-layer flood, resource exhaustion |
-| **Insider Threat** | Malicious or negligent actions by authorized users | Data theft by employee, accidental exposure, policy violation |
-| **Supply Chain Compromise** | Compromise via trusted third-party software or service | Malicious update, compromised dependency, vendor breach |
-| **Web Application Attack** | Exploitation of web application vulnerabilities | SQL injection, XSS, SSRF, API abuse |
-| **Social Engineering** | Manipulation of personnel to gain access or information | Phishing, BEC, vishing, pretexting |
+| Incident Category           | Description                                                                                                   | Examples                                                                       |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| **Unauthorized Access**     | Unauthorized logical access to systems, networks, or data                                                     | Compromised credentials, brute force success, privilege escalation             |
+| **Malware**                 | Malicious code execution on organization systems                                                              | Ransomware, trojan, worm, cryptominer, rootkit                                 |
+| **Destructive / Wiper**     | Malware designed to destroy data or render systems inoperable, with no recovery mechanism (unlike ransomware) | Wiper malware, MBR overwrite, firmware destruction, partition table corruption |
+| **Data Exfiltration**       | Unauthorized transfer of data outside the organization                                                        | Database dump to external host, email forwarding rule, cloud storage sync      |
+| **Denial of Service**       | Disruption of service availability                                                                            | DDoS, application-layer flood, resource exhaustion                             |
+| **Insider Threat**          | Malicious or negligent actions by authorized users                                                            | Data theft by employee, accidental exposure, policy violation                  |
+| **Supply Chain Compromise** | Compromise via trusted third-party software or service                                                        | Malicious update, compromised dependency, vendor breach                        |
+| **Web Application Attack**  | Exploitation of web application vulnerabilities                                                               | SQL injection, XSS, SSRF, API abuse                                            |
+| **Social Engineering**      | Manipulation of personnel to gain access or information                                                       | Phishing, BEC, vishing, pretexting                                             |
 
 #### Step 2.2: Severity Determination
 
@@ -134,39 +134,39 @@ Assign severity based on the combination of functional impact, information impac
 
 **Functional Impact:**
 
-| Level | Definition |
-|-------|------------|
-| **None** | No effect on the organization's ability to provide services |
-| **Low** | Minimal effect; organization can still provide all critical services |
-| **Medium** | Organization has lost the ability to provide a critical service to a subset of users |
-| **High** | Organization has lost the ability to provide one or more critical services to all users |
+| Level      | Definition                                                                              |
+| ---------- | --------------------------------------------------------------------------------------- |
+| **None**   | No effect on the organization's ability to provide services                             |
+| **Low**    | Minimal effect; organization can still provide all critical services                    |
+| **Medium** | Organization has lost the ability to provide a critical service to a subset of users    |
+| **High**   | Organization has lost the ability to provide one or more critical services to all users |
 
 **Information Impact:**
 
-| Level | Definition |
-|-------|------------|
-| **None** | No information was exfiltrated, changed, deleted, or compromised |
-| **Privacy Breach** | PII or PHI of individuals was accessed or exfiltrated |
+| Level                  | Definition                                                                        |
+| ---------------------- | --------------------------------------------------------------------------------- |
+| **None**               | No information was exfiltrated, changed, deleted, or compromised                  |
+| **Privacy Breach**     | PII or PHI of individuals was accessed or exfiltrated                             |
 | **Proprietary Breach** | Trade secrets, IP, or non-public business information was accessed or exfiltrated |
-| **Integrity Loss** | Sensitive or critical information was changed or deleted |
+| **Integrity Loss**     | Sensitive or critical information was changed or deleted                          |
 
 **Recoverability:**
 
-| Level | Definition |
-|-------|------------|
-| **Regular** | Time to recovery is predictable with existing resources |
-| **Supplemented** | Time to recovery is predictable but requires additional resources (external IR, vendor support) |
-| **Extended** | Time to recovery is unpredictable; requires significant resources |
-| **Not Recoverable** | Recovery is not possible (e.g., data destroyed with no backup) |
+| Level               | Definition                                                                                      |
+| ------------------- | ----------------------------------------------------------------------------------------------- |
+| **Regular**         | Time to recovery is predictable with existing resources                                         |
+| **Supplemented**    | Time to recovery is predictable but requires additional resources (external IR, vendor support) |
+| **Extended**        | Time to recovery is unpredictable; requires significant resources                               |
+| **Not Recoverable** | Recovery is not possible (e.g., data destroyed with no backup)                                  |
 
 **Severity Matrix:**
 
-| Severity | Criteria | Response Posture |
-|----------|----------|-----------------|
+| Severity             | Criteria                                                                                  | Response Posture                                                                                          |
+| -------------------- | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
 | **SEV-1 (Critical)** | High functional impact OR privacy/integrity breach with extended/not-recoverable timeline | All-hands response; executive notification within 1 hour; external IR engagement; legal counsel activated |
-| **SEV-2 (High)** | Medium functional impact OR proprietary breach with supplemented recovery | Dedicated IR team engaged; management notification within 4 hours; consider external support |
-| **SEV-3 (Medium)** | Low functional impact OR information impact with regular recovery | IR team investigates during business hours; management notification within 24 hours |
-| **SEV-4 (Low)** | None/minimal functional impact; no information impact; regular recovery | Documented and monitored; addressed in normal operations |
+| **SEV-2 (High)**     | Medium functional impact OR proprietary breach with supplemented recovery                 | Dedicated IR team engaged; management notification within 4 hours; consider external support              |
+| **SEV-3 (Medium)**   | Low functional impact OR information impact with regular recovery                         | IR team investigates during business hours; management notification within 24 hours                       |
+| **SEV-4 (Low)**      | None/minimal functional impact; no information impact; regular recovery                   | Documented and monitored; addressed in normal operations                                                  |
 
 #### Step 2.3: Indicator Analysis
 
@@ -243,12 +243,12 @@ Wiper malware destroys data irrecoverably (unlike ransomware which preserves enc
 
 **Key differences from ransomware:**
 
-| Factor | Ransomware | Wiper / Destructive |
-|--------|-----------|---------------------|
-| **Recovery** | Via decryption key | Only from immutable backups |
-| **Motivation** | Financial | Disruption, sabotage, geopolitical |
-| **Containment urgency** | High | Critical -- every second is permanent data loss |
-| **Attribution** | Lower priority (criminal) | Higher priority (often nation-state; FBI/CISA/ISAC engagement) |
+| Factor                  | Ransomware                | Wiper / Destructive                                            |
+| ----------------------- | ------------------------- | -------------------------------------------------------------- |
+| **Recovery**            | Via decryption key        | Only from immutable backups                                    |
+| **Motivation**          | Financial                 | Disruption, sabotage, geopolitical                             |
+| **Containment urgency** | High                      | Critical -- every second is permanent data loss                |
+| **Attribution**         | Lower priority (criminal) | Higher priority (often nation-state; FBI/CISA/ISAC engagement) |
 
 **Nation-state context:** State-sponsored actors (Iranian, Russian, North Korean) increasingly deploy wipers against healthcare and defense supply chains. The 2026 Stryker medtech wiper attack demonstrates ePHI custodians are active targets. IR teams must account for pre-positioned backdoors beyond the wiper payload, potential prior data exfiltration, and the need for FBI/CISA/H-ISAC notification.
 
@@ -334,29 +334,29 @@ Measures to Mitigate: [Steps to address adverse effects]
 
 Escalate to the next tier when any of the following conditions are met:
 
-| Trigger | Escalate To | Timeframe |
-|---------|------------|-----------|
-| Confirmed data exfiltration involving PII/PHI | Legal counsel, Privacy Officer, Executive leadership | Immediately |
-| Ransomware with encryption of production systems | Executive leadership, External IR, Cyber insurance carrier, Law enforcement (FBI IC3) | Within 1 hour |
-| Wiper/destructive malware with active data destruction | Executive leadership, External IR, Cyber insurance, FBI IC3, CISA, Sector ISAC (e.g., H-ISAC for healthcare) | Immediately |
-| Active attacker with domain admin / root access | External IR firm, Executive leadership | Within 1 hour |
-| Incident duration exceeds 4 hours without containment | IR lead escalates to management for resource allocation | At 4-hour mark |
-| Evidence of supply chain compromise affecting customers | Legal, Customer communications, Executive leadership | Within 2 hours |
-| Regulatory notification deadline approaching | Legal counsel, Compliance team | 24 hours before deadline |
-| Insider threat involving executive or privileged admin | Legal counsel, HR, Board (if executive) | Immediately |
-| IR team lacks expertise for the attack type | External IR retainer, Vendor support | Upon recognition |
+| Trigger                                                 | Escalate To                                                                                                  | Timeframe                |
+| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------ |
+| Confirmed data exfiltration involving PII/PHI           | Legal counsel, Privacy Officer, Executive leadership                                                         | Immediately              |
+| Ransomware with encryption of production systems        | Executive leadership, External IR, Cyber insurance carrier, Law enforcement (FBI IC3)                        | Within 1 hour            |
+| Wiper/destructive malware with active data destruction  | Executive leadership, External IR, Cyber insurance, FBI IC3, CISA, Sector ISAC (e.g., H-ISAC for healthcare) | Immediately              |
+| Active attacker with domain admin / root access         | External IR firm, Executive leadership                                                                       | Within 1 hour            |
+| Incident duration exceeds 4 hours without containment   | IR lead escalates to management for resource allocation                                                      | At 4-hour mark           |
+| Evidence of supply chain compromise affecting customers | Legal, Customer communications, Executive leadership                                                         | Within 2 hours           |
+| Regulatory notification deadline approaching            | Legal counsel, Compliance team                                                                               | 24 hours before deadline |
+| Insider threat involving executive or privileged admin  | Legal counsel, HR, Board (if executive)                                                                      | Immediately              |
+| IR team lacks expertise for the attack type             | External IR retainer, Vendor support                                                                         | Upon recognition         |
 
 ---
 
 ## 4. Findings Classification
 
-| Severity | Label | Definition | Response SLA |
-|----------|-------|------------|-------------|
-| SEV-1 | Critical | Active compromise with ongoing data loss, system destruction, or safety impact. Full organizational response required. | Immediate -- all-hands response |
-| SEV-2 | High | Confirmed compromise with significant business impact. Dedicated IR team engagement required. | 4 hours to full IR mobilization |
-| SEV-3 | Medium | Suspected compromise or confirmed event with limited scope and recoverable impact. | 24 hours to investigation start |
-| SEV-4 | Low | Security event with no confirmed compromise, minimal scope, and no business impact. | 72 hours to triage |
-| SEV-5 | Informational | False positive, policy violation, or security observation requiring documentation only. | Logged and reviewed in next cycle |
+| Severity | Label         | Definition                                                                                                             | Response SLA                      |
+| -------- | ------------- | ---------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
+| SEV-1    | Critical      | Active compromise with ongoing data loss, system destruction, or safety impact. Full organizational response required. | Immediate -- all-hands response   |
+| SEV-2    | High          | Confirmed compromise with significant business impact. Dedicated IR team engagement required.                          | 4 hours to full IR mobilization   |
+| SEV-3    | Medium        | Suspected compromise or confirmed event with limited scope and recoverable impact.                                     | 24 hours to investigation start   |
+| SEV-4    | Low           | Security event with no confirmed compromise, minimal scope, and no business impact.                                    | 72 hours to triage                |
+| SEV-5    | Informational | False positive, policy violation, or security observation requiring documentation only.                                | Logged and reviewed in next cycle |
 
 ---
 
@@ -366,59 +366,70 @@ Produce the incident response report with these exact sections:
 
 ```markdown
 ## Incident Response Report: [Incident ID]
+
 **Date:** [YYYY-MM-DD]
 **Skill:** ir-playbook v1.0.0
 **Frameworks:** NIST SP 800-61 Rev 2, SANS Incident Handler's Handbook
 **Incident Commander:** [Name or "Unassigned -- assign immediately"]
 
 ### Executive Summary
+
 [3-5 sentences. State the incident type, severity, current status, business impact,
 and recommended immediate actions. Lead with the most critical fact.]
 
 ### Incident Classification
-| Field | Value |
-|---|---|
-| Incident ID | [IR-YYYY-NNNN] |
-| Category | [Unauthorized Access / Malware / Data Exfiltration / DoS / Insider / Supply Chain / Web App / Social Engineering] |
-| Severity | [SEV-1 / SEV-2 / SEV-3 / SEV-4] |
-| Functional Impact | [None / Low / Medium / High] |
-| Information Impact | [None / Privacy Breach / Proprietary Breach / Integrity Loss] |
-| Recoverability | [Regular / Supplemented / Extended / Not Recoverable] |
-| Status | [Detected / Analyzing / Contained / Eradicated / Recovered / Closed] |
+
+| Field              | Value                                                                                                             |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| Incident ID        | [IR-YYYY-NNNN]                                                                                                    |
+| Category           | [Unauthorized Access / Malware / Data Exfiltration / DoS / Insider / Supply Chain / Web App / Social Engineering] |
+| Severity           | [SEV-1 / SEV-2 / SEV-3 / SEV-4]                                                                                   |
+| Functional Impact  | [None / Low / Medium / High]                                                                                      |
+| Information Impact | [None / Privacy Breach / Proprietary Breach / Integrity Loss]                                                     |
+| Recoverability     | [Regular / Supplemented / Extended / Not Recoverable]                                                             |
+| Status             | [Detected / Analyzing / Contained / Eradicated / Recovered / Closed]                                              |
 
 ### Timeline
-| Timestamp (UTC) | Event | Source |
-|---|---|---|
+
+| Timestamp (UTC)    | Event               | Source                     |
+| ------------------ | ------------------- | -------------------------- |
 | [YYYY-MM-DD HH:MM] | [Event description] | [Log source / observation] |
 
 ### Indicators of Compromise
-| Type | Value | First Seen | Confidence | ATT&CK Technique |
-|---|---|---|---|---|
-| [IP/Domain/Hash/...] | [value] | [timestamp] | [Confirmed/Probable/Suspected] | [T-code] |
+
+| Type                 | Value   | First Seen  | Confidence                     | ATT&CK Technique |
+| -------------------- | ------- | ----------- | ------------------------------ | ---------------- |
+| [IP/Domain/Hash/...] | [value] | [timestamp] | [Confirmed/Probable/Suspected] | [T-code]         |
 
 ### Containment Actions
-| Action | Status | Timestamp | Performed By |
-|---|---|---|---|
-| [Action taken] | [Complete / In Progress / Planned] | [timestamp] | [responder] |
+
+| Action         | Status                             | Timestamp   | Performed By |
+| -------------- | ---------------------------------- | ----------- | ------------ |
+| [Action taken] | [Complete / In Progress / Planned] | [timestamp] | [responder]  |
 
 ### Eradication and Recovery
+
 - **Root Cause:** [Description of initial access vector and exploitation path]
 - **Eradication Actions:** [List of removal actions taken]
 - **Recovery Actions:** [List of restoration actions taken or planned]
 - **Enhanced Monitoring:** [Description of increased monitoring posture]
 
 ### Stakeholder Notifications
-| Stakeholder | Notified | Timestamp | Method |
-|---|---|---|---|
+
+| Stakeholder                                            | Notified             | Timestamp   | Method                   |
+| ------------------------------------------------------ | -------------------- | ----------- | ------------------------ |
 | [Executive / Legal / Regulator / Customer / Insurance] | [Yes / No / Pending] | [timestamp] | [Email / Phone / Portal] |
 
 ### Escalation Decisions
+
 [Document any escalation triggers hit and actions taken]
 
 ### Open Items and Next Steps
+
 - [ ] [Action item with owner and deadline]
 
 ### Handoff to Post-Incident Review
+
 - **PIR Scheduled:** [Date or "Not yet scheduled"]
 - **Evidence Preserved:** [Yes / No -- reference forensics-checklist]
 - **Remediation Tracking:** [Ticket system and IDs]
@@ -439,6 +450,7 @@ The SANS Incident Handler's Handbook provides a six-step process: (1) Preparatio
 ### MITRE ATT&CK -- Mapping Attacker Behavior
 
 During detection and analysis, map observed attacker techniques to the MITRE ATT&CK Enterprise Matrix. This enables:
+
 - Predictive analysis of likely next attacker actions based on known attack patterns
 - Identification of detection gaps where visibility is insufficient
 - Standardized communication of attacker TTPs across teams and with external parties

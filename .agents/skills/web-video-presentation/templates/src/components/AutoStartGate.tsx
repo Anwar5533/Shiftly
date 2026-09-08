@@ -1,4 +1,4 @@
-import "./AutoStartGate.css";
+import './AutoStartGate.css';
 
 interface Props {
   visible: boolean;
@@ -15,13 +15,7 @@ interface Props {
 export function AutoStartGate({ visible, onStart }: Props) {
   if (!visible) return null;
   return (
-    <div
-      className="auto-gate"
-      data-no-advance
-      onClick={onStart}
-      role="button"
-      tabIndex={0}
-    >
+    <div className="auto-gate" data-no-advance onClick={onStart} role="button" tabIndex={0}>
       <div className="auto-gate-card">
         <div className="auto-gate-kicker">AUTO PLAYBACK</div>
         <div className="auto-gate-title">Press SPACE to start</div>

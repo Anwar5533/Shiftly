@@ -80,9 +80,7 @@ export function App() {
         </main>
       )}
 
-      {route.name === 'case' && (
-        <CaseDetail id={route.id} navigate={navigate} />
-      )}
+      {route.name === 'case' && <CaseDetail id={route.id} navigate={navigate} />}
     </>
   );
 }

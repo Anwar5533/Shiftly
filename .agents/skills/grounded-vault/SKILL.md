@@ -24,11 +24,11 @@ durable knowledge store.
 
 ## The three layers
 
-| Layer | Contents | Who writes it | Rule |
-|---|---|---|---|
-| `raw/` | source material: notes, papers, transcripts, logs, exported data | people and ingestion only | immutable once added; agents never edit a raw file |
-| `wiki/` | compiled pages built from `raw/` and from code | agents and people | every number, date, and quote links to its source |
-| `archive/` | pages that drifted or were superseded | agents, during garbage collection | moved, never deleted; the header says why |
+| Layer      | Contents                                                         | Who writes it                     | Rule                                               |
+| ---------- | ---------------------------------------------------------------- | --------------------------------- | -------------------------------------------------- |
+| `raw/`     | source material: notes, papers, transcripts, logs, exported data | people and ingestion only         | immutable once added; agents never edit a raw file |
+| `wiki/`    | compiled pages built from `raw/` and from code                   | agents and people                 | every number, date, and quote links to its source  |
+| `archive/` | pages that drifted or were superseded                            | agents, during garbage collection | moved, never deleted; the header says why          |
 
 Two files sit at the vault root. `index.md` is the map of every current page. `log.md` is an
 append-only record of what changed and why. Both change in the same commit as the page they

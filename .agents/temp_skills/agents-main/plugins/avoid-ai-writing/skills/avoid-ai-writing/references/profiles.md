@@ -1,7 +1,7 @@
 # Context and voice profiles
 
-Two independent axes. A context profile sets *how strict* to be for an audience. A
-voice profile sets *how the prose should sound*. Blunt for a blog and warm for docs
+Two independent axes. A context profile sets _how strict_ to be for an audience. A
+voice profile sets _how the prose should sound_. Blunt for a blog and warm for docs
 are both valid combinations.
 
 ## Context profiles
@@ -17,13 +17,13 @@ are both valid combinations.
 
 When no context is named, infer it:
 
-| Signal | Inferred context |
-|--------|-----------------|
-| Under 300 words plus hashtags or mentions | `linkedin` |
-| Code blocks, API references, or architecture | `technical-blog` |
-| Salutation plus investor or fundraising language | `investor-email` |
-| Step-by-step instructions, parameter docs, README structure | `docs` |
-| No strong signals | `blog`, the safest default |
+| Signal                                                      | Inferred context           |
+| ----------------------------------------------------------- | -------------------------- |
+| Under 300 words plus hashtags or mentions                   | `linkedin`                 |
+| Code blocks, API references, or architecture                | `technical-blog`           |
+| Salutation plus investor or fundraising language            | `investor-email`           |
+| Step-by-step instructions, parameter docs, README structure | `docs`                     |
+| No strong signals                                           | `blog`, the safest default |
 
 Say which profile you inferred and why. The writer can override.
 
@@ -33,32 +33,32 @@ Rules absent from the table apply at full strength everywhere. "Skip" means the 
 does not apply to that register. "Extra strict" means flag borderline instances too:
 in an investor email, one "thriving ecosystem" can undermine the whole message.
 
-| Rule | linkedin | blog | technical-blog | investor-email | docs | casual |
-|------|----------|------|----------------|----------------|------|--------|
-| Em dashes | relaxed (2/post OK) | strict | strict | strict | relaxed | skip |
-| Bold overuse | relaxed (bold hooks OK) | strict | strict | strict | relaxed | skip |
-| Emoji in headers | relaxed (1-2 end-of-line OK) | strict | strict | strict | skip | skip |
-| Excessive bullets | skip (lists work on LinkedIn) | strict | relaxed (technical lists OK) | strict | skip (lists are docs) | skip |
-| Hedging | strict | strict | relaxed ("may" is accurate in technical) | strict | relaxed | skip |
-| Word table (full list) | strict | strict | **partial** (see below) | strict | relaxed | P0 only |
-| Promotional language | relaxed (some sell is expected) | strict | strict | **extra strict** | strict | skip |
-| Significance inflation | strict | strict | strict | **extra strict** | relaxed | skip |
-| Copula avoidance | skip | strict | relaxed | strict | skip | skip |
-| Uniform paragraph length | skip (short-form) | strict | strict | strict | relaxed | skip |
-| Numbered list inflation | relaxed | strict | relaxed | strict | skip | skip |
-| Rhetorical questions | relaxed (1 as hook OK) | strict | strict | strict | strict | skip |
-| Transition phrases | skip (short-form) | strict | strict | strict | relaxed | skip |
-| Generic conclusions | skip | strict | strict | **extra strict** | skip | skip |
-| Hashtag stuffing | strict | strict | strict | **extra strict** | skip (no hashtags in docs) | skip |
-| Bullet-NP lists | strict | strict | relaxed (technical option lists OK) | strict | relaxed (parameter lists OK) | skip |
-| Tier 3 phrase clustering | strict | strict | strict | **extra strict** | relaxed | skip |
-| Future-narrative closers | strict | strict | strict | **extra strict** | skip | skip |
-| Social endorsement closers | strict (the LinkedIn share-post tell) | strict | strict | strict | skip | relaxed (1 OK in a DM) |
-| Hedge-stacked predictions | strict | strict | relaxed ("could" is hedged accuracy) | **extra strict** | relaxed | skip |
-| Real/actual inflation | strict | strict | strict | **extra strict** | relaxed | skip |
-| Moral-adjective category errors | strict | strict | relaxed | strict | relaxed | skip |
-| Invented contrast-pair mirroring | strict | strict | relaxed | strict | relaxed | skip |
-| Subjectless fragments and agentless passives | relaxed (short-form fragments are the register) | strict | relaxed | strict | skip (fragment lists are docs) | skip |
+| Rule                                         | linkedin                                        | blog   | technical-blog                           | investor-email   | docs                           | casual                 |
+| -------------------------------------------- | ----------------------------------------------- | ------ | ---------------------------------------- | ---------------- | ------------------------------ | ---------------------- |
+| Em dashes                                    | relaxed (2/post OK)                             | strict | strict                                   | strict           | relaxed                        | skip                   |
+| Bold overuse                                 | relaxed (bold hooks OK)                         | strict | strict                                   | strict           | relaxed                        | skip                   |
+| Emoji in headers                             | relaxed (1-2 end-of-line OK)                    | strict | strict                                   | strict           | skip                           | skip                   |
+| Excessive bullets                            | skip (lists work on LinkedIn)                   | strict | relaxed (technical lists OK)             | strict           | skip (lists are docs)          | skip                   |
+| Hedging                                      | strict                                          | strict | relaxed ("may" is accurate in technical) | strict           | relaxed                        | skip                   |
+| Word table (full list)                       | strict                                          | strict | **partial** (see below)                  | strict           | relaxed                        | P0 only                |
+| Promotional language                         | relaxed (some sell is expected)                 | strict | strict                                   | **extra strict** | strict                         | skip                   |
+| Significance inflation                       | strict                                          | strict | strict                                   | **extra strict** | relaxed                        | skip                   |
+| Copula avoidance                             | skip                                            | strict | relaxed                                  | strict           | skip                           | skip                   |
+| Uniform paragraph length                     | skip (short-form)                               | strict | strict                                   | strict           | relaxed                        | skip                   |
+| Numbered list inflation                      | relaxed                                         | strict | relaxed                                  | strict           | skip                           | skip                   |
+| Rhetorical questions                         | relaxed (1 as hook OK)                          | strict | strict                                   | strict           | strict                         | skip                   |
+| Transition phrases                           | skip (short-form)                               | strict | strict                                   | strict           | relaxed                        | skip                   |
+| Generic conclusions                          | skip                                            | strict | strict                                   | **extra strict** | skip                           | skip                   |
+| Hashtag stuffing                             | strict                                          | strict | strict                                   | **extra strict** | skip (no hashtags in docs)     | skip                   |
+| Bullet-NP lists                              | strict                                          | strict | relaxed (technical option lists OK)      | strict           | relaxed (parameter lists OK)   | skip                   |
+| Tier 3 phrase clustering                     | strict                                          | strict | strict                                   | **extra strict** | relaxed                        | skip                   |
+| Future-narrative closers                     | strict                                          | strict | strict                                   | **extra strict** | skip                           | skip                   |
+| Social endorsement closers                   | strict (the LinkedIn share-post tell)           | strict | strict                                   | strict           | skip                           | relaxed (1 OK in a DM) |
+| Hedge-stacked predictions                    | strict                                          | strict | relaxed ("could" is hedged accuracy)     | **extra strict** | relaxed                        | skip                   |
+| Real/actual inflation                        | strict                                          | strict | strict                                   | **extra strict** | relaxed                        | skip                   |
+| Moral-adjective category errors              | strict                                          | strict | relaxed                                  | strict           | relaxed                        | skip                   |
+| Invented contrast-pair mirroring             | strict                                          | strict | relaxed                                  | strict           | relaxed                        | skip                   |
+| Subjectless fragments and agentless passives | relaxed (short-form fragments are the register) | strict | relaxed                                  | strict           | skip (fragment lists are docs) | skip                   |
 
 **Technical-blog word table exceptions.** These terms carry legitimate technical meaning
 and stay unflagged in technical context: `robust`, `comprehensive`, `seamless`, `ecosystem`,

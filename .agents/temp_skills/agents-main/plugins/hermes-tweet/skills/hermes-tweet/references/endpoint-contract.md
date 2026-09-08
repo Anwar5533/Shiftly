@@ -6,11 +6,11 @@ Hermes Agent sessions.
 
 ## Tool Matrix
 
-| Tool | API key | Network | Action gate | User approval |
-| --- | ---: | ---: | ---: | ---: |
-| `tweet_explore` | No | No | No | No |
-| `tweet_read` | Yes | Yes | No | No for public read-only routes |
-| `tweet_action` | Yes | Yes | Yes | Yes for the exact operation |
+| Tool            | API key | Network | Action gate |                  User approval |
+| --------------- | ------: | ------: | ----------: | -----------------------------: |
+| `tweet_explore` |      No |      No |          No |                             No |
+| `tweet_read`    |     Yes |     Yes |          No | No for public read-only routes |
+| `tweet_action`  |     Yes |     Yes |         Yes |    Yes for the exact operation |
 
 `tweet_explore` reads the bundled catalog. `tweet_read` accepts only
 catalog-listed public read-only routes. `tweet_action` handles writes, private

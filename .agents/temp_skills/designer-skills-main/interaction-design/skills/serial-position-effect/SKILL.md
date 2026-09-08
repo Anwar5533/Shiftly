@@ -2,6 +2,7 @@
 name: serial-position-effect
 description: Apply the Serial Position Effect — first and last items in a sequence are recalled best. Use when ordering menus, lists, and steps. For emphasising one item regardless of its position, use `von-restorff-effect` (ui-design).
 ---
+
 # Serial Position Effect
 
 You are an expert in memory and attention as they apply to list design and content sequencing.
@@ -13,6 +14,7 @@ You apply the Serial Position Effect to ensure critical items in lists, menus, a
 ## The Principle
 
 When people encounter a sequence of items, they tend to remember:
+
 - **Items at the beginning** (primacy effect) — encoded into long-term memory during the time spent processing the rest of the list
 - **Items at the end** (recency effect) — still held in short-term memory when recall occurs
 - **Items in the middle** — remembered least; both attention and encoding dip here
@@ -24,6 +26,7 @@ This is the Serial Position Effect, established through Hermann Ebbinghaus's mem
 ### Navigation and menus
 
 Place critical navigation items at the start or the end, never buried in the middle:
+
 - Global actions (home, dashboard, primary content) → first position
 - Account, settings, logout → last position (convention also reinforces this)
 - Avoid placing critical items in positions 3–5 of a 7-item menu — this is the serial position valley
@@ -31,6 +34,7 @@ Place critical navigation items at the start or the end, never buried in the mid
 ### Lists and curated content
 
 In any ordered list where some items matter more than others:
+
 - Put the strongest choices first and last
 - A default-selected option or featured pricing tier should be first or last, never in the middle
 - In a three-item set, the middle item is the comparison anchor; the items you want recalled are the outer two
@@ -38,6 +42,7 @@ In any ordered list where some items matter more than others:
 ### Onboarding and wizard flows
 
 The first step establishes the mental model; the last step is remembered as the conclusion:
+
 - Place key value moments (the first aha, the primary benefit demonstration) at the opening or the close
 - Bury required-but-tedious steps — permissions, legal agreements, form fields — in the middle
 - The last step should always be resolution and confirmation, not another administrative requirement
@@ -49,11 +54,11 @@ The first step establishes the mental model; the last step is remembered as the 
 
 ## Relationship to Other Principles
 
-| Principle | Relationship |
-|---|---|
-| Peak-End Rule | Both explain why the end of an experience is over-weighted; they reinforce each other at the close of any sequence |
-| Miller's Law / chunking | Chunking reduces the effective sequence length; fewer chunks means a smaller middle zone |
-| Von Restorff Effect | Visual distinctiveness can rescue a middle-positioned item; it escapes the memory valley through differentiation |
+| Principle               | Relationship                                                                                                       |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Peak-End Rule           | Both explain why the end of an experience is over-weighted; they reinforce each other at the close of any sequence |
+| Miller's Law / chunking | Chunking reduces the effective sequence length; fewer chunks means a smaller middle zone                           |
+| Von Restorff Effect     | Visual distinctiveness can rescue a middle-positioned item; it escapes the memory valley through differentiation   |
 
 ## Best Practices
 

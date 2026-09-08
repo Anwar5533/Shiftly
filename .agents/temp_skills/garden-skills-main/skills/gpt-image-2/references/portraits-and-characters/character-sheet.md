@@ -82,7 +82,10 @@
     },
     "props_and_weapons": {
       "enabled": "{argument name=\"props enabled\" default=\"true\"}",
-      "items": ["{argument name=\"prop 1\" default=\"冰晶法杖\"}", "{argument name=\"prop 2\" default=\"雪绒挂坠\"}"]
+      "items": [
+        "{argument name=\"prop 1\" default=\"冰晶法杖\"}",
+        "{argument name=\"prop 2\" default=\"雪绒挂坠\"}"
+      ]
     },
     "color_palette": {
       "enabled": "{argument name=\"palette enabled\" default=\"true\"}",
@@ -102,12 +105,7 @@
       "服装变体保留同一面相",
       "配色板与角色实际配色一致"
     ],
-    "avoid": [
-      "三视图角色像三个人",
-      "表情九宫格里有重复",
-      "标注线交叉",
-      "背景喧宾夺主"
-    ]
+    "avoid": ["三视图角色像三个人", "表情九宫格里有重复", "标注线交叉", "背景喧宾夺主"]
   }
 }
 ```

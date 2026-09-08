@@ -71,18 +71,66 @@
     "label_style": "细灰色无衬线小字"
   },
   "icons": [
-    {"id": 1, "concept": "{argument name=\"icon 1\" default=\"邮件 - 信封 + 发光指示\"}", "label": "Mail"},
-    {"id": 2, "concept": "{argument name=\"icon 2\" default=\"日历 - 翻开页面 + 红色今日标记\"}", "label": "Calendar"},
-    {"id": 3, "concept": "{argument name=\"icon 3\" default=\"备忘录 - 黄色便签 + 红色书签\"}", "label": "Notes"},
-    {"id": 4, "concept": "{argument name=\"icon 4\" default=\"相机 - 复古胶片机\"}", "label": "Camera"},
-    {"id": 5, "concept": "{argument name=\"icon 5\" default=\"音乐 - 黑胶唱片\"}", "label": "Music"},
-    {"id": 6, "concept": "{argument name=\"icon 6\" default=\"地图 - 折叠地图 + 红针\"}", "label": "Maps"},
-    {"id": 7, "concept": "{argument name=\"icon 7\" default=\"天气 - 太阳 + 云\"}", "label": "Weather"},
-    {"id": 8, "concept": "{argument name=\"icon 8\" default=\"计算器 - 数字按键\"}", "label": "Calc"},
-    {"id": 9, "concept": "{argument name=\"icon 9\" default=\"时钟 - 圆形表盘\"}", "label": "Clock"},
-    {"id": 10, "concept": "{argument name=\"icon 10\" default=\"设置 - 齿轮\"}", "label": "Settings"},
-    {"id": 11, "concept": "{argument name=\"icon 11\" default=\"健康 - 心形脉搏线\"}", "label": "Health"},
-    {"id": 12, "concept": "{argument name=\"icon 12\" default=\"钱包 - 棕色皮夹\"}", "label": "Wallet"}
+    {
+      "id": 1,
+      "concept": "{argument name=\"icon 1\" default=\"邮件 - 信封 + 发光指示\"}",
+      "label": "Mail"
+    },
+    {
+      "id": 2,
+      "concept": "{argument name=\"icon 2\" default=\"日历 - 翻开页面 + 红色今日标记\"}",
+      "label": "Calendar"
+    },
+    {
+      "id": 3,
+      "concept": "{argument name=\"icon 3\" default=\"备忘录 - 黄色便签 + 红色书签\"}",
+      "label": "Notes"
+    },
+    {
+      "id": 4,
+      "concept": "{argument name=\"icon 4\" default=\"相机 - 复古胶片机\"}",
+      "label": "Camera"
+    },
+    {
+      "id": 5,
+      "concept": "{argument name=\"icon 5\" default=\"音乐 - 黑胶唱片\"}",
+      "label": "Music"
+    },
+    {
+      "id": 6,
+      "concept": "{argument name=\"icon 6\" default=\"地图 - 折叠地图 + 红针\"}",
+      "label": "Maps"
+    },
+    {
+      "id": 7,
+      "concept": "{argument name=\"icon 7\" default=\"天气 - 太阳 + 云\"}",
+      "label": "Weather"
+    },
+    {
+      "id": 8,
+      "concept": "{argument name=\"icon 8\" default=\"计算器 - 数字按键\"}",
+      "label": "Calc"
+    },
+    {
+      "id": 9,
+      "concept": "{argument name=\"icon 9\" default=\"时钟 - 圆形表盘\"}",
+      "label": "Clock"
+    },
+    {
+      "id": 10,
+      "concept": "{argument name=\"icon 10\" default=\"设置 - 齿轮\"}",
+      "label": "Settings"
+    },
+    {
+      "id": 11,
+      "concept": "{argument name=\"icon 11\" default=\"健康 - 心形脉搏线\"}",
+      "label": "Health"
+    },
+    {
+      "id": 12,
+      "concept": "{argument name=\"icon 12\" default=\"钱包 - 棕色皮夹\"}",
+      "label": "Wallet"
+    }
   ],
   "constraints": {
     "must_keep": [
@@ -91,12 +139,7 @@
       "label 字体一致",
       "每个图标可单独识别"
     ],
-    "avoid": [
-      "图标风格漂移（有些拟物有些扁平）",
-      "颜色超过 6 种",
-      "图标内部细节过密",
-      "label 错字"
-    ]
+    "avoid": ["图标风格漂移（有些拟物有些扁平）", "颜色超过 6 种", "图标内部细节过密", "label 错字"]
   }
 }
 ```

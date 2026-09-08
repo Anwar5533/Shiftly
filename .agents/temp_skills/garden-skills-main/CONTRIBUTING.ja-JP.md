@@ -104,7 +104,7 @@ npm run validate  # CI がすべての PR で実行するのと同じチェッ�
 ---
 name: my-skill
 description: このスキルが何をして、いつ使うかを明確に説明する文章。
-              エージェントはこれを使ってスキルを読み込むかどうかを判断します。
+  エージェントはこれを使ってスキルを読み込むかどうかを判断します。
 ---
 
 # My Skill
@@ -121,14 +121,7 @@ description: このスキルが何をして、いつ使うかを明確に説明�
   "category": "Design / Frontend",
   "description": "このスキルが何をして、何に向いているか。インストール UI に表示されます。",
   "homepage": "https://github.com/ConardLi/garden-skills/tree/main/skills/my-skill",
-  "compat": [
-    "claude-code",
-    "claude-ai",
-    "cursor",
-    "codex-cli",
-    "gemini-cli",
-    "opencode"
-  ]
+  "compat": ["claude-code", "claude-ai", "cursor", "codex-cli", "gemini-cli", "opencode"]
 }
 ```
 
@@ -146,7 +139,7 @@ description: このスキルが何をして、いつ使うかを明確に説明�
    実験的なものであれば `version: "0.1.0"` から、リリース可能と確信していれば
    `1.0.0` から始めます。
 2. すべてのルート多言語 README で、新しいスキルの「Links:」/
-   「链接：」行の末尾にインラインの DOWNLOAD マーカーを追加します（先頭に ` · ` を付ける）:
+   「链接：」行の末尾にインラインの DOWNLOAD マーカーを追加します（先頭に `·` を付ける）:
    ```markdown
    Links: [README](...) · [SKILL.md](...) · <!-- DOWNLOAD:<new-name>:start --><!-- DOWNLOAD:<new-name>:end -->
    ```
@@ -240,11 +233,11 @@ git pull origin main
 
 各スキルは [SemVer](https://semver.org/) に従って**独立して**バージョン管理されます。
 
-| 変更 | バンプ |
-|---|---|
-| 誤字修正、新しいオプションのリファレンス、`SKILL.md` のマイクロエディット | **patch** |
+| 変更                                                                        | バンプ    |
+| --------------------------------------------------------------------------- | --------- |
+| 誤字修正、新しいオプションのリファレンス、`SKILL.md` のマイクロエディット   | **patch** |
 | `SKILL.md` 内のワークフロー変更、`references/` の再構成、新しい必須ステップ | **minor** |
-| スキルの改名、ファイルの削除、フロントマターの破壊的変更 | **major** |
+| スキルの改名、ファイルの削除、フロントマターの破壊的変更                    | **major** |
 
 プレリリースサフィックス（`1.2.0-beta.1`、`1.2.0-rc.1`）はタグの正規表現と
 ワークフローでサポートされていますが、`cut-release.mjs` は patch / minor /
@@ -365,14 +358,14 @@ gh release delete <name>-v<X.Y.Z> --yes
 
 ## トラブルシューティング
 
-| 症状 | 原因 | 修正 |
-|---|---|---|
-| `release-skill` が失敗: `Version drift: tag asks for 1.1.0 but manifest is 1.0.0` | タグはプッシュされたが `manifest.json#version` がバンプされていない | マニフェストをバンプし、コミットし、再タグ付け |
-| `validate-skills` が失敗: `README out of date` | 誰かが README のダウンロード行を手で編集したか、`npm run readme:sync` を実行せずにマニフェストをバンプした | `npm run readme:sync` を実行してコミット |
-| `validate-skills` が失敗: `manifest.json` がない | 新しいスキルフォルダがマニフェストなしで追加された | 最低でも `name`、`version`、`description`、`category`、`compat` を含む `skills/<name>/manifest.json` を追加 |
-| `cut-release.mjs` が `Tag 'foo' does not match <skill>-v<semver>` で終了 | タグ名のタイプミス | タグは正確に `<lower-kebab-skill-name>-v<X.Y.Z>` でなければならない |
-| `cut-release.mjs` が「Local main is N commit(s) behind origin/main」と言う | 最後のプルの後にボットが README 同期をプッシュした | `git pull origin main` してから再実行 |
-| 汚れたツリーで `npm run release` が失敗 | 未コミットの変更がある | 先にコミット/スタッシュするか、`npm run release:dry` でプレビューのみする |
+| 症状                                                                              | 原因                                                                                                       | 修正                                                                                                        |
+| --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `release-skill` が失敗: `Version drift: tag asks for 1.1.0 but manifest is 1.0.0` | タグはプッシュされたが `manifest.json#version` がバンプされていない                                        | マニフェストをバンプし、コミットし、再タグ付け                                                              |
+| `validate-skills` が失敗: `README out of date`                                    | 誰かが README のダウンロード行を手で編集したか、`npm run readme:sync` を実行せずにマニフェストをバンプした | `npm run readme:sync` を実行してコミット                                                                    |
+| `validate-skills` が失敗: `manifest.json` がない                                  | 新しいスキルフォルダがマニフェストなしで追加された                                                         | 最低でも `name`、`version`、`description`、`category`、`compat` を含む `skills/<name>/manifest.json` を追加 |
+| `cut-release.mjs` が `Tag 'foo' does not match <skill>-v<semver>` で終了          | タグ名のタイプミス                                                                                         | タグは正確に `<lower-kebab-skill-name>-v<X.Y.Z>` でなければならない                                         |
+| `cut-release.mjs` が「Local main is N commit(s) behind origin/main」と言う        | 最後のプルの後にボットが README 同期をプッシュした                                                         | `git pull origin main` してから再実行                                                                       |
+| 汚れたツリーで `npm run release` が失敗                                           | 未コミットの変更がある                                                                                     | 先にコミット/スタッシュするか、`npm run release:dry` でプレビューのみする                                   |
 
 ---
 

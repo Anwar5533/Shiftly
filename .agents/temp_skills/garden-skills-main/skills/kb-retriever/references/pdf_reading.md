@@ -6,17 +6,18 @@
 
 ## 快速决策表
 
-| 场景 | 推荐工具 | 原因 | 命令/代码示例 |
-|------|----------|------|--------------|
-| 纯文本提取（最常见） | pdftotext 命令 | 最快最简单 | `pdftotext input.pdf output.txt` |
-| 需要保留布局 | pdftotext -layout | 保持原始排版 | `pdftotext -layout input.pdf output.txt` |
-| 需要提取表格 | pdfplumber | 表格识别能力强 | `page.extract_tables()` |
-| 需要元数据 | pypdf | 轻量级 | `reader.metadata` |
-| 扫描PDF（图片） | OCR (pytesseract) | 无其他选择 | 先转图片再OCR |
+| 场景                 | 推荐工具          | 原因           | 命令/代码示例                            |
+| -------------------- | ----------------- | -------------- | ---------------------------------------- |
+| 纯文本提取（最常见） | pdftotext 命令    | 最快最简单     | `pdftotext input.pdf output.txt`         |
+| 需要保留布局         | pdftotext -layout | 保持原始排版   | `pdftotext -layout input.pdf output.txt` |
+| 需要提取表格         | pdfplumber        | 表格识别能力强 | `page.extract_tables()`                  |
+| 需要元数据           | pypdf             | 轻量级         | `reader.metadata`                        |
+| 扫描PDF（图片）      | OCR (pytesseract) | 无其他选择     | 先转图片再OCR                            |
 
 ## 文本提取优先级
 
 **推荐优先级（从高到低）**：
+
 1. **pdftotext 命令行工具**（最快，适合大多数 PDF）
 2. pdfplumber（适合需要保留布局或提取表格）
 3. pypdf（轻量级，适合简单提取）
@@ -41,6 +42,7 @@ pdftotext -f 1 -l 5 input.pdf output.txt  # 第1-5页
 ```
 
 **使用流程**：
+
 1. 使用 pdftotext 提取文本到临时文件
 2. 使用 grep 或 Read 工具对生成的文本文件进行检索
 3. 只读取匹配部分的上下文，而非全文
@@ -134,12 +136,12 @@ import pdfplumber
 
 with pdfplumber.open("document.pdf") as pdf:
     page = pdf.pages[0]
-    
+
     # 提取所有字符及其坐标
     chars = page.chars
     for char in chars[:10]:  # 前10个字符
         print(f"Char: '{char['text']}' at x:{char['x0']:.1f} y:{char['y0']:.1f}")
-    
+
     # 按边界框提取文本 (left, top, right, bottom)
     bbox_text = page.within_bbox((100, 100, 400, 200)).extract_text()
 ```
@@ -151,7 +153,7 @@ import pdfplumber
 
 with pdfplumber.open("complex_table.pdf") as pdf:
     page = pdf.pages[0]
-    
+
     # 自定义表格提取设置
     table_settings = {
         "vertical_strategy": "lines",
@@ -160,7 +162,7 @@ with pdfplumber.open("complex_table.pdf") as pdf:
         "intersection_tolerance": 15
     }
     tables = page.extract_tables(table_settings)
-    
+
     # 可视化调试
     img = page.to_image(resolution=150)
     img.save("debug_layout.png")
@@ -284,7 +286,7 @@ try:
     reader = PdfReader("encrypted.pdf")
     if reader.is_encrypted:
         reader.decrypt("password")
-    
+
     # 解密后可正常提取文本
     for page in reader.pages:
         text = page.extract_text()
@@ -315,19 +317,19 @@ logger = logging.getLogger(__name__)
 def batch_extract_text(input_dir):
     """批量提取文本"""
     pdf_files = glob.glob(os.path.join(input_dir, "*.pdf"))
-    
+
     for pdf_file in pdf_files:
         try:
             reader = PdfReader(pdf_file)
             text = ""
             for page in reader.pages:
                 text += page.extract_text()
-            
+
             output_file = pdf_file.replace('.pdf', '.txt')
             with open(output_file, 'w', encoding='utf-8') as f:
                 f.write(text)
             logger.info(f"Extracted text from: {pdf_file}")
-            
+
         except Exception as e:
             logger.error(f"Failed to extract text from {pdf_file}: {e}")
             continue
@@ -343,14 +345,14 @@ def batch_extract_text(input_dir):
 
 ## 快速参考
 
-| 任务 | 最佳工具 | 命令/代码 |
-|------|----------|-----------|
-| 提取文本 | pdfplumber | `page.extract_text()` |
-| 提取表格 | pdfplumber | `page.extract_tables()` |
-| 命令行提取 | pdftotext | `pdftotext -layout input.pdf` |
-| OCR 扫描PDF | pytesseract | 先转图片再OCR |
-| 提取元数据 | pypdf | `reader.metadata` |
-| PDF转图片 | pypdfium2 | `page.render()` |
+| 任务        | 最佳工具    | 命令/代码                     |
+| ----------- | ----------- | ----------------------------- |
+| 提取文本    | pdfplumber  | `page.extract_text()`         |
+| 提取表格    | pdfplumber  | `page.extract_tables()`       |
+| 命令行提取  | pdftotext   | `pdftotext -layout input.pdf` |
+| OCR 扫描PDF | pytesseract | 先转图片再OCR                 |
+| 提取元数据  | pypdf       | `reader.metadata`             |
+| PDF转图片   | pypdfium2   | `page.render()`               |
 
 ## 可用包
 

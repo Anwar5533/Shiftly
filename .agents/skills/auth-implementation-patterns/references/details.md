@@ -6,8 +6,8 @@
 
 ```typescript
 // JWT structure: header.payload.signature
-import jwt from "jsonwebtoken";
-import { Request, Response, NextFunction } from "express";
+import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from 'express';
 
 interface JWTPayload {
   userId: string;
@@ -22,13 +22,13 @@ function generateTokens(userId: string, email: string, role: string) {
   const accessToken = jwt.sign(
     { userId, email, role },
     process.env.JWT_SECRET!,
-    { expiresIn: "15m" }, // Short-lived
+    { expiresIn: '15m' }, // Short-lived
   );
 
   const refreshToken = jwt.sign(
     { userId },
     process.env.JWT_REFRESH_SECRET!,
-    { expiresIn: "7d" }, // Long-lived
+    { expiresIn: '7d' }, // Long-lived
   );
 
   return { accessToken, refreshToken };
@@ -40,10 +40,10 @@ function verifyToken(token: string): JWTPayload {
     return jwt.verify(token, process.env.JWT_SECRET!) as JWTPayload;
   } catch (error) {
     if (error instanceof jwt.TokenExpiredError) {
-      throw new Error("Token expired");
+      throw new Error('Token expired');
     }
     if (error instanceof jwt.JsonWebTokenError) {
-      throw new Error("Invalid token");
+      throw new Error('Invalid token');
     }
     throw error;
   }
@@ -52,8 +52,8 @@ function verifyToken(token: string): JWTPayload {
 // Middleware
 function authenticate(req: Request, res: Response, next: NextFunction) {
   const authHeader = req.headers.authorization;
-  if (!authHeader?.startsWith("Bearer ")) {
-    return res.status(401).json({ error: "No token provided" });
+  if (!authHeader?.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'No token provided' });
   }
 
   const token = authHeader.substring(7);
@@ -62,12 +62,12 @@ function authenticate(req: Request, res: Response, next: NextFunction) {
     req.user = payload; // Attach user to request
     next();
   } catch (error) {
-    return res.status(401).json({ error: "Invalid token" });
+    return res.status(401).json({ error: 'Invalid token' });
   }
 }
 
 // Usage
-app.get("/api/profile", authenticate, (req, res) => {
+app.get('/api/profile', authenticate, (req, res) => {
   res.json({ user: req.user });
 });
 ```
@@ -102,7 +102,7 @@ class RefreshTokenService {
         userId: string;
       };
     } catch {
-      throw new Error("Invalid refresh token");
+      throw new Error('Invalid refresh token');
     }
 
     // Check if token exists in database
@@ -115,20 +115,20 @@ class RefreshTokenService {
     });
 
     if (!storedToken) {
-      throw new Error("Refresh token not found or expired");
+      throw new Error('Refresh token not found or expired');
     }
 
     // Get user
     const user = await db.users.findById(payload.userId);
     if (!user) {
-      throw new Error("User not found");
+      throw new Error('User not found');
     }
 
     // Generate new access token
     const accessToken = jwt.sign(
       { userId: user.id, email: user.email, role: user.role },
       process.env.JWT_SECRET!,
-      { expiresIn: "15m" },
+      { expiresIn: '15m' },
     );
 
     return { accessToken };
@@ -148,21 +148,20 @@ class RefreshTokenService {
 }
 
 // API endpoints
-app.post("/api/auth/refresh", async (req, res) => {
+app.post('/api/auth/refresh', async (req, res) => {
   const { refreshToken } = req.body;
   try {
-    const { accessToken } =
-      await refreshTokenService.refreshAccessToken(refreshToken);
+    const { accessToken } = await refreshTokenService.refreshAccessToken(refreshToken);
     res.json({ accessToken });
   } catch (error) {
-    res.status(401).json({ error: "Invalid refresh token" });
+    res.status(401).json({ error: 'Invalid refresh token' });
   }
 });
 
-app.post("/api/auth/logout", authenticate, async (req, res) => {
+app.post('/api/auth/logout', authenticate, async (req, res) => {
   const { refreshToken } = req.body;
   await refreshTokenService.revokeRefreshToken(refreshToken);
-  res.json({ message: "Logged out successfully" });
+  res.json({ message: 'Logged out successfully' });
 });
 ```
 
@@ -171,9 +170,9 @@ app.post("/api/auth/logout", authenticate, async (req, res) => {
 ### Pattern 1: Express Session
 
 ```typescript
-import session from "express-session";
-import RedisStore from "connect-redis";
-import { createClient } from "redis";
+import session from 'express-session';
+import RedisStore from 'connect-redis';
+import { createClient } from 'redis';
 
 // Setup Redis for session storage
 const redisClient = createClient({
@@ -188,21 +187,21 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === "production", // HTTPS only
+      secure: process.env.NODE_ENV === 'production', // HTTPS only
       httpOnly: true, // No JavaScript access
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
-      sameSite: "strict", // CSRF protection
+      sameSite: 'strict', // CSRF protection
     },
   }),
 );
 
 // Login
-app.post("/api/auth/login", async (req, res) => {
+app.post('/api/auth/login', async (req, res) => {
   const { email, password } = req.body;
 
   const user = await db.users.findOne({ email });
   if (!user || !(await verifyPassword(password, user.passwordHash))) {
-    return res.status(401).json({ error: "Invalid credentials" });
+    return res.status(401).json({ error: 'Invalid credentials' });
   }
 
   // Store user in session
@@ -215,25 +214,25 @@ app.post("/api/auth/login", async (req, res) => {
 // Session middleware
 function requireAuth(req: Request, res: Response, next: NextFunction) {
   if (!req.session.userId) {
-    return res.status(401).json({ error: "Not authenticated" });
+    return res.status(401).json({ error: 'Not authenticated' });
   }
   next();
 }
 
 // Protected route
-app.get("/api/profile", requireAuth, async (req, res) => {
+app.get('/api/profile', requireAuth, async (req, res) => {
   const user = await db.users.findById(req.session.userId);
   res.json({ user });
 });
 
 // Logout
-app.post("/api/auth/logout", (req, res) => {
+app.post('/api/auth/logout', (req, res) => {
   req.session.destroy((err) => {
     if (err) {
-      return res.status(500).json({ error: "Logout failed" });
+      return res.status(500).json({ error: 'Logout failed' });
     }
-    res.clearCookie("connect.sid");
-    res.json({ message: "Logged out successfully" });
+    res.clearCookie('connect.sid');
+    res.json({ message: 'Logged out successfully' });
   });
 });
 ```
@@ -243,9 +242,9 @@ app.post("/api/auth/logout", (req, res) => {
 ### Pattern 1: OAuth2 with Passport.js
 
 ```typescript
-import passport from "passport";
-import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-import { Strategy as GitHubStrategy } from "passport-github2";
+import passport from 'passport';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import { Strategy as GitHubStrategy } from 'passport-github2';
 
 // Google OAuth
 passport.use(
@@ -253,7 +252,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-      callbackURL: "/api/auth/google/callback",
+      callbackURL: '/api/auth/google/callback',
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -281,22 +280,20 @@ passport.use(
 
 // Routes
 app.get(
-  "/api/auth/google",
-  passport.authenticate("google", {
-    scope: ["profile", "email"],
+  '/api/auth/google',
+  passport.authenticate('google', {
+    scope: ['profile', 'email'],
   }),
 );
 
 app.get(
-  "/api/auth/google/callback",
-  passport.authenticate("google", { session: false }),
+  '/api/auth/google/callback',
+  passport.authenticate('google', { session: false }),
   (req, res) => {
     // Generate JWT
     const tokens = generateTokens(req.user.id, req.user.email, req.user.role);
     // Redirect to frontend with token
-    res.redirect(
-      `${process.env.FRONTEND_URL}/auth/callback?token=${tokens.accessToken}`,
-    );
+    res.redirect(`${process.env.FRONTEND_URL}/auth/callback?token=${tokens.accessToken}`);
   },
 );
 ```
@@ -307,9 +304,9 @@ app.get(
 
 ```typescript
 enum Role {
-  USER = "user",
-  MODERATOR = "moderator",
-  ADMIN = "admin",
+  USER = 'user',
+  MODERATOR = 'moderator',
+  ADMIN = 'admin',
 }
 
 const roleHierarchy: Record<Role, Role[]> = {
@@ -326,11 +323,11 @@ function hasRole(userRole: Role, requiredRole: Role): boolean {
 function requireRole(...roles: Role[]) {
   return (req: Request, res: Response, next: NextFunction) => {
     if (!req.user) {
-      return res.status(401).json({ error: "Not authenticated" });
+      return res.status(401).json({ error: 'Not authenticated' });
     }
 
     if (!roles.some((role) => hasRole(req.user.role, role))) {
-      return res.status(403).json({ error: "Insufficient permissions" });
+      return res.status(403).json({ error: 'Insufficient permissions' });
     }
 
     next();
@@ -338,36 +335,27 @@ function requireRole(...roles: Role[]) {
 }
 
 // Usage
-app.delete(
-  "/api/users/:id",
-  authenticate,
-  requireRole(Role.ADMIN),
-  async (req, res) => {
-    // Only admins can delete users
-    await db.users.delete(req.params.id);
-    res.json({ message: "User deleted" });
-  },
-);
+app.delete('/api/users/:id', authenticate, requireRole(Role.ADMIN), async (req, res) => {
+  // Only admins can delete users
+  await db.users.delete(req.params.id);
+  res.json({ message: 'User deleted' });
+});
 ```
 
 ### Pattern 2: Permission-Based Access Control
 
 ```typescript
 enum Permission {
-  READ_USERS = "read:users",
-  WRITE_USERS = "write:users",
-  DELETE_USERS = "delete:users",
-  READ_POSTS = "read:posts",
-  WRITE_POSTS = "write:posts",
+  READ_USERS = 'read:users',
+  WRITE_USERS = 'write:users',
+  DELETE_USERS = 'delete:users',
+  READ_POSTS = 'read:posts',
+  WRITE_POSTS = 'write:posts',
 }
 
 const rolePermissions: Record<Role, Permission[]> = {
   [Role.USER]: [Permission.READ_POSTS, Permission.WRITE_POSTS],
-  [Role.MODERATOR]: [
-    Permission.READ_POSTS,
-    Permission.WRITE_POSTS,
-    Permission.READ_USERS,
-  ],
+  [Role.MODERATOR]: [Permission.READ_POSTS, Permission.WRITE_POSTS, Permission.READ_USERS],
   [Role.ADMIN]: Object.values(Permission),
 };
 
@@ -378,7 +366,7 @@ function hasPermission(userRole: Role, permission: Permission): boolean {
 function requirePermission(...permissions: Permission[]) {
   return (req: Request, res: Response, next: NextFunction) => {
     if (!req.user) {
-      return res.status(401).json({ error: "Not authenticated" });
+      return res.status(401).json({ error: 'Not authenticated' });
     }
 
     const hasAllPermissions = permissions.every((permission) =>
@@ -386,7 +374,7 @@ function requirePermission(...permissions: Permission[]) {
     );
 
     if (!hasAllPermissions) {
-      return res.status(403).json({ error: "Insufficient permissions" });
+      return res.status(403).json({ error: 'Insufficient permissions' });
     }
 
     next();
@@ -394,28 +382,20 @@ function requirePermission(...permissions: Permission[]) {
 }
 
 // Usage
-app.get(
-  "/api/users",
-  authenticate,
-  requirePermission(Permission.READ_USERS),
-  async (req, res) => {
-    const users = await db.users.findAll();
-    res.json({ users });
-  },
-);
+app.get('/api/users', authenticate, requirePermission(Permission.READ_USERS), async (req, res) => {
+  const users = await db.users.findAll();
+  res.json({ users });
+});
 ```
 
 ### Pattern 3: Resource Ownership
 
 ```typescript
 // Check if user owns resource
-async function requireOwnership(
-  resourceType: "post" | "comment",
-  resourceIdParam: string = "id",
-) {
+async function requireOwnership(resourceType: 'post' | 'comment', resourceIdParam: string = 'id') {
   return async (req: Request, res: Response, next: NextFunction) => {
     if (!req.user) {
-      return res.status(401).json({ error: "Not authenticated" });
+      return res.status(401).json({ error: 'Not authenticated' });
     }
 
     const resourceId = req.params[resourceIdParam];
@@ -427,18 +407,18 @@ async function requireOwnership(
 
     // Check ownership
     let resource;
-    if (resourceType === "post") {
+    if (resourceType === 'post') {
       resource = await db.posts.findById(resourceId);
-    } else if (resourceType === "comment") {
+    } else if (resourceType === 'comment') {
       resource = await db.comments.findById(resourceId);
     }
 
     if (!resource) {
-      return res.status(404).json({ error: "Resource not found" });
+      return res.status(404).json({ error: 'Resource not found' });
     }
 
     if (resource.userId !== req.user.userId) {
-      return res.status(403).json({ error: "Not authorized" });
+      return res.status(403).json({ error: 'Not authorized' });
     }
 
     next();
@@ -446,16 +426,11 @@ async function requireOwnership(
 }
 
 // Usage
-app.put(
-  "/api/posts/:id",
-  authenticate,
-  requireOwnership("post"),
-  async (req, res) => {
-    // User can only update their own posts
-    const post = await db.posts.update(req.params.id, req.body);
-    res.json({ post });
-  },
-);
+app.put('/api/posts/:id', authenticate, requireOwnership('post'), async (req, res) => {
+  // User can only update their own posts
+  const post = await db.posts.update(req.params.id, req.body);
+  res.json({ post });
+});
 ```
 
 ## Security Best Practices
@@ -463,17 +438,17 @@ app.put(
 ### Pattern 1: Password Security
 
 ```typescript
-import bcrypt from "bcrypt";
-import { z } from "zod";
+import bcrypt from 'bcrypt';
+import { z } from 'zod';
 
 // Password validation schema
 const passwordSchema = z
   .string()
-  .min(12, "Password must be at least 12 characters")
-  .regex(/[A-Z]/, "Password must contain uppercase letter")
-  .regex(/[a-z]/, "Password must contain lowercase letter")
-  .regex(/[0-9]/, "Password must contain number")
-  .regex(/[^A-Za-z0-9]/, "Password must contain special character");
+  .min(12, 'Password must be at least 12 characters')
+  .regex(/[A-Z]/, 'Password must contain uppercase letter')
+  .regex(/[a-z]/, 'Password must contain lowercase letter')
+  .regex(/[0-9]/, 'Password must contain number')
+  .regex(/[^A-Za-z0-9]/, 'Password must contain special character');
 
 // Hash password
 async function hashPassword(password: string): Promise<string> {
@@ -482,15 +457,12 @@ async function hashPassword(password: string): Promise<string> {
 }
 
 // Verify password
-async function verifyPassword(
-  password: string,
-  hash: string,
-): Promise<boolean> {
+async function verifyPassword(password: string, hash: string): Promise<boolean> {
   return bcrypt.compare(password, hash);
 }
 
 // Registration with password validation
-app.post("/api/auth/register", async (req, res) => {
+app.post('/api/auth/register', async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -500,7 +472,7 @@ app.post("/api/auth/register", async (req, res) => {
     // Check if user exists
     const existingUser = await db.users.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ error: "Email already registered" });
+      return res.status(400).json({ error: 'Email already registered' });
     }
 
     // Hash password
@@ -523,7 +495,7 @@ app.post("/api/auth/register", async (req, res) => {
     if (error instanceof z.ZodError) {
       return res.status(400).json({ error: error.errors[0].message });
     }
-    res.status(500).json({ error: "Registration failed" });
+    res.status(500).json({ error: 'Registration failed' });
   }
 });
 ```
@@ -531,15 +503,15 @@ app.post("/api/auth/register", async (req, res) => {
 ### Pattern 2: Rate Limiting
 
 ```typescript
-import rateLimit from "express-rate-limit";
-import RedisStore from "rate-limit-redis";
+import rateLimit from 'express-rate-limit';
+import RedisStore from 'rate-limit-redis';
 
 // Login rate limiter
 const loginLimiter = rateLimit({
   store: new RedisStore({ client: redisClient }),
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 5, // 5 attempts
-  message: "Too many login attempts, please try again later",
+  message: 'Too many login attempts, please try again later',
   standardHeaders: true,
   legacyHeaders: false,
 });
@@ -552,9 +524,9 @@ const apiLimiter = rateLimit({
 });
 
 // Apply to routes
-app.post("/api/auth/login", loginLimiter, async (req, res) => {
+app.post('/api/auth/login', loginLimiter, async (req, res) => {
   // Login logic
 });
 
-app.use("/api/", apiLimiter);
+app.use('/api/', apiLimiter);
 ```

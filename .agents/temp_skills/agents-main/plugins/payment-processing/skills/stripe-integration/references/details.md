@@ -57,8 +57,8 @@ def create_checkout_session_for_elements(amount, currency='usd'):
 ```
 
 ```javascript
-const stripe = Stripe("pk_test_...");
-const appearance = { theme: "stripe" };
+const stripe = Stripe('pk_test_...');
+const appearance = { theme: 'stripe' };
 
 const checkout = stripe.initCheckout({
   clientSecret,
@@ -66,34 +66,34 @@ const checkout = stripe.initCheckout({
 });
 const loadActionsResult = await checkout.loadActions();
 
-if (loadActionsResult.type === "success") {
+if (loadActionsResult.type === 'success') {
   const { actions } = loadActionsResult;
   const session = actions.getSession();
 
-  const button = document.getElementById("pay-button");
-  const checkoutContainer = document.getElementById("checkout-container");
-  const emailInput = document.getElementById("email");
-  const emailErrors = document.getElementById("email-errors");
-  const errors = document.getElementById("confirm-errors");
+  const button = document.getElementById('pay-button');
+  const checkoutContainer = document.getElementById('checkout-container');
+  const emailInput = document.getElementById('email');
+  const emailErrors = document.getElementById('email-errors');
+  const errors = document.getElementById('confirm-errors');
 
   // Display a formatted string representing the total amount
   checkoutContainer.append(`Total: ${session.total.total.amount}`);
 
   // Mount Payment Element
   const paymentElement = checkout.createPaymentElement();
-  paymentElement.mount("#payment-element");
+  paymentElement.mount('#payment-element');
 
   // Store email for submission
-  emailInput.addEventListener("blur", () => {
+  emailInput.addEventListener('blur', () => {
     actions.updateEmail(emailInput.value).then((result) => {
       if (result.error) emailErrors.textContent = result.error.message;
     });
   });
 
   // Handle form submission
-  button.addEventListener("click", () => {
+  button.addEventListener('click', () => {
     actions.confirm().then((result) => {
-      if (result.type === "error") errors.textContent = result.error.message;
+      if (result.type === 'error') errors.textContent = result.error.message;
     });
   });
 }
@@ -122,23 +122,23 @@ def create_payment_intent(amount, currency='usd', customer_id=None):
 
 ```javascript
 // Mount Payment Element and confirm via Payment Intents
-const stripe = Stripe("pk_test_...");
-const appearance = { theme: "stripe" };
+const stripe = Stripe('pk_test_...');
+const appearance = { theme: 'stripe' };
 const elements = stripe.elements({ appearance, clientSecret });
 
-const paymentElement = elements.create("payment");
-paymentElement.mount("#payment-element");
+const paymentElement = elements.create('payment');
+paymentElement.mount('#payment-element');
 
-document.getElementById("pay-button").addEventListener("click", async () => {
+document.getElementById('pay-button').addEventListener('click', async () => {
   const { error } = await stripe.confirmPayment({
     elements,
     confirmParams: {
-      return_url: "https://yourdomain.com/complete",
+      return_url: 'https://yourdomain.com/complete',
     },
   });
 
   if (error) {
-    document.getElementById("errors").textContent = error.message;
+    document.getElementById('errors').textContent = error.message;
   }
 });
 ```

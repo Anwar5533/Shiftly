@@ -16,6 +16,7 @@ lessons, issue status, next steps, and drift from work that happened outside dep
 ## What to capture
 
 Infer from the conversation (or ask) what still needs recording:
+
 - Work status changed? (started / completed / blocked)
 - New known issues discovered?
 - Config / feature-flag / environment changes not yet in the state doc?

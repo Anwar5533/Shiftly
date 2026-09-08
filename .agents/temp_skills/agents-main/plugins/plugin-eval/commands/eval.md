@@ -38,6 +38,7 @@ The judge returns scores for: triggering_accuracy, orchestration_fitness, output
 **If standard depth:** Blend Layer 1 and Layer 2 scores.
 
 For each dimension, use these blend weights (Static:Judge):
+
 - triggering_accuracy: 0.375:0.625
 - orchestration_fitness: 0.125:0.875
 - output_quality: 0.0:1.0 (judge only)

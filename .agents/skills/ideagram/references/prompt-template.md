@@ -35,16 +35,19 @@ One idea, one focal point. The character must be performing the core action, not
 ## Iteration prompts (image-edit / regenerate)
 
 **Make the character central to the idea (fixes "figure is decoration"):**
+
 ```text
 Regenerate with the same concept, palette, and simple layout, but make the character clearly perform the core action — operating/building/riding the metaphor object, not standing beside it. Keep it clean, flat, sparse, one accent color, plenty of whitespace.
 ```
 
 **Calm it down (fixes "too busy / too many colors"):**
+
 ```text
 Regenerate simpler: remove secondary objects and any extra colors, keep only the focal subject and one accent color, add more whitespace. One clear idea, nothing decorative competing with it.
 ```
 
 **Remove unwanted baked-in text:**
+
 ```text
 Edit the provided image: remove the text "{TEXT}" and fill that area with the matching clean background. Preserve everything else exactly — characters, shapes, colors, composition, aspect ratio. Add no new text or objects.
 ```

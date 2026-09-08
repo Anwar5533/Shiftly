@@ -11,13 +11,13 @@ Last reviewed: 2026-08-02, in response to an external audit (skills.sh Agent Tru
 This skill contacts these hosts and no others. The list is enforced at runtime by
 `scripts/_netguard.py`, not merely documented:
 
-| Host | Purpose | Key required |
-|---|---|---|
-| `api.iconify.design` | Icon SVGs (permissively licensed sets) | No |
-| `api.openverse.org` | Photography search, filtered to CC0 / Public Domain Mark | No |
-| `pixabay.com` | Optional higher-curation photography | Yes — `PIXABAY_API_KEY`, opt-in only |
-| `cdn.jsdelivr.net` | Pinned JS library delivery (Motion) | No |
-| `cdnjs.cloudflare.com` | Pinned JS library delivery (GSAP + ScrollTrigger) | No |
+| Host                   | Purpose                                                  | Key required                         |
+| ---------------------- | -------------------------------------------------------- | ------------------------------------ |
+| `api.iconify.design`   | Icon SVGs (permissively licensed sets)                   | No                                   |
+| `api.openverse.org`    | Photography search, filtered to CC0 / Public Domain Mark | No                                   |
+| `pixabay.com`          | Optional higher-curation photography                     | Yes — `PIXABAY_API_KEY`, opt-in only |
+| `cdn.jsdelivr.net`     | Pinned JS library delivery (Motion)                      | No                                   |
+| `cdnjs.cloudflare.com` | Pinned JS library delivery (GSAP + ScrollTrigger)        | No                                   |
 
 Every request is **https-only** and **host-allowlisted**, and both checks are re-applied
 on each redirect. Anything else raises `BlockedURLError` instead of being fetched.
@@ -63,7 +63,7 @@ python3 skills/tastemaker/scripts/test_security.py    # URL guard, no-shell/eval
 
 `check_domains.py` scans every text file for URLs and bare domain mentions and exits
 non-zero on anything banned or not explicitly vetted — so an unvetted domain cannot reach
-`main`, in code *or* in prose.
+`main`, in code _or_ in prose.
 
 ## Change history
 

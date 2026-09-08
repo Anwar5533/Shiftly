@@ -176,15 +176,7 @@
     "style": "small panel, mono 10pt"
   },
   "constraints": {
-    "must_keep": [
-      "messages 时间序自上而下",
-      "编号连续",
-      "return 为虚线",
-      "legend 必画"
-    ],
-    "avoid": [
-      "用 emoji 当图标",
-      "声称可编辑 PlantUML 源"
-    ]
+    "must_keep": ["messages 时间序自上而下", "编号连续", "return 为虚线", "legend 必画"],
+    "avoid": ["用 emoji 当图标", "声称可编辑 PlantUML 源"]
   }
 }

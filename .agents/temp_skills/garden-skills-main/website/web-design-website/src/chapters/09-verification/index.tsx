@@ -31,20 +31,20 @@ interface Check {
 }
 
 const CHECKS: Check[] = [
-  { id: 'shot',   label: 'SCREENSHOT',   cn: '截图比对' },
-  { id: 'cons',   label: 'CONSOLE LOGS', cn: '控制台错误' },
-  { id: 'lay',    label: 'LAYOUT',       cn: '布局偏移' },
-  { id: 'js',     label: 'JS PROBE',     cn: 'DOM 探测' },
+  { id: 'shot', label: 'SCREENSHOT', cn: '截图比对' },
+  { id: 'cons', label: 'CONSOLE LOGS', cn: '控制台错误' },
+  { id: 'lay', label: 'LAYOUT', cn: '布局偏移' },
+  { id: 'js', label: 'JS PROBE', cn: 'DOM 探测' },
 ];
 
 function Verification({ localStep }: ChapterContext) {
   const at = (n: number) => localStep >= n;
 
-  const sceneIntro  = localStep <= 0;
-  const sceneAgent  = localStep === 1;
-  const sceneFork   = localStep === 2;
-  const sceneCheck  = localStep === 3;
-  const sceneClose  = localStep >= 4;
+  const sceneIntro = localStep <= 0;
+  const sceneAgent = localStep === 1;
+  const sceneFork = localStep === 2;
+  const sceneCheck = localStep === 3;
+  const sceneClose = localStep >= 4;
 
   return (
     <section className="vf">
@@ -63,7 +63,8 @@ function Verification({ localStep }: ChapterContext) {
             <span className="vf__intro-code-num">5.</span>
             <span className="vf__intro-code-text">
               Finish: call <em className="vf__intro-fn">done</em>.<br />
-              If errors, <em>fix</em> and <em className="vf__intro-fn">done</em> again.<br />
+              If errors, <em>fix</em> and <em className="vf__intro-fn">done</em> again.
+              <br />
               If clean, call <em className="vf__intro-fn">fork_verifier_agent()</em>.
             </span>
           </Reveal>
@@ -94,15 +95,19 @@ function Verification({ localStep }: ChapterContext) {
                   <marker
                     id="vf-loop-head"
                     viewBox="0 0 10 10"
-                    refX="6" refY="5"
-                    markerWidth="8" markerHeight="8"
+                    refX="6"
+                    refY="5"
+                    markerWidth="8"
+                    markerHeight="8"
                     orient="auto-start-reverse"
                   >
                     <path d="M0 0 L10 5 L0 10 Z" fill="var(--accent)" />
                   </marker>
                 </defs>
                 <circle
-                  cx="100" cy="100" r="86"
+                  cx="100"
+                  cy="100"
+                  r="86"
                   fill="none"
                   stroke="var(--accent)"
                   strokeWidth="2"
@@ -115,9 +120,7 @@ function Verification({ localStep }: ChapterContext) {
               </svg>
 
               {/* 自言自语气泡 */}
-              <div className="vf__bubble vf__bubble--self">
-                "我做的应该没问题吧？"
-              </div>
+              <div className="vf__bubble vf__bubble--self">"我做的应该没问题吧？"</div>
             </div>
           </div>
 
@@ -134,7 +137,9 @@ function Verification({ localStep }: ChapterContext) {
           <Reveal kind="fade" duration={620} delay={80} className="vf__fork-cap">
             <span className="vf__fork-cap-fn">fork_verifier_agent()</span>
             <span className="vf__fork-cap-arrow">→</span>
-            <span>另开一个 <em>新脑子</em></span>
+            <span>
+              另开一个 <em>新脑子</em>
+            </span>
           </Reveal>
 
           <div className="vf__board vf__board--fork">
@@ -151,20 +156,17 @@ function Verification({ localStep }: ChapterContext) {
                 <marker
                   id="vf-fork-head"
                   viewBox="0 0 10 10"
-                  refX="9" refY="5"
-                  markerWidth="10" markerHeight="10"
+                  refX="9"
+                  refY="5"
+                  markerWidth="10"
+                  markerHeight="10"
                   orient="auto"
                 >
                   <path d="M0 0 L10 5 L0 10 Z" fill="var(--accent)" />
                 </marker>
               </defs>
               {/* 主线 */}
-              <path
-                d="M0 110 L240 110"
-                stroke="var(--line-strong)"
-                strokeWidth="2"
-                fill="none"
-              />
+              <path d="M0 110 L240 110" stroke="var(--line-strong)" strokeWidth="2" fill="none" />
               {/* 分叉线（弹性曲线） */}
               <path
                 className="vf__fork-link-branch"

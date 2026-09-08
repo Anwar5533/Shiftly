@@ -253,39 +253,39 @@ export function useCreateProduct() {
 
 ```typescript
 // services/haptics.ts
-import * as Haptics from "expo-haptics";
-import { Platform } from "react-native";
+import * as Haptics from 'expo-haptics';
+import { Platform } from 'react-native';
 
 export const haptics = {
   light: () => {
-    if (Platform.OS !== "web") {
+    if (Platform.OS !== 'web') {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     }
   },
   medium: () => {
-    if (Platform.OS !== "web") {
+    if (Platform.OS !== 'web') {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     }
   },
   heavy: () => {
-    if (Platform.OS !== "web") {
+    if (Platform.OS !== 'web') {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     }
   },
   success: () => {
-    if (Platform.OS !== "web") {
+    if (Platform.OS !== 'web') {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     }
   },
   error: () => {
-    if (Platform.OS !== "web") {
+    if (Platform.OS !== 'web') {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
     }
   },
 };
 
 // services/biometrics.ts
-import * as LocalAuthentication from "expo-local-authentication";
+import * as LocalAuthentication from 'expo-local-authentication';
 
 export async function authenticateWithBiometrics(): Promise<boolean> {
   const hasHardware = await LocalAuthentication.hasHardwareAsync();
@@ -295,8 +295,8 @@ export async function authenticateWithBiometrics(): Promise<boolean> {
   if (!isEnrolled) return false;
 
   const result = await LocalAuthentication.authenticateAsync({
-    promptMessage: "Authenticate to continue",
-    fallbackLabel: "Use passcode",
+    promptMessage: 'Authenticate to continue',
+    fallbackLabel: 'Use passcode',
     disableDeviceFallback: false,
   });
 
@@ -304,9 +304,9 @@ export async function authenticateWithBiometrics(): Promise<boolean> {
 }
 
 // services/notifications.ts
-import * as Notifications from "expo-notifications";
-import { Platform } from "react-native";
-import Constants from "expo-constants";
+import * as Notifications from 'expo-notifications';
+import { Platform } from 'react-native';
+import Constants from 'expo-constants';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -319,9 +319,9 @@ Notifications.setNotificationHandler({
 export async function registerForPushNotifications() {
   let token: string | undefined;
 
-  if (Platform.OS === "android") {
-    await Notifications.setNotificationChannelAsync("default", {
-      name: "default",
+  if (Platform.OS === 'android') {
+    await Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
       importance: Notifications.AndroidImportance.MAX,
       vibrationPattern: [0, 250, 250, 250],
     });
@@ -330,12 +330,12 @@ export async function registerForPushNotifications() {
   const { status: existingStatus } = await Notifications.getPermissionsAsync();
   let finalStatus = existingStatus;
 
-  if (existingStatus !== "granted") {
+  if (existingStatus !== 'granted') {
     const { status } = await Notifications.requestPermissionsAsync();
     finalStatus = status;
   }
 
-  if (finalStatus !== "granted") {
+  if (finalStatus !== 'granted') {
     return null;
   }
 

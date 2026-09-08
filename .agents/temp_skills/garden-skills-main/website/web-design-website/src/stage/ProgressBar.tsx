@@ -71,9 +71,7 @@ export function ProgressBar() {
       onClick={(e) => e.stopPropagation()}
     >
       <div className="progress-meta">
-        <span className="progress-meta__num">
-          {String(chapterIndex + 1).padStart(2, '0')}
-        </span>
+        <span className="progress-meta__num">{String(chapterIndex + 1).padStart(2, '0')}</span>
         <span className="progress-meta__title">{currentChapter.title}</span>
         <span className="progress-meta__count">
           {globalStep + 1} / {totalSteps}
@@ -89,10 +87,7 @@ export function ProgressBar() {
         }}
       >
         <div className="progress-bar__track" />
-        <div
-          className="progress-bar__fill"
-          style={{ transform: `scaleX(${progress})` }}
-        />
+        <div className="progress-bar__fill" style={{ transform: `scaleX(${progress})` }} />
         {ticks.map((r, i) => (
           <button
             key={i}

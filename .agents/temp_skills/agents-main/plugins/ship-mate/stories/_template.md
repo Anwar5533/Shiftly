@@ -1,14 +1,17 @@
 # Story: [Story Title]
 
 ## Description
+
 As a [user type], I want [goal] so that [benefit].
 
 ## Acceptance Criteria
+
 - Given [context], when [action], then [outcome]
 - Given [context], when [action], then [outcome]
 - Given [context], when [action], then [outcome]
 
 ## Tasks
+
 - [ ] [Task 1 — be specific, one concern per task, FRONTEND or BACKEND but not both]
 - [ ] [Task 2]
 - [ ] [Task 3]

@@ -36,6 +36,7 @@ For each recommended reference:
 
 **[N]. [Brief descriptive title]**
 ![preview](thumbnail_url)
+
 - **Why**: [1 sentence — why this is relevant]
 - **Reusable prompt elements**: [key phrases from the prompt that user could adopt]
 - **Category**: [category] | **Likes**: [count]

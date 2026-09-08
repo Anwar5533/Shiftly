@@ -81,9 +81,9 @@ class ConfigurationAnalyzer:
 Implement configuration schema validation with JSON Schema:
 
 ```typescript
-import Ajv from "ajv";
-import ajvFormats from "ajv-formats";
-import { JSONSchema7 } from "json-schema";
+import Ajv from 'ajv';
+import ajvFormats from 'ajv-formats';
+import { JSONSchema7 } from 'json-schema';
 
 interface ValidationResult {
   valid: boolean;
@@ -108,24 +108,24 @@ export class ConfigValidator {
   }
 
   private addCustomFormats() {
-    this.ajv.addFormat("url-https", {
-      type: "string",
+    this.ajv.addFormat('url-https', {
+      type: 'string',
       validate: (data: string) => {
         try {
-          return new URL(data).protocol === "https:";
+          return new URL(data).protocol === 'https:';
         } catch {
           return false;
         }
       },
     });
 
-    this.ajv.addFormat("port", {
-      type: "number",
+    this.ajv.addFormat('port', {
+      type: 'number',
       validate: (data: number) => data >= 1 && data <= 65535,
     });
 
-    this.ajv.addFormat("duration", {
-      type: "string",
+    this.ajv.addFormat('duration', {
+      type: 'string',
       validate: /^\d+[smhd]$/,
     });
   }
@@ -140,8 +140,8 @@ export class ConfigValidator {
       return {
         valid: false,
         errors: validate.errors.map((error) => ({
-          path: error.instancePath || "/",
-          message: error.message || "Validation error",
+          path: error.instancePath || '/',
+          message: error.message || 'Validation error',
           keyword: error.keyword,
         })),
       };
@@ -153,22 +153,22 @@ export class ConfigValidator {
 // Example schema
 export const schemas = {
   database: {
-    type: "object",
+    type: 'object',
     properties: {
-      host: { type: "string", format: "hostname" },
-      port: { type: "integer", format: "port" },
-      database: { type: "string", minLength: 1 },
-      user: { type: "string", minLength: 1 },
-      password: { type: "string", minLength: 8 },
+      host: { type: 'string', format: 'hostname' },
+      port: { type: 'integer', format: 'port' },
+      database: { type: 'string', minLength: 1 },
+      user: { type: 'string', minLength: 1 },
+      password: { type: 'string', minLength: 8 },
       ssl: {
-        type: "object",
+        type: 'object',
         properties: {
-          enabled: { type: "boolean" },
+          enabled: { type: 'boolean' },
         },
-        required: ["enabled"],
+        required: ['enabled'],
       },
     },
-    required: ["host", "port", "database", "user", "password"],
+    required: ['host', 'port', 'database', 'user', 'password'],
   },
 };
 ```
@@ -225,39 +225,39 @@ class EnvironmentValidator:
 ### 4. Configuration Testing
 
 ```typescript
-import { describe, it, expect } from "@jest/globals";
-import { ConfigValidator } from "./config-validator";
+import { describe, it, expect } from '@jest/globals';
+import { ConfigValidator } from './config-validator';
 
-describe("Configuration Validation", () => {
+describe('Configuration Validation', () => {
   let validator: ConfigValidator;
 
   beforeEach(() => {
     validator = new ConfigValidator();
   });
 
-  it("should validate database config", () => {
+  it('should validate database config', () => {
     const config = {
-      host: "localhost",
+      host: 'localhost',
       port: 5432,
-      database: "myapp",
-      user: "dbuser",
-      password: "securepass123",
+      database: 'myapp',
+      user: 'dbuser',
+      password: 'securepass123',
     };
 
-    const result = validator.validate(config, "database");
+    const result = validator.validate(config, 'database');
     expect(result.valid).toBe(true);
   });
 
-  it("should reject invalid port", () => {
+  it('should reject invalid port', () => {
     const config = {
-      host: "localhost",
+      host: 'localhost',
       port: 70000,
-      database: "myapp",
-      user: "dbuser",
-      password: "securepass123",
+      database: 'myapp',
+      user: 'dbuser',
+      password: 'securepass123',
     };
 
-    const result = validator.validate(config, "database");
+    const result = validator.validate(config, 'database');
     expect(result.valid).toBe(false);
   });
 });
@@ -266,8 +266,8 @@ describe("Configuration Validation", () => {
 ### 5. Runtime Validation
 
 ```typescript
-import { EventEmitter } from "events";
-import * as chokidar from "chokidar";
+import { EventEmitter } from 'events';
+import * as chokidar from 'chokidar';
 
 export class RuntimeConfigValidator extends EventEmitter {
   private validator: ConfigValidator;
@@ -281,19 +281,16 @@ export class RuntimeConfigValidator extends EventEmitter {
   private async loadAndValidate(configPath: string): Promise<any> {
     const config = await this.loadConfig(configPath);
 
-    const validationResult = this.validator.validate(
-      config,
-      this.detectEnvironment(),
-    );
+    const validationResult = this.validator.validate(config, this.detectEnvironment());
 
     if (!validationResult.valid) {
-      this.emit("validation:error", {
+      this.emit('validation:error', {
         path: configPath,
         errors: validationResult.errors,
       });
 
       if (!this.isDevelopment()) {
-        throw new Error("Configuration validation failed");
+        throw new Error('Configuration validation failed');
       }
     }
 
@@ -306,19 +303,19 @@ export class RuntimeConfigValidator extends EventEmitter {
       ignoreInitial: true,
     });
 
-    watcher.on("change", async () => {
+    watcher.on('change', async () => {
       try {
         const newConfig = await this.loadAndValidate(configPath);
 
         if (JSON.stringify(newConfig) !== JSON.stringify(this.currentConfig)) {
-          this.emit("config:changed", {
+          this.emit('config:changed', {
             oldConfig: this.currentConfig,
             newConfig,
           });
           this.currentConfig = newConfig;
         }
       } catch (error) {
-        this.emit("config:error", { error });
+        this.emit('config:error', { error });
       }
     });
   }
@@ -369,7 +366,7 @@ class ConfigMigrator:
 ### 7. Secure Configuration
 
 ```typescript
-import * as crypto from "crypto";
+import * as crypto from 'crypto';
 
 interface EncryptedValue {
   encrypted: true;
@@ -383,29 +380,23 @@ export class SecureConfigManager {
   private encryptionKey: Buffer;
 
   constructor(masterKey: string) {
-    this.encryptionKey = crypto.pbkdf2Sync(
-      masterKey,
-      "config-salt",
-      100000,
-      32,
-      "sha256",
-    );
+    this.encryptionKey = crypto.pbkdf2Sync(masterKey, 'config-salt', 100000, 32, 'sha256');
   }
 
   encrypt(value: any): EncryptedValue {
-    const algorithm = "aes-256-gcm";
+    const algorithm = 'aes-256-gcm';
     const iv = crypto.randomBytes(16);
     const cipher = crypto.createCipheriv(algorithm, this.encryptionKey, iv);
 
-    let encrypted = cipher.update(JSON.stringify(value), "utf8", "hex");
-    encrypted += cipher.final("hex");
+    let encrypted = cipher.update(JSON.stringify(value), 'utf8', 'hex');
+    encrypted += cipher.final('hex');
 
     return {
       encrypted: true,
       value: encrypted,
       algorithm,
-      iv: iv.toString("hex"),
-      authTag: cipher.getAuthTag().toString("hex"),
+      iv: iv.toString('hex'),
+      authTag: cipher.getAuthTag().toString('hex'),
     };
   }
 
@@ -413,15 +404,15 @@ export class SecureConfigManager {
     const decipher = crypto.createDecipheriv(
       encryptedValue.algorithm,
       this.encryptionKey,
-      Buffer.from(encryptedValue.iv, "hex"),
+      Buffer.from(encryptedValue.iv, 'hex'),
     );
 
     if (encryptedValue.authTag) {
-      decipher.setAuthTag(Buffer.from(encryptedValue.authTag, "hex"));
+      decipher.setAuthTag(Buffer.from(encryptedValue.authTag, 'hex'));
     }
 
-    let decrypted = decipher.update(encryptedValue.value, "hex", "utf8");
-    decrypted += decipher.final("utf8");
+    let decrypted = decipher.update(encryptedValue.value, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
 
     return JSON.parse(decrypted);
   }
@@ -432,7 +423,7 @@ export class SecureConfigManager {
     for (const [key, value] of Object.entries(config)) {
       if (this.isEncryptedValue(value)) {
         processed[key] = this.decrypt(value as EncryptedValue);
-      } else if (typeof value === "object" && value !== null) {
+      } else if (typeof value === 'object' && value !== null) {
         processed[key] = await this.processConfig(value);
       } else {
         processed[key] = value;

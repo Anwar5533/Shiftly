@@ -318,7 +318,6 @@ Example:
 Total: $1.1M
 ```
 
-
 ## Quick Start
 
 To plan team composition:

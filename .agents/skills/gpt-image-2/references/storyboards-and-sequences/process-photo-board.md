@@ -11,13 +11,13 @@
 
 特征（与现有/新增模板的区别）：
 
-| 模板 | 性质 |
-|---|---|
-| `recipe-process-flowchart.md`（已有） | 食谱流程（手绘 / illustration 风） |
-| `pose-reference-sheet.md`（新增） | 姿势字典（同一角色 N 个孤立动作，无叙事顺序） |
-| `cinematic-storyboard-grid.md`（新增） | 电影分镜（连续叙事，事件/情绪） |
-| `product-tvc-storyboard.md`（新增） | 商业 TVC 分镜（产品中心） |
-| **本模板**（新增） | **真人/角色实拍 cinematic 流程板**（步骤中心 + 顺序 + 装备状态变化） |
+| 模板                                   | 性质                                                                 |
+| -------------------------------------- | -------------------------------------------------------------------- |
+| `recipe-process-flowchart.md`（已有）  | 食谱流程（手绘 / illustration 风）                                   |
+| `pose-reference-sheet.md`（新增）      | 姿势字典（同一角色 N 个孤立动作，无叙事顺序）                        |
+| `cinematic-storyboard-grid.md`（新增） | 电影分镜（连续叙事，事件/情绪）                                      |
+| `product-tvc-storyboard.md`（新增）    | 商业 TVC 分镜（产品中心）                                            |
+| **本模板**（新增）                     | **真人/角色实拍 cinematic 流程板**（步骤中心 + 顺序 + 装备状态变化） |
 
 **核心区别**：本模板每张子图都是「同一角色不同步骤的真人/cinematic 实拍 still」，强调**装备状态 / 操作姿态从步骤 1 到 N 的变化**，并配步骤编号 + 步骤标题 + 步骤说明。
 
@@ -97,48 +97,62 @@
         "step_id": 1,
         "title": "{argument name=\"step 1 title\" default=\"1 インナースーツの確認\"}",
         "position": "top-left",
-        "labels": ["{argument name=\"step 1 caption\" default=\"各部のセンサーとコネクタをチェック。戦闘に備え、身体の状態を最終確認する。\"}"],
+        "labels": [
+          "{argument name=\"step 1 caption\" default=\"各部のセンサーとコネクタをチェック。戦闘に備え、身体の状態を最終確認する。\"}"
+        ],
         "image": "{argument name=\"step 1 image\" default=\"three-quarter view of the heroine in only the black glossy inner suit, looking down while checking or tightening a wrist connector\"}"
       },
       {
         "step_id": 2,
         "title": "{argument name=\"step 2 title\" default=\"2 胸部・肩部アーマーの装着\"}",
         "position": "top-center",
-        "labels": ["{argument name=\"step 2 caption\" default=\"胸部ユニットと肩部プロテクターを装着。コネクタを接続し、ロックを固定する。\"}"],
+        "labels": [
+          "{argument name=\"step 2 caption\" default=\"胸部ユニットと肩部プロテクターを装着。コネクタを接続し、ロックを固定する。\"}"
+        ],
         "image": "{argument name=\"step 2 image\" default=\"mid shot with chest armor and red shoulder plates installed, heroine fastening the front torso area with both hands\"}"
       },
       {
         "step_id": 3,
         "title": "{argument name=\"step 3 title\" default=\"3 腰部ユニット・ベルトの固定\"}",
         "position": "top-right",
-        "labels": ["{argument name=\"step 3 caption\" default=\"ウエストユニットを装着し、各部のロックを確認。可動部の動作チェックを行う。\"}"],
+        "labels": [
+          "{argument name=\"step 3 caption\" default=\"ウエストユニットを装着し、各部のロックを確認。可動部の動作チェックを行う。\"}"
+        ],
         "image": "{argument name=\"step 3 image\" default=\"mid shot with torso armor completed, heroine tightening or checking the waist belt and side locks\"}"
       },
       {
         "step_id": 4,
         "title": "{argument name=\"step 4 title\" default=\"4 ヘルメットの準備\"}",
         "position": "bottom-left",
-        "labels": ["{argument name=\"step 4 caption\" default=\"ヘルメットのバイザーと内部システムをチェック。ヘッドセットとの同期を確認する。\"}"],
+        "labels": [
+          "{argument name=\"step 4 caption\" default=\"ヘルメットのバイザーと内部システムをチェック。ヘッドセットとの同期を確認する。\"}"
+        ],
         "image": "{argument name=\"step 4 image\" default=\"heroine holding the red helmet in both hands at chest height, showing the glossy black visor\"}"
       },
       {
         "step_id": 5,
         "title": "{argument name=\"step 5 title\" default=\"5 ヘルメットの装着・システム起動\"}",
         "position": "bottom-center",
-        "labels": ["{argument name=\"step 5 caption\" default=\"ヘルメットを装着し、直上のコネクタをロック。全身のシステムが起動し、胸部コアが発光する。\"}"],
+        "labels": [
+          "{argument name=\"step 5 caption\" default=\"ヘルメットを装着し、直上のコネクタをロック。全身のシステムが起動し、胸部コアが発光する。\"}"
+        ],
         "image": "{argument name=\"step 5 image\" default=\"heroine placing the helmet onto her head with both hands; blue chest core glowing brightly\"}"
       },
       {
         "step_id": 6,
         "title": "{argument name=\"step 6 title\" default=\"6 装着完了\"}",
         "position": "bottom-right",
-        "labels": ["{argument name=\"step 6 caption\" default=\"全システムの最終チェックを行い、戦闘モードへ。ソルジャンヌ、出撃準備完了!\"}"],
+        "labels": [
+          "{argument name=\"step 6 caption\" default=\"全システムの最終チェックを行い、戦闘モードへ。ソルジャンヌ、出撃準備完了!\"}"
+        ],
         "image": "{argument name=\"step 6 image\" default=\"full-body frontal hero pose in a futuristic corridor, fully suited with helmet on, arms relaxed at sides\"}"
       }
     ],
     "footer": {
       "count": 1,
-      "labels": ["{argument name=\"footer slogan\" default=\"一つ一つの装着が、命を守り、力を引き出す。ソルジャンヌの戦いは、ここから始まる。\"}"],
+      "labels": [
+        "{argument name=\"footer slogan\" default=\"一つ一つの装着が、命を守り、力を引き出す。ソルジャンヌの戦いは、ここから始まる。\"}"
+      ],
       "design": "dark red cinematic footer strip with centered white slogan"
     },
     "grid": {

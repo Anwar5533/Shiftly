@@ -85,8 +85,18 @@
     "items": [
       { "id": "B1", "label": "Languages", "color": "cyan #22D3EE", "angle_position": "top-left" },
       { "id": "B2", "label": "Frameworks", "color": "blue #60A5FA", "angle_position": "top-right" },
-      { "id": "B3", "label": "State & Data", "color": "emerald #34D399", "angle_position": "right" },
-      { "id": "B4", "label": "Build & Tooling", "color": "violet #A78BFA", "angle_position": "bottom-right" },
+      {
+        "id": "B3",
+        "label": "State & Data",
+        "color": "emerald #34D399",
+        "angle_position": "right"
+      },
+      {
+        "id": "B4",
+        "label": "Build & Tooling",
+        "color": "violet #A78BFA",
+        "angle_position": "bottom-right"
+      },
       { "id": "B5", "label": "Testing", "color": "rose #FB7185", "angle_position": "bottom-left" },
       { "id": "B6", "label": "Performance", "color": "orange #FB923C", "angle_position": "left" }
     ],

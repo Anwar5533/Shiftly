@@ -22,9 +22,11 @@ test.describe('Critical Journeys E2E', () => {
     await page.getByLabel('City').fill('San Francisco');
     await page.getByLabel('Min Salary').fill('120000');
     await page.getByLabel('Max Salary').fill('150000');
-    await page.getByLabel('Job Description').fill(
-      'This is an end-to-end test job posting for a software developer. It is more than 20 characters.',
-    );
+    await page
+      .getByLabel('Job Description')
+      .fill(
+        'This is an end-to-end test job posting for a software developer. It is more than 20 characters.',
+      );
 
     // Submit
     await page.click('button:has-text("Publish Job")');

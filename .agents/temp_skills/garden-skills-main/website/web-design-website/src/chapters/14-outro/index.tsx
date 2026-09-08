@@ -32,9 +32,27 @@ interface Resource {
 }
 
 const RESOURCES: Resource[] = [
-  { id: 'skill',  num: '01', name: 'web-design-engineer',         cn: 'Skill 完整代码',  desc: '本期主角 · SKILL.md + references' },
-  { id: 'prompt', num: '02', name: 'claude-design / system.md',   cn: '原始参考 Prompt', desc: 'Claude Design 系统提示词原文 · ≈ 420 行' },
-  { id: 'demo',   num: '03', name: 'demos /',                     cn: '几个 DEMO 网站',  desc: '本期演示用到的所有产物站点' },
+  {
+    id: 'skill',
+    num: '01',
+    name: 'web-design-engineer',
+    cn: 'Skill 完整代码',
+    desc: '本期主角 · SKILL.md + references',
+  },
+  {
+    id: 'prompt',
+    num: '02',
+    name: 'claude-design / system.md',
+    cn: '原始参考 Prompt',
+    desc: 'Claude Design 系统提示词原文 · ≈ 420 行',
+  },
+  {
+    id: 'demo',
+    num: '03',
+    name: 'demos /',
+    cn: '几个 DEMO 网站',
+    desc: '本期演示用到的所有产物站点',
+  },
 ];
 
 /* ──────────────────────────────────────────────────────────────────
@@ -56,7 +74,10 @@ function IconLike() {
         strokeLinecap="round"
       />
       <rect
-        x="10" y="28" width="10" height="28"
+        x="10"
+        y="28"
+        width="10"
+        height="28"
         rx="1.5"
         fill="none"
         stroke="currentColor"
@@ -84,12 +105,7 @@ function IconStar() {
 function IconFollow() {
   return (
     <svg className="ot__icon" viewBox="0 0 64 64" aria-hidden>
-      <circle
-        cx="32" cy="32" r="22"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2.5"
-      />
+      <circle cx="32" cy="32" r="22" fill="none" stroke="currentColor" strokeWidth="2.5" />
       <path
         d="M32 21 L32 43 M21 32 L43 32"
         stroke="currentColor"
@@ -101,17 +117,17 @@ function IconFollow() {
 }
 
 const TRIPLE = [
-  { id: 'like',   icon: <IconLike   />, label: '点赞', mono: 'LIKE'    },
-  { id: 'star',   icon: <IconStar   />, label: '收藏', mono: 'COLLECT' },
-  { id: 'follow', icon: <IconFollow />, label: '关注', mono: 'FOLLOW'  },
+  { id: 'like', icon: <IconLike />, label: '点赞', mono: 'LIKE' },
+  { id: 'star', icon: <IconStar />, label: '收藏', mono: 'COLLECT' },
+  { id: 'follow', icon: <IconFollow />, label: '关注', mono: 'FOLLOW' },
 ];
 
 function Outro({ localStep }: ChapterContext) {
-  const sceneOpen     = localStep <= 0;
-  const sceneEasy     = localStep === 1;
-  const sceneGoal     = localStep === 2;
-  const sceneTriple   = localStep === 3;
-  const sceneBye      = localStep >= 4;
+  const sceneOpen = localStep <= 0;
+  const sceneEasy = localStep === 1;
+  const sceneGoal = localStep === 2;
+  const sceneTriple = localStep === 3;
+  const sceneBye = localStep >= 4;
 
   return (
     <section className="ot">
@@ -190,7 +206,12 @@ function Outro({ localStep }: ChapterContext) {
           </Reveal>
 
           <div className="ot__goal-flow">
-            <Reveal kind="rise" duration={780} delay={260} className="ot__goal-step ot__goal-step--from">
+            <Reveal
+              kind="rise"
+              duration={780}
+              delay={260}
+              className="ot__goal-step ot__goal-step--from"
+            >
               <div className="ot__goal-step-tag">YOU · 现在</div>
               <div className="ot__goal-step-line">想 转 AI Agent 开发</div>
             </Reveal>
@@ -201,9 +222,16 @@ function Outro({ localStep }: ChapterContext) {
               <span className="ot__goal-arrow-head">→</span>
             </Reveal>
 
-            <Reveal kind="rise" duration={780} delay={900} className="ot__goal-step ot__goal-step--to">
+            <Reveal
+              kind="rise"
+              duration={780}
+              delay={900}
+              className="ot__goal-step ot__goal-step--to"
+            >
               <div className="ot__goal-step-tag ot__goal-step-tag--alt">YOU · 之后</div>
-              <div className="ot__goal-step-line">具备<em>企业级</em> Agent 开发能力</div>
+              <div className="ot__goal-step-line">
+                具备<em>企业级</em> Agent 开发能力
+              </div>
             </Reveal>
           </div>
 
@@ -231,9 +259,7 @@ function Outro({ localStep }: ChapterContext) {
                 className="ot__triple-card"
                 style={{ animationDelay: `${600 + i * 200}ms` }}
               >
-                <div className="ot__triple-icon-wrap">
-                  {t.icon}
-                </div>
+                <div className="ot__triple-icon-wrap">{t.icon}</div>
                 <div className="ot__triple-label">{t.label}</div>
                 <div className="ot__triple-mono">{t.mono}</div>
               </div>

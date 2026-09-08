@@ -1,6 +1,6 @@
 ---
 description: Run the full usability study workflow — research questions, participant criteria, tasks, metrics, and facilitation guide.
-argument-hint: "[product, feature, or prototype to test]"
+argument-hint: '[product, feature, or prototype to test]'
 ---
 
 Design a comprehensive usability test plan:

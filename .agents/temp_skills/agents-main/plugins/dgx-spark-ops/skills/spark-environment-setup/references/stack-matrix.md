@@ -4,18 +4,18 @@ Last verified: 2026-07-14 — refresh when CUDA, PyTorch, or Unsloth major versi
 
 Full component-by-component status for the ML training/inference stack on DGX Spark (GB10, SM121, aarch64, CUDA 13). This is the detail table behind the "Component Quick Table" in `SKILL.md`.
 
-| Component | Status | Notes |
-|---|---|---|
-| PyTorch (cu130, aarch64) | ✅ | Official wheels at `download.pytorch.org/whl/cu130`. Matches the system CUDA 13 ABI — see the ABI Rule in `SKILL.md`. |
-| bitsandbytes | ✅ | 0.48+ works out of the box. |
-| Triton | ✅ (with env var) | Needs `TRITON_PTXAS_PATH=/usr/local/cuda/bin/ptxas` set, or kernel compilation fails to find `ptxas`. |
-| flash-attn | ❌ skip | No sm_121 kernels shipped or buildable yet. PyTorch's SDPA backend is faster on this hardware anyway — don't spend time chasing a flash-attn build. |
-| xformers | source build only | No prebuilt aarch64/SM121 wheel. Build with `TORCH_CUDA_ARCH_LIST=12.1` set, or the build targets the wrong architecture and either fails or silently produces non-functional kernels. |
-| vLLM | nightly wheels only | Use `wheels.vllm.ai/nightly/cu130`. The SM121 fix landed in the nightly channel around 2026-06; stable/release wheels predate it. |
-| TransformerEngine / NVFP4 training | container-only | Not practical via bare pip; use the NGC PyTorch container. `NVFP4BlockScaling` targets SM100 — treat SM121 support as caveated, not guaranteed. |
-| Unsloth | ✅ (container preferred) | Official Docker image `unsloth/unsloth:dgxspark-latest` (a moving tag — resolve and pin its digest for reproducible/CI use, see `references/container-workflow.md`), or the NVIDIA playbook pip sequence (see `SKILL.md`). Bare pip installs have hit torchcodec and GPU-detection gotchas. |
-| Axolotl / TRL / PEFT | ✅ | Standard install, no special handling needed. |
-| LLaMA-Factory / NeMo | fragile / in progress | Known to be unreliable on this platform as of this writing; expect breakage and check upstream issues before depending on either for a run. |
+| Component                          | Status                   | Notes                                                                                                                                                                                                                                                                                       |
+| ---------------------------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| PyTorch (cu130, aarch64)           | ✅                       | Official wheels at `download.pytorch.org/whl/cu130`. Matches the system CUDA 13 ABI — see the ABI Rule in `SKILL.md`.                                                                                                                                                                       |
+| bitsandbytes                       | ✅                       | 0.48+ works out of the box.                                                                                                                                                                                                                                                                 |
+| Triton                             | ✅ (with env var)        | Needs `TRITON_PTXAS_PATH=/usr/local/cuda/bin/ptxas` set, or kernel compilation fails to find `ptxas`.                                                                                                                                                                                       |
+| flash-attn                         | ❌ skip                  | No sm_121 kernels shipped or buildable yet. PyTorch's SDPA backend is faster on this hardware anyway — don't spend time chasing a flash-attn build.                                                                                                                                         |
+| xformers                           | source build only        | No prebuilt aarch64/SM121 wheel. Build with `TORCH_CUDA_ARCH_LIST=12.1` set, or the build targets the wrong architecture and either fails or silently produces non-functional kernels.                                                                                                      |
+| vLLM                               | nightly wheels only      | Use `wheels.vllm.ai/nightly/cu130`. The SM121 fix landed in the nightly channel around 2026-06; stable/release wheels predate it.                                                                                                                                                           |
+| TransformerEngine / NVFP4 training | container-only           | Not practical via bare pip; use the NGC PyTorch container. `NVFP4BlockScaling` targets SM100 — treat SM121 support as caveated, not guaranteed.                                                                                                                                             |
+| Unsloth                            | ✅ (container preferred) | Official Docker image `unsloth/unsloth:dgxspark-latest` (a moving tag — resolve and pin its digest for reproducible/CI use, see `references/container-workflow.md`), or the NVIDIA playbook pip sequence (see `SKILL.md`). Bare pip installs have hit torchcodec and GPU-detection gotchas. |
+| Axolotl / TRL / PEFT               | ✅                       | Standard install, no special handling needed.                                                                                                                                                                                                                                               |
+| LLaMA-Factory / NeMo               | fragile / in progress    | Known to be unreliable on this platform as of this writing; expect breakage and check upstream issues before depending on either for a run.                                                                                                                                                 |
 
 ## Known-Good Version Matrix (Dated)
 
@@ -30,16 +30,16 @@ load + attach + a full SFT run) on `nvcr.io/nvidia/pytorch:25.09-py3`
 as of the date above; treat it as a dated snapshot to re-verify,
 not a permanent pin:
 
-| Package | Verified-working version |
-|---|---|
-| `transformers` | 5.13.1 |
-| `trl` | 1.8.0 |
-| `peft` | 0.19.1 |
-| `datasets` | 4.3.0 (pin as-is; not re-verified independently of the combination above) |
-| `unsloth` / `unsloth_zoo` | 2026.7.2 |
-| `torchao` | 0.17.0 (pure-Python wheel; NGC base image ships 0.13.0+git, too old — `pip install -U torchao` after the Unsloth line) |
-| `bitsandbytes` | 0.49.2 |
-| `hf_transfer` | 0.1.9 (current stable; see the deprecation note below before relying on it) |
+| Package                   | Verified-working version                                                                                               |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `transformers`            | 5.13.1                                                                                                                 |
+| `trl`                     | 1.8.0                                                                                                                  |
+| `peft`                    | 0.19.1                                                                                                                 |
+| `datasets`                | 4.3.0 (pin as-is; not re-verified independently of the combination above)                                              |
+| `unsloth` / `unsloth_zoo` | 2026.7.2                                                                                                               |
+| `torchao`                 | 0.17.0 (pure-Python wheel; NGC base image ships 0.13.0+git, too old — `pip install -U torchao` after the Unsloth line) |
+| `bitsandbytes`            | 0.49.2                                                                                                                 |
+| `hf_transfer`             | 0.1.9 (current stable; see the deprecation note below before relying on it)                                            |
 
 If a bare-pip install lands on a different combination than
 this table (pip resolver drift is expected as new releases
@@ -66,14 +66,14 @@ The full discriminating check behind `SKILL.md`'s Verification
 Commands hypothesis table, in the order to work through them:
 
 1. **Runtime/flags.** If `docker run` was missing
-   `--runtime=nvidia --gpus all`, `nvidia-smi` run *inside* the
+   `--runtime=nvidia --gpus all`, `nvidia-smi` run _inside_ the
    container fails or shows no devices even though the host sees
    the GPU fine. Fix: re-run with both flags.
 2. **Device visibility.** `echo $CUDA_VISIBLE_DEVICES` — an
    empty string set explicitly (not merely unset) hides all
    devices from CUDA; a stale index (e.g. `1` on a single-GPU
    box) hides the only device present. Fix: `unset
-   CUDA_VISIBLE_DEVICES` or set it to `0`.
+CUDA_VISIBLE_DEVICES` or set it to `0`.
 3. **Permissions.** `ls -l /dev/nvidia*` — missing entries or a
    `Permission denied` on read means the container/user can't
    open the device nodes (common when running rootless or with a

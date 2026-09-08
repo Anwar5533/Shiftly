@@ -3,6 +3,7 @@
 Selected from the router for [SKILL.md](../SKILL.md). Reusable mechanisms and decision ladders remain in [HEURISTICS.md](../HEURISTICS.md).
 
 ## Admission control and quota
+
 - **Shape**: accepted work is work the architecture can still finish inside the client's deadline; everything else is rejected before it consumes a resource, never after.
 - **Match when** aggregate arrivals can exceed served capacity and the excess has a deadline — on-sale spikes, incident-driven retry surges, shared multi-tenant capacity, any flow where a late answer is worth nothing. **Not when** the work is deferrable and nobody is waiting: scheduled batch, backfill, and reprocessing want a queue that grows and a finish time that slips, and shedding there destroys work with nowhere else to go.
 - **Minimum state**: measured in-flight concurrency per protected resource, a capacity estimate, and a per-tenant token balance. A per-request history is not required and never was.
@@ -16,19 +17,21 @@ Selected from the router for [SKILL.md](../SKILL.md). Reusable mechanisms and de
 - **Cases**: cluster admission quota in fleet schedulers, gateway and mesh circuit breaking, connection poolers, ticket on-sale virtual waiting rooms, message-queue in-flight caps.
 
 ## Durable workflow and retrying work DAG
+
 - **Shape**: every step's effect happens at least once and counts once, and progress survives the death of the worker holding it — a crash costs a retry, never a lost step or a duplicated effect.
 - **Match when** work outlives a request: multi-step flows with waits, external calls that can time out ambiguously, fan-out with a join, retries measured in hours. **Not when** the work is one unbounded stream processed record by record — a consumer group with offsets and idempotent apply is the right shape, and giving every record a persisted history is orders of magnitude of overhead for a step that never needed one.
 - **Minimum state**: an append-only history per execution keyed by stable step identity, the current attempt's lease with its fence, and a retry count with a terminal state. The DAG shape, the schedule, and the worker roster are all derivable.
 - **Moves**: at-least-once delivery plus idempotent apply is the ladder in [HEURISTICS.md](../HEURISTICS.md); this shape supplies its missing half — the effect key. Each step carries a deterministic identity derived from execution, step, and attempt-invariant inputs, and the external effect's receipt is written in the same transaction that records completion, so a retry finds the receipt instead of repeating the call. Leases are heartbeat-renewed, never sized to the longest job; fences are validated by the effect target, not by the coordinator. Fan-in is a set, not a counter: record each satisfied predecessor under a uniqueness constraint and release the successor when the set is complete. A decrementing counter is unsafe under the at-least-once delivery this shape is built on — the same completion delivered twice decrements twice and starts the successor early, with nothing to detect it afterwards.
 - **The dial**: lease duration against duplicate-work cost. Short leases detect death fast and duplicate long steps often; long leases stall the queue behind a worker that is already gone. Set it from the step-duration distribution, never from a global default.
 - **Buy gate**: durable-execution engines and managed orchestrators already ship history, replay, timers, retries, and dead-letter routing. Hand-rolling must beat one on a stated requirement — a scheduling policy it cannot express, a residency boundary, a step rate its pricing does not survive — not on the appeal of writing a state machine.
-- **Staff gate**: an ambiguous external timeout is a third terminal state, not a retry — name where `UNKNOWN` lives and who reconciles it. State the overlap policy for a recurring trigger (allow, skip, or replace), the misfire and catch-up cap, and what a paused trigger does with its backlog. Bound history growth and say what happens at the limit. Exactly-once *execution* is not on offer; exactly-once *effect* is, and only at the endpoint.
+- **Staff gate**: an ambiguous external timeout is a third terminal state, not a retry — name where `UNKNOWN` lives and who reconciles it. State the overlap policy for a recurring trigger (allow, skip, or replace), the misfire and catch-up cap, and what a paused trigger does with its backlog. Bound history growth and say what happens at the limit. Exactly-once _execution_ is not on offer; exactly-once _effect_ is, and only at the endpoint.
 - **Numbers anchor**: a heartbeat is a sustained write load of fleet ÷ interval, forever, whether or not anything is running — 16k executors at 20 s is 820 writes/s, which can exceed every job-state transition in the system combined, so state that arithmetic before choosing an interval. A 12-hour step under a 30-second visibility timeout is redelivered 1,440 times, which is why the lease is heartbeat-renewed and why the effect key, not the timeout, prevents 1,440 duplicate side effects. Production history caps near 51,200 events or 50 MB per execution: a long-running loop continues as a new execution rather than accumulating.
 - **Anti-gate**: a handful of steps, one transaction boundary, everything inside the request timeout — a scheduled trigger and an idempotent handler are the whole design. A workflow engine adds a datastore, a replay contract, and a versioning problem.
 - **Breaks first**: the retry storm after a dependency recovers. Every stalled execution wakes at once and the recovered dependency absorbs hours of accumulated attempts in one minute.
 - **Cases**: build and CI pipelines, media transcode DAGs, order-fulfilment orchestration, cluster reconciliation controllers, data-pipeline schedulers.
 
 ## Politeness-bounded fetch
+
 - **Shape**: politeness, robustness, and freshness over raw speed.
 - **Match when** the bottleneck is somebody else's willingness to serve you. **Not when** you own both sides — that is an internal pipeline and the politeness machinery is pure overhead.
 - **Moves**: URL frontier = front queues (priority) + back queues (one host per queue = politeness); BFS not DFS; content/URL "seen?" dedup (Bloom filters); robots.txt cached and fail-closed; DNS cache (synchronous DNS calls are the hidden bottleneck); trap defences (URL length caps, filters). Fetch and parse can retry and scale independently when a durable fetched artifact is handed off by reference; the seam is earned when refetch cost or parser lag threatens the deadline.
@@ -37,9 +40,10 @@ Selected from the router for [SKILL.md](../SKILL.md). Reusable mechanisms and de
 - **Cases**: web crawlers, price and inventory scrapers, feed and sitemap pollers, third-party API harvesters, link checkers.
 
 ## Third-party channel delivery
+
 - **Shape**: multi-channel (push/SMS/email), soft real-time, third parties do delivery.
 - **Match when** the final effect happens at a provider you do not control and cannot roll back. **Not when** delivery is in-process and observable — an in-app inbox is a derived view, not a delivery pipeline.
 - **Moves**: queue per channel (isolate third-party outages); notification log + retries (at-least-once + dedupe by event ID); templates; opt-out checked pre-send; frequency capping; swappable providers per region.
-- **Staff gate**: a send that times out is `UNKNOWN`, not failed — say who resolves it, and remember the provider dedupes on *their* key, not yours. State per-channel fallback order, the frequency cap's window, and what a provider outage does to queue depth and to the oldest acceptable message age.
+- **Staff gate**: a send that times out is `UNKNOWN`, not failed — say who resolves it, and remember the provider dedupes on _their_ key, not yours. State per-channel fallback order, the frequency cap's window, and what a provider outage does to queue depth and to the oldest acceptable message age.
 - **Anti-gate**: one channel, one provider, no compliance surface — a retrying background job is the design.
 - **Cases**: transactional notifications, marketing sends, one-time-code delivery, alerting and paging, customer webhook fan-out.

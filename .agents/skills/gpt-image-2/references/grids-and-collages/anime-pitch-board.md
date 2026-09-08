@@ -99,12 +99,7 @@
   },
   "aspect_ratio": "{argument name=\"aspect ratio\" default=\"3:4\"}",
   "constraints": {
-    "must_keep": [
-      "KV 区始终是视觉锚点",
-      "角色卡风格统一",
-      "信息分区清晰、不混乱",
-      "色板严格统一"
-    ],
+    "must_keep": ["KV 区始终是视觉锚点", "角色卡风格统一", "信息分区清晰、不混乱", "色板严格统一"],
     "avoid": [
       "信息塞太多导致 KV 区被挤压",
       "角色卡风格漂移",
@@ -135,9 +130,9 @@
 {
   "type": "游戏立项 pitch board",
   "regions": {
-    "main_kv": {"content": "游戏主视觉 + 玩法核心场景"},
-    "character_cards": {"content": "可玩角色 + 简介"},
-    "world_setting": {"content": "玩法核心循环 + 关键系统"}
+    "main_kv": { "content": "游戏主视觉 + 玩法核心场景" },
+    "character_cards": { "content": "可玩角色 + 简介" },
+    "world_setting": { "content": "玩法核心循环 + 关键系统" }
   },
   "constraints": {
     "must_feel": "GDC pitch 级"
@@ -153,9 +148,9 @@
 {
   "type": "影视项目 pitch board",
   "regions": {
-    "main_kv": {"content": "电影主视觉"},
-    "character_cards": {"content": "主要角色 + 演员候选"},
-    "world_setting": {"content": "时代 + 美术参考"}
+    "main_kv": { "content": "电影主视觉" },
+    "character_cards": { "content": "主要角色 + 演员候选" },
+    "world_setting": { "content": "时代 + 美术参考" }
   },
   "constraints": {
     "must_feel": "可发投资人"

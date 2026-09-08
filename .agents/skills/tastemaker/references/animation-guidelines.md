@@ -6,12 +6,12 @@ Animation is one of the fastest ways to make a UI feel expensive or cheap. The r
 
 Run this gate before writing animation code.
 
-| Question | Ship motion when | Delete or reduce when |
-|---|---|---|
-| How often will users see it? | Occasional, rare, first-run, or explanatory moments | Keyboard actions, command palettes, core navigation, dense lists, and anything seen dozens of times per day |
-| What purpose does it serve? | Feedback, spatial consistency, state indication, explanation, or preventing a jarring change | The only answer is "it looks cool" |
-| Can it stay within budget? | UI motion stays under 300ms, with smaller pieces under 200ms | The effect needs slow showmanship to work |
-| Does it help the task? | It makes state, hierarchy, or progress clearer | It moves data the user is trying to read or act on |
+| Question                     | Ship motion when                                                                             | Delete or reduce when                                                                                       |
+| ---------------------------- | -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| How often will users see it? | Occasional, rare, first-run, or explanatory moments                                          | Keyboard actions, command palettes, core navigation, dense lists, and anything seen dozens of times per day |
+| What purpose does it serve?  | Feedback, spatial consistency, state indication, explanation, or preventing a jarring change | The only answer is "it looks cool"                                                                          |
+| Can it stay within budget?   | UI motion stays under 300ms, with smaller pieces under 200ms                                 | The effect needs slow showmanship to work                                                                   |
+| Does it help the task?       | It makes state, hierarchy, or progress clearer                                               | It moves data the user is trying to read or act on                                                          |
 
 High-frequency UI should feel instant. Rare moments can carry more personality. A daily-use dashboard often needs less motion than a launch page.
 
@@ -29,7 +29,7 @@ Install it per `references/tech-stack-guides.md`, then wire up `assets/gsap-star
   TastemakerMotion.init({
     duration: 0.22,
     distance: 16,
-    ease: "power3.out",
+    ease: 'power3.out',
     staggerStep: 0.06,
   });
 </script>
@@ -60,14 +60,14 @@ Use these as CSS tokens unless the project lock has stricter values:
 }
 ```
 
-| Element | Duration | Easing |
-|---|---:|---|
-| Button press | 100-160ms | `var(--ease-out)` |
-| Tooltip or small popover | 125-200ms | `var(--ease-out)` |
-| Dropdown or select | 150-250ms | `var(--ease-out)` |
-| Modal or drawer | 200-500ms | `var(--ease-drawer)` for sheets, `var(--ease-out)` for centered modals |
-| On-screen movement or morph | 180-300ms | `var(--ease-in-out)` |
-| Scroll storytelling | as needed | `power3.out` or a scrubbed timeline |
+| Element                     |  Duration | Easing                                                                 |
+| --------------------------- | --------: | ---------------------------------------------------------------------- |
+| Button press                | 100-160ms | `var(--ease-out)`                                                      |
+| Tooltip or small popover    | 125-200ms | `var(--ease-out)`                                                      |
+| Dropdown or select          | 150-250ms | `var(--ease-out)`                                                      |
+| Modal or drawer             | 200-500ms | `var(--ease-drawer)` for sheets, `var(--ease-out)` for centered modals |
+| On-screen movement or morph | 180-300ms | `var(--ease-in-out)`                                                   |
+| Scroll storytelling         | as needed | `power3.out` or a scrubbed timeline                                    |
 
 Avoid `ease-in` for UI. It starts slow at the exact moment the user expects a response.
 
@@ -75,12 +75,12 @@ Avoid `ease-in` for UI. It starts slow at the exact moment the user expects a re
 
 GSAP stays the default for every project (above). anime.js was evaluated as a second option — a real side-by-side test (bundle weight measured directly, the reveal/reduced-motion pattern hand-built and run in a browser, not assumed from docs) found it's not a better general-purpose default, but it does have two genuine, narrow use cases where it's the better tool:
 
-1. **A page that needs both scroll-reveals and SVG motion-path/shape-morphing for constructed logo marks or hand-built illustrations** (`references/logo-sourcing.md`). Measured directly via each library's current CDN "latest" tag, the same one this repo's own install snippets point at: anime.js v4's full bundle — animation engine, ScrollObserver, Draggable, spring physics, *and* the SVG toolset (`svg.morphTo`, `svg.createMotionPath`, `svg.createDrawable`), everything included — is **~118KB minified / ~41KB gzipped**. Matching that same feature set in GSAP means core + ScrollTrigger + Draggable + MorphSVGPlugin + DrawSVGPlugin, which comes to **~179KB minified / ~69KB gzipped** — genuinely, verifiably larger (~34% more over the wire, gzipped). For a page whose brief calls for both scroll storytelling *and* a morphing/drawing SVG mark, anime.js's single bundle is the lighter way to get both.
+1. **A page that needs both scroll-reveals and SVG motion-path/shape-morphing for constructed logo marks or hand-built illustrations** (`references/logo-sourcing.md`). Measured directly via each library's current CDN "latest" tag, the same one this repo's own install snippets point at: anime.js v4's full bundle — animation engine, ScrollObserver, Draggable, spring physics, _and_ the SVG toolset (`svg.morphTo`, `svg.createMotionPath`, `svg.createDrawable`), everything included — is **~118KB minified / ~41KB gzipped**. Matching that same feature set in GSAP means core + ScrollTrigger + Draggable + MorphSVGPlugin + DrawSVGPlugin, which comes to **~179KB minified / ~69KB gzipped** — genuinely, verifiably larger (~34% more over the wire, gzipped). For a page whose brief calls for both scroll storytelling _and_ a morphing/drawing SVG mark, anime.js's single bundle is the lighter way to get both.
 2. **SVG motion-path/shape-morphing alone, on a page that otherwise doesn't need scroll-triggered motion.** Same tools, same reasoning as above, just without the reveal engine attached — reach for anime.js's SVG toolset directly rather than adding two more GSAP plugin files for one moment on the page.
 
-**Bundle size alone does not justify anime.js for simple reveals with no SVG need — this was checked and doesn't hold up.** The obvious-sounding case ("anime.js is lighter, use it for basic scroll-reveals") was tested and rejected: loaded via a plain `<script>` CDN tag (this project's default, no-build-step pattern), anime.js's bundle is **~118KB min / ~41KB gzip** against GSAP core + ScrollTrigger's **~117KB min / ~46KB gzip** — a wash on minified size, and only a modest ~11% gzip difference, because a plain script tag can't tree-shake away the Draggable/spring/SVG code a reveal-only page never uses. (A project actually using a bundler with anime.js's ESM submodule exports could tree-shake further, but that's a different build setup than the CDN-tag default this skill assumes — not a reason to switch the default.) Reach for anime.js on bundle-size grounds *only* when the SVG toolset is also genuinely needed, per the two cases above.
+**Bundle size alone does not justify anime.js for simple reveals with no SVG need — this was checked and doesn't hold up.** The obvious-sounding case ("anime.js is lighter, use it for basic scroll-reveals") was tested and rejected: loaded via a plain `<script>` CDN tag (this project's default, no-build-step pattern), anime.js's bundle is **~118KB min / ~41KB gzip** against GSAP core + ScrollTrigger's **~117KB min / ~46KB gzip** — a wash on minified size, and only a modest ~11% gzip difference, because a plain script tag can't tree-shake away the Draggable/spring/SVG code a reveal-only page never uses. (A project actually using a bundler with anime.js's ESM submodule exports could tree-shake further, but that's a different build setup than the CDN-tag default this skill assumes — not a reason to switch the default.) Reach for anime.js on bundle-size grounds _only_ when the SVG toolset is also genuinely needed, per the two cases above.
 
-**Everything else stays on GSAP.** The reasoning that ruled out a full swap: this project has a real, working, tested investment in GSAP already (`assets/gsap-starter.js`, the `data-reveal` convention, the App-shell/marketing motion-track split, `gsap.matchMedia()` as the reduced-motion backbone) — porting all of that gets no payoff for the standard case, since what actually makes a page feel premium is choreography and restraint, not which engine executes the tween. anime.js's `createScope({ mediaQueries })` is a real, working equivalent to `gsap.matchMedia()` — verified, not assumed — so reduced-motion support isn't a blocker where anime.js *is* used. Spring-based draggable micro-interactions (a real gap in current App-shell motion guidance) were identified as a plausible third use case but not built into a starter yet — flagged as open follow-up work, not silently dropped.
+**Everything else stays on GSAP.** The reasoning that ruled out a full swap: this project has a real, working, tested investment in GSAP already (`assets/gsap-starter.js`, the `data-reveal` convention, the App-shell/marketing motion-track split, `gsap.matchMedia()` as the reduced-motion backbone) — porting all of that gets no payoff for the standard case, since what actually makes a page feel premium is choreography and restraint, not which engine executes the tween. anime.js's `createScope({ mediaQueries })` is a real, working equivalent to `gsap.matchMedia()` — verified, not assumed — so reduced-motion support isn't a blocker where anime.js _is_ used. Spring-based draggable micro-interactions (a real gap in current App-shell motion guidance) were identified as a plausible third use case but not built into a starter yet — flagged as open follow-up work, not silently dropped.
 
 If a project's brief calls for anime.js under either scoped case, use `assets/anime-starter.js` — it mirrors `gsap-starter.js`'s `[data-reveal]`/`[data-reveal-group]` convention so a project can use either engine without touching markup. Two real porting gotchas found by hands-on testing, not by reading docs:
 
@@ -98,7 +98,7 @@ Install: `npm install motion`. It also loads with **no build step**, which matte
 
 ```html
 <script type="module">
-  import { animate, scroll, inView, stagger } from "https://cdn.jsdelivr.net/npm/motion@12/+esm"
+  import { animate, scroll, inView, stagger } from 'https://cdn.jsdelivr.net/npm/motion@12/+esm';
 </script>
 ```
 
@@ -107,23 +107,23 @@ Pin the major version rather than `@latest` in anything shipped — Motion's own
 Verified API shapes:
 
 ```js
-animate(el, { scale: [0.4, 1] }, { ease: "circInOut", duration: 1.2 })
-animate(el, { rotate: 90 }, { type: "spring", stiffness: 300 })
-animate("li", { y: 0, opacity: 1 }, { delay: stagger(0.1) })
-inView("section", () => animate("section", { opacity: [0, 1] }))
+animate(el, { scale: [0.4, 1] }, { ease: 'circInOut', duration: 1.2 });
+animate(el, { rotate: 90 }, { type: 'spring', stiffness: 300 });
+animate('li', { y: 0, opacity: 1 }, { delay: stagger(0.1) });
+inView('section', () => animate('section', { opacity: [0, 1] }));
 
 // scroll-linked: build the animation, then hand it to scroll()
-const a = animate("div", { transform: ["none", "rotate(90deg)"] }, { ease: "linear" })
-scroll(a, { target: document.getElementById("item"), offset: ["start end", "end start"] })
+const a = animate('div', { transform: ['none', 'rotate(90deg)'] }, { ease: 'linear' });
+scroll(a, { target: document.getElementById('item'), offset: ['start end', 'end start'] });
 ```
 
 **One engine per project.** Never load GSAP and Motion together to get one effect from each — the only acceptable reason for both is a pulled component that brought its own, and that should be stated rather than left for the next person to discover. Motion's docs don't document a `prefers-reduced-motion` helper for `scroll()`, so gate it yourself with `matchMedia("(prefers-reduced-motion: reduce)")` and render the end state directly, the same contract `gsap.matchMedia()` gives on the default track.
 
 ## Scroll storytelling — for landing/marketing pages that should unfold as you scroll
 
-`gsap-starter.js` covers the baseline (things fade/rise in on scroll). A *storytelling* page goes further: it uses scroll position as a timeline, so scrolling feels like advancing through a narrative rather than paging past static blocks. This is what makes a landing page feel crafted rather than assembled. Build these directly with ScrollTrigger (they're page-specific, so they live in the project, not in the shared starter):
+`gsap-starter.js` covers the baseline (things fade/rise in on scroll). A _storytelling_ page goes further: it uses scroll position as a timeline, so scrolling feels like advancing through a narrative rather than paging past static blocks. This is what makes a landing page feel crafted rather than assembled. Build these directly with ScrollTrigger (they're page-specific, so they live in the project, not in the shared starter):
 
-- **Scrubbed reveals** (`scrub: true`) tie an animation's progress to scroll position, so an element draws/moves *as* the user scrolls rather than firing once. Great for a hero visual that assembles, a number that counts up, a path that draws.
+- **Scrubbed reveals** (`scrub: true`) tie an animation's progress to scroll position, so an element draws/moves _as_ the user scrolls rather than firing once. Great for a hero visual that assembles, a number that counts up, a path that draws.
 - **Pinned sections** (`pin: true`) hold a section in place while its content advances through steps — the classic "one sticky panel, content changes as you scroll" storytelling beat. Use sparingly (one, maybe two per page); pinning everything is disorienting.
 - **Sequenced hero timeline**: a `gsap.timeline()` on load with at most four coherent beats — context/navigation → headline → subhead + actions → the single proof visual. Animate the visual as one composition rather than staggering all its internal labels. This preserves the hierarchy established in `references/hero-guidelines.md` instead of making every element ask for attention.
 - **Parallax depth**: move background/foreground layers at slightly different scroll rates (small `y` offsets tied to scroll) for a sense of depth — subtle is the whole game; large offsets read as a gimmick.
@@ -144,12 +144,12 @@ None of this needs ScrollTrigger. `gsap.to()`/`gsap.from()` with the same durati
 
 ### Draggable interactions: use whichever engine the project is already on
 
-Evaluated GSAP's `Draggable` + `InertiaPlugin` against anime.js's `createDraggable` + `createSpring` for this specific case — a draggable panel with snap points — the same rigor the original GSAP-vs-anime.js evaluation used (`references/animation-guidelines.md`'s anime.js section above). The finding here is the same shape as that one, for the same underlying reason: **bundle size is a wash between the two options on their own** (GSAP core + `Draggable` + `InertiaPlugin` measures ~116KB minified / ~44KB gzipped; anime.js's full bundle, which already includes its draggable and spring tools, measures ~118KB minified / ~41KB gzipped) — so it is never worth loading a *second* motion engine just to get draggable support. Extend whichever engine the project is already using:
+Evaluated GSAP's `Draggable` + `InertiaPlugin` against anime.js's `createDraggable` + `createSpring` for this specific case — a draggable panel with snap points — the same rigor the original GSAP-vs-anime.js evaluation used (`references/animation-guidelines.md`'s anime.js section above). The finding here is the same shape as that one, for the same underlying reason: **bundle size is a wash between the two options on their own** (GSAP core + `Draggable` + `InertiaPlugin` measures ~116KB minified / ~44KB gzipped; anime.js's full bundle, which already includes its draggable and spring tools, measures ~118KB minified / ~41KB gzipped) — so it is never worth loading a _second_ motion engine just to get draggable support. Extend whichever engine the project is already using:
 
 - **GSAP-track projects (the default)**: `Draggable.create(target, { type: "x" | "y" | "x,y", bounds: containerSelector, inertia: true, snap: [...points], onDragEnd })`. `InertiaPlugin` is what makes the release feel like it has real momentum instead of stopping dead where the pointer let go — it's free (see the GSAP-is-the-default section above), so there's no reason to skip it once `Draggable` is in use.
 - **anime.js-track projects** (per this file's anime.js section — a page already using anime.js for SVG motion-path/shape-morphing): `anime.createDraggable(target, { x: true, snap: [...points], releaseMass, releaseStiffness, releaseDamping, onSnap })`. `releaseMass`/`releaseStiffness`/`releaseDamping` are anime.js's spring-physics equivalent of `InertiaPlugin` — tune stiffness/damping together (higher damping relative to stiffness settles faster with less overshoot) rather than reaching for `InertiaPlugin`'s more velocity-based feel; they're different physical models, not drop-in equivalents of each other.
 
-**The drag-follow itself is never gated by `prefers-reduced-motion`** — it's direct manipulation tracking the user's own pointer 1:1, not decorative or autoplaying motion, so reduced-motion doesn't apply to it any more than it applies to scrolling itself. What *does* need a reduced-motion branch is the **release/snap settle** — the bouncy, physics-driven motion after the user lets go. Branch it the same way every other animation in this file does (`gsap.matchMedia()` / anime.js's `createScope({ mediaQueries })`): a lower-damping, more visibly springy settle by default, and a critically-damped or near-instant snap (no overshoot) under `prefers-reduced-motion: reduce` — overshoot on release is exactly the kind of motion that reads as uncomfortable for vestibular sensitivity, even though the drag itself is user-initiated.
+**The drag-follow itself is never gated by `prefers-reduced-motion`** — it's direct manipulation tracking the user's own pointer 1:1, not decorative or autoplaying motion, so reduced-motion doesn't apply to it any more than it applies to scrolling itself. What _does_ need a reduced-motion branch is the **release/snap settle** — the bouncy, physics-driven motion after the user lets go. Branch it the same way every other animation in this file does (`gsap.matchMedia()` / anime.js's `createScope({ mediaQueries })`): a lower-damping, more visibly springy settle by default, and a critically-damped or near-instant snap (no overshoot) under `prefers-reduced-motion: reduce` — overshoot on release is exactly the kind of motion that reads as uncomfortable for vestibular sensitivity, even though the drag itself is user-initiated.
 
 **Which track applies is a per-screen decision, not a per-project one.** A marketing/landing page uses scroll storytelling; a dashboard, settings screen, or any persistent app shell uses this track instead. A single project can need both (a public landing page plus an authenticated app behind it), in which case each screen gets the track that actually fits it rather than one default applied everywhere. See `SKILL.md` Step 4 for where this branch happens in the build.
 

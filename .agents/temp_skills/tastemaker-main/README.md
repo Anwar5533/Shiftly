@@ -59,7 +59,7 @@ Tastemaker fixes this with four ideas, not a bigger catalog of canned options to
 
 Yes, partly, and it is worth being straight about where the line is.
 
-If you say *"lock these decisions as a design bible and use it as our anchor,"* you get the decisions written down in the current context. For keeping three screens consistent inside one chat, that genuinely works, and you do not need this skill for it.
+If you say _"lock these decisions as a design bible and use it as our anchor,"_ you get the decisions written down in the current context. For keeping three screens consistent inside one chat, that genuinely works, and you do not need this skill for it.
 
 Here is what that does not give you:
 
@@ -120,21 +120,21 @@ For the deterministic color extraction script you need Python 3 and Pillow (`pip
 
 ## What you get
 
-| | |
-|---|---|
-| **Grounded in real pixels** | Reference images become real color tokens through `scripts/extract_palette.py`, not a text guess. |
-| **Reference-led without user references** | Cold starts create `.tastemaker/reference-board.md`: competitors, adjacent products, cultural sources, interface systems, anti-references, dials, and a direction contract. |
-| **A new palette every time, never reused** | `generate_palette.py` builds a fresh palette per project: a base hue in the mood's range, a color-harmony rule for the accent, and per-role lightness solved so the contrast pairings clear their floors. Two similar prompts get two different, legible palettes, never the same one twice. |
-| **A contrast contract, not a one time check** | `check_contrast.py --matrix` computes every pairing in the palette and reports which may carry text, which may carry a border, and which may carry neither. The generator satisfies this by construction, so a fresh palette is still a legible one. This buys readability, not taste. |
-| **Mechanical anti-slop scan** | `anti_slop_scan.py` flags high-confidence tells such as generic purple gradients, gradient text, `h-screen`, dead links, missing alt text, placeholder copy, emoji icons, eyebrow spam, and `transition-all`. |
-| **Real illustrations** | Each concept is matched to real illustrator grade art and recolored to your palette, not drawn from scratch by the model. |
-| **A real logo, not a letter in a box** | A constructed geometric mark plus a full favicon set, readable down to 16px. |
-| **Motion by default** | GSAP and ScrollTrigger reveals plus a sequenced hero, wired during the build and not left as a follow up. |
-| **Motion with restraint** | `audit_motion.py` catches common craft failures such as `transition: all`, `ease-in`, `scale(0)`, long UI timing, layout-property animation, ungated hover motion, and missing reduced-motion handling. |
-| **Better app screens** | Screen-type guidance covers dashboards, app shells, data tables, forms, loading, empty, error, focus, pressed, and success states, so the skill does not only shine on landing pages. |
-| **Prototype before guessing** | High-risk UI can branch into real variants behind a picker, then promote the version that feels right. |
-| **Attribution free assets** | Photos (Openverse), icons (Iconify), and illustrations all need no keys and no visible credit line. |
-| **Taste that compounds** | `.tastemaker/style-lock.md` keeps project rules, `.tastemaker/decisions.log` records keep/reject evidence, and `~/.tastemaker/profile.md` carries durable preferences into the next project. |
+|                                               |                                                                                                                                                                                                                                                                                              |
+| --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Grounded in real pixels**                   | Reference images become real color tokens through `scripts/extract_palette.py`, not a text guess.                                                                                                                                                                                            |
+| **Reference-led without user references**     | Cold starts create `.tastemaker/reference-board.md`: competitors, adjacent products, cultural sources, interface systems, anti-references, dials, and a direction contract.                                                                                                                  |
+| **A new palette every time, never reused**    | `generate_palette.py` builds a fresh palette per project: a base hue in the mood's range, a color-harmony rule for the accent, and per-role lightness solved so the contrast pairings clear their floors. Two similar prompts get two different, legible palettes, never the same one twice. |
+| **A contrast contract, not a one time check** | `check_contrast.py --matrix` computes every pairing in the palette and reports which may carry text, which may carry a border, and which may carry neither. The generator satisfies this by construction, so a fresh palette is still a legible one. This buys readability, not taste.       |
+| **Mechanical anti-slop scan**                 | `anti_slop_scan.py` flags high-confidence tells such as generic purple gradients, gradient text, `h-screen`, dead links, missing alt text, placeholder copy, emoji icons, eyebrow spam, and `transition-all`.                                                                                |
+| **Real illustrations**                        | Each concept is matched to real illustrator grade art and recolored to your palette, not drawn from scratch by the model.                                                                                                                                                                    |
+| **A real logo, not a letter in a box**        | A constructed geometric mark plus a full favicon set, readable down to 16px.                                                                                                                                                                                                                 |
+| **Motion by default**                         | GSAP and ScrollTrigger reveals plus a sequenced hero, wired during the build and not left as a follow up.                                                                                                                                                                                    |
+| **Motion with restraint**                     | `audit_motion.py` catches common craft failures such as `transition: all`, `ease-in`, `scale(0)`, long UI timing, layout-property animation, ungated hover motion, and missing reduced-motion handling.                                                                                      |
+| **Better app screens**                        | Screen-type guidance covers dashboards, app shells, data tables, forms, loading, empty, error, focus, pressed, and success states, so the skill does not only shine on landing pages.                                                                                                        |
+| **Prototype before guessing**                 | High-risk UI can branch into real variants behind a picker, then promote the version that feels right.                                                                                                                                                                                       |
+| **Attribution free assets**                   | Photos (Openverse), icons (Iconify), and illustrations all need no keys and no visible credit line.                                                                                                                                                                                          |
+| **Taste that compounds**                      | `.tastemaker/style-lock.md` keeps project rules, `.tastemaker/decisions.log` records keep/reject evidence, and `~/.tastemaker/profile.md` carries durable preferences into the next project.                                                                                                 |
 
 ## The palette generator
 

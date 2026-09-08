@@ -34,11 +34,31 @@ const STRENGTHS = [
 ];
 
 const SURFACES = [
-  { name: 'ChatGPT', tag: 'Images 2.0', body: '所有计划可用；Images with Thinking 需要 Plus / Pro / Business。' },
-  { name: 'OpenAI API', tag: 'gpt-image-2', body: '/images/generations & /images/edits，能接进自己的产品。' },
-  { name: 'Codex', tag: 'via tooling', body: '取决于环境是否接入图像工具；可让 Codex 写 prompt + 调用工具一气呵成。' },
-  { name: 'Lovart', tag: 'design-grade', body: '商业视觉、UI mockup、多语言海报等工作流，包装为设计平台。' },
-  { name: 'OpenRouter', tag: 'gpt-5.4-image-2', body: '把 GPT-5.4 推理 + Image 2 图像组合起来的对话式生成。' },
+  {
+    name: 'ChatGPT',
+    tag: 'Images 2.0',
+    body: '所有计划可用；Images with Thinking 需要 Plus / Pro / Business。',
+  },
+  {
+    name: 'OpenAI API',
+    tag: 'gpt-image-2',
+    body: '/images/generations & /images/edits，能接进自己的产品。',
+  },
+  {
+    name: 'Codex',
+    tag: 'via tooling',
+    body: '取决于环境是否接入图像工具；可让 Codex 写 prompt + 调用工具一气呵成。',
+  },
+  {
+    name: 'Lovart',
+    tag: 'design-grade',
+    body: '商业视觉、UI mockup、多语言海报等工作流，包装为设计平台。',
+  },
+  {
+    name: 'OpenRouter',
+    tag: 'gpt-5.4-image-2',
+    body: '把 GPT-5.4 推理 + Image 2 图像组合起来的对话式生成。',
+  },
   { name: '302.ai', tag: '兼容网关', body: '提供 gpt-image-2 的生成 / 编辑接口，第三方网关入口。' },
 ];
 
@@ -53,11 +73,7 @@ export function ModelCard({ expanded, onClose }: Props) {
 
   return (
     <div className={`mc-overlay ${expanded ? 'mc-overlay-open' : ''}`}>
-      <button
-        className="mc-backdrop"
-        onClick={onClose}
-        aria-label="Close model card"
-      />
+      <button className="mc-backdrop" onClick={onClose} aria-label="Close model card" />
       <div className="mc-card" role="dialog" aria-modal="true" aria-labelledby="mc-title">
         <header className="mc-head">
           <div>

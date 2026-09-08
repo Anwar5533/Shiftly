@@ -18,6 +18,7 @@ Generate an image immediately from the user's description. This is the fast path
 5. When the agent returns, show a brief one-line creative comment about the generation
 
 Do NOT:
+
 - Ask for confirmation before generating
 - Suggest alternatives or options
 - Run mcp__meigen__search_gallery for references

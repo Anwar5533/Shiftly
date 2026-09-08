@@ -1,6 +1,9 @@
 # design-ops
+
 Streamline design operations with critique frameworks, handoff specs, sprint planning, review processes, and team workflows.
+
 ## Skills (9)
+
 - **design-critique** — Facilitate a structured team critique — framing, feedback rules, and actionable outcomes. Use when running a session with people in the room. For a solo expert review, use `heuristic-evaluation` (prototyping-testing).
 - **design-debt-audit** — Inventory and prioritise accumulated design inconsistencies across a product. Use when drift has built up over time. For token coverage specifically use `design-token-audit` (designer-toolkit); for WCAG gaps use `accessibility-audit` (design-systems).
 - **design-impact-reporting** — Communicate design's contribution to business and user outcomes in stakeholder language. Use when reporting results upward. For choosing the metrics in the first place, use `metrics-definition` (ux-strategy).
@@ -12,7 +15,7 @@ Streamline design operations with critique frameworks, handoff specs, sprint pla
 - **version-control-strategy** — Define version control for design files, components, and libraries — branching, naming, and release. Use when file history is chaotic. For design system contribution rules, use `design-system-governance` (design-systems).
 
 ## Commands (3)
+
 - `/handoff` — Run the full handoff workflow — specs, measurements, assets, states, and a QA checklist — and output a developer-ready package.
 - `/plan-sprint` — Run a design sprint end to end — challenge framing, schedule, exercises, and prototype test plan.
 - `/setup-workflow` — Set up a team's operating rhythm end to end — rituals, task flow, tooling, review gates, and version control.
-

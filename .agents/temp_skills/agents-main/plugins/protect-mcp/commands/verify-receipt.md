@@ -1,6 +1,6 @@
 ---
-description: "Verify a single Ed25519-signed receipt file. Returns exit 0 if valid, 1 if tampered, 2 if malformed."
-argument-hint: "<path-to-receipt.json>"
+description: 'Verify a single Ed25519-signed receipt file. Returns exit 0 if valid, 1 if tampered, 2 if malformed.'
+argument-hint: '<path-to-receipt.json>'
 ---
 
 # Verify Receipt
@@ -36,11 +36,11 @@ Where `$1` is the receipt path provided by the user.
 
 ### Expected exit codes
 
-| Exit | Meaning | Action |
-|------|---------|--------|
-| 0 | Valid receipt, signature verified | Report: "Verified. Receipt authentic." |
-| 1 | Signature mismatch — receipt tampered | Report: "TAMPERED. Signature does not match payload." |
-| 2 | Malformed receipt | Report: "Malformed. Missing required fields or invalid structure." |
+| Exit | Meaning                               | Action                                                             |
+| ---- | ------------------------------------- | ------------------------------------------------------------------ |
+| 0    | Valid receipt, signature verified     | Report: "Verified. Receipt authentic."                             |
+| 1    | Signature mismatch — receipt tampered | Report: "TAMPERED. Signature does not match payload."              |
+| 2    | Malformed receipt                     | Report: "Malformed. Missing required fields or invalid structure." |
 
 ## What to Show the User
 

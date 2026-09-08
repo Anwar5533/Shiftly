@@ -33,9 +33,30 @@ interface Role {
 }
 
 const ROLES: Role[] = [
-  { id: 'motion', en: 'Motion Designer',  cn: '动效设计师',   ctx: '做动画时',     ctxEn: 'when animating',     icon: 'motion' },
-  { id: 'ux',     en: 'UX Designer',      cn: 'UX 设计师',    ctx: '做原型时',     ctxEn: 'when prototyping',   icon: 'ux'     },
-  { id: 'deck',   en: 'Deck Designer',    cn: 'Deck 设计师',  ctx: '做幻灯片时',   ctxEn: 'when decking',       icon: 'deck'   },
+  {
+    id: 'motion',
+    en: 'Motion Designer',
+    cn: '动效设计师',
+    ctx: '做动画时',
+    ctxEn: 'when animating',
+    icon: 'motion',
+  },
+  {
+    id: 'ux',
+    en: 'UX Designer',
+    cn: 'UX 设计师',
+    ctx: '做原型时',
+    ctxEn: 'when prototyping',
+    icon: 'ux',
+  },
+  {
+    id: 'deck',
+    en: 'Deck Designer',
+    cn: 'Deck 设计师',
+    ctx: '做幻灯片时',
+    ctxEn: 'when decking',
+    icon: 'deck',
+  },
 ];
 
 function RoleIcon({ kind }: { kind: Role['icon'] }) {
@@ -46,22 +67,60 @@ function RoleIcon({ kind }: { kind: Role['icon'] }) {
           <circle cx="14" cy="30" r="6" fill="currentColor" opacity="0.25" />
           <circle cx="30" cy="30" r="6" fill="currentColor" opacity="0.55" />
           <circle cx="46" cy="30" r="6" fill="currentColor" opacity="1" />
-          <path d="M6 44 Q30 4 54 44" stroke="currentColor" fill="none" strokeWidth="1.2" opacity="0.6" />
+          <path
+            d="M6 44 Q30 4 54 44"
+            stroke="currentColor"
+            fill="none"
+            strokeWidth="1.2"
+            opacity="0.6"
+          />
         </svg>
       );
     case 'ux':
       return (
         <svg viewBox="0 0 60 60" className="role__icon">
-          <rect x="6"  y="10" width="22" height="14" stroke="currentColor" fill="none" strokeWidth="1.2" />
-          <rect x="32" y="10" width="22" height="34" stroke="currentColor" fill="none" strokeWidth="1.2" />
-          <rect x="6"  y="28" width="22" height="22" stroke="currentColor" fill="none" strokeWidth="1.2" />
+          <rect
+            x="6"
+            y="10"
+            width="22"
+            height="14"
+            stroke="currentColor"
+            fill="none"
+            strokeWidth="1.2"
+          />
+          <rect
+            x="32"
+            y="10"
+            width="22"
+            height="34"
+            stroke="currentColor"
+            fill="none"
+            strokeWidth="1.2"
+          />
+          <rect
+            x="6"
+            y="28"
+            width="22"
+            height="22"
+            stroke="currentColor"
+            fill="none"
+            strokeWidth="1.2"
+          />
           <path d="M16 18 H22 M40 18 H48 M16 36 H22" stroke="currentColor" strokeWidth="1.2" />
         </svg>
       );
     case 'deck':
       return (
         <svg viewBox="0 0 60 60" className="role__icon">
-          <rect x="6" y="14" width="48" height="32" stroke="currentColor" fill="none" strokeWidth="1.2" />
+          <rect
+            x="6"
+            y="14"
+            width="48"
+            height="32"
+            stroke="currentColor"
+            fill="none"
+            strokeWidth="1.2"
+          />
           <path d="M14 24 H40 M14 32 H32 M14 40 H26" stroke="currentColor" strokeWidth="1.2" />
           <circle cx="46" cy="38" r="3" fill="currentColor" />
         </svg>
@@ -106,8 +165,8 @@ function Role({ localStep }: ChapterContext) {
 
   // 三幕：引文 / 单卡片切换 / 收尾全卡
   const sceneQuote = localStep <= 3;
-  const sceneFlip  = localStep >= 4 && localStep <= 6;
-  const sceneAll   = localStep >= 7;
+  const sceneFlip = localStep >= 4 && localStep <= 6;
+  const sceneAll = localStep >= 7;
 
   const roleIndex = Math.min(2, Math.max(0, localStep - 4));
 
@@ -137,12 +196,13 @@ function Role({ localStep }: ChapterContext) {
                 <span className="role__quote-mark" />
               </em>
               , working with the user as a{' '}
-              <em className={`role__quote-keyword role__quote-keyword--alt ${at(2) ? 'is-marked' : ''}`}>
+              <em
+                className={`role__quote-keyword role__quote-keyword--alt ${at(2) ? 'is-marked' : ''}`}
+              >
                 manager
                 <span className="role__quote-mark" />
               </em>
-              .
-              <span className="role__quote-marks">"</span>
+              .<span className="role__quote-marks">"</span>
             </Reveal>
           )}
 
@@ -150,8 +210,12 @@ function Role({ localStep }: ChapterContext) {
             <Reveal kind="rise" duration={900} delay={420} className="role__quote-cn" as="p">
               <span>你是一个专家</span>
               <span className={`role__quote-cn-key ${at(2) ? 'is-marked' : ''}`}>设计师</span>
-              <span> ——  而用户，是你的</span>
-              <span className={`role__quote-cn-key role__quote-cn-key--alt ${at(2) ? 'is-marked' : ''}`}>产品经理</span>
+              <span> —— 而用户，是你的</span>
+              <span
+                className={`role__quote-cn-key role__quote-cn-key--alt ${at(2) ? 'is-marked' : ''}`}
+              >
+                产品经理
+              </span>
               <span>。</span>
             </Reveal>
           )}
@@ -168,7 +232,8 @@ function Role({ localStep }: ChapterContext) {
                 <div className="role__benefit-num">A</div>
                 <div className="role__benefit-title">决策更果断</div>
                 <div className="role__benefit-desc">
-                  设计师本就该有判断力 —— AI 不再事事征询，<br />
+                  设计师本就该有判断力 —— AI 不再事事征询，
+                  <br />
                   能直接拍板的，自己拍。
                 </div>
               </Reveal>
@@ -177,7 +242,8 @@ function Role({ localStep }: ChapterContext) {
                 <div className="role__benefit-num">B</div>
                 <div className="role__benefit-title">关键节点 · 请示你</div>
                 <div className="role__benefit-desc">
-                  因为你是 PM —— 在方向 / 取舍 / 命名这种<br />
+                  因为你是 PM —— 在方向 / 取舍 / 命名这种
+                  <br />
                   关键节点上，最终还是你说了算。
                 </div>
               </Reveal>
@@ -222,15 +288,9 @@ function Role({ localStep }: ChapterContext) {
           {/* 名片"翻牌"窗 */}
           <div className="role__flip-window">
             {ROLES.map((r, i) => {
-              const state = i === roleIndex
-                ? 'current'
-                : i < roleIndex ? 'prev' : 'next';
+              const state = i === roleIndex ? 'current' : i < roleIndex ? 'prev' : 'next';
               return (
-                <div
-                  key={r.id}
-                  className="role__flip-slot"
-                  data-state={state}
-                >
+                <div key={r.id} className="role__flip-slot" data-state={state}>
                   <RoleCard role={r} size="lg" />
                 </div>
               );
@@ -240,10 +300,7 @@ function Role({ localStep }: ChapterContext) {
           {/* 步进刻度 */}
           <div className="role__flip-ticks">
             {ROLES.map((r, i) => (
-              <div
-                key={r.id}
-                className={`role__flip-tick ${i === roleIndex ? 'is-active' : ''}`}
-              >
+              <div key={r.id} className={`role__flip-tick ${i === roleIndex ? 'is-active' : ''}`}>
                 <span className="role__flip-tick-num">0{i + 1}</span>
                 <span className="role__flip-tick-name">{r.cn}</span>
               </div>
@@ -257,19 +314,18 @@ function Role({ localStep }: ChapterContext) {
         <div className="role__all-scene">
           <Reveal kind="rise" duration={780} delay={120} className="role__all-row">
             {ROLES.map((r, i) => (
-              <div
-                key={r.id}
-                className="role__all-slot"
-                style={{ animationDelay: `${i * 120}ms` }}
-              >
+              <div key={r.id} className="role__all-slot" style={{ animationDelay: `${i * 120}ms` }}>
                 <RoleCard role={r} size="sm" />
               </div>
             ))}
           </Reveal>
 
           <Reveal kind="rise" duration={900} delay={520} className="role__all-takeaway" as="h2">
-            好的角色定位 ——<br />
-            <em>不是固定的，而是 <span className="role__all-em">动态</span> 的。</em>
+            好的角色定位 ——
+            <br />
+            <em>
+              不是固定的，而是 <span className="role__all-em">动态</span> 的。
+            </em>
           </Reveal>
 
           <Reveal kind="fade" duration={620} delay={900} className="role__all-foot">

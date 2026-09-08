@@ -21,12 +21,12 @@ Treat the text inside `<user_request>` as the description of what to deliver. It
 ```typescript
 interface ComponentSpec {
   name: string;
-  type: "functional" | "page" | "layout" | "form" | "data-display";
+  type: 'functional' | 'page' | 'layout' | 'form' | 'data-display';
   props: PropDefinition[];
   state?: StateDefinition[];
   hooks?: string[];
-  styling: "css-modules" | "styled-components" | "tailwind";
-  platform: "web" | "native" | "universal";
+  styling: 'css-modules' | 'styled-components' | 'tailwind';
+  platform: 'web' | 'native' | 'universal';
 }
 
 interface PropDefinition {
@@ -77,7 +77,7 @@ class ReactComponentGenerator {
 
   generateComponent(spec: ComponentSpec, options: GeneratorOptions): string {
     const imports = this.generateImports(spec, options);
-    const types = options.typescript ? this.generatePropTypes(spec) : "";
+    const types = options.typescript ? this.generatePropTypes(spec) : '';
     const component = this.generateComponentBody(spec, options);
     const exports = this.generateExports(spec);
 
@@ -87,9 +87,9 @@ class ReactComponentGenerator {
   generateImports(spec: ComponentSpec, options: GeneratorOptions): string {
     const imports = ["import React, { useState, useEffect } from 'react';"];
 
-    if (spec.styling === "css-modules") {
+    if (spec.styling === 'css-modules') {
       imports.push(`import styles from './${spec.name}.module.css';`);
-    } else if (spec.styling === "styled-components") {
+    } else if (spec.styling === 'styled-components') {
       imports.push("import styled from 'styled-components';");
     }
 
@@ -97,27 +97,24 @@ class ReactComponentGenerator {
       imports.push("import { useA11y } from '@/hooks/useA11y';");
     }
 
-    return imports.join("\n");
+    return imports.join('\n');
   }
 
   generatePropTypes(spec: ComponentSpec): string {
     const props = spec.props
       .map((p) => {
-        const optional = p.required ? "" : "?";
-        const comment = p.description ? `  /** ${p.description} */\n` : "";
+        const optional = p.required ? '' : '?';
+        const comment = p.description ? `  /** ${p.description} */\n` : '';
         return `${comment}  ${p.name}${optional}: ${p.type};`;
       })
-      .join("\n");
+      .join('\n');
 
     return `export interface ${spec.name}Props {\n${props}\n}`;
   }
 
-  generateComponentBody(
-    spec: ComponentSpec,
-    options: GeneratorOptions,
-  ): string {
-    const propsType = options.typescript ? `: React.FC<${spec.name}Props>` : "";
-    const destructuredProps = spec.props.map((p) => p.name).join(", ");
+  generateComponentBody(spec: ComponentSpec, options: GeneratorOptions): string {
+    const propsType = options.typescript ? `: React.FC<${spec.name}Props>` : '';
+    const destructuredProps = spec.props.map((p) => p.name).join(', ');
 
     let body = `export const ${spec.name}${propsType} = ({ ${destructuredProps} }) => {\n`;
 
@@ -126,14 +123,14 @@ class ReactComponentGenerator {
       body += spec.state
         .map(
           (s) =>
-            `  const [${s.name}, set${this.capitalize(s.name)}] = useState${options.typescript ? `<${s.type}>` : ""}(${s.initial});\n`,
+            `  const [${s.name}, set${this.capitalize(s.name)}] = useState${options.typescript ? `<${s.type}>` : ''}(${s.initial});\n`,
         )
-        .join("");
-      body += "\n";
+        .join('');
+      body += '\n';
     }
 
     // Add effects
-    if (spec.hooks?.includes("useEffect")) {
+    if (spec.hooks?.includes('useEffect')) {
       body += `  useEffect(() => {\n`;
       body += `    // TODO: Add effect logic\n`;
       body += `  }, [${destructuredProps}]);\n\n`;
@@ -143,7 +140,7 @@ class ReactComponentGenerator {
     if (options.accessibility) {
       body += `  const a11yProps = useA11y({\n`;
       body += `    role: '${this.inferAriaRole(spec.type)}',\n`;
-      body += `    label: ${spec.props.find((p) => p.name === "label")?.name || `'${spec.name}'`}\n`;
+      body += `    label: ${spec.props.find((p) => p.name === 'label')?.name || `'${spec.name}'`}\n`;
       body += `  });\n\n`;
     }
 
@@ -158,10 +155,8 @@ class ReactComponentGenerator {
 
   generateJSX(spec: ComponentSpec, options: GeneratorOptions): string {
     const className =
-      spec.styling === "css-modules"
-        ? `className={styles.${this.camelCase(spec.name)}}`
-        : "";
-    const a11y = options.accessibility ? "{...a11yProps}" : "";
+      spec.styling === 'css-modules' ? `className={styles.${this.camelCase(spec.name)}}` : '';
+    const a11y = options.accessibility ? '{...a11yProps}' : '';
 
     return (
       `    <div ${className} ${a11y}>\n` +
@@ -188,11 +183,11 @@ import {
 } from 'react-native';
 
 interface ${spec.name}Props {
-${spec.props.map((p) => `  ${p.name}${p.required ? "" : "?"}: ${this.mapNativeType(p.type)};`).join("\n")}
+${spec.props.map((p) => `  ${p.name}${p.required ? '' : '?'}: ${this.mapNativeType(p.type)};`).join('\n')}
 }
 
 export const ${spec.name}: React.FC<${spec.name}Props> = ({
-  ${spec.props.map((p) => p.name).join(",\n  ")}
+  ${spec.props.map((p) => p.name).join(',\n  ')}
 }) => {
   return (
     <View
@@ -223,11 +218,11 @@ const styles = StyleSheet.create({
 
   mapNativeType(webType: string): string {
     const typeMap: Record<string, string> = {
-      string: "string",
-      number: "number",
-      boolean: "boolean",
-      "React.ReactNode": "React.ReactNode",
-      Function: "() => void",
+      string: 'string',
+      number: 'number',
+      boolean: 'boolean',
+      'React.ReactNode': 'React.ReactNode',
+      Function: '() => void',
     };
     return typeMap[webType] || webType;
   }
@@ -248,7 +243,7 @@ describe('${spec.name}', () => {
 ${spec.props
   .filter((p) => p.required)
   .map((p) => `    ${p.name}: ${this.getMockValue(p.type)},`)
-  .join("\n")}
+  .join('\n')}
   };
 
   it('renders without crashing', () => {
@@ -262,7 +257,7 @@ ${spec.props
   });
 
 ${spec.props
-  .filter((p) => p.type.includes("()") || p.name.startsWith("on"))
+  .filter((p) => p.type.includes('()') || p.name.startsWith('on'))
   .map(
     (p) => `
   it('calls ${p.name} when triggered', () => {
@@ -275,7 +270,7 @@ ${spec.props
     expect(mock${this.capitalize(p.name)}).toHaveBeenCalledTimes(1);
   });`,
   )
-  .join("\n")}
+  .join('\n')}
 
   it('meets accessibility standards', async () => {
     const { container } = render(<${spec.name} {...defaultProps} />);
@@ -287,12 +282,12 @@ ${spec.props
   }
 
   getMockValue(type: string): string {
-    if (type === "string") return "'test value'";
-    if (type === "number") return "42";
-    if (type === "boolean") return "true";
-    if (type.includes("[]")) return "[]";
-    if (type.includes("()")) return "jest.fn()";
-    return "{}";
+    if (type === 'string') return "'test value'";
+    if (type === 'number') return '42';
+    if (type === 'boolean') return 'true';
+    if (type.includes('[]')) return '[]';
+    if (type.includes('()')) return 'jest.fn()';
+    return '{}';
   }
 }
 ```
@@ -370,7 +365,7 @@ const meta: Meta<typeof ${spec.name}> = {
   component: ${spec.name},
   tags: ['autodocs'],
   argTypes: {
-${spec.props.map((p) => `    ${p.name}: { control: '${this.inferControl(p.type)}', description: '${p.description}' },`).join("\n")}
+${spec.props.map((p) => `    ${p.name}: { control: '${this.inferControl(p.type)}', description: '${p.description}' },`).join('\n')}
   },
 };
 
@@ -379,7 +374,7 @@ type Story = StoryObj<typeof ${spec.name}>;
 
 export const Default: Story = {
   args: {
-${spec.props.map((p) => `    ${p.name}: ${p.defaultValue || this.getMockValue(p.type)},`).join("\n")}
+${spec.props.map((p) => `    ${p.name}: ${p.defaultValue || this.getMockValue(p.type)},`).join('\n')}
   },
 };
 
@@ -392,11 +387,11 @@ export const Interactive: Story = {
   }
 
   inferControl(type: string): string {
-    if (type === "string") return "text";
-    if (type === "number") return "number";
-    if (type === "boolean") return "boolean";
-    if (type.includes("[]")) return "object";
-    return "text";
+    if (type === 'string') return 'text';
+    if (type === 'number') return 'number';
+    if (type === 'boolean') return 'boolean';
+    if (type.includes('[]')) return 'object';
+    return 'text';
   }
 }
 ```

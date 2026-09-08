@@ -143,7 +143,9 @@ export function Gallery({ navigate }: Props) {
                 onClick={() => setActiveCat('all')}
               >
                 全部
-                <span className="mono gal-cat-num">{filter === 'ready' ? allReady.length : cases.summary.cases}</span>
+                <span className="mono gal-cat-num">
+                  {filter === 'ready' ? allReady.length : cases.summary.cases}
+                </span>
               </button>
               {ORDERED_CATEGORIES.map((key) => {
                 const c = cases.categories[key];
@@ -170,12 +172,7 @@ export function Gallery({ navigate }: Props) {
       {mode === 'masonry' ? (
         <MasonryView items={filtered} navigate={navigate} />
       ) : (
-        <CategoryView
-          all={cases.cases}
-          filter={filter}
-          query={query}
-          navigate={navigate}
-        />
+        <CategoryView all={cases.cases} filter={filter} query={query} navigate={navigate} />
       )}
     </section>
   );
@@ -200,7 +197,14 @@ function ToggleIcon({ kind }: { kind: 'masonry' | 'category' }) {
 
 function SearchIcon() {
   return (
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    >
       <circle cx="6" cy="6" r="4.5" />
       <path d="M9.5 9.5 13 13" strokeLinecap="round" />
     </svg>

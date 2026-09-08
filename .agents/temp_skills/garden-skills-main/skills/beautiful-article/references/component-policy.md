@@ -4,7 +4,7 @@
 结构走语义组件，正文走段落，自定义视觉走 `Raw`。从包入口导入：
 
 ```tsx
-import { ThemeProvider, Article, Hero, Lead, Section, Aside, Table, Raw } from "reacticle";
+import { ThemeProvider, Article, Hero, Lead, Section, Aside, Table, Raw } from 'reacticle';
 ```
 
 ## 核心规则（始终适用）
@@ -77,22 +77,28 @@ skill），按需读取，不要一次全读。
 ## 最小骨架（注意比例：大量正文 + 一个点睛组件 + 一块 Raw）
 
 ```tsx
-import { ThemeProvider, Article, Hero, Lead, Section, Aside, Raw } from "reacticle";
+import { ThemeProvider, Article, Hero, Lead, Section, Aside, Raw } from 'reacticle';
 
 export function Article_() {
   return (
     <ThemeProvider theme="tufte">
       <Article>
-        <Hero title="标题" subtitle="副标题" meta={[{ label: "日期", value: "2026-06-08" }]} />
+        <Hero title="标题" subtitle="副标题" meta={[{ label: '日期', value: '2026-06-08' }]} />
         <Lead>导语，框定主题。</Lead>
         <Section index="01" title="第一节">
           <p>正文段落用 children —— 这应是文章主体，尽量多写正文。</p>
           <p>再写一段，把背景、推理、结论用文字讲清楚。</p>
-          <Aside tone="principle" label="核心判断">一句话的核心判断。</Aside>
+          <Aside tone="principle" label="核心判断">
+            一句话的核心判断。
+          </Aside>
           <Raw title="为本段现写的内联 SVG">
             <svg viewBox="0 0 240 60" width="100%">
-              <polyline points="0,50 40,42 80,46 120,20 160,28 200,8 240,14"
-                fill="none" stroke="var(--ra-color-accent)" strokeWidth="2" />
+              <polyline
+                points="0,50 40,42 80,46 120,20 160,28 200,8 240,14"
+                fill="none"
+                stroke="var(--ra-color-accent)"
+                strokeWidth="2"
+              />
             </svg>
           </Raw>
         </Section>

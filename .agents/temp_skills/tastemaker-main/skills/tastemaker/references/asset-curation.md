@@ -23,6 +23,7 @@ Create a short asset board in `.tastemaker/reference-board.md` or the style lock
 
 ```markdown
 ## Asset cast
+
 - Hero anchor:
 - Mode range:
 - Process artifacts:

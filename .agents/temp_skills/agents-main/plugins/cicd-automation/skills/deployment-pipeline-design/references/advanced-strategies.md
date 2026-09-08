@@ -24,7 +24,7 @@ on:
 
 permissions:
   contents: read
-  id-token: write   # for OIDC auth to cloud providers
+  id-token: write # for OIDC auth to cloud providers
 
 jobs:
   build:
@@ -200,7 +200,7 @@ test:security:
   stage: test
   image:
     name: aquasec/trivy:latest
-    entrypoint: [""]
+    entrypoint: ['']
   script:
     - trivy image --exit-code 1 --severity CRITICAL,HIGH $IMAGE
 
@@ -438,7 +438,7 @@ spec:
     - match:
         - headers:
             x-canary:
-              exact: "true"
+              exact: 'true'
       route:
         - destination:
             host: my-app-canary

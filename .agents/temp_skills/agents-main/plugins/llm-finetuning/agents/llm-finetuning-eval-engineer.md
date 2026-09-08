@@ -109,8 +109,8 @@ the only place it's expected to live:
   "task_id": "t-042",
   "trace_id": "t-042-a3",
   "messages": [
-    {"role": "user", "content": "..."},
-    {"role": "assistant", "content": "..."}
+    { "role": "user", "content": "..." },
+    { "role": "assistant", "content": "..." }
   ],
   "verdict": "pass",
   "reward": 0.91,
@@ -162,19 +162,19 @@ applying its budget both belong to stage 2, not two separate stages.)
 **Write `promotion-report.md`.** Cover all four applicable stages
 as sections, and end with the terminal verdict contract:
 
-   ```
-   ## Verdict
+```
+## Verdict
 
-   REJECT
+REJECT
 
-   Evidence: <the stage and number that produced this verdict>
+Evidence: <the stage and number that produced this verdict>
 
-   Top remediation: <exactly one highest-leverage fix>
-   ```
+Top remediation: <exactly one highest-leverage fix>
+```
 
-   `PROMOTE` needs no remediation line. `REJECT` names exactly one
-   top remediation — never a menu of possible fixes — per
-   `checkpoint-promotion`'s escalation order.
+`PROMOTE` needs no remediation line. `REJECT` names exactly one
+top remediation — never a menu of possible fixes — per
+`checkpoint-promotion`'s escalation order.
 
 ## Behavioral Traits
 

@@ -74,21 +74,21 @@ Every skill is a **directory** at `skills/<domain>/<skill-name>/` with `SKILL.md
 All skills use the same YAML frontmatter fields:
 
 ```yaml
-name: threat-modeling                 # kebab-case, matches the directory
-description: >                        # what it does + when it auto-invokes
+name: threat-modeling # kebab-case, matches the directory
+description: > # what it does + when it auto-invokes
   Runs a structured STRIDE threat model on any design, API spec, or codebase...
-tags: [appsec, design, architecture]  # domain + activity keywords
-role: [security-engineer, architect]  # which role bundles include it
-phase: [design, review]               # SDLC phase
-frameworks: [STRIDE, MITRE-ATT&CK]    # cited frameworks — real control IDs only
-difficulty: intermediate              # beginner | intermediate | advanced
-time_estimate: "30-60min"
-version: "1.0.0"
+tags: [appsec, design, architecture] # domain + activity keywords
+role: [security-engineer, architect] # which role bundles include it
+phase: [design, review] # SDLC phase
+frameworks: [STRIDE, MITRE-ATT&CK] # cited frameworks — real control IDs only
+difficulty: intermediate # beginner | intermediate | advanced
+time_estimate: '30-60min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
-allowed-tools: Read, Grep, Glob       # tools the skill may use
-injection-hardened: true              # reviewed against OWASP LLM01
-argument-hint: "[target-file-or-directory]"
+allowed-tools: Read, Grep, Glob # tools the skill may use
+injection-hardened: true # reviewed against OWASP LLM01
+argument-hint: '[target-file-or-directory]'
 # context: fork                       # optional
 ```
 
@@ -182,98 +182,98 @@ This is why some skills ship extra `.md` files alongside `SKILL.md` (e.g. `cloud
 
 ### Application Security
 
-| Skill | Path | Frameworks |
-|-------|------|------------|
-| Threat Modeling (STRIDE) | `skills/appsec/threat-modeling/` | STRIDE, PASTA, MITRE ATT&CK |
-| Secure Code Review | `skills/appsec/secure-code-review/` | OWASP ASVS 4.0.3, CWE Top 25 |
-| OWASP Top 10 (Web) | `skills/appsec/owasp-top-10-web/` | OWASP Top 10 2021 |
-| API Security Review | `skills/appsec/api-security/` | OWASP API Security Top 10 2023 |
-| Dependency Scanning | `skills/appsec/dependency-scanning/` | SLSA v1.0, CycloneDX, SPDX |
+| Skill                    | Path                                 | Frameworks                     |
+| ------------------------ | ------------------------------------ | ------------------------------ |
+| Threat Modeling (STRIDE) | `skills/appsec/threat-modeling/`     | STRIDE, PASTA, MITRE ATT&CK    |
+| Secure Code Review       | `skills/appsec/secure-code-review/`  | OWASP ASVS 4.0.3, CWE Top 25   |
+| OWASP Top 10 (Web)       | `skills/appsec/owasp-top-10-web/`    | OWASP Top 10 2021              |
+| API Security Review      | `skills/appsec/api-security/`        | OWASP API Security Top 10 2023 |
+| Dependency Scanning      | `skills/appsec/dependency-scanning/` | SLSA v1.0, CycloneDX, SPDX     |
 
 ### AI Security
 
-| Skill | Path | Frameworks |
-|-------|------|------------|
-| LLM Top 10 Review | `skills/ai-security/llm-top-10/` | OWASP LLM Top 10 2025 |
-| Agentic AI Top 10 | `skills/ai-security/agentic-top-10/` | OWASP Agentic AI, MITRE ATLAS |
-| Prompt Injection Testing | `skills/ai-security/prompt-injection/` | OWASP LLM01:2025, MITRE ATLAS |
-| Model Supply Chain | `skills/ai-security/model-supply-chain/` | OWASP LLM03:2025, SLSA v1.0 |
-| AI Data Privacy | `skills/ai-security/ai-data-privacy/` | NIST AI RMF, OWASP LLM02:2025 |
-| Agent Security Architecture | `skills/ai-security/agent-security/` | OWASP Agentic AI, NIST AI RMF |
+| Skill                       | Path                                     | Frameworks                    |
+| --------------------------- | ---------------------------------------- | ----------------------------- |
+| LLM Top 10 Review           | `skills/ai-security/llm-top-10/`         | OWASP LLM Top 10 2025         |
+| Agentic AI Top 10           | `skills/ai-security/agentic-top-10/`     | OWASP Agentic AI, MITRE ATLAS |
+| Prompt Injection Testing    | `skills/ai-security/prompt-injection/`   | OWASP LLM01:2025, MITRE ATLAS |
+| Model Supply Chain          | `skills/ai-security/model-supply-chain/` | OWASP LLM03:2025, SLSA v1.0   |
+| AI Data Privacy             | `skills/ai-security/ai-data-privacy/`    | NIST AI RMF, OWASP LLM02:2025 |
+| Agent Security Architecture | `skills/ai-security/agent-security/`     | OWASP Agentic AI, NIST AI RMF |
 
 ### Identity & Access
 
-| Skill | Path | Frameworks |
-|-------|------|------------|
-| IAM Security Review | `skills/identity/iam-review/` | NIST SP 800-63B, CIS Controls v8 |
-| Access Review | `skills/identity/access-review/` | CIS Controls v8, NIST SP 800-53 |
-| RBAC/ABAC Design | `skills/identity/rbac-design/` | NIST RBAC, NIST SP 800-162 |
-| Zero Trust Assessment | `skills/identity/zero-trust-assessment/` | NIST SP 800-207, CISA ZTMM v2 |
-| Privileged Access Management | `skills/identity/privileged-access/` | CIS Controls v8, NIST SP 800-53 |
+| Skill                        | Path                                     | Frameworks                       |
+| ---------------------------- | ---------------------------------------- | -------------------------------- |
+| IAM Security Review          | `skills/identity/iam-review/`            | NIST SP 800-63B, CIS Controls v8 |
+| Access Review                | `skills/identity/access-review/`         | CIS Controls v8, NIST SP 800-53  |
+| RBAC/ABAC Design             | `skills/identity/rbac-design/`           | NIST RBAC, NIST SP 800-162       |
+| Zero Trust Assessment        | `skills/identity/zero-trust-assessment/` | NIST SP 800-207, CISA ZTMM v2    |
+| Privileged Access Management | `skills/identity/privileged-access/`     | CIS Controls v8, NIST SP 800-53  |
 
 ### Cloud Security
 
-| Skill | Path | Frameworks |
-|-------|------|------------|
-| AWS Security Review | `skills/cloud/aws-review/` | CIS AWS Benchmark v3.0 |
-| Azure Security Review | `skills/cloud/azure-review/` | CIS Azure Benchmark v2.1 |
-| GCP Security Review | `skills/cloud/gcp-review/` | CIS GCP Benchmark v2.0 |
-| IaC Security | `skills/cloud/iac-security/` | OWASP IaC Security, SLSA v1.0 |
-| Container Security | `skills/cloud/container-security/` | CIS Docker v1.6, CIS K8s v1.9 |
+| Skill                 | Path                               | Frameworks                    |
+| --------------------- | ---------------------------------- | ----------------------------- |
+| AWS Security Review   | `skills/cloud/aws-review/`         | CIS AWS Benchmark v3.0        |
+| Azure Security Review | `skills/cloud/azure-review/`       | CIS Azure Benchmark v2.1      |
+| GCP Security Review   | `skills/cloud/gcp-review/`         | CIS GCP Benchmark v2.0        |
+| IaC Security          | `skills/cloud/iac-security/`       | OWASP IaC Security, SLSA v1.0 |
+| Container Security    | `skills/cloud/container-security/` | CIS Docker v1.6, CIS K8s v1.9 |
 
 ### Vulnerability Management
 
-| Skill | Path | Frameworks |
-|-------|------|------------|
-| CVE Triage | `skills/vuln-management/cve-triage/` | CVSS 4.0, SSVC 2.1, CISA KEV, EPSS |
-| Patch Prioritization | `skills/vuln-management/patch-prioritization/` | SSVC 2.1, EPSS, CISA KEV |
-| SBOM Analysis | `skills/vuln-management/sbom-analysis/` | CycloneDX, SPDX, VEX |
-| Scanner Tuning | `skills/vuln-management/scanner-tuning/` | CVSS 4.0, CWE |
+| Skill                | Path                                           | Frameworks                         |
+| -------------------- | ---------------------------------------------- | ---------------------------------- |
+| CVE Triage           | `skills/vuln-management/cve-triage/`           | CVSS 4.0, SSVC 2.1, CISA KEV, EPSS |
+| Patch Prioritization | `skills/vuln-management/patch-prioritization/` | SSVC 2.1, EPSS, CISA KEV           |
+| SBOM Analysis        | `skills/vuln-management/sbom-analysis/`        | CycloneDX, SPDX, VEX               |
+| Scanner Tuning       | `skills/vuln-management/scanner-tuning/`       | CVSS 4.0, CWE                      |
 
 ### Compliance
 
-| Skill | Path | Frameworks |
-|-------|------|------------|
-| SOC 2 Gap Analysis | `skills/compliance/soc2-gap/` | AICPA TSC |
-| ISO 27001 Gap Analysis | `skills/compliance/iso27001-gap/` | ISO 27001:2022 |
-| PCI DSS Review | `skills/compliance/pci-dss-review/` | PCI DSS v4.0 |
-| HIPAA Review | `skills/compliance/hipaa-review/` | HIPAA Security Rule |
-| NIST CSF Assessment | `skills/compliance/nist-csf-assessment/` | NIST CSF 2.0 |
+| Skill                  | Path                                     | Frameworks          |
+| ---------------------- | ---------------------------------------- | ------------------- |
+| SOC 2 Gap Analysis     | `skills/compliance/soc2-gap/`            | AICPA TSC           |
+| ISO 27001 Gap Analysis | `skills/compliance/iso27001-gap/`        | ISO 27001:2022      |
+| PCI DSS Review         | `skills/compliance/pci-dss-review/`      | PCI DSS v4.0        |
+| HIPAA Review           | `skills/compliance/hipaa-review/`        | HIPAA Security Rule |
+| NIST CSF Assessment    | `skills/compliance/nist-csf-assessment/` | NIST CSF 2.0        |
 
 ### Incident Response
 
-| Skill | Path | Frameworks |
-|-------|------|------------|
-| IR Playbook | `skills/incident-response/ir-playbook/` | NIST SP 800-61 |
-| Forensics Checklist | `skills/incident-response/forensics-checklist/` | NIST SP 800-86, RFC 3227 |
-| Containment Strategies | `skills/incident-response/containment/` | NIST SP 800-61, MITRE ATT&CK |
-| Post-Incident Review | `skills/incident-response/post-incident-review/` | NIST SP 800-61 |
+| Skill                  | Path                                             | Frameworks                   |
+| ---------------------- | ------------------------------------------------ | ---------------------------- |
+| IR Playbook            | `skills/incident-response/ir-playbook/`          | NIST SP 800-61               |
+| Forensics Checklist    | `skills/incident-response/forensics-checklist/`  | NIST SP 800-86, RFC 3227     |
+| Containment Strategies | `skills/incident-response/containment/`          | NIST SP 800-61, MITRE ATT&CK |
+| Post-Incident Review   | `skills/incident-response/post-incident-review/` | NIST SP 800-61               |
 
 ### SecOps
 
-| Skill | Path | Frameworks |
-|-------|------|------------|
-| Detection Engineering | `skills/secops/detection-engineering/` | MITRE ATT&CK v16, Sigma |
-| SIEM Rules | `skills/secops/siem-rules/` | MITRE ATT&CK v16 |
-| Alert Triage | `skills/secops/alert-triage/` | MITRE ATT&CK v16 |
-| Log Analysis | `skills/secops/log-analysis/` | MITRE ATT&CK v16, NIST SP 800-92 |
+| Skill                 | Path                                   | Frameworks                       |
+| --------------------- | -------------------------------------- | -------------------------------- |
+| Detection Engineering | `skills/secops/detection-engineering/` | MITRE ATT&CK v16, Sigma          |
+| SIEM Rules            | `skills/secops/siem-rules/`            | MITRE ATT&CK v16                 |
+| Alert Triage          | `skills/secops/alert-triage/`          | MITRE ATT&CK v16                 |
+| Log Analysis          | `skills/secops/log-analysis/`          | MITRE ATT&CK v16, NIST SP 800-92 |
 
 ### Network Security
 
-| Skill | Path | Frameworks |
-|-------|------|------------|
-| Firewall Rule Audit | `skills/network/firewall-review/` | CIS Controls v8, NIST SP 800-41 |
-| Network Segmentation | `skills/network/segmentation/` | NIST SP 800-207, CIS Controls v8 |
-| DNS Security | `skills/network/dns-security/` | NIST SP 800-81, CIS Controls v8 |
+| Skill                | Path                              | Frameworks                       |
+| -------------------- | --------------------------------- | -------------------------------- |
+| Firewall Rule Audit  | `skills/network/firewall-review/` | CIS Controls v8, NIST SP 800-41  |
+| Network Segmentation | `skills/network/segmentation/`    | NIST SP 800-207, CIS Controls v8 |
+| DNS Security         | `skills/network/dns-security/`    | NIST SP 800-81, CIS Controls v8  |
 
 ### DevSecOps
 
-| Skill | Path | Frameworks |
-|-------|------|------------|
-| Pipeline Security | `skills/devsecops/pipeline-security/` | SLSA v1.0, OWASP CI/CD Top 10 |
+| Skill              | Path                                   | Frameworks                         |
+| ------------------ | -------------------------------------- | ---------------------------------- |
+| Pipeline Security  | `skills/devsecops/pipeline-security/`  | SLSA v1.0, OWASP CI/CD Top 10      |
 | Secrets Management | `skills/devsecops/secrets-management/` | OWASP Secrets Mgmt, NIST SP 800-57 |
-| SAST Configuration | `skills/devsecops/sast-config/` | OWASP ASVS, CWE Top 25 |
-| DAST Configuration | `skills/devsecops/dast-config/` | OWASP Top 10, OWASP Testing Guide |
+| SAST Configuration | `skills/devsecops/sast-config/`        | OWASP ASVS, CWE Top 25             |
+| DAST Configuration | `skills/devsecops/dast-config/`        | OWASP Top 10, OWASP Testing Guide  |
 
 ---
 
@@ -281,13 +281,13 @@ This is why some skills ship extra `.md` files alongside `SKILL.md` (e.g. `cloud
 
 Pre-configured skill sequences for common security roles. Each bundle orchestrates skills in the right order for the engagement type.
 
-| Role | Description | Skills |
-|------|-------------|--------|
-| **vCISO** | Security program leadership, risk assessment, compliance, board reporting | nist-csf-assessment, soc2-gap, iam-review, cve-triage, threat-modeling |
-| **SOC Analyst** | Alert triage, threat hunting, incident investigation, detection engineering | alert-triage, detection-engineering, ir-playbook, log-analysis, cve-triage |
-| **Security Engineer** | Building security into products and infrastructure | secure-code-review, dependency-scanning, cve-triage, secrets-management, pipeline-security, container-security, iam-review |
-| **AppSec Engineer** | Application security design, testing, and code review | threat-modeling, secure-code-review, api-security, dependency-scanning, prompt-injection, owasp-top-10-web |
-| **Cloud Security Engineer** | Cloud posture, IaC review, container security, identity | aws-review, azure-review, gcp-review, iac-security, container-security, zero-trust-assessment, privileged-access |
+| Role                        | Description                                                                 | Skills                                                                                                                     |
+| --------------------------- | --------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| **vCISO**                   | Security program leadership, risk assessment, compliance, board reporting   | nist-csf-assessment, soc2-gap, iam-review, cve-triage, threat-modeling                                                     |
+| **SOC Analyst**             | Alert triage, threat hunting, incident investigation, detection engineering | alert-triage, detection-engineering, ir-playbook, log-analysis, cve-triage                                                 |
+| **Security Engineer**       | Building security into products and infrastructure                          | secure-code-review, dependency-scanning, cve-triage, secrets-management, pipeline-security, container-security, iam-review |
+| **AppSec Engineer**         | Application security design, testing, and code review                       | threat-modeling, secure-code-review, api-security, dependency-scanning, prompt-injection, owasp-top-10-web                 |
+| **Cloud Security Engineer** | Cloud posture, IaC review, container security, identity                     | aws-review, azure-review, gcp-review, iac-security, container-security, zero-trust-assessment, privileged-access           |
 
 ---
 

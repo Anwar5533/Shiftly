@@ -273,17 +273,17 @@ class PaymentFacade:
 
 ```yaml
 Debt_Reduction_Team:
-  dedicated_time: "20% sprint capacity"
+  dedicated_time: '20% sprint capacity'
 
   roles:
-    - tech_lead: "Architecture decisions"
-    - senior_dev: "Complex refactoring"
-    - dev: "Testing and documentation"
+    - tech_lead: 'Architecture decisions'
+    - senior_dev: 'Complex refactoring'
+    - dev: 'Testing and documentation'
 
   sprint_goals:
-    - sprint_1: "Quick wins completed"
-    - sprint_2: "God class refactoring started"
-    - sprint_3: "Test coverage >60%"
+    - sprint_1: 'Quick wins completed'
+    - sprint_2: 'God class refactoring started'
+    - sprint_3: 'Test coverage >60%'
 ```
 
 ### 6. Prevention Strategy
@@ -294,14 +294,14 @@ Implement gates to prevent new debt:
 
 ```yaml
 pre_commit_hooks:
-  - complexity_check: "max 10"
-  - duplication_check: "max 5%"
-  - test_coverage: "min 80% for new code"
+  - complexity_check: 'max 10'
+  - duplication_check: 'max 5%'
+  - test_coverage: 'min 80% for new code'
 
 ci_pipeline:
-  - dependency_audit: "no high vulnerabilities"
-  - performance_test: "no regression >10%"
-  - architecture_check: "no new violations"
+  - dependency_audit: 'no high vulnerabilities'
+  - performance_test: 'no regression >10%'
+  - architecture_check: 'no new violations'
 
 code_review:
   - requires_two_approvals: true

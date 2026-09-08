@@ -42,12 +42,12 @@ Added three new critique dimensions and a second command:
 
 ## Pre-release history
 
-| Date | Change |
-|---|---|
-| 2026-06 | Rename project from Skills Suite to Skills Pack |
-| 2026-05 | Aggregate full designer skills suite into one marketplace |
-| 2026-05 | Add Gemini CLI extension support |
-| 2026-04 | Add visual-critique plugin (four skills, one command) |
-| 2026-04 | Add 15 skills covering gaps across all design plugins |
+| Date    | Change                                                                   |
+| ------- | ------------------------------------------------------------------------ |
+| 2026-06 | Rename project from Skills Suite to Skills Pack                          |
+| 2026-05 | Aggregate full designer skills suite into one marketplace                |
+| 2026-05 | Add Gemini CLI extension support                                         |
+| 2026-04 | Add visual-critique plugin (four skills, one command)                    |
+| 2026-04 | Add 15 skills covering gaps across all design plugins                    |
 | 2026-04 | Add 9 UX design principle skills across ui-design and interaction-design |
-| 2026-03 | Initial release: 6 design plugins, 53 skills, 23 commands |
+| 2026-03 | Initial release: 6 design plugins, 53 skills, 23 commands                |

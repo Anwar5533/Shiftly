@@ -7,12 +7,12 @@
 
 宽度由 `<Article width="...">` 控制，**不再由主题决定**。四种常见模式：
 
-| 模式 | 阅读列宽 | 适合 |
-|---|---|---|
-| `narrow` | ~34rem | 聚焦短文、`essay`、`briefing`、金句节奏强的文章 |
-| `regular`（默认） | ~46rem | `longform` / `explainer` 等常规长文阅读 |
-| `wide` | ~58rem | 表格 / 代码 / 数据密集（`full-report`、`review`、`tutorial`） |
-| `full` | ~78rem | 图文主导、宽幅媒体（`visual-essay`） |
+| 模式              | 阅读列宽 | 适合                                                          |
+| ----------------- | -------- | ------------------------------------------------------------- |
+| `narrow`          | ~34rem   | 聚焦短文、`essay`、`briefing`、金句节奏强的文章               |
+| `regular`（默认） | ~46rem   | `longform` / `explainer` 等常规长文阅读                       |
+| `wide`            | ~58rem   | 表格 / 代码 / 数据密集（`full-report`、`review`、`tutorial`） |
+| `full`            | ~78rem   | 图文主导、宽幅媒体（`visual-essay`）                          |
 
 任意主题都能配任意宽度（解耦）。例：`tufte + wide` 适合大量数据表；`press + narrow`
 适合从容随笔。

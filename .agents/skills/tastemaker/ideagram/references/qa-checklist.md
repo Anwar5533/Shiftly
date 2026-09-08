@@ -3,7 +3,7 @@
 Run every generated image against this before delivering. If it fails, regenerate or edit (see the iteration prompts in `prompt-template.md`) rather than shipping it. This is what separates "an AI image" from "a designed illustration."
 
 - [ ] **One idea, one focal point.** The eye lands in one place first, and that place is the accent color. If attention scatters, it's too busy — simplify.
-- [ ] **The character earned its place.** If a person is present, they're *performing the core action*, not standing beside the scene. (Remove-them test: does the metaphor still fully read without them? If yes, rewrite.)
+- [ ] **The character earned its place.** If a person is present, they're _performing the core action_, not standing beside the scene. (Remove-them test: does the metaphor still fully read without them? If yes, rewrite.)
 - [ ] **It's a scene, not a floating object.** There's a background/ground, a subtle shadow, some depth — not a subject stranded on blank white.
 - [ ] **Palette is disciplined.** Neutrals + skin + exactly one saturated accent. No rainbow, no default indigo/purple gradient, no second unrelated hue.
 - [ ] **No anti-slop tells.** No glossy 3D, glow, glassmorphism, busy/textured background, stock clip-art stiffness, cutesy cartoon, or dense-infographic look.

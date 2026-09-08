@@ -11,13 +11,13 @@ role: [soc-analyst, security-engineer]
 phase: [respond]
 frameworks: [NIST-SP-800-61r2, MITRE-ATT&CK]
 difficulty: intermediate
-time_estimate: "15-30min"
-version: "1.0.1"
+time_estimate: '15-30min'
+version: '1.0.1'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 injection-hardened: true
-argument-hint: "[target-file-or-directory]"
+argument-hint: '[target-file-or-directory]'
 ---
 
 # Incident Containment Strategies -- NIST SP 800-61 Rev 2 / MITRE ATT&CK
@@ -66,14 +66,14 @@ Before selecting a containment strategy, gather or confirm:
 
 NIST SP 800-61 Rev 2 (Section 3.3.1) identifies the following criteria for containment strategy selection. Evaluate each factor before choosing a containment approach:
 
-| Criterion | Question | Impact on Decision |
-|-----------|----------|-------------------|
-| **Potential damage** | How much additional damage can occur if containment is delayed? | Higher potential damage favors aggressive, immediate containment |
-| **Evidence preservation** | Will the containment action destroy critical evidence? | If volatile evidence is not yet captured, delay destructive containment |
-| **Service availability** | What business services will be affected by containment? | Business-critical systems may require surgical containment to minimize disruption |
-| **Resource requirements** | Does the containment strategy require resources not currently available? | Choose strategies executable with available tools and personnel |
-| **Duration** | How long will containment need to remain in place? | Long-duration containment must be sustainable without degrading business operations |
-| **Effectiveness** | Will this containment action actually prevent further attacker activity? | Partial containment that the attacker can bypass wastes time and tips off the adversary |
+| Criterion                 | Question                                                                 | Impact on Decision                                                                      |
+| ------------------------- | ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------- |
+| **Potential damage**      | How much additional damage can occur if containment is delayed?          | Higher potential damage favors aggressive, immediate containment                        |
+| **Evidence preservation** | Will the containment action destroy critical evidence?                   | If volatile evidence is not yet captured, delay destructive containment                 |
+| **Service availability**  | What business services will be affected by containment?                  | Business-critical systems may require surgical containment to minimize disruption       |
+| **Resource requirements** | Does the containment strategy require resources not currently available? | Choose strategies executable with available tools and personnel                         |
+| **Duration**              | How long will containment need to remain in place?                       | Long-duration containment must be sustainable without degrading business operations     |
+| **Effectiveness**         | Will this containment action actually prevent further attacker activity? | Partial containment that the attacker can bypass wastes time and tips off the adversary |
 
 **Containment decision matrix:**
 
@@ -101,39 +101,39 @@ Short-term containment aims to stop the immediate threat with minimal preparatio
 
 **Network isolation strategies:**
 
-| Strategy | Method | Use When | Limitations |
-|----------|--------|----------|-------------|
-| **Port shutdown** | Disable switchport or cloud security group ingress/egress | Single host compromise, not business-critical | Disrupts all services on the host |
-| **VLAN isolation** | Move host to quarantine VLAN with restricted routing | Need to maintain some connectivity for evidence collection | Requires network team coordination |
-| **Firewall rule** | Block specific IPs, ports, or protocols at perimeter or host firewall | Known C2 infrastructure, specific attack vector | Attacker may use alternate C2 channels |
-| **DNS sinkholing** | Redirect malicious domains to controlled IP via internal DNS | C2 communication via domain names | Ineffective if attacker uses direct IP communication |
-| **Cloud security group lockdown** | Remove all inbound/outbound rules except management access | Cloud instance compromise | May disrupt dependent services |
-| **VPN/remote access revocation** | Disable VPN accounts, revoke remote access tokens | Compromised remote access credentials | Disrupts legitimate remote users on same system |
+| Strategy                          | Method                                                                | Use When                                                   | Limitations                                          |
+| --------------------------------- | --------------------------------------------------------------------- | ---------------------------------------------------------- | ---------------------------------------------------- |
+| **Port shutdown**                 | Disable switchport or cloud security group ingress/egress             | Single host compromise, not business-critical              | Disrupts all services on the host                    |
+| **VLAN isolation**                | Move host to quarantine VLAN with restricted routing                  | Need to maintain some connectivity for evidence collection | Requires network team coordination                   |
+| **Firewall rule**                 | Block specific IPs, ports, or protocols at perimeter or host firewall | Known C2 infrastructure, specific attack vector            | Attacker may use alternate C2 channels               |
+| **DNS sinkholing**                | Redirect malicious domains to controlled IP via internal DNS          | C2 communication via domain names                          | Ineffective if attacker uses direct IP communication |
+| **Cloud security group lockdown** | Remove all inbound/outbound rules except management access            | Cloud instance compromise                                  | May disrupt dependent services                       |
+| **VPN/remote access revocation**  | Disable VPN accounts, revoke remote access tokens                     | Compromised remote access credentials                      | Disrupts legitimate remote users on same system      |
 
 **Credential revocation strategies:**
 
-| Strategy | Method | Use When | Scope |
-|----------|--------|----------|-------|
-| **Password reset** | Force password change for compromised accounts | Credential theft confirmed or suspected | Individual accounts |
-| **Session invalidation** | Revoke all active sessions and tokens for affected accounts | Session hijacking, token theft | Individual accounts |
-| **API key rotation** | Generate new API keys, revoke old keys | API key exposure or misuse | Specific services |
-| **Certificate revocation** | Revoke and reissue TLS/mTLS certificates | Certificate compromise, CA compromise | Services using the certificate |
-| **Service account reset** | Reset service account passwords and regenerate keys | Lateral movement via service accounts | Downstream services may break |
-| **Kerberos ticket reset** | Reset krbtgt account password (twice, per Microsoft guidance) | Golden ticket attack, domain compromise | Domain-wide impact; requires careful planning |
-| **MFA token reset** | Deregister and re-enroll MFA devices | MFA bypass, SIM swap, device compromise | Individual users |
+| Strategy                   | Method                                                        | Use When                                | Scope                                         |
+| -------------------------- | ------------------------------------------------------------- | --------------------------------------- | --------------------------------------------- |
+| **Password reset**         | Force password change for compromised accounts                | Credential theft confirmed or suspected | Individual accounts                           |
+| **Session invalidation**   | Revoke all active sessions and tokens for affected accounts   | Session hijacking, token theft          | Individual accounts                           |
+| **API key rotation**       | Generate new API keys, revoke old keys                        | API key exposure or misuse              | Specific services                             |
+| **Certificate revocation** | Revoke and reissue TLS/mTLS certificates                      | Certificate compromise, CA compromise   | Services using the certificate                |
+| **Service account reset**  | Reset service account passwords and regenerate keys           | Lateral movement via service accounts   | Downstream services may break                 |
+| **Kerberos ticket reset**  | Reset krbtgt account password (twice, per Microsoft guidance) | Golden ticket attack, domain compromise | Domain-wide impact; requires careful planning |
+| **MFA token reset**        | Deregister and re-enroll MFA devices                          | MFA bypass, SIM swap, device compromise | Individual users                              |
 
 ### Step 3: Long-Term Containment
 
 Long-term containment allows the organization to maintain operations while keeping the attacker blocked. These actions prepare the environment for eradication.
 
-| Action | Description | Duration |
-|--------|-------------|----------|
-| **Network segmentation enforcement** | Implement or tighten firewall rules between network segments to prevent lateral movement paths the attacker used | Until eradication complete + validation |
-| **Enhanced monitoring deployment** | Deploy additional logging, network capture, or EDR sensors on affected and adjacent segments | Minimum 30 days post-incident |
-| **Temporary system hardening** | Apply emergency patches, disable unnecessary services, restrict administrative access to affected systems | Until full rebuild |
-| **Backup system deployment** | Stand up clean replacement systems from known-good images to restore business functions while compromised systems remain isolated | Until compromised systems are eradicated and validated |
-| **DNS policy enforcement** | Implement DNS filtering to block known-malicious domains and restrict DNS to internal resolvers only | Permanent improvement |
-| **Egress filtering** | Restrict outbound network traffic to only approved destinations and protocols | Permanent improvement |
+| Action                               | Description                                                                                                                       | Duration                                               |
+| ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| **Network segmentation enforcement** | Implement or tighten firewall rules between network segments to prevent lateral movement paths the attacker used                  | Until eradication complete + validation                |
+| **Enhanced monitoring deployment**   | Deploy additional logging, network capture, or EDR sensors on affected and adjacent segments                                      | Minimum 30 days post-incident                          |
+| **Temporary system hardening**       | Apply emergency patches, disable unnecessary services, restrict administrative access to affected systems                         | Until full rebuild                                     |
+| **Backup system deployment**         | Stand up clean replacement systems from known-good images to restore business functions while compromised systems remain isolated | Until compromised systems are eradicated and validated |
+| **DNS policy enforcement**           | Implement DNS filtering to block known-malicious domains and restrict DNS to internal resolvers only                              | Permanent improvement                                  |
+| **Egress filtering**                 | Restrict outbound network traffic to only approved destinations and protocols                                                     | Permanent improvement                                  |
 
 ### Step 4: ATT&CK Technique-Specific Containment
 
@@ -141,40 +141,40 @@ Map observed attacker techniques to targeted containment actions. Each ATT&CK te
 
 #### Initial Access Containment
 
-| ATT&CK Technique | Containment Action |
-|---|---|
-| T1566 -- Phishing | Block sender domain/IP at email gateway; quarantine delivered messages; reset credentials of users who interacted with phishing content |
-| T1190 -- Exploit Public-Facing Application | Deploy WAF rule to block exploit pattern; take vulnerable application offline or restrict access to VPN-only; apply emergency patch |
-| T1078 -- Valid Accounts | Disable compromised accounts; force MFA re-enrollment; review and revoke sessions; audit account activity for lateral movement |
-| T1195 -- Supply Chain Compromise | Isolate systems running compromised software; block network communication to compromised vendor infrastructure; roll back to known-good version |
-| T1133 -- External Remote Services | Disable compromised VPN/RDP accounts; restrict remote access to allowlisted IPs; require MFA for all remote access |
+| ATT&CK Technique                           | Containment Action                                                                                                                              |
+| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| T1566 -- Phishing                          | Block sender domain/IP at email gateway; quarantine delivered messages; reset credentials of users who interacted with phishing content         |
+| T1190 -- Exploit Public-Facing Application | Deploy WAF rule to block exploit pattern; take vulnerable application offline or restrict access to VPN-only; apply emergency patch             |
+| T1078 -- Valid Accounts                    | Disable compromised accounts; force MFA re-enrollment; review and revoke sessions; audit account activity for lateral movement                  |
+| T1195 -- Supply Chain Compromise           | Isolate systems running compromised software; block network communication to compromised vendor infrastructure; roll back to known-good version |
+| T1133 -- External Remote Services          | Disable compromised VPN/RDP accounts; restrict remote access to allowlisted IPs; require MFA for all remote access                              |
 
 #### Lateral Movement Containment
 
-| ATT&CK Technique | Containment Action |
-|---|---|
-| T1021 -- Remote Services (RDP, SSH, SMB) | Block lateral protocols between workstations; restrict admin protocols to jump servers; disable unused remote services |
+| ATT&CK Technique                                                                | Containment Action                                                                                                      |
+| ------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| T1021 -- Remote Services (RDP, SSH, SMB)                                        | Block lateral protocols between workstations; restrict admin protocols to jump servers; disable unused remote services  |
 | T1550 -- Use Alternate Authentication Material (Pass-the-Hash, Pass-the-Ticket) | Reset affected account credentials; clear Kerberos ticket caches; enable Credential Guard; restrict NTLM authentication |
-| T1210 -- Exploitation of Remote Services | Isolate vulnerable systems; apply emergency patches; restrict network access to affected services |
-| T1570 -- Lateral Tool Transfer | Block SMB/admin shares between endpoints; restrict PowerShell remoting; deploy application whitelisting |
+| T1210 -- Exploitation of Remote Services                                        | Isolate vulnerable systems; apply emergency patches; restrict network access to affected services                       |
+| T1570 -- Lateral Tool Transfer                                                  | Block SMB/admin shares between endpoints; restrict PowerShell remoting; deploy application whitelisting                 |
 
 #### Command and Control Containment
 
-| ATT&CK Technique | Containment Action |
-|---|---|
-| T1071 -- Application Layer Protocol (HTTP/S, DNS) | Block C2 IPs/domains at firewall and proxy; implement SSL inspection for identified C2 domains; deploy DNS sinkhole |
-| T1572 -- Protocol Tunneling | Inspect and restrict non-standard protocol usage; block unauthorized VPN/tunnel endpoints; deploy deep packet inspection |
-| T1573 -- Encrypted Channel | Block C2 IPs at network layer (encryption prevents content inspection); deploy JA3/JA3S fingerprinting to identify C2 TLS signatures |
-| T1568 -- Dynamic Resolution (DGA, DNS Calc) | Deploy DNS analytics to detect DGA patterns; restrict DNS to internal resolvers; implement DNS response policy zones (RPZ) |
+| ATT&CK Technique                                  | Containment Action                                                                                                                   |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| T1071 -- Application Layer Protocol (HTTP/S, DNS) | Block C2 IPs/domains at firewall and proxy; implement SSL inspection for identified C2 domains; deploy DNS sinkhole                  |
+| T1572 -- Protocol Tunneling                       | Inspect and restrict non-standard protocol usage; block unauthorized VPN/tunnel endpoints; deploy deep packet inspection             |
+| T1573 -- Encrypted Channel                        | Block C2 IPs at network layer (encryption prevents content inspection); deploy JA3/JA3S fingerprinting to identify C2 TLS signatures |
+| T1568 -- Dynamic Resolution (DGA, DNS Calc)       | Deploy DNS analytics to detect DGA patterns; restrict DNS to internal resolvers; implement DNS response policy zones (RPZ)           |
 
 #### Persistence Containment
 
-| ATT&CK Technique | Containment Action |
-|---|---|
-| T1053 -- Scheduled Task/Job | Audit and remove unauthorized scheduled tasks; restrict task creation permissions; monitor task scheduler logs |
-| T1547 -- Boot or Logon Autostart Execution | Audit startup entries (Run keys, startup folders, systemd units); restrict write access to autostart locations |
-| T1505.003 -- Web Shell | Scan web-accessible directories for unauthorized files; deploy file integrity monitoring; restrict write permissions on web roots |
-| T1136 -- Create Account | Audit and disable unauthorized accounts; restrict account creation permissions; alert on new account creation |
+| ATT&CK Technique                           | Containment Action                                                                                                                |
+| ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| T1053 -- Scheduled Task/Job                | Audit and remove unauthorized scheduled tasks; restrict task creation permissions; monitor task scheduler logs                    |
+| T1547 -- Boot or Logon Autostart Execution | Audit startup entries (Run keys, startup folders, systemd units); restrict write access to autostart locations                    |
+| T1505.003 -- Web Shell                     | Scan web-accessible directories for unauthorized files; deploy file integrity monitoring; restrict write permissions on web roots |
+| T1136 -- Create Account                    | Audit and disable unauthorized accounts; restrict account creation permissions; alert on new account creation                     |
 
 ### Step 4b: Wiper / Destructive Malware Containment
 
@@ -190,14 +190,14 @@ Wiper and destructive malware require a distinct containment approach from ranso
 
 **ATT&CK techniques specific to wiper malware:**
 
-| ATT&CK Technique | Description | Containment Action |
-|---|---|---|
-| T1485 -- Data Destruction | Overwrite or delete data on local and remote drives | Isolate affected systems; power off systems not yet hit; verify backup integrity |
-| T1490 -- Inhibit System Recovery | Delete Volume Shadow Copies, disable Windows Recovery, destroy backup catalogs | Disconnect backup infrastructure from network; verify offline backup integrity |
-| T1561.001 -- Disk Wipe: MBR | Overwrite Master Boot Record to prevent boot | Power off unaffected systems; preserve one affected disk for forensics |
-| T1561.002 -- Disk Wipe: Content | Overwrite or corrupt file content across volumes | Network segmentation to prevent spread; emergency shutdown of at-risk systems |
-| T1047 -- WMI | Remote execution of wiper payload via WMI | Block WMI ports (135, 5985, 5986); disable WinRM on endpoints |
-| T1484.001 -- Domain Policy Modification: GPO | Deploy wiper via Group Policy push | Disconnect domain controllers from network if GPO deployment confirmed |
+| ATT&CK Technique                             | Description                                                                    | Containment Action                                                               |
+| -------------------------------------------- | ------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
+| T1485 -- Data Destruction                    | Overwrite or delete data on local and remote drives                            | Isolate affected systems; power off systems not yet hit; verify backup integrity |
+| T1490 -- Inhibit System Recovery             | Delete Volume Shadow Copies, disable Windows Recovery, destroy backup catalogs | Disconnect backup infrastructure from network; verify offline backup integrity   |
+| T1561.001 -- Disk Wipe: MBR                  | Overwrite Master Boot Record to prevent boot                                   | Power off unaffected systems; preserve one affected disk for forensics           |
+| T1561.002 -- Disk Wipe: Content              | Overwrite or corrupt file content across volumes                               | Network segmentation to prevent spread; emergency shutdown of at-risk systems    |
+| T1047 -- WMI                                 | Remote execution of wiper payload via WMI                                      | Block WMI ports (135, 5985, 5986); disable WinRM on endpoints                    |
+| T1484.001 -- Domain Policy Modification: GPO | Deploy wiper via Group Policy push                                             | Disconnect domain controllers from network if GPO deployment confirmed           |
 
 **Key difference from ransomware containment:** Do not attempt to "monitor and observe" a wiper in progress. Every second of observation is data permanently destroyed. Aggressive, immediate containment is always the correct posture for confirmed wiper activity.
 
@@ -207,16 +207,17 @@ After implementing containment, verify effectiveness before proceeding to eradic
 
 **Validation checklist:**
 
-| Check | Method | Expected Result |
-|-------|--------|----------------|
-| C2 communication blocked | Monitor network traffic for C2 indicators | No outbound connections to known C2 IPs/domains |
-| Lateral movement blocked | Monitor authentication logs and network flows between segments | No unauthorized cross-segment authentication |
-| Compromised credentials revoked | Attempt authentication with known-compromised credentials | Authentication fails |
-| Attacker persistence neutralized | Scan for known persistence mechanisms | No active persistence artifacts |
-| Business services operational (if surgical containment) | Verify critical service health checks | Services responding normally |
-| Evidence preserved | Verify forensic images and memory dumps are intact and hashed | Hash verification passes |
+| Check                                                   | Method                                                         | Expected Result                                 |
+| ------------------------------------------------------- | -------------------------------------------------------------- | ----------------------------------------------- |
+| C2 communication blocked                                | Monitor network traffic for C2 indicators                      | No outbound connections to known C2 IPs/domains |
+| Lateral movement blocked                                | Monitor authentication logs and network flows between segments | No unauthorized cross-segment authentication    |
+| Compromised credentials revoked                         | Attempt authentication with known-compromised credentials      | Authentication fails                            |
+| Attacker persistence neutralized                        | Scan for known persistence mechanisms                          | No active persistence artifacts                 |
+| Business services operational (if surgical containment) | Verify critical service health checks                          | Services responding normally                    |
+| Evidence preserved                                      | Verify forensic images and memory dumps are intact and hashed  | Hash verification passes                        |
 
 **Containment failure indicators:**
+
 - New C2 connections from previously unknown infrastructure
 - New compromised accounts appearing after credential reset
 - Attacker activity from systems outside the containment perimeter
@@ -228,24 +229,24 @@ If containment fails, escalate to full network isolation and engage external inc
 
 Define conditions under which containment actions should be rolled back or modified:
 
-| Condition | Rollback Action | Approval Required |
-|-----------|----------------|-------------------|
-| Containment causes unacceptable business disruption exceeding incident impact | Reduce to surgical containment with enhanced monitoring | Incident Commander + Business Owner |
-| Forensic investigation requires attacker communication to continue (controlled observation) | Relax network blocks under monitored conditions with legal approval | Incident Commander + Legal + CISO |
-| Containment action was applied to wrong scope (false positive) | Remove containment controls from unaffected systems | Incident Commander |
-| Eradication complete and validated | Phase out containment controls in stages with monitoring | Incident Commander + Security Team |
+| Condition                                                                                   | Rollback Action                                                     | Approval Required                   |
+| ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- | ----------------------------------- |
+| Containment causes unacceptable business disruption exceeding incident impact               | Reduce to surgical containment with enhanced monitoring             | Incident Commander + Business Owner |
+| Forensic investigation requires attacker communication to continue (controlled observation) | Relax network blocks under monitored conditions with legal approval | Incident Commander + Legal + CISO   |
+| Containment action was applied to wrong scope (false positive)                              | Remove containment controls from unaffected systems                 | Incident Commander                  |
+| Eradication complete and validated                                                          | Phase out containment controls in stages with monitoring            | Incident Commander + Security Team  |
 
 ---
 
 ## 4. Findings Classification
 
-| Severity | Label | Definition | Containment Posture |
-|----------|-------|------------|-------------------|
-| P0 | Critical | Active attacker with data exfiltration or destructive capability in progress | Immediate full isolation. Sacrifice availability for security. |
-| P1 | High | Confirmed compromise with lateral movement capability or access to sensitive data | Short-term containment within 1 hour. Surgical if business-critical. |
-| P2 | Medium | Confirmed compromise, limited scope, no evidence of lateral movement or data access | Standard containment within 4 hours. Evidence preservation first. |
-| P3 | Low | Suspicious activity, unconfirmed compromise, limited indicators | Enhanced monitoring. Prepare containment actions for rapid deployment. |
-| P4 | Informational | Reconnaissance or scanning activity with no confirmed compromise | Log and monitor. Update detection rules. |
+| Severity | Label         | Definition                                                                          | Containment Posture                                                    |
+| -------- | ------------- | ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| P0       | Critical      | Active attacker with data exfiltration or destructive capability in progress        | Immediate full isolation. Sacrifice availability for security.         |
+| P1       | High          | Confirmed compromise with lateral movement capability or access to sensitive data   | Short-term containment within 1 hour. Surgical if business-critical.   |
+| P2       | Medium        | Confirmed compromise, limited scope, no evidence of lateral movement or data access | Standard containment within 4 hours. Evidence preservation first.      |
+| P3       | Low           | Suspicious activity, unconfirmed compromise, limited indicators                     | Enhanced monitoring. Prepare containment actions for rapid deployment. |
+| P4       | Informational | Reconnaissance or scanning activity with no confirmed compromise                    | Log and monitor. Update detection rules.                               |
 
 ---
 
@@ -255,49 +256,58 @@ Produce the containment plan with these exact sections:
 
 ```markdown
 ## Containment Plan: [Incident ID]
+
 **Date:** [YYYY-MM-DD]
 **Skill:** containment v1.0.0
 **Frameworks:** NIST SP 800-61 Rev 2, MITRE ATT&CK
 **Incident Commander:** [Name]
 
 ### Containment Summary
+
 [2-3 sentences. State the containment strategy selected, rationale based on
 threat severity and business criticality, and expected impact on operations.]
 
 ### Decision Criteria Assessment
-| Criterion | Assessment | Weight |
-|---|---|---|
-| Potential damage if uncontained | [Assessment] | [High/Medium/Low] |
-| Evidence preservation impact | [Assessment] | [High/Medium/Low] |
-| Service availability impact | [Assessment] | [High/Medium/Low] |
-| Resource requirements | [Assessment] | [High/Medium/Low] |
-| Expected containment duration | [Assessment] | [Hours/Days/Weeks] |
-| Containment effectiveness | [Assessment] | [High/Medium/Low] |
+
+| Criterion                       | Assessment   | Weight             |
+| ------------------------------- | ------------ | ------------------ |
+| Potential damage if uncontained | [Assessment] | [High/Medium/Low]  |
+| Evidence preservation impact    | [Assessment] | [High/Medium/Low]  |
+| Service availability impact     | [Assessment] | [High/Medium/Low]  |
+| Resource requirements           | [Assessment] | [High/Medium/Low]  |
+| Expected containment duration   | [Assessment] | [Hours/Days/Weeks] |
+| Containment effectiveness       | [Assessment] | [High/Medium/Low]  |
 
 ### Short-Term Containment Actions
-| Action | Target | ATT&CK Technique Countered | Status | Owner | ETA |
-|---|---|---|---|---|---|
-| [Action] | [System/Account/Network] | [T-code] | [Planned/In Progress/Complete] | [Name] | [Time] |
+
+| Action   | Target                   | ATT&CK Technique Countered | Status                         | Owner  | ETA    |
+| -------- | ------------------------ | -------------------------- | ------------------------------ | ------ | ------ |
+| [Action] | [System/Account/Network] | [T-code]                   | [Planned/In Progress/Complete] | [Name] | [Time] |
 
 ### Long-Term Containment Actions
-| Action | Target | Duration | Status | Owner |
-|---|---|---|---|---|
+
+| Action   | Target  | Duration   | Status                         | Owner  |
+| -------- | ------- | ---------- | ------------------------------ | ------ |
 | [Action] | [Scope] | [Duration] | [Planned/In Progress/Complete] | [Name] |
 
 ### Business Impact Assessment
-| Service/System | Impact of Containment | Mitigation | Acceptable |
-|---|---|---|---|
-| [Service] | [Description of disruption] | [Workaround if any] | [Yes/No -- requires escalation] |
+
+| Service/System | Impact of Containment       | Mitigation          | Acceptable                      |
+| -------------- | --------------------------- | ------------------- | ------------------------------- |
+| [Service]      | [Description of disruption] | [Workaround if any] | [Yes/No -- requires escalation] |
 
 ### Containment Validation Checklist
-| Check | Result | Timestamp |
-|---|---|---|
+
+| Check             | Result              | Timestamp   |
+| ----------------- | ------------------- | ----------- |
 | [Validation item] | [Pass/Fail/Pending] | [timestamp] |
 
 ### Rollback Conditions
+
 [Document specific conditions under which containment will be modified or rolled back]
 
 ### Escalation Path
+
 [Document next steps if containment proves insufficient]
 ```
 

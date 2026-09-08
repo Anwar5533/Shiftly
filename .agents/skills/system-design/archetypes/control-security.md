@@ -3,6 +3,7 @@
 Selected from the router for [SKILL.md](../SKILL.md). Reusable mechanisms and decision ladders remain in [HEURISTICS.md](../HEURISTICS.md).
 
 ## Rate limiting and abuse control
+
 - **Shape**: protect APIs from overload and abuse; flexible rules; the limiter sits on every request path, so its own failure mode is a per-endpoint decision.
 - **Match when** the limit is per identified caller and the policy is a product or security rule. **Not when** the pressure is aggregate saturation rather than one caller's share — that is admission control, which keys on measured concurrency and fails closed, the opposite stance to this shape.
 - **Moves**: middleware/gateway placement; counters in Redis (INCR + EXPIRE), never a disk DB; rules as config; 429 with `Retry-After` and `X-Ratelimit-*` headers.
@@ -13,6 +14,7 @@ Selected from the router for [SKILL.md](../SKILL.md). Reusable mechanisms and de
 - **Cases**: public API quotas, login and abuse throttling, per-tenant SaaS limits, crawler politeness budgets, model token limits.
 
 ## Versioned control plane with cached data plane
+
 - **Shape**: the data plane keeps serving from its last good copy when the control plane is unreachable, and it never moves backwards to an older version.
 - **Match when** many processes need the same small, frequently changed values on a hot path — flags, routing tables, policy, quotas, sampling rates — and a control-plane outage must not be a product outage. **Not when** the values are per-subject and unbounded: authorization tuples and entitlements are a queried store with a consistency token, not a bundle every process caches, because staleness there is a security failure rather than a latency win.
 - **Minimum state**: an authoritative store with a monotonic revision, the current bundle, and on every consumer the last applied revision persisted beside the bytes it describes.
@@ -26,11 +28,12 @@ Selected from the router for [SKILL.md](../SKILL.md). Reusable mechanisms and de
 - **Cases**: feature-flag platforms, mesh configuration distribution, CDN and gateway rule push, scheduler policy, dynamic sampling and quota configuration.
 
 ## Identity, session, and revocation
+
 - **Shape**: a revoked credential stops working within a stated bound, and that bound is a number the architecture publishes rather than discovers during an incident.
 - **Match when** a human or their agent authenticates once and then acts repeatedly across services, and can be fired, phished, or compromised between those actions. **Not when** the principal is a workload with no person behind it and no revocation event other than redeployment — mutual-TLS workload identity needs short certificates and an issuance policy, not sessions, step-up, inactivity limits, or a device inventory.
 - **Minimum state**: the subject record with a monotonic revocation epoch, one row per active session or refresh family with its binding, and the issuer's verification keys with their validity windows. Access tokens are deliberately not state.
 - **Moves**: verification is local and offline — signature, issuer, audience, expiry, and the epoch the verifier already holds. Everything else composes ladders from [HEURISTICS.md](../HEURISTICS.md): the epoch is a control-plane value pushed to every verifier and repaired by poll; the refresh family is the one linearizable, consensus-backed operation, because rotating it is a compare-and-set whose loser is proof of theft. Federation is an untrusted parser — exact redirect matching, single-use codes, transaction-bound nonces, one issuer pinned per tenant.
-- **The dial**: access-token lifetime *is* revocation latency. Shorter means faster revocation and proportionally more refresh traffic on a flow that must never be down; longer means a disabled account keeps working, and the only escape is a check the verifier can actually reach.
+- **The dial**: access-token lifetime _is_ revocation latency. Shorter means faster revocation and proportionally more refresh traffic on a flow that must never be down; longer means a disabled account keeps working, and the only escape is a check the verifier can actually reach.
 - **Buy gate**: managed identity providers ship the protocol surface, key rotation, device and risk signals, and the audit trail. A hand-rolled one must beat that on a stated requirement — residency, an entitlement model no provider expresses, verification inside zones the provider cannot reach — not on cost.
 - **Staff gate**: separate authentication from authorization and say which is cached and for how long; name the absolute and inactivity limits, the operations that force re-authentication, and what a verifier does with an epoch it has never seen. Global sign-out is the test — enumerate every place authority lives (access tokens, refresh families, long-lived sessions, downstream services holding delegated credentials, offline clients) and state the worst case for each. Account recovery is the weakest credential in the architecture and must not silently downgrade assurance.
 - **Numbers anchor**: with local verification, revocation latency equals token lifetime exactly. 10M active sessions on a 5-minute token is 33k refreshes/s; cutting to 30 s to make revocation feel instant is 333k/s against the one component that cannot fail. Published reauthentication bounds put ordinary assurance at 24 h absolute with a 1 h idle limit and the highest at 12 h with 15 min — session lifetime is an assurance decision before it is an engineering one.
@@ -39,8 +42,9 @@ Selected from the router for [SKILL.md](../SKILL.md). Reusable mechanisms and de
 - **Cases**: enterprise single sign-on with directory deprovisioning, consumer passkey login, service-to-service token exchange, revocation on password reset, delegated third-party access.
 
 ## Secret and key hierarchy
+
 - **Shape**: no single key compromise decrypts everything, and every key can be replaced without re-encrypting the data it protects.
-- **Match when** data is encrypted at volume across more than one classification, tenant, or region, and someone will eventually ask what a stolen key would have exposed. **Not when** the secret must never be recoverable at all — passwords and their equivalents are salted one-way hashes, and a hierarchy that *can* decrypt them is the vulnerability, not the control.
+- **Match when** data is encrypted at volume across more than one classification, tenant, or region, and someone will eventually ask what a stolen key would have exposed. **Not when** the secret must never be recoverable at all — passwords and their equivalents are salted one-way hashes, and a hierarchy that _can_ decrypt them is the vulnerability, not the control.
 - **Minimum state**: a root key that never leaves its hardware boundary, a wrapped data key per object or tenant, and the identifier of the key version that wrapped it, stored beside the ciphertext.
 - **Moves**: envelope encryption is the whole shape — data keys encrypt data, wrapping keys encrypt data keys, the root wraps the wrapping keys. Rotation therefore rewrites key material, not payloads: a new wrapping-key version re-wraps the data keys and leaves petabytes untouched. Authenticated workload identity, not a shared credential, authorises unwrapping, and leases expire so a compromised process loses access without a rotation. Record the wrapping version with the ciphertext so prior versions stay decryptable for exactly as long as policy demands.
 - **The dial**: blast radius against operational cost. One key per tenant makes both a compromise and a deletion request surgical while multiplying key count, cache misses, and unwrap calls; one key per region makes operations trivial and a compromise total.

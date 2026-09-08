@@ -1,5 +1,5 @@
-import { Article, Hero, Lead, Raw } from "reacticle";
-import { SectionOpening } from "./sections/01-opening";
+import { Article, Hero, Lead, Raw } from 'reacticle';
+import { SectionOpening } from './sections/01-opening';
 
 // Article.tsx is the ASSEMBLER, owned by the main agent. It imports and orders
 // Section components — it must NOT contain Section bodies inline.
@@ -16,7 +16,7 @@ export function ArticleDoc() {
       <Hero
         title="文章标题"
         subtitle="副标题：一句话框定这篇要解决什么"
-        meta={[{ label: "日期", value: "2026-06-08" }]}
+        meta={[{ label: '日期', value: '2026-06-08' }]}
       />
       <Lead>导语：用一两句话框定主题与读者要带走的判断。</Lead>
 
@@ -38,29 +38,29 @@ export function ArticleDoc() {
       <Raw title="">
         <footer
           style={{
-            marginTop: "var(--ra-space-7, 3rem)",
-            paddingTop: "var(--ra-space-4, 1rem)",
-            borderTop: "1px solid var(--ra-color-border, currentColor)",
-            color: "var(--ra-color-muted, inherit)",
-            fontSize: "var(--ra-text-xs, 0.78rem)",
-            textAlign: "center",
-            letterSpacing: "0.02em",
+            marginTop: 'var(--ra-space-7, 3rem)',
+            paddingTop: 'var(--ra-space-4, 1rem)',
+            borderTop: '1px solid var(--ra-color-border, currentColor)',
+            color: 'var(--ra-color-muted, inherit)',
+            fontSize: 'var(--ra-text-xs, 0.78rem)',
+            textAlign: 'center',
+            letterSpacing: '0.02em',
             opacity: 0.85,
           }}
         >
-          Made with{" "}
+          Made with{' '}
           <a
             href="https://github.com/ConardLi/garden-skills"
             target="_blank"
             rel="noopener noreferrer"
             style={{
-              color: "inherit",
-              textDecoration: "underline",
-              textUnderlineOffset: "0.2em",
+              color: 'inherit',
+              textDecoration: 'underline',
+              textUnderlineOffset: '0.2em',
             }}
           >
             beautiful-article
-          </a>{" "}
+          </a>{' '}
           · __THEME__ theme
         </footer>
       </Raw>

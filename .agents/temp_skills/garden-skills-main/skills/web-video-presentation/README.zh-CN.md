@@ -319,4 +319,3 @@ Skill 内置 **23 套**主题，每套都有独立的设计 DNA —— 不是简
 - [AUDIO.md](./references/AUDIO.md)：可选口播音频合成流程（provider-agnostic）
 - [tts-providers/README.md](./templates/scripts/tts-providers/README.md)：TTS provider 三函数契约 + 内置 2 个 (minimax / openai) + ElevenLabs / edge-tts / Azure / Google / macOS say 的现成代码片段
 - [RECORDING.md](./references/RECORDING.md)：录屏与后期注意事项
-

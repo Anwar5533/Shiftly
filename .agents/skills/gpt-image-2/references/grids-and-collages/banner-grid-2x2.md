@@ -108,12 +108,7 @@
       "标题 ≤ 12 字 / 行",
       "CTA 按钮位置统一"
     ],
-    "avoid": [
-      "4 个 banner 风格漂移",
-      "标题字号差异过大",
-      "CTA 措辞不统一",
-      "视觉元素塞太满"
-    ]
+    "avoid": ["4 个 banner 风格漂移", "标题字号差异过大", "CTA 措辞不统一", "视觉元素塞太满"]
   }
 }
 ```
@@ -138,10 +133,10 @@
 {
   "type": "电商商品 banner 套装",
   "panels": [
-    {"course": "新品", "headline": "限时首发", "cta": "立即购买"},
-    {"course": "热销", "headline": "TOP 1 爆款", "cta": "查看"},
-    {"course": "回购", "headline": "老顾客好评", "cta": "回购优惠"},
-    {"course": "组合", "headline": "买二送一", "cta": "立即下单"}
+    { "course": "新品", "headline": "限时首发", "cta": "立即购买" },
+    { "course": "热销", "headline": "TOP 1 爆款", "cta": "查看" },
+    { "course": "回购", "headline": "老顾客好评", "cta": "回购优惠" },
+    { "course": "组合", "headline": "买二送一", "cta": "立即下单" }
   ],
   "constraints": {
     "must_feel": "电商感 + 转化导向"
@@ -160,10 +155,10 @@
     "name": "{argument name=\"event\" default=\"618 大促\"}"
   },
   "panels": [
-    {"headline": "预热"},
-    {"headline": "开抢"},
-    {"headline": "爆款"},
-    {"headline": "返场"}
+    { "headline": "预热" },
+    { "headline": "开抢" },
+    { "headline": "爆款" },
+    { "headline": "返场" }
   ],
   "constraints": {
     "must_feel": "活动统一视觉系统"

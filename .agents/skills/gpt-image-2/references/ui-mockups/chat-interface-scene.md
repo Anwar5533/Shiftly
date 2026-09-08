@@ -144,11 +144,7 @@
       "中文文字清晰可读",
       "头像与昵称一致"
     ],
-    "avoid": [
-      "气泡背景与文字颜色对比度过低",
-      "时间显示不符合一天内的逻辑",
-      "图片与语音条出现错位"
-    ]
+    "avoid": ["气泡背景与文字颜色对比度过低", "时间显示不符合一天内的逻辑", "图片与语音条出现错位"]
   }
 }
 ```
@@ -185,11 +181,11 @@
   },
   "conversation": {
     "messages": [
-      {"role": "member", "name": "Lily", "text": "今天的需求评审定 4 点对吗？"},
-      {"role": "member", "name": "陈工", "text": "对，会议室 A"},
-      {"role": "self", "text": "我把文档更新到群里了"},
-      {"role": "system", "text": "撤回了一条消息"},
-      {"role": "member", "name": "PM 老王", "text": "@all 提前 5 分钟到位"}
+      { "role": "member", "name": "Lily", "text": "今天的需求评审定 4 点对吗？" },
+      { "role": "member", "name": "陈工", "text": "对，会议室 A" },
+      { "role": "self", "text": "我把文档更新到群里了" },
+      { "role": "system", "text": "撤回了一条消息" },
+      { "role": "member", "name": "PM 老王", "text": "@all 提前 5 分钟到位" }
     ]
   },
   "constraints": {

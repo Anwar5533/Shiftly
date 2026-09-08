@@ -11,8 +11,8 @@ role: [appsec-engineer]
 phase: [protect, detect]
 frameworks: [OWASP-Top-10, OWASP-ASVS-4.0.3, OWASP-API-Security-2023]
 difficulty: intermediate
-time_estimate: "varies by engagement"
-version: "1.0.0"
+time_estimate: 'varies by engagement'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
@@ -55,12 +55,12 @@ Each engagement type defines a skill sequence. Run the skills in order — each 
 threat-modeling → secure-code-review → api-security → dependency-scanning
 ```
 
-| Step | Skill | Purpose |
-|------|-------|---------|
-| 1 | `threat-modeling` | Model the application's threat surface: identify trust boundaries, data flows, entry points, and assets. Enumerate threats using STRIDE or attack trees. Define the security requirements the application must satisfy before it ships. This step produces the scope for everything that follows. |
-| 2 | `secure-code-review` | Review the implementation against the threat model findings. Focus on the code paths identified as high-risk: authentication flows, authorization checks, input validation at trust boundaries, data encryption at rest and in transit, and error handling that might leak information. |
-| 3 | `api-security` | If the application exposes APIs: assess against the OWASP API Security Top 10. Test for broken object-level authorization (BOLA), broken authentication, excessive data exposure, lack of rate limiting, and mass assignment. API flaws are the leading cause of application-layer breaches. |
-| 4 | `dependency-scanning` | Audit all third-party dependencies: known CVEs, license compliance, maintenance status, and supply chain risk. A single compromised or abandoned dependency can undermine an otherwise secure application. |
+| Step | Skill                 | Purpose                                                                                                                                                                                                                                                                                           |
+| ---- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | `threat-modeling`     | Model the application's threat surface: identify trust boundaries, data flows, entry points, and assets. Enumerate threats using STRIDE or attack trees. Define the security requirements the application must satisfy before it ships. This step produces the scope for everything that follows. |
+| 2    | `secure-code-review`  | Review the implementation against the threat model findings. Focus on the code paths identified as high-risk: authentication flows, authorization checks, input validation at trust boundaries, data encryption at rest and in transit, and error handling that might leak information.           |
+| 3    | `api-security`        | If the application exposes APIs: assess against the OWASP API Security Top 10. Test for broken object-level authorization (BOLA), broken authentication, excessive data exposure, lack of rate limiting, and mass assignment. API flaws are the leading cause of application-layer breaches.      |
+| 4    | `dependency-scanning` | Audit all third-party dependencies: known CVEs, license compliance, maintenance status, and supply chain risk. A single compromised or abandoned dependency can undermine an otherwise secure application.                                                                                        |
 
 **Deliverable:** Threat model document, code review findings with CWE classification, API security assessment results, dependency audit, and consolidated risk summary with remediation priorities.
 
@@ -76,10 +76,10 @@ threat-modeling → secure-code-review → api-security → dependency-scanning
 secure-code-review → owasp-top-10-web
 ```
 
-| Step | Skill | Purpose |
-|------|-------|---------|
-| 1 | `secure-code-review` | Focused review of the diff: does the change introduce injection points, weaken authentication, bypass authorization, expose sensitive data, or introduce insecure deserialization? Review in the context of the existing application architecture, not just the isolated change. |
-| 2 | `owasp-top-10-web` | Validate the change against the OWASP Top 10 categories. This is a structured checklist pass to catch common web application vulnerabilities that might be missed in a focused diff review: broken access control, cryptographic failures, injection, insecure design, security misconfiguration, vulnerable components, identification failures, integrity failures, logging gaps, and SSRF. |
+| Step | Skill                | Purpose                                                                                                                                                                                                                                                                                                                                                                                       |
+| ---- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | `secure-code-review` | Focused review of the diff: does the change introduce injection points, weaken authentication, bypass authorization, expose sensitive data, or introduce insecure deserialization? Review in the context of the existing application architecture, not just the isolated change.                                                                                                              |
+| 2    | `owasp-top-10-web`   | Validate the change against the OWASP Top 10 categories. This is a structured checklist pass to catch common web application vulnerabilities that might be missed in a focused diff review: broken access control, cryptographic failures, injection, insecure design, security misconfiguration, vulnerable components, identification failures, integrity failures, logging gaps, and SSRF. |
 
 **Deliverable:** PR review comments with findings linked to specific lines, OWASP Top 10 checklist results, and approve/request-changes recommendation.
 
@@ -95,11 +95,11 @@ secure-code-review → owasp-top-10-web
 api-security → owasp-top-10-web → sast-config
 ```
 
-| Step | Skill | Purpose |
-|------|-------|---------|
-| 1 | `api-security` | Full assessment against OWASP API Security Top 10 2023: broken object-level authorization, broken authentication, broken object property-level authorization, unrestricted resource consumption, broken function-level authorization, unrestricted access to sensitive business flows, SSRF, security misconfiguration, improper inventory management, and unsafe consumption of APIs. |
-| 2 | `owasp-top-10-web` | Assess the web layer that serves the API: transport security, CORS configuration, content-type validation, error handling, and any web-specific attack vectors (CSRF for cookie-authenticated APIs, clickjacking for APIs with browser-rendered responses). |
-| 3 | `sast-config` | Configure static analysis rules specific to the API framework in use. Ensure SAST covers the vulnerability patterns found during manual assessment so future changes are automatically checked. API-specific rules: missing authorization decorators, unvalidated path parameters, missing rate limit annotations. |
+| Step | Skill              | Purpose                                                                                                                                                                                                                                                                                                                                                                                |
+| ---- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | `api-security`     | Full assessment against OWASP API Security Top 10 2023: broken object-level authorization, broken authentication, broken object property-level authorization, unrestricted resource consumption, broken function-level authorization, unrestricted access to sensitive business flows, SSRF, security misconfiguration, improper inventory management, and unsafe consumption of APIs. |
+| 2    | `owasp-top-10-web` | Assess the web layer that serves the API: transport security, CORS configuration, content-type validation, error handling, and any web-specific attack vectors (CSRF for cookie-authenticated APIs, clickjacking for APIs with browser-rendered responses).                                                                                                                            |
+| 3    | `sast-config`      | Configure static analysis rules specific to the API framework in use. Ensure SAST covers the vulnerability patterns found during manual assessment so future changes are automatically checked. API-specific rules: missing authorization decorators, unvalidated path parameters, missing rate limit annotations.                                                                     |
 
 **Deliverable:** API security assessment report with findings mapped to OWASP API Security Top 10, web layer security findings, updated SAST configuration, and remediation plan.
 
@@ -115,11 +115,11 @@ api-security → owasp-top-10-web → sast-config
 llm-top-10 → prompt-injection → agent-security
 ```
 
-| Step | Skill | Purpose |
-|------|-------|---------|
-| 1 | `llm-top-10` | Assess the feature against OWASP Top 10 for LLM Applications: prompt injection, insecure output handling, training data poisoning, model denial of service, supply chain vulnerabilities, sensitive information disclosure, insecure plugin design, excessive agency, overreliance, and model theft. Determine which risks apply based on the specific architecture. |
-| 2 | `prompt-injection` | Test for direct and indirect prompt injection. Direct: can a user craft input that overrides system instructions? Indirect: can data ingested from external sources (emails, documents, web pages) influence LLM behavior? Test across all user-facing and data-ingesting surfaces. |
-| 3 | `agent-security` | If the feature uses agentic AI (LLM with tool access, autonomous action, or multi-step execution): review what tools the agent can access, what permissions those tools hold, whether outputs are validated before execution, whether human-in-the-loop gates exist for destructive actions, and whether the agent can be manipulated into unintended tool use. |
+| Step | Skill              | Purpose                                                                                                                                                                                                                                                                                                                                                              |
+| ---- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | `llm-top-10`       | Assess the feature against OWASP Top 10 for LLM Applications: prompt injection, insecure output handling, training data poisoning, model denial of service, supply chain vulnerabilities, sensitive information disclosure, insecure plugin design, excessive agency, overreliance, and model theft. Determine which risks apply based on the specific architecture. |
+| 2    | `prompt-injection` | Test for direct and indirect prompt injection. Direct: can a user craft input that overrides system instructions? Indirect: can data ingested from external sources (emails, documents, web pages) influence LLM behavior? Test across all user-facing and data-ingesting surfaces.                                                                                  |
+| 3    | `agent-security`   | If the feature uses agentic AI (LLM with tool access, autonomous action, or multi-step execution): review what tools the agent can access, what permissions those tools hold, whether outputs are validated before execution, whether human-in-the-loop gates exist for destructive actions, and whether the agent can be manipulated into unintended tool use.      |
 
 **Deliverable:** AI feature security assessment with risk ratings, prompt injection test results, agent security findings if applicable, and remediation guidance specific to the LLM integration architecture.
 

@@ -53,7 +53,7 @@ metadata:
   name: default
   namespace: istio-system
 spec:
-  host: "*.local"
+  host: '*.local'
   trafficPolicy:
     tls:
       mode: ISTIO_MUTUAL
@@ -234,7 +234,7 @@ kind: Service
 metadata:
   name: my-service
   annotations:
-    config.linkerd.io/skip-outbound-ports: "3306" # MySQL
+    config.linkerd.io/skip-outbound-ports: '3306' # MySQL
 ```
 
 ## Certificate Rotation

@@ -83,17 +83,15 @@ grep -r "methodName(" . --include="*.py" | head -20
 ```javascript
 // Check for version conflicts
 const checkDependencies = () => {
-  const package = require("./package.json");
-  const lockfile = require("./package-lock.json");
+  const package = require('./package.json');
+  const lockfile = require('./package-lock.json');
 
   Object.keys(package.dependencies).forEach((dep) => {
     const specVersion = package.dependencies[dep];
     const lockVersion = lockfile.dependencies[dep]?.version;
 
     if (lockVersion && !satisfies(lockVersion, specVersion)) {
-      console.warn(
-        `Version mismatch: ${dep} - spec: ${specVersion}, lock: ${lockVersion}`,
-      );
+      console.warn(`Version mismatch: ${dep} - spec: ${specVersion}, lock: ${lockVersion}`);
     }
   });
 };
@@ -182,7 +180,7 @@ git commit -m "docs(auth): update API documentation (#${ISSUE_NUMBER})"
 
 ```javascript
 // Jest example for bug fix
-describe("Issue #123: User authentication", () => {
+describe('Issue #123: User authentication', () => {
   let authService;
 
   beforeEach(() => {
@@ -190,7 +188,7 @@ describe("Issue #123: User authentication", () => {
     jest.clearAllMocks();
   });
 
-  test("should handle expired tokens gracefully", async () => {
+  test('should handle expired tokens gracefully', async () => {
     // Arrange
     const expiredToken = generateExpiredToken();
 
@@ -199,14 +197,14 @@ describe("Issue #123: User authentication", () => {
 
     // Assert
     expect(result.valid).toBe(false);
-    expect(result.error).toBe("TOKEN_EXPIRED");
-    expect(mockLogger.warn).toHaveBeenCalledWith("Token validation failed", {
-      reason: "expired",
+    expect(result.error).toBe('TOKEN_EXPIRED');
+    expect(mockLogger.warn).toHaveBeenCalledWith('Token validation failed', {
+      reason: 'expired',
       tokenId: expect.any(String),
     });
   });
 
-  test("should refresh token automatically when near expiry", async () => {
+  test('should refresh token automatically when near expiry', async () => {
     // Test implementation
   });
 });
@@ -256,25 +254,22 @@ class TestIssue123Integration:
 
 ```typescript
 // Playwright E2E test
-import { test, expect } from "@playwright/test";
+import { test, expect } from '@playwright/test';
 
-test.describe("Issue #123: Authentication Flow", () => {
-  test("user can complete full authentication cycle", async ({ page }) => {
+test.describe('Issue #123: Authentication Flow', () => {
+  test('user can complete full authentication cycle', async ({ page }) => {
     // Navigate to login
-    await page.goto("/login");
+    await page.goto('/login');
 
     // Fill credentials
-    await page.fill('[data-testid="email-input"]', "user@example.com");
-    await page.fill('[data-testid="password-input"]', "password123");
+    await page.fill('[data-testid="email-input"]', 'user@example.com');
+    await page.fill('[data-testid="password-input"]', 'password123');
 
     // Submit and wait for navigation
-    await Promise.all([
-      page.waitForNavigation(),
-      page.click('[data-testid="login-button"]'),
-    ]);
+    await Promise.all([page.waitForNavigation(), page.click('[data-testid="login-button"]')]);
 
     // Verify successful login
-    await expect(page).toHaveURL("/dashboard");
+    await expect(page).toHaveURL('/dashboard');
     await expect(page.locator('[data-testid="user-menu"]')).toBeVisible();
   });
 });
@@ -293,16 +288,12 @@ function calculateDiscount(price, discountPercent) {
 // After (fixed code with validation)
 function calculateDiscount(price, discountPercent) {
   // Validate inputs
-  if (typeof price !== "number" || price < 0) {
-    throw new Error("Invalid price");
+  if (typeof price !== 'number' || price < 0) {
+    throw new Error('Invalid price');
   }
 
-  if (
-    typeof discountPercent !== "number" ||
-    discountPercent < 0 ||
-    discountPercent > 100
-  ) {
-    throw new Error("Invalid discount percentage");
+  if (typeof discountPercent !== 'number' || discountPercent < 0 || discountPercent > 100) {
+    throw new Error('Invalid discount percentage');
   }
 
   // Fix: Properly calculate discount

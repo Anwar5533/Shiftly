@@ -6,13 +6,13 @@
 
 ## 快速参考
 
-| 任务 | 常用方法 | 代码示例 |
-|------|----------|----------|
-| 按条件过滤 | 布尔索引 | `df[df['sales'] > 10000]` |
-| 分组聚合 | groupby | `df.groupby('region')['sales'].sum()` |
-| 排序 | sort_values | `df.sort_values('sales', ascending=False)` |
-| 计算新列 | 直接赋值 | `df['profit'] = df['revenue'] - df['cost']` |
-| 统计汇总 | describe | `df.describe()` |
+| 任务       | 常用方法    | 代码示例                                    |
+| ---------- | ----------- | ------------------------------------------- |
+| 按条件过滤 | 布尔索引    | `df[df['sales'] > 10000]`                   |
+| 分组聚合   | groupby     | `df.groupby('region')['sales'].sum()`       |
+| 排序       | sort_values | `df.sort_values('sales', ascending=False)`  |
+| 计算新列   | 直接赋值    | `df['profit'] = df['revenue'] - df['cost']` |
+| 统计汇总   | describe    | `df.describe()`                             |
 
 ## 分组聚合（GroupBy）
 

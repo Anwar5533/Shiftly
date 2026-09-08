@@ -1,6 +1,6 @@
 ---
-description: "Write comprehensive failing tests following TDD red phase principles"
-argument-hint: "<feature or component to write tests for>"
+description: 'Write comprehensive failing tests following TDD red phase principles'
+argument-hint: '<feature or component to write tests for>'
 ---
 
 # TDD Red Phase

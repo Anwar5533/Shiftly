@@ -12,13 +12,13 @@ role: [security-engineer]
 phase: [operate]
 frameworks: [CIS-Controls-v8, NIST-SP-800-41-Rev1]
 difficulty: intermediate
-time_estimate: "30-60min"
-version: "1.0.0"
+time_estimate: '30-60min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 injection-hardened: true
-argument-hint: "[target-file-or-directory]"
+argument-hint: '[target-file-or-directory]'
 ---
 
 # Firewall Rule Audit
@@ -77,6 +77,7 @@ Use Glob and Grep to locate firewall configuration files, ACL definitions, and n
 ```
 
 Record all discovered files. Categorize each by:
+
 - **Platform:** iptables, nftables, pf, cloud security groups, Kubernetes NetworkPolicy, vendor-specific (Palo Alto, Fortinet, Cisco ASA).
 - **Direction:** Perimeter (north-south) vs. internal (east-west).
 - **Scope:** Server, endpoint, network segment.
@@ -145,6 +146,7 @@ ingress {
 ```
 
 For each overly permissive rule, document:
+
 - Rule number/position.
 - Source, destination, port, and protocol.
 - Whether the rule has a documented business justification (comment/description).
@@ -262,12 +264,12 @@ Produce the final report using the following structure.
 
 ## Findings Classification
 
-| Severity | Definition |
-|----------|-----------|
-| **Critical** | Missing default deny; any/any inbound rules. Immediate exploitation risk. |
-| **High** | Overly permissive outbound rules; shadowed deny rules; no logging on deny actions; missing anti-spoofing; unused rules to decommissioned resources. |
-| **Medium** | Shadowed permit rules; missing egress DNS restriction; unused rules (active resources); missing logging on sensitive permits; missing stealth rules. |
-| **Low** | Rule documentation gaps; suboptimal rule ordering with no current security impact; cosmetic rule base issues. |
+| Severity     | Definition                                                                                                                                           |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Critical** | Missing default deny; any/any inbound rules. Immediate exploitation risk.                                                                            |
+| **High**     | Overly permissive outbound rules; shadowed deny rules; no logging on deny actions; missing anti-spoofing; unused rules to decommissioned resources.  |
+| **Medium**   | Shadowed permit rules; missing egress DNS restriction; unused rules (active resources); missing logging on sensitive permits; missing stealth rules. |
+| **Low**      | Rule documentation gaps; suboptimal rule ordering with no current security impact; cosmetic rule base issues.                                        |
 
 ---
 
@@ -329,23 +331,23 @@ Produce the final report using the following structure.
 
 ### CIS Controls v8
 
-| Control | Title | Relevance |
-|---------|-------|-----------|
-| 4.4 | Implement and Manage a Firewall on Servers | Inbound/outbound restriction, default deny, rule hygiene, logging |
-| 4.5 | Implement and Manage a Firewall on End-User Devices | Host-based firewall policy enforcement, default deny on endpoints |
-| 4.1 | Establish and Maintain a Secure Configuration Process | Applies to firewall configuration management and change control |
-| 8.5 | Collect Detailed Audit Logs | Firewall logging requirements for denied and permitted traffic |
+| Control | Title                                                 | Relevance                                                         |
+| ------- | ----------------------------------------------------- | ----------------------------------------------------------------- |
+| 4.4     | Implement and Manage a Firewall on Servers            | Inbound/outbound restriction, default deny, rule hygiene, logging |
+| 4.5     | Implement and Manage a Firewall on End-User Devices   | Host-based firewall policy enforcement, default deny on endpoints |
+| 4.1     | Establish and Maintain a Secure Configuration Process | Applies to firewall configuration management and change control   |
+| 8.5     | Collect Detailed Audit Logs                           | Firewall logging requirements for denied and permitted traffic    |
 
 ### NIST SP 800-41 Rev 1
 
-| Section | Topic | Key Requirements |
-|---------|-------|-----------------|
-| 4.1 | Firewall Technologies | Selection of stateful inspection vs. application-layer gateways |
-| 4.2 | Firewall Policy | Default deny, least privilege, rule documentation |
-| 4.2.3 | Rule Base Design | Elimination of overly permissive rules, rule ordering |
-| 4.3 | Rule Base Management | Shadowed rule detection, periodic review, change control |
-| 5.1 | Firewall Logging | Log denied traffic, log formats, log retention, SIEM integration |
-| 5.2 | Firewall Management | Secure management plane access, out-of-band management |
+| Section | Topic                 | Key Requirements                                                 |
+| ------- | --------------------- | ---------------------------------------------------------------- |
+| 4.1     | Firewall Technologies | Selection of stateful inspection vs. application-layer gateways  |
+| 4.2     | Firewall Policy       | Default deny, least privilege, rule documentation                |
+| 4.2.3   | Rule Base Design      | Elimination of overly permissive rules, rule ordering            |
+| 4.3     | Rule Base Management  | Shadowed rule detection, periodic review, change control         |
+| 5.1     | Firewall Logging      | Log denied traffic, log formats, log retention, SIEM integration |
+| 5.2     | Firewall Management   | Secure management plane access, out-of-band management           |
 
 ---
 

@@ -12,14 +12,14 @@ role: [security-engineer, architect, appsec-engineer, vciso]
 phase: [design, review]
 frameworks: [STRIDE, PASTA, MITRE-ATT&CK]
 difficulty: intermediate
-time_estimate: "30-60min"
-version: "1.0.0"
+time_estimate: '30-60min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 context: fork
 injection-hardened: true
-argument-hint: "[target-file-or-directory]"
+argument-hint: '[target-file-or-directory]'
 ---
 
 # Threat Modeling Skill — STRIDE Methodology
@@ -60,6 +60,7 @@ Before beginning the threat model, gather the following. Mark each item as obtai
 Enumerate all assets that an adversary would target and all entry points through which an attack could originate.
 
 **Assets:**
+
 - User credentials and session tokens
 - Personally identifiable information (PII)
 - Financial or payment data
@@ -69,6 +70,7 @@ Enumerate all assets that an adversary would target and all entry points through
 - Infrastructure control plane (CI/CD pipelines, IaC templates, container registries)
 
 **Entry Points:**
+
 - Public-facing API endpoints (REST, GraphQL, gRPC)
 - Web application front-ends
 - Mobile application interfaces
@@ -83,14 +85,14 @@ Enumerate all assets that an adversary would target and all entry points through
 
 Identify which threat actors are relevant to the system under review. Use the summary table below to scope the threat model; adjust likelihood ratings based on the actors most likely to target this system.
 
-| Actor Type | Capabilities | Motivation | Persistence | Primary STRIDE Targets | Example ATT&CK TTPs |
-|------------|-------------|------------|-------------|----------------------|---------------------|
-| Nation-State APT | Zero-days, supply chain, unlimited budget | Espionage, pre-positioning | Very High | S, I, E | T1195, T1556, T1071 |
-| Organized Cybercrime | RaaS, credential markets, exploit brokers | Financial gain | Medium | I, D, T | T1486, T1078, T1566 |
-| Malicious Insider | Legitimate creds, internal knowledge | Revenge, financial, coercion | Persistent (employed) | I, T, R | T1530, T1567, T1070 |
-| Hacktivist | DDoS tools, public exploits | Ideological, embarrassment | Low | D, T, I | T1498, T1491, T1190 |
-| Script Kiddie | Public exploits, scanners, defaults | Curiosity, bragging rights | Very Low | S, E, D | T1078, T1190, T1059 |
-| Supply Chain | Inherited trust, code-level access | Varies (state or financial) | High | T, E, I | T1195.001, T1195.002 |
+| Actor Type           | Capabilities                              | Motivation                   | Persistence           | Primary STRIDE Targets | Example ATT&CK TTPs  |
+| -------------------- | ----------------------------------------- | ---------------------------- | --------------------- | ---------------------- | -------------------- |
+| Nation-State APT     | Zero-days, supply chain, unlimited budget | Espionage, pre-positioning   | Very High             | S, I, E                | T1195, T1556, T1071  |
+| Organized Cybercrime | RaaS, credential markets, exploit brokers | Financial gain               | Medium                | I, D, T                | T1486, T1078, T1566  |
+| Malicious Insider    | Legitimate creds, internal knowledge      | Revenge, financial, coercion | Persistent (employed) | I, T, R                | T1530, T1567, T1070  |
+| Hacktivist           | DDoS tools, public exploits               | Ideological, embarrassment   | Low                   | D, T, I                | T1498, T1491, T1190  |
+| Script Kiddie        | Public exploits, scanners, defaults       | Curiosity, bragging rights   | Very Low              | S, E, D                | T1078, T1190, T1059  |
+| Supply Chain         | Inherited trust, code-level access        | Varies (state or financial)  | High                  | T, E, I                | T1195.001, T1195.002 |
 
 For each relevant actor, document: (1) why they would target this system, (2) their most likely attack path, and (3) which components are in their primary blast radius.
 
@@ -161,6 +163,7 @@ Use this checklist to identify trust boundaries that are often missed:
 - [ ] **Third-party SDK/library boundaries** — Between your code and vendor SDKs, open-source packages, or embedded interpreters
 
 For each data flow crossing a trust boundary, document:
+
 1. Source and destination components
 2. Protocol and transport security
 3. Authentication mechanism on the flow
@@ -170,15 +173,15 @@ For each data flow crossing a trust boundary, document:
 
 Every data flow in the DFD must be annotated with the following properties:
 
-| Property | Values / Examples |
-|----------|------------------|
-| Protocol and version | TLS 1.3, HTTP/2, gRPC, AMQP 0-9-1, WebSocket over TLS |
+| Property                 | Values / Examples                                              |
+| ------------------------ | -------------------------------------------------------------- |
+| Protocol and version     | TLS 1.3, HTTP/2, gRPC, AMQP 0-9-1, WebSocket over TLS          |
 | Authentication mechanism | mTLS, JWT (RS256), API key, OAuth 2.0 client credentials, none |
-| Data classification | Public, Internal, Confidential, Restricted |
-| Encryption at rest | AES-256-GCM, envelope encryption (KMS), none |
-| Encryption in transit | TLS 1.3, WireGuard, none |
-| Key management | AWS KMS, HashiCorp Vault, application-managed, N/A |
-| Failure mode | Fail-closed (deny on error) or fail-open (allow on error) |
+| Data classification      | Public, Internal, Confidential, Restricted                     |
+| Encryption at rest       | AES-256-GCM, envelope encryption (KMS), none                   |
+| Encryption in transit    | TLS 1.3, WireGuard, none                                       |
+| Key management           | AWS KMS, HashiCorp Vault, application-managed, N/A             |
+| Failure mode             | Fail-closed (deny on error) or fail-open (allow on error)      |
 
 Mark any flow with `Authentication: none` or `Failure mode: fail-open` as requiring immediate threat analysis.
 
@@ -190,87 +193,88 @@ For every component and data flow identified in the DFD, systematically ask the 
 
 Threat: An attacker pretends to be another user, service, or system component.
 
-| Question | Example Threat |
-|----------|---------------|
-| Can an external user authenticate without valid credentials? | Credential stuffing, brute force |
-| Can one service impersonate another service? | Missing mTLS, forged service tokens |
-| Can an attacker replay a valid authentication token? | Stolen JWT without expiration |
-| Are API keys rotated and scoped appropriately? | Leaked long-lived API key |
-| Is multi-factor authentication enforced for privileged accounts? | Admin account takeover |
+| Question                                                         | Example Threat                      |
+| ---------------------------------------------------------------- | ----------------------------------- |
+| Can an external user authenticate without valid credentials?     | Credential stuffing, brute force    |
+| Can one service impersonate another service?                     | Missing mTLS, forged service tokens |
+| Can an attacker replay a valid authentication token?             | Stolen JWT without expiration       |
+| Are API keys rotated and scoped appropriately?                   | Leaked long-lived API key           |
+| Is multi-factor authentication enforced for privileged accounts? | Admin account takeover              |
 
 #### T — Tampering (Integrity Threats)
 
 Threat: An attacker modifies data, code, or configuration without authorization.
 
-| Question | Example Threat |
-|----------|---------------|
-| Can request parameters be modified in transit? | Man-in-the-middle on non-TLS connections |
-| Can database records be altered by unauthorized users? | SQL injection, insecure direct object reference |
-| Can CI/CD pipeline artifacts be tampered with? | Compromised build server, dependency confusion |
-| Are configuration files protected from unauthorized modification? | Writable config in production containers |
-| Is input validated and sanitized before processing? | XSS, command injection, deserialization attacks |
+| Question                                                          | Example Threat                                  |
+| ----------------------------------------------------------------- | ----------------------------------------------- |
+| Can request parameters be modified in transit?                    | Man-in-the-middle on non-TLS connections        |
+| Can database records be altered by unauthorized users?            | SQL injection, insecure direct object reference |
+| Can CI/CD pipeline artifacts be tampered with?                    | Compromised build server, dependency confusion  |
+| Are configuration files protected from unauthorized modification? | Writable config in production containers        |
+| Is input validated and sanitized before processing?               | XSS, command injection, deserialization attacks |
 
 #### R — Repudiation (Audit and Accountability Threats)
 
 Threat: A user or system denies performing an action, and the system cannot prove otherwise.
 
-| Question | Example Threat |
-|----------|---------------|
-| Are all security-relevant actions logged with immutable timestamps? | Missing audit trail for privilege changes |
-| Can log entries be modified or deleted by the actors they record? | Logs stored in writable user-accessible storage |
-| Are logs centralized and protected from tampering? | Local-only logs on compromised host |
-| Do transactions include non-repudiation controls (digital signatures)? | Disputed financial transactions |
-| Is there sufficient log detail to reconstruct the sequence of events? | Logs missing source IP, user ID, or action detail |
+| Question                                                               | Example Threat                                    |
+| ---------------------------------------------------------------------- | ------------------------------------------------- |
+| Are all security-relevant actions logged with immutable timestamps?    | Missing audit trail for privilege changes         |
+| Can log entries be modified or deleted by the actors they record?      | Logs stored in writable user-accessible storage   |
+| Are logs centralized and protected from tampering?                     | Local-only logs on compromised host               |
+| Do transactions include non-repudiation controls (digital signatures)? | Disputed financial transactions                   |
+| Is there sufficient log detail to reconstruct the sequence of events?  | Logs missing source IP, user ID, or action detail |
 
 #### I — Information Disclosure (Confidentiality Threats)
 
 Threat: Sensitive data is exposed to unauthorized parties.
 
-| Question | Example Threat |
-|----------|---------------|
-| Is sensitive data encrypted at rest (AES-256, envelope encryption)? | Database breach exposes plaintext PII |
-| Is data encrypted in transit (TLS 1.2+)? | Network sniffing captures credentials |
-| Do error messages or stack traces leak internal details? | Verbose error pages reveal DB schema |
-| Are secrets stored in environment variables or dedicated vaults? | Hardcoded credentials in source code |
-| Is access to data stores restricted by least-privilege IAM policies? | Over-permissive S3 bucket policy |
+| Question                                                             | Example Threat                        |
+| -------------------------------------------------------------------- | ------------------------------------- |
+| Is sensitive data encrypted at rest (AES-256, envelope encryption)?  | Database breach exposes plaintext PII |
+| Is data encrypted in transit (TLS 1.2+)?                             | Network sniffing captures credentials |
+| Do error messages or stack traces leak internal details?             | Verbose error pages reveal DB schema  |
+| Are secrets stored in environment variables or dedicated vaults?     | Hardcoded credentials in source code  |
+| Is access to data stores restricted by least-privilege IAM policies? | Over-permissive S3 bucket policy      |
 
 #### D — Denial of Service (Availability Threats)
 
 Threat: An attacker makes the system unavailable to legitimate users.
 
-| Question | Example Threat |
-|----------|---------------|
-| Are API endpoints rate-limited? | Volumetric API abuse exhausts compute |
-| Is there protection against application-layer DoS (Slowloris, ReDoS)? | Regex-based input causes CPU exhaustion |
-| Are resource quotas enforced (memory, CPU, storage, connections)? | Memory leak triggered by crafted input |
-| Is the system resilient to dependency failures (circuit breakers)? | Cascading failure from downstream outage |
-| Are there auto-scaling policies and DDoS mitigation services? | Sustained DDoS overwhelms fixed capacity |
+| Question                                                              | Example Threat                           |
+| --------------------------------------------------------------------- | ---------------------------------------- |
+| Are API endpoints rate-limited?                                       | Volumetric API abuse exhausts compute    |
+| Is there protection against application-layer DoS (Slowloris, ReDoS)? | Regex-based input causes CPU exhaustion  |
+| Are resource quotas enforced (memory, CPU, storage, connections)?     | Memory leak triggered by crafted input   |
+| Is the system resilient to dependency failures (circuit breakers)?    | Cascading failure from downstream outage |
+| Are there auto-scaling policies and DDoS mitigation services?         | Sustained DDoS overwhelms fixed capacity |
 
 #### E — Elevation of Privilege (Authorization Threats)
 
 Threat: An attacker gains access to resources or actions beyond their authorized scope.
 
-| Question | Example Threat |
-|----------|---------------|
-| Are authorization checks enforced at every layer (API, service, data)? | Broken access control, IDOR |
-| Can a regular user access admin functionality? | Missing role checks on admin endpoints |
-| Are privilege boundaries enforced in containerized environments? | Container escape, privileged container |
+| Question                                                                 | Example Threat                                     |
+| ------------------------------------------------------------------------ | -------------------------------------------------- |
+| Are authorization checks enforced at every layer (API, service, data)?   | Broken access control, IDOR                        |
+| Can a regular user access admin functionality?                           | Missing role checks on admin endpoints             |
+| Are privilege boundaries enforced in containerized environments?         | Container escape, privileged container             |
 | Can an attacker exploit deserialization or injection for code execution? | Remote code execution via insecure deserialization |
-| Are default credentials and unnecessary services removed? | Default admin/admin on management interfaces |
+| Are default credentials and unnecessary services removed?                | Default admin/admin on management interfaces       |
 
 ### Step 5: Build Component-Threat Matrix
 
 Synthesize the STRIDE-per-element analysis into a heatmap-style matrix. For each component, rate the threat level (H=High, M=Medium, L=Low, N=None) per STRIDE category based on Step 4 findings, then derive an overall risk.
 
-| Component | S | T | R | I | D | E | Overall Risk |
-|-----------|---|---|---|---|---|---|-------------|
-| Auth Service | H | M | M | L | L | H | Critical |
-| API Gateway | H | M | L | M | H | M | High |
-| Database | L | H | L | H | M | M | High |
-| Object Storage | L | M | L | H | L | M | Medium |
-| Message Queue | L | M | L | M | M | L | Medium |
+| Component      | S   | T   | R   | I   | D   | E   | Overall Risk |
+| -------------- | --- | --- | --- | --- | --- | --- | ------------ |
+| Auth Service   | H   | M   | M   | L   | L   | H   | Critical     |
+| API Gateway    | H   | M   | L   | M   | H   | M   | High         |
+| Database       | L   | H   | L   | H   | M   | M   | High         |
+| Object Storage | L   | M   | L   | H   | L   | M   | Medium       |
+| Message Queue  | L   | M   | L   | M   | M   | L   | Medium       |
 
 **How to fill in:**
+
 1. For each component from the DFD, review every threat identified in Step 4.
 2. Assign H/M/L/N per STRIDE column based on the highest-severity threat in that category for that component.
 3. Derive Overall Risk: Critical if any H+H combination; High if 2+ H ratings; Medium if 1 H or 2+ M; Low otherwise.
@@ -282,15 +286,16 @@ Combine threat actor profiles (Step 2) with the component-threat matrix (Step 5)
 
 **Mapping Template:**
 
-| Actor | Capability Used | Target Component | STRIDE Threat | Likelihood Modifier | Resulting Risk |
-|-------|----------------|-----------------|---------------|-------------------|---------------|
-| Nation-State APT | Supply chain implant | CI/CD Pipeline | Tampering | +1 (high sophistication) | Critical |
-| Organized Cybercrime | Credential stuffing | Auth Service | Spoofing | +0 (standard capability) | High |
-| Malicious Insider | Legitimate DB access | Database | Info Disclosure | +1 (internal access) | Critical |
-| Hacktivist | DDoS toolkit | API Gateway | Denial of Service | +0 | High |
-| Supply Chain | Compromised package | Application Runtime | Elev. of Privilege | +1 (trusted context) | Critical |
+| Actor                | Capability Used      | Target Component    | STRIDE Threat      | Likelihood Modifier      | Resulting Risk |
+| -------------------- | -------------------- | ------------------- | ------------------ | ------------------------ | -------------- |
+| Nation-State APT     | Supply chain implant | CI/CD Pipeline      | Tampering          | +1 (high sophistication) | Critical       |
+| Organized Cybercrime | Credential stuffing  | Auth Service        | Spoofing           | +0 (standard capability) | High           |
+| Malicious Insider    | Legitimate DB access | Database            | Info Disclosure    | +1 (internal access)     | Critical       |
+| Hacktivist           | DDoS toolkit         | API Gateway         | Denial of Service  | +0                       | High           |
+| Supply Chain         | Compromised package  | Application Runtime | Elev. of Privilege | +1 (trusted context)     | Critical       |
 
 **Instructions:**
+
 1. For each relevant actor from Step 2, identify their most likely target components.
 2. Map the actor's capabilities to specific STRIDE threats on those components.
 3. Apply a likelihood modifier: +1 if the actor has special access or sophistication that increases likelihood beyond the base rating, +0 otherwise.
@@ -301,14 +306,14 @@ Combine threat actor profiles (Step 2) with the component-threat matrix (Step 5)
 
 Map each identified threat to the corresponding MITRE ATT&CK Enterprise technique to enable standardized tracking and correlation with threat intelligence.
 
-| STRIDE Category | Common ATT&CK Techniques |
-|----------------|--------------------------|
-| **Spoofing** | T1078 — Valid Accounts, T1134 — Access Token Manipulation, T1556 — Modify Authentication Process, T1528 — Steal Application Access Token, T1539 — Steal Web Session Cookie |
-| **Tampering** | T1565 — Data Manipulation, T1195 — Supply Chain Compromise, T1059 — Command and Scripting Interpreter, T1190 — Exploit Public-Facing Application, T1210 — Exploitation of Remote Services |
-| **Repudiation** | T1070 — Indicator Removal, T1070.001 — Clear Windows Event Logs, T1070.002 — Clear Linux or Mac System Logs, T1562 — Impair Defenses, T1562.001 — Disable or Modify Tools |
+| STRIDE Category            | Common ATT&CK Techniques                                                                                                                                                                  |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Spoofing**               | T1078 — Valid Accounts, T1134 — Access Token Manipulation, T1556 — Modify Authentication Process, T1528 — Steal Application Access Token, T1539 — Steal Web Session Cookie                |
+| **Tampering**              | T1565 — Data Manipulation, T1195 — Supply Chain Compromise, T1059 — Command and Scripting Interpreter, T1190 — Exploit Public-Facing Application, T1210 — Exploitation of Remote Services |
+| **Repudiation**            | T1070 — Indicator Removal, T1070.001 — Clear Windows Event Logs, T1070.002 — Clear Linux or Mac System Logs, T1562 — Impair Defenses, T1562.001 — Disable or Modify Tools                 |
 | **Information Disclosure** | T1530 — Data from Cloud Storage, T1552 — Unsecured Credentials, T1552.001 — Credentials In Files, T1040 — Network Sniffing, T1557 — Adversary-in-the-Middle, T1119 — Automated Collection |
-| **Denial of Service** | T1498 — Network Denial of Service, T1499 — Endpoint Denial of Service, T1499.003 — Application Exhaustion Flood, T1499.004 — Application or System Exploitation, T1489 — Service Stop |
-| **Elevation of Privilege** | T1068 — Exploitation for Privilege Escalation, T1548 — Abuse Elevation Control Mechanism, T1611 — Escape to Host, T1053 — Scheduled Task/Job, T1055 — Process Injection |
+| **Denial of Service**      | T1498 — Network Denial of Service, T1499 — Endpoint Denial of Service, T1499.003 — Application Exhaustion Flood, T1499.004 — Application or System Exploitation, T1489 — Service Stop     |
+| **Elevation of Privilege** | T1068 — Exploitation for Privilege Escalation, T1548 — Abuse Elevation Control Mechanism, T1611 — Escape to Host, T1053 — Scheduled Task/Job, T1055 — Process Injection                   |
 
 ### Step 8: Risk Rating
 
@@ -316,19 +321,19 @@ Use a **Likelihood x Impact** matrix to assign a risk rating to each threat. Thi
 
 **Likelihood Scale:**
 
-| Rating | Value | Description |
-|--------|-------|-------------|
-| Low | 1 | Requires significant skill, insider access, or rare conditions |
-| Medium | 2 | Exploitable with moderate skill and publicly known techniques |
-| High | 3 | Easily exploitable, automated tools available, broad attack surface |
+| Rating | Value | Description                                                         |
+| ------ | ----- | ------------------------------------------------------------------- |
+| Low    | 1     | Requires significant skill, insider access, or rare conditions      |
+| Medium | 2     | Exploitable with moderate skill and publicly known techniques       |
+| High   | 3     | Easily exploitable, automated tools available, broad attack surface |
 
 **Impact Scale:**
 
-| Rating | Value | Description |
-|--------|-------|-------------|
-| Low | 1 | Minor inconvenience, no data loss, limited business impact |
-| Medium | 2 | Partial data breach, service degradation, moderate financial loss |
-| High | 3 | Full data breach, complete service outage, regulatory penalties, reputational damage |
+| Rating | Value | Description                                                                          |
+| ------ | ----- | ------------------------------------------------------------------------------------ |
+| Low    | 1     | Minor inconvenience, no data loss, limited business impact                           |
+| Medium | 2     | Partial data breach, service degradation, moderate financial loss                    |
+| High   | 3     | Full data breach, complete service outage, regulatory penalties, reputational damage |
 
 **Risk Matrix:**
 
@@ -350,13 +355,13 @@ Use a **Likelihood x Impact** matrix to assign a risk rating to each threat. Thi
 
 **Risk Levels and Response:**
 
-| Risk Level | Score Range | Required Response |
-|------------|------------|-------------------|
-| Critical | 9 | Immediate remediation; blocks release |
-| High | 6 | Must remediate before production deployment |
-| Medium | 2-4 | Remediate within current sprint or next release cycle |
-| Low | 1-2 | Accept with documented rationale or address in backlog |
-| Info | 1 | Document for awareness; no action required |
+| Risk Level | Score Range | Required Response                                      |
+| ---------- | ----------- | ------------------------------------------------------ |
+| Critical   | 9           | Immediate remediation; blocks release                  |
+| High       | 6           | Must remediate before production deployment            |
+| Medium     | 2-4         | Remediate within current sprint or next release cycle  |
+| Low        | 1-2         | Accept with documented rationale or address in backlog |
+| Info       | 1           | Document for awareness; no action required             |
 
 ### Step 9: Prioritize Mitigations
 
@@ -370,35 +375,35 @@ Rank mitigations using the following prioritization criteria:
 
 **Mitigation Categories:**
 
-| Category | Examples |
-|----------|---------|
-| Preventive | Input validation, parameterized queries, TLS enforcement, MFA, least-privilege IAM |
-| Detective | Centralized logging, SIEM alerting, anomaly detection, integrity monitoring |
-| Corrective | Incident response playbooks, automated rollback, secret rotation, patch management |
+| Category     | Examples                                                                            |
+| ------------ | ----------------------------------------------------------------------------------- |
+| Preventive   | Input validation, parameterized queries, TLS enforcement, MFA, least-privilege IAM  |
+| Detective    | Centralized logging, SIEM alerting, anomaly detection, integrity monitoring         |
+| Corrective   | Incident response playbooks, automated rollback, secret rotation, patch management  |
 | Compensating | WAF rules, rate limiting, network segmentation, runtime application self-protection |
 
 ## 4. Findings Classification
 
-| Severity | Label | Definition | SLA |
-|----------|-------|------------|-----|
-| P0 | Critical | Active exploitation likely; full system compromise, mass data breach, or safety impact. Requires immediate action. | Remediate within 24 hours |
-| P1 | High | Significant risk of exploitation; major data exposure or service disruption. Blocks production release. | Remediate within 7 days |
-| P2 | Medium | Moderate risk; limited data exposure or partial service impact. Exploitable under specific conditions. | Remediate within 30 days |
-| P3 | Low | Minor risk; defense-in-depth gap or informational finding. Requires non-trivial attack chain. | Remediate within 90 days |
-| P4 | Informational | Best-practice recommendation or hardening suggestion. No direct exploitability demonstrated. | Backlog / next planning cycle |
+| Severity | Label         | Definition                                                                                                         | SLA                           |
+| -------- | ------------- | ------------------------------------------------------------------------------------------------------------------ | ----------------------------- |
+| P0       | Critical      | Active exploitation likely; full system compromise, mass data breach, or safety impact. Requires immediate action. | Remediate within 24 hours     |
+| P1       | High          | Significant risk of exploitation; major data exposure or service disruption. Blocks production release.            | Remediate within 7 days       |
+| P2       | Medium        | Moderate risk; limited data exposure or partial service impact. Exploitable under specific conditions.             | Remediate within 30 days      |
+| P3       | Low           | Minor risk; defense-in-depth gap or informational finding. Requires non-trivial attack chain.                      | Remediate within 90 days      |
+| P4       | Informational | Best-practice recommendation or hardening suggestion. No direct exploitability demonstrated.                       | Backlog / next planning cycle |
 
 ## 5. Output Format — Threat Register
 
 Produce the threat register as a structured table. Each row represents one identified threat.
 
-| Threat ID | STRIDE Category | Description | Affected Component | ATT&CK TTP | Likelihood | Impact | Severity | Mitigation | Owner | Status |
-|-----------|----------------|-------------|-------------------|-------------|------------|--------|----------|------------|-------|--------|
-| TM-001 | Spoofing | Credential stuffing attack against login endpoint due to missing rate limiting and absent MFA | Auth Service `/api/v1/login` | T1078 — Valid Accounts | High | High | Critical | Implement rate limiting (max 10 attempts/min), enforce MFA for all users, deploy credential breach detection | Auth Team | Open |
-| TM-002 | Tampering | SQL injection in search parameter allows unauthorized data modification | Search Service `/api/v1/search?q=` | T1190 — Exploit Public-Facing Application | Medium | High | High | Use parameterized queries, implement input validation, deploy WAF SQL injection rules | Backend Team | Open |
-| TM-003 | Repudiation | Admin actions on user accounts not logged, preventing forensic reconstruction | Admin Dashboard | T1070 — Indicator Removal | Medium | Medium | Medium | Implement immutable audit logging for all admin actions with centralized log aggregation | Platform Team | Open |
-| TM-004 | Information Disclosure | API error responses include stack traces and internal service names in production | All API endpoints | T1552 — Unsecured Credentials | High | Medium | High | Implement generic error responses in production, route detailed errors to logging only | Backend Team | Open |
-| TM-005 | Denial of Service | Unbounded file upload allows resource exhaustion via large payload submission | File Upload `/api/v1/upload` | T1499.003 — Application Exhaustion Flood | High | Medium | High | Enforce max file size (10MB), implement request timeout, add rate limiting per user | Storage Team | Open |
-| TM-006 | Elevation of Privilege | IDOR vulnerability allows regular users to access other users' records by modifying resource ID | User Profile `/api/v1/users/{id}` | T1068 — Exploitation for Privilege Escalation | High | High | Critical | Implement object-level authorization checks, validate resource ownership at service layer | Backend Team | Open |
+| Threat ID | STRIDE Category        | Description                                                                                     | Affected Component                 | ATT&CK TTP                                    | Likelihood | Impact | Severity | Mitigation                                                                                                   | Owner         | Status |
+| --------- | ---------------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------- | --------------------------------------------- | ---------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------ | ------------- | ------ |
+| TM-001    | Spoofing               | Credential stuffing attack against login endpoint due to missing rate limiting and absent MFA   | Auth Service `/api/v1/login`       | T1078 — Valid Accounts                        | High       | High   | Critical | Implement rate limiting (max 10 attempts/min), enforce MFA for all users, deploy credential breach detection | Auth Team     | Open   |
+| TM-002    | Tampering              | SQL injection in search parameter allows unauthorized data modification                         | Search Service `/api/v1/search?q=` | T1190 — Exploit Public-Facing Application     | Medium     | High   | High     | Use parameterized queries, implement input validation, deploy WAF SQL injection rules                        | Backend Team  | Open   |
+| TM-003    | Repudiation            | Admin actions on user accounts not logged, preventing forensic reconstruction                   | Admin Dashboard                    | T1070 — Indicator Removal                     | Medium     | Medium | Medium   | Implement immutable audit logging for all admin actions with centralized log aggregation                     | Platform Team | Open   |
+| TM-004    | Information Disclosure | API error responses include stack traces and internal service names in production               | All API endpoints                  | T1552 — Unsecured Credentials                 | High       | Medium | High     | Implement generic error responses in production, route detailed errors to logging only                       | Backend Team  | Open   |
+| TM-005    | Denial of Service      | Unbounded file upload allows resource exhaustion via large payload submission                   | File Upload `/api/v1/upload`       | T1499.003 — Application Exhaustion Flood      | High       | Medium | High     | Enforce max file size (10MB), implement request timeout, add rate limiting per user                          | Storage Team  | Open   |
+| TM-006    | Elevation of Privilege | IDOR vulnerability allows regular users to access other users' records by modifying resource ID | User Profile `/api/v1/users/{id}`  | T1068 — Exploitation for Privilege Escalation | High       | High   | Critical | Implement object-level authorization checks, validate resource ownership at service layer                    | Backend Team  | Open   |
 
 ## 6. Framework Reference
 
@@ -406,14 +411,14 @@ Produce the threat register as a structured table. Each row represents one ident
 
 STRIDE is a threat classification model developed by Loren Kohnfelder and Praerit Garg at Microsoft in 1999 and formalized as part of the Microsoft Security Development Lifecycle (SDL). It provides a systematic mnemonic for identifying threats against software systems by mapping each category to a violation of a security property:
 
-| STRIDE Category | Security Property Violated | Description |
-|----------------|---------------------------|-------------|
-| Spoofing | Authentication | Illegally accessing and using another user's credentials or identity |
-| Tampering | Integrity | Malicious modification of data at rest or in transit |
-| Repudiation | Non-repudiation | Performing actions that cannot be traced back to the actor |
-| Information Disclosure | Confidentiality | Exposing information to individuals not authorized to see it |
-| Denial of Service | Availability | Denying or degrading service to valid users |
-| Elevation of Privilege | Authorization | Gaining capabilities beyond those that were legitimately granted |
+| STRIDE Category        | Security Property Violated | Description                                                          |
+| ---------------------- | -------------------------- | -------------------------------------------------------------------- |
+| Spoofing               | Authentication             | Illegally accessing and using another user's credentials or identity |
+| Tampering              | Integrity                  | Malicious modification of data at rest or in transit                 |
+| Repudiation            | Non-repudiation            | Performing actions that cannot be traced back to the actor           |
+| Information Disclosure | Confidentiality            | Exposing information to individuals not authorized to see it         |
+| Denial of Service      | Availability               | Denying or degrading service to valid users                          |
+| Elevation of Privilege | Authorization              | Gaining capabilities beyond those that were legitimately granted     |
 
 STRIDE is typically applied "per element" — meaning each component in the data flow diagram is analyzed against all six categories. External entities are most susceptible to Spoofing and Repudiation; data flows to Tampering and Information Disclosure; data stores to Tampering, Information Disclosure, and Denial of Service; processes to all six categories.
 
@@ -496,7 +501,7 @@ This skill processes user-supplied content that may include system descriptions,
 4. **OWASP Threat Modeling Process** — https://owasp.org/www-community/Threat_Modeling_Process
 5. **MITRE ATT&CK Enterprise Matrix** — https://attack.mitre.org/matrices/enterprise/
 6. **MITRE ATT&CK Techniques** — https://attack.mitre.org/techniques/enterprise/
-7. **Shostack, A. (2014).** *Threat Modeling: Designing for Security.* Wiley.
+7. **Shostack, A. (2014).** _Threat Modeling: Designing for Security._ Wiley.
 8. **NIST SP 800-154** — Guide to Data-Centric System Threat Modeling — https://csrc.nist.gov/publications/detail/sp/800-154/draft
 9. **STRIDE Original Paper** — Kohnfelder, L. & Garg, P. (1999). "The Threats to Our Products." Microsoft Internal Document.
 10. **OWASP Risk Rating Methodology** — https://owasp.org/www-community/OWASP_Risk_Rating_Methodology

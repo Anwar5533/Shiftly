@@ -13,13 +13,13 @@
 
 特征（与现有 poster 模板的区别）：
 
-| 模板 | 用途 |
-|---|---|
-| `brand-poster.md`（已有） | 品牌主海报（产品 / 人物 / 文字主张） |
-| `campaign-kv.md`（已有） | Campaign KV + 衍生 layout 系统 |
-| `banner-hero.md`（已有） | Web hero / 落地页横向构图 + CTA |
-| `editorial-cover.md`（已有） | 杂志 / 期刊封面 |
-| **本模板**（新增） | **工业设计概念海报：原型 → 演化 → hero → 多视图技术图** |
+| 模板                         | 用途                                                    |
+| ---------------------------- | ------------------------------------------------------- |
+| `brand-poster.md`（已有）    | 品牌主海报（产品 / 人物 / 文字主张）                    |
+| `campaign-kv.md`（已有）     | Campaign KV + 衍生 layout 系统                          |
+| `banner-hero.md`（已有）     | Web hero / 落地页横向构图 + CTA                         |
+| `editorial-cover.md`（已有） | 杂志 / 期刊封面                                         |
+| **本模板**（新增）           | **工业设计概念海报：原型 → 演化 → hero → 多视图技术图** |
 
 ## 适用范围
 
@@ -83,7 +83,11 @@
         "title": "header",
         "position": "top",
         "count": 3,
-        "labels": ["emblem mark", "{argument name=\"product name\" default=\"SKYRAY\"}", "{argument name=\"tagline\" default=\"INSPIRED BY THE SEA. ENGINEERED FOR THE SKY.\"}"]
+        "labels": [
+          "emblem mark",
+          "{argument name=\"product name\" default=\"SKYRAY\"}",
+          "{argument name=\"tagline\" default=\"INSPIRED BY THE SEA. ENGINEERED FOR THE SKY.\"}"
+        ]
       },
       {
         "title": "evolution strip",
@@ -101,7 +105,9 @@
         "title": "hero render",
         "position": "center",
         "count": 1,
-        "labels": ["large three-quarter view of the {argument name=\"product type\" default=\"aircraft\"}"]
+        "labels": [
+          "large three-quarter view of the {argument name=\"product type\" default=\"aircraft\"}"
+        ]
       },
       {
         "title": "technical views grid",
@@ -183,7 +189,11 @@
     "rendering": "fine ink linework + stippled engraving + vintage drafting style",
     "mood": "Leonardo da Vinci notebook meets industrial blueprint"
   },
-  "extra_elements": ["handwritten margin notes", "small wax seal stamp", "ruler tick marks along edges"]
+  "extra_elements": [
+    "handwritten margin notes",
+    "small wax seal stamp",
+    "ruler tick marks along edges"
+  ]
 }
 ```
 

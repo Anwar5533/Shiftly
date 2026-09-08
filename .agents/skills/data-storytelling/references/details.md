@@ -69,11 +69,12 @@ Team morale was low after missed goals.
 ## The Transformation
 
 [Before/after comparison chart]
-| Metric | Q3 | Q4 | Change |
-|----------------|--------|--------|--------|
-| Trial → Paid | 8% | 15% | +87% |
-| Time to Value | 14 days| 5 days | -64% |
-| Expansion Rate | 2% | 8% | +300% |
+
+| Metric         | Q3      | Q4     | Change |
+| -------------- | ------- | ------ | ------ |
+| Trial → Paid   | 8%      | 15%    | +87%   |
+| Time to Value  | 14 days | 5 days | -64%   |
+| Expansion Rate | 2%      | 8%     | +300%  |
 
 ## Key Insight
 

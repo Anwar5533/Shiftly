@@ -35,6 +35,7 @@ cd {{REPO_PATH}} && git status --short && git log --oneline -10
 
 If git shows commits or deploy-related changes since the state doc was last updated, or the last
 session likely ended without session-end (crash, force-quit), reconcile:
+
 - Compare recent commits and live check against what the state doc claims.
 - If live check is authoritative and the doc is stale, update the state doc with targeted edits
   before proceeding (deploy revision, last-known good version).

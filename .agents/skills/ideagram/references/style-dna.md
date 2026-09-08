@@ -2,7 +2,7 @@
 
 This is the style contract for **generating** original illustrations with an image model — the path that lifts ideagram past "recolor what's in the library" to "create a beautiful, on-brand illustration for any concept." Every generated image obeys this DNA so a set of them reads as one designed system, not assorted stock art.
 
-The aesthetic target is *modern editorial flat illustration* — the register of unDraw, Storyset, and top SaaS marketing sites: clean, confident, characterful, a little bit art-directed. Not corporate clip art, not AI-slop.
+The aesthetic target is _modern editorial flat illustration_ — the register of unDraw, Storyset, and top SaaS marketing sites: clean, confident, characterful, a little bit art-directed. Not corporate clip art, not AI-slop.
 
 ## One sentence
 
@@ -22,7 +22,7 @@ Clean modern flat-vector illustration on a calm background: proportioned, charac
 
 - **Neutrals:** off-white/very-light background, mid-grey and charcoal for structure and line, near-black sparingly.
 - **Skin/organic:** natural muted skin tones (never one flat silhouette for a person).
-- **Accent:** ONE brand color (the request's hex). It is the loudest thing in the frame and marks the focal point. Optionally one *tint/shade* of it for a secondary surface — never a second unrelated hue.
+- **Accent:** ONE brand color (the request's hex). It is the loudest thing in the frame and marks the focal point. Optionally one _tint/shade_ of it for a secondary surface — never a second unrelated hue.
 - Restraint beats variety. If a third color feels needed, the scene is trying to say too much — simplify.
 
 ## Absolutely never (the anti-slop list)
@@ -40,4 +40,4 @@ These are the tells that make generated illustration look cheap or generic — f
 
 ## Aesthetic direction
 
-Confident, tasteful, a little bit clever. Clean but not sterile; simple but not empty; characterful but not busy. It should feel *art-directed by someone with taste*, not auto-generated. When in doubt: fewer elements, more whitespace, one strong idea, one accent.
+Confident, tasteful, a little bit clever. Clean but not sterile; simple but not empty; characterful but not busy. It should feel _art-directed by someone with taste_, not auto-generated. When in doubt: fewer elements, more whitespace, one strong idea, one accent.

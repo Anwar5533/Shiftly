@@ -12,13 +12,13 @@
 
 特征（与现有 UI 模板的区别）：
 
-| 模板 | 视觉范围 | 适用场景 |
-|---|---|---|
-| `chat-interface-scene.md` | 单屏聊天界面 | iMessage / 微信 / 群聊 |
-| `social-interface-mockup.md` | 单屏社交动态详情 | Twitter / 小红书 / 微博 |
-| `live-commerce-ui.md` | 单屏直播 UI 叠加 | 抖音 / 淘宝直播 |
-| `product-card-overlay.md` | 单屏 hero / 详情主图 | 电商详情页主图 |
-| **本模板** | **完整长页面**（5-7 个 section 纵向拼接） | **SaaS / 营销长页面 / case study** |
+| 模板                         | 视觉范围                                  | 适用场景                           |
+| ---------------------------- | ----------------------------------------- | ---------------------------------- |
+| `chat-interface-scene.md`    | 单屏聊天界面                              | iMessage / 微信 / 群聊             |
+| `social-interface-mockup.md` | 单屏社交动态详情                          | Twitter / 小红书 / 微博            |
+| `live-commerce-ui.md`        | 单屏直播 UI 叠加                          | 抖音 / 淘宝直播                    |
+| `product-card-overlay.md`    | 单屏 hero / 详情主图                      | 电商详情页主图                     |
+| **本模板**                   | **完整长页面**（5-7 个 section 纵向拼接） | **SaaS / 营销长页面 / case study** |
 
 ## 适用范围
 
@@ -85,8 +85,18 @@
         "subheadline": "{argument name=\"hero subhead\" default=\"3 天引爆全网, 助力品牌实现指数级增长\"}",
         "stats_row": {
           "count": 4,
-          "labels": ["{argument name=\"stat label 1\" default=\"总播放量\"}", "{argument name=\"stat label 2\" default=\"互动率\"}", "{argument name=\"stat label 3\" default=\"转化咨询\"}", "{argument name=\"stat label 4\" default=\"执行周期\"}"],
-          "values": ["{argument name=\"stat value 1\" default=\"10,240,000+\"}", "{argument name=\"stat value 2\" default=\"18.7%\"}", "{argument name=\"stat value 3\" default=\"3,200+\"}", "{argument name=\"stat value 4\" default=\"72小时\"}"]
+          "labels": [
+            "{argument name=\"stat label 1\" default=\"总播放量\"}",
+            "{argument name=\"stat label 2\" default=\"互动率\"}",
+            "{argument name=\"stat label 3\" default=\"转化咨询\"}",
+            "{argument name=\"stat label 4\" default=\"执行周期\"}"
+          ],
+          "values": [
+            "{argument name=\"stat value 1\" default=\"10,240,000+\"}",
+            "{argument name=\"stat value 2\" default=\"18.7%\"}",
+            "{argument name=\"stat value 3\" default=\"3,200+\"}",
+            "{argument name=\"stat value 4\" default=\"72小时\"}"
+          ]
         },
         "visual": "{argument name=\"hero visual\" default=\"cinematic shot of a person in a hoodie looking at glowing digital screens and graphs, large play button overlay\"}"
       },
@@ -95,8 +105,18 @@
         "title": "{argument name=\"strategy title\" default=\"Our 3-Day Execution Strategy\"}",
         "layout_type": "vertical timeline",
         "steps_count": 3,
-        "elements_per_step": ["timeline node circle", "step title", "3 bullet points", "video thumbnail with play button", "description box"],
-        "step_titles": ["Day 1: Asset Production", "Day 2: Multi-Platform Launch", "Day 3: Amplification & PR"]
+        "elements_per_step": [
+          "timeline node circle",
+          "step title",
+          "3 bullet points",
+          "video thumbnail with play button",
+          "description box"
+        ],
+        "step_titles": [
+          "Day 1: Asset Production",
+          "Day 2: Multi-Platform Launch",
+          "Day 3: Amplification & PR"
+        ]
       },
       {
         "name": "Performance",
@@ -116,7 +136,12 @@
         "name": "Keys to Success",
         "title": "{argument name=\"keys title\" default=\"The 3 Keys to Viral Success\"}",
         "cards_count": 3,
-        "card_elements": ["glowing icon (fire / target / antenna)", "card title", "2-line description", "VIEW DETAIL link with arrow"]
+        "card_elements": [
+          "glowing icon (fire / target / antenna)",
+          "card title",
+          "2-line description",
+          "VIEW DETAIL link with arrow"
+        ]
       },
       {
         "name": "Social Proof",
@@ -124,11 +149,25 @@
         "left_column": {
           "logos_count": 8,
           "grid": "2x4",
-          "brands": ["{argument name=\"logo 1\" default=\"SHEIN\"}", "SHOPLINE", "Blueglass", "instacart", "lemon8", "mi", "CIDER", "bellroy"]
+          "brands": [
+            "{argument name=\"logo 1\" default=\"SHEIN\"}",
+            "SHOPLINE",
+            "Blueglass",
+            "instacart",
+            "lemon8",
+            "mi",
+            "CIDER",
+            "bellroy"
+          ]
         },
         "right_column": {
           "testimonial_cards_count": 2,
-          "elements": ["large quotation mark", "italic quote text", "author avatar circle", "author name + title (e.g. SaaS Founder, Growth Manager)"]
+          "elements": [
+            "large quotation mark",
+            "italic quote text",
+            "author avatar circle",
+            "author name + title (e.g. SaaS Founder, Growth Manager)"
+          ]
         }
       },
       {

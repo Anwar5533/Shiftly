@@ -201,12 +201,12 @@ The report is self-contained and makes no network requests. Copy it, email it, o
 
 ## What appears on disk
 
-| Artifact | Purpose |
-|---|---|
-| `docs/design/<slug>/design.json` | Source of truth for requirements, estimates, components, flows, candidates, and the recommendation — and, in repository mode, the debt register, where a finding you have accepted stays accepted across runs |
-| `docs/design/<slug>/DESIGN.md` | Durable design document for humans and future agent sessions |
-| `$TMPDIR/system-design-<slug>.html` | Self-contained interactive report, regenerated from `design.json` |
-| `docs/adr/NNNN-<slug>.md` | Offered in repository mode once you pick a winner, so future sessions do not re-litigate it |
+| Artifact                            | Purpose                                                                                                                                                                                                       |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `docs/design/<slug>/design.json`    | Source of truth for requirements, estimates, components, flows, candidates, and the recommendation — and, in repository mode, the debt register, where a finding you have accepted stays accepted across runs |
+| `docs/design/<slug>/DESIGN.md`      | Durable design document for humans and future agent sessions                                                                                                                                                  |
+| `$TMPDIR/system-design-<slug>.html` | Self-contained interactive report, regenerated from `design.json`                                                                                                                                             |
+| `docs/adr/NNNN-<slug>.md`           | Offered in repository mode once you pick a winner, so future sessions do not re-litigate it                                                                                                                   |
 
 Outside a Git repository, `design.json` and `DESIGN.md` are written under `./<slug>/`. When the ask lands below the anti-overengineering gates, nothing is written at all — you get the answer and the gate that closed it.
 
@@ -229,17 +229,17 @@ Run `/system-design` again for the same system and it resumes from `design.json`
 
 The skill is plain Markdown plus a self-contained report renderer:
 
-| File | Responsibility |
-|---|---|
-| [`SKILL.md`](skills/system-design/SKILL.md) | The complete architecture workflow |
-| [`INTERVIEW.md`](skills/system-design/INTERVIEW.md) | Requirements frontier and question protocol |
-| [`HEURISTICS.md`](skills/system-design/HEURISTICS.md) | Decision rules, capacity references, and comparison characteristics |
-| [`ARCHETYPES.md`](skills/system-design/ARCHETYPES.md) | Canonical system patterns and failure modes |
-| [`HTML-REPORT.md`](skills/system-design/HTML-REPORT.md) | `design.json` schema and output contract |
-| [`EXAMPLES.md`](skills/system-design/EXAMPLES.md) | Conditional BAD/GOOD contrasts for making a generic first draft operationally specific |
-| [`AUDIT.md`](skills/system-design/AUDIT.md) | Debt taxonomy, the verification pipeline, and the findings that must not be raised |
-| [`assets/report-template.html`](skills/system-design/assets/report-template.html) | Interactive renderer with no runtime dependencies |
-| [`scripts/render_report.py`](skills/system-design/scripts/render_report.py) | Injects `design.json` into the template |
+| File                                                                              | Responsibility                                                                         |
+| --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| [`SKILL.md`](skills/system-design/SKILL.md)                                       | The complete architecture workflow                                                     |
+| [`INTERVIEW.md`](skills/system-design/INTERVIEW.md)                               | Requirements frontier and question protocol                                            |
+| [`HEURISTICS.md`](skills/system-design/HEURISTICS.md)                             | Decision rules, capacity references, and comparison characteristics                    |
+| [`ARCHETYPES.md`](skills/system-design/ARCHETYPES.md)                             | Canonical system patterns and failure modes                                            |
+| [`HTML-REPORT.md`](skills/system-design/HTML-REPORT.md)                           | `design.json` schema and output contract                                               |
+| [`EXAMPLES.md`](skills/system-design/EXAMPLES.md)                                 | Conditional BAD/GOOD contrasts for making a generic first draft operationally specific |
+| [`AUDIT.md`](skills/system-design/AUDIT.md)                                       | Debt taxonomy, the verification pipeline, and the findings that must not be raised     |
+| [`assets/report-template.html`](skills/system-design/assets/report-template.html) | Interactive renderer with no runtime dependencies                                      |
+| [`scripts/render_report.py`](skills/system-design/scripts/render_report.py)       | Injects `design.json` into the template                                                |
 
 Everything is inspectable and editable. The renderer runs locally and sends no repository or design data to a service.
 

@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import type { ChapterDef } from "../registry/types";
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import type { ChapterDef } from '../registry/types';
 
 /**
  * Bump this when chapter step counts / structure change so old persisted
  * cursors don't land mid-removed-step.
  */
-const STORAGE_KEY = "presentation-cursor-v4";
+const STORAGE_KEY = 'presentation-cursor-v4';
 
 export type Cursor = { chapter: number; step: number };
 
@@ -21,8 +21,7 @@ export interface StepperState {
   jumpToGlobal(globalIdx: number): void;
 }
 
-const clamp = (n: number, lo: number, hi: number) =>
-  Math.max(lo, Math.min(hi, n));
+const clamp = (n: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, n));
 
 /**
  * Clamp a (possibly stale) cursor to the current chapter list. Persisted
@@ -41,7 +40,7 @@ function sanitize(cursor: Cursor, chapters: ChapterDef[]): Cursor {
 export function useStepper(chapters: ChapterDef[]): StepperState {
   const [cursor, setCursor] = useState<Cursor>(() => {
     const fallback = { chapter: 0, step: 0 };
-    if (typeof window === "undefined") return fallback;
+    if (typeof window === 'undefined') return fallback;
     try {
       const raw = window.localStorage.getItem(STORAGE_KEY);
       if (raw) return sanitize(JSON.parse(raw), chapters);
@@ -57,9 +56,7 @@ export function useStepper(chapters: ChapterDef[]): StepperState {
   useEffect(() => {
     setCursor((cur) => {
       const next = sanitize(cur, chapters);
-      return next.chapter === cur.chapter && next.step === cur.step
-        ? cur
-        : next;
+      return next.chapter === cur.chapter && next.step === cur.step ? cur : next;
     });
   }, [chapters]);
 
@@ -89,10 +86,8 @@ export function useStepper(chapters: ChapterDef[]): StepperState {
   const next = useCallback(() => {
     setCursor((cur) => {
       const c = chapters[cur.chapter]!;
-      if (cur.step < c.narrations.length - 1)
-        return { ...cur, step: cur.step + 1 };
-      if (cur.chapter < chapters.length - 1)
-        return { chapter: cur.chapter + 1, step: 0 };
+      if (cur.step < c.narrations.length - 1) return { ...cur, step: cur.step + 1 };
+      if (cur.chapter < chapters.length - 1) return { chapter: cur.chapter + 1, step: 0 };
       return cur;
     });
   }, [chapters]);
@@ -139,24 +134,24 @@ export function useStepper(chapters: ChapterDef[]): StepperState {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.target instanceof HTMLInputElement) return;
-      if (e.key === "ArrowRight" || e.key === " ") {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
         e.preventDefault();
         next();
-      } else if (e.key === "ArrowLeft" || e.key === "Backspace") {
+      } else if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
         e.preventDefault();
         prev();
-      } else if (e.key === "Home") {
+      } else if (e.key === 'Home') {
         jumpToChapter(0, 0);
-      } else if (e.key === "End") {
+      } else if (e.key === 'End') {
         const last = chapters.length - 1;
         jumpToChapter(last, chapters[last]!.narrations.length - 1);
-      } else if (e.key >= "1" && e.key <= "9") {
+      } else if (e.key >= '1' && e.key <= '9') {
         const n = Number(e.key) - 1;
         if (n < chapters.length) jumpToChapter(n, 0);
       }
     };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
   }, [next, prev, jumpToChapter, chapters]);
 
   const ch = chapters[cursor.chapter]!;

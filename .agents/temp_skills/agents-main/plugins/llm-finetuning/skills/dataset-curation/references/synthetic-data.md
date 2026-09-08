@@ -141,8 +141,8 @@ leave implicit.
 The implementation recipe behind
 `checkpoint-promotion`'s catastrophic-forgetting
 escalation ladder (`SKILL.md`'s owning document for
-*when* and *how far* to move the replay fraction —
-this section covers *how to build the rows*, the
+_when_ and _how far_ to move the replay fraction —
+this section covers _how to build the rows_, the
 single most common REJECT remediation and the part
 most often improvised ad hoc under time pressure).
 Five decisions, in the order they come up:
@@ -274,7 +274,7 @@ trajectories in practice, so treat swap-not-add as a
 hard rule for this recipe, not a style preference.
 
 **Row count is not token count.** Swapping rows
-1-for-1 holds the *row* count constant, but replay
+1-for-1 holds the _row_ count constant, but replay
 rows and target-task rows are rarely the same length —
 a swap can still shift total training tokens (and
 therefore `max_steps` under a fixed batch size and

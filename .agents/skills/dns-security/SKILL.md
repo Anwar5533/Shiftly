@@ -12,13 +12,13 @@ role: [security-engineer]
 phase: [operate]
 frameworks: [NIST-SP-800-81-Rev2, CIS-Controls-v8]
 difficulty: intermediate
-time_estimate: "20-40min"
-version: "1.0.0"
+time_estimate: '20-40min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 injection-hardened: true
-argument-hint: "[target-file-or-directory]"
+argument-hint: '[target-file-or-directory]'
 ---
 
 # DNS Security Review
@@ -87,6 +87,7 @@ Use Glob and Grep to locate DNS server configurations, resolver settings, and re
 ```
 
 Categorize discovered configurations:
+
 - **Authoritative servers:** BIND, PowerDNS, Route53 hosted zones, Cloud DNS zones.
 - **Recursive resolvers:** Unbound, BIND (recursion enabled), CoreDNS, systemd-resolved.
 - **Protective DNS / filtering:** RPZ, Pi-hole, Cisco Umbrella, Cloudflare Gateway, Quad9.
@@ -162,10 +163,10 @@ Evaluate whether DNS queries are protected in transit.
 
 #### 3.1 DNS over HTTPS (DoH) and DNS over TLS (DoT)
 
-| Transport | Port | Standard | Use Case |
-|-----------|------|----------|----------|
-| DNS over TLS (DoT) | 853 | RFC 7858 | Resolver-to-resolver, client-to-resolver (enterprise) |
-| DNS over HTTPS (DoH) | 443 | RFC 8484 | Client-to-resolver (privacy-focused, browser-level) |
+| Transport            | Port | Standard | Use Case                                              |
+| -------------------- | ---- | -------- | ----------------------------------------------------- |
+| DNS over TLS (DoT)   | 853  | RFC 7858 | Resolver-to-resolver, client-to-resolver (enterprise) |
+| DNS over HTTPS (DoH) | 443  | RFC 8484 | Client-to-resolver (privacy-focused, browser-level)   |
 
 **What to verify:**
 
@@ -243,14 +244,14 @@ DNS tunneling encodes data in DNS query names or TXT record responses to create 
 
 #### 5.1 Exfiltration Indicators
 
-| Indicator | Normal | Suspicious | Detection Method |
-|-----------|--------|-----------|-----------------|
-| **Query name length** | < 30 chars | > 50 chars, near 253-char max | Monitor average FQDN length per source |
-| **Subdomain label count** | 2-4 labels | > 6 labels | Count label depth |
-| **Label entropy** | Low (readable words) | High (base32/base64 encoded) | Shannon entropy > 3.5 per label |
-| **Query type distribution** | A, AAAA dominant | Heavy TXT, NULL, CNAME | Monitor query type ratios |
-| **Query volume per domain** | < 100/hr to a single domain | > 1000/hr to single obscure domain | Volumetric per-domain threshold |
-| **Response size** | < 512 bytes | TXT responses > 512 bytes, multiple TXT records | Monitor response payload sizes |
+| Indicator                   | Normal                      | Suspicious                                      | Detection Method                       |
+| --------------------------- | --------------------------- | ----------------------------------------------- | -------------------------------------- |
+| **Query name length**       | < 30 chars                  | > 50 chars, near 253-char max                   | Monitor average FQDN length per source |
+| **Subdomain label count**   | 2-4 labels                  | > 6 labels                                      | Count label depth                      |
+| **Label entropy**           | Low (readable words)        | High (base32/base64 encoded)                    | Shannon entropy > 3.5 per label        |
+| **Query type distribution** | A, AAAA dominant            | Heavy TXT, NULL, CNAME                          | Monitor query type ratios              |
+| **Query volume per domain** | < 100/hr to a single domain | > 1000/hr to single obscure domain              | Volumetric per-domain threshold        |
+| **Response size**           | < 512 bytes                 | TXT responses > 512 bytes, multiple TXT records | Monitor response payload sizes         |
 
 #### 5.2 Tunneling Tool Signatures
 
@@ -296,12 +297,12 @@ abcdef0123456789.dnscat.example.com TXT
 
 ## Findings Classification
 
-| Severity | Definition |
-|----------|-----------|
-| **Critical** | Broken DNSSEC chain of trust (missing DS record in parent); authoritative zones serving invalid signatures. |
-| **High** | DNSSEC validation disabled on resolvers; no DNS filtering/RPZ; unsigned public authoritative zones; DNS bypass paths around protective DNS; no DNS query logging; weak signing algorithms. |
-| **Medium** | Plaintext DNS forwarding over untrusted networks; stale RPZ feeds; undocumented NTAs; no NRD blocking; no exfiltration detection; DoH bypass not controlled. |
-| **Low** | Missing documentation of DNS architecture; resolver software not at latest version; cosmetic configuration issues. |
+| Severity     | Definition                                                                                                                                                                                 |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Critical** | Broken DNSSEC chain of trust (missing DS record in parent); authoritative zones serving invalid signatures.                                                                                |
+| **High**     | DNSSEC validation disabled on resolvers; no DNS filtering/RPZ; unsigned public authoritative zones; DNS bypass paths around protective DNS; no DNS query logging; weak signing algorithms. |
+| **Medium**   | Plaintext DNS forwarding over untrusted networks; stale RPZ feeds; undocumented NTAs; no NRD blocking; no exfiltration detection; DoH bypass not controlled.                               |
+| **Low**      | Missing documentation of DNS architecture; resolver software not at latest version; cosmetic configuration issues.                                                                         |
 
 ---
 
@@ -356,21 +357,21 @@ abcdef0123456789.dnscat.example.com TXT
 
 ### NIST SP 800-81 Rev 2
 
-| Section | Topic | Key Requirements |
-|---------|-------|-----------------|
-| 2 | DNS Threats | Cache poisoning, unauthorized zone modification, DDoS |
-| 3 | Securing DNS Transactions | TSIG for zone transfers, ACLs on recursive queries |
-| 4 | DNSSEC for Authoritative Servers | Zone signing, key management, algorithm selection, NSEC3 |
-| 5 | DNSSEC for Recursive Resolvers | Validation enablement, trust anchor management, NTA policy |
-| 6 | Securing DNS Infrastructure | Restricting zone transfers, hiding version strings, rate limiting |
+| Section | Topic                            | Key Requirements                                                  |
+| ------- | -------------------------------- | ----------------------------------------------------------------- |
+| 2       | DNS Threats                      | Cache poisoning, unauthorized zone modification, DDoS             |
+| 3       | Securing DNS Transactions        | TSIG for zone transfers, ACLs on recursive queries                |
+| 4       | DNSSEC for Authoritative Servers | Zone signing, key management, algorithm selection, NSEC3          |
+| 5       | DNSSEC for Recursive Resolvers   | Validation enablement, trust anchor management, NTA policy        |
+| 6       | Securing DNS Infrastructure      | Restricting zone transfers, hiding version strings, rate limiting |
 
 ### CIS Controls v8
 
-| Control | Title | Relevance |
-|---------|-------|-----------|
-| 9.2 | Use DNS Filtering Services | Block known malicious domains, NRD filtering, category-based blocking |
-| 9.3 | Maintain and Enforce Network-Based URL Filters | Complementary URL filtering for HTTPS traffic |
-| 3.12 | Segment Data Processing and Storage Based on Sensitivity | DNS resolver isolation per zone |
+| Control | Title                                                    | Relevance                                                             |
+| ------- | -------------------------------------------------------- | --------------------------------------------------------------------- |
+| 9.2     | Use DNS Filtering Services                               | Block known malicious domains, NRD filtering, category-based blocking |
+| 9.3     | Maintain and Enforce Network-Based URL Filters           | Complementary URL filtering for HTTPS traffic                         |
+| 3.12    | Segment Data Processing and Storage Based on Sensitivity | DNS resolver isolation per zone                                       |
 
 ---
 

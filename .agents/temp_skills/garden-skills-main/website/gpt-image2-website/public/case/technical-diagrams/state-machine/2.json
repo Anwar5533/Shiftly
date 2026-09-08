@@ -187,14 +187,7 @@
     "style": "small panel, mono 10pt"
   },
   "constraints": {
-    "must_keep": [
-      "initial / final 形状正确",
-      "transition 全带 label",
-      "legend 必画"
-    ],
-    "avoid": [
-      "用流程图形状代替 state",
-      "微信 字样与业务字段在图中拼写错误"
-    ]
+    "must_keep": ["initial / final 形状正确", "transition 全带 label", "legend 必画"],
+    "avoid": ["用流程图形状代替 state", "微信 字样与业务字段在图中拼写错误"]
   }
 }

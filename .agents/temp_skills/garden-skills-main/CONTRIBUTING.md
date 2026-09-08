@@ -104,7 +104,7 @@ Every skill in this repo follows the same minimal shape:
 ---
 name: my-skill
 description: A clear sentence about what this skill does and when to use it.
-              The agent uses this to decide whether to load the skill.
+  The agent uses this to decide whether to load the skill.
 ---
 
 # My Skill
@@ -121,14 +121,7 @@ Detailed instructions, examples, and constraints go here.
   "category": "Design / Frontend",
   "description": "What it does, what it's good for. Shown in install UIs.",
   "homepage": "https://github.com/ConardLi/garden-skills/tree/main/skills/my-skill",
-  "compat": [
-    "claude-code",
-    "claude-ai",
-    "cursor",
-    "codex-cli",
-    "gemini-cli",
-    "opencode"
-  ]
+  "compat": ["claude-code", "claude-ai", "cursor", "codex-cli", "gemini-cli", "opencode"]
 }
 ```
 
@@ -146,7 +139,7 @@ For the full SKILL.md spec, see [agentskills.io](https://agentskills.io) and the
    Start with `version: "0.1.0"` if it's experimental, or `1.0.0` if you're
    confident it's ready.
 2. Append the inline DOWNLOAD marker to the end of the new skill's "Links:" /
-   "链接：" row in every localized root README (preceded by ` · `):
+   "链接：" row in every localized root README (preceded by `·`):
    ```markdown
    Links: [README](...) · [SKILL.md](...) · <!-- DOWNLOAD:<new-name>:start --><!-- DOWNLOAD:<new-name>:end -->
    ```
@@ -241,11 +234,11 @@ point at them.
 
 Each skill is versioned **independently** with [SemVer](https://semver.org/).
 
-| Change | Bump |
-|---|---|
-| Typo fixes, new optional reference, `SKILL.md` micro-edits | **patch** |
+| Change                                                                        | Bump      |
+| ----------------------------------------------------------------------------- | --------- |
+| Typo fixes, new optional reference, `SKILL.md` micro-edits                    | **patch** |
 | Workflow changes in `SKILL.md`, restructured `references/`, new required step | **minor** |
-| Renamed skill, removed files, breaking frontmatter changes | **major** |
+| Renamed skill, removed files, breaking frontmatter changes                    | **major** |
 
 Pre-release suffixes (`1.2.0-beta.1`, `1.2.0-rc.1`) are supported by the tag
 regex and the workflow — but `cut-release.mjs` only offers patch / minor /
@@ -324,8 +317,8 @@ current `manifest.json#version`. It's idempotent and runs:
 Why an auto-rewriting marker instead of a stable "always-latest" URL? GitHub's
 `releases/latest/download/<asset>` redirects to the most recent release of the
 **whole repo**, which doesn't fit a multi-skill monorepo where each skill
-releases independently. The marker keeps every skill's link pointing at *its
-own* most recent immutable artifact.
+releases independently. The marker keeps every skill's link pointing at _its
+own_ most recent immutable artifact.
 
 ---
 
@@ -368,14 +361,14 @@ gh release delete <name>-v<X.Y.Z> --yes
 
 ## Troubleshooting
 
-| Symptom | Cause | Fix |
-|---|---|---|
-| `release-skill` fails: `Version drift: tag asks for 1.1.0 but manifest is 1.0.0` | Tag pushed but `manifest.json#version` not bumped | Bump the manifest, commit, retag |
-| `validate-skills` fails: `README out of date` | Someone edited the README's Download line by hand, or bumped a manifest without running `npm run readme:sync` | Run `npm run readme:sync` and commit |
-| `validate-skills` fails: missing `manifest.json` | New skill folder added without a manifest | Add `skills/<name>/manifest.json` with at least `name`, `version`, `description`, `category`, `compat` |
-| `cut-release.mjs` exits with `Tag 'foo' does not match <skill>-v<semver>` | Tag name typo | Tags must be exactly `<lower-kebab-skill-name>-v<X.Y.Z>` |
-| `cut-release.mjs` says "Local main is N commit(s) behind origin/main" | Bot pushed the README sync after your last pull | `git pull origin main` then re-run |
-| `npm run release` fails on dirty tree | Uncommitted changes | Commit/stash first, or use `npm run release:dry` to just preview |
+| Symptom                                                                          | Cause                                                                                                         | Fix                                                                                                    |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `release-skill` fails: `Version drift: tag asks for 1.1.0 but manifest is 1.0.0` | Tag pushed but `manifest.json#version` not bumped                                                             | Bump the manifest, commit, retag                                                                       |
+| `validate-skills` fails: `README out of date`                                    | Someone edited the README's Download line by hand, or bumped a manifest without running `npm run readme:sync` | Run `npm run readme:sync` and commit                                                                   |
+| `validate-skills` fails: missing `manifest.json`                                 | New skill folder added without a manifest                                                                     | Add `skills/<name>/manifest.json` with at least `name`, `version`, `description`, `category`, `compat` |
+| `cut-release.mjs` exits with `Tag 'foo' does not match <skill>-v<semver>`        | Tag name typo                                                                                                 | Tags must be exactly `<lower-kebab-skill-name>-v<X.Y.Z>`                                               |
+| `cut-release.mjs` says "Local main is N commit(s) behind origin/main"            | Bot pushed the README sync after your last pull                                                               | `git pull origin main` then re-run                                                                     |
+| `npm run release` fails on dirty tree                                            | Uncommitted changes                                                                                           | Commit/stash first, or use `npm run release:dry` to just preview                                       |
 
 ---
 
@@ -401,4 +394,4 @@ gh release delete <name>-v<X.Y.Z> --yes
 - **Why zero npm dependencies?**
   Keeps CI fast (no install step), eliminates supply-chain surface, and
   guarantees the tooling works in any Node 20+ environment without `npm
-  install`.
+install`.

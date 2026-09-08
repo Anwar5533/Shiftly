@@ -417,10 +417,6 @@
       "crow's foot 或 UML 多重性",
       "暗色 grid + mono"
     ],
-    "avoid": [
-      "用菱形当实体",
-      "join 表与主表同色",
-      "声称可编辑 dbdiagram 工程文件"
-    ]
+    "avoid": ["用菱形当实体", "join 表与主表同色", "声称可编辑 dbdiagram 工程文件"]
   }
 }

@@ -11,13 +11,13 @@ role: [security-engineer, vciso]
 phase: [operate]
 frameworks: [CIS-Controls-v8, NIST-SP-800-53-AC-6]
 difficulty: intermediate
-time_estimate: "45-90min"
-version: "1.0.0"
+time_estimate: '45-90min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 injection-hardened: true
-argument-hint: "[target-file-or-directory]"
+argument-hint: '[target-file-or-directory]'
 ---
 
 # Privileged Access Management Review
@@ -67,25 +67,25 @@ Privileged accounts are the primary target in 74% of breaches involving credenti
 
 ## Framework Quick Reference
 
-| Framework | Control ID | Title | PAM Relevance |
-|---|---|---|---|
-| **NIST SP 800-53** | AC-6 | Least Privilege | Foundation: authorize only necessary access |
-| **NIST SP 800-53** | AC-6(1) | Authorize Access to Security Functions | Explicit authorization for security-relevant functions |
-| **NIST SP 800-53** | AC-6(2) | Non-Privileged Access for Non-Security Functions | Privileged users use non-privileged accounts for non-security tasks |
-| **NIST SP 800-53** | AC-6(3) | Network Access to Privileged Commands | Restrict network access to privileged commands to defined need |
-| **NIST SP 800-53** | AC-6(5) | Privileged Accounts | Restrict privileged accounts to specific personnel or roles |
-| **NIST SP 800-53** | AC-6(7) | Review of User Privileges | Review at defined frequency to validate continued need |
-| **NIST SP 800-53** | AC-6(9) | Log Use of Privileged Functions | Audit execution of privileged functions |
-| **NIST SP 800-53** | AC-6(10) | Prohibit Non-Privileged Users from Executing Privileged Functions | Enforce separation |
-| **NIST SP 800-53** | AC-2(2) | Automated Temporary and Emergency Account Management | Time-based removal of temporary/emergency accounts |
-| **NIST SP 800-53** | AC-2(4) | Automated Audit Actions | Automatic logging of account lifecycle actions |
-| **NIST SP 800-53** | AC-17(1) | Remote Access — Monitoring and Control | Monitor and control remote privileged sessions |
-| **NIST SP 800-53** | AU-12 | Audit Record Generation | Generate audit records for privileged events |
-| **NIST SP 800-53** | IA-5(1) | Authenticator Management — Password-Based | Password complexity, rotation, and management |
-| **CIS Controls v8** | 5.4 | Restrict Administrator Privileges to Dedicated Administrator Accounts | Separate admin from standard accounts |
-| **CIS Controls v8** | 6.5 | Require MFA for Administrative Access | MFA on all admin access paths |
-| **CIS Controls v8** | 5.2 | Use Unique Passwords | No shared credentials for privileged accounts |
-| **CIS Controls v8** | 5.3 | Disable Dormant Accounts | Disable unused privileged accounts |
+| Framework           | Control ID | Title                                                                 | PAM Relevance                                                       |
+| ------------------- | ---------- | --------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| **NIST SP 800-53**  | AC-6       | Least Privilege                                                       | Foundation: authorize only necessary access                         |
+| **NIST SP 800-53**  | AC-6(1)    | Authorize Access to Security Functions                                | Explicit authorization for security-relevant functions              |
+| **NIST SP 800-53**  | AC-6(2)    | Non-Privileged Access for Non-Security Functions                      | Privileged users use non-privileged accounts for non-security tasks |
+| **NIST SP 800-53**  | AC-6(3)    | Network Access to Privileged Commands                                 | Restrict network access to privileged commands to defined need      |
+| **NIST SP 800-53**  | AC-6(5)    | Privileged Accounts                                                   | Restrict privileged accounts to specific personnel or roles         |
+| **NIST SP 800-53**  | AC-6(7)    | Review of User Privileges                                             | Review at defined frequency to validate continued need              |
+| **NIST SP 800-53**  | AC-6(9)    | Log Use of Privileged Functions                                       | Audit execution of privileged functions                             |
+| **NIST SP 800-53**  | AC-6(10)   | Prohibit Non-Privileged Users from Executing Privileged Functions     | Enforce separation                                                  |
+| **NIST SP 800-53**  | AC-2(2)    | Automated Temporary and Emergency Account Management                  | Time-based removal of temporary/emergency accounts                  |
+| **NIST SP 800-53**  | AC-2(4)    | Automated Audit Actions                                               | Automatic logging of account lifecycle actions                      |
+| **NIST SP 800-53**  | AC-17(1)   | Remote Access — Monitoring and Control                                | Monitor and control remote privileged sessions                      |
+| **NIST SP 800-53**  | AU-12      | Audit Record Generation                                               | Generate audit records for privileged events                        |
+| **NIST SP 800-53**  | IA-5(1)    | Authenticator Management — Password-Based                             | Password complexity, rotation, and management                       |
+| **CIS Controls v8** | 5.4        | Restrict Administrator Privileges to Dedicated Administrator Accounts | Separate admin from standard accounts                               |
+| **CIS Controls v8** | 6.5        | Require MFA for Administrative Access                                 | MFA on all admin access paths                                       |
+| **CIS Controls v8** | 5.2        | Use Unique Passwords                                                  | No shared credentials for privileged accounts                       |
+| **CIS Controls v8** | 5.3        | Disable Dormant Accounts                                              | Disable unused privileged accounts                                  |
 
 ---
 
@@ -123,15 +123,15 @@ PAM-INV-10: Third-party/vendor privileged access not inventoried
 
 **Platform-specific privileged accounts:**
 
-| Platform | Privileged Accounts to Inventory |
-|---|---|
-| **AWS** | Root account, IAM users with `AdministratorAccess`, roles with `iam:*` or `*:*`, SSO admin |
-| **Azure** | Global Administrator, Privileged Role Administrator, Subscription Owner, Key Vault admin |
-| **GCP** | Organization Admin, Folder Admin, Project Owner, Service Account Key Admin |
-| **Active Directory** | Domain Admins, Enterprise Admins, Schema Admins, KRBTGT, built-in Administrator |
-| **Linux** | root, sudoers, SSH key holders with root access |
-| **Databases** | DBA accounts, `sa` (SQL Server), `sys`/`system` (Oracle), `postgres` superuser |
-| **Kubernetes** | `cluster-admin` ClusterRoleBinding holders, namespace admins |
+| Platform             | Privileged Accounts to Inventory                                                           |
+| -------------------- | ------------------------------------------------------------------------------------------ |
+| **AWS**              | Root account, IAM users with `AdministratorAccess`, roles with `iam:*` or `*:*`, SSO admin |
+| **Azure**            | Global Administrator, Privileged Role Administrator, Subscription Owner, Key Vault admin   |
+| **GCP**              | Organization Admin, Folder Admin, Project Owner, Service Account Key Admin                 |
+| **Active Directory** | Domain Admins, Enterprise Admins, Schema Admins, KRBTGT, built-in Administrator            |
+| **Linux**            | root, sudoers, SSH key holders with root access                                            |
+| **Databases**        | DBA accounts, `sa` (SQL Server), `sys`/`system` (Oracle), `postgres` superuser             |
+| **Kubernetes**       | `cluster-admin` ClusterRoleBinding holders, namespace admins                               |
 
 ---
 
@@ -144,14 +144,14 @@ PAM-INV-10: Third-party/vendor privileged access not inventoried
 
 #### PAM Capability Assessment Matrix
 
-| Capability | Not Present | Basic | Mature | Advanced |
-|---|---|---|---|---|
-| **Credential Vaulting** | Credentials in plaintext/spreadsheets | Vault deployed, partial onboarding | All privileged credentials vaulted | Auto-discovered, auto-onboarded, auto-rotated |
-| **Session Management** | No privileged session controls | Session proxy for some systems | Session proxy for all critical systems | Session recording + real-time monitoring + termination |
-| **JIT Access** | Standing privileges only | Manual request/approval process | Automated JIT with approval workflows | Risk-adaptive JIT with behavioral analytics |
-| **Password Rotation** | Manual or no rotation | Scheduled rotation (e.g., 90 days) | Automatic rotation after each use | Dynamic credentials (ephemeral, single-use) |
-| **Discovery** | Manual inventory | Periodic scan for privileged accounts | Continuous discovery and alerting | Auto-onboarding of discovered privileged accounts |
-| **Analytics** | No privileged activity analytics | Basic usage reports | Anomaly detection on privileged sessions | ML-driven behavioral analytics with automated response |
+| Capability              | Not Present                           | Basic                                 | Mature                                   | Advanced                                               |
+| ----------------------- | ------------------------------------- | ------------------------------------- | ---------------------------------------- | ------------------------------------------------------ |
+| **Credential Vaulting** | Credentials in plaintext/spreadsheets | Vault deployed, partial onboarding    | All privileged credentials vaulted       | Auto-discovered, auto-onboarded, auto-rotated          |
+| **Session Management**  | No privileged session controls        | Session proxy for some systems        | Session proxy for all critical systems   | Session recording + real-time monitoring + termination |
+| **JIT Access**          | Standing privileges only              | Manual request/approval process       | Automated JIT with approval workflows    | Risk-adaptive JIT with behavioral analytics            |
+| **Password Rotation**   | Manual or no rotation                 | Scheduled rotation (e.g., 90 days)    | Automatic rotation after each use        | Dynamic credentials (ephemeral, single-use)            |
+| **Discovery**           | Manual inventory                      | Periodic scan for privileged accounts | Continuous discovery and alerting        | Auto-onboarding of discovered privileged accounts      |
+| **Analytics**           | No privileged activity analytics      | Basic usage reports                   | Anomaly detection on privileged sessions | ML-driven behavioral analytics with automated response |
 
 **What to look for:**
 
@@ -179,13 +179,13 @@ PAM-TOOL-10: PAM tool not integrated with IdP for identity verification
 
 #### JIT Access Design Patterns
 
-| Pattern | Description | Use Case | Complexity |
-|---|---|---|---|
-| **Approval-Based JIT** | User requests elevation, manager/security approves, time-bounded grant | General admin access | Low |
-| **Self-Service JIT** | User self-activates eligible role with MFA + justification, auto-expires | On-call engineering, incident response | Medium |
-| **Policy-Based JIT** | Automated grant based on context (on-call schedule, ticket assignment) | Change management, scheduled maintenance | Medium |
-| **Ephemeral Credentials** | Short-lived credentials generated per session, no persistent secrets | CI/CD pipelines, automation | High |
-| **Broker-Based JIT** | PAM tool brokers connection with injected credentials, user never sees password | Database access, server administration | High |
+| Pattern                   | Description                                                                     | Use Case                                 | Complexity |
+| ------------------------- | ------------------------------------------------------------------------------- | ---------------------------------------- | ---------- |
+| **Approval-Based JIT**    | User requests elevation, manager/security approves, time-bounded grant          | General admin access                     | Low        |
+| **Self-Service JIT**      | User self-activates eligible role with MFA + justification, auto-expires        | On-call engineering, incident response   | Medium     |
+| **Policy-Based JIT**      | Automated grant based on context (on-call schedule, ticket assignment)          | Change management, scheduled maintenance | Medium     |
+| **Ephemeral Credentials** | Short-lived credentials generated per session, no persistent secrets            | CI/CD pipelines, automation              | High       |
+| **Broker-Based JIT**      | PAM tool brokers connection with injected credentials, user never sees password | Database access, server administration   | High       |
 
 **What to look for:**
 
@@ -204,22 +204,22 @@ PAM-JIT-10: No escalation path when JIT approver is unavailable
 
 **Platform-specific JIT mechanisms:**
 
-| Platform | JIT Mechanism | Key Configuration |
-|---|---|---|
-| **AWS** | IAM Identity Center temporary permission sets, STS `AssumeRole` with session duration | Maximum session duration, MFA required, external ID for cross-account |
-| **Azure** | Entra ID PIM (Privileged Identity Management) | Eligible vs. active assignments, activation requires MFA + justification, max 8-hour duration |
-| **GCP** | Privileged Access Manager (PAM), IAM Conditions with time-bound bindings | Time-bound IAM bindings, approval workflows, audit logging |
-| **CyberArk** | Dual control, exclusive access, one-time passwords | Workflow approval, check-out/check-in, automatic rotation after use |
-| **HashiCorp Vault** | Dynamic secrets, leased credentials | TTL-based leases, automatic revocation, policy-bound issuance |
+| Platform            | JIT Mechanism                                                                         | Key Configuration                                                                             |
+| ------------------- | ------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| **AWS**             | IAM Identity Center temporary permission sets, STS `AssumeRole` with session duration | Maximum session duration, MFA required, external ID for cross-account                         |
+| **Azure**           | Entra ID PIM (Privileged Identity Management)                                         | Eligible vs. active assignments, activation requires MFA + justification, max 8-hour duration |
+| **GCP**             | Privileged Access Manager (PAM), IAM Conditions with time-bound bindings              | Time-bound IAM bindings, approval workflows, audit logging                                    |
+| **CyberArk**        | Dual control, exclusive access, one-time passwords                                    | Workflow approval, check-out/check-in, automatic rotation after use                           |
+| **HashiCorp Vault** | Dynamic secrets, leased credentials                                                   | TTL-based leases, automatic revocation, policy-bound issuance                                 |
 
 **JIT Maturity Levels:**
 
-| Level | Description | Characteristics |
-|---|---|---|
-| **Level 0 — None** | Standing privileges | All admins have permanent access, no elevation workflow |
-| **Level 1 — Requested** | Manual JIT | Request via ticket, manual provisioning, manual revocation |
-| **Level 2 — Managed** | Automated JIT | PAM-managed elevation, approval workflows, automatic expiry |
-| **Level 3 — Adaptive** | Risk-based JIT | Context-aware approval, behavioral analytics, ephemeral credentials |
+| Level                   | Description         | Characteristics                                                     |
+| ----------------------- | ------------------- | ------------------------------------------------------------------- |
+| **Level 0 — None**      | Standing privileges | All admins have permanent access, no elevation workflow             |
+| **Level 1 — Requested** | Manual JIT          | Request via ticket, manual provisioning, manual revocation          |
+| **Level 2 — Managed**   | Automated JIT       | PAM-managed elevation, approval workflows, automatic expiry         |
+| **Level 3 — Adaptive**  | Risk-based JIT      | Context-aware approval, behavioral analytics, ephemeral credentials |
 
 ---
 
@@ -248,16 +248,16 @@ PAM-BG-10: Break-glass procedure not included in disaster recovery plans
 
 **Break-glass design requirements:**
 
-| Requirement | Description | Framework Basis |
-|---|---|---|
-| **Sealed storage** | Credentials stored in tamper-evident container (physical safe, HSM, sealed digital envelope) | AC-6(1) |
-| **Split custody** | No single individual can access break-glass alone (dual control) | AC-5 (separation of duties) |
-| **Immediate alerting** | Use of break-glass triggers alert to security team and management | AU-12, AC-6(9) |
-| **Automatic logging** | All actions during break-glass session recorded in tamper-proof log | AC-2(4), AU-12 |
-| **Post-use rotation** | Credentials changed immediately after break-glass event concludes | IA-5(1) |
-| **Quarterly testing** | Validate procedure works, credentials are valid, alerts fire | AC-2(2) |
-| **Scoped permissions** | Break-glass accounts limited to recovery actions, not full admin | AC-6 |
-| **Time-bounded** | Break-glass sessions auto-terminate after defined maximum duration | AC-2(2) |
+| Requirement            | Description                                                                                  | Framework Basis             |
+| ---------------------- | -------------------------------------------------------------------------------------------- | --------------------------- |
+| **Sealed storage**     | Credentials stored in tamper-evident container (physical safe, HSM, sealed digital envelope) | AC-6(1)                     |
+| **Split custody**      | No single individual can access break-glass alone (dual control)                             | AC-5 (separation of duties) |
+| **Immediate alerting** | Use of break-glass triggers alert to security team and management                            | AU-12, AC-6(9)              |
+| **Automatic logging**  | All actions during break-glass session recorded in tamper-proof log                          | AC-2(4), AU-12              |
+| **Post-use rotation**  | Credentials changed immediately after break-glass event concludes                            | IA-5(1)                     |
+| **Quarterly testing**  | Validate procedure works, credentials are valid, alerts fire                                 | AC-2(2)                     |
+| **Scoped permissions** | Break-glass accounts limited to recovery actions, not full admin                             | AC-6                        |
+| **Time-bounded**       | Break-glass sessions auto-terminate after defined maximum duration                           | AC-2(2)                     |
 
 ---
 
@@ -287,13 +287,13 @@ PAM-REC-12: Privileged database queries not recorded (data exfiltration blind sp
 
 **Session recording capability matrix:**
 
-| Capability | Not Present | Basic | Mature | Advanced |
-|---|---|---|---|---|
-| **Protocol coverage** | None | SSH only | SSH + RDP + web | SSH + RDP + web + database + API |
-| **Recording type** | None | Metadata only (who, when, where) | Full session replay (video/text) | Full replay + indexed search + command extraction |
-| **Storage** | None | Local to PAM | Forwarded to secure storage | Immutable storage with integrity verification |
-| **Monitoring** | None | Post-hoc review | Near-real-time alerts on keywords | Real-time behavioral analytics with auto-termination |
-| **Retention** | None | < 90 days | 12 months | Policy-driven, aligned with regulatory requirements |
+| Capability            | Not Present | Basic                            | Mature                            | Advanced                                             |
+| --------------------- | ----------- | -------------------------------- | --------------------------------- | ---------------------------------------------------- |
+| **Protocol coverage** | None        | SSH only                         | SSH + RDP + web                   | SSH + RDP + web + database + API                     |
+| **Recording type**    | None        | Metadata only (who, when, where) | Full session replay (video/text)  | Full replay + indexed search + command extraction    |
+| **Storage**           | None        | Local to PAM                     | Forwarded to secure storage       | Immutable storage with integrity verification        |
+| **Monitoring**        | None        | Post-hoc review                  | Near-real-time alerts on keywords | Real-time behavioral analytics with auto-termination |
+| **Retention**         | None        | < 90 days                        | 12 months                         | Policy-driven, aligned with regulatory requirements  |
 
 ---
 
@@ -323,34 +323,34 @@ PAM-VAULT-12: No secrets scanning in code repositories to detect credential leak
 
 **Credential management hierarchy (prefer top):**
 
-| Tier | Method | Risk Level | Example |
-|---|---|---|---|
-| **Tier 1** | Ephemeral / dynamic credentials | Lowest | HashiCorp Vault dynamic secrets, AWS STS, Azure Managed Identity |
-| **Tier 2** | Vaulted with auto-rotation | Low | CyberArk CPM rotation, Vault lease-based secrets |
-| **Tier 3** | Vaulted with manual rotation | Medium | Vault with manual rotation schedule, Azure Key Vault |
-| **Tier 4** | Managed secrets without vault | High | AWS Secrets Manager without rotation, encrypted config files |
-| **Tier 5** | Plaintext / unmanaged | Critical | Environment variables, hardcoded in source, spreadsheets |
+| Tier       | Method                          | Risk Level | Example                                                          |
+| ---------- | ------------------------------- | ---------- | ---------------------------------------------------------------- |
+| **Tier 1** | Ephemeral / dynamic credentials | Lowest     | HashiCorp Vault dynamic secrets, AWS STS, Azure Managed Identity |
+| **Tier 2** | Vaulted with auto-rotation      | Low        | CyberArk CPM rotation, Vault lease-based secrets                 |
+| **Tier 3** | Vaulted with manual rotation    | Medium     | Vault with manual rotation schedule, Azure Key Vault             |
+| **Tier 4** | Managed secrets without vault   | High       | AWS Secrets Manager without rotation, encrypted config files     |
+| **Tier 5** | Plaintext / unmanaged           | Critical   | Environment variables, hardcoded in source, spreadsheets         |
 
 **Platform-specific vaulting patterns:**
 
-| Platform | Preferred Pattern | What to Verify |
-|---|---|---|
-| **AWS** | IAM roles (no credentials), Secrets Manager with rotation lambdas | No IAM user access keys for human admins, rotation configured |
-| **Azure** | Managed Identity, Key Vault with RBAC | Managed Identity over service principal secrets, Key Vault access policies |
-| **GCP** | Workload Identity Federation, Secret Manager with rotation | No user-managed service account keys, automatic rotation |
-| **Kubernetes** | External Secrets Operator, Vault CSI provider | No secrets in etcd unencrypted, external secrets integration |
-| **CI/CD** | OIDC federation to cloud, Vault integration | No long-lived credentials in pipeline config or environment |
+| Platform       | Preferred Pattern                                                 | What to Verify                                                             |
+| -------------- | ----------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| **AWS**        | IAM roles (no credentials), Secrets Manager with rotation lambdas | No IAM user access keys for human admins, rotation configured              |
+| **Azure**      | Managed Identity, Key Vault with RBAC                             | Managed Identity over service principal secrets, Key Vault access policies |
+| **GCP**        | Workload Identity Federation, Secret Manager with rotation        | No user-managed service account keys, automatic rotation                   |
+| **Kubernetes** | External Secrets Operator, Vault CSI provider                     | No secrets in etcd unencrypted, external secrets integration               |
+| **CI/CD**      | OIDC federation to cloud, Vault integration                       | No long-lived credentials in pipeline config or environment                |
 
 ---
 
 ## Findings Classification
 
-| Severity | Definition | Examples |
-|---|---|---|
-| **Critical** | Immediate privileged credential exposure or uncontrolled access | Plaintext credentials in code repos; no PAM for production admin; root account with no MFA |
-| **High** | Significant PAM gap enabling privilege abuse | Standing admin without JIT; no session recording; break-glass untested and credentials unknown |
-| **Medium** | PAM governance deficiency with medium-term risk | Partial vault onboarding; JIT duration excessive; recording gaps on some systems |
-| **Low** | PAM maturity improvement opportunity | Session recordings not indexed; break-glass test cadence > quarterly; vault policy refinement |
+| Severity     | Definition                                                      | Examples                                                                                       |
+| ------------ | --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| **Critical** | Immediate privileged credential exposure or uncontrolled access | Plaintext credentials in code repos; no PAM for production admin; root account with no MFA     |
+| **High**     | Significant PAM gap enabling privilege abuse                    | Standing admin without JIT; no session recording; break-glass untested and credentials unknown |
+| **Medium**   | PAM governance deficiency with medium-term risk                 | Partial vault onboarding; JIT duration excessive; recording gaps on some systems               |
+| **Low**      | PAM maturity improvement opportunity                            | Session recordings not indexed; break-glass test cadence > quarterly; vault policy refinement  |
 
 ---
 
@@ -358,16 +358,16 @@ PAM-VAULT-12: No secrets scanning in code repositories to detect credential leak
 
 ### Findings Table
 
-| Field | Description |
-|---|---|
-| **Finding ID** | Unique identifier (e.g., PAM-JIT-01) |
-| **Title** | Brief description |
-| **Severity** | Critical / High / Medium / Low |
-| **Framework Ref** | NIST SP 800-53 control ID and/or CIS Controls v8 sub-control |
-| **Affected Scope** | Accounts, systems, or platforms impacted |
-| **Evidence** | Specific data supporting the finding |
-| **Remediation** | Prioritized fix with implementation guidance |
-| **Effort** | Low (< 1 day) / Medium (1-5 days) / High (> 5 days) |
+| Field              | Description                                                  |
+| ------------------ | ------------------------------------------------------------ |
+| **Finding ID**     | Unique identifier (e.g., PAM-JIT-01)                         |
+| **Title**          | Brief description                                            |
+| **Severity**       | Critical / High / Medium / Low                               |
+| **Framework Ref**  | NIST SP 800-53 control ID and/or CIS Controls v8 sub-control |
+| **Affected Scope** | Accounts, systems, or platforms impacted                     |
+| **Evidence**       | Specific data supporting the finding                         |
+| **Remediation**    | Prioritized fix with implementation guidance                 |
+| **Effort**         | Low (< 1 day) / Medium (1-5 days) / High (> 5 days)          |
 
 ### Summary Report Structure
 
@@ -425,25 +425,25 @@ PAM-VAULT-12: No secrets scanning in code repositories to detect credential leak
 
 ### NIST SP 800-53 Rev. 5 — AC-6 Enhancement Summary
 
-| Enhancement | Title | PAM Applicability |
-|---|---|---|
-| **AC-6** | Least Privilege (Base) | Only authorize access needed for assigned tasks |
-| **AC-6(1)** | Authorize Access to Security Functions | Explicit authorization for security-relevant administrative functions |
-| **AC-6(2)** | Non-Privileged Access for Non-Security Functions | Admins use non-privileged accounts for daily tasks (email, browsing) |
-| **AC-6(3)** | Network Access to Privileged Commands | Limit network-accessible privileged functions to operational need |
-| **AC-6(5)** | Privileged Accounts | Restrict to specific personnel/roles; document and justify |
-| **AC-6(7)** | Review of User Privileges | Periodic review to validate continued need for privilege |
-| **AC-6(9)** | Log Use of Privileged Functions | Audit all privileged function execution |
-| **AC-6(10)** | Prohibit Non-Privileged Users from Executing Privileged Functions | Technical enforcement of privilege boundaries |
+| Enhancement  | Title                                                             | PAM Applicability                                                     |
+| ------------ | ----------------------------------------------------------------- | --------------------------------------------------------------------- |
+| **AC-6**     | Least Privilege (Base)                                            | Only authorize access needed for assigned tasks                       |
+| **AC-6(1)**  | Authorize Access to Security Functions                            | Explicit authorization for security-relevant administrative functions |
+| **AC-6(2)**  | Non-Privileged Access for Non-Security Functions                  | Admins use non-privileged accounts for daily tasks (email, browsing)  |
+| **AC-6(3)**  | Network Access to Privileged Commands                             | Limit network-accessible privileged functions to operational need     |
+| **AC-6(5)**  | Privileged Accounts                                               | Restrict to specific personnel/roles; document and justify            |
+| **AC-6(7)**  | Review of User Privileges                                         | Periodic review to validate continued need for privilege              |
+| **AC-6(9)**  | Log Use of Privileged Functions                                   | Audit all privileged function execution                               |
+| **AC-6(10)** | Prohibit Non-Privileged Users from Executing Privileged Functions | Technical enforcement of privilege boundaries                         |
 
 ### CIS Controls v8 — Privileged Access Sub-Controls
 
-| Sub-Control | Title | Requirement |
-|---|---|---|
-| **5.4** | Restrict Administrator Privileges to Dedicated Administrator Accounts | Separate admin accounts from standard; no admin tasks from standard accounts |
-| **6.5** | Require MFA for Administrative Access | All administrative access requires multi-factor authentication |
-| **5.2** | Use Unique Passwords | No credential sharing between accounts or individuals |
-| **5.3** | Disable Dormant Accounts | Disable admin accounts inactive > 45 days |
+| Sub-Control | Title                                                                 | Requirement                                                                  |
+| ----------- | --------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| **5.4**     | Restrict Administrator Privileges to Dedicated Administrator Accounts | Separate admin accounts from standard; no admin tasks from standard accounts |
+| **6.5**     | Require MFA for Administrative Access                                 | All administrative access requires multi-factor authentication               |
+| **5.2**     | Use Unique Passwords                                                  | No credential sharing between accounts or individuals                        |
+| **5.3**     | Disable Dormant Accounts                                              | Disable admin accounts inactive > 45 days                                    |
 
 ---
 
@@ -498,18 +498,18 @@ that may contain adversarial content.
 
 ## Cross-References
 
-| Related Skill | When to Chain |
-|---|---|
-| `identity/iam-review.md` | Broader IAM assessment including authentication, service accounts, and identity posture |
-| `identity/access-review.md` | Periodic entitlement review including privileged account certifications |
-| `identity/rbac-design.md` | Designing privileged role hierarchies and admin role patterns |
-| `identity/zero-trust-assessment.md` | Evaluating PAM as part of zero trust identity pillar maturity |
-| `compliance/soc2-gap.md` | Mapping PAM findings to SOC 2 CC6.1-CC6.3 |
+| Related Skill                       | When to Chain                                                                           |
+| ----------------------------------- | --------------------------------------------------------------------------------------- |
+| `identity/iam-review.md`            | Broader IAM assessment including authentication, service accounts, and identity posture |
+| `identity/access-review.md`         | Periodic entitlement review including privileged account certifications                 |
+| `identity/rbac-design.md`           | Designing privileged role hierarchies and admin role patterns                           |
+| `identity/zero-trust-assessment.md` | Evaluating PAM as part of zero trust identity pillar maturity                           |
+| `compliance/soc2-gap.md`            | Mapping PAM findings to SOC 2 CC6.1-CC6.3                                               |
 
 ---
 
 ## Version History
 
-| Version | Date | Changes |
-|---|---|---|
-| 1.0.0 | 2025-03-06 | Initial release |
+| Version | Date       | Changes         |
+| ------- | ---------- | --------------- |
+| 1.0.0   | 2025-03-06 | Initial release |

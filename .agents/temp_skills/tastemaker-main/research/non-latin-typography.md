@@ -21,7 +21,7 @@ A non-Latin script isn't a font substitution inside the same typographic model �
 - **Looser line-height than the Latin display floor.** The skill's Latin display-headline line-height floor (documented alongside the descender-clipping fix) doesn't directly transfer — Hangul needs more vertical breathing room even at large display sizes.
 - **Mixed Latin+CJK text needs distinct optical sizing.** Product names, numerals, and deliberately-Latin strings inside otherwise-Korean copy commonly need different optical sizing than the surrounding CJK text at the same nominal font-size, since Latin glyphs read smaller next to CJK glyphs at an identical point size — a real, documented CJK-typesetting concern, not a hunch.
 
-The research was explicit about its own limits: the guidance is Korean-*tested*, with Japanese and Chinese noted as reasonable but less-verified starting points from the same family of conventions, not claimed with the same confidence.
+The research was explicit about its own limits: the guidance is Korean-_tested_, with Japanese and Chinese noted as reasonable but less-verified starting points from the same family of conventions, not claimed with the same confidence.
 
 ## What it changed
 

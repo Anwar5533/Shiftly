@@ -1,6 +1,6 @@
 ---
-description: "Spawn an agent team using presets (review, debug, feature, fullstack, research, security, migration) or custom composition"
-argument-hint: "<preset|custom> [--name team-name] [--members N] [--delegate]"
+description: 'Spawn an agent team using presets (review, debug, feature, fullstack, research, security, migration) or custom composition'
+argument-hint: '<preset|custom> [--name team-name] [--members N] [--delegate]'
 ---
 
 # Team Spawn

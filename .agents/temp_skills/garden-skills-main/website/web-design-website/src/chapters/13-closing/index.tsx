@@ -74,24 +74,24 @@ function NumberTicker({ from, to, duration = 2200, delay = 0, active }: TickerPr
  * ────────────────────────────────────────────────────────────────── */
 
 const SMALL_RULES = [
-  { id: 'inter',    text: '不用 Inter / Roboto' },
-  { id: 'oklch',    text: 'oklch 配色' },
-  { id: 'system',   text: '先宣告设计系统' },
-  { id: 'v0',       text: 'v0 半成品先出' },
+  { id: 'inter', text: '不用 Inter / Roboto' },
+  { id: 'oklch', text: 'oklch 配色' },
+  { id: 'system', text: '先宣告设计系统' },
+  { id: 'v0', text: 'v0 半成品先出' },
   { id: 'restraint', text: '内容克制' },
   { id: 'placeholder', text: '占位符 > 假图' },
   { id: 'whitespace', text: '留白 = 设计' },
-  { id: 'nograd',   text: '禁紫粉蓝渐变' },
-  { id: 'noemoji',  text: '禁 emoji 当 icon' },
-  { id: 'verify',   text: 'fork 子 Agent 验证' },
+  { id: 'nograd', text: '禁紫粉蓝渐变' },
+  { id: 'noemoji', text: '禁 emoji 当 icon' },
+  { id: 'verify', text: 'fork 子 Agent 验证' },
 ];
 
 function Closing({ localStep }: ChapterContext) {
-  const sceneFair    = localStep <= 0;
-  const sceneJump    = localStep === 1;
-  const sceneTrio    = localStep === 2;
-  const sceneRules   = localStep === 3;
-  const sceneClose   = localStep >= 4;
+  const sceneFair = localStep <= 0;
+  const sceneJump = localStep === 1;
+  const sceneTrio = localStep === 2;
+  const sceneRules = localStep === 3;
+  const sceneClose = localStep >= 4;
 
   return (
     <section className="cl">
@@ -107,7 +107,8 @@ function Closing({ localStep }: ChapterContext) {
           </Reveal>
 
           <Reveal kind="fade" duration={780} delay={1300} className="cl__fair-cap" as="p">
-            Opus 4.7 裸跑出来的东西<br />
+            Opus 4.7 裸跑出来的东西
+            <br />
             <em>比现在大多数程序员手写的都强</em>
           </Reveal>
         </div>
@@ -121,7 +122,12 @@ function Closing({ localStep }: ChapterContext) {
           </Reveal>
 
           <div className="cl__jump-row">
-            <Reveal kind="rise" duration={1100} delay={300} className="cl__jump-num cl__jump-num--from">
+            <Reveal
+              kind="rise"
+              duration={1100}
+              delay={300}
+              className="cl__jump-num cl__jump-num--from"
+            >
               <span className="cl__jump-num-figure">
                 <NumberTicker from={70} to={85} duration={1100} delay={400} active={sceneJump} />
               </span>
@@ -132,7 +138,12 @@ function Closing({ localStep }: ChapterContext) {
               →
             </Reveal>
 
-            <Reveal kind="rise" duration={1100} delay={1700} className="cl__jump-num cl__jump-num--to">
+            <Reveal
+              kind="rise"
+              duration={1100}
+              delay={1700}
+              className="cl__jump-num cl__jump-num--to"
+            >
               <span className="cl__jump-num-figure cl__jump-num-figure--big">
                 <NumberTicker from={85} to={95} duration={1500} delay={1900} active={sceneJump} />
               </span>
@@ -194,8 +205,8 @@ function Closing({ localStep }: ChapterContext) {
                 className={`cl__rules-chip cl__rules-chip--${i % 4}`}
                 style={{
                   animationDelay: `${500 + i * 110}ms`,
-                  ['--rot' as string]: `${(i % 5 - 2) * 1.6}deg`,
-                  ['--shift' as string]: `${(i % 3 - 1) * 18}px`,
+                  ['--rot' as string]: `${((i % 5) - 2) * 1.6}deg`,
+                  ['--shift' as string]: `${((i % 3) - 1) * 18}px`,
                 }}
               >
                 <span className="cl__rules-chip-mark">+</span>

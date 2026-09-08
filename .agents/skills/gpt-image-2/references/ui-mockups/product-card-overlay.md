@@ -70,10 +70,7 @@
       },
       "center_column": {
         "product": "{argument name=\"product description\" default=\"白色按压瓶，瓶身印 'Moisture Barrier Serum'\"}",
-        "props": [
-          "白色乳液质感液滴特写",
-          "圆形 '皮肤科医生监修' 徽章"
-        ]
+        "props": ["白色乳液质感液滴特写", "圆形 '皮肤科医生监修' 徽章"]
       },
       "right_column": {
         "subject": "{argument name=\"model description\" default=\"东亚年轻女性，皮肤通透，手指轻触脸颊\"}",
@@ -101,17 +98,8 @@
     "consistency": "色板严格按照 base / primary / accent 三色"
   },
   "constraints": {
-    "must_keep": [
-      "三栏结构清晰",
-      "产品作为视觉中心",
-      "文案与产品一致",
-      "徽章不能比 logo 还大"
-    ],
-    "avoid": [
-      "排版极度拥挤",
-      "模特动作显得违和",
-      "色板出现额外鲜艳颜色"
-    ]
+    "must_keep": ["三栏结构清晰", "产品作为视觉中心", "文案与产品一致", "徽章不能比 logo 还大"],
+    "avoid": ["排版极度拥挤", "模特动作显得违和", "色板出现额外鲜艳颜色"]
   }
 }
 ```
@@ -161,11 +149,7 @@
     }
   },
   "bottom_stats_bar": {
-    "items": [
-      "累计销量 120 万瓶",
-      "满意度 92.1%",
-      "复购率 85.3%"
-    ]
+    "items": ["累计销量 120 万瓶", "满意度 92.1%", "复购率 85.3%"]
   },
   "constraints": {
     "must_feel": "硬朗、专业、可信赖"

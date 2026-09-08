@@ -189,7 +189,7 @@ paths:
             default: 20
             maximum: 100
       responses:
-        "200":
+        '200':
           description: Successful response
           content:
             application/json:
@@ -199,11 +199,11 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: "#/components/schemas/User"
+                      $ref: '#/components/schemas/User'
                   pagination:
-                    $ref: "#/components/schemas/Pagination"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
+                    $ref: '#/components/schemas/Pagination'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
 components:
   schemas:
@@ -514,11 +514,11 @@ def {func.__name__}({", ".join(params)}){return_type}:
     <script>
       window.onload = function () {
         SwaggerUIBundle({
-          url: "/api/openapi.json",
-          dom_id: "#swagger-ui",
+          url: '/api/openapi.json',
+          dom_id: '#swagger-ui',
           deepLinking: true,
           presets: [SwaggerUIBundle.presets.apis],
-          layout: "StandaloneLayout",
+          layout: 'StandaloneLayout',
         });
       };
     </script>
@@ -575,8 +575,8 @@ on:
   push:
     branches: [main]
     paths:
-      - "src/**"
-      - "api/**"
+      - 'src/**'
+      - 'api/**'
 
 jobs:
   generate-docs:
@@ -588,7 +588,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
+          python-version: '3.11'
 
       - name: Install dependencies
         run: |

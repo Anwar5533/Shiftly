@@ -3,16 +3,18 @@
 Selected from the router for [SKILL.md](../SKILL.md). Reusable mechanisms and decision ladders remain in [HEURISTICS.md](../HEURISTICS.md).
 
 ## Scarce resource reservation
+
 - **Shape**: finite inventory, concurrent claimants, money attached. The defining failure: two SELECT-then-INSERTs on the last room.
 - **Match when** units are countable, exhaustible, and promised before they are consumed. **Not when** the resource is elastic or overselling is priced in — that is a capacity problem with a waiting list, not a reservation invariant.
 - **Moves**: strong consistency for reserve/checkout (CP), fast AP search beside it; reservation + inventory in one ACID database—local transactions; explicit expiring holds; frontend idempotency kills double-submit; transactional outbox publishes changes; overbooking is a product rule, not an accident.
 - **Staff gate**: convert arrival burst into a safe admission rate with a virtual waiting room. Serve non-authoritative availability as a compact CDN bitmap. Specify hold expiry/reaping, payment-after-expiry behavior, and one atomic finalization transaction so payment cannot produce a double sale.
-- **Isolation gate**: name the isolation level and, per invariant, the anomaly it cannot survive. Claiming a unit twice is a lost update and a conditional update settles it. A limit counted *across* rows — per account, per tier, per household — is write skew, which no single-row constraint expresses: it needs a locking read, a materialised counter row, or serializable with a retry loop. Say which, and say what a retry does to the caller.
+- **Isolation gate**: name the isolation level and, per invariant, the anomaly it cannot survive. Claiming a unit twice is a lost update and a conditional update settles it. A limit counted _across_ rows — per account, per tier, per household — is write skew, which no single-row constraint expresses: it needs a locking read, a materialised counter row, or serializable with a retry loop. Say which, and say what a retry does to the caller.
 - **Numbers anchor**: an illustrative 1.5M reservations/day is only ~17 average writes/s; measure the peak arrival burst before distributing the authority.
 - **Anti-gate**: reservation and inventory share one transactional authority, so neither the invariant nor the rate argues for distribution — this archetype exists to stop distributed-transaction cosplay.
 - **Cases**: event ticketing, hotel and flight booking, restaurant tables, flash-sale retail, parking and rental fleets.
 
 ## Money movement and ledger
+
 - **Shape**: correctness under failure beats performance; every component must answer "what if I die mid-transaction?"
 - **Match when** an external party moves value and the record of it must survive every partial failure. **Not when** the balance is a score or a loyalty point that settles with nobody — that is derived state with a correction path.
 - **Moves**: payment-provider adapter layer (swap providers in one module); payments table (mutable state) + payment events (append-only) in the same transaction; state machine enforced at the DB; idempotency keys at every hop; webhook receiver = verify signature, store raw, ack fast — process async behind a queue with the transactional outbox; retry workers, reconciliation worker, stuck-payment detector; double-entry append-only ledger, corrections as reversals.
@@ -22,6 +24,7 @@ Selected from the router for [SKILL.md](../SKILL.md). Reusable mechanisms and de
 - **Cases**: card acquiring, wallets and payouts, marketplace splits, subscription billing, in-app purchase reconciliation.
 
 ## Single-authority ordered state
+
 - **Shape**: one total order over every command that touches the state, and replaying that order reproduces the state exactly — no wall clock, no randomness, no dependency the replay cannot re-enter.
 - **Match when** the outcome depends on order and the order is contested by design: matching engines, sequencers, auction closes, immutable ledger cores, anything where "who was first" is the product. **Not when** the ordering requirement is per entity rather than global — a conversation, a feed, an account balance each order within a key and scale by partitioning; forcing them through one sequencer caps the architecture at one core to buy a guarantee nobody asked for.
 - **Minimum state**: a sequenced append-only journal of accepted commands, plus periodic snapshots tagged with the sequence number they were taken at. The in-memory state is derived and disposable.
@@ -34,17 +37,19 @@ Selected from the router for [SKILL.md](../SKILL.md). Reusable mechanisms and de
 - **Cases**: order matching engines, market-data sequencers, double-entry ledger cores, event-sourced trading systems, deterministic simulation replay.
 
 ## Replicated authoritative store
+
 - **Shape**: sub-10 KB pairs, massive volume, tunable consistency, no single point of failure.
 - **Match when** write availability outranks read freshness and access is by key. **Not when** the workload needs multi-key invariants, range scans, or a total order — those want a transactional store, not a tuned quorum.
 - **Moves**: consistent hashing ring + virtual nodes for placement; memtable → SSTable write path with Bloom filters for storage. Replication topology, quorum, conflict resolution, failure detection, and repair are ladders in [HEURISTICS.md](../HEURISTICS.md) — this shape only says where the dials land and why.
 - **The dial**: every knob is the consistency-latency dial; say where it is set, per named operation class.
-- **Staff gate**: a sloppy quorum sends to the first N *healthy* nodes, which need not be the first N on the ring — say whether you took it, and what a read may therefore return. Name the repair cadence and prove it completes inside the tombstone-collection window. Move anything needing uniqueness, a lock, or a compare-and-set to a linearizable path, and say what a delete does when a replica returns after a long absence.
-- **Authority gate**: state the boundary, not only the mechanism. Name what failure detection is *not* permitted to do — suspicion routes around a member and never reassigns its ownership — and name who does reassign it. For every operation on shared state, name the token it carries, the component that validates it, and what happens to a write that arrives without one. A design that says only what its mechanisms do, and never what they may not do, has not cleared this gate.
+- **Staff gate**: a sloppy quorum sends to the first N _healthy_ nodes, which need not be the first N on the ring — say whether you took it, and what a read may therefore return. Name the repair cadence and prove it completes inside the tombstone-collection window. Move anything needing uniqueness, a lock, or a compare-and-set to a linearizable path, and say what a delete does when a replica returns after a long absence.
+- **Authority gate**: state the boundary, not only the mechanism. Name what failure detection is _not_ permitted to do — suspicion routes around a member and never reassigns its ownership — and name who does reassign it. For every operation on shared state, name the token it carries, the component that validates it, and what happens to a write that arrives without one. A design that says only what its mechanisms do, and never what they may not do, has not cleared this gate.
 - **Numbers anchor**: 40M live carts × 10 KB ≈ 400 GB, and 1.2 TB at three replicas — small enough that the leaderless choice is justified by an availability rule, never by volume.
 - **Anti-gate**: one region and a datastore that already replicates — a managed store with a read replica is the design. Ring management, anti-entropy, and per-operation quorum tuning are machinery for a fleet you actually operate.
 - **Cases**: shopping carts, session and preference stores, wide-column feature stores, device and presence registries.
 
 ## Monotonic identity and short codes
+
 - **Shape**: unique, roughly time-sortable identifiers minted at rate without a central allocator, and the compact public codes derived from them.
 - **Match when** identity must be generated independently by many writers and still sort by time. **Not when** the identifier is a secret or a capability — an unguessable token has different requirements and must not be time-sortable at all.
 - **Moves**: 64-bit layout — 1 sign + 41 timestamp + 5 DC + 5 machine + 12 sequence; epoch chosen near launch (69-year budget); clock sync, plus a guard on regression rather than a hope. Base-62 over a unique ID gives collision-free short codes (62^7 covers 3.5T); hash-and-resolve gives fixed length at the price of collision handling. Rejects: UUID (wrong shape), ticket server (single point of failure), stepped auto-increment (breaks time order).

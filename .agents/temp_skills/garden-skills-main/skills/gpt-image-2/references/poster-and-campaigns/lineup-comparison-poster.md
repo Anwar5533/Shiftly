@@ -13,11 +13,11 @@
 
 特征（与现有 poster / infographics 模板的区别）：
 
-| 模板 | 用途 |
-|---|---|
-| `infographics/comparison-infographic.md`（已有） | A vs B / 套餐档位 / 误区对比（≤ 6 项） |
-| `infographics/legend-heavy-infographic.md`（已有） | 高密度科普 / 因果链 / 演化（不强调产品 lineup） |
-| **本模板**（新增） | **30+ 个 SKU 同时展示，按 tier × series 矩阵排列，含图例** |
+| 模板                                               | 用途                                                       |
+| -------------------------------------------------- | ---------------------------------------------------------- |
+| `infographics/comparison-infographic.md`（已有）   | A vs B / 套餐档位 / 误区对比（≤ 6 项）                     |
+| `infographics/legend-heavy-infographic.md`（已有） | 高密度科普 / 因果链 / 演化（不强调产品 lineup）            |
+| **本模板**（新增）                                 | **30+ 个 SKU 同时展示，按 tier × series 矩阵排列，含图例** |
 
 **核心特征**：30-50 张产品 thumbnail 同时出现，靠 tier key + icon legend + tonal chart 让读者一眼看懂"我应该买哪一型"。
 
@@ -99,7 +99,14 @@
         "title": "{argument name=\"key 1 title\" default=\"PRESTIGE TIER KEY\"}",
         "position": "upper left below title",
         "count": 6,
-        "labels": ["{argument name=\"tier 1\" default=\"SE\"}", "{argument name=\"tier 2\" default=\"S2\"}", "{argument name=\"tier 3\" default=\"CE\"}", "{argument name=\"tier 4\" default=\"CORE\"}", "{argument name=\"tier 5\" default=\"WOOD LIBRARY\"}", "{argument name=\"tier 6\" default=\"PRIVATE STOCK\"}"]
+        "labels": [
+          "{argument name=\"tier 1\" default=\"SE\"}",
+          "{argument name=\"tier 2\" default=\"S2\"}",
+          "{argument name=\"tier 3\" default=\"CE\"}",
+          "{argument name=\"tier 4\" default=\"CORE\"}",
+          "{argument name=\"tier 5\" default=\"WOOD LIBRARY\"}",
+          "{argument name=\"tier 6\" default=\"PRIVATE STOCK\"}"
+        ]
       },
       {
         "title": "{argument name=\"key 2 title\" default=\"PICKUP ICON KEY\"}",
@@ -111,25 +118,55 @@
         "title": "{argument name=\"key 3 title\" default=\"TONAL CHARACTER KEY\"}",
         "position": "upper right below title",
         "count": 7,
-        "labels": ["Warm / Vintage", "Balanced / All-around", "Bright / Articulate", "High Gain / Modern", "Blues / Classic Rock", "Metal / Progressive", "Funk / Soul / Clean"]
+        "labels": [
+          "Warm / Vintage",
+          "Balanced / All-around",
+          "Bright / Articulate",
+          "High Gain / Modern",
+          "Blues / Classic Rock",
+          "Metal / Progressive",
+          "Funk / Soul / Clean"
+        ]
       },
       {
         "title": "{argument name=\"row 1 label\" default=\"CORE\"}",
         "position": "first main row left label",
         "count": 7,
-        "labels": ["{argument name=\"row 1 model 1\" default=\"Custom 24\"}", "McCarty 594", "DGT (David Grissom)", "Custom 22", "Hollowbody II", "SC 594", "row category panel"]
+        "labels": [
+          "{argument name=\"row 1 model 1\" default=\"Custom 24\"}",
+          "McCarty 594",
+          "DGT (David Grissom)",
+          "Custom 22",
+          "Hollowbody II",
+          "SC 594",
+          "row category panel"
+        ]
       },
       {
         "title": "{argument name=\"row 2 label\" default=\"S2\"}",
         "position": "second main row left label",
         "count": 6,
-        "labels": ["S2 Custom 24", "S2 McCarty 594", "S2 Standard 24", "S2 Vela", "S2 Singlecut", "S2 Mira"]
+        "labels": [
+          "S2 Custom 24",
+          "S2 McCarty 594",
+          "S2 Standard 24",
+          "S2 Vela",
+          "S2 Singlecut",
+          "S2 Mira"
+        ]
       },
       {
         "title": "{argument name=\"row 3 label\" default=\"SE\"}",
         "position": "third main row left label",
         "count": 6,
-        "labels": ["SE Custom 24", "SE Standard 24", "SE Paul's Guitar", "SE Santana", "SE Hollowbody II", "SE Mark Holcomb"]
+        "labels": [
+          "SE Custom 24",
+          "SE Standard 24",
+          "SE Paul's Guitar",
+          "SE Santana",
+          "SE Hollowbody II",
+          "SE Mark Holcomb"
+        ]
       },
       {
         "title": "{argument name=\"row 4 label\" default=\"CE\"}",
@@ -152,7 +189,11 @@
     ],
     "footer": {
       "position": "bottom",
-      "elements": ["small badge at lower left", "centered company line", "right-side script signature"]
+      "elements": [
+        "small badge at lower left",
+        "centered company line",
+        "right-side script signature"
+      ]
     }
   },
   "content_grid": {

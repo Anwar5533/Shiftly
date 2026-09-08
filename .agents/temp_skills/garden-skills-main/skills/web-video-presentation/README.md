@@ -319,4 +319,3 @@ The skill ships **23 themes**, each with its own design DNA — not a simple col
 - [AUDIO.md](./references/AUDIO.md) — optional narration synthesis workflow (provider-agnostic)
 - [tts-providers/README.md](./templates/scripts/tts-providers/README.md) — TTS provider contract + 2 built-ins (minimax / openai) + ready-to-paste snippets for ElevenLabs / edge-tts / Azure / Google Cloud / macOS say
 - [RECORDING.md](./references/RECORDING.md) — screen recording and post-production notes
-

@@ -19,10 +19,10 @@ beautiful-article  (this skill · methodology + harness)
 reacticle          (npm package · components / themes / Raw / export)
 ```
 
-| Layer | What it owns | Where it lives |
-|---|---|---|
-| `beautiful-article` (this skill) | **How** the agent plans, writes, reviews and delivers an article from any source — six numbered phases, three hard checkpoints, theme picker, sub-agent reviewers | This directory |
-| `reacticle` | The component vocabulary + 11 authoring themes the skill compiles into — `Article` / `Hero` / `Lead` / `Section` / `Quote` / `Image` / `Formula` / `CodeBlock` / `Raw` …, each theme a `.css` token bundle + `.md` authoring profile | [`ConardLi/reacticle`](https://github.com/ConardLi/reacticle) · [npm `reacticle`](https://www.npmjs.com/package/reacticle) · [docs](https://rearticle.mmh1.top/) |
+| Layer                            | What it owns                                                                                                                                                                                                                         | Where it lives                                                                                                                                                   |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `beautiful-article` (this skill) | **How** the agent plans, writes, reviews and delivers an article from any source — six numbered phases, three hard checkpoints, theme picker, sub-agent reviewers                                                                    | This directory                                                                                                                                                   |
+| `reacticle`                      | The component vocabulary + 11 authoring themes the skill compiles into — `Article` / `Hero` / `Lead` / `Section` / `Quote` / `Image` / `Formula` / `CodeBlock` / `Raw` …, each theme a `.css` token bundle + `.md` authoring profile | [`ConardLi/reacticle`](https://github.com/ConardLi/reacticle) · [npm `reacticle`](https://www.npmjs.com/package/reacticle) · [docs](https://rearticle.mmh1.top/) |
 
 The two pair very well but are independently useful: the skill works because it has ReActicle to target, and ReActicle is a perfectly usable React library on its own.
 
@@ -223,7 +223,7 @@ Every theme ships with a long-form **specimen article** that lives the theme end
 
 ## What it does
 
-`beautiful-article` turns dry, linear, hard-to-digest source material into a polished, visually clear, share-ready article. It is **not** a web-app builder — the focus is always the *article*: better reading, better pacing, better aesthetics. The article is delivered as a self-contained file that opens offline (with optional companion PDF), but that's a delivery detail, not the goal.
+`beautiful-article` turns dry, linear, hard-to-digest source material into a polished, visually clear, share-ready article. It is **not** a web-app builder — the focus is always the _article_: better reading, better pacing, better aesthetics. The article is delivered as a self-contained file that opens offline (with optional companion PDF), but that's a delivery detail, not the goal.
 
 It is designed for:
 
@@ -337,14 +337,14 @@ skills/beautiful-article/
 
 Different phases use different quality-checking approaches — over-using sub-agents and over-writing review files is the #1 perf trap, so the skill makes the rules explicit:
 
-| Node | How it's checked | Artifact |
-|---|---|---|
-| Phase 1 Source (default) | Main agent inline 5-item checklist | none |
-| Phase 1 Source (complex / low-confidence only) | Source Reviewer SubAgent (diff against `original.*`) | `review/source-review.md` |
-| Phase 2 Plan / before Checkpoint 1 | **Main agent inline self-check (no SubAgent, no file)** | none |
-| Phase 4 First Spread / before Checkpoint 2 | First Spread Reviewer SubAgent | `review/first-spread-review.md` |
-| Phase 5 Per Section | Section Reviewer SubAgent — returns pass/fail by message | none (no per-section files) |
-| Phase 6 Final / before Checkpoint 3 | Editorial + Visual + Technical Reviewer SubAgents | `review/final-review.md` |
+| Node                                           | How it's checked                                         | Artifact                        |
+| ---------------------------------------------- | -------------------------------------------------------- | ------------------------------- |
+| Phase 1 Source (default)                       | Main agent inline 5-item checklist                       | none                            |
+| Phase 1 Source (complex / low-confidence only) | Source Reviewer SubAgent (diff against `original.*`)     | `review/source-review.md`       |
+| Phase 2 Plan / before Checkpoint 1             | **Main agent inline self-check (no SubAgent, no file)**  | none                            |
+| Phase 4 First Spread / before Checkpoint 2     | First Spread Reviewer SubAgent                           | `review/first-spread-review.md` |
+| Phase 5 Per Section                            | Section Reviewer SubAgent — returns pass/fail by message | none (no per-section files)     |
+| Phase 6 Final / before Checkpoint 3            | Editorial + Visual + Technical Reviewer SubAgents        | `review/final-review.md`        |
 
 ### 2. No silent default decisions
 
@@ -407,7 +407,7 @@ bash <path-to-skill>/scripts/html-to-pdf.sh
 
 ### Avoid
 
-1. ❌ Treating the skill as "make me an HTML page" — the deliverable is an *article*.
+1. ❌ Treating the skill as "make me an HTML page" — the deliverable is an _article_.
 2. ❌ Bundling multiple checkpoint decisions into one yes/no.
 3. ❌ Letting Raw blocks bring their own colors / typography (theme drift).
 4. ❌ Writing all sections inside `Article.tsx` (kills sub-agent parallelism).
@@ -417,7 +417,7 @@ bash <path-to-skill>/scripts/html-to-pdf.sh
 
 ## FAQ
 
-**Q1: When should I *not* use this skill?**
+**Q1: When should I _not_ use this skill?**
 When the user actually wants a web app, dashboard, form, prototype, or generic landing page — those go to `web-design-engineer`, not here. If in doubt, the skill stops and asks rather than silently producing the wrong artifact.
 
 **Q2: Does it always produce 100% information retention?**

@@ -12,13 +12,13 @@ role: [soc-analyst, security-engineer, vciso]
 phase: [recover]
 frameworks: [NIST-SP-800-61r2]
 difficulty: beginner
-time_estimate: "30-60min"
-version: "1.0.0"
+time_estimate: '30-60min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 injection-hardened: true
-argument-hint: "[target-file-or-directory]"
+argument-hint: '[target-file-or-directory]'
 ---
 
 # Post-Incident Review -- NIST SP 800-61 Rev 2
@@ -81,15 +81,15 @@ The PIR must follow a blameless methodology. The objective is to understand what
 
 **PIR meeting structure:**
 
-| Phase | Duration | Activity |
-|-------|----------|----------|
-| **Opening** | 5 min | State the blameless ground rules. Confirm all participants understand the objective is system improvement, not fault assignment. |
-| **Timeline review** | 15 min | Walk through the incident timeline collaboratively. Allow participants to add context, correct timestamps, and fill gaps. |
-| **What went well** | 10 min | Identify actions, tools, processes, and decisions that worked effectively during the response. These are strengths to preserve. |
-| **What could be improved** | 15 min | Identify delays, gaps, confusion, tool failures, process breakdowns, and communication issues. Frame as system-level observations. |
-| **Root cause analysis** | 15 min | Apply structured RCA techniques (see Step 3) to identify underlying causes. |
-| **Action items** | 10 min | Define specific, assignable remediation actions with owners and deadlines. |
-| **Close** | 5 min | Confirm action items, assign PIR report owner, schedule follow-up review. |
+| Phase                      | Duration | Activity                                                                                                                           |
+| -------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| **Opening**                | 5 min    | State the blameless ground rules. Confirm all participants understand the objective is system improvement, not fault assignment.   |
+| **Timeline review**        | 15 min   | Walk through the incident timeline collaboratively. Allow participants to add context, correct timestamps, and fill gaps.          |
+| **What went well**         | 10 min   | Identify actions, tools, processes, and decisions that worked effectively during the response. These are strengths to preserve.    |
+| **What could be improved** | 15 min   | Identify delays, gaps, confusion, tool failures, process breakdowns, and communication issues. Frame as system-level observations. |
+| **Root cause analysis**    | 15 min   | Apply structured RCA techniques (see Step 3) to identify underlying causes.                                                        |
+| **Action items**           | 10 min   | Define specific, assignable remediation actions with owners and deadlines.                                                         |
+| **Close**                  | 5 min    | Confirm action items, assign PIR report owner, schedule follow-up review.                                                          |
 
 ### Step 2: Timeline Reconstruction
 
@@ -97,19 +97,20 @@ Build a comprehensive timeline of the incident from initial compromise through c
 
 **Timeline template:**
 
-| # | Timestamp (UTC) | Event Type | Description | Source | Actor |
-|---|---|---|---|---|---|
-| 1 | [YYYY-MM-DD HH:MM] | **Compromise** | Initial access achieved by attacker | [Log source / forensic finding] | Attacker |
-| 2 | [YYYY-MM-DD HH:MM] | **Attacker Action** | Lateral movement / privilege escalation / persistence / exfiltration | [Log source] | Attacker |
-| 3 | [YYYY-MM-DD HH:MM] | **Detection** | Alert triggered / anomaly observed / user report received | [Detection source] | Defender |
-| 4 | [YYYY-MM-DD HH:MM] | **Triage** | Initial analysis and incident classification | [Analyst notes] | Defender |
-| 5 | [YYYY-MM-DD HH:MM] | **Escalation** | Incident escalated to [team/management/external] | [Communication log] | Defender |
-| 6 | [YYYY-MM-DD HH:MM] | **Containment** | Containment action implemented | [Action log] | Defender |
-| 7 | [YYYY-MM-DD HH:MM] | **Eradication** | Root cause removed, persistence mechanisms eliminated | [Action log] | Defender |
-| 8 | [YYYY-MM-DD HH:MM] | **Recovery** | Systems restored to normal operations | [Action log] | Defender |
-| 9 | [YYYY-MM-DD HH:MM] | **Closure** | Incident declared resolved | [IR report] | Defender |
+| #   | Timestamp (UTC)    | Event Type          | Description                                                          | Source                          | Actor    |
+| --- | ------------------ | ------------------- | -------------------------------------------------------------------- | ------------------------------- | -------- |
+| 1   | [YYYY-MM-DD HH:MM] | **Compromise**      | Initial access achieved by attacker                                  | [Log source / forensic finding] | Attacker |
+| 2   | [YYYY-MM-DD HH:MM] | **Attacker Action** | Lateral movement / privilege escalation / persistence / exfiltration | [Log source]                    | Attacker |
+| 3   | [YYYY-MM-DD HH:MM] | **Detection**       | Alert triggered / anomaly observed / user report received            | [Detection source]              | Defender |
+| 4   | [YYYY-MM-DD HH:MM] | **Triage**          | Initial analysis and incident classification                         | [Analyst notes]                 | Defender |
+| 5   | [YYYY-MM-DD HH:MM] | **Escalation**      | Incident escalated to [team/management/external]                     | [Communication log]             | Defender |
+| 6   | [YYYY-MM-DD HH:MM] | **Containment**     | Containment action implemented                                       | [Action log]                    | Defender |
+| 7   | [YYYY-MM-DD HH:MM] | **Eradication**     | Root cause removed, persistence mechanisms eliminated                | [Action log]                    | Defender |
+| 8   | [YYYY-MM-DD HH:MM] | **Recovery**        | Systems restored to normal operations                                | [Action log]                    | Defender |
+| 9   | [YYYY-MM-DD HH:MM] | **Closure**         | Incident declared resolved                                           | [IR report]                     | Defender |
 
 **Key decision points to highlight:**
+
 - When and why was the incident classified at a particular severity?
 - When and why was containment strategy X chosen over alternative Y?
 - Were there decision delays? What caused them (missing information, unavailable personnel, unclear authority)?
@@ -145,6 +146,7 @@ Root Cause: [Systemic root cause statement]
 ```
 
 **5 Whys guidelines:**
+
 - Each answer must be factual and verifiable, not speculative
 - Stop when you reach a cause that is within the organization's control to change
 - If the chain branches (multiple contributing factors at one level), follow each branch
@@ -173,14 +175,14 @@ Organize contributing factors into categories to ensure comprehensive analysis:
 
 **Category descriptions:**
 
-| Category | What to Examine |
-|----------|----------------|
-| **People** | Training adequacy, staffing levels, on-call coverage, skill gaps, handoff quality |
-| **Process** | IR plan completeness, escalation procedures, communication protocols, change management, patch management |
-| **Technology** | Detection tool coverage, SIEM alert fidelity, EDR deployment gaps, vulnerability scanner coverage, automation gaps |
-| **Environment** | Network architecture, cloud configuration, access control enforcement, segmentation effectiveness |
-| **Data** | Log availability, asset inventory completeness, threat intelligence coverage, configuration management database accuracy |
-| **External** | Threat actor capability, zero-day exploit, supply chain dependency, regulatory constraints |
+| Category        | What to Examine                                                                                                          |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| **People**      | Training adequacy, staffing levels, on-call coverage, skill gaps, handoff quality                                        |
+| **Process**     | IR plan completeness, escalation procedures, communication protocols, change management, patch management                |
+| **Technology**  | Detection tool coverage, SIEM alert fidelity, EDR deployment gaps, vulnerability scanner coverage, automation gaps       |
+| **Environment** | Network architecture, cloud configuration, access control enforcement, segmentation effectiveness                        |
+| **Data**        | Log availability, asset inventory completeness, threat intelligence coverage, configuration management database accuracy |
+| **External**    | Threat actor capability, zero-day exploit, supply chain dependency, regulatory constraints                               |
 
 ### Step 4: Incident Metrics
 
@@ -195,6 +197,7 @@ MTTD = Time of Detection - Time of Initial Compromise
 ```
 
 MTTD measures how long the attacker operated undetected. Industry benchmarks (IBM Cost of a Data Breach Report, Mandiant M-Trends):
+
 - Median dwell time (all industries): ~10 days (improving annually)
 - Internally detected incidents: typically shorter MTTD than externally notified
 
@@ -220,36 +223,36 @@ MTTR measures the total response duration from detection through return to norma
 
 #### Additional Metrics
 
-| Metric | Formula | What It Measures |
-|--------|---------|-----------------|
-| **Dwell Time** | Detection - Compromise | Total time attacker had access |
-| **Containment Efficiency** | MTTC / MTTR | Proportion of response time spent on containment vs. full recovery |
-| **Escalation Time** | Escalation - Detection | Time from detection to appropriate escalation |
-| **Notification Time** | Notification - Detection | Time from detection to stakeholder/regulatory notification |
-| **Recurrence Rate** | Count of similar incidents in last 12 months | Whether root causes from prior incidents were effectively addressed |
+| Metric                     | Formula                                      | What It Measures                                                    |
+| -------------------------- | -------------------------------------------- | ------------------------------------------------------------------- |
+| **Dwell Time**             | Detection - Compromise                       | Total time attacker had access                                      |
+| **Containment Efficiency** | MTTC / MTTR                                  | Proportion of response time spent on containment vs. full recovery  |
+| **Escalation Time**        | Escalation - Detection                       | Time from detection to appropriate escalation                       |
+| **Notification Time**      | Notification - Detection                     | Time from detection to stakeholder/regulatory notification          |
+| **Recurrence Rate**        | Count of similar incidents in last 12 months | Whether root causes from prior incidents were effectively addressed |
 
 ### Step 5: Control Failure Mapping
 
 Map the incident to specific control failures -- what should have prevented, detected, or limited the incident but did not.
 
-| Control Category | Expected Control | Status at Time of Incident | Failure Mode | Improvement |
-|---|---|---|---|---|
-| **Preventive** | [Control that should have prevented initial access] | [Missing / Misconfigured / Bypassed / Working as designed but insufficient] | [Why it failed] | [Specific improvement] |
-| **Detective** | [Control that should have detected the attack sooner] | [Missing / Misconfigured / Alert not triaged / Working but too slow] | [Why it failed] | [Specific improvement] |
-| **Corrective** | [Control that should have limited impact or accelerated recovery] | [Missing / Untested / Ineffective] | [Why it failed] | [Specific improvement] |
+| Control Category | Expected Control                                                  | Status at Time of Incident                                                  | Failure Mode    | Improvement            |
+| ---------------- | ----------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------- | ---------------------- |
+| **Preventive**   | [Control that should have prevented initial access]               | [Missing / Misconfigured / Bypassed / Working as designed but insufficient] | [Why it failed] | [Specific improvement] |
+| **Detective**    | [Control that should have detected the attack sooner]             | [Missing / Misconfigured / Alert not triaged / Working but too slow]        | [Why it failed] | [Specific improvement] |
+| **Corrective**   | [Control that should have limited impact or accelerated recovery] | [Missing / Untested / Ineffective]                                          | [Why it failed] | [Specific improvement] |
 
 **Common control failure patterns:**
 
-| Pattern | Description | Systemic Fix |
-|---------|-------------|-------------|
-| **Detection gap** | No alert existed for the attack technique used | Map detection coverage to ATT&CK matrix; develop rules for uncovered techniques |
-| **Alert fatigue** | Alert fired but was deprioritized or ignored due to high false-positive rate | Tune detection rules; implement alert severity scoring; reduce noise |
-| **Configuration drift** | Security control was configured correctly at deployment but drifted over time | Implement infrastructure-as-code; deploy configuration compliance monitoring |
-| **Patch gap** | Vulnerability was known but not patched within SLA | Review patch management process; automate patch deployment; improve vulnerability prioritization |
-| **Access control gap** | Overly permissive access enabled lateral movement or data access | Implement least-privilege review cycle; enforce just-in-time access; audit permissions regularly |
-| **Segmentation failure** | Network segmentation did not prevent lateral movement | Review and enforce micro-segmentation; validate firewall rules; implement zero-trust architecture |
-| **Process gap** | IR playbook did not cover the incident type or was outdated | Update IR playbooks; conduct tabletop exercises; review annually |
-| **Communication failure** | Stakeholders were not notified, or notification was delayed | Formalize escalation matrix; automate notifications; test communication procedures |
+| Pattern                   | Description                                                                   | Systemic Fix                                                                                      |
+| ------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| **Detection gap**         | No alert existed for the attack technique used                                | Map detection coverage to ATT&CK matrix; develop rules for uncovered techniques                   |
+| **Alert fatigue**         | Alert fired but was deprioritized or ignored due to high false-positive rate  | Tune detection rules; implement alert severity scoring; reduce noise                              |
+| **Configuration drift**   | Security control was configured correctly at deployment but drifted over time | Implement infrastructure-as-code; deploy configuration compliance monitoring                      |
+| **Patch gap**             | Vulnerability was known but not patched within SLA                            | Review patch management process; automate patch deployment; improve vulnerability prioritization  |
+| **Access control gap**    | Overly permissive access enabled lateral movement or data access              | Implement least-privilege review cycle; enforce just-in-time access; audit permissions regularly  |
+| **Segmentation failure**  | Network segmentation did not prevent lateral movement                         | Review and enforce micro-segmentation; validate firewall rules; implement zero-trust architecture |
+| **Process gap**           | IR playbook did not cover the incident type or was outdated                   | Update IR playbooks; conduct tabletop exercises; review annually                                  |
+| **Communication failure** | Stakeholders were not notified, or notification was delayed                   | Formalize escalation matrix; automate notifications; test communication procedures                |
 
 ### Step 6: Lessons Learned and Remediation Plan
 
@@ -257,40 +260,40 @@ Convert analysis findings into specific, measurable, assignable, and time-bound 
 
 **Lessons learned categories:**
 
-| Category | Question | Output |
-|----------|----------|--------|
-| **What worked well** | What actions, tools, or processes performed effectively? | Identify strengths to preserve and institutionalize |
-| **What did not work** | Where did the response encounter delays, failures, or gaps? | Identify specific breakdowns requiring remediation |
-| **What was missing** | What capabilities, information, or resources were needed but unavailable? | Identify investments or procurements required |
-| **What was learned** | What new knowledge about the threat landscape, attacker TTPs, or organizational posture was gained? | Update threat models, detection rules, and risk assessments |
+| Category              | Question                                                                                            | Output                                                      |
+| --------------------- | --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| **What worked well**  | What actions, tools, or processes performed effectively?                                            | Identify strengths to preserve and institutionalize         |
+| **What did not work** | Where did the response encounter delays, failures, or gaps?                                         | Identify specific breakdowns requiring remediation          |
+| **What was missing**  | What capabilities, information, or resources were needed but unavailable?                           | Identify investments or procurements required               |
+| **What was learned**  | What new knowledge about the threat landscape, attacker TTPs, or organizational posture was gained? | Update threat models, detection rules, and risk assessments |
 
 **Remediation action template:**
 
-| ID | Finding | Action | Owner | Priority | Deadline | Tracking |
-|---|---|---|---|---|---|---|
+| ID      | Finding                                                | Action                        | Owner           | Priority      | Deadline     | Tracking    |
+| ------- | ------------------------------------------------------ | ----------------------------- | --------------- | ------------- | ------------ | ----------- |
 | REM-001 | [Specific finding from RCA or control failure mapping] | [Specific remediation action] | [Name and team] | [P0/P1/P2/P3] | [YYYY-MM-DD] | [Ticket ID] |
-| REM-002 | [Finding] | [Action] | [Owner] | [Priority] | [Deadline] | [Ticket ID] |
+| REM-002 | [Finding]                                              | [Action]                      | [Owner]         | [Priority]    | [Deadline]   | [Ticket ID] |
 
 **Remediation prioritization:**
 
-| Priority | Definition | Deadline |
-|----------|------------|----------|
-| P0 | Critical gap that directly enabled the incident; exploitation is repeatable without remediation | 7 days |
-| P1 | Significant gap that contributed to the incident severity or delayed response | 30 days |
-| P2 | Moderate gap that represents a defense-in-depth weakness | 90 days |
-| P3 | Minor improvement or best-practice enhancement | Next quarter |
+| Priority | Definition                                                                                      | Deadline     |
+| -------- | ----------------------------------------------------------------------------------------------- | ------------ |
+| P0       | Critical gap that directly enabled the incident; exploitation is repeatable without remediation | 7 days       |
+| P1       | Significant gap that contributed to the incident severity or delayed response                   | 30 days      |
+| P2       | Moderate gap that represents a defense-in-depth weakness                                        | 90 days      |
+| P3       | Minor improvement or best-practice enhancement                                                  | Next quarter |
 
 ---
 
 ## 4. Findings Classification
 
-| Severity | Label | Definition | PIR Action |
-|----------|-------|------------|-----------|
-| P0 | Critical | Root cause that directly enabled the incident and remains exploitable. Immediate remediation required to prevent recurrence. | Remediation tracked as P0 with 7-day deadline. Executive visibility. |
-| P1 | High | Significant contributing factor that amplified impact or delayed response. | Remediation tracked as P1 with 30-day deadline. |
-| P2 | Medium | Defense-in-depth gap or process improvement that would reduce future incident likelihood or impact. | Remediation tracked as P2 with 90-day deadline. |
-| P3 | Low | Minor improvement opportunity or best-practice recommendation. | Backlog item for next planning cycle. |
-| P4 | Informational | Observation or context that does not require action but should be documented for organizational awareness. | Documented in PIR report. No remediation required. |
+| Severity | Label         | Definition                                                                                                                   | PIR Action                                                           |
+| -------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| P0       | Critical      | Root cause that directly enabled the incident and remains exploitable. Immediate remediation required to prevent recurrence. | Remediation tracked as P0 with 7-day deadline. Executive visibility. |
+| P1       | High          | Significant contributing factor that amplified impact or delayed response.                                                   | Remediation tracked as P1 with 30-day deadline.                      |
+| P2       | Medium        | Defense-in-depth gap or process improvement that would reduce future incident likelihood or impact.                          | Remediation tracked as P2 with 90-day deadline.                      |
+| P3       | Low           | Minor improvement opportunity or best-practice recommendation.                                                               | Backlog item for next planning cycle.                                |
+| P4       | Informational | Observation or context that does not require action but should be documented for organizational awareness.                   | Documented in PIR report. No remediation required.                   |
 
 ---
 
@@ -300,6 +303,7 @@ Produce the post-incident review report with these exact sections:
 
 ```markdown
 ## Post-Incident Review: [Incident ID]
+
 **Date of Review:** [YYYY-MM-DD]
 **Date of Incident:** [YYYY-MM-DD]
 **Skill:** post-incident-review v1.0.0
@@ -307,35 +311,40 @@ Produce the post-incident review report with these exact sections:
 **PIR Facilitator:** [Name or "AI-assisted -- human facilitator required"]
 
 ### Executive Summary
+
 [3-5 sentences. State the incident type, severity, duration, business impact,
 root cause, and the number/priority of remediation actions identified.]
 
 ### Incident Overview
-| Field | Value |
-|---|---|
-| Incident ID | [IR-YYYY-NNNN] |
-| Category | [Category from ir-playbook classification] |
-| Severity | [SEV-1 / SEV-2 / SEV-3 / SEV-4] |
-| Status | [Closed / Monitoring] |
-| Duration | [Total hours/days from compromise to recovery] |
-| Business Impact | [Description] |
-| Data Impact | [Description or "None confirmed"] |
+
+| Field           | Value                                          |
+| --------------- | ---------------------------------------------- |
+| Incident ID     | [IR-YYYY-NNNN]                                 |
+| Category        | [Category from ir-playbook classification]     |
+| Severity        | [SEV-1 / SEV-2 / SEV-3 / SEV-4]                |
+| Status          | [Closed / Monitoring]                          |
+| Duration        | [Total hours/days from compromise to recovery] |
+| Business Impact | [Description]                                  |
+| Data Impact     | [Description or "None confirmed"]              |
 
 ### Timeline
-| # | Timestamp (UTC) | Event Type | Description | Source |
-|---|---|---|---|---|
-| 1 | [timestamp] | [type] | [description] | [source] |
+
+| #   | Timestamp (UTC) | Event Type | Description   | Source   |
+| --- | --------------- | ---------- | ------------- | -------- |
+| 1   | [timestamp]     | [type]     | [description] | [source] |
 
 ### Metrics
-| Metric | Value | Benchmark |
-|---|---|---|
-| Dwell Time (Compromise to Detection) | [duration] | [industry benchmark] |
+
+| Metric                                 | Value      | Benchmark                   |
+| -------------------------------------- | ---------- | --------------------------- |
+| Dwell Time (Compromise to Detection)   | [duration] | [industry benchmark]        |
 | MTTD (Initial Compromise to Detection) | [duration] | [comparison to org average] |
-| MTTC (Detection to Containment) | [duration] | [comparison to org average] |
-| MTTR (Detection to Recovery) | [duration] | [comparison to org average] |
-| Escalation Time | [duration] | [SLA target] |
+| MTTC (Detection to Containment)        | [duration] | [comparison to org average] |
+| MTTR (Detection to Recovery)           | [duration] | [comparison to org average] |
+| Escalation Time                        | [duration] | [SLA target]                |
 
 ### Root Cause Analysis
+
 **Method:** [5 Whys / Fishbone / Both]
 
 [Include the complete 5 Whys chain and/or fishbone analysis]
@@ -343,22 +352,27 @@ root cause, and the number/priority of remediation actions identified.]
 **Root Cause Statement:** [1-2 sentence definitive statement of the systemic root cause]
 
 ### Control Failure Mapping
-| Control Category | Expected Control | Status | Failure Mode | Improvement |
-|---|---|---|---|---|
-| [Preventive/Detective/Corrective] | [Control] | [Status] | [Why it failed] | [Improvement] |
+
+| Control Category                  | Expected Control | Status   | Failure Mode    | Improvement   |
+| --------------------------------- | ---------------- | -------- | --------------- | ------------- |
+| [Preventive/Detective/Corrective] | [Control]        | [Status] | [Why it failed] | [Improvement] |
 
 ### What Went Well
+
 - [Strength identified during retrospective]
 
 ### What Could Be Improved
+
 - [Gap or failure identified during retrospective]
 
 ### Remediation Plan
-| ID | Finding | Action | Owner | Priority | Deadline | Ticket |
-|---|---|---|---|---|---|---|
-| REM-001 | [Finding] | [Action] | [Owner] | [P0-P3] | [Date] | [ID] |
+
+| ID      | Finding   | Action   | Owner   | Priority | Deadline | Ticket |
+| ------- | --------- | -------- | ------- | -------- | -------- | ------ |
+| REM-001 | [Finding] | [Action] | [Owner] | [P0-P3]  | [Date]   | [ID]   |
 
 ### Follow-Up Schedule
+
 - **Remediation Review Date:** [YYYY-MM-DD -- typically 30 days after PIR]
 - **PIR Report Distribution:** [List of recipients]
 - **Playbook Updates Required:** [Yes/No -- list specific playbooks]
@@ -375,15 +389,18 @@ root cause, and the number/priority of remediation actions identified.]
 NIST SP 800-61 Rev 2 Section 3.4 ("Post-Incident Activity") identifies the post-incident review as one of the most important -- and most frequently omitted -- parts of incident response. Key guidance:
 
 **Lessons Learned Meetings (Section 3.4.1):**
+
 - Should be held within several days of the end of the incident for major incidents
 - Participants should include all parties involved in the response
 - Questions to address: What exactly happened and at what times? How well did staff and management perform? What information was needed sooner? Were any steps or actions taken that might have inhibited the recovery? What would the staff and management do differently the next time a similar incident occurs? How could information sharing with other organizations have been improved? What corrective actions can prevent similar incidents in the future? What precursors or indicators should be watched for in the future? What additional tools or resources are needed to detect, analyze, and mitigate future incidents?
 
 **Using Collected Incident Data (Section 3.4.2):**
+
 - Organizations should focus on collecting actionable data: number of incidents handled, time per incident, objective assessment of each incident, documentation completeness
 - This data supports trend analysis, resource allocation, and detection capability improvement
 
 **Evidence Retention (Section 3.4.3):**
+
 - Organizations should establish a policy for retaining evidence from incidents
 - Retention considerations: prosecution requirements, data retention regulations, organizational policy, cost of storage
 - General guidance: retain evidence for a minimum of the statute of limitations period for applicable laws

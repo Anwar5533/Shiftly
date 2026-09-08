@@ -26,31 +26,24 @@ import './ToSkill.css';
  *  5  收尾大字 "人人都能成为 顶级网页设计师"
  */
 
-const RECAP_POINTS = [
-  '角色定位',
-  '工作流',
-  '去 AI 味',
-  'oklch 配色',
-  '内容克制',
-  '验证闭环',
-];
+const RECAP_POINTS = ['角色定位', '工作流', '去 AI 味', 'oklch 配色', '内容克制', '验证闭环'];
 
 const TOOLS = [
   { id: 'cc', name: 'Claude Code', mono: 'claude.code' },
-  { id: 'cu', name: 'Cursor',      mono: 'cursor.sh'   },
-  { id: 'cx', name: 'Codex',       mono: 'codex.cli'   },
+  { id: 'cu', name: 'Cursor', mono: 'cursor.sh' },
+  { id: 'cx', name: 'Codex', mono: 'codex.cli' },
 ];
 
 function ToSkill({ localStep }: ChapterContext) {
   const at = (n: number) => localStep >= n;
   void at;
 
-  const sceneRecap   = localStep <= 0;
-  const sceneProb    = localStep === 1;
-  const sceneBanned  = localStep === 2;
-  const scenePivot   = localStep === 3;
-  const sceneSkill   = localStep === 4;
-  const sceneClose   = localStep >= 5;
+  const sceneRecap = localStep <= 0;
+  const sceneProb = localStep === 1;
+  const sceneBanned = localStep === 2;
+  const scenePivot = localStep === 3;
+  const sceneSkill = localStep === 4;
+  const sceneClose = localStep >= 5;
 
   return (
     <section className="ts">
@@ -58,7 +51,8 @@ function ToSkill({ localStep }: ChapterContext) {
       <SceneFade active={sceneRecap} exitMs={420} enterDelayMs={120}>
         <div className="ts__recap">
           <Reveal kind="rise" duration={1100} delay={120} className="ts__recap-title" as="h1">
-            以上 —— 提示词里<br />
+            以上 —— 提示词里
+            <br />
             <em>最核心</em>的东西
           </Reveal>
 
@@ -86,7 +80,8 @@ function ToSkill({ localStep }: ChapterContext) {
           </Reveal>
 
           <Reveal kind="rise" duration={1100} delay={680} className="ts__prob-line" as="h2">
-            Anthropic 的产品 ——<br />
+            Anthropic 的产品 ——
+            <br />
             在国内 <em>真的难用</em>
           </Reveal>
 
@@ -182,13 +177,16 @@ function ToSkill({ localStep }: ChapterContext) {
               <span className="ts__skill-bar-dot" />
               <span className="ts__skill-bar-dot" />
               <span className="ts__skill-bar-dot" />
-              <span className="ts__skill-bar-path">.claude / skills / web-design-engineer / SKILL.md</span>
+              <span className="ts__skill-bar-path">
+                .claude / skills / web-design-engineer / SKILL.md
+              </span>
             </div>
             <div className="ts__skill-body">
               <div className="ts__skill-tag">SKILL.md</div>
               <h2 className="ts__skill-name">web-design-engineer</h2>
               <p className="ts__skill-desc">
-                把 Claude Design 提示词的精华，<br />
+                把 Claude Design 提示词的精华，
+                <br />
                 提炼成一个<em>可复用</em>的 Skill
               </p>
               <div className="ts__skill-meta">

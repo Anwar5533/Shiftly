@@ -5,12 +5,12 @@
 
 ## 命令（在工作区根目录）
 
-| 命令 | 作用 |
-|---|---|
-| `npm run dev` | 启动预览（Phase 4 / 5 边写边看）。 |
-| `npm run build` | `tsc --noEmit` 类型检查 **+** 构建自包含单页 HTML 到 `dist/index.html`（CSS + JS 内联）。TS 报错会让构建失败，避免错误漏进交付物。 |
-| `npm run html` | 复用 `npm run build`（含类型检查），再把单页 HTML 复制到 `article/article.html`（**交付物**）。 |
-| `npm run typecheck` | 仅类型检查。 |
+| 命令                | 作用                                                                                                                               |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run dev`       | 启动预览（Phase 4 / 5 边写边看）。                                                                                                 |
+| `npm run build`     | `tsc --noEmit` 类型检查 **+** 构建自包含单页 HTML 到 `dist/index.html`（CSS + JS 内联）。TS 报错会让构建失败，避免错误漏进交付物。 |
+| `npm run html`      | 复用 `npm run build`（含类型检查），再把单页 HTML 复制到 `article/article.html`（**交付物**）。                                    |
+| `npm run typecheck` | 仅类型检查。                                                                                                                       |
 
 单文件由 `vite-plugin-singlefile` 产出：CSS + JS 全部内联，**断网可打开、可分享**。
 

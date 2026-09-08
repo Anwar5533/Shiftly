@@ -4,14 +4,7 @@
   "nameZh": "暗夜植物",
   "description": "Premium editorial dark with elegant Cormorant italic and warm terracotta / blush / gold accents. Soft blurred light pools as the signature — magazine-cover sophistication for fashion, lifestyle, brand storytelling.",
   "descriptionZh": "高级感暗底 + Cormorant 斜体衬线 + 暖陶 / 玫粉 / 鎏金叠层。签名：柔光晕染 (blurred light pool)。气质介于时尚刊物封面与博物馆图录之间。",
-  "mood": [
-    "dark",
-    "elegant",
-    "editorial",
-    "premium",
-    "sophisticated",
-    "botanical"
-  ],
+  "mood": ["dark", "elegant", "editorial", "premium", "sophisticated", "botanical"],
   "bestFor": [
     "品牌故事 / 形象片",
     "时尚 / 美妆",

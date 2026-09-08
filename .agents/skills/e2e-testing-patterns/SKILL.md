@@ -76,13 +76,13 @@ Detailed pattern documentation lives in `references/details.md`. Read that file 
 
 ```typescript
 // ❌ Bad selectors
-cy.get(".btn.btn-primary.submit-button").click();
-cy.get("div > form > div:nth-child(2) > input").type("text");
+cy.get('.btn.btn-primary.submit-button').click();
+cy.get('div > form > div:nth-child(2) > input').type('text');
 
 // ✅ Good selectors
-cy.getByRole("button", { name: "Submit" }).click();
-cy.getByLabel("Email address").type("user@example.com");
-cy.get('[data-testid="email-input"]').type("user@example.com");
+cy.getByRole('button', { name: 'Submit' }).click();
+cy.getByLabel('Email address').type('user@example.com');
+cy.get('[data-testid="email-input"]').type('user@example.com');
 ```
 
 ## Common Pitfalls

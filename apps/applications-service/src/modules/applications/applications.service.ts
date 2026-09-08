@@ -41,7 +41,7 @@ export class ApplicationsService {
 
   async applyToJob(userId: string, createDto: CreateApplicationDto) {
     const workerProfileId = await this.getWorkerId(userId);
-    
+
     // Fetch employerId from jobs table
     const jobRes = await this.prisma.$queryRaw<{ employerId: string }[]>`
       SELECT "employerId" FROM jobs.jobs WHERE id = ${createDto.jobId}::uuid LIMIT 1

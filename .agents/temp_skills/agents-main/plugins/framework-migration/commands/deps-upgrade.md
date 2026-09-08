@@ -305,7 +305,7 @@ git branch -D upgrade/{package_name}-{target_version}
 - [Changelog]({get_changelog_url(package_name, target_version)})
 - [Community Discussions](<{get_community_url(package_name)}>)
   """
-      return guide
+  return guide
 
 ````
 
@@ -701,17 +701,17 @@ Monitor application after upgrades:
 const monitoring = {
   metrics: {
     performance: {
-      page_load_time: { threshold: 3000, unit: "ms" },
-      api_response_time: { threshold: 500, unit: "ms" },
-      memory_usage: { threshold: 512, unit: "MB" },
+      page_load_time: { threshold: 3000, unit: 'ms' },
+      api_response_time: { threshold: 500, unit: 'ms' },
+      memory_usage: { threshold: 512, unit: 'MB' },
     },
     errors: {
-      error_rate: { threshold: 0.01, unit: "%" },
-      console_errors: { threshold: 0, unit: "count" },
+      error_rate: { threshold: 0.01, unit: '%' },
+      console_errors: { threshold: 0, unit: 'count' },
     },
     bundle: {
-      size: { threshold: 5, unit: "MB" },
-      gzip_size: { threshold: 1.5, unit: "MB" },
+      size: { threshold: 5, unit: 'MB' },
+      gzip_size: { threshold: 1.5, unit: 'MB' },
     },
   },
 
@@ -727,7 +727,7 @@ const monitoring = {
           value,
           threshold: config.threshold,
           unit: config.unit,
-          status: value <= config.threshold ? "PASS" : "FAIL",
+          status: value <= config.threshold ? 'PASS' : 'FAIL',
         };
       }
     }
@@ -736,19 +736,19 @@ const monitoring = {
   },
 
   generateReport: function (results) {
-    let report = "## Post-Upgrade Health Check\n\n";
+    let report = '## Post-Upgrade Health Check\n\n';
 
     for (const [category, metrics] of Object.entries(results)) {
       report += `### ${category}\n\n`;
-      report += "| Metric | Value | Threshold | Status |\n";
-      report += "|--------|-------|-----------|--------|\n";
+      report += '| Metric | Value | Threshold | Status |\n';
+      report += '|--------|-------|-----------|--------|\n';
 
       for (const [metric, data] of Object.entries(metrics)) {
-        const status = data.status === "PASS" ? "✅" : "❌";
+        const status = data.status === 'PASS' ? '✅' : '❌';
         report += `| ${metric} | ${data.value}${data.unit} | ${data.threshold}${data.unit} | ${status} |\n`;
       }
 
-      report += "\n";
+      report += '\n';
     }
 
     return report;

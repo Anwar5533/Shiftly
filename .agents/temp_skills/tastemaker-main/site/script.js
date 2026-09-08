@@ -1,26 +1,26 @@
-const revealSelector = "[data-reveal], [data-reveal-group] > *";
+const revealSelector = '[data-reveal], [data-reveal-group] > *';
 
 const showAll = () => {
-  document.documentElement.classList.remove("reveal-armed");
+  document.documentElement.classList.remove('reveal-armed');
   document.querySelectorAll(revealSelector).forEach((el) => {
-    el.style.opacity = "1";
-    el.style.transform = "none";
+    el.style.opacity = '1';
+    el.style.transform = 'none';
   });
 };
 
 const initCopyButtons = () => {
-  document.querySelectorAll("[data-copy]").forEach((button) => {
-    button.addEventListener("click", async () => {
-      const label = button.querySelector("span");
+  document.querySelectorAll('[data-copy]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const label = button.querySelector('span');
 
       try {
         await navigator.clipboard.writeText(button.dataset.copy);
-        if (label) label.textContent = "Copied";
+        if (label) label.textContent = 'Copied';
         window.setTimeout(() => {
-          if (label) label.textContent = "Copy";
+          if (label) label.textContent = 'Copy';
         }, 1600);
       } catch {
-        if (label) label.textContent = "Select";
+        if (label) label.textContent = 'Select';
       }
     });
   });
@@ -34,16 +34,16 @@ const startRevealWatchdog = () => {
   const check = () => {
     const cutoff = window.innerHeight * 1.4;
     document.querySelectorAll(revealSelector).forEach((el) => {
-      if (getComputedStyle(el).opacity !== "0") return;
+      if (getComputedStyle(el).opacity !== '0') return;
       const rect = el.getBoundingClientRect();
       if (rect.top < cutoff) {
-        el.style.opacity = "1";
-        el.style.transform = "none";
+        el.style.opacity = '1';
+        el.style.transform = 'none';
       }
     });
   };
-  window.addEventListener("scroll", check, { passive: true });
-  window.addEventListener("resize", check);
+  window.addEventListener('scroll', check, { passive: true });
+  window.addEventListener('resize', check);
   check();
   window.setInterval(check, 1200);
 };
@@ -54,10 +54,10 @@ const startRevealWatchdog = () => {
 // and it costs nothing to source or license. Draws one still frame and
 // exits immediately under reduced motion.
 const initHeroCanvas = () => {
-  const canvas = document.getElementById("heroCanvas");
+  const canvas = document.getElementById('heroCanvas');
   if (!canvas || !canvas.getContext) return;
-  const ctx = canvas.getContext("2d");
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const ctx = canvas.getContext('2d');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let w = 0;
   let h = 0;
   let dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -72,8 +72,8 @@ const initHeroCanvas = () => {
   };
 
   const blobs = [
-    { baseX: 0.18, baseY: 0.3, r: 0.42, color: "0, 130, 134", speed: 0.00018, phase: 0 },
-    { baseX: 0.84, baseY: 0.78, r: 0.38, color: "190, 133, 206", speed: 0.00014, phase: 2 },
+    { baseX: 0.18, baseY: 0.3, r: 0.42, color: '0, 130, 134', speed: 0.00018, phase: 0 },
+    { baseX: 0.84, baseY: 0.78, r: 0.38, color: '190, 133, 206', speed: 0.00014, phase: 2 },
   ];
 
   const draw = (t) => {
@@ -91,7 +91,7 @@ const initHeroCanvas = () => {
   };
 
   resize();
-  window.addEventListener("resize", resize);
+  window.addEventListener('resize', resize);
 
   if (reduceMotion) {
     draw(0);
@@ -114,70 +114,71 @@ const initMotion = () => {
   gsap.registerPlugin(ScrollTrigger);
   const mm = gsap.matchMedia();
 
-  mm.add("(prefers-reduced-motion: no-preference)", () => {
+  mm.add('(prefers-reduced-motion: no-preference)', () => {
     // Arm the CSS-hidden starting state only now that GSAP is definitely
     // going to animate these elements in.
-    document.documentElement.classList.add("reveal-armed");
+    document.documentElement.classList.add('reveal-armed');
 
-    gsap.timeline({ defaults: { ease: "power3.out" } })
-      .from(".site-header", { y: -14, opacity: 0, duration: 0.32 })
-      .from(".hero-copy > *", { y: 20, opacity: 0, stagger: 0.08, duration: 0.42 }, "-=0.1")
-      .from(".hero-visual", { y: 24, opacity: 0, duration: 0.5 }, "-=0.28")
-      .from(".compare-tag", { opacity: 0, y: 8, stagger: 0.08, duration: 0.3 }, "-=0.15");
+    gsap
+      .timeline({ defaults: { ease: 'power3.out' } })
+      .from('.site-header', { y: -14, opacity: 0, duration: 0.32 })
+      .from('.hero-copy > *', { y: 20, opacity: 0, stagger: 0.08, duration: 0.42 }, '-=0.1')
+      .from('.hero-visual', { y: 24, opacity: 0, duration: 0.5 }, '-=0.28')
+      .from('.compare-tag', { opacity: 0, y: 8, stagger: 0.08, duration: 0.3 }, '-=0.15');
 
     // The continuous wipe loop that stands in for a looped video background:
     // sweeps the before/after divider back and forth so the comparison is
     // visible without a click, built entirely from the two real screenshots.
-    gsap.to(".compare-reveal", {
-      "--wipe": "82%",
+    gsap.to('.compare-reveal', {
+      '--wipe': '82%',
       duration: 3.8,
-      ease: "sine.inOut",
+      ease: 'sine.inOut',
       yoyo: true,
       repeat: -1,
       delay: 1,
     });
 
-    gsap.utils.toArray("[data-reveal]").forEach((element) => {
-      if (element.closest(".hero")) return;
+    gsap.utils.toArray('[data-reveal]').forEach((element) => {
+      if (element.closest('.hero')) return;
       gsap.from(element, {
         y: 18,
         opacity: 0,
         duration: 0.42,
-        ease: "power3.out",
+        ease: 'power3.out',
         immediateRender: false,
-        scrollTrigger: { trigger: element, start: "top 90%", once: true },
+        scrollTrigger: { trigger: element, start: 'top 90%', once: true },
       });
     });
 
-    gsap.utils.toArray("[data-reveal-group]").forEach((group) => {
+    gsap.utils.toArray('[data-reveal-group]').forEach((group) => {
       gsap.from(group.children, {
         y: 20,
         opacity: 0,
         stagger: 0.06,
         duration: 0.42,
-        ease: "power3.out",
+        ease: 'power3.out',
         immediateRender: false,
-        scrollTrigger: { trigger: group, start: "top 88%", once: true },
+        scrollTrigger: { trigger: group, start: 'top 88%', once: true },
       });
     });
 
-    gsap.from(".proof-wall-links a", {
+    gsap.from('.proof-wall-links a', {
       y: 14,
       opacity: 0,
       stagger: 0.05,
       duration: 0.32,
-      ease: "power3.out",
+      ease: 'power3.out',
       immediateRender: false,
-      scrollTrigger: { trigger: ".proof-wall", start: "top 88%", once: true },
+      scrollTrigger: { trigger: '.proof-wall', start: 'top 88%', once: true },
     });
 
     startRevealWatchdog();
   });
 
-  mm.add("(prefers-reduced-motion: reduce)", showAll);
+  mm.add('(prefers-reduced-motion: reduce)', showAll);
 };
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
   initCopyButtons();
   initHeroCanvas();
   initMotion();

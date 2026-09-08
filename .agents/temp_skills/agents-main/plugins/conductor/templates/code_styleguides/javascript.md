@@ -8,8 +8,8 @@ Modern JavaScript (ES6+) best practices and conventions.
 
 ```javascript
 // Prefer const and let over var
-const immutableValue = "fixed";
-let mutableValue = "can change";
+const immutableValue = 'fixed';
+let mutableValue = 'can change';
 
 // Never use var
 // var outdated = 'avoid this';
@@ -33,7 +33,7 @@ const doubled = numbers.map((n) => n * 2);
 
 ```javascript
 // Property shorthand
-const name = "John";
+const name = 'John';
 const age = 30;
 const user = { name, age };
 
@@ -48,11 +48,11 @@ const calculator = {
 };
 
 // Computed property names
-const key = "dynamic";
+const key = 'dynamic';
 const obj = {
-  [key]: "value",
+  [key]: 'value',
   [`${key}Method`]() {
-    return "result";
+    return 'result';
   },
 };
 ```
@@ -61,7 +61,7 @@ const obj = {
 
 ```javascript
 // Default parameters
-function greet(name = "Guest", greeting = "Hello") {
+function greet(name = 'Guest', greeting = 'Hello') {
   return `${greeting}, ${name}!`;
 }
 
@@ -71,7 +71,7 @@ function sum(...numbers) {
 }
 
 // Named parameters via destructuring
-function createUser({ name, email, role = "user" }) {
+function createUser({ name, email, role = 'user' }) {
   return { name, email, role, createdAt: new Date() };
 }
 ```
@@ -112,11 +112,7 @@ async function loadDataSequentially() {
 
 // Parallel (fast)
 async function loadDataParallel() {
-  const [users, posts, comments] = await Promise.all([
-    fetchUsers(),
-    fetchPosts(),
-    fetchComments(),
-  ]);
+  const [users, posts, comments] = await Promise.all([fetchUsers(), fetchPosts(), fetchComments()]);
   return { users, posts, comments };
 }
 ```
@@ -135,7 +131,7 @@ async function fetchData(url) {
 
     return await response.json();
   } catch (error) {
-    console.error("Fetch failed:", error.message);
+    console.error('Fetch failed:', error.message);
     throw error;
   }
 }
@@ -151,7 +147,7 @@ async function safeAsync(promise) {
 }
 
 // Usage
-const [data, error] = await safeAsync(fetchData("/api/users"));
+const [data, error] = await safeAsync(fetchData('/api/users'));
 if (error) {
   handleError(error);
 }
@@ -165,7 +161,7 @@ if (error) {
 class AppError extends Error {
   constructor(message, code, statusCode = 500) {
     super(message);
-    this.name = "AppError";
+    this.name = 'AppError';
     this.code = code;
     this.statusCode = statusCode;
     Error.captureStackTrace(this, this.constructor);
@@ -174,16 +170,16 @@ class AppError extends Error {
 
 class ValidationError extends AppError {
   constructor(message, field) {
-    super(message, "VALIDATION_ERROR", 400);
-    this.name = "ValidationError";
+    super(message, 'VALIDATION_ERROR', 400);
+    this.name = 'ValidationError';
     this.field = field;
   }
 }
 
 class NotFoundError extends AppError {
   constructor(resource, id) {
-    super(`${resource} with id ${id} not found`, "NOT_FOUND", 404);
-    this.name = "NotFoundError";
+    super(`${resource} with id ${id} not found`, 'NOT_FOUND', 404);
+    this.name = 'NotFoundError';
     this.resource = resource;
     this.resourceId = id;
   }
@@ -200,7 +196,7 @@ function handleError(error) {
   } else if (error instanceof NotFoundError) {
     showNotFound(error.resource);
   } else {
-    showGenericError("Something went wrong");
+    showGenericError('Something went wrong');
     reportError(error);
   }
 }
@@ -234,7 +230,7 @@ function withErrorBoundary(Component) {
 
 ```javascript
 // Named exports
-export const API_URL = "/api";
+export const API_URL = '/api';
 export function fetchData(endpoint) {
   /* ... */
 }
@@ -243,13 +239,13 @@ export class ApiClient {
 }
 
 // Re-exports
-export { User, Post } from "./types.js";
-export * as utils from "./utils.js";
+export { User, Post } from './types.js';
+export * as utils from './utils.js';
 
 // Imports
-import { fetchData, API_URL } from "./api.js";
-import * as api from "./api.js";
-import defaultExport from "./module.js";
+import { fetchData, API_URL } from './api.js';
+import * as api from './api.js';
+import defaultExport from './module.js';
 ```
 
 ### Module Organization
@@ -263,9 +259,9 @@ import defaultExport from "./module.js";
 //   constants.js   - Feature constants
 
 // index.js - Barrel export
-export { UserService } from "./service.js";
-export { validateUser } from "./utils.js";
-export { USER_ROLES } from "./constants.js";
+export { UserService } from './service.js';
+export { validateUser } from './utils.js';
+export { USER_ROLES } from './constants.js';
 ```
 
 ### Dependency Injection
@@ -319,9 +315,9 @@ function calculateTotal(items) {
 
 ```javascript
 const users = [
-  { id: 1, name: "Alice", active: true },
-  { id: 2, name: "Bob", active: false },
-  { id: 3, name: "Charlie", active: true },
+  { id: 1, name: 'Alice', active: true },
+  { id: 2, name: 'Bob', active: false },
+  { id: 3, name: 'Charlie', active: true },
 ];
 
 // map - transform
@@ -380,7 +376,7 @@ class User {
   #password;
 
   // Static properties
-  static ROLES = ["admin", "user", "guest"];
+  static ROLES = ['admin', 'user', 'guest'];
 
   constructor(name, email) {
     this.name = name;
@@ -396,7 +392,7 @@ class User {
   // Setter
   set password(value) {
     if (value.length < 8) {
-      throw new Error("Password too short");
+      throw new Error('Password too short');
     }
     this.#password = hashPassword(value);
   }
@@ -456,11 +452,11 @@ const firstItem = items?.[0];
 const result = obj?.method?.();
 
 // Nullish coalescing
-const name = user.name ?? "Anonymous";
+const name = user.name ?? 'Anonymous';
 const count = value ?? 0;
 
 // Combining both
-const displayName = user?.profile?.name ?? "Unknown";
+const displayName = user?.profile?.name ?? 'Unknown';
 ```
 
 ### Debounce and Throttle
@@ -553,13 +549,13 @@ function process(options) {
 // Avoid creating functions in loops
 // Bad
 items.forEach(function (item) {
-  item.addEventListener("click", function () {});
+  item.addEventListener('click', function () {});
 });
 
 // Good
 function handleClick(event) {}
 items.forEach((item) => {
-  item.addEventListener("click", handleClick);
+  item.addEventListener('click', handleClick);
 });
 
 // Use appropriate data structures

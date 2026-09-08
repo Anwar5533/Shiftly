@@ -37,7 +37,14 @@ export function CaseCard({ c, navigate, ratio }: Props) {
         ) : (
           <div className="cc-placeholder">
             <div className="cc-placeholder-icon" aria-hidden="true">
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 32 32"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1"
+              >
                 <rect x="3" y="6" width="26" height="20" rx="2" />
                 <circle cx="11" cy="13" r="2" />
                 <path d="M3 22l7-7 6 5 5-4 8 6" />
@@ -68,7 +75,10 @@ export function CaseCard({ c, navigate, ratio }: Props) {
       <footer className="cc-foot">
         <h4 className="cc-foot-title">{c.title}</h4>
         <div className="cc-foot-meta">
-          <span className="cc-foot-cat" style={{ '--ca': c.category_accent } as React.CSSProperties}>
+          <span
+            className="cc-foot-cat"
+            style={{ '--ca': c.category_accent } as React.CSSProperties}
+          >
             <span className="cc-foot-dot" /> {c.category_label}
           </span>
           <span className="mono cc-foot-fmt">.{c.format}</span>

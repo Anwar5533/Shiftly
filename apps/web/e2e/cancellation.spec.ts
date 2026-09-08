@@ -65,7 +65,7 @@ test.describe('Application Cancellation Workflow', () => {
     await cancelButton.click();
 
     const modalConfirmButton = workerPage.getByRole('button', { name: 'Withdraw' });
-    
+
     await expect(modalConfirmButton).toBeVisible();
     await modalConfirmButton.click();
 

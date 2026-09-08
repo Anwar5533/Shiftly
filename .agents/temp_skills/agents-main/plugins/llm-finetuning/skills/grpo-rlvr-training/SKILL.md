@@ -151,11 +151,11 @@ The base recipe above is the default. Reach for a
 variant only when a specific failure mode shows
 up, not preemptively:
 
-| Failure mode | Variant | Why |
-|---|---|---|
-| Entropy collapse / degenerate long chain-of-thought | **DAPO** | Decouples clip bounds and relaxes the KL penalty that over-regularizes exploration on long reasoning traces |
-| Reward or output length trends up regardless of quality | **Dr.GRPO** | Removes GRPO's length-normalization bias so reward tracks correctness, not completion length |
-| Training a mixture-of-experts model | **GSPO** | Moves the importance-sampling ratio to the sequence level instead of per-token — per-token ratios are unstable on MoE routing, so GSPO is required here, not optional |
+| Failure mode                                            | Variant     | Why                                                                                                                                                                   |
+| ------------------------------------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Entropy collapse / degenerate long chain-of-thought     | **DAPO**    | Decouples clip bounds and relaxes the KL penalty that over-regularizes exploration on long reasoning traces                                                           |
+| Reward or output length trends up regardless of quality | **Dr.GRPO** | Removes GRPO's length-normalization bias so reward tracks correctness, not completion length                                                                          |
+| Training a mixture-of-experts model                     | **GSPO**    | Moves the importance-sampling ratio to the sequence level instead of per-token — per-token ratios are unstable on MoE routing, so GSPO is required here, not optional |
 
 Start with plain GRPO. Watch for the specific
 symptom — collapsing entropy on long CoT, a

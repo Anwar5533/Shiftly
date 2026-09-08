@@ -110,7 +110,7 @@ spec:
             - containerPort: 9411 # Zipkin
           env:
             - name: COLLECTOR_ZIPKIN_HOST_PORT
-              value: ":9411"
+              value: ':9411'
 ```
 
 ### Template 4: Linkerd Viz Dashboard
@@ -211,7 +211,7 @@ spec:
     strategy: anonymous # or openid, token
   deployment:
     accessible_namespaces:
-      - "**"
+      - '**'
   external_services:
     prometheus:
       url: http://prometheus.istio-system:9090
@@ -297,7 +297,7 @@ spec:
           labels:
             severity: critical
           annotations:
-            summary: "High error rate for {{ $labels.destination_service_name }}"
+            summary: 'High error rate for {{ $labels.destination_service_name }}'
 
         - alert: HighLatency
           expr: |
@@ -307,7 +307,7 @@ spec:
           labels:
             severity: warning
           annotations:
-            summary: "High P99 latency for {{ $labels.destination_service_name }}"
+            summary: 'High P99 latency for {{ $labels.destination_service_name }}'
 
         - alert: MeshCertExpiring
           expr: |
@@ -315,5 +315,5 @@ spec:
           labels:
             severity: warning
           annotations:
-            summary: "Mesh certificate expiring in less than 7 days"
+            summary: 'Mesh certificate expiring in less than 7 days'
 ```

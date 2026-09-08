@@ -357,12 +357,7 @@ Reading Controls (swipe up then right):
 
 ```html
 <!-- Accessible modal structure -->
-<div
-  role="dialog"
-  aria-modal="true"
-  aria-labelledby="dialog-title"
-  aria-describedby="dialog-desc"
->
+<div role="dialog" aria-modal="true" aria-labelledby="dialog-title" aria-describedby="dialog-desc">
   <h2 id="dialog-title">Confirm Delete</h2>
   <p id="dialog-desc">This action cannot be undone.</p>
   <button>Cancel</button>
@@ -377,10 +372,10 @@ function openModal(modal) {
   lastFocus = document.activeElement;
 
   // Move focus to modal
-  modal.querySelector("h2").focus();
+  modal.querySelector('h2').focus();
 
   // Trap focus
-  modal.addEventListener("keydown", trapFocus);
+  modal.addEventListener('keydown', trapFocus);
 }
 
 function closeModal(modal) {
@@ -389,7 +384,7 @@ function closeModal(modal) {
 }
 
 function trapFocus(e) {
-  if (e.key === "Tab") {
+  if (e.key === 'Tab') {
     const focusable = modal.querySelectorAll(
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
     );
@@ -405,7 +400,7 @@ function trapFocus(e) {
     }
   }
 
-  if (e.key === "Escape") {
+  if (e.key === 'Escape') {
     closeModal(modal);
   }
 }
@@ -443,47 +438,35 @@ function trapFocus(e) {
 
 ```html
 <div role="tablist" aria-label="Product information">
-  <button role="tab" id="tab-1" aria-selected="true" aria-controls="panel-1">
-    Description
-  </button>
-  <button
-    role="tab"
-    id="tab-2"
-    aria-selected="false"
-    aria-controls="panel-2"
-    tabindex="-1"
-  >
+  <button role="tab" id="tab-1" aria-selected="true" aria-controls="panel-1">Description</button>
+  <button role="tab" id="tab-2" aria-selected="false" aria-controls="panel-2" tabindex="-1">
     Reviews
   </button>
 </div>
 
-<div role="tabpanel" id="panel-1" aria-labelledby="tab-1">
-  Product description content...
-</div>
+<div role="tabpanel" id="panel-1" aria-labelledby="tab-1">Product description content...</div>
 
-<div role="tabpanel" id="panel-2" aria-labelledby="tab-2" hidden>
-  Reviews content...
-</div>
+<div role="tabpanel" id="panel-2" aria-labelledby="tab-2" hidden>Reviews content...</div>
 ```
 
 ```javascript
 // Tab keyboard navigation
-tablist.addEventListener("keydown", (e) => {
+tablist.addEventListener('keydown', (e) => {
   const tabs = [...tablist.querySelectorAll('[role="tab"]')];
   const index = tabs.indexOf(document.activeElement);
 
   let newIndex;
   switch (e.key) {
-    case "ArrowRight":
+    case 'ArrowRight':
       newIndex = (index + 1) % tabs.length;
       break;
-    case "ArrowLeft":
+    case 'ArrowLeft':
       newIndex = (index - 1 + tabs.length) % tabs.length;
       break;
-    case "Home":
+    case 'Home':
       newIndex = 0;
       break;
-    case "End":
+    case 'End':
       newIndex = tabs.length - 1;
       break;
     default:
@@ -503,18 +486,18 @@ tablist.addEventListener("keydown", (e) => {
 function logAccessibleName(element) {
   const computed = window.getComputedStyle(element);
   console.log({
-    role: element.getAttribute("role") || element.tagName,
+    role: element.getAttribute('role') || element.tagName,
     name:
-      element.getAttribute("aria-label") ||
-      element.getAttribute("aria-labelledby") ||
+      element.getAttribute('aria-label') ||
+      element.getAttribute('aria-labelledby') ||
       element.textContent,
     state: {
-      expanded: element.getAttribute("aria-expanded"),
-      selected: element.getAttribute("aria-selected"),
-      checked: element.getAttribute("aria-checked"),
+      expanded: element.getAttribute('aria-expanded'),
+      selected: element.getAttribute('aria-selected'),
+      checked: element.getAttribute('aria-checked'),
       disabled: element.disabled,
     },
-    visible: computed.display !== "none" && computed.visibility !== "hidden",
+    visible: computed.display !== 'none' && computed.visibility !== 'hidden',
   });
 }
 ```

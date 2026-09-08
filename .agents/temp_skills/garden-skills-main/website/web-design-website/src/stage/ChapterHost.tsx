@@ -41,7 +41,8 @@ export function ChapterHost() {
         color: 'var(--fg)',
         opacity: phase === 'in' ? 1 : 0,
         transform: phase === 'in' ? 'translateY(0)' : 'translateY(8px)',
-        transition: 'opacity 220ms var(--ease-exit), transform 220ms var(--ease-exit), background 480ms var(--ease-enter), color 480ms var(--ease-enter)',
+        transition:
+          'opacity 220ms var(--ease-exit), transform 220ms var(--ease-exit), background 480ms var(--ease-enter), color 480ms var(--ease-enter)',
       }}
     >
       <Component

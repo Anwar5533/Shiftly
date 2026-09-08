@@ -7,21 +7,21 @@ TRL, not a replacement API — every Unsloth kwarg
 below has a plain TRL/PEFT equivalent. Use this
 table to translate an Unsloth config to plain TRL
 (or back), and to know which knob lives on which
-object in the *current* TRL API.
+object in the _current_ TRL API.
 
 ## Config Knob Mapping
 
-| Unsloth kwarg | TRL/PEFT equivalent | Notes |
-|---|---|---|
-| `FastLanguageModel.from_pretrained(model_name=...)` | `AutoModelForCausalLM.from_pretrained(...)` + `AutoTokenizer.from_pretrained(...)` | Unsloth fuses model+tokenizer load with kernel patching in one call. |
-| `load_in_4bit=True` | `BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=torch.bfloat16)` passed to `from_pretrained` | This is the QLoRA path in both. |
-| `FastLanguageModel.get_peft_model(r=..., target_modules=..., lora_alpha=..., lora_dropout=..., bias=..., random_state=...)` | `peft.LoraConfig(r=..., target_modules=..., lora_alpha=..., lora_dropout=..., bias=...)` + `peft.get_peft_model(model, config)`; `random_state` → seed set before `get_peft_model` | Unsloth's call is a thin wrapper generating the same `LoraConfig` under the hood. |
-| `use_gradient_checkpointing="unsloth"` | `gradient_checkpointing=True` in `SFTConfig`/`TrainingArguments` | Unsloth's variant is a faster/lower-memory implementation of the same idea — not a different feature. Plain TRL's `gradient_checkpointing=True` is the correct fallback, just with less VRAM savings (~30% less benefit). |
-| `optim="adamw_8bit"` | `SFTConfig(optim="adamw_8bit")` | Identical string, same bitsandbytes optimizer — no translation needed. |
-| `use_rslora=True/False` | `LoraConfig(use_rslora=True/False)` | Same flag name in PEFT directly. |
-| `max_seq_length` (passed to `FastLanguageModel.from_pretrained`) | `SFTConfig(max_length=...)` | **Current TRL**: the field is `max_length` on `SFTConfig` (renamed from `max_seq_length`), not on the trainer call or `from_pretrained` in plain TRL. |
-| `dataset_text_field` (Unsloth examples often set this on the trainer) | `SFTConfig(dataset_text_field=...)` | **Current TRL**: lives on `SFTConfig`, same as `max_seq_length`. |
-| `random_state=3407` (data/adapter-init seed) | `SFTConfig(seed=3407)` for trainer-level seeding | Set both — Unsloth's `random_state` seeds LoRA init specifically; `SFTConfig.seed` seeds the trainer's own RNG use. |
+| Unsloth kwarg                                                                                                               | TRL/PEFT equivalent                                                                                                                                                                | Notes                                                                                                                                                                                                                     |
+| --------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `FastLanguageModel.from_pretrained(model_name=...)`                                                                         | `AutoModelForCausalLM.from_pretrained(...)` + `AutoTokenizer.from_pretrained(...)`                                                                                                 | Unsloth fuses model+tokenizer load with kernel patching in one call.                                                                                                                                                      |
+| `load_in_4bit=True`                                                                                                         | `BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=torch.bfloat16)` passed to `from_pretrained`                                              | This is the QLoRA path in both.                                                                                                                                                                                           |
+| `FastLanguageModel.get_peft_model(r=..., target_modules=..., lora_alpha=..., lora_dropout=..., bias=..., random_state=...)` | `peft.LoraConfig(r=..., target_modules=..., lora_alpha=..., lora_dropout=..., bias=...)` + `peft.get_peft_model(model, config)`; `random_state` → seed set before `get_peft_model` | Unsloth's call is a thin wrapper generating the same `LoraConfig` under the hood.                                                                                                                                         |
+| `use_gradient_checkpointing="unsloth"`                                                                                      | `gradient_checkpointing=True` in `SFTConfig`/`TrainingArguments`                                                                                                                   | Unsloth's variant is a faster/lower-memory implementation of the same idea — not a different feature. Plain TRL's `gradient_checkpointing=True` is the correct fallback, just with less VRAM savings (~30% less benefit). |
+| `optim="adamw_8bit"`                                                                                                        | `SFTConfig(optim="adamw_8bit")`                                                                                                                                                    | Identical string, same bitsandbytes optimizer — no translation needed.                                                                                                                                                    |
+| `use_rslora=True/False`                                                                                                     | `LoraConfig(use_rslora=True/False)`                                                                                                                                                | Same flag name in PEFT directly.                                                                                                                                                                                          |
+| `max_seq_length` (passed to `FastLanguageModel.from_pretrained`)                                                            | `SFTConfig(max_length=...)`                                                                                                                                                        | **Current TRL**: the field is `max_length` on `SFTConfig` (renamed from `max_seq_length`), not on the trainer call or `from_pretrained` in plain TRL.                                                                     |
+| `dataset_text_field` (Unsloth examples often set this on the trainer)                                                       | `SFTConfig(dataset_text_field=...)`                                                                                                                                                | **Current TRL**: lives on `SFTConfig`, same as `max_seq_length`.                                                                                                                                                          |
+| `random_state=3407` (data/adapter-init seed)                                                                                | `SFTConfig(seed=3407)` for trainer-level seeding                                                                                                                                   | Set both — Unsloth's `random_state` seeds LoRA init specifically; `SFTConfig.seed` seeds the trainer's own RNG use.                                                                                                       |
 
 ## Current TRL API Notes
 
@@ -33,7 +33,7 @@ cookbook snippets) still show the old form:
   `SFTTrainer(tokenizer=tokenizer, ...)` is the
   old, removed-or-deprecated form. Current TRL
   takes `SFTTrainer(processing_class=tokenizer,
-  ...)`. If a config or example still passes
+...)`. If a config or example still passes
   `tokenizer=`, update it before running — this
   is the single most common stale-API error when
   porting an older recipe forward.
@@ -97,7 +97,7 @@ regardless of what was requested. Confirmed: passing
 "flash_attention_2"`. **The only working override is a
 monkeypatch before calling `from_pretrained`** — scope it
 tightly, since `HAS_FLASH_ATTENTION` is a module-global
-that also affects any *other* `from_pretrained` call made
+that also affects any _other_ `from_pretrained` call made
 later in the same process (a second model load in the same
 script or notebook cell inherits whatever the flag was last
 set to, silently):
@@ -168,7 +168,7 @@ the base model directory's shipped template file.
 ## The Escape Hatch: When to Drop Back to Plain TRL
 
 For messages-shaped SFT with `assistant_only_loss=True`,
-this is the *default* path per the Known Limitations
+this is the _default_ path per the Known Limitations
 section above, not a fallback of last resort. For every
 other training mode, Unsloth ships fast point releases and
 a point release occasionally regresses a specific mode (a

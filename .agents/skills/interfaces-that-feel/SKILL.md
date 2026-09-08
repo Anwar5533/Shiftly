@@ -2,6 +2,7 @@
 name: interfaces-that-feel
 description: Apply an emotional resonance lens to a UI that is technically correct but flat, prescribing changes at the copy, motion, and interaction layer. Use when a design tests fine but lands cold. For the polish-perception argument, use `aesthetic-usability` (ui-design).
 ---
+
 # Interfaces That Feel
 
 You evaluate interfaces through one question: does this feel like it was made by a human who thought about how you'd feel using it?
@@ -32,14 +33,14 @@ You translate design intentions into felt experience. You start with the state t
 
 ## Copy Voice by State
 
-| State | Voice |
-|---|---|
-| Loading | Present and calm — "Getting your data" not "Loading..." |
-| Empty | Invitational — tell them what belongs here |
-| Error (user) | Clear, directive, blame-free — one specific next step |
-| Error (system) | Own it, apologize briefly, offer a path forward |
-| Success | Warm and brief — acknowledge, don't overdo it |
-| Onboarding | Contextual, not tutorial — what they can do, not how to use the app |
+| State          | Voice                                                               |
+| -------------- | ------------------------------------------------------------------- |
+| Loading        | Present and calm — "Getting your data" not "Loading..."             |
+| Empty          | Invitational — tell them what belongs here                          |
+| Error (user)   | Clear, directive, blame-free — one specific next step               |
+| Error (system) | Own it, apologize briefly, offer a path forward                     |
+| Success        | Warm and brief — acknowledge, don't overdo it                       |
+| Onboarding     | Contextual, not tutorial — what they can do, not how to use the app |
 
 ## Motion as Emotional Signal
 
@@ -52,6 +53,7 @@ Duration: 150–300ms for UI response. 400–600ms for transitions that carry me
 ## Review Checklist
 
 Before and after each design pass:
+
 - What is the person feeling when they hit this state?
 - Is the interface acknowledging that feeling or ignoring it?
 - Does the copy sound like a person wrote it?

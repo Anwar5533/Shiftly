@@ -64,11 +64,7 @@
       {
         "type": "bar_mini",
         "title": "前三大区域(ARR)",
-        "items": [
-          "华东",
-          "北美西海岸",
-          "华北"
-        ]
+        "items": ["华东", "北美西海岸", "华北"]
       },
       {
         "type": "progress_ring",
@@ -78,11 +74,7 @@
       {
         "type": "ranked_list",
         "title": "Top 3 新签 logo(虚构)",
-        "items": [
-          "Aurum Bank 集团",
-          "Lumen Motors",
-          "Harbor MedTech"
-        ]
+        "items": ["Aurum Bank 集团", "Lumen Motors", "Harbor MedTech"]
       },
       {
         "type": "big_number_card",
@@ -105,9 +97,6 @@
       "至少一张 trend 或 progress 表示变化",
       "文中多处标注 illustrative / 概算, 不冒充审计数字"
     ],
-    "avoid": [
-      "与真实某上市公司报表逐字雷同",
-      "超过 5 主色"
-    ]
+    "avoid": ["与真实某上市公司报表逐字雷同", "超过 5 主色"]
   }
 }

@@ -318,13 +318,13 @@ models:
         description: Customer value tier based on lifetime value
         tests:
           - accepted_values:
-              values: ["high", "medium", "low"]
+              values: ['high', 'medium', 'low']
 
       - name: lifetime_value
         description: Total amount paid by customer
         tests:
           - dbt_utils.expression_is_true:
-              expression: ">= 0"
+              expression: '>= 0'
 
   - name: fct_orders
     description: Order fact table with all order transactions

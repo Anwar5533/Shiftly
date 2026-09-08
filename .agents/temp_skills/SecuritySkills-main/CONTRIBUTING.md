@@ -10,12 +10,12 @@ We run a paid bounty program for three types of contributions. All bounties are 
 
 ### Tiers
 
-| Tier | What You Do | Bounty | Time Estimate |
-|------|------------|--------|---------------|
-| **Reviewer** | Review an existing skill and file structured feedback | $25 per review | 30-60 min |
-| **Improver** | Submit a PR that improves an existing skill | $50-150 per merged PR | 1-3 hours |
-| **Author** | Write a completely new skill from scratch | $200-500 per merged skill | 3-8 hours |
-| **Champion** | Sustained, high-quality contributions over a quarter | $1,000 quarterly bonus | Ongoing |
+| Tier         | What You Do                                           | Bounty                    | Time Estimate |
+| ------------ | ----------------------------------------------------- | ------------------------- | ------------- |
+| **Reviewer** | Review an existing skill and file structured feedback | $25 per review            | 30-60 min     |
+| **Improver** | Submit a PR that improves an existing skill           | $50-150 per merged PR     | 1-3 hours     |
+| **Author**   | Write a completely new skill from scratch             | $200-500 per merged skill | 3-8 hours     |
+| **Champion** | Sustained, high-quality contributions over a quarter  | $1,000 quarterly bonus    | Ongoing       |
 
 **Payment methods:** GitHub Sponsors, PayPal, or crypto — your choice. We'll confirm your preferred method when your first contribution is accepted.
 
@@ -32,13 +32,13 @@ We run a paid bounty program for three types of contributions. All bounties are 
 
 Every submission is scored against this rubric. Minimum **15/23** to qualify for a bounty.
 
-| Criteria | Score Range | What We're Looking For |
-|----------|-----------|----------------------|
-| **Detection Accuracy** | 0-5 | Does the skill reliably catch what it claims to catch? Tested against known-vulnerable code samples? |
-| **False Positive Rate** | 0-5 | Has the skill been tested against benign code? Does it avoid flagging safe patterns? Lower FP rate = higher score |
-| **Coverage Breadth** | 0-5 | Does it handle multiple variants, languages, or frameworks where applicable? Edge cases? |
-| **Documentation** | 0-5 | Clear description, real-world examples, test cases included? Would another practitioner understand why this skill exists? |
-| **Originality** | 0-3 | Is this a novel detection approach? Does it catch something other tools miss? Or is it a well-executed version of a known pattern? |
+| Criteria                | Score Range | What We're Looking For                                                                                                             |
+| ----------------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| **Detection Accuracy**  | 0-5         | Does the skill reliably catch what it claims to catch? Tested against known-vulnerable code samples?                               |
+| **False Positive Rate** | 0-5         | Has the skill been tested against benign code? Does it avoid flagging safe patterns? Lower FP rate = higher score                  |
+| **Coverage Breadth**    | 0-5         | Does it handle multiple variants, languages, or frameworks where applicable? Edge cases?                                           |
+| **Documentation**       | 0-5         | Clear description, real-world examples, test cases included? Would another practitioner understand why this skill exists?          |
+| **Originality**         | 0-3         | Is this a novel detection approach? Does it catch something other tools miss? Or is it a well-executed version of a known pattern? |
 
 Scores are assigned by UnitOne maintainers. If you disagree with a score, open a discussion — we're happy to explain our reasoning and adjust if warranted.
 
@@ -51,6 +51,7 @@ Scores are assigned by UnitOne maintainers. If you disagree with a score, open a
 Review an existing skill and file a GitHub Issue using the **Skill Review** template.
 
 **What a good review covers:**
+
 - **False positive analysis** — Can you find benign code that this skill incorrectly flags? Provide specific examples.
 - **Coverage gaps** — What variants of this vulnerability does the skill miss? Specific languages, frameworks, or patterns.
 - **Edge cases** — Unusual but real-world scenarios where the detection or remediation logic breaks.
@@ -58,6 +59,7 @@ Review an existing skill and file a GitHub Issue using the **Skill Review** temp
 - **Comparison** — How does this compare to equivalent rules in Semgrep, CodeQL, or other tools?
 
 **To submit a review:**
+
 1. Pick a skill from the repository (or check `#bounty-board` in Discord for prioritized reviews)
 2. Open a new Issue using the "Skill Review" template
 3. Fill in every section of the template
@@ -68,6 +70,7 @@ Review an existing skill and file a GitHub Issue using the **Skill Review** temp
 Improve an existing skill by submitting a Pull Request.
 
 **Types of improvements we value:**
+
 - Reducing false positives (with evidence/test cases)
 - Expanding coverage to additional languages or frameworks
 - Improving detection logic for edge cases
@@ -75,6 +78,7 @@ Improve an existing skill by submitting a Pull Request.
 - Adding test cases for existing skills
 
 **To submit an improvement:**
+
 1. Fork the repo and create a branch named `improve/[skill-name]-[brief-description]`
 2. Make your changes
 3. Add evidence demonstrating the improvement, such as minimal vulnerable and benign examples in the PR description or, once a test harness exists, repo fixtures
@@ -86,11 +90,13 @@ Improve an existing skill by submitting a Pull Request.
 Author a completely new security skill from scratch.
 
 **Before you start writing:**
+
 - Check existing skills to avoid duplicates
 - Check open Issues for requested skills (these are pre-approved topics)
 - If your idea isn't listed, open a "New Skill Proposal" Issue first — we'll confirm it's in scope before you invest time
 
 **Skill structure:**
+
 ```
 skills/
   [category]/
@@ -106,6 +112,7 @@ patterns, benchmark checklists, or language-specific guidance into sibling
 Markdown files that are linked from `SKILL.md`.
 
 **To submit a new skill:**
+
 1. Fork the repo and create a branch named `new-skill/[skill-name]`
 2. Follow the skill structure above
 3. Include at least 3 vulnerable examples and 3 benign examples in the PR description or, once a test harness exists, repo fixtures
@@ -125,21 +132,21 @@ remediation, verification, gotchas, and references.
 
 ```yaml
 ---
-name: descriptive-skill-name             # kebab-case, matches the directory
-description: >                           # what it does + when it auto-invokes
+name: descriptive-skill-name # kebab-case, matches the directory
+description: > # what it does + when it auto-invokes
   Reviews a target for a specific security outcome...
-tags: [appsec, review]                   # domain + activity keywords
+tags: [appsec, review] # domain + activity keywords
 role: [security-engineer, appsec-engineer]
 phase: [build, review]
-frameworks: [OWASP-ASVS-4.0.3, CWE]      # real framework IDs only
-difficulty: intermediate                 # beginner | intermediate | advanced
-time_estimate: "30-60min"
-version: "1.0.0"
+frameworks: [OWASP-ASVS-4.0.3, CWE] # real framework IDs only
+difficulty: intermediate # beginner | intermediate | advanced
+time_estimate: '30-60min'
+version: '1.0.0'
 author: your-github-handle
 license: MIT
 allowed-tools: Read, Grep, Glob
 injection-hardened: true
-argument-hint: "[target-file-or-directory]"
+argument-hint: '[target-file-or-directory]'
 ---
 ```
 

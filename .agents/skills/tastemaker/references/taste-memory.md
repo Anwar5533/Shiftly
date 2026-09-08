@@ -26,7 +26,17 @@ Append one JSON object per line to `.tastemaker/decisions.log`.
 Required fields:
 
 ```json
-{"ts":"<ISO-8601 timestamp>","project":"<absolute or repo-root path>","surface":"<screen or component>","status":"kept|rejected|pending-review","axis":"<palette|type|density|structure|motion|assets|copy|interaction|other>","decision":"<specific choice>","reason":"<why this was chosen or rejected>","source":"user|agent-pending|migration","promote":false}
+{
+  "ts": "<ISO-8601 timestamp>",
+  "project": "<absolute or repo-root path>",
+  "surface": "<screen or component>",
+  "status": "kept|rejected|pending-review",
+  "axis": "<palette|type|density|structure|motion|assets|copy|interaction|other>",
+  "decision": "<specific choice>",
+  "reason": "<why this was chosen or rejected>",
+  "source": "user|agent-pending|migration",
+  "promote": false
+}
 ```
 
 Examples:
@@ -74,13 +84,16 @@ Write `~/.tastemaker/profile.md` as a short, scannable Markdown file:
 Updated: <date>
 
 ## Strong priors
+
 - Density: <preference> (evidence: <project>, <date>, <decision summary>)
 - Motion: <preference> (evidence: <project>, <date>, <decision summary>)
 
 ## Things to avoid
+
 - <pattern the user rejected> (evidence: <project>, <date>)
 
 ## Open questions
+
 - <preference that needs one more resolved decision before promotion>
 ```
 

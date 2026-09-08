@@ -82,11 +82,11 @@ my-video/
 
 下面三个产出，每一个**完成后必须走自检 → 修复 → 再汇报 / 推进**：
 
-| 产出 | 自检清单出处 |
-|---|---|
-| `script.md` | [`SCRIPT-STYLE.md`](references/SCRIPT-STYLE.md) 三层自检（形式 / 风骨 / 念出来） |
-| `outline.md` | [`OUTLINE-FORMAT.md`](references/OUTLINE-FORMAT.md) 自检 |
-| 单章实现完成 | [`CHAPTER-CRAFT.md`](references/CHAPTER-CRAFT.md) 完工自检 |
+| 产出         | 自检清单出处                                                                     |
+| ------------ | -------------------------------------------------------------------------------- |
+| `script.md`  | [`SCRIPT-STYLE.md`](references/SCRIPT-STYLE.md) 三层自检（形式 / 风骨 / 念出来） |
+| `outline.md` | [`OUTLINE-FORMAT.md`](references/OUTLINE-FORMAT.md) 自检                         |
+| 单章实现完成 | [`CHAPTER-CRAFT.md`](references/CHAPTER-CRAFT.md) 完工自检                       |
 
 **执行方式**（按能力降级，**优先用更隔离的方式**）：
 
@@ -99,7 +99,8 @@ my-video/
    核查 —— 不允许目测一遍就放行。
 
 **铁律**：拿到结论后**先按 fail 项把产出改完**，再向用户汇报"做完了
-+ 自检结论 + 改了什么"。**直接拿原始结论汇报但不修复 = 违规**。
+
+- 自检结论 + 改了什么"。**直接拿原始结论汇报但不修复 = 违规**。
 
 ---
 
@@ -108,15 +109,15 @@ my-video/
 不同阶段读不同的文件。**长会话里 agent 容易遗忘原则**，特别是
 Phase 2.4 的"实现单章"会重复 N 次 —— 每次都要回看核心约束。
 
-| 阶段 | 必读（每次都看） | 一次性看完 / 按需查 |
-|---|---|---|
-| Phase 1.1-1.2 内容编写 | `references/SCRIPT-STYLE.md` + `references/OUTLINE-FORMAT.md` + `article.md`（用户原文，如有） | —— |
-| **Checkpoint Plan 选主题** | —— | `themes/*/theme.json`（动态读全部，列清单 + `bestFor` 推荐 + `descriptionZh`）；`references/THEMES.md`（用户想了解主题系统时） |
-| Phase 2.1 脚手架 | —— | SKILL.md 本节看一次 |
-| **Phase 2.4 实现单章（×N 次，被 2.2 / 2.3 调用）** | **`references/CHAPTER-CRAFT.md`** 单一入口 —— Part 0 十条原则 / Part 1 开工 5 问 / Part 2 关系→动作决策树 / Part 3 视觉工具箱 / Part 4 时长参考 / Part 5 反 AI 味反模式 / Part 6 代码硬规则（**含 narrations.ts 强制约束**）/ Part 7 完工自检 / Part 8 反馈速查 + 当前主题的 `themes/<id>/theme.json` + 当前章节的 outline.md 段落 + **`article.md` 本章对应段落** + 素材清单 | `references/EXAMPLES/`（结构示意，不是抄袭模板）；`references/THEMES.md` 完整 token 契约 |
-| Phase 3 音频合成 | `references/AUDIO.md`（含 narrations.ts → segments.json → 任意 provider 流程，内置 minimax + openai） | `templates/scripts/tts-providers/README.md`（换 provider / 自带 TTS 时） |
-| Phase 4 录屏 + 后期 | `references/RECORDING.md`（含 `?auto=1` 自动录屏） | —— |
-| 选 / 造 / 切主题 | —— | `references/THEMES.md` |
+| 阶段                                               | 必读（每次都看）                                                                                                                                                                                                                                                                                                                                                              | 一次性看完 / 按需查                                                                                                            |
+| -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| Phase 1.1-1.2 内容编写                             | `references/SCRIPT-STYLE.md` + `references/OUTLINE-FORMAT.md` + `article.md`（用户原文，如有）                                                                                                                                                                                                                                                                                | ——                                                                                                                             |
+| **Checkpoint Plan 选主题**                         | ——                                                                                                                                                                                                                                                                                                                                                                            | `themes/*/theme.json`（动态读全部，列清单 + `bestFor` 推荐 + `descriptionZh`）；`references/THEMES.md`（用户想了解主题系统时） |
+| Phase 2.1 脚手架                                   | ——                                                                                                                                                                                                                                                                                                                                                                            | SKILL.md 本节看一次                                                                                                            |
+| **Phase 2.4 实现单章（×N 次，被 2.2 / 2.3 调用）** | **`references/CHAPTER-CRAFT.md`** 单一入口 —— Part 0 十条原则 / Part 1 开工 5 问 / Part 2 关系→动作决策树 / Part 3 视觉工具箱 / Part 4 时长参考 / Part 5 反 AI 味反模式 / Part 6 代码硬规则（**含 narrations.ts 强制约束**）/ Part 7 完工自检 / Part 8 反馈速查 + 当前主题的 `themes/<id>/theme.json` + 当前章节的 outline.md 段落 + **`article.md` 本章对应段落** + 素材清单 | `references/EXAMPLES/`（结构示意，不是抄袭模板）；`references/THEMES.md` 完整 token 契约                                       |
+| Phase 3 音频合成                                   | `references/AUDIO.md`（含 narrations.ts → segments.json → 任意 provider 流程，内置 minimax + openai）                                                                                                                                                                                                                                                                         | `templates/scripts/tts-providers/README.md`（换 provider / 自带 TTS 时）                                                       |
+| Phase 4 录屏 + 后期                                | `references/RECORDING.md`（含 `?auto=1` 自动录屏）                                                                                                                                                                                                                                                                                                                            | ——                                                                                                                             |
+| 选 / 造 / 切主题                                   | ——                                                                                                                                                                                                                                                                                                                                                                            | `references/THEMES.md`                                                                                                         |
 
 > **写章节时只读一份 `CHAPTER-CRAFT.md`**。十条原则 / 开工 self-prompting /
 > 决策树 / 反 AI 味反模式 / 完工自检全部并入这一份单一入口。`EXAMPLES/`
@@ -128,11 +129,11 @@ Phase 2.4 的"实现单章"会重复 N 次 —— 每次都要回看核心约束
 
 ### 1.1 识别用户输入
 
-| 用户给的东西 | 该做的 |
-|---|---|
-| 原始文章（书面语 / 公众号 / 论文 / 博客） | 一次产出 `script.md` + `outline.md`（1.2），过 Checkpoint Plan |
-| 直接的口播稿 / 视频脚本 | 落盘成 `script.md`，一次产出 `outline.md`（1.2 简化版），过 Checkpoint Plan |
-| 啥都没有，只说"帮我做个 X 主题的视频" | **反问**：先给一段素材或大纲。Skill 不替用户构思内容 |
+| 用户给的东西                              | 该做的                                                                      |
+| ----------------------------------------- | --------------------------------------------------------------------------- |
+| 原始文章（书面语 / 公众号 / 论文 / 博客） | 一次产出 `script.md` + `outline.md`（1.2），过 Checkpoint Plan              |
+| 直接的口播稿 / 视频脚本                   | 落盘成 `script.md`，一次产出 `outline.md`（1.2 简化版），过 Checkpoint Plan |
+| 啥都没有，只说"帮我做个 X 主题的视频"     | **反问**：先给一段素材或大纲。Skill 不替用户构思内容                        |
 
 ### 1.2 一次产出 script.md + outline.md
 
@@ -146,12 +147,12 @@ Phase 2.4 的"实现单章"会重复 N 次 —— 每次都要回看核心约束
 
 **outline 的边界**（关键）：
 
-| outline 必须写 | outline 不要写 |
-|---|---|
-| 章节切分 / 每章 step 数 / 估时 | 具体动画类型（blur clear / wipe / 弹簧） |
-| 每步屏幕内容（hero / 数据 / 标语 / 列表项） | CSS 实现手段（filter / SVG / clip-path） |
-| 章节级**信息池**：从 article 抽的数字 / 引用 / 案例 / 标签 | 时长数值（不写 ~2.5s / 80~120ms） |
-| 步级关系名前缀（"反差对照" / "递进列表" / "金句" 等可选 hint） | 持续微动 / 错峰量等微观节奏 |
+| outline 必须写                                                 | outline 不要写                           |
+| -------------------------------------------------------------- | ---------------------------------------- |
+| 章节切分 / 每章 step 数 / 估时                                 | 具体动画类型（blur clear / wipe / 弹簧） |
+| 每步屏幕内容（hero / 数据 / 标语 / 列表项）                    | CSS 实现手段（filter / SVG / clip-path） |
+| 章节级**信息池**：从 article 抽的数字 / 引用 / 案例 / 标签     | 时长数值（不写 ~~2.5s / 80~~120ms）      |
+| 步级关系名前缀（"反差对照" / "递进列表" / "金句" 等可选 hint） | 持续微动 / 错峰量等微观节奏              |
 
 > **outline 不写动画的理由**：写死动画 = chapter agent 退化为翻译机；
 > 留白让 chapter agent 在每步开工时按 [`CHAPTER-CRAFT.md`](references/CHAPTER-CRAFT.md)
@@ -224,6 +225,7 @@ Phase 2.4 的"实现单章"会重复 N 次 —— 每次都要回看核心约束
 ```
 
 收到反馈后：
+
 - 稿子 / outline 要改：直接编辑文件，编辑完 ping 一次（或口头描述 agent 改）
 - **主题必须明确**才进入 Phase 2。用户说"主题你帮我选" → 取你推荐的第 1 个，
   **告诉用户你选了什么、为什么**，给反悔机会
@@ -396,10 +398,10 @@ PRESENTATION_TTS=openai npm run synthesize-audio
 
 详见 [`references/RECORDING.md`](references/RECORDING.md)。两种路径：
 
-| 场景 | 推荐路径 |
-|---|---|
+| 场景               | 推荐路径                                                                                                                     |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
 | Phase 3 已合成音频 | **Auto 模式一镜到底**：浏览器开 `localhost:5173/?auto=1` → 按 SPACE → 整片自动播完 → 停录 → 裁头尾即成片，**无需后期对音轨** |
-| Phase 3 跳过 | 默认 Manual 模式手动点击推进 → 后期任意剪辑工具配音 |
+| Phase 3 跳过       | 默认 Manual 模式手动点击推进 → 后期任意剪辑工具配音                                                                          |
 
 > agent 在 Phase 3 / Checkpoint Audio 后**主动告诉用户**适合的录屏路径。
 
@@ -410,18 +412,18 @@ PRESENTATION_TTS=openai npm run synthesize-audio
 完整展开见 [`references/CHAPTER-CRAFT.md`](references/CHAPTER-CRAFT.md)
 Part 0 —— **写章节时回那里查**，下面只是索引。
 
-| # | 原则 | 一句话 |
-|---|---|---|
-| 1 | 16:9 固定舞台 | 内容 1920×1080 + transform scale，没有响应式 |
-| 2 | 全局 step 计数器 | 章节是 step 的纯函数，无定时器 |
-| 3 | 每步独占整屏 | `if (step === N) return <FullScene />` |
-| 4 | 口播节拍 = step | 一节拍 = 一 step = 一聚焦想法 |
-| 5 | 隐藏的边角控件 | 进度条 / 翻页器默认 opacity 0 |
-| 6 | 舞台无 chrome | 没有 header / footer / 页码 / 品牌条 |
-| 7 | **内容驱动动画** | 先找内在动作，找不到才入场动画兜底；持续微动慎用 |
-| 8 | 多点逐个揭示 | 1 项 = 1 step，禁同步 stagger 上 N 项 |
-| 9 | 整片同一主题 | 章节间不翻表面色；**颜色 / 字体走 token**，其它尺度章节自由 |
-| 10 | 双源原则 | script 定节拍，**article 定画面密度**（落到信息池） |
+| #   | 原则             | 一句话                                                      |
+| --- | ---------------- | ----------------------------------------------------------- |
+| 1   | 16:9 固定舞台    | 内容 1920×1080 + transform scale，没有响应式                |
+| 2   | 全局 step 计数器 | 章节是 step 的纯函数，无定时器                              |
+| 3   | 每步独占整屏     | `if (step === N) return <FullScene />`                      |
+| 4   | 口播节拍 = step  | 一节拍 = 一 step = 一聚焦想法                               |
+| 5   | 隐藏的边角控件   | 进度条 / 翻页器默认 opacity 0                               |
+| 6   | 舞台无 chrome    | 没有 header / footer / 页码 / 品牌条                        |
+| 7   | **内容驱动动画** | 先找内在动作，找不到才入场动画兜底；持续微动慎用            |
+| 8   | 多点逐个揭示     | 1 项 = 1 step，禁同步 stagger 上 N 项                       |
+| 9   | 整片同一主题     | 章节间不翻表面色；**颜色 / 字体走 token**，其它尺度章节自由 |
+| 10  | 双源原则         | script 定节拍，**article 定画面密度**（落到信息池）         |
 
 ---
 
@@ -437,15 +439,15 @@ Part 8「常见反馈速查」。**关键**：先定位是哪一层（节奏 / �
 
 按"何时读"标注，避免一次性全读：
 
-| 文件 | 何时读 | 内容 |
-|---|---|---|
-| [`references/SCRIPT-STYLE.md`](references/SCRIPT-STYLE.md) | Phase 1.2 必读 | 文章 → 口播稿规则、平台变体 |
-| [`references/OUTLINE-FORMAT.md`](references/OUTLINE-FORMAT.md) | Phase 1.2 必读 | outline.md 字段 spec、命名约定、章节切分、信息池 |
-| [`references/CHAPTER-CRAFT.md`](references/CHAPTER-CRAFT.md) | **Phase 2.4 每章单一必读入口** | Part 0 十条原则 / Part 1 开工 5 问 / Part 2 关系→动作决策树 / Part 3 视觉工具箱 / Part 4 时长 / Part 5 反 AI 味反模式 / Part 6 代码硬规则 / Part 7 完工自检 / Part 8 反馈速查 |
-| [`references/EXAMPLES/`](references/EXAMPLES/) | **可选** —— 看结构 | 章节结构示意（hook / list-reveal / case-tech-review）；**不是抄袭模板** |
-| [`references/THEMES.md`](references/THEMES.md) | 选 / 造 / 切主题时 | 完整 token 契约 + 内置主题清单 + 创作流程 |
-| [`references/AUDIO.md`](references/AUDIO.md) | Phase 3 才读 | provider-agnostic 音频合成流程、内置 minimax 用法、换 provider 路径、故障排查 |
-| [`templates/scripts/tts-providers/README.md`](templates/scripts/tts-providers/README.md) | 换 / 加 TTS provider 时 | 三函数契约 + 内置 2 个 (minimax / openai) + 5 种现成代码片段（ElevenLabs / edge-tts / macOS say / Azure / Google） |
-| [`references/RECORDING.md`](references/RECORDING.md) | Phase 4 才读 | 录屏工具 + 后期合成 |
-| [`themes/`](themes) | Checkpoint Plan / Phase 1.2 时翻 | 内置主题（每个含 `theme.json` + `tokens.css`） |
-| [`scripts/scaffold.sh`](scripts/scaffold.sh) | Phase 2.1 跑一次 | 一键项目脚手架 |
+| 文件                                                                                     | 何时读                           | 内容                                                                                                                                                                          |
+| ---------------------------------------------------------------------------------------- | -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`references/SCRIPT-STYLE.md`](references/SCRIPT-STYLE.md)                               | Phase 1.2 必读                   | 文章 → 口播稿规则、平台变体                                                                                                                                                   |
+| [`references/OUTLINE-FORMAT.md`](references/OUTLINE-FORMAT.md)                           | Phase 1.2 必读                   | outline.md 字段 spec、命名约定、章节切分、信息池                                                                                                                              |
+| [`references/CHAPTER-CRAFT.md`](references/CHAPTER-CRAFT.md)                             | **Phase 2.4 每章单一必读入口**   | Part 0 十条原则 / Part 1 开工 5 问 / Part 2 关系→动作决策树 / Part 3 视觉工具箱 / Part 4 时长 / Part 5 反 AI 味反模式 / Part 6 代码硬规则 / Part 7 完工自检 / Part 8 反馈速查 |
+| [`references/EXAMPLES/`](references/EXAMPLES/)                                           | **可选** —— 看结构               | 章节结构示意（hook / list-reveal / case-tech-review）；**不是抄袭模板**                                                                                                       |
+| [`references/THEMES.md`](references/THEMES.md)                                           | 选 / 造 / 切主题时               | 完整 token 契约 + 内置主题清单 + 创作流程                                                                                                                                     |
+| [`references/AUDIO.md`](references/AUDIO.md)                                             | Phase 3 才读                     | provider-agnostic 音频合成流程、内置 minimax 用法、换 provider 路径、故障排查                                                                                                 |
+| [`templates/scripts/tts-providers/README.md`](templates/scripts/tts-providers/README.md) | 换 / 加 TTS provider 时          | 三函数契约 + 内置 2 个 (minimax / openai) + 5 种现成代码片段（ElevenLabs / edge-tts / macOS say / Azure / Google）                                                            |
+| [`references/RECORDING.md`](references/RECORDING.md)                                     | Phase 4 才读                     | 录屏工具 + 后期合成                                                                                                                                                           |
+| [`themes/`](themes)                                                                      | Checkpoint Plan / Phase 1.2 时翻 | 内置主题（每个含 `theme.json` + `tokens.css`）                                                                                                                                |
+| [`scripts/scaffold.sh`](scripts/scaffold.sh)                                             | Phase 2.1 跑一次                 | 一键项目脚手架                                                                                                                                                                |

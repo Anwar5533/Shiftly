@@ -75,26 +75,78 @@
     "rule": "每种设备使用统一的极简几何 glyph，避免使用真实厂商图标",
     "types": [
       { "type": "router", "glyph": "diamond shape with X cross inside", "color": "amber #FBBF24" },
-      { "type": "switch", "glyph": "rectangle with multiple port dots along the bottom edge", "color": "amber #FBBF24" },
-      { "type": "firewall", "glyph": "stylized brick wall pattern (small rectangles in 2-3 rows)", "color": "rose #FB7185" },
-      { "type": "load_balancer", "glyph": "trapezoid funnel with 3 lines coming in, 1 going out", "color": "blue #60A5FA" },
-      { "type": "server", "glyph": "small rack rectangle with 3-4 horizontal slots", "color": "emerald #34D399" },
-      { "type": "container", "glyph": "rounded square with sail / shipping container symbol", "color": "emerald #34D399" },
+      {
+        "type": "switch",
+        "glyph": "rectangle with multiple port dots along the bottom edge",
+        "color": "amber #FBBF24"
+      },
+      {
+        "type": "firewall",
+        "glyph": "stylized brick wall pattern (small rectangles in 2-3 rows)",
+        "color": "rose #FB7185"
+      },
+      {
+        "type": "load_balancer",
+        "glyph": "trapezoid funnel with 3 lines coming in, 1 going out",
+        "color": "blue #60A5FA"
+      },
+      {
+        "type": "server",
+        "glyph": "small rack rectangle with 3-4 horizontal slots",
+        "color": "emerald #34D399"
+      },
+      {
+        "type": "container",
+        "glyph": "rounded square with sail / shipping container symbol",
+        "color": "emerald #34D399"
+      },
       { "type": "database", "glyph": "cylinder (3D-suggested)", "color": "violet #A78BFA" },
-      { "type": "cloud_service", "glyph": "cloud outline with abbreviation inside (e.g. 'S3', 'CDN')", "color": "cyan #22D3EE" },
+      {
+        "type": "cloud_service",
+        "glyph": "cloud outline with abbreviation inside (e.g. 'S3', 'CDN')",
+        "color": "cyan #22D3EE"
+      },
       { "type": "user", "glyph": "stick figure", "color": "cyan #22D3EE" },
-      { "type": "internet", "glyph": "globe with latitude / longitude lines", "color": "slate #94A3B8" },
+      {
+        "type": "internet",
+        "glyph": "globe with latitude / longitude lines",
+        "color": "slate #94A3B8"
+      },
       { "type": "nat_gateway", "glyph": "small rectangle labeled 'NAT'", "color": "amber #FBBF24" },
-      { "type": "vpn_gateway", "glyph": "small rectangle with key icon, labeled 'VPN'", "color": "rose #FB7185" }
+      {
+        "type": "vpn_gateway",
+        "glyph": "small rectangle with key icon, labeled 'VPN'",
+        "color": "rose #FB7185"
+      }
     ]
   },
   "zones": {
     "count": "{argument name=\"zone_count\" default=\"4\"}",
     "items": [
-      { "id": "Z1", "label": "Public Internet", "color_border": "slate #94A3B8 dashed", "cidr": "0.0.0.0/0" },
-      { "id": "Z2", "label": "VPC · ap-northeast-1\\n10.0.0.0/16", "color_border": "amber #FBBF24 dashed", "cidr": "10.0.0.0/16" },
-      { "id": "Z3", "label": "Public Subnet · 10.0.1.0/24 (AZ-a)", "color_border": "blue #60A5FA dashed", "parent": "Z2" },
-      { "id": "Z4", "label": "Private Subnet · 10.0.2.0/24 (AZ-a)", "color_border": "emerald #34D399 dashed", "parent": "Z2" }
+      {
+        "id": "Z1",
+        "label": "Public Internet",
+        "color_border": "slate #94A3B8 dashed",
+        "cidr": "0.0.0.0/0"
+      },
+      {
+        "id": "Z2",
+        "label": "VPC · ap-northeast-1\\n10.0.0.0/16",
+        "color_border": "amber #FBBF24 dashed",
+        "cidr": "10.0.0.0/16"
+      },
+      {
+        "id": "Z3",
+        "label": "Public Subnet · 10.0.1.0/24 (AZ-a)",
+        "color_border": "blue #60A5FA dashed",
+        "parent": "Z2"
+      },
+      {
+        "id": "Z4",
+        "label": "Private Subnet · 10.0.2.0/24 (AZ-a)",
+        "color_border": "emerald #34D399 dashed",
+        "parent": "Z2"
+      }
     ],
     "zone_label_position": "top-left of each zone box, mono 11pt with CIDR on second line"
   },

@@ -12,14 +12,14 @@ role: [vciso, security-engineer]
 phase: [assess, operate]
 frameworks: [HIPAA-Security-Rule, 45-CFR-164-Subpart-C]
 difficulty: intermediate
-time_estimate: "60-120min"
-version: "1.0.1"
+time_estimate: '60-120min'
+version: '1.0.1'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 context: fork
 injection-hardened: true
-argument-hint: "[scope-description]"
+argument-hint: '[scope-description]'
 ---
 
 # HIPAA Security Rule Review
@@ -47,18 +47,19 @@ The HIPAA Security Rule (45 CFR Part 164, Subpart C) establishes national standa
 **Business Associates (BAs)**: Persons or entities that perform functions or activities on behalf of, or provide services to, a CE that involve access to ePHI. BAs are directly liable for compliance with applicable Security Rule provisions since the HITECH Act (2009).
 
 **Implementation Specifications**: Each standard has implementation specifications that are either:
+
 - **Required (R)**: Must be implemented as specified
 - **Addressable (A)**: Must be assessed; if reasonable and appropriate, implement it. If not, document why and implement an equivalent alternative measure if reasonable and appropriate. Cannot simply ignore addressable specifications.
 
 ### Safeguard Structure
 
-| Safeguard Category | CFR Section | Standards | Implementation Specs |
-|-------------------|-------------|-----------|---------------------|
-| Administrative | 164.308 | 9 standards | 22 specifications |
-| Physical | 164.310 | 4 standards | 10 specifications |
-| Technical | 164.312 | 5 standards | 9 specifications |
-| Organizational | 164.314 | 2 standards | 6 specifications |
-| Policies/Procedures & Documentation | 164.316 | 2 standards | 3 specifications |
+| Safeguard Category                  | CFR Section | Standards   | Implementation Specs |
+| ----------------------------------- | ----------- | ----------- | -------------------- |
+| Administrative                      | 164.308     | 9 standards | 22 specifications    |
+| Physical                            | 164.310     | 4 standards | 10 specifications    |
+| Technical                           | 164.312     | 5 standards | 9 specifications     |
+| Organizational                      | 164.314     | 2 standards | 6 specifications     |
+| Policies/Procedures & Documentation | 164.316     | 2 standards | 3 specifications     |
 
 ---
 
@@ -130,6 +131,7 @@ Hybrid Entity: [Yes/No] — If yes, document healthcare component designation
 #### 164.308(a)(1) — Security Management Process (Standard)
 
 **164.308(a)(1)(ii)(A) — Risk Analysis (R)**
+
 - Conduct an accurate and thorough assessment of potential risks and vulnerabilities to the confidentiality, integrity, and availability of ePHI
 - Questions to ask:
   - Has a comprehensive risk analysis been performed?
@@ -150,15 +152,18 @@ Hybrid Entity: [Yes/No] — If yes, document healthcare component designation
   - Risk analysis does not account for nation-state threat actors deploying destructive/wiper malware against ePHI custodians. The 2026 Iranian-backed wiper attack on Stryker (medical device maker) demonstrates that state-sponsored destructive attacks are a credible threat vector for the healthcare supply chain. Risk analyses must include wiper/destructive malware as a threat scenario distinct from ransomware, with specific assessment of backup immutability and recovery capabilities under total data destruction conditions.
 
 **164.308(a)(1)(ii)(B) — Risk Management (R)**
+
 - Implement security measures sufficient to reduce risks and vulnerabilities to a reasonable and appropriate level
 - Verify risk treatment decisions are documented and implemented
 - Ensure residual risk is accepted at appropriate management level
 
 **164.308(a)(1)(ii)(C) — Sanction Policy (R)**
+
 - Apply appropriate sanctions against workforce members who fail to comply with security policies and procedures
 - Verify policy exists, is communicated, and has been applied
 
 **164.308(a)(1)(ii)(D) — Information System Activity Review (R)**
+
 - Regularly review records of information system activity (audit logs, access reports, security incident tracking reports)
 - Verify reviews are performed, documented, and acted upon
 
@@ -171,43 +176,54 @@ Hybrid Entity: [Yes/No] — If yes, document healthcare component designation
 #### 164.308(a)(3) — Workforce Security (Standard)
 
 **164.308(a)(3)(ii)(A) — Authorization and/or Supervision (A)**
+
 - Procedures for authorization and/or supervision of workforce members who work with ePHI
 
 **164.308(a)(3)(ii)(B) — Workforce Clearance Procedure (A)**
+
 - Procedures to determine whether access to ePHI is appropriate for a workforce member
 
 **164.308(a)(3)(ii)(C) — Termination Procedures (A)**
+
 - Procedures for terminating access to ePHI when employment or access relationship ends
 
 #### 164.308(a)(4) — Information Access Management (Standard)
 
 **164.308(a)(4)(ii)(A) — Isolating Health Care Clearinghouse Functions (R)**
+
 - If a healthcare clearinghouse is part of a larger organization, protect ePHI from unauthorized access by the larger organization
 
 **164.308(a)(4)(ii)(B) — Access Authorization (A)**
+
 - Policies and procedures for granting access to ePHI (e.g., through workstations, programs, processes, or other mechanisms)
 
 **164.308(a)(4)(ii)(C) — Access Establishment and Modification (A)**
+
 - Policies and procedures for establishing, documenting, reviewing, and modifying user access to workstations, transactions, programs, or processes
 
 #### 164.308(a)(5) — Security Awareness and Training (Standard)
 
 **164.308(a)(5)(ii)(A) — Security Reminders (A)**
+
 - Periodic security updates and reminders
 
 **164.308(a)(5)(ii)(B) — Protection from Malicious Software (A)**
+
 - Procedures for guarding against, detecting, and reporting malicious software
 - Must now address destructive/wiper malware as a distinct threat category. Nation-state actors (Iranian, Russian, North Korean groups) are actively targeting healthcare and medtech organizations with wiper malware designed to destroy ePHI rather than encrypt it. Training should cover the distinction between ransomware (data encrypted, recovery possible via decryptor) and wiper malware (data destroyed, recovery only from immutable backups).
 
 **164.308(a)(5)(ii)(C) — Log-in Monitoring (A)**
+
 - Procedures for monitoring log-in attempts and reporting discrepancies
 
 **164.308(a)(5)(ii)(D) — Password Management (A)**
+
 - Procedures for creating, changing, and safeguarding passwords
 
 #### 164.308(a)(6) — Security Incident Procedures (Standard)
 
 **164.308(a)(6)(ii) — Response and Reporting (R)**
+
 - Identify and respond to suspected or known security incidents
 - Mitigate harmful effects of known security incidents to the extent practicable
 - Document security incidents and their outcomes
@@ -215,19 +231,24 @@ Hybrid Entity: [Yes/No] — If yes, document healthcare component designation
 #### 164.308(a)(7) — Contingency Plan (Standard)
 
 **164.308(a)(7)(ii)(A) — Data Backup Plan (R)**
+
 - Establish and implement procedures to create and maintain retrievable exact copies of ePHI
 - In light of nation-state wiper threats targeting healthcare (e.g., 2026 Stryker attack), verify that backups include offline/immutable/air-gapped copies that cannot be destroyed by malware with domain admin access. Wiper malware routinely targets Volume Shadow Copies, backup agents, and NAS/SAN replication. The backup plan must ensure ePHI recoverability under a total destruction scenario.
 
 **164.308(a)(7)(ii)(B) — Disaster Recovery Plan (R)**
+
 - Establish and implement procedures to restore any loss of data
 
 **164.308(a)(7)(ii)(C) — Emergency Mode Operation Plan (R)**
+
 - Establish and implement procedures to enable continuation of critical business processes for protection of ePHI during an emergency
 
 **164.308(a)(7)(ii)(D) — Testing and Revision Procedures (A)**
+
 - Implement procedures for periodic testing and revision of contingency plans
 
 **164.308(a)(7)(ii)(E) — Applications and Data Criticality Analysis (A)**
+
 - Assess the relative criticality of specific applications and data in support of contingency planning
 
 #### 164.308(a)(8) — Evaluation (Standard, R)
@@ -239,6 +260,7 @@ Hybrid Entity: [Yes/No] — If yes, document healthcare component designation
 #### 164.308(b)(1) — Business Associate Contracts and Other Arrangements (Standard)
 
 **164.308(b)(4) — Written Contract or Other Arrangement (R)**
+
 - Document satisfactory assurances through a written contract or arrangement meeting requirements of 164.314(a)
 - Verify BAAs are in place for all BAs
 - Verify BAAs contain required provisions (security obligations, breach notification, termination)
@@ -250,15 +272,19 @@ Hybrid Entity: [Yes/No] — If yes, document healthcare component designation
 #### 164.310(a)(1) — Facility Access Controls (Standard)
 
 **164.310(a)(2)(i) — Contingency Operations (A)**
+
 - Establish and implement procedures to allow facility access in support of restoration of lost data under the disaster recovery and emergency mode operations plans
 
 **164.310(a)(2)(ii) — Facility Security Plan (A)**
+
 - Implement policies and procedures to safeguard the facility and equipment from unauthorized physical access, tampering, and theft
 
 **164.310(a)(2)(iii) — Access Control and Validation Procedures (A)**
+
 - Implement procedures to control and validate a person's access to facilities based on their role or function
 
 **164.310(a)(2)(iv) — Maintenance Records (A)**
+
 - Implement policies and procedures to document repairs and modifications to the physical components of a facility related to security
 
 #### 164.310(b) — Workstation Use (Standard, R)
@@ -275,15 +301,19 @@ Hybrid Entity: [Yes/No] — If yes, document healthcare component designation
 #### 164.310(d)(1) — Device and Media Controls (Standard)
 
 **164.310(d)(2)(i) — Disposal (R)**
+
 - Implement policies and procedures to address the final disposition of ePHI and/or the hardware or electronic media on which it is stored
 
 **164.310(d)(2)(ii) — Media Re-use (R)**
+
 - Implement procedures for removal of ePHI from electronic media before the media is made available for re-use
 
 **164.310(d)(2)(iii) — Accountability (A)**
+
 - Maintain a record of the movements of hardware and electronic media and any person responsible
 
 **164.310(d)(2)(iv) — Data Backup and Storage (A)**
+
 - Create a retrievable, exact copy of ePHI before movement of equipment
 
 ---
@@ -293,17 +323,21 @@ Hybrid Entity: [Yes/No] — If yes, document healthcare component designation
 #### 164.312(a)(1) — Access Control (Standard)
 
 **164.312(a)(2)(i) — Unique User Identification (R)**
+
 - Assign a unique name and/or number for identifying and tracking user identity
 - Verify no shared or generic accounts for ePHI access
 
 **164.312(a)(2)(ii) — Emergency Access Procedure (R)**
+
 - Establish and implement procedures for obtaining necessary ePHI during an emergency
 - Document break-glass procedures with appropriate controls
 
 **164.312(a)(2)(iii) — Automatic Logoff (A)**
+
 - Implement electronic procedures that terminate an electronic session after a predetermined time of inactivity
 
 **164.312(a)(2)(iv) — Encryption and Decryption (A)**
+
 - Implement a mechanism to encrypt and decrypt ePHI
 - Note: Although addressable, encryption is strongly recommended and its absence must be documented with alternative controls. OCR has emphasized encryption as critical, especially for mobile devices and data at rest.
 
@@ -316,6 +350,7 @@ Hybrid Entity: [Yes/No] — If yes, document healthcare component designation
 #### 164.312(c)(1) — Integrity (Standard)
 
 **164.312(c)(2) — Mechanism to Authenticate Electronic Protected Health Information (A)**
+
 - Implement electronic mechanisms to corroborate that ePHI has not been altered or destroyed in an unauthorized manner
 - Cover: checksums, digital signatures, error-correcting memory
 
@@ -328,9 +363,11 @@ Hybrid Entity: [Yes/No] — If yes, document healthcare component designation
 #### 164.312(e)(1) — Transmission Security (Standard)
 
 **164.312(e)(2)(i) — Integrity Controls (A)**
+
 - Implement security measures to ensure that electronically transmitted ePHI is not improperly modified without detection until disposed of
 
 **164.312(e)(2)(ii) — Encryption (A)**
+
 - Implement a mechanism to encrypt ePHI whenever deemed appropriate
 - Note: Encryption of ePHI in transit is strongly recommended by OCR. Unencrypted transmission of ePHI over the internet is a frequent enforcement target.
 
@@ -341,6 +378,7 @@ Hybrid Entity: [Yes/No] — If yes, document healthcare component designation
 #### 164.314(a)(1) — Business Associate Contracts or Other Arrangements (Standard)
 
 **164.314(a)(2)(i) — Business Associate Contracts (R)**
+
 - Contract must require BA to:
   - Implement appropriate safeguards per 164.308, 164.310, 164.312, 164.316
   - Ensure any subcontractor that creates/receives/maintains/transmits ePHI agrees to same restrictions and conditions
@@ -348,12 +386,15 @@ Hybrid Entity: [Yes/No] — If yes, document healthcare component designation
   - Authorize termination of contract if BA violates material term
 
 **164.314(a)(2)(ii) — Other Arrangements (R)**
+
 - When a CE and BA are both governmental entities, alternative arrangements may be used
 
 **164.314(b)(1) — Requirements for Group Health Plans (Standard)**
+
 - Plan documents must require the plan sponsor to implement appropriate safeguards
 
 #### 164.314(b)(2) — Implementation Specifications (R)
+
 - Plan documents must require the plan sponsor to: implement administrative/physical/technical safeguards, ensure adequate separation, ensure agents/subcontractors comply, report security incidents
 
 ---
@@ -369,12 +410,15 @@ Hybrid Entity: [Yes/No] — If yes, document healthcare component designation
 #### 164.316(b)(1) — Documentation (Standard)
 
 **164.316(b)(2)(i) — Time Limit (R)**
+
 - Retain documentation required by the Security Rule for 6 years from the date of creation or last effective date, whichever is later
 
 **164.316(b)(2)(ii) — Availability (R)**
+
 - Make documentation available to those persons responsible for implementing the procedures to which the documentation pertains
 
 **164.316(b)(2)(iii) — Updates (R)**
+
 - Review documentation periodically and update as needed in response to environmental or operational changes affecting the security of ePHI
 
 ---
@@ -391,6 +435,7 @@ While breach notification is technically a separate rule (Subpart D), evaluate r
 - **164.412**: Law enforcement delay — notification may be delayed if law enforcement determines it would impede investigation
 
 Assess:
+
 - Is there a documented breach response procedure?
 - Does it include the four-factor risk assessment (nature/extent of PHI, unauthorized person, whether PHI was actually acquired/viewed, extent of mitigation)?
 - Are breach notification templates prepared?
@@ -401,13 +446,13 @@ Assess:
 
 ## Findings Classification
 
-| Classification | Definition | Regulatory Risk |
-|---------------|------------|-----------------|
-| **Critical Non-Compliance** | Required implementation specification completely absent; systemic failure affecting ePHI security across the organization | High enforcement risk; potential civil monetary penalties ($100-$50,000 per violation, annual max $2,067,813 per identical violation category per calendar year as of 2024 penalty tiers) |
-| **Non-Compliance** | Required or addressable specification not met without documented alternative; isolated but significant control failure | Moderate enforcement risk; corrective action plan required |
-| **Partial Compliance** | Control exists but implementation is incomplete, inconsistent, or inadequately documented | Lower enforcement risk but may escalate upon OCR review; remediation recommended |
-| **Addressable — Alternative Implemented** | Addressable specification not implemented as written but equivalent alternative measure documented and reasonable | Compliant if documentation is thorough and alternative is genuinely equivalent |
-| **Compliant** | Specification fully implemented, documented, and operational | Meets Security Rule requirements |
+| Classification                            | Definition                                                                                                                | Regulatory Risk                                                                                                                                                                           |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Critical Non-Compliance**               | Required implementation specification completely absent; systemic failure affecting ePHI security across the organization | High enforcement risk; potential civil monetary penalties ($100-$50,000 per violation, annual max $2,067,813 per identical violation category per calendar year as of 2024 penalty tiers) |
+| **Non-Compliance**                        | Required or addressable specification not met without documented alternative; isolated but significant control failure    | Moderate enforcement risk; corrective action plan required                                                                                                                                |
+| **Partial Compliance**                    | Control exists but implementation is incomplete, inconsistent, or inadequately documented                                 | Lower enforcement risk but may escalate upon OCR review; remediation recommended                                                                                                          |
+| **Addressable — Alternative Implemented** | Addressable specification not implemented as written but equivalent alternative measure documented and reasonable         | Compliant if documentation is thorough and alternative is genuinely equivalent                                                                                                            |
+| **Compliant**                             | Specification fully implemented, documented, and operational                                                              | Meets Security Rule requirements                                                                                                                                                          |
 
 ---
 
@@ -417,6 +462,7 @@ Assess:
 # HIPAA Security Rule Review Report
 
 ## Executive Summary
+
 - **Organization**: [name]
 - **Entity Type**: [CE / BA / Hybrid]
 - **Assessment Date**: [date]
@@ -428,50 +474,61 @@ Assess:
 - **Last Risk Analysis Date**: [date or "None performed"]
 
 ## ePHI Inventory Summary
+
 [Systems, data types, storage locations, transmission paths]
 
 ## Safeguard Assessment
 
 ### Administrative Safeguards (164.308)
 
-| CFR Citation | Standard / Specification | R/A | Status | Finding | Priority |
-|-------------|-------------------------|-----|--------|---------|----------|
-| 164.308(a)(1)(ii)(A) | Risk Analysis | R | [status] | [finding] | [H/M/L] |
-| 164.308(a)(1)(ii)(B) | Risk Management | R | [status] | [finding] | [H/M/L] |
-| ... | ... | ... | ... | ... | ... |
+| CFR Citation         | Standard / Specification | R/A | Status   | Finding   | Priority |
+| -------------------- | ------------------------ | --- | -------- | --------- | -------- |
+| 164.308(a)(1)(ii)(A) | Risk Analysis            | R   | [status] | [finding] | [H/M/L]  |
+| 164.308(a)(1)(ii)(B) | Risk Management          | R   | [status] | [finding] | [H/M/L]  |
+| ...                  | ...                      | ... | ...      | ...       | ...      |
 
 ### Physical Safeguards (164.310)
+
 [same table format]
 
 ### Technical Safeguards (164.312)
+
 [same table format]
 
 ### Organizational Requirements (164.314)
+
 [same table format]
 
 ### Documentation Requirements (164.316)
+
 [same table format]
 
 ## Business Associate Assessment
+
 - BAA Inventory: [count of BAs, count with BAAs in place]
 - Missing BAAs: [list]
 - BAA Deficiencies: [missing required provisions]
 
 ## Breach Notification Readiness
+
 [Assessment of breach response procedures, notification capability, HHS reporting readiness]
 
 ## Risk Analysis Gap Summary
+
 [Specific deficiencies in the organization's risk analysis per 164.308(a)(1)(ii)(A)]
 
 ## Remediation Roadmap
 
 ### Phase 1: Critical (0-30 days)
+
 [Critical non-compliance items — highest OCR enforcement priority]
 
 ### Phase 2: High Priority (31-60 days)
+
 [Non-compliance items, missing BAAs, risk analysis gaps]
 
 ### Phase 3: Improvement (61-120 days)
+
 [Partial compliance, documentation gaps, training enhancements]
 ```
 

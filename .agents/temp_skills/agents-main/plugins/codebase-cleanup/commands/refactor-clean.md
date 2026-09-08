@@ -490,7 +490,7 @@ function validateEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-let userEmail: string = "test@example.com";
+let userEmail: string = 'test@example.com';
 
 // AFTER: Value Object
 class Email {
@@ -498,7 +498,7 @@ class Email {
 
   constructor(email: string) {
     if (!this.isValid(email)) {
-      throw new Error("Invalid email format");
+      throw new Error('Invalid email format');
     }
     this.value = email;
   }
@@ -512,7 +512,7 @@ class Email {
   }
 }
 
-let userEmail = new Email("test@example.com"); // Validation automatic
+let userEmail = new Email('test@example.com'); // Validation automatic
 ```
 
 ### 5. Decision Frameworks
@@ -591,18 +591,18 @@ jobs:
       # GitHub Copilot Autofix
       - uses: github/copilot-autofix@v1
         with:
-          languages: "python,typescript,go"
+          languages: 'python,typescript,go'
 
       # CodeRabbit AI Review
       - uses: coderabbitai/action@v1
         with:
-          review_type: "comprehensive"
-          focus: "security,performance,maintainability"
+          review_type: 'comprehensive'
+          focus: 'security,performance,maintainability'
 
       # Codium AI PR-Agent
       - uses: codiumai/pr-agent@v1
         with:
-          commands: "/review --pr_reviewer.num_code_suggestions=5"
+          commands: '/review --pr_reviewer.num_code_suggestions=5'
 ```
 
 **Static Analysis Toolchain**

@@ -12,14 +12,14 @@
 
 特征（与现有 product-visuals 模板的区别）：
 
-| 模板 | 信息密度 | 功能 |
-|---|---|---|
-| `white-background-product.md`（已有） | 低 | 单品多角度纯白底 |
-| `premium-studio-product.md`（已有） | 中 | 高级影棚商业大片 |
-| `lifestyle-product-scene.md`（已有） | 中 | 生活方式场景 |
-| `packaging-showcase.md`（已有） | 中 | 礼盒 / 包装展示 |
-| `exploded-view-poster.md`（已有） | 高 | 产品爆炸视图 + callout |
-| **本模板**（新增） | **极高** | **5-7 个销售模块 + TVC 分镜表全在一张图** |
+| 模板                                  | 信息密度 | 功能                                      |
+| ------------------------------------- | -------- | ----------------------------------------- |
+| `white-background-product.md`（已有） | 低       | 单品多角度纯白底                          |
+| `premium-studio-product.md`（已有）   | 中       | 高级影棚商业大片                          |
+| `lifestyle-product-scene.md`（已有）  | 中       | 生活方式场景                              |
+| `packaging-showcase.md`（已有）       | 中       | 礼盒 / 包装展示                           |
+| `exploded-view-poster.md`（已有）     | 高       | 产品爆炸视图 + callout                    |
+| **本模板**（新增）                    | **极高** | **5-7 个销售模块 + TVC 分镜表全在一张图** |
 
 **关键区别**：本模板不是"产品视觉海报"，而是"详情页 + 主图 + 卖点 + 使用 + 场景 + 视频脚本的设计 master 看板"。
 
@@ -103,7 +103,13 @@
         "title": "详情页 / Details page",
         "position": "top-right",
         "count": 5,
-        "labels": ["{argument name=\"ingredient 1\" default=\"黑芝麻\"}", "{argument name=\"ingredient 2\" default=\"黑豆\"}", "{argument name=\"ingredient 3\" default=\"黑米\"}", "{argument name=\"ingredient 4\" default=\"核桃\"}", "{argument name=\"ingredient 5\" default=\"谷物粉\"}"]
+        "labels": [
+          "{argument name=\"ingredient 1\" default=\"黑芝麻\"}",
+          "{argument name=\"ingredient 2\" default=\"黑豆\"}",
+          "{argument name=\"ingredient 3\" default=\"黑米\"}",
+          "{argument name=\"ingredient 4\" default=\"核桃\"}",
+          "{argument name=\"ingredient 5\" default=\"谷物粉\"}"
+        ]
       },
       {
         "title": "{argument name=\"feature title\" default=\"香浓细腻 顺滑好喝\"}",
@@ -161,18 +167,40 @@
   },
   "scene_elements": {
     "ingredients": [
-      { "name": "{argument name=\"ingredient 1\" default=\"black sesame\"}", "form": "small black seeds in a round bowl" },
-      { "name": "{argument name=\"ingredient 2\" default=\"black beans\"}", "form": "glossy whole beans in a round bowl" },
-      { "name": "{argument name=\"ingredient 3\" default=\"black rice\"}", "form": "dark long grains in a round bowl" },
-      { "name": "{argument name=\"ingredient 4\" default=\"walnuts\"}", "form": "walnut halves in a round bowl" },
-      { "name": "{argument name=\"ingredient 5\" default=\"grain powder\"}", "form": "light beige powder in a round bowl" }
+      {
+        "name": "{argument name=\"ingredient 1\" default=\"black sesame\"}",
+        "form": "small black seeds in a round bowl"
+      },
+      {
+        "name": "{argument name=\"ingredient 2\" default=\"black beans\"}",
+        "form": "glossy whole beans in a round bowl"
+      },
+      {
+        "name": "{argument name=\"ingredient 3\" default=\"black rice\"}",
+        "form": "dark long grains in a round bowl"
+      },
+      {
+        "name": "{argument name=\"ingredient 4\" default=\"walnuts\"}",
+        "form": "walnut halves in a round bowl"
+      },
+      {
+        "name": "{argument name=\"ingredient 5\" default=\"grain powder\"}",
+        "form": "light beige powder in a round bowl"
+      }
     ],
     "serving": {
       "drink": "{argument name=\"drink description\" default=\"thick gray-brown sesame walnut bean beverage with smooth surface swirl\"}",
       "cup": "transparent glass cup with handle",
       "utensil": "metal spoon stirring or resting inside drink"
     },
-    "supporting_props": ["walnuts on table", "scattered black beans", "grain stalks or wheat stems", "dark tabletop", "ingredient bowls", "open package showing 5 visible sachets"]
+    "supporting_props": [
+      "walnuts on table",
+      "scattered black beans",
+      "grain stalks or wheat stems",
+      "dark tabletop",
+      "ingredient bowls",
+      "open package showing 5 visible sachets"
+    ]
   },
   "text_treatment": {
     "headline_font": "bold elegant Chinese display type in metallic gold",

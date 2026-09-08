@@ -238,7 +238,7 @@ spec:
         mode: SIMPLE
         credentialName: my-tls-secret
       hosts:
-        - "*.example.com"
+        - '*.example.com'
 ---
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
@@ -246,7 +246,7 @@ metadata:
   name: my-vs
 spec:
   hosts:
-    - "api.example.com"
+    - 'api.example.com'
   gateways:
     - my-gateway
   http:

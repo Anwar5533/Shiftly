@@ -33,7 +33,9 @@ describe('ApplicationsService', () => {
       }),
       $queryRaw: jest.fn().mockImplementation((query) => {
         // Simple check to mock different raw queries
-        const qStr = Array.isArray(query) ? query.join(' ').toLowerCase() : String(query).toLowerCase();
+        const qStr = Array.isArray(query)
+          ? query.join(' ').toLowerCase()
+          : String(query).toLowerCase();
         if (qStr.includes('worker_profiles')) return [{ id: 'worker1' }];
         if (qStr.includes('employer_profiles')) return [{ id: 'emp1' }];
         if (qStr.includes('jobs.jobs')) return [{ employerId: 'emp1' }];

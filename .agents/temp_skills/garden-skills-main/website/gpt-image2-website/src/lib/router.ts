@@ -46,14 +46,8 @@ export function useRoute(): [Route, (r: Route) => void] {
   // synthetic hashchange so the rest of the app reacts the usual way.
   const navigate = useCallback((next: Route) => {
     const hash = routeToHash(next);
-    const targetUrl =
-      window.location.pathname +
-      window.location.search +
-      hash;
-    const currentUrl =
-      window.location.pathname +
-      window.location.search +
-      window.location.hash;
+    const targetUrl = window.location.pathname + window.location.search + hash;
+    const currentUrl = window.location.pathname + window.location.search + window.location.hash;
 
     if (targetUrl === currentUrl) {
       // Same URL — just sync state (also covers the empty-hash equality case).

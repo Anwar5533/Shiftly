@@ -26,24 +26,24 @@ Example:
 
 ```yaml
 remediations:
-  - guidance: "Reject untrusted redirect targets unless they resolve to an allowed relative path."
+  - guidance: 'Reject untrusted redirect targets unless they resolve to an allowed relative path.'
     confidence: high
-    blast_radius: "Redirect handling in the login callback only."
+    blast_radius: 'Redirect handling in the login callback only.'
     behavior_change_risk: medium
     test_strategy:
-      summary: "Proves external redirect targets are blocked while relative paths still work."
+      summary: 'Proves external redirect targets are blocked while relative paths still work.'
       recommended_tests:
-        - name: "Reject external next URL"
+        - name: 'Reject external next URL'
           type: integration
-          purpose: "Confirms the vulnerable open-redirect input no longer succeeds."
-          command: "bundle exec rspec spec/requests/login_redirect_spec.rb"
-          expected_result: "External next=https://evil.example is rejected or replaced with a safe default."
+          purpose: 'Confirms the vulnerable open-redirect input no longer succeeds.'
+          command: 'bundle exec rspec spec/requests/login_redirect_spec.rb'
+          expected_result: 'External next=https://evil.example is rejected or replaced with a safe default.'
       generated_tests:
-        - path: "spec/requests/login_redirect_spec.rb"
+        - path: 'spec/requests/login_redirect_spec.rb'
           type: regression
-          purpose: "Covers the blocked external redirect and allowed internal redirect cases."
-          command: "bundle exec rspec spec/requests/login_redirect_spec.rb"
-          expected_result: "All login redirect regression examples pass."
+          purpose: 'Covers the blocked external redirect and allowed internal redirect cases.'
+          command: 'bundle exec rspec spec/requests/login_redirect_spec.rb'
+          expected_result: 'All login redirect regression examples pass.'
 ```
 
 The machine-readable JSON schema lives in

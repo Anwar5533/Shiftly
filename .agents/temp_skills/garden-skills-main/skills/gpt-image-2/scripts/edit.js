@@ -1,7 +1,7 @@
-import process from "node:process";
-import { readFile } from "node:fs/promises";
+import process from 'node:process';
+import { readFile } from 'node:fs/promises';
 import {
-    DEFAULT_IMAGE_DIR,
+  DEFAULT_IMAGE_DIR,
   DEFAULT_MODEL,
   appendIfPresent,
   buildBaseUrl,
@@ -17,7 +17,7 @@ import {
   saveImage,
   savePrompt,
   slugify,
-} from "./shared.js";
+} from './shared.js';
 
 function printHelp() {
   console.log(`Usage:
@@ -66,87 +66,87 @@ function parseCli(argv) {
 
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
-    if (arg === "-h" || arg === "--help") {
+    if (arg === '-h' || arg === '--help') {
       cfg.help = true;
       continue;
     }
-    if (arg === "--json") {
+    if (arg === '--json') {
       cfg.json = true;
       continue;
     }
-    if (arg === "--image") {
+    if (arg === '--image') {
       cfg.image = argv[++i] || null;
-      if (!cfg.image) throw new Error("Missing value for --image");
+      if (!cfg.image) throw new Error('Missing value for --image');
       continue;
     }
-    if (arg === "--mask") {
+    if (arg === '--mask') {
       cfg.mask = argv[++i] || null;
-      if (!cfg.mask) throw new Error("Missing value for --mask");
+      if (!cfg.mask) throw new Error('Missing value for --mask');
       continue;
     }
-    if (arg === "--prompt") {
+    if (arg === '--prompt') {
       cfg.prompt = argv[++i] || null;
-      if (!cfg.prompt) throw new Error("Missing value for --prompt");
+      if (!cfg.prompt) throw new Error('Missing value for --prompt');
       continue;
     }
-    if (arg === "--promptfile") {
+    if (arg === '--promptfile') {
       cfg.promptFile = argv[++i] || null;
-      if (!cfg.promptFile) throw new Error("Missing value for --promptfile");
+      if (!cfg.promptFile) throw new Error('Missing value for --promptfile');
       continue;
     }
-    if (arg === "--prompt-output") {
+    if (arg === '--prompt-output') {
       cfg.promptOutput = argv[++i] || null;
-      if (!cfg.promptOutput) throw new Error("Missing value for --prompt-output");
+      if (!cfg.promptOutput) throw new Error('Missing value for --prompt-output');
       continue;
     }
-    if (arg === "--output") {
+    if (arg === '--output') {
       cfg.output = argv[++i] || null;
-      if (!cfg.output) throw new Error("Missing value for --output");
+      if (!cfg.output) throw new Error('Missing value for --output');
       continue;
     }
-    if (arg === "--model") {
+    if (arg === '--model') {
       cfg.model = argv[++i] || null;
-      if (!cfg.model) throw new Error("Missing value for --model");
+      if (!cfg.model) throw new Error('Missing value for --model');
       continue;
     }
-    if (arg === "--size") {
+    if (arg === '--size') {
       cfg.size = argv[++i] || null;
-      if (!cfg.size) throw new Error("Missing value for --size");
+      if (!cfg.size) throw new Error('Missing value for --size');
       continue;
     }
-    if (arg === "--n") {
+    if (arg === '--n') {
       cfg.n = argv[++i] || null;
-      if (!cfg.n) throw new Error("Missing value for --n");
+      if (!cfg.n) throw new Error('Missing value for --n');
       continue;
     }
-    if (arg === "--quality") {
+    if (arg === '--quality') {
       cfg.quality = argv[++i] || null;
-      if (!cfg.quality) throw new Error("Missing value for --quality");
+      if (!cfg.quality) throw new Error('Missing value for --quality');
       continue;
     }
-    if (arg === "--background") {
+    if (arg === '--background') {
       cfg.background = argv[++i] || null;
-      if (!cfg.background) throw new Error("Missing value for --background");
+      if (!cfg.background) throw new Error('Missing value for --background');
       continue;
     }
-    if (arg === "--input-fidelity") {
+    if (arg === '--input-fidelity') {
       cfg.inputFidelity = argv[++i] || null;
-      if (!cfg.inputFidelity) throw new Error("Missing value for --input-fidelity");
+      if (!cfg.inputFidelity) throw new Error('Missing value for --input-fidelity');
       continue;
     }
-    if (arg === "--output-format") {
+    if (arg === '--output-format') {
       cfg.outputFormat = argv[++i] || null;
-      if (!cfg.outputFormat) throw new Error("Missing value for --output-format");
+      if (!cfg.outputFormat) throw new Error('Missing value for --output-format');
       continue;
     }
-    if (arg === "--output-compression") {
+    if (arg === '--output-compression') {
       cfg.outputCompression = argv[++i] || null;
-      if (!cfg.outputCompression) throw new Error("Missing value for --output-compression");
+      if (!cfg.outputCompression) throw new Error('Missing value for --output-compression');
       continue;
     }
-    if (arg === "--moderation") {
+    if (arg === '--moderation') {
       cfg.moderation = argv[++i] || null;
-      if (!cfg.moderation) throw new Error("Missing value for --moderation");
+      if (!cfg.moderation) throw new Error('Missing value for --moderation');
       continue;
     }
     throw new Error(`Unknown option: ${arg}`);
@@ -163,23 +163,31 @@ async function buildForm(cfg, prompt) {
   const form = new FormData();
   const imagePath = cfg.image;
   const imageBytes = await readFile(imagePath);
-  form.append("image", new Blob([imageBytes], { type: mimeFor(imagePath) }), imagePath.split(/[\\/]/).pop());
+  form.append(
+    'image',
+    new Blob([imageBytes], { type: mimeFor(imagePath) }),
+    imagePath.split(/[\\/]/).pop(),
+  );
 
   if (cfg.mask) {
     const maskBytes = await readFile(cfg.mask);
-    form.append("mask", new Blob([maskBytes], { type: mimeFor(cfg.mask) }), cfg.mask.split(/[\\/]/).pop());
+    form.append(
+      'mask',
+      new Blob([maskBytes], { type: mimeFor(cfg.mask) }),
+      cfg.mask.split(/[\\/]/).pop(),
+    );
   }
 
-  form.append("prompt", prompt);
-  form.append("model", cfg.model || process.env.OPENAI_IMAGE_MODEL || DEFAULT_MODEL);
-  appendIfPresent(form, "size", cfg.size);
-  appendIfPresent(form, "n", cfg.n);
-  appendIfPresent(form, "quality", cfg.quality);
-  appendIfPresent(form, "background", cfg.background);
-  appendIfPresent(form, "input_fidelity", cfg.inputFidelity);
-  appendIfPresent(form, "output_format", cfg.outputFormat);
-  appendIfPresent(form, "output_compression", cfg.outputCompression);
-  appendIfPresent(form, "moderation", cfg.moderation);
+  form.append('prompt', prompt);
+  form.append('model', cfg.model || process.env.OPENAI_IMAGE_MODEL || DEFAULT_MODEL);
+  appendIfPresent(form, 'size', cfg.size);
+  appendIfPresent(form, 'n', cfg.n);
+  appendIfPresent(form, 'quality', cfg.quality);
+  appendIfPresent(form, 'background', cfg.background);
+  appendIfPresent(form, 'input_fidelity', cfg.inputFidelity);
+  appendIfPresent(form, 'output_format', cfg.outputFormat);
+  appendIfPresent(form, 'output_compression', cfg.outputCompression);
+  appendIfPresent(form, 'moderation', cfg.moderation);
   return form;
 }
 
@@ -190,14 +198,14 @@ async function run() {
     return;
   }
 
-  if (!cfg.image) throw new Error("--image is required");
+  if (!cfg.image) throw new Error('--image is required');
 
   await loadAmbientEnv();
-  await ensureFilesExist([cfg.image, ...(cfg.mask ? [cfg.mask] : [])], "Image file");
+  await ensureFilesExist([cfg.image, ...(cfg.mask ? [cfg.mask] : [])], 'Image file');
   const prompt = await readPromptInput(cfg.prompt, cfg.promptFile);
-  const nameHint = slugify(prompt.split(/\s+/).slice(0, 8).join(" "), "edited-image");
+  const nameHint = slugify(prompt.split(/\s+/).slice(0, 8).join(' '), 'edited-image');
   const promptPath = await savePrompt(prompt, cfg.promptOutput, nameHint);
-  const outputPath = resolveOutput(cfg.output, buildDefaultImagePath("edit", nameHint));
+  const outputPath = resolveOutput(cfg.output, buildDefaultImagePath('edit', nameHint));
   const form = await buildForm(cfg, prompt);
   const url = buildRequestUrl();
   const json = await postMultipart(url, form);

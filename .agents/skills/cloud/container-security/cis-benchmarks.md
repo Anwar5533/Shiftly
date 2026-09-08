@@ -205,7 +205,7 @@ kind: ClusterRoleBinding
 roleRef:
   name: cluster-admin
 subjects:
-  - kind: ServiceAccount  # Should be limited to system components
+  - kind: ServiceAccount # Should be limited to system components
 ```
 
 #### CIS 5.1.2 -- Minimize access to secrets
@@ -215,12 +215,12 @@ Check for RBAC rules granting broad secret access:
 ```yaml
 # BAD: Wildcard access to secrets
 rules:
-  - apiGroups: [""]
-    resources: ["secrets"]
-    verbs: ["*"]          # FAIL: should be specific verbs
+  - apiGroups: ['']
+    resources: ['secrets']
+    verbs: ['*'] # FAIL: should be specific verbs
 
 # BAD: Cluster-wide secret access
-kind: ClusterRole        # Should be Role (namespaced) for secret access
+kind: ClusterRole # Should be Role (namespaced) for secret access
 ```
 
 #### CIS 5.1.3 -- Minimize wildcard use in Roles and ClusterRoles
@@ -228,9 +228,9 @@ kind: ClusterRole        # Should be Role (namespaced) for secret access
 ```yaml
 # BAD: Wildcard resource or verb
 rules:
-  - apiGroups: ["*"]
-    resources: ["*"]
-    verbs: ["*"]
+  - apiGroups: ['*']
+    resources: ['*']
+    verbs: ['*']
 ```
 
 #### CIS 5.1.5 -- Ensure that default service accounts are not actively used
@@ -243,7 +243,7 @@ spec:
 # GOOD: Explicit service account
 spec:
   serviceAccountName: my-app-sa
-  automountServiceAccountToken: false  # If not needed
+  automountServiceAccountToken: false # If not needed
 ```
 
 #### CIS 5.1.6 -- Ensure that Service Account Tokens are only mounted where necessary
@@ -258,11 +258,11 @@ spec:
 
 Evaluate workload configurations against Kubernetes Pod Security Standards. The three levels are:
 
-| Level | Description | Use Case |
-|-------|-------------|----------|
-| **Privileged** | Unrestricted. No security restrictions applied. | System-level workloads only (CNI, storage drivers) |
-| **Baseline** | Minimally restrictive. Prevents known privilege escalations. | Standard workloads |
-| **Restricted** | Heavily restricted. Follows current hardening best practices. | Security-sensitive and untrusted workloads |
+| Level          | Description                                                   | Use Case                                           |
+| -------------- | ------------------------------------------------------------- | -------------------------------------------------- |
+| **Privileged** | Unrestricted. No security restrictions applied.               | System-level workloads only (CNI, storage drivers) |
+| **Baseline**   | Minimally restrictive. Prevents known privilege escalations.  | Standard workloads                                 |
+| **Restricted** | Heavily restricted. Follows current hardening best practices. | Security-sensitive and untrusted workloads         |
 
 #### CIS 5.2.1 -- Ensure that the cluster has at least one active policy control mechanism installed
 
@@ -290,7 +290,7 @@ spec:
   containers:
     - name: app
       securityContext:
-        privileged: true  # CRITICAL FAIL
+        privileged: true # CRITICAL FAIL
 ```
 
 **Grep pattern:** `privileged: true`
@@ -300,7 +300,7 @@ spec:
 ```yaml
 # BAD
 spec:
-  hostPID: true  # FAIL
+  hostPID: true # FAIL
 ```
 
 #### CIS 5.2.4 -- Minimize the admission of containers wishing to share the host IPC namespace
@@ -308,7 +308,7 @@ spec:
 ```yaml
 # BAD
 spec:
-  hostIPC: true  # FAIL
+  hostIPC: true # FAIL
 ```
 
 #### CIS 5.2.5 -- Minimize the admission of containers wishing to share the host network namespace
@@ -316,7 +316,7 @@ spec:
 ```yaml
 # BAD (unless required for system components)
 spec:
-  hostNetwork: true  # FAIL for application workloads
+  hostNetwork: true # FAIL for application workloads
 ```
 
 #### CIS 5.2.6 -- Minimize the admission of containers with allowPrivilegeEscalation
@@ -327,7 +327,7 @@ spec:
   containers:
     - name: app
       securityContext:
-        allowPrivilegeEscalation: false  # Must be false
+        allowPrivilegeEscalation: false # Must be false
 ```
 
 **Grep pattern:** Check for absence of `allowPrivilegeEscalation: false` on all containers.
@@ -340,8 +340,8 @@ spec:
   containers:
     - name: app
       securityContext:
-        runAsNonRoot: true       # Must be true
-        runAsUser: 1000          # Explicit non-root UID
+        runAsNonRoot: true # Must be true
+        runAsUser: 1000 # Explicit non-root UID
 ```
 
 #### CIS 5.2.8 -- Minimize the admission of containers with the NET_RAW capability
@@ -353,7 +353,7 @@ spec:
     - name: app
       securityContext:
         capabilities:
-          drop: ["ALL"]
+          drop: ['ALL']
 ```
 
 #### CIS 5.2.9 -- Minimize the admission of containers with added capabilities
@@ -362,9 +362,9 @@ spec:
 # BAD: Adding dangerous capabilities
 securityContext:
   capabilities:
-    add: ["SYS_ADMIN"]   # CRITICAL
-    add: ["NET_ADMIN"]   # HIGH
-    add: ["SYS_PTRACE"]  # HIGH
+    add: ['SYS_ADMIN'] # CRITICAL
+    add: ['NET_ADMIN'] # HIGH
+    add: ['SYS_PTRACE'] # HIGH
 ```
 
 #### CIS 5.2.10 -- Minimize the admission of containers with capabilities assigned
@@ -375,8 +375,8 @@ Verify all containers drop ALL capabilities and only add back what is strictly n
 # GOOD: Minimal capabilities
 securityContext:
   capabilities:
-    drop: ["ALL"]
-    add: ["NET_BIND_SERVICE"]  # Only if needed for ports < 1024
+    drop: ['ALL']
+    add: ['NET_BIND_SERVICE'] # Only if needed for ports < 1024
 ```
 
 #### CIS 5.2.11 -- Minimize the admission of Windows HostProcess containers
@@ -390,9 +390,9 @@ Check for `windowsOptions.hostProcess: true`.
 volumes:
   - name: host-vol
     hostPath:
-      path: /var/run/docker.sock  # CRITICAL: Docker socket mount
-      path: /                      # CRITICAL: Root filesystem mount
-      path: /etc                   # HIGH: Host config access
+      path: /var/run/docker.sock # CRITICAL: Docker socket mount
+      path: / # CRITICAL: Root filesystem mount
+      path: /etc # HIGH: Host config access
 ```
 
 **Grep pattern:** `hostPath:` in volumes section.
@@ -403,7 +403,7 @@ volumes:
 # BAD: Using host ports
 ports:
   - containerPort: 8080
-    hostPort: 8080  # FAIL: binds directly to host
+    hostPort: 8080 # FAIL: binds directly to host
 ```
 
 ### CIS 5.3 -- Network Policies and CNI
@@ -484,7 +484,7 @@ metadata:
   name: db-credentials
 type: Opaque
 data:
-  password: cGFzc3dvcmQxMjM=  # Just base64, NOT encryption
+  password: cGFzc3dvcmQxMjM= # Just base64, NOT encryption
 ```
 
 Check whether Secret manifests are committed to version control. They should be managed via sealed secrets, external secrets operators, or excluded from the repository.
@@ -540,7 +540,7 @@ spec:
 #### CIS 1.2.6 -- Ensure that the --authorization-mode argument is not set to AlwaysAllow
 
 ```yaml
-- --authorization-mode=Node,RBAC  # Must NOT contain AlwaysAllow
+- --authorization-mode=Node,RBAC # Must NOT contain AlwaysAllow
 ```
 
 #### CIS 1.2.9 -- Ensure that the admission control plugin EventRateLimit is set
@@ -588,33 +588,33 @@ Evaluate container runtime configurations against NIST SP 800-190 countermeasure
 
 ### NIST 800-190: Image Countermeasures
 
-| Countermeasure | What to Check |
-|---------------|---------------|
-| **CM-1:** Use minimal base images | Verify Alpine, Distroless, or slim variants in FROM |
-| **CM-2:** Scan images for vulnerabilities | Check for Trivy, Grype, Snyk in CI pipeline |
-| **CM-3:** Sign and verify images | Check for Cosign signatures, Notary, or admission webhooks |
-| **CM-4:** Use immutable tags or digests | `image: nginx@sha256:...` preferred over `image: nginx:1.25` |
-| **CM-5:** Remove unnecessary packages | No curl, wget, netcat, or shells in production images |
+| Countermeasure                            | What to Check                                                |
+| ----------------------------------------- | ------------------------------------------------------------ |
+| **CM-1:** Use minimal base images         | Verify Alpine, Distroless, or slim variants in FROM          |
+| **CM-2:** Scan images for vulnerabilities | Check for Trivy, Grype, Snyk in CI pipeline                  |
+| **CM-3:** Sign and verify images          | Check for Cosign signatures, Notary, or admission webhooks   |
+| **CM-4:** Use immutable tags or digests   | `image: nginx@sha256:...` preferred over `image: nginx:1.25` |
+| **CM-5:** Remove unnecessary packages     | No curl, wget, netcat, or shells in production images        |
 
 ### NIST 800-190: Orchestrator Countermeasures
 
-| Countermeasure | What to Check |
-|---------------|---------------|
-| **CM-6:** Use namespaces for isolation | Workloads separated by namespace, not all in `default` |
-| **CM-7:** Apply resource quotas and limits | ResourceQuota and LimitRange per namespace |
-| **CM-8:** Implement network segmentation | NetworkPolicy in every namespace |
-| **CM-9:** Use Pod Security Standards | PSA labels on namespaces or equivalent policy engine |
-| **CM-10:** Enable audit logging | Audit policy configured on API server |
+| Countermeasure                             | What to Check                                          |
+| ------------------------------------------ | ------------------------------------------------------ |
+| **CM-6:** Use namespaces for isolation     | Workloads separated by namespace, not all in `default` |
+| **CM-7:** Apply resource quotas and limits | ResourceQuota and LimitRange per namespace             |
+| **CM-8:** Implement network segmentation   | NetworkPolicy in every namespace                       |
+| **CM-9:** Use Pod Security Standards       | PSA labels on namespaces or equivalent policy engine   |
+| **CM-10:** Enable audit logging            | Audit policy configured on API server                  |
 
 ### NIST 800-190: Container Countermeasures
 
-| Countermeasure | What to Check |
-|---------------|---------------|
-| **CM-11:** Run as non-root | `runAsNonRoot: true`, `runAsUser: >0` |
-| **CM-12:** Use read-only root filesystem | `readOnlyRootFilesystem: true` |
-| **CM-13:** Drop all capabilities | `capabilities.drop: ["ALL"]` |
-| **CM-14:** Set resource limits | CPU and memory limits set on all containers |
-| **CM-15:** Use seccomp profiles | `seccompProfile.type: RuntimeDefault` or custom |
+| Countermeasure                           | What to Check                                   |
+| ---------------------------------------- | ----------------------------------------------- |
+| **CM-11:** Run as non-root               | `runAsNonRoot: true`, `runAsUser: >0`           |
+| **CM-12:** Use read-only root filesystem | `readOnlyRootFilesystem: true`                  |
+| **CM-13:** Drop all capabilities         | `capabilities.drop: ["ALL"]`                    |
+| **CM-14:** Set resource limits           | CPU and memory limits set on all containers     |
+| **CM-15:** Use seccomp profiles          | `seccompProfile.type: RuntimeDefault` or custom |
 
 **Resource limits check:**
 
@@ -622,11 +622,11 @@ Evaluate container runtime configurations against NIST SP 800-190 countermeasure
 # REQUIRED: Resource limits on all containers
 resources:
   requests:
-    memory: "128Mi"
-    cpu: "250m"
+    memory: '128Mi'
+    cpu: '250m'
   limits:
-    memory: "256Mi"
-    cpu: "500m"
+    memory: '256Mi'
+    cpu: '500m'
 ```
 
 **Read-only root filesystem:**
@@ -667,16 +667,16 @@ spec:
         runAsNonRoot: true
         runAsUser: 1000
         capabilities:
-          drop: ["ALL"]
+          drop: ['ALL']
         seccompProfile:
           type: RuntimeDefault
       resources:
         limits:
-          memory: "256Mi"
-          cpu: "500m"
+          memory: '256Mi'
+          cpu: '500m'
         requests:
-          memory: "128Mi"
-          cpu: "250m"
+          memory: '128Mi'
+          cpu: '250m'
 ```
 
 **Fields that must NOT be present for Restricted compliance:**

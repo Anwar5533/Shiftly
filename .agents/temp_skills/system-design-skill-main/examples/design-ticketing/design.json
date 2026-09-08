@@ -115,11 +115,7 @@
       "the pre-sale and verified-fan qualification funnel that runs days earlier"
     ],
     "priorities": {
-      "top3": [
-        "reliability",
-        "elasticity",
-        "simplicity"
-      ],
+      "top3": ["reliability", "elasticity", "simplicity"],
       "source": "assumed",
       "rationale": "Extracted from the domain rather than picked from a list: three invariants including a P0 make correctness under partial failure the product, so reliability; a 118:1 peak-to-average write ratio and a 26,000:1 arrival burst against a 2.54 transitions/s steady state is elasticity, which is a different property from scalability and the one bursty domains need; one team that cannot operate a fleet makes simplicity load-bearing. Deliberately not in the top three: raw performance, because the writer is fixed at 300/s and no performance work may move it, and scalability, because there is nothing to scale."
     },
@@ -807,10 +803,7 @@
           "(state, unknown_since) partial on state='UNKNOWN' — the reconciler's work queue, alarmed above 50 open",
           "(state, updated_at) partial on state='CAPTURED' — the orphan-capture sweep that joins captures back to SOLD seats"
         ],
-        "relationships": [
-          "order_id → Order.order_id",
-          "payment_id ← PaymentEvent.payment_id"
-        ],
+        "relationships": ["order_id → Order.order_id", "payment_id ← PaymentEvent.payment_id"],
         "notes": [
           "A webhook may only advance state: UPDATE payment SET state=$new WHERE payment_id=$1 AND state_rank < $new_rank. A CAPTURED arriving before its AUTHORIZED applies; the late AUTHORIZED matches zero rows and is discarded. The receiver therefore requires no ordering guarantee from the provider, which is correct, because there is not one.",
           "UNKNOWN is a terminal-until-resolved state with a named owner and a 5-minute SLA, not a retry. An ambiguous authorization is queried, never repeated.",
@@ -869,9 +862,7 @@
           "(payment_id, provider_created_at) — the ordered evidence trail for one payment",
           "(received_at) — the receiver's own lag and burst monitoring against 84,783 deliveries per on-sale"
         ],
-        "relationships": [
-          "payment_id → Payment.payment_id"
-        ],
+        "relationships": ["payment_id → Payment.payment_id"],
         "notes": [
           "Written by verify signature → store raw → acknowledge, in under 1 s; processing happens asynchronously off a queue, because a slow acknowledgement makes the provider's own retry schedule amplify the delivery count.",
           "Out-of-order arrival is expected and safe: this table records what arrived, and Payment.state_rank decides what it means.",
@@ -3409,14 +3400,7 @@
     }
   ],
   "comparison": {
-    "axes": [
-      "reliability",
-      "elasticity",
-      "simplicity",
-      "faultTolerance",
-      "cost",
-      "performance"
-    ],
+    "axes": ["reliability", "elasticity", "simplicity", "faultTolerance", "cost", "performance"],
     "recommendation": {
       "architecture": "a",
       "reasoning": [

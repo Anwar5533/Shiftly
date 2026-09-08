@@ -26,13 +26,13 @@ directly when it generates a runnable script.
 
 ## Quick Reference
 
-| Situation | Default |
-|---|---|
-| Adapting behavior on familiar images | Frozen tower+projector, LoRA r=8–16, α=16–32 |
-| Visual domain shift | Unfreeze last-6 ViT layers, vision LR 5–10x lower |
-| Doesn't fit in bf16 at target rank | QLoRA — frozen vision tower only |
-| `fast_inference=True` | `finetune_vision_layers=False` |
-| Loss normal, eval not improving | Check the Two Silent Killers below first |
+| Situation                            | Default                                           |
+| ------------------------------------ | ------------------------------------------------- |
+| Adapting behavior on familiar images | Frozen tower+projector, LoRA r=8–16, α=16–32      |
+| Visual domain shift                  | Unfreeze last-6 ViT layers, vision LR 5–10x lower |
+| Doesn't fit in bf16 at target rank   | QLoRA — frozen vision tower only                  |
+| `fast_inference=True`                | `finetune_vision_layers=False`                    |
+| Loss normal, eval not improving      | Check the Two Silent Killers below first          |
 
 ## The Consensus Recipe
 
@@ -186,7 +186,7 @@ The recurring mistake across every section above
 is treating a clean loss curve as proof the run
 is healthy. A normal-looking curve is consistent
 with **both** a working run **and** either silent
-killer, since the model trains on *something*
+killer, since the model trains on _something_
 either way — just not the aligned image-text
 signal when a killer is present. A flat eval score
 next to a normal loss curve means re-run the

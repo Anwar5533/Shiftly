@@ -6,7 +6,7 @@ Only when no identity exists should you create a **mark** (a small symbol) paire
 
 ## The one rule that matters most: no letter-in-a-box
 
-A single letter dropped inside a rounded square or circle — `[t]`, `[C]`, a monospace character on a colored tile — is the logo equivalent of the indigo-to-purple gradient. It's what every AI generates when it isn't really trying, and it reads as "placeholder someone forgot to replace," not "brand." **Never ship this as the final mark.** It fails the anti-slop checklist. A real mark is a *symbol* — an abstract geometric form or a single concrete object — that could stand on its own without the letter.
+A single letter dropped inside a rounded square or circle — `[t]`, `[C]`, a monospace character on a colored tile — is the logo equivalent of the indigo-to-purple gradient. It's what every AI generates when it isn't really trying, and it reads as "placeholder someone forgot to replace," not "brand." **Never ship this as the final mark.** It fails the anti-slop checklist. A real mark is a _symbol_ — an abstract geometric form or a single concrete object — that could stand on its own without the letter.
 
 ## What a good mark actually is
 

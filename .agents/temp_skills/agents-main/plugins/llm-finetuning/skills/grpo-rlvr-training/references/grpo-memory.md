@@ -13,11 +13,11 @@ only.
 
 ## Memory Anchors by Size Class
 
-| Size class | Feasible with |
-|---|---|
+| Size class   | Feasible with                                                           |
+| ------------ | ----------------------------------------------------------------------- |
 | Small (≤~3B) | 24GB-class GPU — vLLM sleep mode + 8-bit AdamW + gradient checkpointing |
-| ~32B-class | H200-class GPU |
-| ~70B-class | B200-class GPU |
+| ~32B-class   | H200-class GPU                                                          |
+| ~70B-class   | B200-class GPU                                                          |
 
 - **24GB-class is feasible for small models**, but
   only with all three levers engaged together, not
@@ -85,9 +85,9 @@ GRPO on Spark.** A size class that would train
 comfortably via SFT or DPO on a single Spark can
 still bottleneck badly under GRPO once rollout
 decode saturates shared bandwidth — the Memory
-Anchors table above tells you whether it *fits*,
-this section tells you whether it *runs fast
-enough to be worth doing* on that hardware. When
+Anchors table above tells you whether it _fits_,
+this section tells you whether it _runs fast
+enough to be worth doing_ on that hardware. When
 Spark rollout throughput is the binding
 constraint, dropping to a smaller size class is
 usually more effective than further GRPO

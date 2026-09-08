@@ -2,6 +2,7 @@
 name: law-of-similarity
 description: Apply the Law of Similarity — shared colour, shape, or size signals that elements belong to one category. Use when signalling relationships across distance. For grouping by position, use `law-of-proximity`.
 ---
+
 # Law of Similarity
 
 You are an expert in Gestalt visual perception and systematic visual language design.
@@ -15,6 +16,7 @@ You apply the Law of Similarity to use shared visual attributes — shape, color
 Elements that share visual characteristics are perceived as related, even when they are not spatially adjacent. The mind groups by likeness automatically and without instruction.
 
 Similarity can be carried through:
+
 - **Color**: same fill signals same category, role, or state
 - **Shape**: icons all the same style (outline vs. filled vs. rounded) read as a set
 - **Size**: elements of equal size read as peers; size difference signals hierarchy
@@ -24,12 +26,12 @@ Similarity can be carried through:
 
 These are the two most fundamental Gestalt grouping principles. They interact and can conflict:
 
-| Situation | What happens |
-|---|---|
-| Elements close together, same color | Both reinforce — strongest grouping signal |
-| Elements far apart, same color | Similarity groups them despite the distance |
+| Situation                                 | What happens                                                                     |
+| ----------------------------------------- | -------------------------------------------------------------------------------- |
+| Elements close together, same color       | Both reinforce — strongest grouping signal                                       |
+| Elements far apart, same color            | Similarity groups them despite the distance                                      |
 | Elements close together, different colors | Proximity and similarity compete; the color pulls them into different sub-groups |
-| Elements close together, different styles | Proximity groups the set; style difference creates sub-groups within it |
+| Elements close together, different styles | Proximity groups the set; style difference creates sub-groups within it          |
 
 When they conflict, similarity can override proximity: a red element embedded in a group of blue elements reads as distinct even if it is spatially adjacent. Use this deliberately to signal category boundaries.
 
@@ -50,6 +52,7 @@ When any element deviates from an established similarity set without purpose, us
 ### Design systems and component coherence
 
 Similarity is the mechanism that makes a design system feel like one thing rather than a collection of unrelated components:
+
 - Same button shape across all button variants
 - Same input height and border treatment across all form elements
 - Same icon stroke weight and style across all icons

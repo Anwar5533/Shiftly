@@ -41,7 +41,7 @@ maintained by the Superself authors: https://github.com/fxylabs/superself
   the CLI says who and since when and does not refuse. Judge and proceed.
 - After committing, report progress: `self report <id> "<what happened>"`. The
   current HEAD commit is attached as evidence automatically; `--evidence
-  <commit|note>` attaches something else, `--file <path>` attaches a longer
+<commit|note>` attaches something else, `--file <path>` attaches a longer
   brief.
 - Record a decision the user confirmed: `self decide "<text>" --why "<reason>"`.
   Use `--proposed` when the user has not confirmed it. One decision per event.

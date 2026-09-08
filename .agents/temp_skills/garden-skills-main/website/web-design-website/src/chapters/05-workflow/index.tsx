@@ -30,20 +30,20 @@ interface Station {
 }
 
 const STATIONS: Station[] = [
-  { no: '1', en: 'Understand',  cn: '理解需求' },
-  { no: '2', en: 'Explore',     cn: '探索资源' },
-  { no: '3', en: 'Plan',        cn: '制定计划' },
-  { no: '4', en: 'Build',       cn: '搭建结构' },
-  { no: '5', en: 'Verify',      cn: '完成验证' },
-  { no: '6', en: 'Brief',       cn: '极简总结' },
+  { no: '1', en: 'Understand', cn: '理解需求' },
+  { no: '2', en: 'Explore', cn: '探索资源' },
+  { no: '3', en: 'Plan', cn: '制定计划' },
+  { no: '4', en: 'Build', cn: '搭建结构' },
+  { no: '5', en: 'Verify', cn: '完成验证' },
+  { no: '6', en: 'Brief', cn: '极简总结' },
 ];
 
 function Workflow({ localStep }: ChapterContext) {
   const at = (n: number) => localStep >= n;
 
   // —— 三幕 ——
-  const scenePipe    = localStep <= 3;
-  const sceneDecide  = localStep === 4 || localStep === 5;
+  const scenePipe = localStep <= 3;
+  const sceneDecide = localStep === 4 || localStep === 5;
   const sceneSummary = localStep >= 6;
 
   // 流水线点亮进度 0..6
@@ -74,12 +74,24 @@ function Workflow({ localStep }: ChapterContext) {
               <div className="wf__excerpt-body">
                 <div className="wf__excerpt-title">## Your workflow</div>
                 <div className="wf__excerpt-list">
-                  <span><b>1.</b> Understand user needs ...</span>
-                  <span><b>2.</b> Explore provided resources ...</span>
-                  <span><b>3.</b> Plan and/or make a todo list.</span>
-                  <span><b>4.</b> Build folder structure ...</span>
-                  <span><b>5.</b> Finish: call <code>done</code> ...</span>
-                  <span><b>6.</b> Summarize <em>EXTREMELY BRIEFLY</em> — caveats and next steps only.</span>
+                  <span>
+                    <b>1.</b> Understand user needs ...
+                  </span>
+                  <span>
+                    <b>2.</b> Explore provided resources ...
+                  </span>
+                  <span>
+                    <b>3.</b> Plan and/or make a todo list.
+                  </span>
+                  <span>
+                    <b>4.</b> Build folder structure ...
+                  </span>
+                  <span>
+                    <b>5.</b> Finish: call <code>done</code> ...
+                  </span>
+                  <span>
+                    <b>6.</b> Summarize <em>EXTREMELY BRIEFLY</em> — caveats and next steps only.
+                  </span>
                 </div>
               </div>
             </Reveal>
@@ -150,16 +162,14 @@ function Workflow({ localStep }: ChapterContext) {
                 <span className="wf__bubble-meta">CLAUDE</span>
                 <p>受众？时长？正式度？品牌？数据有吗？...</p>
                 <div className="wf__qmarks">
-                  <span style={{ animationDelay: '0ms'   }}>?</span>
+                  <span style={{ animationDelay: '0ms' }}>?</span>
                   <span style={{ animationDelay: '180ms' }}>?</span>
                   <span style={{ animationDelay: '360ms' }}>?</span>
                   <span style={{ animationDelay: '540ms' }}>?</span>
                 </div>
               </div>
 
-              <div className="wf__chat-verdict wf__chat-verdict--ask">
-                → ASK QUESTIONS
-              </div>
+              <div className="wf__chat-verdict wf__chat-verdict--ask">→ ASK QUESTIONS</div>
             </Reveal>
 
             {/* —— 中央分隔 —— */}
@@ -209,8 +219,12 @@ function Workflow({ localStep }: ChapterContext) {
           </Reveal>
 
           <Reveal kind="rise" duration={1100} delay={180} className="wf__sum-hero" as="h1">
-            <span className="wf__sum-hero-en">Summarize <em>EXTREMELY BRIEFLY</em></span>
-            <span className="wf__sum-hero-cn">只说 <em>注意事项</em> 与 <em>下一步</em>。</span>
+            <span className="wf__sum-hero-en">
+              Summarize <em>EXTREMELY BRIEFLY</em>
+            </span>
+            <span className="wf__sum-hero-cn">
+              只说 <em>注意事项</em> 与 <em>下一步</em>。
+            </span>
           </Reveal>
 
           <Reveal kind="rise" duration={780} delay={520} className="wf__sum-source">
@@ -231,8 +245,8 @@ function Workflow({ localStep }: ChapterContext) {
                 <span className="wf__sum-x">×</span> 复述自己干了什么
               </div>
               <div className="wf__sum-card-body">
-                我先创建了 <s>Header.tsx</s>，然后又新增了 <s>Hero.tsx</s>，
-                接着把样式拆分到 <s>theme.ts</s>，又给按钮加了 hover ...
+                我先创建了 <s>Header.tsx</s>，然后又新增了 <s>Hero.tsx</s>， 接着把样式拆分到{' '}
+                <s>theme.ts</s>，又给按钮加了 hover ...
               </div>
               <div className="wf__sum-strike" />
             </div>
@@ -243,8 +257,12 @@ function Workflow({ localStep }: ChapterContext) {
                 <span className="wf__sum-check">✓</span> 注意事项 + 下一步
               </div>
               <div className="wf__sum-card-body">
-                <p><b>caveats</b> — 暂未做响应式 / 文案为占位</p>
-                <p><b>next</b> — 加 hover 状态 / 替换真实文案</p>
+                <p>
+                  <b>caveats</b> — 暂未做响应式 / 文案为占位
+                </p>
+                <p>
+                  <b>next</b> — 加 hover 状态 / 替换真实文案
+                </p>
               </div>
             </div>
           </Reveal>

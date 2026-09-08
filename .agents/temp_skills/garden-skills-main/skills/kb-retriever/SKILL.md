@@ -41,6 +41,7 @@ description: 面向本地知识库目录的检索和问答助手。核心流程�
 - [ ] ⏭️ 现在可以开始检索
 
 **禁止行为**：
+
 - ❌ 在未读取 pdf_reading.md 的情况下直接尝试处理 PDF
 - ❌ 在未读取 excel_reading.md 的情况下直接尝试处理 Excel
 - ❌ 跳过文件处理步骤，直接对原始 PDF/Excel 进行检索
@@ -109,18 +110,22 @@ description: 面向本地知识库目录的检索和问答助手。核心流程�
 ## 公共检索原则
 
 ### 关键词选择策略
+
 - 从用户问题提取 3-8 个关键词（含可能的英文缩写、同义词、上位/下位词）
 - 可组合词组（如 "销售 报表"、"API 接口 超时"）
 - 必要时包含业务词、技术术语、常见缩写（如 "uv"、"pv"、"GMV"）
 
 ### grep 检索基本原则
+
 - 始终指定尽量精准的 include 和 path，避免搜索整个目录
 - pattern 优先尝试问题中的核心名词、术语，再尝试同义词
 - 对于每个命中，只读取匹配附近的局部区域（上下若干行）
 - 保存「文件名 + 位置信息 + 文本片段」
 
 ### 多轮迭代检索机制（最多 5 次）
+
 所有文件类型都采用统一的迭代策略：
+
 1. **迭代控制**
    - 维护「已尝试检索次数」计数，最多 5 次
    - 每次检索后累加计数
@@ -168,7 +173,7 @@ description: 面向本地知识库目录的检索和问答助手。核心流程�
 1. **首先：读取处理方法指南**
    - 在处理任何 PDF 之前，**必须先读取** [references/pdf_reading.md](references/pdf_reading.md)（注意这个目录位于 Skills 目录下，而不是 Knowledge 目录下）
    - 重点了解：pdftotext 命令、pdfplumber 用法、表格提取方法、快速决策表
-   
+
 2. **选择候选 PDF**
    - 根据 `data_structure.md` 中的描述，选择最相关的 1-3 个文件
    - 如果用户指明具体 PDF 文件，则优先使用该文件
@@ -177,7 +182,7 @@ description: 面向本地知识库目录的检索和问答助手。核心流程�
    - 使用 pdf_reading.md 中推荐的工具（优先 pdftotext 或 pdfplumber）
    - **重要**：使用 `pdftotext input.pdf output.txt` 将文本提取到文件，不要直接输出到 stdout（避免占用大量 token）
    - 如需提取表格，使用 pdfplumber 的表格提取功能
-   
+
 4. **对提取结果执行检索**
    - 使用 grep 对提取的文本进行关键词搜索
    - 对于每个命中，提取命中附近范围的上下文（上下数十行或相邻几页）
@@ -193,7 +198,7 @@ description: 面向本地知识库目录的检索和问答助手。核心流程�
      - [references/excel_reading.md](references/excel_reading.md) - 学习如何读取工作表（注意这个目录位于 Skills 目录下，而不是 Knowledge 目录下）
      - [references/excel_analysis.md](references/excel_analysis.md) - 学习如何分析数据（注意这个目录位于 Skills 目录下，而不是 Knowledge 目录下）
    - 重点了解：pandas 读取方法、列筛选、数据过滤、聚合操作
-   
+
 2. **选择候选 Excel**
    - 根据 `data_structure.md` 和文件/工作表命名，选择最相关的表
    - 优先选择包含「报表」「统计」「日志」「配置」「映射」等关键词的工作簿/工作表
@@ -203,7 +208,7 @@ description: 面向本地知识库目录的检索和问答助手。核心流程�
    - 使用 pandas 读取前 10-50 行（使用 `nrows` 参数限制）
    - 重点掌握：列名/字段名、数据类型（数值、日期、文本）、关键字段
    - 将列名与用户问题比对，识别潜在关键字段（如「收入」「销售额」「error_code」等）
-   
+
 4. **执行数据检索和分析**
    - 使用学到的 pandas 方法进行过滤和聚合（如 `df[df['column'] == value]`）
    - 每次只读取匹配行附近的数据，避免一次性读取整表
@@ -213,17 +218,20 @@ description: 面向本地知识库目录的检索和问答助手。核心流程�
 ## 与其他工具的协同
 
 ### PDF 处理
+
 - **在处理 PDF 前必须先读取** [references/pdf_reading.md](references/pdf_reading.md) 学习处理方法
 - 使用 pdfplumber/pypdf 进行文本提取、表格提取、元数据读取
 - 优先使用 pdftotext 命令行工具进行快速文本提取
 
 ### Excel 处理
+
 - **在处理 Excel 前必须先读取**：
   - [references/excel_reading.md](references/excel_reading.md) - 学习读取方法
   - [references/excel_analysis.md](references/excel_analysis.md) - 学习分析方法
 - 使用 pandas 进行数据探索、预览、过滤和分析
 
 ### 工具使用原则
+
 - **Grep**：用于按关键词在指定文件中查找行号与匹配片段，始终指定尽量精准的 include 和 path
 - **Read**：只用于局部读取文件，始终设置合理的 limit（如 200-500 行）和合适的偏移
 - **对于任何可能很大的文件**：
@@ -245,6 +253,3 @@ description: 面向本地知识库目录的检索和问答助手。核心流程�
     - 指定更具体的目录/文件
     - 提供更精确的关键词或字段名
     - 指定时间/版本范围
-
-
- 

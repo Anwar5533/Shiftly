@@ -19,10 +19,10 @@ beautiful-article  （本 Skill · 方法论 + harness）
 reacticle          （npm 包 · 组件 / 主题 / Raw / 导出）
 ```
 
-| 层级 | 负责什么 | 仓库 / 文档 |
-|---|---|---|
-| `beautiful-article`（本 Skill） | **怎么** 让 Agent 从任意素材出发，规划、撰写、审阅、交付一篇文章 —— 6 阶段流程、3 个硬 checkpoint、主题选型、sub-agent reviewer | 当前目录 |
-| `reacticle` | Skill 实际拼装出的组件词表 + 11 套 authoring 主题 —— `Article` / `Hero` / `Lead` / `Section` / `Quote` / `Image` / `Formula` / `CodeBlock` / `Raw` …，每套主题 = 一份 `.css` token 包 + 一份 `.md` authoring profile | [`ConardLi/reacticle`](https://github.com/ConardLi/reacticle) · [npm `reacticle`](https://www.npmjs.com/package/reacticle) · [文档站](https://rearticle.mmh1.top/) |
+| 层级                            | 负责什么                                                                                                                                                                                                             | 仓库 / 文档                                                                                                                                                        |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `beautiful-article`（本 Skill） | **怎么** 让 Agent 从任意素材出发，规划、撰写、审阅、交付一篇文章 —— 6 阶段流程、3 个硬 checkpoint、主题选型、sub-agent reviewer                                                                                      | 当前目录                                                                                                                                                           |
+| `reacticle`                     | Skill 实际拼装出的组件词表 + 11 套 authoring 主题 —— `Article` / `Hero` / `Lead` / `Section` / `Quote` / `Image` / `Formula` / `CodeBlock` / `Raw` …，每套主题 = 一份 `.css` token 包 + 一份 `.md` authoring profile | [`ConardLi/reacticle`](https://github.com/ConardLi/reacticle) · [npm `reacticle`](https://www.npmjs.com/package/reacticle) · [文档站](https://rearticle.mmh1.top/) |
 
 二者搭配最佳但相互独立：Skill 因为有 ReActicle 这个稳定目标层才能跑通；ReActicle 单独作为 React 组件库使用也完全立得住。
 
@@ -337,14 +337,14 @@ skills/beautiful-article/
 
 不同 phase 用不同的质检方式 —— 滥开 SubAgent、滥写 review 文件是首要性能问题，所以 Skill 把规则写明：
 
-| 节点 | 怎么检 | 产物 |
-|---|---|---|
-| Phase 1 Source（默认） | 主 Agent 内联 5 条 checklist | 无文件 |
-| Phase 1 Source（仅复杂 / 低置信源） | Source Reviewer SubAgent（对照 `original.*` diff） | `review/source-review.md` |
-| Phase 2 Plan / Checkpoint 1 前 | **主 Agent 内联自查（禁开 SubAgent、禁写文件）** | 无文件 |
-| Phase 4 First Spread / Checkpoint 2 前 | First Spread Reviewer SubAgent | `review/first-spread-review.md` |
-| Phase 5 每个 Section | Section Reviewer SubAgent —— 以消息返回 pass/fail | 无（不写每节文件） |
-| Phase 6 终审 / Checkpoint 3 前 | Editorial + Visual + Technical Reviewer SubAgent | `review/final-review.md` |
+| 节点                                   | 怎么检                                             | 产物                            |
+| -------------------------------------- | -------------------------------------------------- | ------------------------------- |
+| Phase 1 Source（默认）                 | 主 Agent 内联 5 条 checklist                       | 无文件                          |
+| Phase 1 Source（仅复杂 / 低置信源）    | Source Reviewer SubAgent（对照 `original.*` diff） | `review/source-review.md`       |
+| Phase 2 Plan / Checkpoint 1 前         | **主 Agent 内联自查（禁开 SubAgent、禁写文件）**   | 无文件                          |
+| Phase 4 First Spread / Checkpoint 2 前 | First Spread Reviewer SubAgent                     | `review/first-spread-review.md` |
+| Phase 5 每个 Section                   | Section Reviewer SubAgent —— 以消息返回 pass/fail  | 无（不写每节文件）              |
+| Phase 6 终审 / Checkpoint 3 前         | Editorial + Visual + Technical Reviewer SubAgent   | `review/final-review.md`        |
 
 ### 2. 禁止静默替用户选择
 

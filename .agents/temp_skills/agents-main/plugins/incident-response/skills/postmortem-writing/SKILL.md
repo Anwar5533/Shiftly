@@ -55,9 +55,11 @@ Quarterly: Review patterns across incidents
 Full template library and detailed worked examples live in `references/details.md`. Read that file when you need the concrete templates.
 
 ## References
+
 - [Connection Pool Best Practices](internal-wiki/connection-pools)
 - [Deployment Runbook](internal-wiki/deployment-runbook)
-```
+
+````
 
 ### Template 2: 5 Whys Analysis
 
@@ -122,7 +124,7 @@ Payment service experienced 47-minute outage due to database connection exhausti
 | Missing docs  | Document connection patterns      | Prevention |
 | Review gaps   | Update review checklist           | Detection  |
 | No canary     | Implement canary deployments      | Mitigation |
-```
+````
 
 ### Template 3: Quick Postmortem (Minor Incidents)
 

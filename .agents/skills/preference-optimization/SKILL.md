@@ -27,16 +27,16 @@ consumes directly.
 
 ## Method Selection
 
-| Data shape | Method | Key parameters |
-|---|---|---|
-| Preference pairs, default case | **DPO** | β=0.1, LR 5e-7–1e-6, 1–2 epochs |
-| Memory-bound or no SFT checkpoint | **ORPO** | reference-free, fused SFT+preference in one loss |
-| Unpaired thumbs-up/down | **KTO** | binary label per example, no pairing needed |
-| Length bias observed, sweep budget available | **SimPO** | reference-free; see sweep grid below |
+| Data shape                                   | Method    | Key parameters                                   |
+| -------------------------------------------- | --------- | ------------------------------------------------ |
+| Preference pairs, default case               | **DPO**   | β=0.1, LR 5e-7–1e-6, 1–2 epochs                  |
+| Memory-bound or no SFT checkpoint            | **ORPO**  | reference-free, fused SFT+preference in one loss |
+| Unpaired thumbs-up/down                      | **KTO**   | binary label per example, no pairing needed      |
+| Length bias observed, sweep budget available | **SimPO** | reference-free; see sweep grid below             |
 
 - **DPO is the safe default.** Use β=0.1 and a
   learning rate of 5e-7 to 1e-6 for 1–2 epochs.
-  This LR is *lower* than the SFT LR that produced
+  This LR is _lower_ than the SFT LR that produced
   the checkpoint being aligned — porting an SFT-
   scale LR into a DPO run is the most common
   misconfiguration here, not an edge case.
@@ -64,18 +64,18 @@ consumes directly.
 
 ### Worked Examples
 
-- *"We have an SFT checkpoint and clean paired
-  preference data, no length-bias complaints yet."*
+- _"We have an SFT checkpoint and clean paired
+  preference data, no length-bias complaints yet."_
   → default case → **DPO** at β=0.1.
-- *"Reviewers click thumbs-up/down per response;
-  nothing is paired."* → unpaired signal →
+- _"Reviewers click thumbs-up/down per response;
+  nothing is paired."_ → unpaired signal →
   **KTO**, not DPO — don't synthesize pairs to
   force DPO onto unpaired data.
-- *"GPU budget doesn't cover a separate SFT pass
-  plus a DPO reference model."* → memory-bound,
+- _"GPU budget doesn't cover a separate SFT pass
+  plus a DPO reference model."_ → memory-bound,
   no separate checkpoint → **ORPO**.
-- *"DPO output favors longer answers regardless of
-  quality, and there's time to run a sweep."* →
+- _"DPO output favors longer answers regardless of
+  quality, and there's time to run a sweep."_ →
   length bias plus sweep budget → **SimPO**. Skip
   it if the sweep budget isn't actually there.
 
@@ -128,7 +128,7 @@ iteratively and on-policy instead:
 3. Run a DPO pass using the current checkpoint as
    the reference model.
 4. The resulting checkpoint becomes both the new
-   policy *and* the new reference for the next
+   policy _and_ the new reference for the next
    round.
 
 Repeat. Each round's reference model is the prior

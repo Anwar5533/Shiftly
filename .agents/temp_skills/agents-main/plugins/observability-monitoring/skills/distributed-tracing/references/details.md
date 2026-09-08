@@ -54,19 +54,19 @@ EOF
 ### Docker Compose
 
 ```yaml
-version: "3.8"
+version: '3.8'
 services:
   jaeger:
     image: jaegertracing/all-in-one:1.62
     ports:
-      - "5775:5775/udp"
-      - "6831:6831/udp"
-      - "6832:6832/udp"
-      - "5778:5778"
-      - "16686:16686" # UI
-      - "14268:14268" # Collector
-      - "14250:14250" # gRPC
-      - "9411:9411" # Zipkin
+      - '5775:5775/udp'
+      - '6831:6831/udp'
+      - '6832:6832/udp'
+      - '5778:5778'
+      - '16686:16686' # UI
+      - '14268:14268' # Collector
+      - '14250:14250' # gRPC
+      - '9411:9411' # Zipkin
     environment:
       - COLLECTOR_ZIPKIN_HOST_PORT=:9411
 ```
@@ -125,22 +125,20 @@ def fetch_users_from_db():
 #### Node.js (Express)
 
 ```javascript
-const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
-const { JaegerExporter } = require("@opentelemetry/exporter-jaeger");
-const { BatchSpanProcessor } = require("@opentelemetry/sdk-trace-base");
-const { registerInstrumentations } = require("@opentelemetry/instrumentation");
-const { HttpInstrumentation } = require("@opentelemetry/instrumentation-http");
-const {
-  ExpressInstrumentation,
-} = require("@opentelemetry/instrumentation-express");
+const { NodeTracerProvider } = require('@opentelemetry/sdk-trace-node');
+const { JaegerExporter } = require('@opentelemetry/exporter-jaeger');
+const { BatchSpanProcessor } = require('@opentelemetry/sdk-trace-base');
+const { registerInstrumentations } = require('@opentelemetry/instrumentation');
+const { HttpInstrumentation } = require('@opentelemetry/instrumentation-http');
+const { ExpressInstrumentation } = require('@opentelemetry/instrumentation-express');
 
 // Initialize tracer
 const provider = new NodeTracerProvider({
-  resource: { attributes: { "service.name": "my-service" } },
+  resource: { attributes: { 'service.name': 'my-service' } },
 });
 
 const exporter = new JaegerExporter({
-  endpoint: "http://jaeger:14268/api/traces",
+  endpoint: 'http://jaeger:14268/api/traces',
 });
 
 provider.addSpanProcessor(new BatchSpanProcessor(exporter));
@@ -151,16 +149,16 @@ registerInstrumentations({
   instrumentations: [new HttpInstrumentation(), new ExpressInstrumentation()],
 });
 
-const express = require("express");
+const express = require('express');
 const app = express();
 
-app.get("/api/users", async (req, res) => {
-  const tracer = trace.getTracer("my-service");
-  const span = tracer.startSpan("get_users");
+app.get('/api/users', async (req, res) => {
+  const tracer = trace.getTracer('my-service');
+  const span = tracer.startSpan('get_users');
 
   try {
     const users = await fetchUsers();
-    span.setAttributes({ "user.count": users.length });
+    span.setAttributes({ 'user.count': users.length });
     res.json({ users });
   } finally {
     span.end();
@@ -247,12 +245,12 @@ response = requests.get('http://downstream-service/api', headers=headers)
 #### Node.js
 
 ```javascript
-const { propagation } = require("@opentelemetry/api");
+const { propagation } = require('@opentelemetry/api');
 
 const headers = {};
 propagation.inject(context.active(), headers);
 
-axios.get("http://downstream-service/api", { headers });
+axios.get('http://downstream-service/api', { headers });
 ```
 
 ## Tempo Setup (Grafana)

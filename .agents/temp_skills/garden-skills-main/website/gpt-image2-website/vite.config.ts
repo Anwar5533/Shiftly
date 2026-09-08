@@ -39,10 +39,7 @@ function safePublicCopy(): Plugin {
         force: true,
         errorOnExist: false,
         filter: (src) => {
-          const segments = src
-            .replace(PUBLIC_DIR, '')
-            .split(/[\\/]/)
-            .filter(Boolean);
+          const segments = src.replace(PUBLIC_DIR, '').split(/[\\/]/).filter(Boolean);
           return !segments.some((seg) => PUBLIC_COPY_EXCLUDES.has(seg));
         },
       });
@@ -72,11 +69,9 @@ function casesDataWatcher(): Plugin {
       return;
     }
     running = true;
-    const child = spawn(
-      process.execPath,
-      [resolve(__dirname, 'scripts', 'build-data.mjs')],
-      { stdio: ['ignore', 'pipe', 'pipe'] },
-    );
+    const child = spawn(process.execPath, [resolve(__dirname, 'scripts', 'build-data.mjs')], {
+      stdio: ['ignore', 'pipe', 'pipe'],
+    });
     let stderr = '';
     child.stderr.on('data', (b) => (stderr += b.toString()));
     child.stdout.on('data', (b) => {
@@ -86,9 +81,7 @@ function casesDataWatcher(): Plugin {
     child.on('close', (code) => {
       running = false;
       if (code !== 0) {
-        server.config.logger.error(
-          `[case] build-data exited with ${code}\n${stderr}`,
-        );
+        server.config.logger.error(`[case] build-data exited with ${code}\n${stderr}`);
       }
       if (queued) {
         queued = false;
@@ -117,10 +110,7 @@ function casesDataWatcher(): Plugin {
       const onChange = (file: string) => {
         // Avoid an infinite loop: build-data writes *-thumb.webp itself.
         if (file.endsWith('-thumb.webp')) return;
-        if (
-          file.startsWith(CASES_DIR) ||
-          file.startsWith(resolve(SKILL_DIR, 'references'))
-        ) {
+        if (file.startsWith(CASES_DIR) || file.startsWith(resolve(SKILL_DIR, 'references'))) {
           schedule(server);
         }
       };

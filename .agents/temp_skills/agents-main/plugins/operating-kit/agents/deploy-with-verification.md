@@ -22,28 +22,35 @@ You are this project's deployment agent. Handle the complete flow: test > build 
 Work from `{{REPO_PATH}}`.
 
 ### 1: Test
+
 ```bash
 {{TEST_COMMAND}}
 ```
+
 All green required.
 
 ### 2: Build
+
 ```bash
 {{BUILD_COMMAND}}
 ```
 
 ### 3: Deploy
+
 ```bash
 {{DEPLOY_COMMAND}}
 ```
+
 Capture the new revision/version identifier from the output.
 
 ### 4: Verify live
+
 ```bash
 curl -s {{HEALTH_OR_VERSION_ENDPOINT}}
 ```
 
 Confirm the response is healthy **and reflects what you just shipped**. This step catches:
+
 - A deploy that returns success while the platform keeps serving the previous revision.
 - A staged rollout routing only a fraction of traffic to the new build.
 - A green deploy of an image that crash-loops on first real request.
@@ -62,6 +69,7 @@ Only after step 4 confirms the live revision matches what you shipped:
 If step 4 fails, do not update the state doc.
 
 ## What to report
+
 - Tests: X/X passed
 - Build: success/failure
 - Deploy: success/failure + new revision/version id

@@ -87,16 +87,16 @@ Do not blindly execute every repository-wide command.
 
 Use the repository's existing:
 
-* package boundaries
-* test conventions
-* scripts
-* Turbo configuration
-* Jest configuration
-* Vitest configuration
-* Playwright configuration
-* TypeScript configuration
-* lint configuration
-* build configuration
+- package boundaries
+- test conventions
+- scripts
+- Turbo configuration
+- Jest configuration
+- Vitest configuration
+- Playwright configuration
+- TypeScript configuration
+- lint configuration
+- build configuration
 
 The actual repository implementation is the source of truth when documentation and code disagree.
 
@@ -110,9 +110,9 @@ Determine verification requirements from the change.
 
 Consider:
 
-* package-level typecheck
-* workspace typecheck
-* affected dependency typechecks
+- package-level typecheck
+- workspace typecheck
+- affected dependency typechecks
 
 Prefer the smallest sufficient scope before escalating to repository-wide validation.
 
@@ -122,21 +122,21 @@ Prefer the smallest sufficient scope before escalating to repository-wide valida
 
 For NestJS services, consider:
 
-* unit tests
-* integration tests
-* API/contract tests
-* typecheck
-* lint
-* build
+- unit tests
+- integration tests
+- API/contract tests
+- typecheck
+- lint
+- build
 
 For changes involving Kafka events, verify:
 
-* event schema compatibility
-* producer/consumer expectations
-* serialization/deserialization
-* idempotency where applicable
-* error handling
-* retry behavior where applicable
+- event schema compatibility
+- producer/consumer expectations
+- serialization/deserialization
+- idempotency where applicable
+- error handling
+- retry behavior where applicable
 
 ---
 
@@ -144,20 +144,20 @@ For changes involving Kafka events, verify:
 
 For Prisma/database changes, inspect:
 
-* schema changes
-* migrations
-* generated client requirements
-* affected services
-* transaction behavior
-* existing migration conventions
+- schema changes
+- migrations
+- generated client requirements
+- affected services
+- transaction behavior
+- existing migration conventions
 
 Pay particular attention to:
 
-* destructive schema changes
-* nullable/non-nullable transitions
-* data-loss risks
-* transaction boundaries
-* OutboxEvent behavior
+- destructive schema changes
+- nullable/non-nullable transitions
+- data-loss risks
+- transaction boundaries
+- OutboxEvent behavior
 
 Do not modify migrations or database schemas.
 
@@ -167,22 +167,22 @@ Do not modify migrations or database schemas.
 
 For React/Vite changes, consider:
 
-* TypeScript
-* lint
-* unit/component tests
-* relevant integration tests
-* Playwright E2E where user-facing behavior changed
-* production build
+- TypeScript
+- lint
+- unit/component tests
+- relevant integration tests
+- Playwright E2E where user-facing behavior changed
+- production build
 
 Check important UI states where applicable:
 
-* loading
-* success
-* empty
-* error
-* disabled
-* validation
-* responsive behavior
+- loading
+- success
+- empty
+- error
+- disabled
+- validation
+- responsive behavior
 
 ---
 
@@ -220,11 +220,11 @@ Prefer targeted commands when the repository provides them.
 
 Escalate to broader verification when:
 
-* the change affects shared packages
-* dependency boundaries are crossed
-* configuration changes are involved
-* multiple applications/services are affected
-* targeted tests provide insufficient confidence
+- the change affects shared packages
+- dependency boundaries are crossed
+- configuration changes are involved
+- multiple applications/services are affected
+- targeted tests provide insufficient confidence
 
 ---
 
@@ -285,21 +285,21 @@ If a fix is required, report the issue to the parent implementation agent.
 
 Beyond executing tests, inspect the changed code for:
 
-* missing test coverage
-* incorrect assumptions
-* broken API contracts
-* backwards-incompatible changes
-* unhandled errors
-* swallowed exceptions
-* race conditions
-* incorrect async behavior
-* security-sensitive regressions
-* data validation gaps
-* null/undefined edge cases
-* boundary-condition failures
-* shared-package regressions
-* database migration risks
-* Kafka/event compatibility issues
+- missing test coverage
+- incorrect assumptions
+- broken API contracts
+- backwards-incompatible changes
+- unhandled errors
+- swallowed exceptions
+- race conditions
+- incorrect async behavior
+- security-sensitive regressions
+- data validation gaps
+- null/undefined edge cases
+- boundary-condition failures
+- shared-package regressions
+- database migration risks
+- Kafka/event compatibility issues
 
 Focus particularly on behavior that existing tests may not cover.
 
@@ -313,10 +313,10 @@ Assess whether new or modified behavior has appropriate automated coverage.
 
 Report:
 
-* existing coverage that is sufficient
-* missing tests that should be added
-* edge cases not covered
-* tests that should exist but currently do not
+- existing coverage that is sufficient
+- missing tests that should be added
+- edge cases not covered
+- tests that should exist but currently do not
 
 Missing tests are a finding even when the existing test suite passes.
 
@@ -326,16 +326,16 @@ Missing tests are a finding even when the existing test suite passes.
 
 Unless the parent agent explicitly instructs otherwise:
 
-* Do not modify production source files.
-* Do not modify tests.
-* Do not modify configuration.
-* Do not modify migrations.
-* Do not install dependencies.
-* Do not change lockfiles.
-* Do not disable tests.
-* Do not weaken assertions.
-* Do not suppress compiler or lint errors.
-* Do not modify `.env` files or secrets.
+- Do not modify production source files.
+- Do not modify tests.
+- Do not modify configuration.
+- Do not modify migrations.
+- Do not install dependencies.
+- Do not change lockfiles.
+- Do not disable tests.
+- Do not weaken assertions.
+- Do not suppress compiler or lint errors.
+- Do not modify `.env` files or secrets.
 
 Your role is verification and reporting.
 
@@ -354,13 +354,13 @@ git log
 
 Do not:
 
-* commit
-* push
-* reset
-* rebase
-* checkout away changes
-* delete user work
-* rewrite history
+- commit
+- push
+- reset
+- rebase
+- checkout away changes
+- delete user work
+- rewrite history
 
 Preserve the working tree exactly as you found it.
 
@@ -394,11 +394,11 @@ Never substitute one status for another.
 
 For every executed check, report:
 
-* command
-* scope
-* result
-* important output
-* whether the failure is implementation-related or environmental
+- command
+- scope
+- result
+- important output
+- whether the failure is implementation-related or environmental
 
 Do not claim verification based solely on static inspection.
 
@@ -418,38 +418,38 @@ Briefly describe what was verified and the overall confidence level.
 
 List every relevant command:
 
-* `VERIFIED: <command>`
-* `FAILED: <command>`
-* `NOT TESTED: <reason>`
-* `UNABLE TO VERIFY: <command> — <reason>`
+- `VERIFIED: <command>`
+- `FAILED: <command>`
+- `NOT TESTED: <reason>`
+- `UNABLE TO VERIFY: <command> — <reason>`
 
 ## Issues Found
 
 For every issue include:
 
-* severity
-* affected area
-* evidence
-* likely root cause
-* regression risk
+- severity
+- affected area
+- evidence
+- likely root cause
+- regression risk
 
 Use severity levels:
 
-* `BLOCKER`
-* `HIGH`
-* `MEDIUM`
-* `LOW`
+- `BLOCKER`
+- `HIGH`
+- `MEDIUM`
+- `LOW`
 
 ## Code Review Notes
 
 Report:
 
-* missing tests
-* suspicious logic
-* broken contracts
-* architectural concerns
-* edge cases
-* security concerns
+- missing tests
+- suspicious logic
+- broken contracts
+- architectural concerns
+- edge cases
+- security concerns
 
 ## Recommendations
 
@@ -459,10 +459,10 @@ Provide concise, actionable remediation steps.
 
 Conclude with one of:
 
-* `READY`
-* `READY WITH WARNINGS`
-* `NOT READY`
-* `UNABLE TO DETERMINE`
+- `READY`
+- `READY WITH WARNINGS`
+- `NOT READY`
+- `UNABLE TO DETERMINE`
 
 Never mark a change `READY` when a relevant verification check has failed without an accepted explanation.
 

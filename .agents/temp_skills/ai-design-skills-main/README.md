@@ -8,8 +8,8 @@ Each skill is a self-contained folder. Install the ones you need.
 
 ## Skills
 
-| Skill | What it does |
-|---|---|
+| Skill                                                          | What it does                                                                                                                                      |
+| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [`landing-page-design`](./skills/landing-page-design/SKILL.md) | Builds a landing page from scratch — intake questions, page structure, conversion copy, plus a full visual system (type, spacing, radius, motion) |
 
 More on the way. [Upgrading an existing site instead of building new?](https://github.com/elayadesign/redesign-skill) That one lives in its own repo since it predates this collection.
@@ -49,18 +49,19 @@ Or paste the file into **Settings → Rules for AI**.
 
 Copy the skill's `SKILL.md` into whatever your tool uses for project rules:
 
-| Tool | Path |
-|---|---|
-| Codex | `AGENTS.md` |
-| Windsurf | `.windsurfrules` |
-| Cline | `.clinerules` |
-| Generic | paste into your system prompt |
+| Tool     | Path                          |
+| -------- | ----------------------------- |
+| Codex    | `AGENTS.md`                   |
+| Windsurf | `.windsurfrules`              |
+| Cline    | `.clinerules`                 |
+| Generic  | paste into your system prompt |
+
 </details>
 
 <details>
 <summary><b>Claude.ai (no terminal)</b></summary>
 
-Download the skill's `SKILL.md` and upload it to a Project, or attach it to a chat and say *"follow this."*
+Download the skill's `SKILL.md` and upload it to a Project, or attach it to a chat and say _"follow this."_
 </details>
 
 ---

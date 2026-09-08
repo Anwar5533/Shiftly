@@ -11,11 +11,11 @@ W&B receives all metrics and artifacts; Hugging Face is the durable model
 and dataset store; GitHub Actions handles CPU-side CI (lint, test, eval,
 model release).
 
-| Service | Entity / namespace | Notes |
-|---|---|---|
-| W&B | `m7` (team under org `m7-org`) | Project: `major7-lab` |
-| Hugging Face | `major7` org | Token has `write` role; admin on `major7` |
-| GitHub Actions | `wshobson/agents` repo | CPU-side only; no GPU runners |
+| Service        | Entity / namespace             | Notes                                     |
+| -------------- | ------------------------------ | ----------------------------------------- |
+| W&B            | `m7` (team under org `m7-org`) | Project: `major7-lab`                     |
+| Hugging Face   | `major7` org                   | Token has `write` role; admin on `major7` |
+| GitHub Actions | `wshobson/agents` repo         | CPU-side only; no GPU runners             |
 
 ### Shell environment
 
@@ -119,12 +119,12 @@ and `model_path = path/to/local/model/dir`.
 
 All runs land under `wandb.ai/m7/major7-lab`. Use tags to organise:
 
-| Tag | Meaning |
-|---|---|
-| `fine-tune` | Fine-tuning runs |
-| `plugin-eval` | Plugin quality eval runs |
-| `dgx-spark` | Runs executed on the DGX Spark |
-| `github-actions` | Runs triggered from CI |
+| Tag              | Meaning                        |
+| ---------------- | ------------------------------ |
+| `fine-tune`      | Fine-tuning runs               |
+| `plugin-eval`    | Plugin quality eval runs       |
+| `dgx-spark`      | Runs executed on the DGX Spark |
+| `github-actions` | Runs triggered from CI         |
 
 Group related runs with `group=` in `wandb.init()` so they collapse into a
 single row in the project table.
@@ -140,10 +140,10 @@ wandb sync ./wandb/offline-run-<timestamp>-<id>
 
 ## Troubleshooting
 
-| Symptom | Fix |
-|---|---|
-| `you may not log runs directly to your organization` | Use the team entity (`m7`), not the org entity (`m7-org`) |
-| W&B run stuck in "syncing" | Check network; run `wandb sync <run-dir>` manually |
-| `hf_transfer` errors on upload | Set `HF_HUB_ENABLE_HF_TRANSFER=0` and retry; fall back to standard HTTP |
-| GitHub Actions HF push fails with 403 | Verify `HF_TOKEN` secret has `write` role and covers the `major7` org |
-| `import torch` hangs on the DGX | Use a lighter probe or run inside the activated `unsloth` env; first CUDA init can be slow |
+| Symptom                                              | Fix                                                                                        |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `you may not log runs directly to your organization` | Use the team entity (`m7`), not the org entity (`m7-org`)                                  |
+| W&B run stuck in "syncing"                           | Check network; run `wandb sync <run-dir>` manually                                         |
+| `hf_transfer` errors on upload                       | Set `HF_HUB_ENABLE_HF_TRANSFER=0` and retry; fall back to standard HTTP                    |
+| GitHub Actions HF push fails with 403                | Verify `HF_TOKEN` secret has `write` role and covers the `major7` org                      |
+| `import torch` hangs on the DGX                      | Use a lighter probe or run inside the activated `unsloth` env; first CUDA init can be slow |

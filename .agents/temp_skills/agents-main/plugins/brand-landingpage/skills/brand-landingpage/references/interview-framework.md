@@ -37,19 +37,20 @@
 
 ### What to Extract From Phase A
 
-| Field | Example |
-|-------|---------|
-| Project name (exact spelling) | "Railtrack" |
+| Field                          | Example                                                                                    |
+| ------------------------------ | ------------------------------------------------------------------------------------------ |
+| Project name (exact spelling)  | "Railtrack"                                                                                |
 | Elevator pitch (1-2 sentences) | "Open-source deployment pipeline that catches breaking changes before they hit production" |
-| Target users | "Backend engineers working with Kubernetes, mostly at mid-size companies" |
-| Primary CTA | "Start free trial" --> button text "Start Free Trial" |
-| Bonus (if volunteered) | Repo URL, existing docs, tech stack, pricing model |
+| Target users                   | "Backend engineers working with Kubernetes, mostly at mid-size companies"                  |
+| Primary CTA                    | "Start free trial" --> button text "Start Free Trial"                                      |
+| Bonus (if volunteered)         | Repo URL, existing docs, tech stack, pricing model                                         |
 
 ### Transition Rule
 
 Move to Phase B when you have: project name + elevator pitch + target users + primary CTA. These four are non-negotiable.
 
 If the user tries to skip ahead ("just generate something, it's a CLI tool for managing databases"):
+
 - Extract what you can from their statement.
 - Ask only the essential gaps (CTA + brand feel at minimum -- 2 questions).
 - Default everything else with reasonable choices and tell them what you defaulted: "I'm going with a clean, modern look with a dark theme since this is a dev tool. We can adjust after you see it."
@@ -122,24 +123,25 @@ The reference product is a bonus signal, not a blocker.
 
 ### Common Color Name to Hex Mapping
 
-| User says | Hex | Notes |
-|-----------|-----|-------|
-| Indigo / Tailwind indigo | #4F46E5 | Common dev tool accent |
-| Navy / dark blue | #1E3A5F | Professional, trust |
-| Royal blue | #1E40AF | Confident, established |
-| Red | #DC2626 | Energy, urgency |
-| Orange | #EA580C | Warmth, friendliness |
-| Green | #16A34A | Growth, open source |
-| Teal / cyan | #0D9488 | Modern, fresh |
-| Purple / violet | #7C3AED | Creative, premium |
-| Amber / gold | #D97706 | Warmth, quality |
-| Charcoal / near-black | #1F2937 | Use instead of pure #000 |
+| User says                | Hex     | Notes                    |
+| ------------------------ | ------- | ------------------------ |
+| Indigo / Tailwind indigo | #4F46E5 | Common dev tool accent   |
+| Navy / dark blue         | #1E3A5F | Professional, trust      |
+| Royal blue               | #1E40AF | Confident, established   |
+| Red                      | #DC2626 | Energy, urgency          |
+| Orange                   | #EA580C | Warmth, friendliness     |
+| Green                    | #16A34A | Growth, open source      |
+| Teal / cyan              | #0D9488 | Modern, fresh            |
+| Purple / violet          | #7C3AED | Creative, premium        |
+| Amber / gold             | #D97706 | Warmth, quality          |
+| Charcoal / near-black    | #1F2937 | Use instead of pure #000 |
 
 ### Transition to Generation
 
 Confirm before proceeding:
 
 > "Here's the brand direction:
+>
 > - Project: {name} -- {elevator pitch}
 > - Target users: {users}
 > - Primary CTA: {action}
@@ -173,20 +175,20 @@ Do not ask "Do you like it?" -- this produces yes/no answers with no actionable 
 
 Developers often give feedback in implementation terms. Redirect toward design intent:
 
-| User says | They likely mean | Follow-up to ask |
-|-----------|-----------------|-----------------|
-| "I don't like it" | Overall mismatch | "Is it the colors, the layout, or the overall mood that feels off?" |
-| "It's boring" / "too plain" | Low visual energy | "Would you like more color contrast, a bolder layout, or both?" |
-| "It's too busy" | Visual clutter | "Which part feels most cluttered? The hero, the features section, or everything?" |
-| "It looks like a template" | Generic, no personality | "What would make it feel more specific to your product? A different layout, stronger colors, more distinctive typography?" |
-| "It's too marketing-y" | Over-designed, too much flair | "Should we strip it down -- less decoration, more information density, tighter layout?" |
-| "The colors are off" | Palette mismatch | "Too bright, too dull, or just the wrong hue?" |
-| "More whitespace" / "too cramped" | Layout density | Edit: "Add more breathing room between sections" |
-| "Needs more padding" / "font-size too small" | CSS-level observation | Translate: "Which section feels too tight or hard to read?" |
-| "Make it pop" | Weak visual hierarchy | "What should stand out more -- the headline, the CTA button, or the overall contrast?" |
-| "I love the layout but not the colors" | Partial approval | Variant signal: keep layout, change COLOR_SCHEME only |
-| "Show me something totally different" | Fundamental rethink | REIMAGINE creative range |
-| "Can I just edit the HTML?" | Wants direct control | "Stitch handles the regeneration cycle, so let's iterate here first -- then you can hand-edit the final output." |
+| User says                                    | They likely mean              | Follow-up to ask                                                                                                           |
+| -------------------------------------------- | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| "I don't like it"                            | Overall mismatch              | "Is it the colors, the layout, or the overall mood that feels off?"                                                        |
+| "It's boring" / "too plain"                  | Low visual energy             | "Would you like more color contrast, a bolder layout, or both?"                                                            |
+| "It's too busy"                              | Visual clutter                | "Which part feels most cluttered? The hero, the features section, or everything?"                                          |
+| "It looks like a template"                   | Generic, no personality       | "What would make it feel more specific to your product? A different layout, stronger colors, more distinctive typography?" |
+| "It's too marketing-y"                       | Over-designed, too much flair | "Should we strip it down -- less decoration, more information density, tighter layout?"                                    |
+| "The colors are off"                         | Palette mismatch              | "Too bright, too dull, or just the wrong hue?"                                                                             |
+| "More whitespace" / "too cramped"            | Layout density                | Edit: "Add more breathing room between sections"                                                                           |
+| "Needs more padding" / "font-size too small" | CSS-level observation         | Translate: "Which section feels too tight or hard to read?"                                                                |
+| "Make it pop"                                | Weak visual hierarchy         | "What should stand out more -- the headline, the CTA button, or the overall contrast?"                                     |
+| "I love the layout but not the colors"       | Partial approval              | Variant signal: keep layout, change COLOR_SCHEME only                                                                      |
+| "Show me something totally different"        | Fundamental rethink           | REIMAGINE creative range                                                                                                   |
+| "Can I just edit the HTML?"                  | Wants direct control          | "Stitch handles the regeneration cycle, so let's iterate here first -- then you can hand-edit the final output."           |
 
 ### Design Dimensions to Highlight for the User
 

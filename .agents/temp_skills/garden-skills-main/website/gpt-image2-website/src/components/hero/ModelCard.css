@@ -36,7 +36,8 @@
   box-shadow: 0 60px 140px rgba(0, 0, 0, 0.5);
   transform: translateY(40px) scale(0.96);
   opacity: 0;
-  transition: transform var(--t-slow) var(--ease-out),
+  transition:
+    transform var(--t-slow) var(--ease-out),
     opacity var(--t-slow) var(--ease-out);
   border-top: 4px solid var(--vermilion);
   font-feature-settings: 'ss01' on;
@@ -69,7 +70,9 @@
   letter-spacing: -0.03em;
   color: var(--ink-900);
 }
-.mc-title .serif-italic { color: var(--vermilion); }
+.mc-title .serif-italic {
+  color: var(--vermilion);
+}
 .mc-sub {
   max-width: 640px;
   margin: 0;
@@ -90,14 +93,18 @@
   flex-shrink: 0;
   transition: background var(--t-fast) var(--ease-out);
 }
-.mc-close:hover { background: rgba(10, 9, 8, 0.1); }
+.mc-close:hover {
+  background: rgba(10, 9, 8, 0.1);
+}
 
 /* === SECTIONS === */
 .mc-section {
   padding: var(--s-6) 0;
   border-bottom: 1px dashed rgba(10, 9, 8, 0.1);
 }
-.mc-section:last-of-type { border-bottom: 0; }
+.mc-section:last-of-type {
+  border-bottom: 0;
+}
 .mc-sec-label {
   font-size: 11px;
   letter-spacing: 0.22em;
@@ -115,7 +122,8 @@
   padding: var(--s-5);
   border-left: 2px solid var(--ink-900);
   background: rgba(10, 9, 8, 0.02);
-  transition: background var(--t-fast) var(--ease-out),
+  transition:
+    background var(--t-fast) var(--ease-out),
     border-color var(--t-fast) var(--ease-out);
 }
 .mc-strength:hover {
@@ -162,7 +170,8 @@
   padding: var(--s-4);
   border: 1px solid rgba(10, 9, 8, 0.12);
   border-radius: var(--r-sm);
-  transition: transform var(--t-fast) var(--ease-out),
+  transition:
+    transform var(--t-fast) var(--ease-out),
     border-color var(--t-fast) var(--ease-out);
 }
 .mc-surface:hover {
@@ -248,8 +257,15 @@
 }
 
 @media (max-width: 820px) {
-  .mc-card { padding: var(--s-5); }
+  .mc-card {
+    padding: var(--s-5);
+  }
   .mc-strengths,
-  .mc-surfaces { grid-template-columns: 1fr; }
-  .mc-foot { flex-direction: column; align-items: flex-start; }
+  .mc-surfaces {
+    grid-template-columns: 1fr;
+  }
+  .mc-foot {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

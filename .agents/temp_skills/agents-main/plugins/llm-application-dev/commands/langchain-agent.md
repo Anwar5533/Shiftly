@@ -1,6 +1,6 @@
 ---
-description: "Create LangGraph-based agent with modern patterns"
-argument-hint: "<agent-type> [options]"
+description: 'Create LangGraph-based agent with modern patterns'
+argument-hint: '<agent-type> [options]'
 ---
 
 # LangChain/LangGraph Agent Development Expert

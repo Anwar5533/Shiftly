@@ -9,7 +9,7 @@ A spec-and-scaffold skill for building composable recommendation, ranking, and f
 
 ## Overview
 
-Most "recommendation systems" in production aren't exotic ML — they're *pipelines*: fetch candidates from one or more sources, enrich them with metadata, drop the ineligible, score the rest, sort and pick the top K, then fire async side effects. The pattern is universal. The scoring function and the items change; the pipeline shape doesn't.
+Most "recommendation systems" in production aren't exotic ML — they're _pipelines_: fetch candidates from one or more sources, enrich them with metadata, drop the ineligible, score the rest, sort and pick the top K, then fire async side effects. The pattern is universal. The scoring function and the items change; the pipeline shape doesn't.
 
 This skill is an independent reimplementation of the pattern (MIT) — no code copied from the original.
 
@@ -24,14 +24,14 @@ This skill is an independent reimplementation of the pattern (MIT) — no code c
 
 ## The Six-Stage Framework
 
-| # | Stage | Job | Parallel? |
-|---|---|---|---|
-| 1 | **Source** | Fetch candidates from one or more origins | Yes — multiple sources run in parallel |
-| 2 | **Hydrator** | Enrich candidates with metadata needed for filtering and scoring | Yes — independent hydrators run in parallel |
-| 3 | **Filter** | Drop ineligible candidates (blocked, expired, duplicate, ineligible) | Sequential — each filter sees fewer items |
-| 4 | **Scorer** | Assign each surviving candidate one or more scores | Sequential — later scorers see earlier scores |
-| 5 | **Selector** | Sort by final score, return top K | Single op |
-| 6 | **SideEffect** | Cache, log, emit events, update served-history | Async — must never block the response |
+| #   | Stage          | Job                                                                  | Parallel?                                     |
+| --- | -------------- | -------------------------------------------------------------------- | --------------------------------------------- |
+| 1   | **Source**     | Fetch candidates from one or more origins                            | Yes — multiple sources run in parallel        |
+| 2   | **Hydrator**   | Enrich candidates with metadata needed for filtering and scoring     | Yes — independent hydrators run in parallel   |
+| 3   | **Filter**     | Drop ineligible candidates (blocked, expired, duplicate, ineligible) | Sequential — each filter sees fewer items     |
+| 4   | **Scorer**     | Assign each surviving candidate one or more scores                   | Sequential — later scorers see earlier scores |
+| 5   | **Selector**   | Sort by final score, return top K                                    | Single op                                     |
+| 6   | **SideEffect** | Cache, log, emit events, update served-history                       | Async — must never block the response         |
 
 ### Why this exact order
 

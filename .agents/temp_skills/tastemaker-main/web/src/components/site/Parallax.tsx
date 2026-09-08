@@ -1,6 +1,6 @@
-import { useRef, type ReactNode } from "react"
-import { useGSAP } from "@gsap/react"
-import { gsap } from "@/lib/gsap"
+import { useRef, type ReactNode } from 'react';
+import { useGSAP } from '@gsap/react';
+import { gsap } from '@/lib/gsap';
 
 /**
  * Scroll-linked parallax via ScrollTrigger's scrub — GSAP drives the
@@ -15,47 +15,47 @@ import { gsap } from "@/lib/gsap"
 export function Parallax({
   children,
   strength = 28,
-  className = "",
+  className = '',
 }: {
-  children: ReactNode
-  strength?: number
-  className?: string
+  children: ReactNode;
+  strength?: number;
+  className?: string;
 }) {
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
-      const el = ref.current
-      if (!el) return
+      const el = ref.current;
+      if (!el) return;
 
-      const mm = gsap.matchMedia()
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
+      const mm = gsap.matchMedia();
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
         gsap.fromTo(
           el,
           { y: -strength },
           {
             y: strength,
-            ease: "none",
+            ease: 'none',
             scrollTrigger: {
               trigger: el,
-              start: "top bottom",
-              end: "bottom top",
+              start: 'top bottom',
+              end: 'bottom top',
               scrub: 0.6,
             },
           },
-        )
-      })
+        );
+      });
 
-      return () => mm.revert()
+      return () => mm.revert();
     },
     { scope: ref, dependencies: [strength] },
-  )
+  );
 
   return (
     <div ref={ref} className={className}>
       {children}
     </div>
-  )
+  );
 }
 
 /** Slow, low-amplitude idle bob for character illustrations — a GSAP yoyo
@@ -63,39 +63,39 @@ export function Parallax({
  * gate (gsap.matchMedia) as everything else on the page. */
 export function Float({
   children,
-  className = "",
+  className = '',
   duration = 5,
 }: {
-  children: ReactNode
-  className?: string
-  duration?: number
+  children: ReactNode;
+  className?: string;
+  duration?: number;
 }) {
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
-      const el = ref.current
-      if (!el) return
+      const el = ref.current;
+      if (!el) return;
 
-      const mm = gsap.matchMedia()
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
+      const mm = gsap.matchMedia();
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
         gsap.to(el, {
           y: -10,
           duration: duration / 2,
-          ease: "sine.inOut",
+          ease: 'sine.inOut',
           yoyo: true,
           repeat: -1,
-        })
-      })
+        });
+      });
 
-      return () => mm.revert()
+      return () => mm.revert();
     },
     { scope: ref, dependencies: [duration] },
-  )
+  );
 
   return (
     <div ref={ref} className={className}>
       {children}
     </div>
-  )
+  );
 }

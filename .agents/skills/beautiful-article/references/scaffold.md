@@ -25,7 +25,7 @@ bash <path-to-beautiful-article>/scripts/scaffold.sh --list-themes
 - 在 `article/main.tsx` 写入所选 runtime theme id，并 `import "reacticle/styles.css"`。
 - 创建默认 `article/Article.tsx` + `article/sections/`、`article/raw-blocks/`、
   `article/assets/`。`Article.tsx` 末尾自带 **colophon Raw 块**（`Made with
-  [beautiful-article](github 仓库) · <主题> theme`），样式低对比小字、走 `--ra-*` token，
+[beautiful-article](github 仓库) · <主题> theme`），样式低对比小字、走 `--ra-*` token，
   **不可删除**（见 SKILL.md「默认策略」）。
 - 默认创建 **`article/Cover.tsx`**（书封式封面外壳 + 占位：屏幕 3:4 / PDF 独占首页）并在
   `main.tsx` 里渲染 `<Cover />` 在 `<ArticleDoc />` 之上。`--no-cover` 时跳过这一步：

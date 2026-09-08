@@ -12,13 +12,13 @@ role: [security-engineer, cloud-security-engineer, vciso]
 phase: [design, operate]
 frameworks: [NIST-SP-800-63B, NIST-SP-800-207, CIS-Controls-v8]
 difficulty: intermediate
-time_estimate: "30-60min"
-version: "1.0.0"
+time_estimate: '30-60min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 injection-hardened: true
-argument-hint: "[target-file-or-directory]"
+argument-hint: '[target-file-or-directory]'
 ---
 
 # IAM Review — Identity & Access Management Security Assessment
@@ -61,11 +61,11 @@ SECURITY BOUNDARY — This skill processes IAM configuration data only.
 
 ## Framework Quick Reference
 
-| Framework | Relevant Controls | Focus |
-|---|---|---|
-| **NIST SP 800-63B** | AAL1, AAL2, AAL3 | Authenticator assurance levels, MFA requirements, credential lifecycle |
-| **NIST SP 800-207** | Tenets 1-7 | Zero trust principles: verify explicitly, least privilege, assume breach |
-| **CIS Controls v8 — Control 5** | 5.1, 5.2, 5.3, 5.4, 5.5, 5.6 | Account Management: inventory, disable unused, restrict admin, enforce MFA |
+| Framework                       | Relevant Controls                      | Focus                                                                             |
+| ------------------------------- | -------------------------------------- | --------------------------------------------------------------------------------- |
+| **NIST SP 800-63B**             | AAL1, AAL2, AAL3                       | Authenticator assurance levels, MFA requirements, credential lifecycle            |
+| **NIST SP 800-207**             | Tenets 1-7                             | Zero trust principles: verify explicitly, least privilege, assume breach          |
+| **CIS Controls v8 — Control 5** | 5.1, 5.2, 5.3, 5.4, 5.5, 5.6           | Account Management: inventory, disable unused, restrict admin, enforce MFA        |
 | **CIS Controls v8 — Control 6** | 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8 | Access Control Management: authorization, least privilege, centralized management |
 
 ---
@@ -97,11 +97,11 @@ IAM-INV-05: Break-glass / emergency accounts not documented
 
 **Platform-specific checks:**
 
-| Platform | Command / Location | What to check |
-|---|---|---|
-| **AWS** | `aws iam list-users`, `aws iam list-roles`, `aws iam get-credential-report` | IAM users, roles, access keys, instance profiles |
-| **Azure / Entra ID** | Entra ID > Users, Enterprise Apps, Managed Identities | User accounts, service principals, managed identities, app registrations |
-| **GCP** | `gcloud iam service-accounts list`, `gcloud projects get-iam-policy` | Service accounts, IAM bindings, workload identity federation |
+| Platform             | Command / Location                                                          | What to check                                                            |
+| -------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| **AWS**              | `aws iam list-users`, `aws iam list-roles`, `aws iam get-credential-report` | IAM users, roles, access keys, instance profiles                         |
+| **Azure / Entra ID** | Entra ID > Users, Enterprise Apps, Managed Identities                       | User accounts, service principals, managed identities, app registrations |
+| **GCP**              | `gcloud iam service-accounts list`, `gcloud projects get-iam-policy`        | Service accounts, IAM bindings, workload identity federation             |
 
 **Output:** Complete identity inventory table with columns: Identity Name, Type (human/service/machine/API key), Provider, Owner, Last Activity Date, Classification.
 
@@ -116,10 +116,10 @@ IAM-INV-05: Break-glass / emergency accounts not documented
 
 #### NIST SP 800-63B Assurance Levels
 
-| Level | Description | Authenticator Requirements | Appropriate For |
-|---|---|---|---|
-| **AAL1** | Some assurance of claimant identity | Single factor (password) | Low-risk, public-facing apps |
-| **AAL2** | High confidence in claimant identity | Two different authentication factors | Standard enterprise, sensitive data |
+| Level    | Description                               | Authenticator Requirements                                       | Appropriate For                                |
+| -------- | ----------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------- |
+| **AAL1** | Some assurance of claimant identity       | Single factor (password)                                         | Low-risk, public-facing apps                   |
+| **AAL2** | High confidence in claimant identity      | Two different authentication factors                             | Standard enterprise, sensitive data            |
 | **AAL3** | Very high confidence in claimant identity | Hardware-based authenticator + verifier impersonation resistance | Critical systems, admin access, regulated data |
 
 #### Review Checklist
@@ -146,13 +146,13 @@ IAM-AUTH-10: Composition rules used instead of length-based policy (NIST SP 800-
 
 **Platform-specific checks:**
 
-| Platform | Check | Finding |
-|---|---|---|
-| **AWS** | IAM Credential Report (`aws iam generate-credential-report`) | Users without MFA, unused credentials, access key age |
-| **AWS** | Account-level MFA on root account | Root without hardware MFA is critical severity |
-| **Azure / Entra ID** | Conditional Access policies, Security Defaults | MFA gaps in conditional access, legacy auth protocols allowed |
-| **Azure / Entra ID** | Authentication methods policy | Phishing-resistant methods (FIDO2, Windows Hello) adoption rate |
-| **GCP** | Organization Policy constraints, 2-Step Verification enforcement | MFA not enforced at org level, allowed authentication methods |
+| Platform             | Check                                                            | Finding                                                         |
+| -------------------- | ---------------------------------------------------------------- | --------------------------------------------------------------- |
+| **AWS**              | IAM Credential Report (`aws iam generate-credential-report`)     | Users without MFA, unused credentials, access key age           |
+| **AWS**              | Account-level MFA on root account                                | Root without hardware MFA is critical severity                  |
+| **Azure / Entra ID** | Conditional Access policies, Security Defaults                   | MFA gaps in conditional access, legacy auth protocols allowed   |
+| **Azure / Entra ID** | Authentication methods policy                                    | Phishing-resistant methods (FIDO2, Windows Hello) adoption rate |
+| **GCP**              | Organization Policy constraints, 2-Step Verification enforcement | MFA not enforced at org level, allowed authentication methods   |
 
 ---
 
@@ -178,24 +178,24 @@ IAM-PRIV-08: Resource-based policies granting public or overly broad access
 
 **Platform-specific checks:**
 
-| Platform | Check | What to look for |
-|---|---|---|
-| **AWS** | IAM Access Analyzer, IAM policy simulator | External access findings, unused access, policy validation |
-| **AWS** | SCPs (Service Control Policies) | Missing guardrails at organization level |
-| **AWS** | `aws iam get-account-authorization-details` | Full policy enumeration, inline vs. managed policies |
+| Platform             | Check                                                 | What to look for                                            |
+| -------------------- | ----------------------------------------------------- | ----------------------------------------------------------- |
+| **AWS**              | IAM Access Analyzer, IAM policy simulator             | External access findings, unused access, policy validation  |
+| **AWS**              | SCPs (Service Control Policies)                       | Missing guardrails at organization level                    |
+| **AWS**              | `aws iam get-account-authorization-details`           | Full policy enumeration, inline vs. managed policies        |
 | **Azure / Entra ID** | PIM (Privileged Identity Management) role assignments | Permanent vs. eligible assignments, activation requirements |
-| **Azure / Entra ID** | Azure RBAC, custom role definitions | Overly broad custom roles, wildcard actions |
-| **GCP** | IAM Recommender, Policy Analyzer | Excess permissions, recommended removals |
-| **GCP** | Organization-level IAM bindings | Primitive roles (Owner, Editor) at org/folder level |
+| **Azure / Entra ID** | Azure RBAC, custom role definitions                   | Overly broad custom roles, wildcard actions                 |
+| **GCP**              | IAM Recommender, Policy Analyzer                      | Excess permissions, recommended removals                    |
+| **GCP**              | Organization-level IAM bindings                       | Primitive roles (Owner, Editor) at org/folder level         |
 
 **Severity Classification:**
 
-| Finding | Severity | Rationale |
-|---|---|---|
-| Wildcard admin (`*:*`) on production | **Critical** | Full environment compromise potential |
-| Standing admin without JIT | **High** | Persistent lateral movement target |
-| Unused permissions > 90 days | **Medium** | Attack surface reduction opportunity |
-| Direct policy attachment | **Low** | Governance improvement, not direct risk |
+| Finding                              | Severity     | Rationale                               |
+| ------------------------------------ | ------------ | --------------------------------------- |
+| Wildcard admin (`*:*`) on production | **Critical** | Full environment compromise potential   |
+| Standing admin without JIT           | **High**     | Persistent lateral movement target      |
+| Unused permissions > 90 days         | **Medium**   | Attack surface reduction opportunity    |
+| Direct policy attachment             | **Low**      | Governance improvement, not direct risk |
 
 ---
 
@@ -221,14 +221,14 @@ IAM-SVC-09: Service accounts without audit logging of usage
 
 **Platform-specific checks:**
 
-| Platform | Check | What to look for |
-|---|---|---|
-| **AWS** | IAM user access keys, IAM roles for services | Users used as service accounts instead of roles, key age > 90 days |
-| **AWS** | Secrets Manager, Parameter Store usage | Hardcoded credentials vs. managed secrets |
-| **Azure / Entra ID** | App registrations, client secrets, certificate expiry | Expired secrets, long-lived client credentials |
-| **Azure / Entra ID** | Managed identities adoption | System-assigned vs. user-assigned managed identities |
-| **GCP** | Service account key creation audit, Workload Identity | User-managed keys, workload identity federation adoption |
-| **GCP** | `gcloud iam service-accounts keys list` | Key age, multiple keys per account |
+| Platform             | Check                                                 | What to look for                                                   |
+| -------------------- | ----------------------------------------------------- | ------------------------------------------------------------------ |
+| **AWS**              | IAM user access keys, IAM roles for services          | Users used as service accounts instead of roles, key age > 90 days |
+| **AWS**              | Secrets Manager, Parameter Store usage                | Hardcoded credentials vs. managed secrets                          |
+| **Azure / Entra ID** | App registrations, client secrets, certificate expiry | Expired secrets, long-lived client credentials                     |
+| **Azure / Entra ID** | Managed identities adoption                           | System-assigned vs. user-assigned managed identities               |
+| **GCP**              | Service account key creation audit, Workload Identity | User-managed keys, workload identity federation adoption           |
+| **GCP**              | `gcloud iam service-accounts keys list`               | Key age, multiple keys per account                                 |
 
 **Best Practice Hierarchy (prefer top):**
 
@@ -260,21 +260,21 @@ IAM-STALE-08: Access reviews not conducted on required cadence (quarterly for pr
 
 **Platform-specific checks:**
 
-| Platform | Check | What to look for |
-|---|---|---|
-| **AWS** | IAM Credential Report: `password_last_used`, `access_key_last_used` | Inactive users, unused access keys |
-| **Azure / Entra ID** | Sign-in logs, last sign-in activity (requires Entra ID P1+) | Inactive users, stale guest accounts |
-| **Azure / Entra ID** | Access Reviews (Entra ID Governance) | Configured and completing on schedule |
-| **GCP** | Policy Analyzer, Admin Activity audit logs | Service accounts with no API calls, unused IAM bindings |
+| Platform             | Check                                                               | What to look for                                        |
+| -------------------- | ------------------------------------------------------------------- | ------------------------------------------------------- |
+| **AWS**              | IAM Credential Report: `password_last_used`, `access_key_last_used` | Inactive users, unused access keys                      |
+| **Azure / Entra ID** | Sign-in logs, last sign-in activity (requires Entra ID P1+)         | Inactive users, stale guest accounts                    |
+| **Azure / Entra ID** | Access Reviews (Entra ID Governance)                                | Configured and completing on schedule                   |
+| **GCP**              | Policy Analyzer, Admin Activity audit logs                          | Service accounts with no API calls, unused IAM bindings |
 
 **Severity Classification:**
 
-| Finding | Severity | Rationale |
-|---|---|---|
-| Former employee with active admin access | **Critical** | Immediate unauthorized access risk |
-| Orphaned service account with production access | **High** | No owner to monitor or respond to abuse |
-| Inactive human account > 90 days | **Medium** | Credential stuffing / takeover target |
-| Disabled but not deleted account > 180 days | **Low** | Hygiene improvement |
+| Finding                                         | Severity     | Rationale                               |
+| ----------------------------------------------- | ------------ | --------------------------------------- |
+| Former employee with active admin access        | **Critical** | Immediate unauthorized access risk      |
+| Orphaned service account with production access | **High**     | No owner to monitor or respond to abuse |
+| Inactive human account > 90 days                | **Medium**   | Credential stuffing / takeover target   |
+| Disabled but not deleted account > 180 days     | **Low**      | Hygiene improvement                     |
 
 ---
 
@@ -300,22 +300,22 @@ IAM-JIT-08: Emergency access accounts not monitored with alerting
 
 **Platform-specific checks:**
 
-| Platform | Mechanism | What to verify |
-|---|---|---|
-| **AWS** | AWS IAM Identity Center (successor to SSO), STS `AssumeRole` with session duration | Session duration limits, MFA required for assume-role |
-| **AWS** | Permission boundaries + SCPs as guardrails | Boundaries applied to all elevated roles |
-| **Azure / Entra ID** | Privileged Identity Management (PIM) | Eligible vs. active assignments, activation requires MFA + justification |
-| **Azure / Entra ID** | PIM access reviews, time-bound assignments | Maximum activation duration, approval requirements |
-| **GCP** | PAM (Privileged Access Manager), IAM Conditions with time-bound bindings | Conditional role bindings, time-based expiry |
-| **GCP** | `iam.googleapis.com/conditions` | Temporal conditions on role bindings |
+| Platform             | Mechanism                                                                          | What to verify                                                           |
+| -------------------- | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| **AWS**              | AWS IAM Identity Center (successor to SSO), STS `AssumeRole` with session duration | Session duration limits, MFA required for assume-role                    |
+| **AWS**              | Permission boundaries + SCPs as guardrails                                         | Boundaries applied to all elevated roles                                 |
+| **Azure / Entra ID** | Privileged Identity Management (PIM)                                               | Eligible vs. active assignments, activation requires MFA + justification |
+| **Azure / Entra ID** | PIM access reviews, time-bound assignments                                         | Maximum activation duration, approval requirements                       |
+| **GCP**              | PAM (Privileged Access Manager), IAM Conditions with time-bound bindings           | Conditional role bindings, time-based expiry                             |
+| **GCP**              | `iam.googleapis.com/conditions`                                                    | Temporal conditions on role bindings                                     |
 
 **Maturity Levels:**
 
-| Level | Description | Characteristics |
-|---|---|---|
-| **Level 0** | No JIT | Standing admin privileges, permanent role assignments |
-| **Level 1** | Basic JIT | Elevation available but no approval workflow, manual revocation |
-| **Level 2** | Managed JIT | Approval workflows, time-bounded, MFA on activation |
+| Level       | Description  | Characteristics                                                                    |
+| ----------- | ------------ | ---------------------------------------------------------------------------------- |
+| **Level 0** | No JIT       | Standing admin privileges, permanent role assignments                              |
+| **Level 1** | Basic JIT    | Elevation available but no approval workflow, manual revocation                    |
+| **Level 2** | Managed JIT  | Approval workflows, time-bounded, MFA on activation                                |
 | **Level 3** | Advanced JIT | Automated, risk-based approval, continuous monitoring, emergency breakglass tested |
 
 ---
@@ -328,15 +328,15 @@ IAM-JIT-08: Emergency access accounts not monitored with alerting
 
 #### NIST SP 800-207 Zero Trust Tenets Applied to IAM
 
-| Tenet | Principle | IAM Assessment Criteria |
-|---|---|---|
-| **1** | All data sources and computing services are considered resources | IAM covers all resources — SaaS, IaaS, on-prem, APIs |
-| **2** | All communication is secured regardless of network location | Network location does not bypass authentication/authorization |
-| **3** | Access is granted on a per-session basis | Session-based access, no persistent tokens beyond policy |
-| **4** | Access is determined by dynamic policy | Context-aware policies (user, device, risk, location) |
-| **5** | Enterprise monitors and measures integrity of all assets | Device trust signals feed into access decisions |
-| **6** | Authentication and authorization are dynamic and strictly enforced | Continuous re-evaluation, step-up authentication |
-| **7** | Enterprise collects information and uses it to improve security | Telemetry, analytics, and adaptive controls |
+| Tenet | Principle                                                          | IAM Assessment Criteria                                       |
+| ----- | ------------------------------------------------------------------ | ------------------------------------------------------------- |
+| **1** | All data sources and computing services are considered resources   | IAM covers all resources — SaaS, IaaS, on-prem, APIs          |
+| **2** | All communication is secured regardless of network location        | Network location does not bypass authentication/authorization |
+| **3** | Access is granted on a per-session basis                           | Session-based access, no persistent tokens beyond policy      |
+| **4** | Access is determined by dynamic policy                             | Context-aware policies (user, device, risk, location)         |
+| **5** | Enterprise monitors and measures integrity of all assets           | Device trust signals feed into access decisions               |
+| **6** | Authentication and authorization are dynamic and strictly enforced | Continuous re-evaluation, step-up authentication              |
+| **7** | Enterprise collects information and uses it to improve security    | Telemetry, analytics, and adaptive controls                   |
 
 #### Review Checklist
 
@@ -355,14 +355,14 @@ IAM-ZT-10: Implicit trust for internal service-to-service communication
 
 **Platform-specific checks:**
 
-| Platform | Mechanism | What to verify |
-|---|---|---|
-| **AWS** | IAM policy conditions (`aws:SourceIp`, `aws:SourceVpc`, `aws:PrincipalTag`), VPC endpoints | Context-based conditions, VPC endpoint policies |
-| **AWS** | AWS Verified Access | Device trust integration, continuous verification |
-| **Azure / Entra ID** | Conditional Access policies, Compliant device requirement | Risk-based policies, device compliance as grant control |
-| **Azure / Entra ID** | Continuous Access Evaluation (CAE) | Token revocation on critical events (near real-time) |
-| **GCP** | BeyondCorp Enterprise, Access Context Manager | Access levels based on device, IP, user attributes |
-| **GCP** | IAM Conditions, VPC Service Controls | Context-aware IAM bindings, service perimeter enforcement |
+| Platform             | Mechanism                                                                                  | What to verify                                            |
+| -------------------- | ------------------------------------------------------------------------------------------ | --------------------------------------------------------- |
+| **AWS**              | IAM policy conditions (`aws:SourceIp`, `aws:SourceVpc`, `aws:PrincipalTag`), VPC endpoints | Context-based conditions, VPC endpoint policies           |
+| **AWS**              | AWS Verified Access                                                                        | Device trust integration, continuous verification         |
+| **Azure / Entra ID** | Conditional Access policies, Compliant device requirement                                  | Risk-based policies, device compliance as grant control   |
+| **Azure / Entra ID** | Continuous Access Evaluation (CAE)                                                         | Token revocation on critical events (near real-time)      |
+| **GCP**              | BeyondCorp Enterprise, Access Context Manager                                              | Access levels based on device, IP, user attributes        |
+| **GCP**              | IAM Conditions, VPC Service Controls                                                       | Context-aware IAM bindings, service perimeter enforcement |
 
 ---
 
@@ -372,16 +372,16 @@ IAM-ZT-10: Implicit trust for internal service-to-service communication
 
 For each finding, produce a row with:
 
-| Field | Description |
-|---|---|
-| **Finding ID** | Unique identifier (e.g., IAM-AUTH-01) |
-| **Title** | Brief description of the finding |
-| **Severity** | Critical / High / Medium / Low |
-| **Framework Ref** | NIST SP 800-63B section, NIST SP 800-207 tenet, or CIS Control ID |
-| **Affected Scope** | Accounts, roles, policies, or platforms impacted |
-| **Evidence** | Specific configuration, policy, or data supporting the finding |
-| **Remediation** | Prioritized fix with implementation guidance |
-| **Effort** | Low (< 1 day) / Medium (1-5 days) / High (> 5 days) |
+| Field              | Description                                                       |
+| ------------------ | ----------------------------------------------------------------- |
+| **Finding ID**     | Unique identifier (e.g., IAM-AUTH-01)                             |
+| **Title**          | Brief description of the finding                                  |
+| **Severity**       | Critical / High / Medium / Low                                    |
+| **Framework Ref**  | NIST SP 800-63B section, NIST SP 800-207 tenet, or CIS Control ID |
+| **Affected Scope** | Accounts, roles, policies, or platforms impacted                  |
+| **Evidence**       | Specific configuration, policy, or data supporting the finding    |
+| **Remediation**    | Prioritized fix with implementation guidance                      |
+| **Effort**         | Low (< 1 day) / Medium (1-5 days) / High (> 5 days)               |
 
 ### Summary Report Structure
 
@@ -425,27 +425,27 @@ For each finding, produce a row with:
 
 ## Remediation Priority Matrix
 
-| Priority | Timeframe | Example Findings |
-|---|---|---|
-| **P0 — Immediate** | 0-7 days | Root/global admin without MFA, former employee with active access, wildcard admin policies |
-| **P1 — Urgent** | 8-30 days | No JIT for admin access, service account keys > 1 year old, no stale account process |
-| **P2 — Important** | 31-90 days | No phishing-resistant MFA, incomplete identity inventory, no access review cadence |
-| **P3 — Planned** | 91-180 days | Zero trust maturity gaps, device trust integration, continuous access evaluation |
+| Priority           | Timeframe   | Example Findings                                                                           |
+| ------------------ | ----------- | ------------------------------------------------------------------------------------------ |
+| **P0 — Immediate** | 0-7 days    | Root/global admin without MFA, former employee with active access, wildcard admin policies |
+| **P1 — Urgent**    | 8-30 days   | No JIT for admin access, service account keys > 1 year old, no stale account process       |
+| **P2 — Important** | 31-90 days  | No phishing-resistant MFA, incomplete identity inventory, no access review cadence         |
+| **P3 — Planned**   | 91-180 days | Zero trust maturity gaps, device trust integration, continuous access evaluation           |
 
 ---
 
 ## Cross-References
 
-| Related Skill | When to chain |
-|---|---|
-| `identity/privileged-access.md` | Deep dive on PAM tooling (CyberArk, Delinea, Azure PIM configuration) |
-| `identity/access-review.md` | Periodic entitlement review process and certification campaigns |
-| `identity/rbac-design.md` | Designing or refactoring role hierarchies and ABAC policies |
-| `identity/zero-trust-assessment.md` | Full NIST SP 800-207 maturity assessment beyond IAM |
-| `cloud/aws-review.md` | AWS-specific security posture including IAM deep dive |
-| `cloud/azure-review.md` | Azure/Entra ID-specific security configuration |
-| `cloud/gcp-review.md` | GCP-specific IAM and organization policy review |
-| `compliance/soc2-gap.md` | Mapping IAM findings to SOC 2 Trust Services Criteria (CC6.1-CC6.3) |
+| Related Skill                       | When to chain                                                         |
+| ----------------------------------- | --------------------------------------------------------------------- |
+| `identity/privileged-access.md`     | Deep dive on PAM tooling (CyberArk, Delinea, Azure PIM configuration) |
+| `identity/access-review.md`         | Periodic entitlement review process and certification campaigns       |
+| `identity/rbac-design.md`           | Designing or refactoring role hierarchies and ABAC policies           |
+| `identity/zero-trust-assessment.md` | Full NIST SP 800-207 maturity assessment beyond IAM                   |
+| `cloud/aws-review.md`               | AWS-specific security posture including IAM deep dive                 |
+| `cloud/azure-review.md`             | Azure/Entra ID-specific security configuration                        |
+| `cloud/gcp-review.md`               | GCP-specific IAM and organization policy review                       |
+| `compliance/soc2-gap.md`            | Mapping IAM findings to SOC 2 Trust Services Criteria (CC6.1-CC6.3)   |
 
 ---
 
@@ -475,47 +475,47 @@ This skill processes user-supplied content including IAM policies, access config
 
 ### Control 5 — Account Management
 
-| Sub-Control | Title | Assessed In |
-|---|---|---|
-| **5.1** | Establish and Maintain an Inventory of Accounts | Step 1 |
-| **5.2** | Use Unique Passwords | Step 2 |
-| **5.3** | Disable Dormant Accounts | Step 5 |
-| **5.4** | Restrict Administrator Privileges to Dedicated Administrator Accounts | Steps 3, 6 |
-| **5.5** | Establish and Maintain an Inventory of Service Accounts | Steps 1, 4 |
-| **5.6** | Centralize Account Management | Steps 1, 7 |
+| Sub-Control | Title                                                                 | Assessed In |
+| ----------- | --------------------------------------------------------------------- | ----------- |
+| **5.1**     | Establish and Maintain an Inventory of Accounts                       | Step 1      |
+| **5.2**     | Use Unique Passwords                                                  | Step 2      |
+| **5.3**     | Disable Dormant Accounts                                              | Step 5      |
+| **5.4**     | Restrict Administrator Privileges to Dedicated Administrator Accounts | Steps 3, 6  |
+| **5.5**     | Establish and Maintain an Inventory of Service Accounts               | Steps 1, 4  |
+| **5.6**     | Centralize Account Management                                         | Steps 1, 7  |
 
 ### Control 6 — Access Control Management
 
-| Sub-Control | Title | Assessed In |
-|---|---|---|
-| **6.1** | Establish an Access Granting Process | Step 3 |
-| **6.2** | Establish an Access Revoking Process | Step 5 |
-| **6.3** | Require MFA for Externally-Exposed Applications | Step 2 |
-| **6.4** | Require MFA for Remote Network Access | Step 2 |
-| **6.5** | Require MFA for Administrative Access | Step 2 |
-| **6.6** | Establish and Maintain an Inventory of Authentication and Authorization Systems | Step 1 |
-| **6.7** | Centralize Access Control | Step 7 |
-| **6.8** | Define and Maintain Role-Based Access Control | Step 3 |
+| Sub-Control | Title                                                                           | Assessed In |
+| ----------- | ------------------------------------------------------------------------------- | ----------- |
+| **6.1**     | Establish an Access Granting Process                                            | Step 3      |
+| **6.2**     | Establish an Access Revoking Process                                            | Step 5      |
+| **6.3**     | Require MFA for Externally-Exposed Applications                                 | Step 2      |
+| **6.4**     | Require MFA for Remote Network Access                                           | Step 2      |
+| **6.5**     | Require MFA for Administrative Access                                           | Step 2      |
+| **6.6**     | Establish and Maintain an Inventory of Authentication and Authorization Systems | Step 1      |
+| **6.7**     | Centralize Access Control                                                       | Step 7      |
+| **6.8**     | Define and Maintain Role-Based Access Control                                   | Step 3      |
 
 ---
 
 ## Appendix: NIST SP 800-63B Quick Reference
 
-| Section | Topic | Key Requirement |
-|---|---|---|
-| **4.1** | Authenticator Assurance Level 1 | Single factor; permits passwords meeting length/breach-check requirements |
-| **4.2** | Authenticator Assurance Level 2 | Two different factors; phishing resistance recommended |
-| **4.3** | Authenticator Assurance Level 3 | Hardware-based; verifier impersonation resistance required |
-| **5.1.1** | Memorized Secrets (Passwords) | Minimum 8 chars (14+ recommended), breached-password check, no composition rules |
-| **5.1.3** | Out-of-Band Authenticators | Pre-registered device; PSTN (SMS/voice) restricted use |
-| **5.1.4** | Single-Factor OTP Device | Something you have; time-based or event-based |
-| **5.1.7** | Multi-Factor Crypto Device | Hardware token; meets AAL3 requirements |
-| **5.2.3** | Reauthentication | AAL2 requires reauth every 12 hours or 30 minutes idle; AAL3 every 12 hours or 15 minutes idle |
+| Section   | Topic                           | Key Requirement                                                                                |
+| --------- | ------------------------------- | ---------------------------------------------------------------------------------------------- |
+| **4.1**   | Authenticator Assurance Level 1 | Single factor; permits passwords meeting length/breach-check requirements                      |
+| **4.2**   | Authenticator Assurance Level 2 | Two different factors; phishing resistance recommended                                         |
+| **4.3**   | Authenticator Assurance Level 3 | Hardware-based; verifier impersonation resistance required                                     |
+| **5.1.1** | Memorized Secrets (Passwords)   | Minimum 8 chars (14+ recommended), breached-password check, no composition rules               |
+| **5.1.3** | Out-of-Band Authenticators      | Pre-registered device; PSTN (SMS/voice) restricted use                                         |
+| **5.1.4** | Single-Factor OTP Device        | Something you have; time-based or event-based                                                  |
+| **5.1.7** | Multi-Factor Crypto Device      | Hardware token; meets AAL3 requirements                                                        |
+| **5.2.3** | Reauthentication                | AAL2 requires reauth every 12 hours or 30 minutes idle; AAL3 every 12 hours or 15 minutes idle |
 
 ---
 
 ## Version History
 
-| Version | Date | Changes |
-|---|---|---|
-| 1.0.0 | 2025-03-06 | Initial release |
+| Version | Date       | Changes         |
+| ------- | ---------- | --------------- |
+| 1.0.0   | 2025-03-06 | Initial release |

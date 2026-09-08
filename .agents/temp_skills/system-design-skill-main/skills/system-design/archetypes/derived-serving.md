@@ -3,6 +3,7 @@
 Selected from the router for [SKILL.md](../SKILL.md). Reusable mechanisms and decision ladders remain in [HEURISTICS.md](../HEURISTICS.md).
 
 ## Materialized fan-out and derived views
+
 - **Shape**: read-heavy timeline assembly under fan-out.
 - **Match when** one write must appear in many readers' precomputed views. **Not when** the audience per write is small or the view is cheap to assemble on read — precomputation is then pure waste plus an invalidation problem.
 - **The dial**: fan-out on write (fast reads, celebrity hotkeys, wasted work for inactives) vs fan-out on read (slow reads, no waste) vs **hybrid** — push for normals, pull for celebrities. Follower-count distribution is itself a load parameter.
@@ -12,16 +13,18 @@ Selected from the router for [SKILL.md](../SKILL.md). Reusable mechanisms and de
 - **Cases**: social timelines, activity feeds, notification inboxes, follower counters, search-visible denormalisations.
 
 ## Ranked retrieval index
+
 - **Shape**: sub-100 ms per keystroke, prefix retrieval, ranked by frequency, rebuilt rather than updated.
 - **Match when** reads dominate overwhelmingly and the index may lag its source. **Not when** results must reflect the last write — a freshness-critical lookup belongs on the authoritative store with an index, not a rebuilt one.
 - **Moves**: trie with top-k cached at every node (O(1) via prefix-length cap + per-node cache); periodic rebuild from sampled analytics logs, snapshot into trie DB + cache; filter layer for unsafe suggestions; shard by prefix range via a shard-map manager (a–z is skewed); browser-side caching of suggestions.
-- **The dial**: index freshness against rebuild cost — the rebuild cadence *is* the staleness guarantee.
+- **The dial**: index freshness against rebuild cost — the rebuild cadence _is_ the staleness guarantee.
 - **Staff gate**: state the rebuild cadence, what serves during a rebuild, and how a bad index is rolled back. Name the skew in the shard key and the hot-prefix path. Say what a query returns when a shard is missing — partial results with a marker, or an error.
 - **Numbers anchor**: 10M DAU ≈ 24k QPS, peak 48k.
 - **Anti-gate**: below a few million documents with no per-keystroke budget, the datastore's own text index is the design.
 - **Cases**: search autocomplete, product type-ahead, entity pickers, log and code search.
 
 ## Online decision under a deadline
+
 - **Shape**: a model or rule set returns a scored decision inside a hard latency budget, and the budget is the product requirement — a late answer is a wrong answer.
 - **Match when** every request needs a ranked, scored, or classified answer computed from features that change: fraud, recommendation, ad ranking, relevance, risk. **Not when** the decision can be precomputed per subject and looked up — a nightly batch into a key-value store is cheaper, more debuggable, and has no serving tail at all.
 - **Minimum state**: the feature values a decision reads with their freshness, the model or rule version that produced it, and a decision log that allows replay and audit.
@@ -35,18 +38,20 @@ Selected from the router for [SKILL.md](../SKILL.md). Reusable mechanisms and de
 - **Cases**: fraud and risk scoring, recommendation and feed ranking, ad selection and pacing, search relevance, real-time content moderation.
 
 ## Global edge and hierarchical cache
+
 - **Shape**: one origin serves a world; the edge absorbs the reads and the origin sees only misses.
 - **Match when** the same bytes are requested by many clients far apart and staleness is tolerable for a stated window. **Not when** every response is personalised or authorised per request — that is compute at the edge, not caching, and a cache key wide enough to stay correct has a hit ratio of zero.
 - **Minimum state**: a cache key, a freshness lifetime, and a validator per object; at the origin, the authority to invalidate.
 - **Moves**: the caching ladder is in [HEURISTICS.md](../HEURISTICS.md); this shape pins where it resolves. The cache key is an explicit allowlist of the request attributes that change the response, never the whole request. Tiered parent caches collapse miss fan-in so the origin sees one request per object rather than one per edge. Serve stale while revalidating, and stale on origin error, both bounded. Invalidation is a purge by key or a change in the key itself — versioned immutable URLs make invalidation unnecessary.
 - **The dial**: freshness against origin load. Lifetime is the one knob that moves both, and a purge path exists because some content cannot wait out its lifetime.
-- **Staff gate**: state the hit ratio the origin's capacity assumes and what happens when it drops, because a cold or purged cache *is* an origin overload event — name the request collapsing and the admission behaviour that survives it. Say who may purge, how fast a purge reaches every edge, and what serves in the meantime. Enumerate the cache key attributes and prove authorised content cannot be served to the wrong client.
+- **Staff gate**: state the hit ratio the origin's capacity assumes and what happens when it drops, because a cold or purged cache _is_ an origin overload event — name the request collapsing and the admission behaviour that survives it. Say who may purge, how fast a purge reaches every edge, and what serves in the meantime. Enumerate the cache key attributes and prove authorised content cannot be served to the wrong client.
 - **Numbers anchor**: at a 95% hit ratio the origin sees 5% of traffic; falling to 90% doubles origin load and a full purge multiplies it by 20. Origin capacity is sized by the miss rate at its worst, never by the steady-state hit ratio.
 - **Anti-gate**: one region, traffic inside a single datacentre's capacity — a cache in front of the datastore is the design. A global edge tier adds a purge protocol and a debugging surface.
 - **Breaks first**: the cache key. A missing attribute serves one client's response to another; a superfluous one drops the hit ratio to zero, and the origin discovers it at peak.
 - **Cases**: content delivery networks, static asset and image delivery, edge API response caching, package mirror networks, streaming manifest and segment delivery.
 
 ## Spatial index over moving state
+
 - **Shape**: "who or what is near me" at high QPS over a moving population.
 - **Match when** entities move and staleness makes a result wrong rather than merely old. **Not when** the entities are static — a business listing wants a read-replicated index with the other filters in the same query, and importing leases, freshness TTLs, and heartbeats there adds machinery for movement that never happens.
 - **Moves**: hierarchical spatial index—square cells with space-filling-curve locality or hexagonal cells with equidistant neighbours; cell ID as shard key; cover-the-radius then query a bounded shard set; timezone-driven hot cells spread over hosts; same-entity updates through one partition; map matching for noisy GPS; write-optimised store plus recency buffer.
@@ -55,6 +60,7 @@ Selected from the router for [SKILL.md](../SKILL.md). Reusable mechanisms and de
 - **Cases**: ride dispatch, courier and delivery matching, presence and proximity, fleet tracking, geofenced alerts.
 
 ## High-volume ingest and rollup
+
 - **Shape**: cost is bounded by a budget the architecture enforces at admission, not by whatever producers happen to emit.
 - **Match when** the write rate is orders of magnitude above the read rate, most events are never read individually, and the value lives in aggregates over time — metrics, traces, logs, click and impression streams. **Not when** every event is money or must be counted exactly: metering and billing events cannot be sampled or dropped, and a pipeline built to shed under pressure will shed revenue.
 - **Minimum state**: per series, its identity and its ordered samples; per ingest tenant, an active-series count and a rate budget. Raw events are not state — they are a retention tier.

@@ -10,16 +10,16 @@ description: >
 tags: [compliance, iso27001, isms]
 role: [vciso, security-engineer]
 phase: [assess, operate]
-frameworks: ["ISO/IEC-27001:2022", "ISO/IEC-27002:2022"]
+frameworks: ['ISO/IEC-27001:2022', 'ISO/IEC-27002:2022']
 difficulty: intermediate
-time_estimate: "90-180min"
-version: "1.0.0"
+time_estimate: '90-180min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 context: fork
 injection-hardened: true
-argument-hint: "[scope-description]"
+argument-hint: '[scope-description]'
 ---
 
 # ISO 27001:2022 Gap Analysis
@@ -41,25 +41,25 @@ ISO/IEC 27001:2022 specifies requirements for establishing, implementing, mainta
 
 ### ISMS Requirement Clauses (Certifiable)
 
-| Clause | Title | Key Requirements |
-|--------|-------|------------------|
-| 4 | Context of the Organization | 4.1 Understanding the organization and its context, 4.2 Interested parties, 4.3 ISMS scope, 4.4 ISMS |
-| 5 | Leadership | 5.1 Leadership and commitment, 5.2 Policy, 5.3 Roles/responsibilities/authorities |
-| 6 | Planning | 6.1 Actions to address risks (6.1.1 General, 6.1.2 Risk assessment, 6.1.3 Risk treatment), 6.2 Objectives, 6.3 Planning of changes |
-| 7 | Support | 7.1 Resources, 7.2 Competence, 7.3 Awareness, 7.4 Communication, 7.5 Documented information |
-| 8 | Operation | 8.1 Operational planning and control, 8.2 Information security risk assessment, 8.3 Information security risk treatment |
-| 9 | Performance Evaluation | 9.1 Monitoring/measurement/analysis/evaluation, 9.2 Internal audit, 9.3 Management review |
-| 10 | Improvement | 10.1 Continual improvement, 10.2 Nonconformity and corrective action |
+| Clause | Title                       | Key Requirements                                                                                                                   |
+| ------ | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| 4      | Context of the Organization | 4.1 Understanding the organization and its context, 4.2 Interested parties, 4.3 ISMS scope, 4.4 ISMS                               |
+| 5      | Leadership                  | 5.1 Leadership and commitment, 5.2 Policy, 5.3 Roles/responsibilities/authorities                                                  |
+| 6      | Planning                    | 6.1 Actions to address risks (6.1.1 General, 6.1.2 Risk assessment, 6.1.3 Risk treatment), 6.2 Objectives, 6.3 Planning of changes |
+| 7      | Support                     | 7.1 Resources, 7.2 Competence, 7.3 Awareness, 7.4 Communication, 7.5 Documented information                                        |
+| 8      | Operation                   | 8.1 Operational planning and control, 8.2 Information security risk assessment, 8.3 Information security risk treatment            |
+| 9      | Performance Evaluation      | 9.1 Monitoring/measurement/analysis/evaluation, 9.2 Internal audit, 9.3 Management review                                          |
+| 10     | Improvement                 | 10.1 Continual improvement, 10.2 Nonconformity and corrective action                                                               |
 
 ### Annex A Control Themes (ISO 27001:2022)
 
-| Theme | Control Range | Count |
-|-------|---------------|-------|
-| A.5 Organizational Controls | A.5.1 - A.5.37 | 37 |
-| A.6 People Controls | A.6.1 - A.6.8 | 8 |
-| A.7 Physical Controls | A.7.1 - A.7.14 | 14 |
-| A.8 Technological Controls | A.8.1 - A.8.34 | 34 |
-| **Total** | | **93** |
+| Theme                       | Control Range  | Count  |
+| --------------------------- | -------------- | ------ |
+| A.5 Organizational Controls | A.5.1 - A.5.37 | 37     |
+| A.6 People Controls         | A.6.1 - A.6.8  | 8      |
+| A.7 Physical Controls       | A.7.1 - A.7.14 | 14     |
+| A.8 Technological Controls  | A.8.1 - A.8.34 | 34     |
+| **Total**                   |                | **93** |
 
 ## Prerequisites
 
@@ -136,6 +136,7 @@ ISMS Scope:
 #### 2.1 Leadership Commitment (Clause 5.1)
 
 Verify:
+
 - Top management demonstrates commitment to the ISMS
 - Information security policy is aligned with strategic direction
 - ISMS requirements are integrated into business processes
@@ -143,6 +144,7 @@ Verify:
 - Management communicates the importance of information security
 
 Evidence to look for:
+
 - Management meeting minutes referencing ISMS
 - Budget allocations for information security
 - Executive communications on security
@@ -150,6 +152,7 @@ Evidence to look for:
 #### 2.2 Information Security Policy (Clause 5.2)
 
 Assess the policy against requirements:
+
 - Is appropriate to the purpose of the organization?
 - Includes information security objectives or a framework for setting them?
 - Includes commitment to satisfy applicable requirements?
@@ -161,6 +164,7 @@ Assess the policy against requirements:
 #### 2.3 Roles, Responsibilities, and Authorities (Clause 5.3)
 
 Verify:
+
 - Responsibility and authority for ensuring ISMS conformity is assigned
 - Responsibility for reporting ISMS performance to top management is assigned
 - Roles are documented and communicated
@@ -195,14 +199,14 @@ Assess each Annex A control for: (a) applicability per SoA, (b) implementation s
 
 Use the following maturity scoring:
 
-| Score | Level | Description |
-|-------|-------|-------------|
-| 0 | Non-existent | Control not implemented, no awareness |
-| 1 | Initial | Ad-hoc, undocumented, reactive |
-| 2 | Managed | Documented but inconsistently applied |
-| 3 | Defined | Standardized, consistently applied across scope |
-| 4 | Measured | Monitored with KPIs, effectiveness verified |
-| 5 | Optimized | Continuously improved, automated where feasible |
+| Score | Level        | Description                                     |
+| ----- | ------------ | ----------------------------------------------- |
+| 0     | Non-existent | Control not implemented, no awareness           |
+| 1     | Initial      | Ad-hoc, undocumented, reactive                  |
+| 2     | Managed      | Documented but inconsistently applied           |
+| 3     | Defined      | Standardized, consistently applied across scope |
+| 4     | Measured     | Monitored with KPIs, effectiveness verified     |
+| 5     | Optimized    | Continuously improved, automated where feasible |
 
 #### 4.1 Organizational Controls (A.5.1 - A.5.37)
 
@@ -354,12 +358,12 @@ Verify management review covers all required inputs:
 
 Classify each finding using the following severity levels:
 
-| Classification | Definition | Certification Impact |
-|---------------|------------|---------------------|
-| **Major Nonconformity** | Absence or total breakdown of a required ISMS clause requirement; systemic failure affecting multiple controls | Certification cannot be granted/maintained until resolved |
-| **Minor Nonconformity** | Isolated lapse in meeting a requirement; single instance of non-compliance that does not indicate systemic failure | Must be addressed with corrective action plan; certification can proceed |
-| **Observation** | Area where improvement is recommended but no requirement is violated; potential future risk | Noted for continual improvement; no corrective action required |
-| **Opportunity for Improvement** | Best practice suggestion beyond minimum compliance; optimization potential | Advisory only; strengthens ISMS posture |
+| Classification                  | Definition                                                                                                         | Certification Impact                                                     |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
+| **Major Nonconformity**         | Absence or total breakdown of a required ISMS clause requirement; systemic failure affecting multiple controls     | Certification cannot be granted/maintained until resolved                |
+| **Minor Nonconformity**         | Isolated lapse in meeting a requirement; single instance of non-compliance that does not indicate systemic failure | Must be addressed with corrective action plan; certification can proceed |
+| **Observation**                 | Area where improvement is recommended but no requirement is violated; potential future risk                        | Noted for continual improvement; no corrective action required           |
+| **Opportunity for Improvement** | Best practice suggestion beyond minimum compliance; optimization potential                                         | Advisory only; strengthens ISMS posture                                  |
 
 ---
 
@@ -369,6 +373,7 @@ Classify each finding using the following severity levels:
 # ISO 27001:2022 Gap Analysis Report
 
 ## Executive Summary
+
 - **Organization**: [name]
 - **ISMS Scope**: [scope statement]
 - **Assessment Date**: [date]
@@ -380,54 +385,64 @@ Classify each finding using the following severity levels:
 
 ## ISMS Clause Compliance Summary
 
-| Clause | Requirement | Status | Findings |
-|--------|-------------|--------|----------|
-| 4.1 | Context of the organization | [Conforming/Nonconforming] | [details] |
-| 4.2 | Interested parties | ... | ... |
-| ... | ... | ... | ... |
-| 10.2 | Nonconformity and corrective action | ... | ... |
+| Clause | Requirement                         | Status                     | Findings  |
+| ------ | ----------------------------------- | -------------------------- | --------- |
+| 4.1    | Context of the organization         | [Conforming/Nonconforming] | [details] |
+| 4.2    | Interested parties                  | ...                        | ...       |
+| ...    | ...                                 | ...                        | ...       |
+| 10.2   | Nonconformity and corrective action | ...                        | ...       |
 
 ## Annex A Control Assessment
 
 ### A.5 Organizational Controls (37 controls)
 
-| Control | Title | Applicable | Maturity | Gap | Priority |
-|---------|-------|-----------|----------|-----|----------|
-| A.5.1 | Policies for information security | Yes | 3 | [gap] | [H/M/L] |
-| ... | ... | ... | ... | ... | ... |
+| Control | Title                             | Applicable | Maturity | Gap   | Priority |
+| ------- | --------------------------------- | ---------- | -------- | ----- | -------- |
+| A.5.1   | Policies for information security | Yes        | 3        | [gap] | [H/M/L]  |
+| ...     | ...                               | ...        | ...      | ...   | ...      |
 
 ### A.6 People Controls (8 controls)
+
 [same table format]
 
 ### A.7 Physical Controls (14 controls)
+
 [same table format]
 
 ### A.8 Technological Controls (34 controls)
+
 [same table format]
 
 ## Statement of Applicability Summary
+
 - Controls applicable: [count] / 93
 - Controls excluded: [count] — [list with justification]
 - Average maturity of applicable controls: [score] / 5.0
 
 ## Risk Assessment Findings
+
 [Summary of risk methodology review, gaps in risk register, treatment plan status]
 
 ## Prioritized Remediation Roadmap
 
 ### Phase 1: Critical (0-30 days)
+
 [Major nonconformities — must resolve before certification audit]
 
 ### Phase 2: Important (31-90 days)
+
 [Minor nonconformities and high-priority observations]
 
 ### Phase 3: Enhancement (91-180 days)
+
 [Observations and opportunities for improvement]
 
 ## Transition Notes (2013 to 2022)
+
 [If applicable: mapping of former controls to new structure, new controls requiring implementation]
 
 ## New Controls in ISO 27001:2022 (Requiring Specific Attention)
+
 - A.5.7 Threat intelligence
 - A.5.23 Information security for use of cloud services
 - A.5.30 ICT readiness for business continuity
@@ -493,6 +508,7 @@ Clause 10: Improvement
 ### Annex A Control Attribute Tags (ISO 27002:2022)
 
 Each control in ISO 27002:2022 is tagged with five attributes:
+
 - **Control type**: Preventive, Detective, Corrective
 - **Information security properties**: Confidentiality, Integrity, Availability
 - **Cybersecurity concepts**: Identify, Protect, Detect, Respond, Recover

@@ -77,5 +77,4 @@ export class KycService {
 
     return { status: kycStatus };
   }
-
 }

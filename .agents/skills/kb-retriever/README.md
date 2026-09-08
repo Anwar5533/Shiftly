@@ -10,7 +10,7 @@
 
 Point the agent at a local directory full of mixed-format files (Markdown, PDF, Excel, …) and ask questions in natural language. The skill:
 
-1. **Walks a hierarchical index** of `data_structure.md` files to figure out *which* files are likely to contain the answer.
+1. **Walks a hierarchical index** of `data_structure.md` files to figure out _which_ files are likely to contain the answer.
 2. **Forces a learn-before-process step** when it hits a PDF or Excel — it must read the corresponding `references/*.md` first and use the recommended tool, instead of blindly reading the whole file.
 3. **Retrieves progressively** with `grep` + small windowed reads (offset/limit) instead of dumping entire files into context.
 4. **Iterates up to 5 rounds**, narrowing keywords each round until it has enough evidence to answer.
@@ -66,7 +66,7 @@ your-project/
 
 ### Custom location
 
-Tell the agent which path to use in your question, e.g. *"answer from `./docs`"* or *"my knowledge base is at `/data/kb`"*. The skill will use that path instead.
+Tell the agent which path to use in your question, e.g. _"answer from `./docs`"_ or _"my knowledge base is at `/data/kb`"_. The skill will use that path instead.
 
 If the default `knowledge/` does not exist and the user hasn't specified a path, the skill will ask rather than guess.
 
@@ -78,14 +78,17 @@ Each indexed directory should carry one of these:
 # [Directory name]
 
 ## Purpose
+
 What this directory is for and when it should be searched.
 
 ## Files
+
 - file1.pdf — what it contains, time / version range
 - file2.xlsx — schema summary, key columns
 - subdir/ — what lives in this subdirectory
 
 ## Coverage
+
 Time range, version, source, anything else that helps the agent prioritize.
 ```
 
@@ -123,11 +126,11 @@ Forbidden:
 
 ### 4. Per-format tool strategy
 
-| Format | Tool | Notes |
-|---|---|---|
-| Markdown / text | `grep` + windowed `read_file` | Always offset/limit; never whole-file. |
-| PDF | `pdftotext input.pdf output.txt` → `grep` on the text | **Always extract to a file**, never to stdout. Use `-f / -l` for page ranges on huge PDFs. |
-| Excel | pandas with `nrows` first to learn schema, then filtered reads | Identify key columns (id / time / category) before querying. |
+| Format          | Tool                                                           | Notes                                                                                      |
+| --------------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| Markdown / text | `grep` + windowed `read_file`                                  | Always offset/limit; never whole-file.                                                     |
+| PDF             | `pdftotext input.pdf output.txt` → `grep` on the text          | **Always extract to a file**, never to stdout. Use `-f / -l` for page ranges on huge PDFs. |
+| Excel           | pandas with `nrows` first to learn schema, then filtered reads | Identify key columns (id / time / category) before querying.                               |
 
 ### 5. Iteration loop
 
@@ -148,7 +151,7 @@ Stops on either: answer found ✅, or 5 rounds reached ⏱️.
 ### Recommended
 
 1. Always start from `data_structure.md`.
-2. Read the matching `references/*.md` *before* touching a PDF or Excel.
+2. Read the matching `references/*.md` _before_ touching a PDF or Excel.
 3. Retrieve from the most relevant file first; expand only if needed.
 4. Use `offset` + `limit` to read precise windows.
 5. Extract PDFs to files, then grep — never paste the binary into context.
@@ -172,7 +175,7 @@ To make sure the agent uses the right tool with the right flags — otherwise it
 Use page-ranged extraction (`pdftotext -f 1 -l 10`), grep the resulting text, then read only the matching pages.
 
 **Q3: Can my knowledge base live anywhere?**
-Yes. Just say so in your question: *"answer from `/data/my-kb`"*.
+Yes. Just say so in your question: _"answer from `/data/my-kb`"_.
 
 **Q4: How do I improve retrieval accuracy?**
 Use specific keywords, narrow down with time / file-name hints, and prefer domain-specific terminology over generic words.

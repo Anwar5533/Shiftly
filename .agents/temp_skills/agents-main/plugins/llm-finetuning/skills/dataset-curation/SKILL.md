@@ -24,13 +24,13 @@ training.
 
 ## Format Selection
 
-| Method | Shape | Rows |
-|---|---|---|
-| SFT, single-turn | Instruct (`instruction`/`response` or `prompt`/`completion`) | ~1,000+ floor |
-| SFT, multi-turn | Conversation / ChatML `messages` list | ~1,000+ floor |
-| DPO / ORPO | Preference pair (`prompt`, `chosen`, `rejected`) | Method-dependent, see `preference-optimization` |
-| KTO | Unpaired (`prompt`, `completion`, `label`) | Method-dependent, see `preference-optimization` |
-| GRPO / RLVR | Prompt-only (`prompt` + verifier metadata) | Method-dependent, see `grpo-rlvr-training` |
+| Method           | Shape                                                        | Rows                                            |
+| ---------------- | ------------------------------------------------------------ | ----------------------------------------------- |
+| SFT, single-turn | Instruct (`instruction`/`response` or `prompt`/`completion`) | ~1,000+ floor                                   |
+| SFT, multi-turn  | Conversation / ChatML `messages` list                        | ~1,000+ floor                                   |
+| DPO / ORPO       | Preference pair (`prompt`, `chosen`, `rejected`)             | Method-dependent, see `preference-optimization` |
+| KTO              | Unpaired (`prompt`, `completion`, `label`)                   | Method-dependent, see `preference-optimization` |
+| GRPO / RLVR      | Prompt-only (`prompt` + verifier metadata)                   | Method-dependent, see `grpo-rlvr-training`      |
 
 - **~1,000+ rows is the recommended floor for SFT**,
   not a target. Below it, a handful of low-quality
@@ -42,10 +42,12 @@ training.
   `references/formats-and-templates.md`:
 
   ```json
-  {"messages": [
-    {"role": "user", "content": "..."},
-    {"role": "assistant", "content": "..."}
-  ]}
+  {
+    "messages": [
+      { "role": "user", "content": "..." },
+      { "role": "assistant", "content": "..." }
+    ]
+  }
   ```
 
 ## Chat Templates and Loss Masking

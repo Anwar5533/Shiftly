@@ -1,6 +1,6 @@
 ---
 description: Master pipeline entry point. Routes requirements from a story file through scan → orchestrate → architect → implement → review → QA → playwright stages. Use /ship stories/foo.md to start, /ship status to check progress, /ship resume to continue.
-argument-hint: "stories/filename.md | status | resume"
+argument-hint: 'stories/filename.md | status | resume'
 ---
 
 # Ship — Dev Pipeline Master Router
@@ -10,12 +10,15 @@ You are the delivery orchestrator for this project's AI development pipeline. Yo
 ## Commands
 
 ### `/ship stories/foo.md`
+
 Start a new pipeline run for the given story file.
 
 ### `/ship status`
+
 Show current pipeline state and stage progress.
 
 ### `/ship resume`
+
 Continue the pipeline from its current stage in `state.json`.
 
 ---
@@ -25,7 +28,9 @@ Continue the pipeline from its current stage in `state.json`.
 **When invoked as `/ship stories/foo.md`:**
 
 ### 1. Read Story File
+
 Read the story file at the given path. Extract:
+
 - Story title
 - Description
 - Acceptance criteria
@@ -34,6 +39,7 @@ Read the story file at the given path. Extract:
 If the file does not exist, halt with: `❌ Story file not found: [path]`
 
 ### 2. Initialize State
+
 Write `.claude/pipeline/state.json`:
 
 ```json
@@ -67,6 +73,7 @@ Write `.claude/pipeline/state.json`:
 ```
 
 ### 3. Run Pipeline
+
 Execute stages in order for the current task. See **Stage Routing** below.
 
 ---
@@ -111,47 +118,59 @@ Read `.claude/pipeline/state.json`. Continue from `state.stage`. See **Stage Rou
 After reading state, route to the correct stage:
 
 ### `scan`
+
 Invoke the `scan` skill. On completion → set stage to `orchestrate` → continue.
 
 ### `orchestrate`
+
 Invoke the `orchestrate` skill. On completion → set stage to `architect` → continue.
 
 ### `architect`
+
 Invoke the `architect` skill.
 On completion → set `checkpoints.architect = "awaiting_approval"` → set stage to `architect` → **PAUSE**.
 
 Print:
+
 ```
 ⏸️  Architect plan ready for review.
    📄 .claude/pipeline/architect-plan.md
 
    Review the plan, then run /ship resume to begin implementation.
 ```
+
 **Stop here. Do not continue until /ship resume is called.**
 
 ### `implement` (entered via resume after architect approval)
+
 Set `checkpoints.architect = "completed"`. Invoke the `implement` skill. On completion → set stage to `review` → continue.
 
 ### `review`
+
 Invoke the `review` skill.
 
 **After review:**
+
 - If `flags.review_critical_pending == true`:
   Print:
+
   ```
   ⏸️  🔴 Critical review issues require human decision.
      📄 .claude/pipeline/review-report.md
-     
+
      Review the findings, then run /ship resume to continue.
   ```
+
   **PAUSE.**
 
 - If no critical flags: set `checkpoints.review = "completed"` → set stage to `qa` → continue.
 
 ### `qa`
+
 Invoke the `qa` skill.
 
 **After QA:**
+
 - If `flags.qa_bugs_pending == true`:
   - Increment `iteration.qa`
   - If `iteration.qa >= 2`:
@@ -159,7 +178,7 @@ Invoke the `qa` skill.
     ```
     ⏸️  QA has failed twice. Human escalation required.
        📄 .claude/pipeline/qa-report.md
-       
+
        Review the QA report and resolve manually, then run /ship resume.
     ```
     Set `flags.escalated = true`. **PAUSE.**
@@ -168,10 +187,12 @@ Invoke the `qa` skill.
 - If QA passes: set `checkpoints.qa = "completed"` → route based on `task_type`.
 
 ### `playwright` (FRONTEND tasks only)
+
 If `task_type == "FRONTEND"`: invoke the `playwright` skill.
 If `task_type == "BACKEND"`: skip → go directly to task completion.
 
 ### Task Completion
+
 - Mark current task `[x]` in the story file
 - Print: `✅ Task complete: "[current_task]"`
 - Increment `task_index`
@@ -197,6 +218,7 @@ These rules apply across all stage routing:
 ---
 
 ## State File Location
+
 `.claude/pipeline/state.json`
 
 Update `last_updated` timestamp on every state write.

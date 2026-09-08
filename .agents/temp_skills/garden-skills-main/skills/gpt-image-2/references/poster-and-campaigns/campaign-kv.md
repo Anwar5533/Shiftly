@@ -70,11 +70,7 @@
   },
   "derivative_layouts": {
     "enabled": "{argument name=\"derivatives enabled\" default=\"true\"}",
-    "items": [
-      "1:1 社交首图",
-      "9:16 短视频封面",
-      "16:9 banner"
-    ],
+    "items": ["1:1 社交首图", "9:16 短视频封面", "16:9 banner"],
     "rule": "三个衍生 layout 在主图下方排成一行展示"
   },
   "logo_placement": {

@@ -1,6 +1,6 @@
 ---
-description: "Initialize project with Conductor artifacts (product definition, tech stack, workflow, style guides)"
-argument-hint: "[--resume]"
+description: 'Initialize project with Conductor artifacts (product definition, tech stack, workflow, style guides)'
+argument-hint: '[--resume]'
 ---
 
 # Conductor Setup

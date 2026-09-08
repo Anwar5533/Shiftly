@@ -1,6 +1,6 @@
 ---
-description: "Build features guided by data insights, A/B testing, and continuous measurement"
-argument-hint: "<feature description> [--experiment-type ab|multivariate|bandit] [--confidence 0.90|0.95|0.99]"
+description: 'Build features guided by data insights, A/B testing, and continuous measurement'
+argument-hint: '<feature description> [--experiment-type ab|multivariate|bandit] [--confidence 0.90|0.95|0.99]'
 ---
 
 # Data-Driven Feature Development Orchestrator

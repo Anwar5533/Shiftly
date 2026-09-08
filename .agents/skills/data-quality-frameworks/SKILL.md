@@ -83,6 +83,7 @@ results = context.run_checkpoint(checkpoint_name="daily_orders")
 Detailed pattern documentation lives in `references/details.md`. Read that file when the navigation tier above is insufficient.
 
 ## Summary: {total_passed}/{total_tables} tables passed")
+
         report.append("")
 
         for table, result in results.items():
@@ -101,22 +102,25 @@ Detailed pattern documentation lives in `references/details.md`. Read that file 
         return "\n".join(report)
 
 # Usage
+
 context = gx.get_context()
 pipeline = DataQualityPipeline(context)
 
 tables_to_validate = {
-    "orders": "orders_suite",
-    "customers": "customers_suite",
-    "products": "products_suite",
+"orders": "orders_suite",
+"customers": "customers_suite",
+"products": "products_suite",
 }
 
 results = pipeline.run_all(tables_to_validate)
 report = pipeline.generate_report(results)
 
 # Fail pipeline if any table failed
+
 if not all(r.passed for r in results.values()):
-    print(report)
-    raise ValueError("Data quality checks failed!")
+print(report)
+raise ValueError("Data quality checks failed!")
+
 ```
 
 ## Best Practices
@@ -136,3 +140,4 @@ if not all(r.passed for r in results.values()):
 - **Don't skip freshness** - Stale data is bad data
 - **Don't hardcode thresholds** - Use dynamic baselines
 - **Don't test in isolation** - Test relationships too
+```

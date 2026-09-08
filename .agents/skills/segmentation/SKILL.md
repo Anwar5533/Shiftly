@@ -12,13 +12,13 @@ role: [security-engineer, architect]
 phase: [design, operate]
 frameworks: [NIST-SP-800-207, CIS-Controls-v8]
 difficulty: intermediate
-time_estimate: "30-60min"
-version: "1.0.0"
+time_estimate: '30-60min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 injection-hardened: true
-argument-hint: "[target-file-or-directory]"
+argument-hint: '[target-file-or-directory]'
 ---
 
 # Network Segmentation Review
@@ -80,6 +80,7 @@ Use Glob and Grep to locate network configuration files, diagrams-as-code, and i
 ```
 
 Catalog all discovered files by layer:
+
 - **Layer 3:** VLANs, subnets, VPCs, route tables.
 - **Layer 4-7:** Security groups, NACLs, network policies, WAF rules.
 - **Overlay:** Service mesh policies (Istio, Linkerd), micro-segmentation (Calico, Cilium).
@@ -94,17 +95,18 @@ Map the network into trust zones and evaluate the segmentation between them.
 
 Identify and document all network zones present in the configuration:
 
-| Zone Type | NIST SP 800-207 Alignment | What to Look For |
-|-----------|--------------------------|------------------|
-| **Public / DMZ** | Policy Enforcement Point (PEP) at boundary | Internet-facing subnets, load balancers, reverse proxies |
-| **Application Tier** | Subject-resource segmentation | Web servers, API gateways, application subnets |
-| **Data Tier** | Resource isolation | Database subnets, storage networks, data lake VPCs |
-| **Management Plane** | Control plane isolation (Section 3.3) | Jump boxes, bastion hosts, CI/CD runners, configuration management |
-| **PCI CDE** | Explicit segmentation required by PCI DSS 1.3 | Cardholder data environment, in-scope system subnets |
-| **User / Workstation** | Subject-based segmentation | Corporate LAN, VDI subnets, remote access VPN pools |
-| **IoT / OT** | Untrusted device zones | Sensors, embedded devices, industrial control subnets |
+| Zone Type              | NIST SP 800-207 Alignment                     | What to Look For                                                   |
+| ---------------------- | --------------------------------------------- | ------------------------------------------------------------------ |
+| **Public / DMZ**       | Policy Enforcement Point (PEP) at boundary    | Internet-facing subnets, load balancers, reverse proxies           |
+| **Application Tier**   | Subject-resource segmentation                 | Web servers, API gateways, application subnets                     |
+| **Data Tier**          | Resource isolation                            | Database subnets, storage networks, data lake VPCs                 |
+| **Management Plane**   | Control plane isolation (Section 3.3)         | Jump boxes, bastion hosts, CI/CD runners, configuration management |
+| **PCI CDE**            | Explicit segmentation required by PCI DSS 1.3 | Cardholder data environment, in-scope system subnets               |
+| **User / Workstation** | Subject-based segmentation                    | Corporate LAN, VDI subnets, remote access VPN pools                |
+| **IoT / OT**           | Untrusted device zones                        | Sensors, embedded devices, industrial control subnets              |
 
 For each zone, record:
+
 - Subnet CIDR ranges.
 - Associated security group or ACL identifiers.
 - Routing relationships to other zones.
@@ -173,7 +175,7 @@ kind: NetworkPolicy
 metadata:
   name: default-deny-all
 spec:
-  podSelector: {}        # applies to all pods in namespace
+  podSelector: {} # applies to all pods in namespace
   policyTypes:
     - Ingress
     - Egress
@@ -198,13 +200,13 @@ spec:
 
 Evaluate the environment's readiness for workload-level segmentation:
 
-| Criterion | Ready | Partially Ready | Not Ready |
-|-----------|-------|-----------------|-----------|
-| **Workload identity** | Every workload has a unique identity (service account, SPIFFE ID) | Some workloads identified | No workload identity scheme |
-| **Communication mapping** | Flow logs or service mesh telemetry documenting all east-west flows | Partial flow visibility | No east-west flow data |
-| **Policy engine** | Calico, Cilium, Istio, or cloud-native network policy deployed | Policy engine deployed but not enforcing | No policy engine |
-| **Enforcement mode** | Policies enforcing (deny unauthorized) | Policies in audit/monitor mode | No policies defined |
-| **Automation** | Policy changes via GitOps/IaC | Some manual policy management | Fully manual |
+| Criterion                 | Ready                                                               | Partially Ready                          | Not Ready                   |
+| ------------------------- | ------------------------------------------------------------------- | ---------------------------------------- | --------------------------- |
+| **Workload identity**     | Every workload has a unique identity (service account, SPIFFE ID)   | Some workloads identified                | No workload identity scheme |
+| **Communication mapping** | Flow logs or service mesh telemetry documenting all east-west flows | Partial flow visibility                  | No east-west flow data      |
+| **Policy engine**         | Calico, Cilium, Istio, or cloud-native network policy deployed      | Policy engine deployed but not enforcing | No policy engine            |
+| **Enforcement mode**      | Policies enforcing (deny unauthorized)                              | Policies in audit/monitor mode           | No policies defined         |
+| **Automation**            | Policy changes via GitOps/IaC                                       | Some manual policy management            | Fully manual                |
 
 ---
 
@@ -247,12 +249,12 @@ Document or verify the existence of a segmentation testing process:
 
 ## Findings Classification
 
-| Severity | Definition |
-|----------|-----------|
-| **Critical** | Flat network with no segmentation; missing enforcement points between security zones; CDE not isolated; direct external-to-internal routing. |
-| **High** | No east-west controls within zones; bypass paths through transit networks; unrestricted DMZ-to-internal access; missing segmentation testing; native VLAN carrying production traffic. |
-| **Medium** | Micro-segmentation policies in audit mode only; partial flow visibility; management plane accessible from user zone without MFA/jump box; VLAN sprawl without documentation. |
-| **Low** | Suboptimal zone naming conventions; missing network diagrams; segmentation documentation out of date. |
+| Severity     | Definition                                                                                                                                                                             |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Critical** | Flat network with no segmentation; missing enforcement points between security zones; CDE not isolated; direct external-to-internal routing.                                           |
+| **High**     | No east-west controls within zones; bypass paths through transit networks; unrestricted DMZ-to-internal access; missing segmentation testing; native VLAN carrying production traffic. |
+| **Medium**   | Micro-segmentation policies in audit mode only; partial flow visibility; management plane accessible from user zone without MFA/jump box; VLAN sprawl without documentation.           |
+| **Low**      | Suboptimal zone naming conventions; missing network diagrams; segmentation documentation out of date.                                                                                  |
 
 ---
 
@@ -313,23 +315,23 @@ Document or verify the existence of a segmentation testing process:
 
 ### NIST SP 800-207 (Zero Trust Architecture)
 
-| Section | Topic | Key Requirements |
-|---------|-------|-----------------|
-| 2.1 | Tenets of Zero Trust | No implicit trust based on network location; per-session access; dynamic policy |
-| 3.1 | Policy Enforcement Point (PEP) | Every resource access must traverse a PEP |
-| 3.2 | Policy Decision Point (PDP) | Centralized policy engine evaluates access requests |
-| 3.3 | Control Plane / Data Plane Separation | Management traffic isolated from production data flows |
-| 4.1 | Deployment Models | Agent/gateway, enclave-based, resource-portal models |
+| Section | Topic                                 | Key Requirements                                                                |
+| ------- | ------------------------------------- | ------------------------------------------------------------------------------- |
+| 2.1     | Tenets of Zero Trust                  | No implicit trust based on network location; per-session access; dynamic policy |
+| 3.1     | Policy Enforcement Point (PEP)        | Every resource access must traverse a PEP                                       |
+| 3.2     | Policy Decision Point (PDP)           | Centralized policy engine evaluates access requests                             |
+| 3.3     | Control Plane / Data Plane Separation | Management traffic isolated from production data flows                          |
+| 4.1     | Deployment Models                     | Agent/gateway, enclave-based, resource-portal models                            |
 
 ### CIS Controls v8
 
-| Control | Title | Relevance |
-|---------|-------|-----------|
-| 12.1 | Ensure Network Infrastructure is Up-to-Date | Patched network devices prevent segmentation bypass |
-| 12.2 | Establish and Maintain a Secure Network Architecture | Zone design, VLAN segmentation, DMZ architecture |
-| 12.3 | Securely Manage Network Infrastructure | Management plane isolation, encrypted management protocols |
-| 12.4 | Establish and Maintain Architecture Diagram(s) | Documented zone maps and data flow diagrams |
-| 12.8 | Establish and Maintain Dedicated Computing Resources for All Administrative Work | Privileged access workstations, jump boxes |
+| Control | Title                                                                            | Relevance                                                  |
+| ------- | -------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| 12.1    | Ensure Network Infrastructure is Up-to-Date                                      | Patched network devices prevent segmentation bypass        |
+| 12.2    | Establish and Maintain a Secure Network Architecture                             | Zone design, VLAN segmentation, DMZ architecture           |
+| 12.3    | Securely Manage Network Infrastructure                                           | Management plane isolation, encrypted management protocols |
+| 12.4    | Establish and Maintain Architecture Diagram(s)                                   | Documented zone maps and data flow diagrams                |
+| 12.8    | Establish and Maintain Dedicated Computing Resources for All Administrative Work | Privileged access workstations, jump boxes                 |
 
 ---
 

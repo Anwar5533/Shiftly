@@ -28,27 +28,27 @@ export function Cover() {
       data-ra-cover=""
       style={{
         // ── 外壳（请不要动） ──
-        position: "relative",
-        width: "100%",
+        position: 'relative',
+        width: '100%',
         // 屏幕上像"一本立着的书"：限宽 48rem（768px）；同时**从视口高度反推宽度**
         // (100vh - 8rem) * 3/4，确保整个 3:4 封面**一屏看全、不用下拉**。8rem
         // (128px) 给顶栏 / 边距 / site nav 等留出充足呼吸（典型场景 site nav 60 +
         // 容器顶 padding 32 + 边框 1 ≈ 93px，仍有 35px 余量）。
         // 3:4 比例由 aspect-ratio 保证不破。
-        maxWidth: "min(100%, 48rem, calc((100vh - 8rem) * 3 / 4))",
-        margin: "0 auto var(--ra-space-7, 3rem) auto",
-        aspectRatio: "3 / 4",
-        overflow: "hidden",
+        maxWidth: 'min(100%, 48rem, calc((100vh - 8rem) * 3 / 4))',
+        margin: '0 auto var(--ra-space-7, 3rem) auto',
+        aspectRatio: '3 / 4',
+        overflow: 'hidden',
         // 背景透明：让外层 .ra-root / .gx-reader 的 --ra-color-bg "纸面色" 直接透上来。
         // 整片视觉是一张连续的纸，封面不再"自带一块色"。封面的辨识度由内部插画 + 边框
         // + 内容排版承担。如果你的封面**确实需要**整体着色（如孟菲斯主题大色块覆盖），
         // 可以改成 surface / surface-2 / accent-soft 等任意主题 token。
-        background: "transparent",
-        color: "var(--ra-color-fg, inherit)",
-        borderRadius: "var(--ra-radius-md, 0)",
-        border: "1px solid var(--ra-color-border, currentColor)",
+        background: 'transparent',
+        color: 'var(--ra-color-fg, inherit)',
+        borderRadius: 'var(--ra-radius-md, 0)',
+        border: '1px solid var(--ra-color-border, currentColor)',
         // 让 ::before 之类的几何装饰可以铺满
-        isolation: "isolate",
+        isolation: 'isolate',
       }}
     >
       {/*
@@ -79,23 +79,18 @@ function CoverPlaceholder() {
         preserveAspectRatio="xMidYMid slice"
         aria-hidden="true"
         style={{
-          position: "absolute",
+          position: 'absolute',
           inset: 0,
-          width: "100%",
-          height: "100%",
-          color: "var(--ra-color-border, currentColor)",
+          width: '100%',
+          height: '100%',
+          color: 'var(--ra-color-border, currentColor)',
           opacity: 0.55,
           zIndex: 0,
         }}
       >
         <defs>
           <pattern id="ra-cover-grid" width="80" height="80" patternUnits="userSpaceOnUse">
-            <path
-              d="M 80 0 L 0 0 0 80"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="0.6"
-            />
+            <path d="M 80 0 L 0 0 0 80" fill="none" stroke="currentColor" strokeWidth="0.6" />
           </pattern>
         </defs>
         <rect width="1200" height="1600" fill="url(#ra-cover-grid)" />
@@ -106,36 +101,29 @@ function CoverPlaceholder() {
           fill="var(--ra-color-accent, currentColor)"
           opacity="0.18"
         />
-        <line
-          x1="80"
-          y1="1400"
-          x2="560"
-          y2="1400"
-          stroke="currentColor"
-          strokeWidth="2"
-        />
+        <line x1="80" y1="1400" x2="560" y2="1400" stroke="currentColor" strokeWidth="2" />
       </svg>
 
       {/* 文字层 */}
       <div
         style={{
-          position: "absolute",
+          position: 'absolute',
           inset: 0,
           zIndex: 1,
-          display: "grid",
-          alignContent: "center",
-          justifyItems: "start",
+          display: 'grid',
+          alignContent: 'center',
+          justifyItems: 'start',
           padding:
-            "var(--ra-space-7, 3rem) var(--ra-space-8, 4rem) var(--ra-space-7, 3rem) var(--ra-space-8, 4rem)",
-          gap: "var(--ra-space-3, 0.75rem)",
+            'var(--ra-space-7, 3rem) var(--ra-space-8, 4rem) var(--ra-space-7, 3rem) var(--ra-space-8, 4rem)',
+          gap: 'var(--ra-space-3, 0.75rem)',
         }}
       >
         <span
           style={{
-            fontSize: "var(--ra-text-xs, 0.75rem)",
-            letterSpacing: "0.22em",
-            textTransform: "uppercase",
-            color: "var(--ra-color-muted, inherit)",
+            fontSize: 'var(--ra-text-xs, 0.75rem)',
+            letterSpacing: '0.22em',
+            textTransform: 'uppercase',
+            color: 'var(--ra-color-muted, inherit)',
             opacity: 0.85,
           }}
         >
@@ -144,11 +132,11 @@ function CoverPlaceholder() {
         <h1
           style={{
             margin: 0,
-            fontSize: "clamp(1.6rem, 4.6vw, var(--ra-text-4xl, 3rem))",
+            fontSize: 'clamp(1.6rem, 4.6vw, var(--ra-text-4xl, 3rem))',
             lineHeight: 1.05,
-            fontWeight: "var(--ra-font-weight-bold, 700)",
-            color: "var(--ra-color-fg, inherit)",
-            maxWidth: "70%",
+            fontWeight: 'var(--ra-font-weight-bold, 700)',
+            color: 'var(--ra-color-fg, inherit)',
+            maxWidth: '70%',
           }}
         >
           按文章主旨 + 主题，在此处设计封面
@@ -156,15 +144,16 @@ function CoverPlaceholder() {
         <p
           style={{
             margin: 0,
-            fontSize: "var(--ra-text-sm, 0.95rem)",
-            color: "var(--ra-color-muted, inherit)",
-            maxWidth: "70%",
+            fontSize: 'var(--ra-text-sm, 0.95rem)',
+            color: 'var(--ra-color-muted, inherit)',
+            maxWidth: '70%',
             lineHeight: 1.4,
           }}
         >
-          先读 <code>references/cover.md</code> 与选定主题的 <code>theme-profiles/&lt;id&gt;.md</code>，
-          再替换 <code>CoverPlaceholder</code> 为本文专属的图文构图。视觉用什么技术（SVG /
-          CSS / Canvas / 复杂 React 组件 / 任意混搭）由你选，效果好就行；唯一禁止远程图片。
+          先读 <code>references/cover.md</code> 与选定主题的{' '}
+          <code>theme-profiles/&lt;id&gt;.md</code>， 再替换 <code>CoverPlaceholder</code>{' '}
+          为本文专属的图文构图。视觉用什么技术（SVG / CSS / Canvas / 复杂 React 组件 /
+          任意混搭）由你选，效果好就行；唯一禁止远程图片。
         </p>
       </div>
     </>

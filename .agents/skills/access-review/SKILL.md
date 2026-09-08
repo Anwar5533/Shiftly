@@ -11,13 +11,13 @@ role: [security-engineer, vciso]
 phase: [operate]
 frameworks: [CIS-Controls-v8, NIST-SP-800-53-AC]
 difficulty: intermediate
-time_estimate: "45-90min"
-version: "1.0.0"
+time_estimate: '45-90min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 injection-hardened: true
-argument-hint: "[target-file-or-directory]"
+argument-hint: '[target-file-or-directory]'
 ---
 
 # Access Review & Entitlement Audit
@@ -66,25 +66,25 @@ Access reviews are the operational heartbeat of identity governance. NIST SP 800
 
 ## Framework Quick Reference
 
-| Framework | Control ID | Title | Relevance |
-|---|---|---|---|
-| **NIST SP 800-53** | AC-2 | Account Management | Account lifecycle, review cadence, disabling inactive accounts |
-| **NIST SP 800-53** | AC-2(j) | Account Management — Review | Review accounts for compliance at organization-defined frequency |
-| **NIST SP 800-53** | AC-2(3) | Disable Accounts | Disable accounts when not used within organization-defined period |
-| **NIST SP 800-53** | AC-5 | Separation of Duties | Define and enforce SoD policies, document access authorizations |
-| **NIST SP 800-53** | AC-6 | Least Privilege | Employ least privilege, authorize only access necessary for function |
-| **NIST SP 800-53** | AC-6(1) | Authorize Access to Security Functions | Explicitly authorize access to security-relevant functions |
-| **NIST SP 800-53** | AC-6(5) | Privileged Accounts | Restrict privileged accounts to specific personnel or roles |
-| **NIST SP 800-53** | AC-6(7) | Review of User Privileges | Review privileges at organization-defined frequency to validate need |
-| **NIST SP 800-53** | AC-6(9) | Log Use of Privileged Functions | Audit use of privileged functions |
-| **NIST SP 800-53** | AC-6(10) | Prohibit Non-Privileged Users from Executing Privileged Functions | Prevent privilege escalation |
-| **CIS Controls v8** | 5.1 | Establish and Maintain an Inventory of Accounts | Foundation for all access reviews |
-| **CIS Controls v8** | 5.3 | Disable Dormant Accounts | 45-day inactivity threshold |
-| **CIS Controls v8** | 5.4 | Restrict Administrator Privileges | Dedicated admin accounts |
-| **CIS Controls v8** | 6.1 | Establish an Access Granting Process | Documented provisioning with approval |
-| **CIS Controls v8** | 6.2 | Establish an Access Revoking Process | Timely deprovisioning |
-| **CIS Controls v8** | 6.7 | Centralize Access Control | Single authoritative source |
-| **CIS Controls v8** | 6.8 | Define and Maintain Role-Based Access Control | Role-based assignment over direct grants |
+| Framework           | Control ID | Title                                                             | Relevance                                                            |
+| ------------------- | ---------- | ----------------------------------------------------------------- | -------------------------------------------------------------------- |
+| **NIST SP 800-53**  | AC-2       | Account Management                                                | Account lifecycle, review cadence, disabling inactive accounts       |
+| **NIST SP 800-53**  | AC-2(j)    | Account Management — Review                                       | Review accounts for compliance at organization-defined frequency     |
+| **NIST SP 800-53**  | AC-2(3)    | Disable Accounts                                                  | Disable accounts when not used within organization-defined period    |
+| **NIST SP 800-53**  | AC-5       | Separation of Duties                                              | Define and enforce SoD policies, document access authorizations      |
+| **NIST SP 800-53**  | AC-6       | Least Privilege                                                   | Employ least privilege, authorize only access necessary for function |
+| **NIST SP 800-53**  | AC-6(1)    | Authorize Access to Security Functions                            | Explicitly authorize access to security-relevant functions           |
+| **NIST SP 800-53**  | AC-6(5)    | Privileged Accounts                                               | Restrict privileged accounts to specific personnel or roles          |
+| **NIST SP 800-53**  | AC-6(7)    | Review of User Privileges                                         | Review privileges at organization-defined frequency to validate need |
+| **NIST SP 800-53**  | AC-6(9)    | Log Use of Privileged Functions                                   | Audit use of privileged functions                                    |
+| **NIST SP 800-53**  | AC-6(10)   | Prohibit Non-Privileged Users from Executing Privileged Functions | Prevent privilege escalation                                         |
+| **CIS Controls v8** | 5.1        | Establish and Maintain an Inventory of Accounts                   | Foundation for all access reviews                                    |
+| **CIS Controls v8** | 5.3        | Disable Dormant Accounts                                          | 45-day inactivity threshold                                          |
+| **CIS Controls v8** | 5.4        | Restrict Administrator Privileges                                 | Dedicated admin accounts                                             |
+| **CIS Controls v8** | 6.1        | Establish an Access Granting Process                              | Documented provisioning with approval                                |
+| **CIS Controls v8** | 6.2        | Establish an Access Revoking Process                              | Timely deprovisioning                                                |
+| **CIS Controls v8** | 6.7        | Centralize Access Control                                         | Single authoritative source                                          |
+| **CIS Controls v8** | 6.8        | Define and Maintain Role-Based Access Control                     | Role-based assignment over direct grants                             |
 
 ---
 
@@ -117,13 +117,13 @@ AR-SCOPE-06: Guest/external accounts not included in review scope
 
 **Recommended cadences:**
 
-| Account Type | Review Frequency | Framework Basis |
-|---|---|---|
-| Privileged / admin accounts | Quarterly (90 days) | AC-6(7), CIS 5.4 |
-| Standard user accounts | Semi-annually (180 days) | AC-2(j) |
-| Service accounts | Quarterly (90 days) | CIS 5.5 |
-| External / guest accounts | Quarterly (90 days) | AC-2 |
-| Break-glass / emergency accounts | Monthly (30 days) | AC-6(1) |
+| Account Type                     | Review Frequency         | Framework Basis  |
+| -------------------------------- | ------------------------ | ---------------- |
+| Privileged / admin accounts      | Quarterly (90 days)      | AC-6(7), CIS 5.4 |
+| Standard user accounts           | Semi-annually (180 days) | AC-2(j)          |
+| Service accounts                 | Quarterly (90 days)      | CIS 5.5          |
+| External / guest accounts        | Quarterly (90 days)      | AC-2             |
+| Break-glass / emergency accounts | Monthly (30 days)        | AC-6(1)          |
 
 ---
 
@@ -151,11 +151,11 @@ AR-CERT-08: Delegated reviews without accountability (certifier delegates but is
 
 **Rubber-stamp detection criteria:**
 
-| Indicator | Threshold | Action |
-|---|---|---|
-| Approval rate per certifier | > 95% with > 50 entitlements | Flag for management review |
-| Time to certify | < 2 minutes per decision batch | Flag as potential non-review |
-| No revocations across multiple cycles | 3+ consecutive cycles | Escalate to compliance team |
+| Indicator                             | Threshold                      | Action                       |
+| ------------------------------------- | ------------------------------ | ---------------------------- |
+| Approval rate per certifier           | > 95% with > 50 entitlements   | Flag for management review   |
+| Time to certify                       | < 2 minutes per decision batch | Flag as potential non-review |
+| No revocations across multiple cycles | 3+ consecutive cycles          | Escalate to compliance team  |
 
 ---
 
@@ -181,13 +181,13 @@ AR-ORPH-08: Test/temporary accounts promoted to production without lifecycle man
 
 **Platform-specific checks:**
 
-| Platform | Data Source | What to Check |
-|---|---|---|
-| **AWS** | IAM Credential Report, CloudTrail | `password_last_used`, `access_key_last_used`, no recent API activity |
-| **Azure / Entra ID** | Sign-in logs, Entra ID Governance | Last interactive/non-interactive sign-in, access review completion |
-| **GCP** | Admin Activity logs, Policy Analyzer | Last authentication event, unused IAM bindings |
-| **Okta / IdP** | System Log, user lifecycle status | Suspended vs. deprovisioned, last authentication timestamp |
-| **SaaS apps** | SCIM sync status, app-native audit logs | Users not synced from IdP, local accounts outside federation |
+| Platform             | Data Source                             | What to Check                                                        |
+| -------------------- | --------------------------------------- | -------------------------------------------------------------------- |
+| **AWS**              | IAM Credential Report, CloudTrail       | `password_last_used`, `access_key_last_used`, no recent API activity |
+| **Azure / Entra ID** | Sign-in logs, Entra ID Governance       | Last interactive/non-interactive sign-in, access review completion   |
+| **GCP**              | Admin Activity logs, Policy Analyzer    | Last authentication event, unused IAM bindings                       |
+| **Okta / IdP**       | System Log, user lifecycle status       | Suspended vs. deprovisioned, last authentication timestamp           |
+| **SaaS apps**        | SCIM sync status, app-native audit logs | Users not synced from IdP, local accounts outside federation         |
 
 ---
 
@@ -213,12 +213,12 @@ AR-ROLE-08: Custom roles duplicating built-in/managed role permissions
 
 **Role health metrics:**
 
-| Metric | Healthy Threshold | Warning Threshold | Critical Threshold |
-|---|---|---|---|
-| Role-to-user ratio | < 0.3:1 | 0.3-0.7:1 | > 0.7:1 |
-| Single-user roles | < 5% of total roles | 5-15% | > 15% |
-| Roles with no assignments | 0 | 1-5% | > 5% |
-| Average permissions per role | Varies by platform | > 2x platform median | > 5x platform median |
+| Metric                       | Healthy Threshold   | Warning Threshold    | Critical Threshold   |
+| ---------------------------- | ------------------- | -------------------- | -------------------- |
+| Role-to-user ratio           | < 0.3:1             | 0.3-0.7:1            | > 0.7:1              |
+| Single-user roles            | < 5% of total roles | 5-15%                | > 15%                |
+| Roles with no assignments    | 0                   | 1-5%                 | > 5%                 |
+| Average permissions per role | Varies by platform  | > 2x platform median | > 5x platform median |
 
 ---
 
@@ -232,15 +232,15 @@ AC-5 states: "The organization separates duties of individuals as necessary, to 
 
 **Common SoD conflict pairs:**
 
-| Function A | Function B | Risk |
-|---|---|---|
-| Code commit | Production deploy | Unauthorized code in production |
-| User provisioning | Access certification | Self-approval of access |
-| Financial transaction initiation | Financial transaction approval | Fraud |
-| Security log administration | Security log review | Evidence tampering |
-| Infrastructure admin | Security monitoring | Suppression of alerts |
-| Key/secret management | Application deployment | Credential exfiltration |
-| Vendor onboarding | Payment approval | Vendor fraud |
+| Function A                       | Function B                     | Risk                            |
+| -------------------------------- | ------------------------------ | ------------------------------- |
+| Code commit                      | Production deploy              | Unauthorized code in production |
+| User provisioning                | Access certification           | Self-approval of access         |
+| Financial transaction initiation | Financial transaction approval | Fraud                           |
+| Security log administration      | Security log review            | Evidence tampering              |
+| Infrastructure admin             | Security monitoring            | Suppression of alerts           |
+| Key/secret management            | Application deployment         | Credential exfiltration         |
+| Vendor onboarding                | Payment approval               | Vendor fraud                    |
 
 **What to look for:**
 
@@ -256,13 +256,13 @@ AR-SOD-07: SoD conflicts in service accounts (single account spans multiple func
 
 **Severity classification for SoD violations:**
 
-| Context | Severity | Rationale |
-|---|---|---|
-| Production financial systems | **Critical** | Direct fraud risk |
-| Production infrastructure + security monitoring | **High** | Evidence suppression risk |
-| Development + production deploy | **High** | Unauthorized change risk |
-| Non-production environments only | **Medium** | Lower blast radius but bad practice |
-| Compensating control documented and tested | Downgrade one level | Mitigated but not eliminated |
+| Context                                         | Severity            | Rationale                           |
+| ----------------------------------------------- | ------------------- | ----------------------------------- |
+| Production financial systems                    | **Critical**        | Direct fraud risk                   |
+| Production infrastructure + security monitoring | **High**            | Evidence suppression risk           |
+| Development + production deploy                 | **High**            | Unauthorized change risk            |
+| Non-production environments only                | **Medium**          | Lower blast radius but bad practice |
+| Compensating control documented and tested      | Downgrade one level | Mitigated but not eliminated        |
 
 ---
 
@@ -288,24 +288,24 @@ AR-ENF-08: No metrics or reporting on review completion rates and outcomes
 
 **Evidence requirements for audit:**
 
-| Evidence Artifact | Retention Period | Framework Basis |
-|---|---|---|
-| Review campaign configuration (scope, reviewers, deadline) | Duration of audit period + 1 year | AC-2(j) |
-| Individual certification decisions (approve/revoke per entitlement) | Duration of audit period + 1 year | AC-6(7) |
-| Revocation execution confirmation (ticket, timestamp) | Duration of audit period + 1 year | AC-2, CIS 6.2 |
-| Exception approvals with justification and expiry | Duration of exception + 1 year | AC-6 |
-| Review completion metrics (on-time %, revocation %) | Duration of audit period + 1 year | AC-2 |
+| Evidence Artifact                                                   | Retention Period                  | Framework Basis |
+| ------------------------------------------------------------------- | --------------------------------- | --------------- |
+| Review campaign configuration (scope, reviewers, deadline)          | Duration of audit period + 1 year | AC-2(j)         |
+| Individual certification decisions (approve/revoke per entitlement) | Duration of audit period + 1 year | AC-6(7)         |
+| Revocation execution confirmation (ticket, timestamp)               | Duration of audit period + 1 year | AC-2, CIS 6.2   |
+| Exception approvals with justification and expiry                   | Duration of exception + 1 year    | AC-6            |
+| Review completion metrics (on-time %, revocation %)                 | Duration of audit period + 1 year | AC-2            |
 
 ---
 
 ## Findings Classification
 
-| Severity | Definition | Examples |
-|---|---|---|
-| **Critical** | Immediate unauthorized access risk or active SoD violation in financial/production systems | Terminated employee with active admin access; SoD conflict on payment systems |
-| **High** | Significant privilege excess or governance gap with exploitation potential | Orphaned service accounts with production access; no access review process exists |
-| **Medium** | Governance deficiency increasing risk over time | Rubber-stamped certifications; role explosion; reviews not on cadence |
-| **Low** | Process improvement opportunity | Inconsistent role naming; documentation gaps; review SLA slightly exceeded |
+| Severity     | Definition                                                                                 | Examples                                                                          |
+| ------------ | ------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------- |
+| **Critical** | Immediate unauthorized access risk or active SoD violation in financial/production systems | Terminated employee with active admin access; SoD conflict on payment systems     |
+| **High**     | Significant privilege excess or governance gap with exploitation potential                 | Orphaned service accounts with production access; no access review process exists |
+| **Medium**   | Governance deficiency increasing risk over time                                            | Rubber-stamped certifications; role explosion; reviews not on cadence             |
+| **Low**      | Process improvement opportunity                                                            | Inconsistent role naming; documentation gaps; review SLA slightly exceeded        |
 
 ---
 
@@ -313,16 +313,16 @@ AR-ENF-08: No metrics or reporting on review completion rates and outcomes
 
 ### Findings Table
 
-| Field | Description |
-|---|---|
-| **Finding ID** | Unique identifier (e.g., AR-ORPH-01) |
-| **Title** | Brief description of the finding |
-| **Severity** | Critical / High / Medium / Low |
-| **Framework Ref** | NIST SP 800-53 control ID and/or CIS Controls v8 sub-control |
-| **Affected Scope** | Accounts, roles, systems, or platforms impacted |
-| **Evidence** | Specific data supporting the finding (counts, examples, screenshots) |
-| **Remediation** | Prioritized fix with implementation guidance |
-| **Effort** | Low (< 1 day) / Medium (1-5 days) / High (> 5 days) |
+| Field              | Description                                                          |
+| ------------------ | -------------------------------------------------------------------- |
+| **Finding ID**     | Unique identifier (e.g., AR-ORPH-01)                                 |
+| **Title**          | Brief description of the finding                                     |
+| **Severity**       | Critical / High / Medium / Low                                       |
+| **Framework Ref**  | NIST SP 800-53 control ID and/or CIS Controls v8 sub-control         |
+| **Affected Scope** | Accounts, roles, systems, or platforms impacted                      |
+| **Evidence**       | Specific data supporting the finding (counts, examples, screenshots) |
+| **Remediation**    | Prioritized fix with implementation guidance                         |
+| **Effort**         | Low (< 1 day) / Medium (1-5 days) / High (> 5 days)                  |
 
 ### Summary Report Structure
 
@@ -371,20 +371,20 @@ AR-ENF-08: No metrics or reporting on review completion rates and outcomes
 
 ### NIST SP 800-53 Rev. 5 — AC Family Summary
 
-| Control | Title | Key Requirement for Access Reviews |
-|---|---|---|
-| **AC-2** | Account Management | Define account types, establish conditions for membership, review at defined frequency |
-| **AC-2(1)** | Automated System Account Management | Automated mechanisms for account lifecycle |
-| **AC-2(3)** | Disable Accounts | Disable accounts after organization-defined inactivity period |
-| **AC-2(4)** | Automated Audit Actions | Automatically audit account creation, modification, disabling, removal |
-| **AC-2(j)** | Review Accounts | Compliance with account management requirements at defined frequency |
-| **AC-5** | Separation of Duties | Define, document, and enforce SoD access authorizations |
-| **AC-6** | Least Privilege | Only authorized access necessary for organizational function |
-| **AC-6(1)** | Authorize Access to Security Functions | Explicit authorization for security functions and security-relevant info |
-| **AC-6(5)** | Privileged Accounts | Restrict privileged accounts to specific personnel or roles |
-| **AC-6(7)** | Review of User Privileges | Review at organization-defined frequency to validate continued need |
-| **AC-6(9)** | Log Use of Privileged Functions | Audit the execution of privileged functions |
-| **AC-6(10)** | Prohibit Non-Privileged Users from Executing Privileged Functions | Prevent unauthorized privilege use |
+| Control      | Title                                                             | Key Requirement for Access Reviews                                                     |
+| ------------ | ----------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| **AC-2**     | Account Management                                                | Define account types, establish conditions for membership, review at defined frequency |
+| **AC-2(1)**  | Automated System Account Management                               | Automated mechanisms for account lifecycle                                             |
+| **AC-2(3)**  | Disable Accounts                                                  | Disable accounts after organization-defined inactivity period                          |
+| **AC-2(4)**  | Automated Audit Actions                                           | Automatically audit account creation, modification, disabling, removal                 |
+| **AC-2(j)**  | Review Accounts                                                   | Compliance with account management requirements at defined frequency                   |
+| **AC-5**     | Separation of Duties                                              | Define, document, and enforce SoD access authorizations                                |
+| **AC-6**     | Least Privilege                                                   | Only authorized access necessary for organizational function                           |
+| **AC-6(1)**  | Authorize Access to Security Functions                            | Explicit authorization for security functions and security-relevant info               |
+| **AC-6(5)**  | Privileged Accounts                                               | Restrict privileged accounts to specific personnel or roles                            |
+| **AC-6(7)**  | Review of User Privileges                                         | Review at organization-defined frequency to validate continued need                    |
+| **AC-6(9)**  | Log Use of Privileged Functions                                   | Audit the execution of privileged functions                                            |
+| **AC-6(10)** | Prohibit Non-Privileged Users from Executing Privileged Functions | Prevent unauthorized privilege use                                                     |
 
 ### CIS Controls v8 — Controls 5 and 6
 
@@ -439,18 +439,18 @@ This skill processes identity and entitlement data that may contain adversarial 
 
 ## Cross-References
 
-| Related Skill | When to Chain |
-|---|---|
-| `identity/iam-review.md` | Broader IAM security assessment covering authentication, service accounts, and zero trust alignment |
-| `identity/rbac-design.md` | Designing or refactoring roles when role explosion is detected |
-| `identity/privileged-access.md` | Deep dive on PAM controls when privileged account findings surface |
-| `identity/zero-trust-assessment.md` | When access review findings indicate need for continuous verification |
-| `compliance/soc2-gap.md` | Mapping access review findings to SOC 2 CC6.1-CC6.3 |
+| Related Skill                       | When to Chain                                                                                       |
+| ----------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `identity/iam-review.md`            | Broader IAM security assessment covering authentication, service accounts, and zero trust alignment |
+| `identity/rbac-design.md`           | Designing or refactoring roles when role explosion is detected                                      |
+| `identity/privileged-access.md`     | Deep dive on PAM controls when privileged account findings surface                                  |
+| `identity/zero-trust-assessment.md` | When access review findings indicate need for continuous verification                               |
+| `compliance/soc2-gap.md`            | Mapping access review findings to SOC 2 CC6.1-CC6.3                                                 |
 
 ---
 
 ## Version History
 
-| Version | Date | Changes |
-|---|---|---|
-| 1.0.0 | 2025-03-06 | Initial release |
+| Version | Date       | Changes         |
+| ------- | ---------- | --------------- |
+| 1.0.0   | 2025-03-06 | Initial release |

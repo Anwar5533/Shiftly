@@ -39,6 +39,7 @@ than just naming or describing the skill in passive terms.
 **0.0 – 0.19 (Grade F) — Unusable trigger**
 
 The description is absent, empty, or so vague that it provides no routing signal. Examples:
+
 - Description is under 10 characters
 - Description is just the skill name: "evaluation-methodology"
 - Description describes what the skill is, not when to use it: "A skill about evaluation"
@@ -50,12 +51,14 @@ user explicitly names it, but that defeats the purpose of a plugin ecosystem.
 **0.20 – 0.39 (Grade F/D) — Weak trigger**
 
 The description exists and is somewhat meaningful but has major gaps:
+
 - Mentions the domain but lacks trigger phrases ("Use when..." or similar)
 - Trigger language is present but maps to only one narrow use case
 - Description would trigger the skill on clearly wrong prompts (precision failure)
 - Description would miss 3+ of the 5 should-trigger test prompts (recall failure)
 
 Example of a 0.30-scoring description:
+
 > "PluginEval quality methodology — dimensions, rubrics, statistical methods."
 
 This names the topic but provides no trigger signal. The routing model cannot infer when
@@ -64,12 +67,14 @@ to use it.
 **0.40 – 0.59 (Grade D/C) — Partial trigger**
 
 The description has some trigger signal but is imprecise:
+
 - Contains "Use when" but only one specific context
 - Would correctly handle 3 of 5 should-trigger prompts
 - Some false positives — would fire for adjacent but wrong use cases
 - Trigger phrase is generic ("Use when working with evaluations") rather than specific
 
 Example of a 0.50-scoring description:
+
 > "PluginEval quality methodology — dimensions, rubrics. Use when understanding evaluation."
 
 Better — has a trigger phrase — but "understanding evaluation" is too generic. It would
@@ -78,12 +83,14 @@ catch some legitimate uses but also fire for unrelated evaluation tasks.
 **0.60 – 0.79 (Grade C/B) — Good trigger**
 
 Description clearly identifies when to invoke the skill with only minor gaps:
+
 - Contains "Use when..." or "Use this skill when..." with at least two specific contexts
 - Would correctly handle 4 of 5 should-trigger prompts
 - Precision is good (few false positives)
 - May miss edge-case trigger scenarios not explicitly listed
 
 Example of a 0.70-scoring description:
+
 > "PluginEval quality methodology. Use this skill when understanding how plugin quality is
 > measured or when interpreting evaluation results."
 
@@ -92,6 +99,7 @@ Good — two explicit trigger contexts — but misses calibration and stakeholde
 **0.80 – 1.00 (Grade A/B) — Excellent trigger**
 
 Description is precise and comprehensive:
+
 - Contains "Use when..." or "Use this skill when..." with 3+ specific, distinct contexts
 - Would correctly handle all 5 should-trigger prompts
 - Would correctly NOT trigger on all 5 should-not prompts
@@ -100,6 +108,7 @@ Description is precise and comprehensive:
 - Optionally includes "proactively" for skills that should auto-activate
 
 Example of a 0.90-scoring description:
+
 > "PluginEval quality methodology — dimensions, rubrics, statistical methods. Use this skill
 > when understanding how plugin quality is measured, interpreting evaluation results,
 > calibrating scoring thresholds, or explaining quality badges to stakeholders."
@@ -111,7 +120,7 @@ Four specific, distinct contexts. Fires on exactly the right prompts.
 - Start with a one-sentence summary of what the skill covers
 - Follow immediately with "Use this skill when..." and list 3+ concrete scenarios
 - Name specific technologies, output types, or file formats when relevant
-- Disambiguate from adjacent skills (e.g., "when *interpreting* results, not when *running*
+- Disambiguate from adjacent skills (e.g., "when _interpreting_ results, not when _running_
   evaluations — use the eval command for that")
 - Keep the total description under 200 characters for clean display in the CLI
 
@@ -135,6 +144,7 @@ Four specific, distinct contexts. Fires on exactly the right prompts.
 Orchestration fitness measures whether a skill behaves as a pure worker in the
 agent → skill hierarchy. A skill should receive a delegated task, execute it using its
 own instructions, and return structured output. It should NOT:
+
 - Make decisions about which other tools or skills to call
 - Manage multi-step workflows across multiple agents
 - Act as a supervisor that delegates to sub-workers
@@ -150,6 +160,7 @@ a worker (receives task → executes → returns output) or an orchestrator (pla
 → aggregates)? It looks for specific signals in both directions.
 
 **Worker signals (positive):**
+
 - Documents what it receives (inputs/parameters)
 - Documents what it returns (output format, structure)
 - Instructions are self-contained execution steps
@@ -157,6 +168,7 @@ a worker (receives task → executes → returns output) or an orchestrator (pla
 - Scoped, focused responsibilities
 
 **Orchestrator signals (negative):**
+
 - Uses words like "orchestrate", "coordinate", "dispatch", "delegate", "manage workflow"
 - Contains logic like "if X, call skill Y; if Z, call agent W"
 - Describes itself as a "supervisor" or "orchestrator"
@@ -172,6 +184,7 @@ sub-task delegation, and workflow coordination. It has no defined input/output c
 It reads like an agent system prompt, not a worker instruction set.
 
 Example characteristics:
+
 - "You will first assess the situation, then call the appropriate specialist..."
 - Dispatches to other skills based on internal logic
 - Has no "Input:" or "Output:" sections
@@ -183,6 +196,7 @@ The skill mixes worker and orchestrator responsibilities. It does some work itse
 also contains orchestration logic. The boundaries are unclear.
 
 Example characteristics:
+
 - Has an output format but also contains "if the user asks for X, also invoke Y"
 - Worker sections mixed with supervisor-style conditional routing
 - Returns both results and routing recommendations
@@ -194,6 +208,7 @@ The skill is mostly a worker but the output format is not structured for supervi
 consumption. The calling agent cannot easily parse or route on the output.
 
 Example characteristics:
+
 - Produces narrative/prose output rather than structured data
 - No explicit output format documentation
 - Assumes the calling agent "just knows" what to do with the result
@@ -205,6 +220,7 @@ The skill functions as a clean worker. Inputs and outputs are documented. The in
 produce output that a supervisor agent can consume. Minor issues remain.
 
 Example characteristics:
+
 - Has input and output documentation, but output schema could be more explicit
 - Instructions are worker-style throughout with only one or two ambiguous lines
 - Code blocks show worker behavior but coverage is incomplete
@@ -216,6 +232,7 @@ The skill is a composable, contract-defined worker. It is clear what it takes in
 it produces. The output format is specified in a way that a calling agent can rely on.
 
 Example characteristics:
+
 - Explicit "## Input" and "## Output" or "## Returns" sections
 - Output format is structured (JSON schema, typed fields, or clearly specified markdown)
 - Instructions are execution steps with no decision-tree routing to external services
@@ -225,6 +242,7 @@ Example characteristics:
 ### Good Signals vs. Bad Signals
 
 **Good signals (push score up):**
+
 - Documents expected inputs and output format explicitly
 - Produces artifacts a supervisor agent can consume without parsing prose
 - Uses imperative instructions ("Analyze X and return Y"), not conditional delegation
@@ -232,6 +250,7 @@ Example characteristics:
 - Output format section uses a schema, template, or typed field list
 
 **Bad signals (push score down):**
+
 - Contains "orchestrate", "coordinate", "dispatch" in instruction text
 - References other skills as execution dependencies (not just "see also")
 - Manages multi-step workflows that span multiple tool boundaries internally
@@ -268,6 +287,7 @@ and scores them. At standard depth (judge only), the judge simulates three tasks
 The judge selects three realistic tasks that the skill is designed to handle — varying from
 simple to complex. For each task, it mentally executes the skill's instructions and assesses
 whether the resulting output would be:
+
 - **Correct** — factually accurate, technically valid
 - **Complete** — covers all aspects the task requires
 - **Useful** — actionable, well-formatted, appropriate length
@@ -283,6 +303,7 @@ harmful output. The instructions contain factual errors, logical contradictions,
 directives that produce the opposite of the intended result.
 
 Example characteristics:
+
 - Incorrect formulas or algorithms presented as correct
 - Contradictory instructions that cannot both be followed
 - Instructions that assume wrong tool behaviors
@@ -295,6 +316,7 @@ of the skill's domain are unaddressed. A user following this skill would get par
 for basic requests and no help for moderate complexity.
 
 Example characteristics:
+
 - Handles the "hello world" case but not any realistic variant
 - Critical decision points have no guidance (the model must guess)
 - Output format is undefined — model produces inconsistent structure
@@ -306,6 +328,7 @@ Instructions produce reasonable output for straightforward tasks but struggle wi
 complexity. The skill is usable but requires the user to fill in significant gaps.
 
 Example characteristics:
+
 - Basic case is well-handled; complex case guidance is thin or absent
 - Output format is suggested but not enforced
 - Edge cases are not addressed — model must improvise
@@ -317,6 +340,7 @@ Instructions produce quality output for the majority of realistic tasks. A few e
 or complex scenarios may be handled suboptimally but the core use cases work well.
 
 Example characteristics:
+
 - Three or more concrete examples covering varied complexity
 - Output format is clearly specified
 - At least one edge case addressed explicitly
@@ -329,6 +353,7 @@ Instructions are comprehensive, specific, and produce high-quality output for ev
 or edge-case tasks. The skill represents a genuine expertise distillation.
 
 Example characteristics:
+
 - Examples cover simple, moderate, and complex cases
 - Output format is precisely specified with schema or template
 - Multiple edge cases addressed with specific handling guidance
@@ -339,6 +364,7 @@ Example characteristics:
 ### Judge Checks for Output Quality
 
 When assessing code examples and technical instructions, the judge verifies:
+
 - All code blocks are syntactically correct and would run without modification
 - Workflows are shown end-to-end, not as fragments requiring integration
 - Error handling is included for the most common failure modes
@@ -375,6 +401,7 @@ than a skill covering a simple utility function.
 ### How the judge scores it
 
 The judge assesses scope by asking:
+
 1. Does the skill cover all the important aspects of its stated domain?
 2. Does it cover anything outside its stated domain?
 3. Is the depth appropriate — neither superficial nor excessively detailed?
@@ -392,6 +419,7 @@ The skill is a placeholder. It has a name and description but the body contains 
 would receive fragmentary guidance insufficient to complete any real task.
 
 Example characteristics:
+
 - Fewer than 50 lines total
 - Body is a bulleted list of topics without elaboration
 - The description promises more than the content delivers
@@ -404,6 +432,7 @@ mentioned without sufficient depth to be actionable. The skill is not a stub but
 thin enough that users will frequently run into unaddressed scenarios.
 
 Example characteristics:
+
 - 50–100 lines covering 2–3 of the skill's 6+ important aspects
 - Core happy path is documented; anything unusual is missing
 - No examples or only one trivial example
@@ -416,6 +445,7 @@ over-scoped (includes content that belongs in a different skill). The content th
 is reasonable in quality but the overall package is not well-calibrated.
 
 Example characteristics:
+
 - Under-scoped: Covers most aspects but one or two important ones are absent or cursory
 - Over-scoped: Includes content that duplicates a sibling skill or is only tangentially
   related to the skill's stated domain
@@ -428,6 +458,7 @@ One or two gaps remain, or there is a small amount of tangential content, but th
 minor issues.
 
 Example characteristics:
+
 - 80–90% of the important aspects covered at useful depth
 - A practitioner could complete most tasks using only this skill
 - Any content outside the core domain is clearly supporting material, not distraction
@@ -440,6 +471,7 @@ at the right depth, with no padding and no gaps. Every section earns its place. 
 could be used as a reference implementation for its category.
 
 Example characteristics:
+
 - Comprehensive coverage of all important aspects without redundancy
 - Each section directly supports completing the skill's stated purpose
 - Appropriate use of `references/` for supporting material that doesn't belong in the
@@ -452,14 +484,14 @@ Example characteristics:
 
 Scope expectations vary by skill category. Use these as baseline calibration guides:
 
-| Category | Target lines (SKILL.md) | Pattern |
-|---|---|---|
-| Reference / Documentation | 200–500 | Deep coverage + references/ for extended material |
-| Workflow / Process | 150–300 | Step-by-step + decision points + worked example |
-| Code generator | 100–200 | Instructions + references/ for templates |
-| Diagnostic / Debugging | 200–400 | Decision trees + failure modes + procedures |
-| Integration / Configuration | 150–350 | Setup + options + copy-paste examples |
-| Coordination / Planning | 100–200 | Decisions + checklists + handoff protocol |
+| Category                    | Target lines (SKILL.md) | Pattern                                           |
+| --------------------------- | ----------------------- | ------------------------------------------------- |
+| Reference / Documentation   | 200–500                 | Deep coverage + references/ for extended material |
+| Workflow / Process          | 150–300                 | Step-by-step + decision points + worked example   |
+| Code generator              | 100–200                 | Instructions + references/ for templates          |
+| Diagnostic / Debugging      | 200–400                 | Decision trees + failure modes + procedures       |
+| Integration / Configuration | 150–350                 | Setup + options + copy-paste examples             |
+| Coordination / Planning     | 100–200                 | Decisions + checklists + handoff protocol         |
 
 ### Common Mistakes
 
@@ -481,12 +513,12 @@ Scope expectations vary by skill category. Use these as baseline calibration gui
 When running with `judges > 1`, PluginEval reports Cohen's kappa to measure agreement
 between judge instances. Target kappa ≥ 0.70 for a stable, well-defined skill.
 
-| Kappa range | Interpretation |
-|---|---|
-| ≥ 0.80 | Strong agreement — skill is clearly written |
-| 0.60 – 0.79 | Moderate agreement — skill has some ambiguous sections |
-| 0.40 – 0.59 | Fair agreement — skill needs clarity improvements |
-| < 0.40 | Poor agreement — skill is ambiguous or judges are not calibrated |
+| Kappa range | Interpretation                                                   |
+| ----------- | ---------------------------------------------------------------- |
+| ≥ 0.80      | Strong agreement — skill is clearly written                      |
+| 0.60 – 0.79 | Moderate agreement — skill has some ambiguous sections           |
+| 0.40 – 0.59 | Fair agreement — skill needs clarity improvements                |
+| < 0.40      | Poor agreement — skill is ambiguous or judges are not calibrated |
 
 Low kappa on a specific dimension points to the area needing clarification. Low
 triggering_accuracy kappa usually means the description maps to multiple different

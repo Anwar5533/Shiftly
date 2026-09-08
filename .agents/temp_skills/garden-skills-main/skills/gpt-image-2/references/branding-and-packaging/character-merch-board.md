@@ -13,12 +13,12 @@
 
 特征（与其它 mascot / brand 模板的区别）：
 
-| 模板 | 主体 | 重点 |
-|---|---|---|
-| `mascot-brand-kit.md`（已有） | 卡通吉祥物 | 三视图 + 表情 + 应用 |
-| `full-mascot-brand-doc.md`（新增） | 卡通吉祥物 | 18 模块全流程设计文档 |
-| `brand-identity-board.md`（已有） | 抽象品牌 | logo + 色 + 字 + 应用 mockup |
-| **本模板**（新增） | **二次元角色 / VTuber / 个人 IP** | **角色形象 + 包装 + 周边 + SNS + lifestyle goods** |
+| 模板                               | 主体                              | 重点                                               |
+| ---------------------------------- | --------------------------------- | -------------------------------------------------- |
+| `mascot-brand-kit.md`（已有）      | 卡通吉祥物                        | 三视图 + 表情 + 应用                               |
+| `full-mascot-brand-doc.md`（新增） | 卡通吉祥物                        | 18 模块全流程设计文档                              |
+| `brand-identity-board.md`（已有）  | 抽象品牌                          | logo + 色 + 字 + 应用 mockup                       |
+| **本模板**（新增）                 | **二次元角色 / VTuber / 个人 IP** | **角色形象 + 包装 + 周边 + SNS + lifestyle goods** |
 
 ## 适用范围
 
@@ -86,7 +86,12 @@
       {
         "type": "header banner",
         "position": "top",
-        "elements": ["large main logo", "small sub logo beneath", "cherry blossom decorative graphics", "character portrait on the right"]
+        "elements": [
+          "large main logo",
+          "small sub logo beneath",
+          "cherry blossom decorative graphics",
+          "character portrait on the right"
+        ]
       },
       {
         "type": "product packaging",
@@ -112,7 +117,12 @@
       {
         "type": "horizontal web banner",
         "position": "lower middle",
-        "elements": ["main logo on the left", "{argument name=\"motif\" default=\"cherry blossoms\"} graphics filling the middle", "character portrait on the right", "thin tagline below"]
+        "elements": [
+          "main logo on the left",
+          "{argument name=\"motif\" default=\"cherry blossoms\"} graphics filling the middle",
+          "character portrait on the right",
+          "thin tagline below"
+        ]
       },
       {
         "type": "social media profile mockup",
@@ -198,22 +208,74 @@
     "orientation": "vertical poster",
     "background": "clean white with faint pastel doodles of stars, bubbles, tiny jellyfish, and musical notes",
     "sections": [
-      { "title": "header", "position": "top", "elements": ["speech bubble intro", "main title", "small subtitle GOODS", "horizontal lavender ribbon tagline", "round badge on the top right"] },
-      { "title": "featured goods grid", "position": "upper and middle left", "count": 6, "labels": ["{argument name=\"goods 1\" default=\"ゆらゆらくらげランプ\"}", "{argument name=\"goods 2\" default=\"くらげと夢見るベッドリネン\"}", "{argument name=\"goods 3\" default=\"くらげシェルミラー\"}", "{argument name=\"goods 4\" default=\"くらげグラデマグ\"}", "{argument name=\"goods 5\" default=\"くらげのときめき収納ボックス\"}", "{argument name=\"goods 6\" default=\"くらげふわもこマット\"}"] },
-      { "title": "side handwritten note", "position": "upper right", "labels": ["{argument name=\"side note\" default=\"みんなも くらげちゃんRoomで いっしょに まったりしよー♡♡\"}"] },
-      { "title": "room concept box", "position": "lower left", "labels": ["{argument name=\"concept title\" default=\"くらげちゃんの お部屋作りのこだわり\"}"] },
+      {
+        "title": "header",
+        "position": "top",
+        "elements": [
+          "speech bubble intro",
+          "main title",
+          "small subtitle GOODS",
+          "horizontal lavender ribbon tagline",
+          "round badge on the top right"
+        ]
+      },
+      {
+        "title": "featured goods grid",
+        "position": "upper and middle left",
+        "count": 6,
+        "labels": [
+          "{argument name=\"goods 1\" default=\"ゆらゆらくらげランプ\"}",
+          "{argument name=\"goods 2\" default=\"くらげと夢見るベッドリネン\"}",
+          "{argument name=\"goods 3\" default=\"くらげシェルミラー\"}",
+          "{argument name=\"goods 4\" default=\"くらげグラデマグ\"}",
+          "{argument name=\"goods 5\" default=\"くらげのときめき収納ボックス\"}",
+          "{argument name=\"goods 6\" default=\"くらげふわもこマット\"}"
+        ]
+      },
+      {
+        "title": "side handwritten note",
+        "position": "upper right",
+        "labels": [
+          "{argument name=\"side note\" default=\"みんなも くらげちゃんRoomで いっしょに まったりしよー♡♡\"}"
+        ]
+      },
+      {
+        "title": "room concept box",
+        "position": "lower left",
+        "labels": [
+          "{argument name=\"concept title\" default=\"くらげちゃんの お部屋作りのこだわり\"}"
+        ]
+      },
       { "title": "pick up circle", "position": "lower center-left", "labels": ["Pick up!"] }
     ]
   },
   "product_images": {
     "count": 6,
     "items": [
-      { "name": "{argument name=\"goods 1\" default=\"ゆらゆらくらげランプ\"}", "description": "small translucent jellyfish-shaped lamp on a white base, glowing softly in pale blue-lavender" },
-      { "name": "{argument name=\"goods 2\" default=\"くらげと夢見るベッドリネン\"}", "description": "plush pastel-lavender bed with fluffy comforter and pillows, dreamy cozy bedroom styling" },
-      { "name": "{argument name=\"goods 3\" default=\"くらげシェルミラー\"}", "description": "small tabletop mirror with a puffy shell-like pastel-lilac frame and rounded base" },
-      { "name": "{argument name=\"goods 4\" default=\"くらげグラデマグ\"}", "description": "ceramic mug with lavender-to-pink gradient and a simple jellyfish illustration" },
-      { "name": "{argument name=\"goods 5\" default=\"くらげのときめき収納ボックス\"}", "description": "pastel storage box holding cosmetics and small bottles, decorated with a jellyfish emblem" },
-      { "name": "{argument name=\"goods 6\" default=\"くらげふわもこマット\"}", "description": "small fluffy cloud-like or jellyfish-like mat in pale lavender and white" }
+      {
+        "name": "{argument name=\"goods 1\" default=\"ゆらゆらくらげランプ\"}",
+        "description": "small translucent jellyfish-shaped lamp on a white base, glowing softly in pale blue-lavender"
+      },
+      {
+        "name": "{argument name=\"goods 2\" default=\"くらげと夢見るベッドリネン\"}",
+        "description": "plush pastel-lavender bed with fluffy comforter and pillows, dreamy cozy bedroom styling"
+      },
+      {
+        "name": "{argument name=\"goods 3\" default=\"くらげシェルミラー\"}",
+        "description": "small tabletop mirror with a puffy shell-like pastel-lilac frame and rounded base"
+      },
+      {
+        "name": "{argument name=\"goods 4\" default=\"くらげグラデマグ\"}",
+        "description": "ceramic mug with lavender-to-pink gradient and a simple jellyfish illustration"
+      },
+      {
+        "name": "{argument name=\"goods 5\" default=\"くらげのときめき収納ボックス\"}",
+        "description": "pastel storage box holding cosmetics and small bottles, decorated with a jellyfish emblem"
+      },
+      {
+        "name": "{argument name=\"goods 6\" default=\"くらげふわもこマット\"}",
+        "description": "small fluffy cloud-like or jellyfish-like mat in pale lavender and white"
+      }
     ]
   },
   "text_elements": {
@@ -230,7 +292,13 @@
     "product_blurbs": "each product has a short handwritten Japanese description in a cute casual font beside or below the image"
   },
   "composition": "the poster is left-heavy with product cards and text, while the character portrait occupies the lower right third, slightly overlapping the layout",
-  "color_palette": ["white", "pastel lavender", "soft lilac", "pale gray-violet", "touches of pastel blue-pink gradient"],
+  "color_palette": [
+    "white",
+    "pastel lavender",
+    "soft lilac",
+    "pale gray-violet",
+    "touches of pastel blue-pink gradient"
+  ],
   "constraints": {
     "must_keep": [
       "6 件商品风格统一（同色系 + 同质感倾向）",

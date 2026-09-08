@@ -27,20 +27,69 @@ interface Tpl {
 }
 
 const TEMPLATES: Tpl[] = [
-  { id: 'slide',  num: '01', name: 'Responsive Slide Engine',     cn: '响应式幻灯片引擎', desc: '1920×1080 自适应缩放 / 1-indexed 标号 / localStorage 续播', glyph: '▭' },
-  { id: 'frame',  num: '02', name: 'Device Simulation Frames',    cn: '设备模拟外框',     desc: 'iPhone / Android / 浏览器窗口 —— 让原型像在真机里', glyph: '▢' },
-  { id: 'tweak',  num: '03', name: 'Tweaks Panel',                cn: '运行时参数面板',   desc: '右下角浮动面板：主题 / 字号 / 暗色 / 间距 一键切', glyph: '⚙' },
-  { id: 'time',   num: '04', name: 'Animation Timeline Engine',   cn: '动画时间线引擎',   desc: 'useTime + Easing + interpolate —— 时间轴可拖拽', glyph: '⌁' },
-  { id: 'canvas', num: '05', name: 'Design Canvas',               cn: '多方案对比画布',   desc: '把 N 个变体并排铺开，让用户一眼挑出来', glyph: '◫' },
-  { id: 'dark',   num: '06', name: 'Dark Mode Toggle',            cn: '暗色模式切换',     desc: 'prefers-color-scheme + 手动覆盖，token 一键翻面', glyph: '◐' },
-  { id: 'data',   num: '07', name: 'Data Visualization',          cn: '数据可视化模板',   desc: 'Chart.js / D3 / oklch palette —— data-ink 比优先', glyph: '◢' },
+  {
+    id: 'slide',
+    num: '01',
+    name: 'Responsive Slide Engine',
+    cn: '响应式幻灯片引擎',
+    desc: '1920×1080 自适应缩放 / 1-indexed 标号 / localStorage 续播',
+    glyph: '▭',
+  },
+  {
+    id: 'frame',
+    num: '02',
+    name: 'Device Simulation Frames',
+    cn: '设备模拟外框',
+    desc: 'iPhone / Android / 浏览器窗口 —— 让原型像在真机里',
+    glyph: '▢',
+  },
+  {
+    id: 'tweak',
+    num: '03',
+    name: 'Tweaks Panel',
+    cn: '运行时参数面板',
+    desc: '右下角浮动面板：主题 / 字号 / 暗色 / 间距 一键切',
+    glyph: '⚙',
+  },
+  {
+    id: 'time',
+    num: '04',
+    name: 'Animation Timeline Engine',
+    cn: '动画时间线引擎',
+    desc: 'useTime + Easing + interpolate —— 时间轴可拖拽',
+    glyph: '⌁',
+  },
+  {
+    id: 'canvas',
+    num: '05',
+    name: 'Design Canvas',
+    cn: '多方案对比画布',
+    desc: '把 N 个变体并排铺开，让用户一眼挑出来',
+    glyph: '◫',
+  },
+  {
+    id: 'dark',
+    num: '06',
+    name: 'Dark Mode Toggle',
+    cn: '暗色模式切换',
+    desc: 'prefers-color-scheme + 手动覆盖，token 一键翻面',
+    glyph: '◐',
+  },
+  {
+    id: 'data',
+    num: '07',
+    name: 'Data Visualization',
+    cn: '数据可视化模板',
+    desc: 'Chart.js / D3 / oklch palette —— data-ink 比优先',
+    glyph: '◢',
+  },
 ];
 
 function References({ localStep }: ChapterContext) {
-  const sceneHero    = localStep <= 0;
-  const sceneList    = localStep === 1;
-  const sceneOrigin  = localStep === 2;
-  const sceneClose   = localStep >= 3;
+  const sceneHero = localStep <= 0;
+  const sceneList = localStep === 1;
+  const sceneOrigin = localStep === 2;
+  const sceneClose = localStep >= 3;
 
   return (
     <section className="rf">
@@ -107,7 +156,8 @@ function References({ localStep }: ChapterContext) {
             >
               <div className="rf__card-hint-eyebrow">+ 还在更新</div>
               <div className="rf__card-hint-line">
-                每个模板都是<em>真实项目验证过</em>的，<br />
+                每个模板都是<em>真实项目验证过</em>的，
+                <br />
                 不是"AI 自由发挥"出来的。
               </div>
             </div>
@@ -124,7 +174,12 @@ function References({ localStep }: ChapterContext) {
 
           <div className="rf__origin-row">
             {/* 左：Claude Design 原始函数 */}
-            <Reveal kind="rise" duration={780} delay={300} className="rf__origin-card rf__origin-card--src">
+            <Reveal
+              kind="rise"
+              duration={780}
+              delay={300}
+              className="rf__origin-card rf__origin-card--src"
+            >
               <div className="rf__origin-card-tag">
                 <span className="rf__src-bracket">[</span>
                 <span className="rf__src-label">CLAUDE DESIGN · TOOL</span>
@@ -135,7 +190,8 @@ function References({ localStep }: ChapterContext) {
                 <span className="rf__origin-card-fn-paren">()</span>
               </div>
               <div className="rf__origin-card-desc">
-                给 Agent 提供<em>高质量的起点脚手架</em> ——<br />
+                给 Agent 提供<em>高质量的起点脚手架</em> ——
+                <br />
                 而不是让它从零开始 <em>"自由发挥"</em>。
               </div>
             </Reveal>
@@ -148,7 +204,12 @@ function References({ localStep }: ChapterContext) {
             </Reveal>
 
             {/* 右：references */}
-            <Reveal kind="rise" duration={780} delay={900} className="rf__origin-card rf__origin-card--dst">
+            <Reveal
+              kind="rise"
+              duration={780}
+              delay={900}
+              className="rf__origin-card rf__origin-card--dst"
+            >
               <div className="rf__origin-card-tag rf__origin-card-tag--dst">
                 <span className="rf__src-bracket">[</span>
                 <span className="rf__src-label">SKILL · references/</span>
@@ -158,7 +219,8 @@ function References({ localStep }: ChapterContext) {
                 <span className="rf__origin-card-fn-name">advanced-patterns.md</span>
               </div>
               <div className="rf__origin-card-desc">
-                7 套<em>开箱即用</em>的代码模板 ——<br />
+                7 套<em>开箱即用</em>的代码模板 ——
+                <br />
                 Claude Code · Cursor · Codex 都能直接 import。
               </div>
             </Reveal>

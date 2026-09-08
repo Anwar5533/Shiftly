@@ -2,11 +2,11 @@
 
 Use a profile as design evidence, then lock its palette, typography, spacing, and signature element in `summary.design_context` before coordinate authoring.
 
-| Profile | Best for | Signals |
-| --- | --- | --- |
-| `fluent-ui-design-tokens` | enterprise and Microsoft-aligned decks | restrained neutrals, clear hierarchy, token-based spacing, modest radii |
-| `primer-primitives` | GitHub and developer-focused decks | crisp surfaces, strong text contrast, functional accents, compact labels |
-| `editorial-minimal` | executive narrative and research decks | generous whitespace, high-contrast type, limited palette, one visual motif |
+| Profile                   | Best for                               | Signals                                                                    |
+| ------------------------- | -------------------------------------- | -------------------------------------------------------------------------- |
+| `fluent-ui-design-tokens` | enterprise and Microsoft-aligned decks | restrained neutrals, clear hierarchy, token-based spacing, modest radii    |
+| `primer-primitives`       | GitHub and developer-focused decks     | crisp surfaces, strong text contrast, functional accents, compact labels   |
+| `editorial-minimal`       | executive narrative and research decks | generous whitespace, high-contrast type, limited palette, one visual motif |
 
 ## Rules
 

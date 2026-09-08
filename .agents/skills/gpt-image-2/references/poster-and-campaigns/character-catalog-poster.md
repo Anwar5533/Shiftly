@@ -20,12 +20,12 @@
 
 与其它模板的区别：
 
-| 模板 | 重点 |
-|---|---|
-| `portraits-and-characters/character-sheet.md`（已有） | 单角色三视图 + 表情 + 服装 |
-| `avatars-and-profile/cultural-portrait-series.md`（已有） | 朝代 / 民族 / 文学系列肖像（侧重肖像本身） |
-| `avatars-and-profile/character-grid-portrait.md`（已有） | n×n 网格肖像（多职业 / 表情 / 朝代） |
-| **本模板**（新增） | **同角色多版本卡片，每卡有独立 theme + 6-8 条性格文案 + 装饰 motif** |
+| 模板                                                      | 重点                                                                 |
+| --------------------------------------------------------- | -------------------------------------------------------------------- |
+| `portraits-and-characters/character-sheet.md`（已有）     | 单角色三视图 + 表情 + 服装                                           |
+| `avatars-and-profile/cultural-portrait-series.md`（已有） | 朝代 / 民族 / 文学系列肖像（侧重肖像本身）                           |
+| `avatars-and-profile/character-grid-portrait.md`（已有）  | n×n 网格肖像（多职业 / 表情 / 朝代）                                 |
+| **本模板**（新增）                                        | **同角色多版本卡片，每卡有独立 theme + 6-8 条性格文案 + 装饰 motif** |
 
 ## 适用范围
 
@@ -83,7 +83,11 @@
   "header": {
     "title": "{argument name=\"headline text\" default=\"十二星座角色清單|水象星座\"}",
     "subtitle": "{argument name=\"subtitle text\" default=\"感受・直覺・共鳴\"}",
-    "icons": ["small stars", "{argument name=\"top right motif\" default=\"water droplet emblem in top right\"}", "curled cloud-like line art in top left"]
+    "icons": [
+      "small stars",
+      "{argument name=\"top right motif\" default=\"water droplet emblem in top right\"}",
+      "curled cloud-like line art in top left"
+    ]
   },
   "layout": {
     "sections_count": 3,

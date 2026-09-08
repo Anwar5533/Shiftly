@@ -80,22 +80,62 @@
   "color_semantics": {
     "rule": "颜色按'角色'编码，不按'技术'编码",
     "palette": [
-      { "role": "User / Client / Edge", "color": "cyan #22D3EE", "use_for": "终端用户、Web、Mobile、CLI" },
-      { "role": "Gateway / API / BFF", "color": "blue #60A5FA", "use_for": "API 网关、负载均衡、CDN、BFF" },
-      { "role": "Business Services", "color": "emerald #34D399", "use_for": "微服务、应用层、业务逻辑" },
-      { "role": "Data / Persistence", "color": "violet #A78BFA", "use_for": "数据库、缓存、对象存储、搜索" },
-      { "role": "Middleware / Queue", "color": "orange #FB923C", "use_for": "MQ、Kafka、Redis Stream、Pub/Sub" },
-      { "role": "Infra / Platform", "color": "amber #FBBF24", "use_for": "K8s、容器运行时、云平台" },
+      {
+        "role": "User / Client / Edge",
+        "color": "cyan #22D3EE",
+        "use_for": "终端用户、Web、Mobile、CLI"
+      },
+      {
+        "role": "Gateway / API / BFF",
+        "color": "blue #60A5FA",
+        "use_for": "API 网关、负载均衡、CDN、BFF"
+      },
+      {
+        "role": "Business Services",
+        "color": "emerald #34D399",
+        "use_for": "微服务、应用层、业务逻辑"
+      },
+      {
+        "role": "Data / Persistence",
+        "color": "violet #A78BFA",
+        "use_for": "数据库、缓存、对象存储、搜索"
+      },
+      {
+        "role": "Middleware / Queue",
+        "color": "orange #FB923C",
+        "use_for": "MQ、Kafka、Redis Stream、Pub/Sub"
+      },
+      {
+        "role": "Infra / Platform",
+        "color": "amber #FBBF24",
+        "use_for": "K8s、容器运行时、云平台"
+      },
       { "role": "Security / Auth", "color": "rose #FB7185", "use_for": "鉴权、密钥、审计、防火墙" },
-      { "role": "External / 3rd Party", "color": "slate #94A3B8", "use_for": "外部 SaaS、第三方 API" }
+      {
+        "role": "External / 3rd Party",
+        "color": "slate #94A3B8",
+        "use_for": "外部 SaaS、第三方 API"
+      }
     ]
   },
   "regions": {
     "rule": "用大虚线框包围属于同一'部署单元'的节点，框上方有 region label",
     "items": [
-      { "id": "R1", "label": "{argument name=\"region1_label\" default=\"Public Edge\"}", "color_border": "cyan dashed" },
-      { "id": "R2", "label": "{argument name=\"region2_label\" default=\"VPC · ap-northeast-1\"}", "color_border": "amber dashed" },
-      { "id": "R3", "label": "{argument name=\"region3_label\" default=\"Data Plane\"}", "color_border": "violet dashed" }
+      {
+        "id": "R1",
+        "label": "{argument name=\"region1_label\" default=\"Public Edge\"}",
+        "color_border": "cyan dashed"
+      },
+      {
+        "id": "R2",
+        "label": "{argument name=\"region2_label\" default=\"VPC · ap-northeast-1\"}",
+        "color_border": "amber dashed"
+      },
+      {
+        "id": "R3",
+        "label": "{argument name=\"region3_label\" default=\"Data Plane\"}",
+        "color_border": "violet dashed"
+      }
     ]
   },
   "nodes": {

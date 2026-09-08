@@ -1,6 +1,6 @@
 ---
-description: "Orchestrate git workflow from code review through PR creation with quality gates"
-argument-hint: "<target branch> [--skip-tests] [--draft-pr] [--no-push] [--squash] [--conventional] [--trunk-based]"
+description: 'Orchestrate git workflow from code review through PR creation with quality gates'
+argument-hint: '<target branch> [--skip-tests] [--draft-pr] [--no-push] [--squash] [--conventional] [--trunk-based]'
 ---
 
 # Git Workflow Orchestrator

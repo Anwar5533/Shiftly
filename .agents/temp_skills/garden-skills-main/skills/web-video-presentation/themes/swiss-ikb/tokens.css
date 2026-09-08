@@ -25,47 +25,45 @@
  * ───────────────────────────────────────────────────────────────────── */
 :root {
   /* ─── palette ─── */
-  --shell:        #e8e8e6;
-  --surface:      #fafaf8;
-  --surface-2:    #f0f0ee;
-  --surface-3:    #d4d4d2;
-  --text:         #0a0a0a;
-  --text-2:       #2a2a2a;
-  --text-mute:    #737373;
-  --text-faint:   #a8a8a8;
-  --rule:         #e0e0e0;
-  --accent:       #002fa7;             /* IKB — International Klein Blue */
-  --accent-soft:  rgba(0, 47, 167, 0.08);
-  --accent-glow:  rgba(0, 47, 167, 0.35);
+  --shell: #e8e8e6;
+  --surface: #fafaf8;
+  --surface-2: #f0f0ee;
+  --surface-3: #d4d4d2;
+  --text: #0a0a0a;
+  --text-2: #2a2a2a;
+  --text-mute: #737373;
+  --text-faint: #a8a8a8;
+  --rule: #e0e0e0;
+  --accent: #002fa7; /* IKB — International Klein Blue */
+  --accent-soft: rgba(0, 47, 167, 0.08);
+  --accent-glow: rgba(0, 47, 167, 0.35);
 
   /* ─── fonts (sans everywhere — Swiss is anti-serif) ─── */
-  --font-display-cn: "Noto Sans SC", "Source Han Sans SC", -apple-system, sans-serif;
-  --font-display-en: "Inter", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-  --font-body:       "Inter", "Helvetica Neue", "Noto Sans SC", -apple-system, sans-serif;
-  --font-mono:       "JetBrains Mono", "SF Mono", ui-monospace, monospace;
-  --font-features:   "tnum", "ss01", "ss02", "cv02";
+  --font-display-cn: 'Noto Sans SC', 'Source Han Sans SC', -apple-system, sans-serif;
+  --font-display-en: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  --font-body: 'Inter', 'Helvetica Neue', 'Noto Sans SC', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+  --font-features: 'tnum', 'ss01', 'ss02', 'cv02';
 
   /* ─── motion: punchy + linear (Swiss isn't springy) ─── */
-  --dur-quick:     180ms;
-  --dur-base:      400ms;
-  --dur-slow:      650ms;
+  --dur-quick: 180ms;
+  --dur-base: 400ms;
+  --dur-slow: 650ms;
   --dur-cinematic: 1000ms;
 
   /* ─── design identity: international style ─── */
-  --r-card:        var(--r-flat);     /* SIGNATURE — direct rectangles */
-  --r-stage:       0;
-  --rule-w:        1px;
-  --rule-style:    solid;
-  --hero-num-font:    var(--font-display-en);
-  --hero-num-style:   normal;
-  --hero-num-weight:  200;             /* SIGNATURE — extra-light */
-  --hero-num-track:   -0.04em;
-  --stage-pad-x:   96px;
-  --stage-pad-y:   72px;
-  --card-shadow:   inset 0 0 0 1px var(--rule);
-  --shadow-stage:
-    0 60px 160px rgba(0, 0, 0, 0.18),
-    0 0 0 1px rgba(0, 0, 0, 0.06);
+  --r-card: var(--r-flat); /* SIGNATURE — direct rectangles */
+  --r-stage: 0;
+  --rule-w: 1px;
+  --rule-style: solid;
+  --hero-num-font: var(--font-display-en);
+  --hero-num-style: normal;
+  --hero-num-weight: 200; /* SIGNATURE — extra-light */
+  --hero-num-track: -0.04em;
+  --stage-pad-x: 96px;
+  --stage-pad-y: 72px;
+  --card-shadow: inset 0 0 0 1px var(--rule);
+  --shadow-stage: 0 60px 160px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.06);
 
   /* ─── decoration: SIGNATURE — 1px hairline grid (the Swiss scaffold) ─── */
   --surface-pattern:

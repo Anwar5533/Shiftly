@@ -8,18 +8,18 @@ Complete reference for all **202 local specialized AI agents** organized by cate
 
 #### Core Architecture
 
-| Agent                                                                                         | Model  | Description                                                            |
-| --------------------------------------------------------------------------------------------- | ------ | ---------------------------------------------------------------------- |
-| [backend-architect](../plugins/backend-development/agents/backend-architect.md)               | opus   | RESTful API design, microservice boundaries, database schemas          |
-| [frontend-developer](../plugins/multi-platform-apps/agents/frontend-developer.md)             | sonnet | React components, responsive layouts, client-side state management     |
-| [graphql-architect](../plugins/backend-development/agents/graphql-architect.md)               | opus   | GraphQL schemas, resolvers, federation architecture                    |
-| [architect-reviewer](../plugins/comprehensive-review/agents/architect-review.md)              | opus   | Architectural consistency analysis and pattern validation              |
-| [cloud-architect](../plugins/cloud-infrastructure/agents/cloud-architect.md)                  | opus   | AWS/Azure/GCP infrastructure design and cost optimization              |
-| [hybrid-cloud-architect](../plugins/cloud-infrastructure/agents/hybrid-cloud-architect.md)    | opus   | Multi-cloud strategies across cloud and on-premises environments       |
-| [kubernetes-architect](../plugins/kubernetes-operations/agents/kubernetes-architect.md)       | opus   | Cloud-native infrastructure with Kubernetes and GitOps                 |
-| [service-mesh-expert](../plugins/cloud-infrastructure/agents/service-mesh-expert.md)          | opus   | Istio/Linkerd service mesh architecture, mTLS, and traffic management  |
-| [event-sourcing-architect](../plugins/backend-development/agents/event-sourcing-architect.md) | inherit| Event sourcing, CQRS patterns, event stores, and saga orchestration    |
-| [monorepo-architect](../plugins/developer-essentials/agents/monorepo-architect.md)            | opus   | Monorepo tooling with Nx, Turborepo, Bazel, and workspace optimization |
+| Agent                                                                                         | Model   | Description                                                            |
+| --------------------------------------------------------------------------------------------- | ------- | ---------------------------------------------------------------------- |
+| [backend-architect](../plugins/backend-development/agents/backend-architect.md)               | opus    | RESTful API design, microservice boundaries, database schemas          |
+| [frontend-developer](../plugins/multi-platform-apps/agents/frontend-developer.md)             | sonnet  | React components, responsive layouts, client-side state management     |
+| [graphql-architect](../plugins/backend-development/agents/graphql-architect.md)               | opus    | GraphQL schemas, resolvers, federation architecture                    |
+| [architect-reviewer](../plugins/comprehensive-review/agents/architect-review.md)              | opus    | Architectural consistency analysis and pattern validation              |
+| [cloud-architect](../plugins/cloud-infrastructure/agents/cloud-architect.md)                  | opus    | AWS/Azure/GCP infrastructure design and cost optimization              |
+| [hybrid-cloud-architect](../plugins/cloud-infrastructure/agents/hybrid-cloud-architect.md)    | opus    | Multi-cloud strategies across cloud and on-premises environments       |
+| [kubernetes-architect](../plugins/kubernetes-operations/agents/kubernetes-architect.md)       | opus    | Cloud-native infrastructure with Kubernetes and GitOps                 |
+| [service-mesh-expert](../plugins/cloud-infrastructure/agents/service-mesh-expert.md)          | opus    | Istio/Linkerd service mesh architecture, mTLS, and traffic management  |
+| [event-sourcing-architect](../plugins/backend-development/agents/event-sourcing-architect.md) | inherit | Event sourcing, CQRS patterns, event stores, and saga orchestration    |
+| [monorepo-architect](../plugins/developer-essentials/agents/monorepo-architect.md)            | opus    | Monorepo tooling with Nx, Turborepo, Bazel, and workspace optimization |
 
 #### UI/UX & Mobile
 
@@ -47,22 +47,22 @@ Complete reference for all **202 local specialized AI agents** organized by cate
 
 #### Web & Application
 
-| Agent                                                                               | Model  | Description                                                                       |
-| ----------------------------------------------------------------------------------- | ------ | --------------------------------------------------------------------------------- |
-| [javascript-pro](../plugins/javascript-typescript/agents/javascript-pro.md)         | sonnet | Modern JavaScript with ES6+, async patterns, Node.js                              |
-| [typescript-pro](../plugins/javascript-typescript/agents/typescript-pro.md)         | sonnet | Advanced TypeScript with type systems and generics                                |
-| [python-pro](../plugins/python-development/agents/python-pro.md)                    | sonnet | Python development with advanced features and optimization                        |
-| [temporal-python-pro](../plugins/backend-development/agents/temporal-python-pro.md) | inherit| Temporal workflow orchestration with Python SDK, durable workflows, saga patterns |
-| [ruby-pro](../plugins/web-scripting/agents/ruby-pro.md)                             | sonnet | Ruby with metaprogramming, Rails patterns, gem development                        |
-| [php-pro](../plugins/web-scripting/agents/php-pro.md)                               | sonnet | Modern PHP with frameworks and performance optimization                           |
+| Agent                                                                               | Model   | Description                                                                       |
+| ----------------------------------------------------------------------------------- | ------- | --------------------------------------------------------------------------------- |
+| [javascript-pro](../plugins/javascript-typescript/agents/javascript-pro.md)         | sonnet  | Modern JavaScript with ES6+, async patterns, Node.js                              |
+| [typescript-pro](../plugins/javascript-typescript/agents/typescript-pro.md)         | sonnet  | Advanced TypeScript with type systems and generics                                |
+| [python-pro](../plugins/python-development/agents/python-pro.md)                    | sonnet  | Python development with advanced features and optimization                        |
+| [temporal-python-pro](../plugins/backend-development/agents/temporal-python-pro.md) | inherit | Temporal workflow orchestration with Python SDK, durable workflows, saga patterns |
+| [ruby-pro](../plugins/web-scripting/agents/ruby-pro.md)                             | sonnet  | Ruby with metaprogramming, Rails patterns, gem development                        |
+| [php-pro](../plugins/web-scripting/agents/php-pro.md)                               | sonnet  | Modern PHP with frameworks and performance optimization                           |
 
 #### Enterprise & JVM
 
-| Agent                                                       | Model  | Description                                                          |
-| ----------------------------------------------------------- | ------ | -------------------------------------------------------------------- |
-| [java-pro](../plugins/jvm-languages/agents/java-pro.md)     | sonnet | Modern Java with streams, concurrency, JVM optimization              |
-| [scala-pro](../plugins/jvm-languages/agents/scala-pro.md)   | sonnet | Enterprise Scala with functional programming and distributed systems |
-| [csharp-pro](../plugins/jvm-languages/agents/csharp-pro.md) | inherit| C# development with .NET frameworks and patterns                     |
+| Agent                                                       | Model   | Description                                                          |
+| ----------------------------------------------------------- | ------- | -------------------------------------------------------------------- |
+| [java-pro](../plugins/jvm-languages/agents/java-pro.md)     | sonnet  | Modern Java with streams, concurrency, JVM optimization              |
+| [scala-pro](../plugins/jvm-languages/agents/scala-pro.md)   | sonnet  | Enterprise Scala with functional programming and distributed systems |
+| [csharp-pro](../plugins/jvm-languages/agents/csharp-pro.md) | inherit | C# development with .NET frameworks and patterns                     |
 
 #### Specialized Platforms
 
@@ -89,11 +89,11 @@ Complete reference for all **202 local specialized AI agents** organized by cate
 
 #### Database Management
 
-| Agent                                                                                  | Model  | Description                                                         |
-| -------------------------------------------------------------------------------------- | ------ | ------------------------------------------------------------------- |
-| [database-optimizer](../plugins/observability-monitoring/agents/database-optimizer.md) | inherit| Query optimization, index design, migration strategies              |
-| [database-admin](../plugins/database-migrations/agents/database-admin.md)              | sonnet | Database operations, backup, replication, monitoring                |
-| [database-architect](../plugins/database-design/agents/database-architect.md)          | opus   | Database design from scratch, technology selection, schema modeling |
+| Agent                                                                                  | Model   | Description                                                         |
+| -------------------------------------------------------------------------------------- | ------- | ------------------------------------------------------------------- |
+| [database-optimizer](../plugins/observability-monitoring/agents/database-optimizer.md) | inherit | Query optimization, index design, migration strategies              |
+| [database-admin](../plugins/database-migrations/agents/database-admin.md)              | sonnet  | Database operations, backup, replication, monitoring                |
+| [database-architect](../plugins/database-design/agents/database-architect.md)          | opus    | Database design from scratch, technology selection, schema modeling |
 
 #### Incident Response & Network
 
@@ -104,22 +104,22 @@ Complete reference for all **202 local specialized AI agents** organized by cate
 
 #### Project Management
 
-| Agent                                                             | Model | Description                                                                          |
-| ----------------------------------------------------------------- | ----- | ------------------------------------------------------------------------------------ |
+| Agent                                                                     | Model | Description                                                                          |
+| ------------------------------------------------------------------------- | ----- | ------------------------------------------------------------------------------------ |
 | [conductor-validator](../plugins/conductor/agents/conductor-validator.md) | opus  | Validates Conductor project artifacts for completeness, consistency, and correctness |
 
 ### Quality Assurance & Security
 
 #### Code Quality & Review
 
-| Agent                                                                                            | Model | Description                                                     |
-| ------------------------------------------------------------------------------------------------ | ----- | --------------------------------------------------------------- |
-| [code-reviewer](../plugins/comprehensive-review/agents/code-reviewer.md)                         | opus  | Code review with security focus and production reliability      |
-| [security-auditor](../plugins/comprehensive-review/agents/security-auditor.md)                   | opus  | Vulnerability assessment and OWASP compliance                   |
-| [backend-security-coder](../plugins/data-validation-suite/agents/backend-security-coder.md)      | opus  | Secure backend coding practices, API security implementation    |
-| [frontend-security-coder](../plugins/frontend-mobile-security/agents/frontend-security-coder.md) | sonnet| XSS prevention, CSP implementation, client-side security        |
-| [mobile-security-coder](../plugins/frontend-mobile-security/agents/mobile-security-coder.md)     | opus  | Mobile security patterns, WebView security, biometric auth      |
-| [threat-modeling-expert](../plugins/security-scanning/agents/threat-modeling-expert.md)          | opus  | STRIDE threat modeling, attack trees, and security requirements |
+| Agent                                                                                            | Model  | Description                                                     |
+| ------------------------------------------------------------------------------------------------ | ------ | --------------------------------------------------------------- |
+| [code-reviewer](../plugins/comprehensive-review/agents/code-reviewer.md)                         | opus   | Code review with security focus and production reliability      |
+| [security-auditor](../plugins/comprehensive-review/agents/security-auditor.md)                   | opus   | Vulnerability assessment and OWASP compliance                   |
+| [backend-security-coder](../plugins/data-validation-suite/agents/backend-security-coder.md)      | opus   | Secure backend coding practices, API security implementation    |
+| [frontend-security-coder](../plugins/frontend-mobile-security/agents/frontend-security-coder.md) | sonnet | XSS prevention, CSP implementation, client-side security        |
+| [mobile-security-coder](../plugins/frontend-mobile-security/agents/mobile-security-coder.md)     | opus   | Mobile security patterns, WebView security, biometric auth      |
+| [threat-modeling-expert](../plugins/security-scanning/agents/threat-modeling-expert.md)          | opus   | STRIDE threat modeling, attack trees, and security requirements |
 
 #### Testing & Debugging
 
@@ -132,34 +132,34 @@ Complete reference for all **202 local specialized AI agents** organized by cate
 
 #### Performance & Observability
 
-| Agent                                                                                          | Model | Description                                                    |
-| ---------------------------------------------------------------------------------------------- | ----- | -------------------------------------------------------------- |
-| [performance-engineer](../plugins/observability-monitoring/agents/performance-engineer.md)     | opus  | Application profiling and optimization                         |
-| [observability-engineer](../plugins/observability-monitoring/agents/observability-engineer.md) | inherit| Production monitoring, distributed tracing, SLI/SLO management |
-| [search-specialist](../plugins/content-marketing/agents/search-specialist.md)                  | haiku | Advanced web research and information synthesis                |
+| Agent                                                                                          | Model   | Description                                                    |
+| ---------------------------------------------------------------------------------------------- | ------- | -------------------------------------------------------------- |
+| [performance-engineer](../plugins/observability-monitoring/agents/performance-engineer.md)     | opus    | Application profiling and optimization                         |
+| [observability-engineer](../plugins/observability-monitoring/agents/observability-engineer.md) | inherit | Production monitoring, distributed tracing, SLI/SLO management |
+| [search-specialist](../plugins/content-marketing/agents/search-specialist.md)                  | haiku   | Advanced web research and information synthesis                |
 
 ### Data & AI
 
 #### Data Engineering & Analytics
 
-| Agent                                                                      | Model  | Description                                             |
-| -------------------------------------------------------------------------- | ------ | ------------------------------------------------------- |
-| [data-scientist](../plugins/machine-learning-ops/agents/data-scientist.md) | inherit| Data analysis, SQL queries, BigQuery operations         |
-| [data-engineer](../plugins/data-engineering/agents/data-engineer.md)       | sonnet | ETL pipelines, data warehouses, streaming architectures |
+| Agent                                                                      | Model   | Description                                             |
+| -------------------------------------------------------------------------- | ------- | ------------------------------------------------------- |
+| [data-scientist](../plugins/machine-learning-ops/agents/data-scientist.md) | inherit | Data analysis, SQL queries, BigQuery operations         |
+| [data-engineer](../plugins/data-engineering/agents/data-engineer.md)       | sonnet  | ETL pipelines, data warehouses, streaming architectures |
 
 #### Machine Learning & AI
 
-| Agent                                                                                         | Model | Description                                                           |
-| --------------------------------------------------------------------------------------------- | ----- | --------------------------------------------------------------------- |
-| [ai-engineer](../plugins/llm-application-dev/agents/ai-engineer.md)                           | opus  | LLM applications, RAG systems, prompt pipelines                       |
-| [ml-engineer](../plugins/machine-learning-ops/agents/ml-engineer.md)                          | opus  | ML pipelines, model serving, feature engineering                      |
-| [mlops-engineer](../plugins/machine-learning-ops/agents/mlops-engineer.md)                    | opus  | ML infrastructure, experiment tracking, model registries              |
-| [prompt-engineer](../plugins/llm-application-dev/agents/prompt-engineer.md)                   | opus  | LLM prompt optimization and engineering                               |
-| [vector-database-engineer](../plugins/llm-application-dev/agents/vector-database-engineer.md) | inherit| Vector databases, embeddings, similarity search, and hybrid retrieval |
-| [llm-finetuning-architect](../plugins/llm-finetuning/agents/llm-finetuning-architect.md)      | opus  | Fine-tuning strategy, method/model selection, eval-gate ownership     |
-| [llm-finetuning-training-engineer](../plugins/llm-finetuning/agents/llm-finetuning-training-engineer.md) | sonnet | Dataset prep, Unsloth training runs, artifact export         |
-| [llm-finetuning-eval-engineer](../plugins/llm-finetuning/agents/llm-finetuning-eval-engineer.md) | sonnet | Golden sets, judge calibration, checkpoint promotion verdicts     |
-| [dgx-spark-ops-engineer](../plugins/dgx-spark-ops/agents/dgx-spark-ops-engineer.md)           | sonnet | DGX Spark (GB10/aarch64/CUDA 13) environment setup and diagnostics   |
+| Agent                                                                                                    | Model   | Description                                                           |
+| -------------------------------------------------------------------------------------------------------- | ------- | --------------------------------------------------------------------- |
+| [ai-engineer](../plugins/llm-application-dev/agents/ai-engineer.md)                                      | opus    | LLM applications, RAG systems, prompt pipelines                       |
+| [ml-engineer](../plugins/machine-learning-ops/agents/ml-engineer.md)                                     | opus    | ML pipelines, model serving, feature engineering                      |
+| [mlops-engineer](../plugins/machine-learning-ops/agents/mlops-engineer.md)                               | opus    | ML infrastructure, experiment tracking, model registries              |
+| [prompt-engineer](../plugins/llm-application-dev/agents/prompt-engineer.md)                              | opus    | LLM prompt optimization and engineering                               |
+| [vector-database-engineer](../plugins/llm-application-dev/agents/vector-database-engineer.md)            | inherit | Vector databases, embeddings, similarity search, and hybrid retrieval |
+| [llm-finetuning-architect](../plugins/llm-finetuning/agents/llm-finetuning-architect.md)                 | opus    | Fine-tuning strategy, method/model selection, eval-gate ownership     |
+| [llm-finetuning-training-engineer](../plugins/llm-finetuning/agents/llm-finetuning-training-engineer.md) | sonnet  | Dataset prep, Unsloth training runs, artifact export                  |
+| [llm-finetuning-eval-engineer](../plugins/llm-finetuning/agents/llm-finetuning-eval-engineer.md)         | sonnet  | Golden sets, judge calibration, checkpoint promotion verdicts         |
+| [dgx-spark-ops-engineer](../plugins/dgx-spark-ops/agents/dgx-spark-ops-engineer.md)                      | sonnet  | DGX Spark (GB10/aarch64/CUDA 13) environment setup and diagnostics    |
 
 ### Documentation & Technical Writing
 
@@ -187,19 +187,19 @@ Complete reference for all **202 local specialized AI agents** organized by cate
 
 #### Marketing & Sales
 
-| Agent                                                                             | Model  | Description                                  |
-| --------------------------------------------------------------------------------- | ------ | -------------------------------------------- |
-| [content-marketer](../plugins/content-marketing/agents/content-marketer.md)       | sonnet | Blog posts, social media, email campaigns    |
-| [social-publishing-publisher](../plugins/social-publishing/agents/social-publishing-publisher.md) | haiku | Multi-platform social media publishing via SocialClaw |
-| [sales-automator](../plugins/customer-sales-automation/agents/sales-automator.md) | haiku  | Cold emails, follow-ups, proposal generation |
+| Agent                                                                                             | Model  | Description                                           |
+| ------------------------------------------------------------------------------------------------- | ------ | ----------------------------------------------------- |
+| [content-marketer](../plugins/content-marketing/agents/content-marketer.md)                       | sonnet | Blog posts, social media, email campaigns             |
+| [social-publishing-publisher](../plugins/social-publishing/agents/social-publishing-publisher.md) | haiku  | Multi-platform social media publishing via SocialClaw |
+| [sales-automator](../plugins/customer-sales-automation/agents/sales-automator.md)                 | haiku  | Cold emails, follow-ups, proposal generation          |
 
 #### Support & Legal
 
-| Agent                                                                               | Model  | Description                                             |
-| ----------------------------------------------------------------------------------- | ------ | ------------------------------------------------------- |
-| [customer-support](../plugins/customer-sales-automation/agents/customer-support.md) | haiku  | Support tickets, FAQ responses, customer communication  |
-| [hr-pro](../plugins/hr-legal-compliance/agents/hr-pro.md)                           | opus   | HR operations, policies, employee relations             |
-| [legal-advisor](../plugins/hr-legal-compliance/agents/legal-advisor.md)             | opus   | Privacy policies, terms of service, legal documentation |
+| Agent                                                                               | Model | Description                                             |
+| ----------------------------------------------------------------------------------- | ----- | ------------------------------------------------------- |
+| [customer-support](../plugins/customer-sales-automation/agents/customer-support.md) | haiku | Support tickets, FAQ responses, customer communication  |
+| [hr-pro](../plugins/hr-legal-compliance/agents/hr-pro.md)                           | opus  | HR operations, policies, employee relations             |
+| [legal-advisor](../plugins/hr-legal-compliance/agents/legal-advisor.md)             | opus  | Privacy policies, terms of service, legal documentation |
 
 ### SEO & Content Optimization
 
@@ -218,13 +218,13 @@ Complete reference for all **202 local specialized AI agents** organized by cate
 
 ### Specialized Domains
 
-| Agent                                                                                   | Model  | Description                                             |
-| --------------------------------------------------------------------------------------- | ------ | ------------------------------------------------------- |
-| [arm-cortex-expert](../plugins/arm-cortex-microcontrollers/agents/arm-cortex-expert.md) | inherit| ARM Cortex-M firmware and peripheral driver development |
-| [blockchain-developer](../plugins/blockchain-web3/agents/blockchain-developer.md)       | sonnet | Web3 apps, smart contracts, DeFi protocols              |
-| [payment-integration](../plugins/payment-processing/agents/payment-integration.md)      | sonnet | Payment processor integration (Stripe, PayPal)          |
-| [legacy-modernizer](../plugins/framework-migration/agents/legacy-modernizer.md)         | fable  | Legacy code refactoring and modernization               |
-| [context-manager](../plugins/agent-orchestration/agents/context-manager.md)             | haiku  | Multi-agent context management                          |
+| Agent                                                                                            | Model   | Description                                                         |
+| ------------------------------------------------------------------------------------------------ | ------- | ------------------------------------------------------------------- |
+| [arm-cortex-expert](../plugins/arm-cortex-microcontrollers/agents/arm-cortex-expert.md)          | inherit | ARM Cortex-M firmware and peripheral driver development             |
+| [blockchain-developer](../plugins/blockchain-web3/agents/blockchain-developer.md)                | sonnet  | Web3 apps, smart contracts, DeFi protocols                          |
+| [payment-integration](../plugins/payment-processing/agents/payment-integration.md)               | sonnet  | Payment processor integration (Stripe, PayPal)                      |
+| [legacy-modernizer](../plugins/framework-migration/agents/legacy-modernizer.md)                  | fable   | Legacy code refactoring and modernization                           |
+| [context-manager](../plugins/agent-orchestration/agents/context-manager.md)                      | haiku   | Multi-agent context management                                      |
 | [pptx-deck-creation-builder](../plugins/pptx-deck-creation/agents/pptx-deck-creation-builder.md) | inherit | Production-ready editable PPTX decks from briefs or reference decks |
 
 ## Model Configuration

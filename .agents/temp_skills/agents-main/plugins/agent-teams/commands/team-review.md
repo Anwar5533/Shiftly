@@ -1,6 +1,6 @@
 ---
-description: "Launch a multi-reviewer parallel code review with specialized review dimensions"
-argument-hint: "<target> [--reviewers security,performance,architecture,testing,accessibility] [--base-branch main]"
+description: 'Launch a multi-reviewer parallel code review with specialized review dimensions'
+argument-hint: '<target> [--reviewers security,performance,architecture,testing,accessibility] [--base-branch main]'
 ---
 
 # Team Review

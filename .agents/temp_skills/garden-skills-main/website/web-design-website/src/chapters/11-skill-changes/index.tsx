@@ -149,14 +149,14 @@ const SCROLL_LINES: { t: ReactNode; hi?: boolean; mute?: boolean }[] = [
 ];
 
 function SkillChanges({ localStep }: ChapterContext) {
-  const sceneTree   = localStep <= 0;
+  const sceneTree = localStep <= 0;
   const sceneScroll = localStep === 1;
-  const sceneStrip  = localStep === 2;
-  const sceneA      = localStep === 3;
-  const sceneB      = localStep === 4;
-  const sceneC      = localStep === 5;
-  const sceneD      = localStep === 6;
-  const sceneClose  = localStep >= 7;
+  const sceneStrip = localStep === 2;
+  const sceneA = localStep === 3;
+  const sceneB = localStep === 4;
+  const sceneC = localStep === 5;
+  const sceneD = localStep === 6;
+  const sceneClose = localStep >= 7;
 
   return (
     <section className="sk">
@@ -183,22 +183,35 @@ function SkillChanges({ localStep }: ChapterContext) {
             <div className="sk__tree-body">
               <div className="sk__tree-row sk__tree-row--dir" style={{ animationDelay: '900ms' }}>
                 <span className="sk__tree-glyph">▾</span>
-                <span className="sk__tree-name">web-design-engineer<span className="sk__tree-slash">/</span></span>
+                <span className="sk__tree-name">
+                  web-design-engineer<span className="sk__tree-slash">/</span>
+                </span>
                 <span className="sk__tree-meta">root</span>
               </div>
-              <div className="sk__tree-row sk__tree-row--file sk__tree-row--main" style={{ animationDelay: '1080ms' }}>
+              <div
+                className="sk__tree-row sk__tree-row--file sk__tree-row--main"
+                style={{ animationDelay: '1080ms' }}
+              >
                 <span className="sk__tree-pipe">├──</span>
                 <span className="sk__tree-name sk__tree-name--md">SKILL.md</span>
                 <span className="sk__tree-tag">主文件</span>
                 <span className="sk__tree-meta sk__tree-meta--em">≈ 400 行</span>
               </div>
-              <div className="sk__tree-row sk__tree-row--dir sk__tree-row--sub" style={{ animationDelay: '1260ms' }}>
+              <div
+                className="sk__tree-row sk__tree-row--dir sk__tree-row--sub"
+                style={{ animationDelay: '1260ms' }}
+              >
                 <span className="sk__tree-pipe">└──</span>
                 <span className="sk__tree-glyph">▾</span>
-                <span className="sk__tree-name">references<span className="sk__tree-slash">/</span></span>
+                <span className="sk__tree-name">
+                  references<span className="sk__tree-slash">/</span>
+                </span>
                 <span className="sk__tree-tag">高级模板</span>
               </div>
-              <div className="sk__tree-row sk__tree-row--file sk__tree-row--child" style={{ animationDelay: '1440ms' }}>
+              <div
+                className="sk__tree-row sk__tree-row--file sk__tree-row--child"
+                style={{ animationDelay: '1440ms' }}
+              >
                 <span className="sk__tree-pipe sk__tree-pipe--child">└──</span>
                 <span className="sk__tree-name sk__tree-name--md">advanced-patterns.md</span>
                 <span className="sk__tree-tag">起点脚手架</span>
@@ -278,7 +291,12 @@ function SkillChanges({ localStep }: ChapterContext) {
 
           <div className="sk__strip">
             {/* 左：留下 */}
-            <Reveal kind="rise" duration={780} delay={500} className="sk__strip-col sk__strip-col--keep">
+            <Reveal
+              kind="rise"
+              duration={780}
+              delay={500}
+              className="sk__strip-col sk__strip-col--keep"
+            >
               <div className="sk__strip-head">
                 <span className="sk__strip-mark sk__strip-mark--keep">✓</span>
                 <span>KEEP · 通用精华</span>
@@ -312,7 +330,12 @@ function SkillChanges({ localStep }: ChapterContext) {
             </div>
 
             {/* 右：摘掉 */}
-            <Reveal kind="rise" duration={780} delay={680} className="sk__strip-col sk__strip-col--drop">
+            <Reveal
+              kind="rise"
+              duration={780}
+              delay={680}
+              className="sk__strip-col sk__strip-col--drop"
+            >
               <div className="sk__strip-head">
                 <span className="sk__strip-mark sk__strip-mark--drop">×</span>
                 <span>DROP · 特有工具 / 环境</span>
@@ -346,7 +369,9 @@ function SkillChanges({ localStep }: ChapterContext) {
       {/* ════════ Scene CHANGE 01（step 3）—— 先宣告设计系统 ════════ */}
       <SceneFade active={sceneA} exitMs={420} enterDelayMs={420}>
         <div className="sk__chg-scene">
-          <Reveal kind="fade" duration={620} delay={80} className="sk__chg-num">+ 改动 01</Reveal>
+          <Reveal kind="fade" duration={620} delay={80} className="sk__chg-num">
+            + 改动 01
+          </Reveal>
           <Reveal kind="rise" duration={1100} delay={240} className="sk__chg-title" as="h2">
             写代码之前 —— 先<em>宣告设计系统</em>
           </Reveal>
@@ -365,7 +390,9 @@ function SkillChanges({ localStep }: ChapterContext) {
                   <div className="sk__chg-flow-step sk__chg-flow-step--code">直接 写代码</div>
                   <span className="sk__chg-flow-arrow">↓</span>
                   <div className="sk__chg-flow-step sk__chg-flow-step--out">完整页面</div>
-                  <div className="sk__chg-flow-tip">方向不对 → <em>推翻重来</em></div>
+                  <div className="sk__chg-flow-tip">
+                    方向不对 → <em>推翻重来</em>
+                  </div>
                 </div>
 
                 <div className="sk__chg-flow-col sk__chg-flow-col--good">
@@ -377,15 +404,29 @@ function SkillChanges({ localStep }: ChapterContext) {
                   <span className="sk__chg-flow-arrow">↓</span>
                   <div className="sk__chg-flow-step sk__chg-flow-step--system">
                     <div className="sk__chg-system">
-                      <div className="sk__chg-system-row"><span>palette</span><b>oklch · 暖棕</b></div>
-                      <div className="sk__chg-system-row"><span>fonts</span><b>Newsreader + Sora</b></div>
-                      <div className="sk__chg-system-row"><span>spacing</span><b>4 / 8 / 16 / 32</b></div>
-                      <div className="sk__chg-system-row"><span>radius</span><b>0 / 2 / 4</b></div>
+                      <div className="sk__chg-system-row">
+                        <span>palette</span>
+                        <b>oklch · 暖棕</b>
+                      </div>
+                      <div className="sk__chg-system-row">
+                        <span>fonts</span>
+                        <b>Newsreader + Sora</b>
+                      </div>
+                      <div className="sk__chg-system-row">
+                        <span>spacing</span>
+                        <b>4 / 8 / 16 / 32</b>
+                      </div>
+                      <div className="sk__chg-system-row">
+                        <span>radius</span>
+                        <b>0 / 2 / 4</b>
+                      </div>
                     </div>
                   </div>
                   <span className="sk__chg-flow-arrow">↓</span>
                   <div className="sk__chg-flow-step sk__chg-flow-step--code">写代码</div>
-                  <div className="sk__chg-flow-tip">方向不对 → <em>提前纠偏</em></div>
+                  <div className="sk__chg-flow-tip">
+                    方向不对 → <em>提前纠偏</em>
+                  </div>
                 </div>
               </div>
             </Reveal>
@@ -397,25 +438,61 @@ function SkillChanges({ localStep }: ChapterContext) {
                 range="L79 — L91"
                 pulseDelay={1000}
                 lines={[
-                  { n: 77, text: '', },
+                  { n: 77, text: '' },
                   { n: 78, text: '---' },
-                  { n: 79, text: <><b>### Step 3:</b> Declare the Design System <em>Before</em> Writing Code</>, hi: true },
+                  {
+                    n: 79,
+                    text: (
+                      <>
+                        <b>### Step 3:</b> Declare the Design System <em>Before</em> Writing Code
+                      </>
+                    ),
+                    hi: true,
+                  },
                   { n: 80, text: '' },
-                  { n: 81, text: <><b>Before writing the first line of code</b>, articulate the design system in</>, hi: true },
-                  { n: 82, text: 'Markdown and let the user confirm before proceeding:' , hi: true },
+                  {
+                    n: 81,
+                    text: (
+                      <>
+                        <b>Before writing the first line of code</b>, articulate the design system
+                        in
+                      </>
+                    ),
+                    hi: true,
+                  },
+                  { n: 82, text: 'Markdown and let the user confirm before proceeding:', hi: true },
                   { n: 83, text: '' },
                   { n: 84, text: '```markdown' },
                   { n: 85, text: 'Design Decisions:' },
-                  { n: 86, text: '- Color palette: [primary / secondary / neutral / accent]', hi: true, indent: 0 },
-                  { n: 87, text: '- Typography: [heading font / body font / code font]', hi: true, indent: 0 },
-                  { n: 88, text: '- Spacing system: [base unit and multiples]', hi: true, indent: 0 },
+                  {
+                    n: 86,
+                    text: '- Color palette: [primary / secondary / neutral / accent]',
+                    hi: true,
+                    indent: 0,
+                  },
+                  {
+                    n: 87,
+                    text: '- Typography: [heading font / body font / code font]',
+                    hi: true,
+                    indent: 0,
+                  },
+                  {
+                    n: 88,
+                    text: '- Spacing system: [base unit and multiples]',
+                    hi: true,
+                    indent: 0,
+                  },
                   { n: 89, text: '- Border-radius strategy / Shadow / Motion …' },
                   { n: 90, text: '```' },
                   { n: 91, text: '' },
                   { n: 92, text: '### Step 4: Show a v0 Draft Early' },
                   { n: 93, text: '' },
                 ]}
-                caption={<>"在写第一行代码之前 —— 先<em>说清楚</em>"</>}
+                caption={
+                  <>
+                    "在写第一行代码之前 —— 先<em>说清楚</em>"
+                  </>
+                }
               />
             </Reveal>
           </div>
@@ -425,7 +502,9 @@ function SkillChanges({ localStep }: ChapterContext) {
       {/* ════════ Scene CHANGE 02（step 4）—— v0 半成品 ════════ */}
       <SceneFade active={sceneB} exitMs={420} enterDelayMs={420}>
         <div className="sk__chg-scene">
-          <Reveal kind="fade" duration={620} delay={80} className="sk__chg-num">+ 改动 02</Reveal>
+          <Reveal kind="fade" duration={620} delay={80} className="sk__chg-num">
+            + 改动 02
+          </Reveal>
           <Reveal kind="rise" duration={1100} delay={240} className="sk__chg-title" as="h2">
             尽早拿出 —— <em>v0 半成品</em>
           </Reveal>
@@ -442,14 +521,20 @@ function SkillChanges({ localStep }: ChapterContext) {
                     <span className="sk__v-mock-bar sk__v-mock-bar--w70" />
                     <span className="sk__v-mock-bar sk__v-mock-bar--w50" />
                     <div className="sk__v-mock-grid">
-                      <span /><span /><span />
+                      <span />
+                      <span />
+                      <span />
                     </div>
                     <span className="sk__v-mock-bar sk__v-mock-bar--w40" />
                   </div>
-                  <div className="sk__v-foot">假设 + 占位符 → 用户能<em>立刻反馈</em></div>
+                  <div className="sk__v-foot">
+                    假设 + 占位符 → 用户能<em>立刻反馈</em>
+                  </div>
                 </div>
 
-                <div className="sk__v-vs" aria-hidden>vs</div>
+                <div className="sk__v-vs" aria-hidden>
+                  vs
+                </div>
 
                 <div className="sk__v-card sk__v-card--v1">
                   <div className="sk__v-tag">
@@ -460,11 +545,21 @@ function SkillChanges({ localStep }: ChapterContext) {
                     <span className="sk__v-mock-h">Build the Future. Today.</span>
                     <span className="sk__v-mock-sub">Modern. Fast. Powerful.</span>
                     <div className="sk__v-mock-grid sk__v-mock-grid--full">
-                      <span><b>★</b></span><span><b>↗</b></span><span><b>◷</b></span>
+                      <span>
+                        <b>★</b>
+                      </span>
+                      <span>
+                        <b>↗</b>
+                      </span>
+                      <span>
+                        <b>◷</b>
+                      </span>
                     </div>
                     <span className="sk__v-mock-cta">Get Started →</span>
                   </div>
-                  <div className="sk__v-foot">花 3 倍时间打磨 → 方向错了 <em>全推翻</em></div>
+                  <div className="sk__v-foot">
+                    花 3 倍时间打磨 → 方向错了 <em>全推翻</em>
+                  </div>
                   <div className="sk__v-strike" aria-hidden>
                     <span className="sk__v-strike-line" />
                   </div>
@@ -480,21 +575,57 @@ function SkillChanges({ localStep }: ChapterContext) {
                 lines={[
                   { n: 91, text: '' },
                   { n: 92, text: '---' },
-                  { n: 93, text: <><b>### Step 4:</b> Show a <em>v0 Draft</em> Early</>, hi: true },
+                  {
+                    n: 93,
+                    text: (
+                      <>
+                        <b>### Step 4:</b> Show a <em>v0 Draft</em> Early
+                      </>
+                    ),
+                    hi: true,
+                  },
                   { n: 94, text: '' },
-                  { n: 95, text: <><b>Don\'t hold back a big reveal.</b> Before writing full components, put</>, hi: true },
-                  { n: 96, text: 'together a "viewable v0" using placeholders + key layout +', hi: true },
+                  {
+                    n: 95,
+                    text: (
+                      <>
+                        <b>Don\'t hold back a big reveal.</b> Before writing full components, put
+                      </>
+                    ),
+                    hi: true,
+                  },
+                  {
+                    n: 96,
+                    text: 'together a "viewable v0" using placeholders + key layout +',
+                    hi: true,
+                  },
                   { n: 97, text: 'the declared design system:' },
                   { n: 98, text: '' },
                   { n: 99, text: '- The goal of v0: let the user course-correct early' },
                   { n: 100, text: '- Includes: core structure + tokens + key placeholders' },
                   { n: 101, text: '- Does NOT include: content details, complete components' },
                   { n: 102, text: '' },
-                  { n: 103, text: <>A v0 with placeholders is more valuable than a "perfect v1"</>, hi: true },
-                  { n: 104, text: <>that took <em>3x the time</em> — if direction is wrong, scrapped.</>, hi: true },
+                  {
+                    n: 103,
+                    text: <>A v0 with placeholders is more valuable than a "perfect v1"</>,
+                    hi: true,
+                  },
+                  {
+                    n: 104,
+                    text: (
+                      <>
+                        that took <em>3x the time</em> — if direction is wrong, scrapped.
+                      </>
+                    ),
+                    hi: true,
+                  },
                   { n: 105, text: '' },
                 ]}
-                caption={<>"粗糙的 v0 → 用户能立刻看见<em>方向</em>"</>}
+                caption={
+                  <>
+                    "粗糙的 v0 → 用户能立刻看见<em>方向</em>"
+                  </>
+                }
               />
             </Reveal>
           </div>
@@ -504,7 +635,9 @@ function SkillChanges({ localStep }: ChapterContext) {
       {/* ════════ Scene CHANGE 03（step 5）—— 反 AI 味扩展 ════════ */}
       <SceneFade active={sceneC} exitMs={420} enterDelayMs={420}>
         <div className="sk__chg-scene">
-          <Reveal kind="fade" duration={620} delay={80} className="sk__chg-num">+ 改动 03</Reveal>
+          <Reveal kind="fade" duration={620} delay={80} className="sk__chg-num">
+            + 改动 03
+          </Reveal>
           <Reveal kind="rise" duration={1100} delay={240} className="sk__chg-title" as="h2">
             <em>更狠</em>的去 AI 味 —— 扩展条目
           </Reveal>
@@ -546,25 +679,61 @@ function SkillChanges({ localStep }: ChapterContext) {
                 lines={[
                   { n: 198, text: '---' },
                   { n: 199, text: '' },
-                  { n: 200, text: <><b>### Avoid AI-Style Clichés</b></>, hi: true },
+                  {
+                    n: 200,
+                    text: (
+                      <>
+                        <b>### Avoid AI-Style Clichés</b>
+                      </>
+                    ),
+                    hi: true,
+                  },
                   { n: 201, text: '' },
                   { n: 202, text: 'Actively avoid these telltale "obviously AI" patterns:' },
                   { n: 203, text: '' },
-                  { n: 204, text: '- Overuse of gradient backgrounds (purple-pink-blue)', hi: true },
+                  {
+                    n: 204,
+                    text: '- Overuse of gradient backgrounds (purple-pink-blue)',
+                    hi: true,
+                  },
                   { n: 205, text: '- Rounded cards with a colored left-border accent' },
-                  { n: 206, text: '- Cookie-cutter gradient buttons + large-radius cards', hi: true },
+                  {
+                    n: 206,
+                    text: '- Cookie-cutter gradient buttons + large-radius cards',
+                    hi: true,
+                  },
                   { n: 207, text: '- Overreliance on Inter / Roboto / Arial / Fraunces', hi: true },
-                  { n: 208, text: '- Meaningless stats / numbers / icon spam ("data slop")', hi: true },
-                  { n: 209, text: '- Fabricated customer logo walls / fake testimonial counts', hi: true },
+                  {
+                    n: 208,
+                    text: '- Meaningless stats / numbers / icon spam ("data slop")',
+                    hi: true,
+                  },
+                  {
+                    n: 209,
+                    text: '- Fabricated customer logo walls / fake testimonial counts',
+                    hi: true,
+                  },
                   { n: 210, text: '' },
                   { n: 211, text: '### Emoji Rules' },
                   { n: 212, text: '' },
-                  { n: 213, text: <><b>No emoji by default.</b> Only when the brand uses them.</>, hi: true },
+                  {
+                    n: 213,
+                    text: (
+                      <>
+                        <b>No emoji by default.</b> Only when the brand uses them.
+                      </>
+                    ),
+                    hi: true,
+                  },
                   { n: 214, text: '' },
                   { n: 215, text: '- × Using emoji as icon substitutes' },
                   { n: 216, text: '- × Using emoji as decorative filler' },
                 ]}
-                caption={<>把 Claude Design 没明说的"AI 味"<em>列具体了</em></>}
+                caption={
+                  <>
+                    把 Claude Design 没明说的"AI 味"<em>列具体了</em>
+                  </>
+                }
               />
             </Reveal>
           </div>
@@ -574,7 +743,9 @@ function SkillChanges({ localStep }: ChapterContext) {
       {/* ════════ Scene CHANGE 04（step 6）—— 配色 × 字体配对 ════════ */}
       <SceneFade active={sceneD} exitMs={420} enterDelayMs={420}>
         <div className="sk__chg-scene">
-          <Reveal kind="fade" duration={620} delay={80} className="sk__chg-num">+ 改动 04</Reveal>
+          <Reveal kind="fade" duration={620} delay={80} className="sk__chg-num">
+            + 改动 04
+          </Reveal>
           <Reveal kind="rise" duration={1100} delay={240} className="sk__chg-title" as="h2">
             <em>配色 × 字体</em> 配对参考表
           </Reveal>
@@ -588,11 +759,11 @@ function SkillChanges({ localStep }: ChapterContext) {
                 </div>
                 <div className="sk__pairs">
                   {[
-                    { tag: '优雅杂志风',  color: 'oklch 暖棕',   font: 'Newsreader + Outfit' },
-                    { tag: '高端品牌',    color: 'oklch 近黑',   font: 'Sora + Plus Jakarta Sans' },
-                    { tag: '极简专业',    color: 'oklch 青蓝',   font: 'Outfit + Space Grotesk' },
-                    { tag: '活泼消费',    color: 'oklch 珊瑚',   font: 'Plus Jakarta Sans + Outfit' },
-                    { tag: '手作温度',    color: 'oklch 焦糖',   font: 'Caveat + Newsreader' },
+                    { tag: '优雅杂志风', color: 'oklch 暖棕', font: 'Newsreader + Outfit' },
+                    { tag: '高端品牌', color: 'oklch 近黑', font: 'Sora + Plus Jakarta Sans' },
+                    { tag: '极简专业', color: 'oklch 青蓝', font: 'Outfit + Space Grotesk' },
+                    { tag: '活泼消费', color: 'oklch 珊瑚', font: 'Plus Jakarta Sans + Outfit' },
+                    { tag: '手作温度', color: 'oklch 焦糖', font: 'Caveat + Newsreader' },
                   ].map((p, i) => (
                     <div
                       key={p.tag}
@@ -615,21 +786,82 @@ function SkillChanges({ localStep }: ChapterContext) {
                 range="L505 — L516"
                 pulseDelay={1000}
                 lines={[
-                  { n: 503, text: '## Color × Font Pairing Reference', },
+                  { n: 503, text: '## Color × Font Pairing Reference' },
                   { n: 504, text: '' },
-                  { n: 505, text: <>| Style | Primary (oklch) | Font Pairing | Best For |</>, hi: true },
+                  {
+                    n: 505,
+                    text: <>| Style | Primary (oklch) | Font Pairing | Best For |</>,
+                    hi: true,
+                  },
                   { n: 506, text: '|---|---|---|---|' },
-                  { n: 507, text: <>| Modern tech | <em>oklch(0.55 0.25 250)</em> | Space Grotesk + Inter | SaaS, AI |</> },
-                  { n: 508, text: <>| <b>Elegant editorial</b> | oklch(0.35 0.10 30) warm brown | <em>Newsreader + Outfit</em> | Content, blogs |</>, hi: true },
-                  { n: 509, text: <>| <b>Premium brand</b> | oklch(0.20 0.02 250) near-black | <em>Sora + Plus Jakarta Sans</em> | Luxury, finance |</>, hi: true },
-                  { n: 510, text: <>| Lively consumer | oklch(0.70 0.20 30) coral | Plus Jakarta Sans + Outfit | E-commerce |</>, hi: true },
-                  { n: 511, text: <>| <b>Minimal pro</b> | oklch(0.50 0.15 200) teal-blue | <em>Outfit + Space Grotesk</em> | Data, B2B |</>, hi: true },
-                  { n: 512, text: <>| <b>Artisan warmth</b> | oklch(0.55 0.15 80) caramel | <em>Caveat + Newsreader</em> | Food, education |</>, hi: true },
+                  {
+                    n: 507,
+                    text: (
+                      <>
+                        | Modern tech | <em>oklch(0.55 0.25 250)</em> | Space Grotesk + Inter |
+                        SaaS, AI |
+                      </>
+                    ),
+                  },
+                  {
+                    n: 508,
+                    text: (
+                      <>
+                        | <b>Elegant editorial</b> | oklch(0.35 0.10 30) warm brown |{' '}
+                        <em>Newsreader + Outfit</em> | Content, blogs |
+                      </>
+                    ),
+                    hi: true,
+                  },
+                  {
+                    n: 509,
+                    text: (
+                      <>
+                        | <b>Premium brand</b> | oklch(0.20 0.02 250) near-black |{' '}
+                        <em>Sora + Plus Jakarta Sans</em> | Luxury, finance |
+                      </>
+                    ),
+                    hi: true,
+                  },
+                  {
+                    n: 510,
+                    text: (
+                      <>
+                        | Lively consumer | oklch(0.70 0.20 30) coral | Plus Jakarta Sans + Outfit |
+                        E-commerce |
+                      </>
+                    ),
+                    hi: true,
+                  },
+                  {
+                    n: 511,
+                    text: (
+                      <>
+                        | <b>Minimal pro</b> | oklch(0.50 0.15 200) teal-blue |{' '}
+                        <em>Outfit + Space Grotesk</em> | Data, B2B |
+                      </>
+                    ),
+                    hi: true,
+                  },
+                  {
+                    n: 512,
+                    text: (
+                      <>
+                        | <b>Artisan warmth</b> | oklch(0.55 0.15 80) caramel |{' '}
+                        <em>Caveat + Newsreader</em> | Food, education |
+                      </>
+                    ),
+                    hi: true,
+                  },
                   { n: 513, text: '' },
-                  { n: 514, text: '> 这些配对的核心：给 AI 一个有品位的<em>起点</em>。', hi: true, },
+                  { n: 514, text: '> 这些配对的核心：给 AI 一个有品位的<em>起点</em>。', hi: true },
                   { n: 515, text: '' },
                 ]}
-                caption={<>给 AI 一个<em>靠谱</em>的起点 → 比让它自由发挥稳定</>}
+                caption={
+                  <>
+                    给 AI 一个<em>靠谱</em>的起点 → 比让它自由发挥稳定
+                  </>
+                }
               />
             </Reveal>
           </div>

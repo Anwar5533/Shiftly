@@ -27,12 +27,7 @@ export function MasonryView({ items, navigate }: Props) {
   return (
     <div className="masonry">
       {columns.map((c, i) => (
-        <CaseCard
-          key={c.id}
-          c={c}
-          navigate={navigate}
-          ratio={ratioFor(c, i)}
-        />
+        <CaseCard key={c.id} c={c} navigate={navigate} ratio={ratioFor(c, i)} />
       ))}
     </div>
   );

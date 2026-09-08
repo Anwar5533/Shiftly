@@ -1,6 +1,6 @@
 ---
-description: "Manage track lifecycle: archive, restore, delete, rename, and cleanup"
-argument-hint: "[--archive | --restore | --delete | --rename | --list | --cleanup]"
+description: 'Manage track lifecycle: archive, restore, delete, rename, and cleanup'
+argument-hint: '[--archive | --restore | --delete | --rename | --list | --cleanup]'
 ---
 
 # Track Manager

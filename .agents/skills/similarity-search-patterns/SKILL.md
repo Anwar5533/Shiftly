@@ -20,12 +20,12 @@ Patterns for implementing efficient similarity search in production systems.
 
 ### 1. Distance Metrics
 
-| Metric             | Formula            | Best For              |
+| Metric | Formula | Best For |
 | ------------------ | ------------------ | --------------------- | --- | -------------- |
-| **Cosine**         | 1 - (A·B)/(‖A‖‖B‖) | Normalized embeddings |
-| **Euclidean (L2)** | √Σ(a-b)²           | Raw embeddings        |
-| **Dot Product**    | A·B                | Magnitude matters     |
-| **Manhattan (L1)** | Σ                  | a-b                   |     | Sparse vectors |
+| **Cosine** | 1 - (A·B)/(‖A‖‖B‖) | Normalized embeddings |
+| **Euclidean (L2)** | √Σ(a-b)² | Raw embeddings |
+| **Dot Product** | A·B | Magnitude matters |
+| **Manhattan (L1)** | Σ | a-b | | Sparse vectors |
 
 ### 2. Index Types
 

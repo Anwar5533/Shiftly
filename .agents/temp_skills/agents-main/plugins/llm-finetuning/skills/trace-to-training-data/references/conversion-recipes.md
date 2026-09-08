@@ -25,7 +25,20 @@ a single-turn trace that passed with a reward
 above the batch's top-fraction threshold:
 
 ```json
-{"task_id": "t-118", "trace_id": "t-118-a1", "messages": [{"role": "user", "content": "Summarize the incident report in two sentences."}, {"role": "assistant", "content": "A misconfigured retry policy caused a 12-minute outage in the billing service. Root cause was fixed and a regression test was added."}], "verdict": "pass", "reward": 0.94, "grader": "rubric_judge"}
+{
+  "task_id": "t-118",
+  "trace_id": "t-118-a1",
+  "messages": [
+    { "role": "user", "content": "Summarize the incident report in two sentences." },
+    {
+      "role": "assistant",
+      "content": "A misconfigured retry policy caused a 12-minute outage in the billing service. Root cause was fixed and a regression test was added."
+    }
+  ],
+  "verdict": "pass",
+  "reward": 0.94,
+  "grader": "rubric_judge"
+}
 ```
 
 Output — `dataset-curation`'s ChatML shape, grading
@@ -33,7 +46,15 @@ metadata stripped since the trainer only needs
 `messages`:
 
 ```json
-{"messages": [{"role": "user", "content": "Summarize the incident report in two sentences."}, {"role": "assistant", "content": "A misconfigured retry policy caused a 12-minute outage in the billing service. Root cause was fixed and a regression test was added."}]}
+{
+  "messages": [
+    { "role": "user", "content": "Summarize the incident report in two sentences." },
+    {
+      "role": "assistant",
+      "content": "A misconfigured retry policy caused a 12-minute outage in the billing service. Root cause was fixed and a regression test was added."
+    }
+  ]
+}
 ```
 
 Only `messages` survives the conversion. `task_id`
@@ -89,7 +110,11 @@ Output — `dataset-curation`'s DPO pair shape, with
 assistant turn:
 
 ```json
-{"prompt": "Write a commit message for a null-check fix.", "chosen": "Fix null pointer exception in user lookup by validating the session before dereferencing it.", "rejected": "misc changes"}
+{
+  "prompt": "Write a commit message for a null-check fix.",
+  "chosen": "Fix null pointer exception in user lookup by validating the session before dereferencing it.",
+  "rejected": "misc changes"
+}
 ```
 
 ## 3. Correction Record to SFT Example
@@ -99,7 +124,17 @@ corrected output, no reward field required since a
 human already validated the correction:
 
 ```json
-{"task_id": "t-311", "trace_id": "t-311-a2", "messages": [{"role": "user", "content": "Extract the invoice total as a JSON number."}, {"role": "assistant", "content": "The total is around $4,200"}], "verdict": "fail", "grader": "schema_compliance", "correction": {"content": "{\"total\": 4200.00}", "corrected_by": "reviewer-07"}}
+{
+  "task_id": "t-311",
+  "trace_id": "t-311-a2",
+  "messages": [
+    { "role": "user", "content": "Extract the invoice total as a JSON number." },
+    { "role": "assistant", "content": "The total is around $4,200" }
+  ],
+  "verdict": "fail",
+  "grader": "schema_compliance",
+  "correction": { "content": "{\"total\": 4200.00}", "corrected_by": "reviewer-07" }
+}
 ```
 
 Output — the corrected content replaces the
@@ -107,7 +142,12 @@ failing assistant turn; the original failing
 content never enters the training set:
 
 ```json
-{"messages": [{"role": "user", "content": "Extract the invoice total as a JSON number."}, {"role": "assistant", "content": "{\"total\": 4200.00}"}]}
+{
+  "messages": [
+    { "role": "user", "content": "Extract the invoice total as a JSON number." },
+    { "role": "assistant", "content": "{\"total\": 4200.00}" }
+  ]
+}
 ```
 
 Route corrections into the SFT set directly, per

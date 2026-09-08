@@ -4,7 +4,7 @@ A Claude Code / Cursor / Windsurf skill that turns a concept, feature descriptio
 
 ## The idea in one paragraph
 
-An LLM cannot hand-draw illustration at unDraw's quality — those figures are dozens of hand-placed bezier anchors from a professional illustrator, and generating path coordinates blind produces crude pictograms, not art. The quality lives in the real path data. So this skill doesn't draw: it **matches** a concept to the right real unDraw illustration, **recolors** only its purple accent to your brand (skin, hair, and clothing stay exactly as drawn), and **composes** whole real components into a new scene on the rare occasion nothing in the library fits. The output is genuinely illustrator-grade because it *is* the illustrator's work — just made yours.
+An LLM cannot hand-draw illustration at unDraw's quality — those figures are dozens of hand-placed bezier anchors from a professional illustrator, and generating path coordinates blind produces crude pictograms, not art. The quality lives in the real path data. So this skill doesn't draw: it **matches** a concept to the right real unDraw illustration, **recolors** only its purple accent to your brand (skin, hair, and clothing stay exactly as drawn), and **composes** whole real components into a new scene on the rare occasion nothing in the library fits. The output is genuinely illustrator-grade because it _is_ the illustrator's work — just made yours.
 
 ## Quick start
 
@@ -27,7 +27,7 @@ A library of 20–30 illustrations spanning teams, devices, data, growth, commun
 ## How it works
 
 1. **Distill** the brief to one concept.
-2. **Match** it against `~/.ideagram/undraw/index.md` — a keyword index built from the library's filenames (unDraw's only real per-file metadata), matched on *scene*, not just literal word overlap.
+2. **Match** it against `~/.ideagram/undraw/index.md` — a keyword index built from the library's filenames (unDraw's only real per-file metadata), matched on _scene_, not just literal word overlap.
 3. **Recolor** the match's accent to your brand with `scripts/recolor_undraw.py` — swaps only unDraw's `#6c63ff` family, verified to leave every skin tone and garment untouched.
 4. **Compose** (rarely needed) — lift whole real components with `scripts/extract_component.py` and assemble a new scene when no single illustration fits.
 5. **Validate and deliver** — `scripts/validate_assets.py` catches malformed SVG before it ships; `scripts/export_png.py` flattens to PNG for platforms that need raster.
@@ -36,7 +36,7 @@ See `SKILL.md` for the full step-by-step workflow.
 
 ## Sourcing and licensing
 
-unDraw illustrations are free to use commercially with no attribution — but their license bars *compiling their assets into a redistributed collection*. So this skill **does not bundle unDraw's files**. It reads them from a local library you maintain (`~/.ideagram/undraw/` by default), populated by downloading from [undraw.co/illustrations](https://undraw.co/illustrations) yourself. You get full unDraw quality on your own sites; this public repo stays clean of redistributed art — its `.gitignore` blocks `undraw_*.svg` as a guardrail.
+unDraw illustrations are free to use commercially with no attribution — but their license bars _compiling their assets into a redistributed collection_. So this skill **does not bundle unDraw's files**. It reads them from a local library you maintain (`~/.ideagram/undraw/` by default), populated by downloading from [undraw.co/illustrations](https://undraw.co/illustrations) yourself. You get full unDraw quality on your own sites; this public repo stays clean of redistributed art — its `.gitignore` blocks `undraw_*.svg` as a guardrail.
 
 ## Install
 

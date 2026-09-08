@@ -1,6 +1,6 @@
 # `comps` — reference comps only, no code
 
-The user wants **visual comps, not a built page** — hero mockups, key section layouts, or a brand-kit board (logo directions, palette, type, identity applications) — to hand to an image generator (ChatGPT Images, Codex image mode, Midjourney, or similar) before any coding agent touches the project. `comps` produces the **brief**, not the pixels: tastemaker has no image-generation API of its own wired in, and users bring their own tool. What it *does* own is the palette, the composition, and the identity rules the brief is built from, so the comp is grounded in the same real system a coded build would use, not a vague prompt the image tool has to guess at.
+The user wants **visual comps, not a built page** — hero mockups, key section layouts, or a brand-kit board (logo directions, palette, type, identity applications) — to hand to an image generator (ChatGPT Images, Codex image mode, Midjourney, or similar) before any coding agent touches the project. `comps` produces the **brief**, not the pixels: tastemaker has no image-generation API of its own wired in, and users bring their own tool. What it _does_ own is the palette, the composition, and the identity rules the brief is built from, so the comp is grounded in the same real system a coded build would use, not a vague prompt the image tool has to guess at.
 
 ## Why the mechanism is a brief, not an API call
 
@@ -42,18 +42,18 @@ Explicit constraints: no default indigo-to-purple gradient; no letter-in-a-box l
   mark if a mark is in frame; [any other anti-slop constraints relevant to this comp]
 ```
 
-Write one of these per comp requested (a hero direction, a pricing-section layout, a full brand-kit board), each grounded in the *same* generated palette and, where relevant, the same macrostructure pick, so a set of comps reads as one coherent direction rather than three unrelated images that happen to share a prompt template.
+Write one of these per comp requested (a hero direction, a pricing-section layout, a full brand-kit board), each grounded in the _same_ generated palette and, where relevant, the same macrostructure pick, so a set of comps reads as one coherent direction rather than three unrelated images that happen to share a prompt template.
 
 ## State the picks out loud, same as every other mode
 
-Before handing back the brief(s): *"Palette: seed 7 (technical/dark), contrast-verified. Structure: Feature Stack macrostructure, H2 split-demo hero. Building 3 comps: hero, pricing section, brand-kit board — all from this palette and hero archetype."* This is the same accountability step Step 2.5 and the diversification engine already use elsewhere; comps mode isn't exempt from stating its picks just because the output is a prompt instead of code.
+Before handing back the brief(s): _"Palette: seed 7 (technical/dark), contrast-verified. Structure: Feature Stack macrostructure, H2 split-demo hero. Building 3 comps: hero, pricing section, brand-kit board — all from this palette and hero archetype."_ This is the same accountability step Step 2.5 and the diversification engine already use elsewhere; comps mode isn't exempt from stating its picks just because the output is a prompt instead of code.
 
 ## The handoff artifact
 
-Write `.tastemaker/comps-brief.md`: the generated palette (hex + roles + contrast verification), the macrostructure/archetype picks, and the individual prompts actually used, in one file. This is what makes the mode's output usable by a *later* coding pass, not a dead-end:
+Write `.tastemaker/comps-brief.md`: the generated palette (hex + roles + contrast verification), the macrostructure/archetype picks, and the individual prompts actually used, in one file. This is what makes the mode's output usable by a _later_ coding pass, not a dead-end:
 
 - When the user comes back with "now build this for real" (with or without the generated images in hand), the normal Design flow reads `.tastemaker/comps-brief.md` first. The palette and structure picks are already decided — skip re-deriving them in Step 1/2.5, write them straight to `.tastemaker/style-lock.md`, and proceed to Step 3 (real asset sourcing).
-- If the user *does* bring back generated images they liked from one of the comps, treat those the same way Step 2's extract-palette path treats any reference image: grounding for the specific screen, not a source to pixel-clone. `study` mode's "extracts structure, not pixels" rule applies here too — an image generator's rendering of "a product mockup" is a visual direction, never a literal asset to embed as-is in the shipped build.
+- If the user _does_ bring back generated images they liked from one of the comps, treat those the same way Step 2's extract-palette path treats any reference image: grounding for the specific screen, not a source to pixel-clone. `study` mode's "extracts structure, not pixels" rule applies here too — an image generator's rendering of "a product mockup" is a visual direction, never a literal asset to embed as-is in the shipped build.
 
 ## Limits to state every time
 

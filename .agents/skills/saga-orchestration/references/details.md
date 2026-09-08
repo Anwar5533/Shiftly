@@ -207,7 +207,6 @@ async def handle_reserve_items(self, command: Dict):
 
 ---
 
-
 ---
 
 ## Core Concepts
@@ -235,22 +234,22 @@ No central coordinator.    Central coordinator sends
 
 ### Saga Execution States
 
-| State            | Description                                       |
-| ---------------- | ------------------------------------------------- |
-| **Started**      | Saga initiated, first step dispatched             |
-| **Pending**      | Waiting for a step reply from a participant       |
-| **Compensating** | A step failed; rolling back completed steps       |
-| **Completed**    | All forward steps succeeded                       |
-| **Failed**       | Saga failed and all compensations have finished   |
+| State            | Description                                     |
+| ---------------- | ----------------------------------------------- |
+| **Started**      | Saga initiated, first step dispatched           |
+| **Pending**      | Waiting for a step reply from a participant     |
+| **Compensating** | A step failed; rolling back completed steps     |
+| **Completed**    | All forward steps succeeded                     |
+| **Failed**       | Saga failed and all compensations have finished |
 
 ### Compensation Rules
 
-| Situation                            | Handling                                              |
-| ------------------------------------ | ----------------------------------------------------- |
-| Step never started                   | No compensation needed (skip)                         |
-| Step completed successfully          | Run compensation command                              |
-| Step failed before completion        | No compensation needed; mark failed                   |
-| Compensation itself fails            | Retry with backoff → DLQ → manual intervention alert  |
-| Step result no longer exists         | Treat compensation as success (idempotency)           |
+| Situation                     | Handling                                             |
+| ----------------------------- | ---------------------------------------------------- |
+| Step never started            | No compensation needed (skip)                        |
+| Step completed successfully   | Run compensation command                             |
+| Step failed before completion | No compensation needed; mark failed                  |
+| Compensation itself fails     | Retry with backoff → DLQ → manual intervention alert |
+| Step result no longer exists  | Treat compensation as success (idempotency)          |
 
 ---

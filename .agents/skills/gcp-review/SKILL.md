@@ -12,13 +12,13 @@ role: [cloud-security-engineer, security-engineer]
 phase: [assess, operate]
 frameworks: [CIS-GCP-v2.0.0]
 difficulty: intermediate
-time_estimate: "60-90min"
-version: "1.0.0"
+time_estimate: '60-90min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 injection-hardened: true
-argument-hint: "[target-file-or-directory]"
+argument-hint: '[target-file-or-directory]'
 ---
 
 # GCP Security Posture Review
@@ -90,20 +90,19 @@ For detailed CIS benchmark checklist items with specific Terraform patterns, gre
 
 ### Step 9: Compile Assessment Report
 
-
 Produce the final report using the structure defined in the Output Format section.
 
 ---
 
 ## Findings Classification
 
-| Severity | Definition | Examples |
-|----------|-----------|----------|
-| **Critical** | Immediate risk of data breach or unauthorized access | Public GCS buckets, firewall rules allowing 0.0.0.0/0 on SSH/RDP, Cloud SQL with public IP and no SSL, user-managed SA keys with admin roles |
-| **High** | Significant security gap that materially weakens posture | Default service accounts with broad scopes, missing Cloud Audit Logs, no VPC flow logs, instances with public IPs |
-| **Medium** | Control gap that should be addressed in normal cycle | Missing log metric filters, DNSSEC not enabled, Shielded VM not enabled, uniform bucket access not set |
-| **Low** | Hardening recommendation or defense-in-depth measure | OS Login not enabled, serial port access not explicitly disabled, BigQuery tables without CMEK |
-| **Informational** | Best practice observation, no direct security impact | Default network still exists (non-production), naming conventions, documentation gaps |
+| Severity          | Definition                                               | Examples                                                                                                                                     |
+| ----------------- | -------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Critical**      | Immediate risk of data breach or unauthorized access     | Public GCS buckets, firewall rules allowing 0.0.0.0/0 on SSH/RDP, Cloud SQL with public IP and no SSL, user-managed SA keys with admin roles |
+| **High**          | Significant security gap that materially weakens posture | Default service accounts with broad scopes, missing Cloud Audit Logs, no VPC flow logs, instances with public IPs                            |
+| **Medium**        | Control gap that should be addressed in normal cycle     | Missing log metric filters, DNSSEC not enabled, Shielded VM not enabled, uniform bucket access not set                                       |
+| **Low**           | Hardening recommendation or defense-in-depth measure     | OS Login not enabled, serial port access not explicitly disabled, BigQuery tables without CMEK                                               |
+| **Informational** | Best practice observation, no direct security impact     | Default network still exists (non-production), naming conventions, documentation gaps                                                        |
 
 ---
 
@@ -169,15 +168,15 @@ Produce the final report using the structure defined in the Output Format sectio
 
 ### CIS GCP Foundation Benchmark v2.0.0 -- Section Map
 
-| Section | Domain | Key Focus Areas |
-|---------|--------|-----------------|
-| 1 | Identity and Access Management | Corporate credentials, MFA, service account keys, admin privileges, SA role assignments, KMS key access, API key restrictions, Essential Contacts |
-| 2 | Logging and Monitoring | Cloud Audit Logs (admin/data read/write), log sinks, bucket lock retention, metric filters and alerts (8 categories), DNS logging, Cloud Asset Inventory |
-| 3 | Networking | Default network removal, legacy networks, DNSSEC, firewall rules (SSH/RDP from internet), VPC flow logs, SSL policies, IAP-only access |
-| 4 | Virtual Machines | Default service accounts, access scopes, project SSH key blocking, OS Login, serial port, IP forwarding, CMEK disks, Shielded VM, public IPs, Confidential Computing |
-| 5 | Storage | Public bucket access, uniform bucket-level access |
-| 6 | Cloud SQL | MySQL/PostgreSQL/SQL Server database flags, SSL enforcement, authorized networks, public IP, automated backups |
-| 7 | BigQuery | Public dataset access, CMEK encryption for tables and datasets |
+| Section | Domain                         | Key Focus Areas                                                                                                                                                      |
+| ------- | ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1       | Identity and Access Management | Corporate credentials, MFA, service account keys, admin privileges, SA role assignments, KMS key access, API key restrictions, Essential Contacts                    |
+| 2       | Logging and Monitoring         | Cloud Audit Logs (admin/data read/write), log sinks, bucket lock retention, metric filters and alerts (8 categories), DNS logging, Cloud Asset Inventory             |
+| 3       | Networking                     | Default network removal, legacy networks, DNSSEC, firewall rules (SSH/RDP from internet), VPC flow logs, SSL policies, IAP-only access                               |
+| 4       | Virtual Machines               | Default service accounts, access scopes, project SSH key blocking, OS Login, serial port, IP forwarding, CMEK disks, Shielded VM, public IPs, Confidential Computing |
+| 5       | Storage                        | Public bucket access, uniform bucket-level access                                                                                                                    |
+| 6       | Cloud SQL                      | MySQL/PostgreSQL/SQL Server database flags, SSL enforcement, authorized networks, public IP, automated backups                                                       |
+| 7       | BigQuery                       | Public dataset access, CMEK encryption for tables and datasets                                                                                                       |
 
 ### CIS Profile Levels
 

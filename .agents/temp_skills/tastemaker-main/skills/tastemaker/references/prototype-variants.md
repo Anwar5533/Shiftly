@@ -31,11 +31,11 @@ Do not prototype routine wiring, backend work, or tiny visual fixes. Use the ski
 
 Before coding, write this small table in your working notes:
 
-| Variant | Axis | Bet | Cost |
-|---|---|---|---|
-| Quiet | Lower density, minimal motion | Better for a daily-use tool | Less memorable |
-| Editorial | Larger type, stronger visual rhythm | Better for a launch page | Uses more vertical space |
-| Operational | Dense controls, faster motion | Better for repeated work | Less emotionally polished |
+| Variant     | Axis                                | Bet                         | Cost                      |
+| ----------- | ----------------------------------- | --------------------------- | ------------------------- |
+| Quiet       | Lower density, minimal motion       | Better for a daily-use tool | Less memorable            |
+| Editorial   | Larger type, stronger visual rhythm | Better for a launch page    | Uses more vertical space  |
+| Operational | Dense controls, faster motion       | Better for repeated work    | Less emotionally polished |
 
 If two rows differ only by accent color, merge them and create a real alternative.
 

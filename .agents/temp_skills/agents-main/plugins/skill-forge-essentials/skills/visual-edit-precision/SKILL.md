@@ -28,11 +28,13 @@ When visual context is provided:
 ### Precision Over Ambition
 
 Visual context gives a SPECIFIC element. Don't:
+
 - Refactor the entire component when only one style was requested
 - Change the component's API when only its appearance was pointed at
 - Touch logic when only visuals were selected
 
 Do:
+
 - Find the exact file and line for the selected element
 - Make the minimal edit that achieves the described visual change
 - Preserve all existing behavior, event handlers, accessibility
@@ -40,6 +42,7 @@ Do:
 ### Multiple Edits
 
 When multiple visual edits arrive:
+
 - Each targets its own element independently
 - Don't wait for one to finish before processing another
 - If two edits conflict (same element, different requests), handle the most recent

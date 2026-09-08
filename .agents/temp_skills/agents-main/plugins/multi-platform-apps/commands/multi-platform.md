@@ -1,6 +1,6 @@
 ---
-description: "Orchestrate cross-platform feature development across web, mobile, and desktop with API-first architecture"
-argument-hint: "<feature description> [--platforms web,ios,android,desktop] [--shared-code evaluate|kotlin-multiplatform|typescript]"
+description: 'Orchestrate cross-platform feature development across web, mobile, and desktop with API-first architecture'
+argument-hint: '<feature description> [--platforms web,ios,android,desktop] [--shared-code evaluate|kotlin-multiplatform|typescript]'
 ---
 
 # Multi-Platform Feature Development Orchestrator

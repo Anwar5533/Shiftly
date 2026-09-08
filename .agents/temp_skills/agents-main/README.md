@@ -55,13 +55,13 @@ Setup details and per-harness gotchas: [docs/harnesses.md](docs/harnesses.md).
 
 ## What's inside
 
-| | Count | What it is |
-|---|---:|---|
-| **Plugins** | 94 | Granular, single-purpose installable units (92 local + 2 external via git-subdir) |
-| **Agents** | 202 | Domain experts (architecture, languages, infra, security, data, ML, docs, business, SEO) |
-| **Skills** | 183 | Modular knowledge packages with progressive disclosure (load when activated) |
-| **Commands** | 105 | Slash commands: scaffolding, security scans, test gen, infrastructure setup |
-| **Orchestrators** | 16 | Multi-agent coordination workflows (full-stack, security, ML, incident response) |
+|                   | Count | What it is                                                                               |
+| ----------------- | ----: | ---------------------------------------------------------------------------------------- |
+| **Plugins**       |    94 | Granular, single-purpose installable units (92 local + 2 external via git-subdir)        |
+| **Agents**        |   202 | Domain experts (architecture, languages, infra, security, data, ML, docs, business, SEO) |
+| **Skills**        |   183 | Modular knowledge packages with progressive disclosure (load when activated)             |
+| **Commands**      |   105 | Slash commands: scaffolding, security scans, test gen, infrastructure setup              |
+| **Orchestrators** |    16 | Multi-agent coordination workflows (full-stack, security, ML, incident response)         |
 
 Browse the catalog: [docs/plugins.md](docs/plugins.md) · [docs/agents.md](docs/agents.md) · [docs/agent-skills.md](docs/agent-skills.md)
 
@@ -81,13 +81,13 @@ plugins/python-development/
 
 Tiered model strategy:
 
-| Tier | Model | Use |
-|---|---|---|
-| 0 | Fable 5  | Longest-horizon autonomous work — large migrations, multi-hour runs (opt-in, premium cost) |
-| 1 | Opus     | Architecture, security, code review, production-critical |
-| 2 | inherit  | User-chosen — backend, frontend, AI/ML, specialized |
-| 3 | Sonnet   | Docs, testing, debugging, API references |
-| 4 | Haiku    | Fast operational tasks, SEO, deployment, content |
+| Tier | Model   | Use                                                                                        |
+| ---- | ------- | ------------------------------------------------------------------------------------------ |
+| 0    | Fable 5 | Longest-horizon autonomous work — large migrations, multi-hour runs (opt-in, premium cost) |
+| 1    | Opus    | Architecture, security, code review, production-critical                                   |
+| 2    | inherit | User-chosen — backend, frontend, AI/ML, specialized                                        |
+| 3    | Sonnet  | Docs, testing, debugging, API references                                                   |
+| 4    | Haiku   | Fast operational tasks, SEO, deployment, content                                           |
 
 [→ Model configuration details](docs/agents.md#model-configuration)
 
@@ -96,14 +96,14 @@ Tiered model strategy:
 This marketplace ships to five agentic harnesses from one Markdown source. Each adapter
 emits harness-native artifacts (not lowest-common-denominator translations):
 
-| Harness | Generates | Notes |
-|---|---|---|
-| **Claude Code** | (source-of-truth) | Native `marketplace.json` + `plugins/` |
-| **Codex CLI** | `.agents/plugins/marketplace.json` + `plugins/*/.codex-plugin/plugin.json` (committed); `.codex/skills/`, `.codex/agents/` (gitignored) | 8 KB skill cap respected; commands → skills |
-| **Cursor** | `.cursor-plugin/`, `.cursor/rules/` | Thin marketplace + curated rules; reuses `.claude/` |
-| **OpenCode** | `.opencode/agents/`, `.opencode/commands/`, `.opencode/skills/` | `permission:` block from `tools:` allowlist; OpenCode-safe skill names |
-| **Antigravity CLI** | `.antigravity/plugins/<p>/{skills/,agents/,commands/}` | Self-contained agy plugin per source plugin; model tier alias (`inherit`/`flash`/`pro`) |
-| **Copilot** | `.copilot/agents/`, `.copilot/skills/`, `.copilot/commands/` | Markdown agent profiles + SKILL.md skills + commands-as-skills; model maps to native Claude models |
+| Harness             | Generates                                                                                                                               | Notes                                                                                              |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| **Claude Code**     | (source-of-truth)                                                                                                                       | Native `marketplace.json` + `plugins/`                                                             |
+| **Codex CLI**       | `.agents/plugins/marketplace.json` + `plugins/*/.codex-plugin/plugin.json` (committed); `.codex/skills/`, `.codex/agents/` (gitignored) | 8 KB skill cap respected; commands → skills                                                        |
+| **Cursor**          | `.cursor-plugin/`, `.cursor/rules/`                                                                                                     | Thin marketplace + curated rules; reuses `.claude/`                                                |
+| **OpenCode**        | `.opencode/agents/`, `.opencode/commands/`, `.opencode/skills/`                                                                         | `permission:` block from `tools:` allowlist; OpenCode-safe skill names                             |
+| **Antigravity CLI** | `.antigravity/plugins/<p>/{skills/,agents/,commands/}`                                                                                  | Self-contained agy plugin per source plugin; model tier alias (`inherit`/`flash`/`pro`)            |
+| **Copilot**         | `.copilot/agents/`, `.copilot/skills/`, `.copilot/commands/`                                                                            | Markdown agent profiles + SKILL.md skills + commands-as-skills; model maps to native Claude models |
 
 ```bash
 make generate-all                        # all five
@@ -155,13 +155,13 @@ Contributing: [CONTRIBUTING.md](CONTRIBUTING.md) · Authoring: [docs/authoring.m
 `git-subdir` entry for Claude Code. Pensyve also maintains direct upstream
 integrations for Codex CLI, Cursor, OpenCode, and Copilot (not yet Antigravity CLI).
 
-| Harness | Pensyve integration |
-|---|---|
-| Claude Code | `/plugin install pensyve` from this marketplace (`integrations/claude-code`) |
-| Codex CLI | [integrations/codex-plugin](https://github.com/major7apps/pensyve/tree/main/integrations/codex-plugin) |
-| Cursor | [integrations/cursor](https://github.com/major7apps/pensyve/tree/main/integrations/cursor) |
-| OpenCode | [integrations/opencode-plugin](https://github.com/major7apps/pensyve/tree/main/integrations/opencode-plugin) |
-| Copilot | `.copilot/` in repo root or `~/.copilot/` via `make install-copilot` |
+| Harness     | Pensyve integration                                                                                          |
+| ----------- | ------------------------------------------------------------------------------------------------------------ |
+| Claude Code | `/plugin install pensyve` from this marketplace (`integrations/claude-code`)                                 |
+| Codex CLI   | [integrations/codex-plugin](https://github.com/major7apps/pensyve/tree/main/integrations/codex-plugin)       |
+| Cursor      | [integrations/cursor](https://github.com/major7apps/pensyve/tree/main/integrations/cursor)                   |
+| OpenCode    | [integrations/opencode-plugin](https://github.com/major7apps/pensyve/tree/main/integrations/opencode-plugin) |
+| Copilot     | `.copilot/` in repo root or `~/.copilot/` via `make install-copilot`                                         |
 
 ## External Security Integration
 

@@ -30,12 +30,12 @@ if (burger) {
 // Works filter
 const chips = document.querySelectorAll('.chip');
 const cards = document.querySelectorAll('.grid .card');
-chips.forEach(chip => {
+chips.forEach((chip) => {
   chip.addEventListener('click', () => {
-    chips.forEach(c => c.classList.remove('is-active'));
+    chips.forEach((c) => c.classList.remove('is-active'));
     chip.classList.add('is-active');
     const filter = chip.dataset.filter;
-    cards.forEach(card => {
+    cards.forEach((card) => {
       const cat = card.dataset.cat;
       const show = filter === 'all' || cat === filter;
       card.style.display = show ? '' : 'none';
@@ -45,20 +45,23 @@ chips.forEach(chip => {
 
 // Reveal-on-scroll
 const revealTargets = document.querySelectorAll(
-  '.section__head, .card, .about__media, .about__text, .service, .post, .quote blockquote, .contact__inner'
+  '.section__head, .card, .about__media, .about__text, .service, .post, .quote blockquote, .contact__inner',
 );
-revealTargets.forEach(el => el.classList.add('reveal'));
+revealTargets.forEach((el) => el.classList.add('reveal'));
 
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('is-in');
-      io.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+const io = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-in');
+        io.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.12, rootMargin: '0px 0px -40px 0px' },
+);
 
-revealTargets.forEach(el => io.observe(el));
+revealTargets.forEach((el) => io.observe(el));
 
 // Init AI Canvas Background for Hero
 initAICanvas();
@@ -85,13 +88,13 @@ function initAICanvas() {
       y: Math.random() * height,
       vx: (Math.random() - 0.5) * 0.5,
       vy: (Math.random() - 0.5) * 0.5,
-      size: Math.random() * 2 + 0.5
+      size: Math.random() * 2 + 0.5,
     });
   }
 
   function draw() {
     ctx.clearRect(0, 0, width, height);
-    
+
     // Draw lines
     ctx.lineWidth = 0.5;
     for (let i = 0; i < particleCount; i++) {
@@ -99,9 +102,9 @@ function initAICanvas() {
         const dx = particles[i].x - particles[j].x;
         const dy = particles[i].y - particles[j].y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        
+
         if (dist < 150) {
-          ctx.strokeStyle = `rgba(0, 240, 255, ${0.2 - dist/150*0.2})`;
+          ctx.strokeStyle = `rgba(0, 240, 255, ${0.2 - (dist / 150) * 0.2})`;
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
@@ -127,6 +130,6 @@ function initAICanvas() {
 
     requestAnimationFrame(draw);
   }
-  
+
   draw();
 }

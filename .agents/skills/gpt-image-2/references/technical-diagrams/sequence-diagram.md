@@ -123,13 +123,43 @@
     "count": "{argument name=\"message_count\" default=\"10\"}",
     "items": [
       { "id": "M1", "from": "A1", "to": "A2", "label": "1. Click 'Sign in'", "type": "sync" },
-      { "id": "M2", "from": "A2", "to": "A3", "label": "2. GET /authorize?code_challenge=...", "type": "sync" },
+      {
+        "id": "M2",
+        "from": "A2",
+        "to": "A3",
+        "label": "2. GET /authorize?code_challenge=...",
+        "type": "sync"
+      },
       { "id": "M3", "from": "A3", "to": "A1", "label": "3. Show login page", "type": "return" },
       { "id": "M4", "from": "A1", "to": "A3", "label": "4. Submit credentials", "type": "sync" },
-      { "id": "M5", "from": "A3", "to": "A2", "label": "5. Redirect with auth_code", "type": "return" },
-      { "id": "M6", "from": "A2", "to": "A3", "label": "6. POST /token { code, code_verifier }", "type": "sync" },
-      { "id": "M7", "from": "A3", "to": "A2", "label": "7. { access_token, refresh_token }", "type": "return" },
-      { "id": "M8", "from": "A2", "to": "A4", "label": "8. GET /api/data (Bearer token)", "type": "sync" },
+      {
+        "id": "M5",
+        "from": "A3",
+        "to": "A2",
+        "label": "5. Redirect with auth_code",
+        "type": "return"
+      },
+      {
+        "id": "M6",
+        "from": "A2",
+        "to": "A3",
+        "label": "6. POST /token { code, code_verifier }",
+        "type": "sync"
+      },
+      {
+        "id": "M7",
+        "from": "A3",
+        "to": "A2",
+        "label": "7. { access_token, refresh_token }",
+        "type": "return"
+      },
+      {
+        "id": "M8",
+        "from": "A2",
+        "to": "A4",
+        "label": "8. GET /api/data (Bearer token)",
+        "type": "sync"
+      },
       { "id": "M9", "from": "A4", "to": "A4", "label": "9. validate token", "type": "self" },
       { "id": "M10", "from": "A4", "to": "A2", "label": "10. { data: ... }", "type": "return" }
     ],

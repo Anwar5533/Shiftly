@@ -60,22 +60,23 @@ Alternatively, store configuration in `~/.config/meigen/config.json`.
 
 ## Agents
 
-| Agent | Model | Purpose |
-|-------|-------|---------|
-| `gallery-researcher` | haiku | Search 1,300+ curated gallery, find references, build mood boards |
-| `prompt-crafter` | haiku | Write multiple distinct prompts for parallel image generation |
-| `image-generator` | inherit | Execute `generate_image` calls and relay results |
+| Agent                | Model   | Purpose                                                           |
+| -------------------- | ------- | ----------------------------------------------------------------- |
+| `gallery-researcher` | haiku   | Search 1,300+ curated gallery, find references, build mood boards |
+| `prompt-crafter`     | haiku   | Write multiple distinct prompts for parallel image generation     |
+| `image-generator`    | inherit | Execute `generate_image` calls and relay results                  |
 
 ## Commands
 
-| Command | Description |
-|---------|-------------|
-| `/meigen-ai-design:gen <prompt>` | Quick image generation — skips intent assessment |
-| `/meigen-ai-design:find <keywords>` | Quick gallery search — browse inspiration |
+| Command                             | Description                                      |
+| ----------------------------------- | ------------------------------------------------ |
+| `/meigen-ai-design:gen <prompt>`    | Quick image generation — skips intent assessment |
+| `/meigen-ai-design:find <keywords>` | Quick gallery search — browse inspiration        |
 
 ## Free Features (No API Key)
 
 These tools work immediately without any provider setup:
+
 - **search_gallery** — Search 1,300+ curated AI image prompts
 - **enhance_prompt** — Expand brief descriptions into detailed generation prompts
 - **list_models** — List available models across all configured providers
@@ -84,21 +85,23 @@ These tools work immediately without any provider setup:
 ## Verification
 
 After setup, test with a free feature:
+
 > "Search the gallery for product photography inspiration"
 
 Then test generation:
+
 > "Generate a product photo for a glass perfume bottle on marble"
 
 ## Troubleshooting
 
-| Problem | Solution |
-|---------|----------|
-| MCP tools not available | Restart Claude Code after adding `.mcp.json` configuration |
+| Problem                                    | Solution                                                   |
+| ------------------------------------------ | ---------------------------------------------------------- |
+| MCP tools not available                    | Restart Claude Code after adding `.mcp.json` configuration |
 | "No image generation providers configured" | Configure at least one provider (see Provider Setup above) |
-| API key / authentication errors | Verify env vars or check `~/.config/meigen/config.json` |
-| ComfyUI connection refused | Ensure ComfyUI is running at the configured URL |
-| Generation timeout | Server may be under high load — try again in a moment |
-| Empty gallery search results | Try different keywords or broader terms |
+| API key / authentication errors            | Verify env vars or check `~/.config/meigen/config.json`    |
+| ComfyUI connection refused                 | Ensure ComfyUI is running at the configured URL            |
+| Generation timeout                         | Server may be under high load — try again in a moment      |
+| Empty gallery search results               | Try different keywords or broader terms                    |
 
 ## Links
 

@@ -203,7 +203,7 @@ trufflehog git file://. --json | \
 ```javascript
 class PerformanceReviewAgent {
   async analyzePRPerformance(prNumber) {
-    const baseline = await this.loadBaselineMetrics("main");
+    const baseline = await this.loadBaselineMetrics('main');
     const prBranch = await this.runBenchmarks(`pr-${prNumber}`);
 
     const regressions = this.detectRegressions(baseline, prBranch, {
@@ -214,8 +214,8 @@ class PerformanceReviewAgent {
 
     if (regressions.length > 0) {
       await this.postReviewComment(prNumber, {
-        severity: "HIGH",
-        title: "⚠️ Performance Regression Detected",
+        severity: 'HIGH',
+        title: '⚠️ Performance Regression Detected',
         body: this.formatRegressionReport(regressions),
         suggestions: await this.aiGenerateOptimizations(regressions),
       });
@@ -253,8 +253,8 @@ def detect_n_plus_1_queries(code_ast):
 interface ReviewComment {
   path: string;
   line: number;
-  severity: "CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | "INFO";
-  category: "Security" | "Performance" | "Bug" | "Maintainability";
+  severity: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW' | 'INFO';
+  category: 'Security' | 'Performance' | 'Bug' | 'Maintainability';
   title: string;
   description: string;
   codeExample?: string;
@@ -262,15 +262,15 @@ interface ReviewComment {
   autoFixable: boolean;
   cwe?: string;
   cvss?: number;
-  effort: "trivial" | "easy" | "medium" | "hard";
+  effort: 'trivial' | 'easy' | 'medium' | 'hard';
 }
 
 const comment: ReviewComment = {
-  path: "src/auth/login.ts",
+  path: 'src/auth/login.ts',
   line: 42,
-  severity: "CRITICAL",
-  category: "Security",
-  title: "SQL Injection in Login Query",
+  severity: 'CRITICAL',
+  category: 'Security',
+  title: 'SQL Injection in Login Query',
   description: `String concatenation with user input enables SQL injection.
 **Attack Vector:** Input 'admin' OR '1'='1' bypasses authentication.
 **Impact:** Complete auth bypass, unauthorized access.`,
@@ -282,11 +282,11 @@ const query = \`SELECT * FROM users WHERE username = '\${username}'\`;
 const query = 'SELECT * FROM users WHERE username = ?';
 const result = await db.execute(query, [username]);
   `,
-  references: ["https://cwe.mitre.org/data/definitions/89.html"],
+  references: ['https://cwe.mitre.org/data/definitions/89.html'],
   autoFixable: false,
-  cwe: "CWE-89",
+  cwe: 'CWE-89',
   cvss: 9.8,
-  effort: "easy",
+  effort: 'easy',
 };
 ```
 

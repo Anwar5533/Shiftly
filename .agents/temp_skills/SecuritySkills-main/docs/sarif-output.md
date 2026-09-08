@@ -37,33 +37,33 @@ use the skill version when a single skill produced the run.
 
 Map normalized fields to SARIF as follows:
 
-| Normalized field | SARIF field |
-|---|---|
-| `run.id`, `run.timestamp`, `run.target`, `run.source_ref` | `runs[].properties.securityskills.run` |
-| `skill.name`, `skill.version`, `skill.path`, `skill.frameworks` | `runs[].tool.driver.name`, `runs[].tool.driver.semanticVersion`, `runs[].properties.securityskills.skill` |
-| `finding.id` | `results[].ruleId` and `results[].properties.securityskills.finding_id` |
-| `finding.fingerprint` | `results[].partialFingerprints.securityskillsFingerprint` |
-| `finding.title` | `tool.driver.rules[].shortDescription.text` |
-| `finding.description` | `tool.driver.rules[].fullDescription.text` and `results[].message.text` |
-| `finding.severity` | `results[].level` |
-| `finding.status` | `results[].properties.securityskills.status` |
-| `finding.cwe` | `tool.driver.rules[].relationships` when supported, and `properties.securityskills.cwe` |
-| `finding.framework_refs` | `tool.driver.rules[].properties.securityskills.framework_refs` |
-| `finding.evidence` | `results[].locations` plus `properties.securityskills.evidence` |
-| `finding.references` | `tool.driver.rules[].helpUri` or `tool.driver.rules[].properties.securityskills.references` |
-| `finding.remediations` | `tool.driver.rules[].help.text` and `properties.securityskills.remediations`, including each remediation's `test_strategy` |
+| Normalized field                                                | SARIF field                                                                                                                |
+| --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `run.id`, `run.timestamp`, `run.target`, `run.source_ref`       | `runs[].properties.securityskills.run`                                                                                     |
+| `skill.name`, `skill.version`, `skill.path`, `skill.frameworks` | `runs[].tool.driver.name`, `runs[].tool.driver.semanticVersion`, `runs[].properties.securityskills.skill`                  |
+| `finding.id`                                                    | `results[].ruleId` and `results[].properties.securityskills.finding_id`                                                    |
+| `finding.fingerprint`                                           | `results[].partialFingerprints.securityskillsFingerprint`                                                                  |
+| `finding.title`                                                 | `tool.driver.rules[].shortDescription.text`                                                                                |
+| `finding.description`                                           | `tool.driver.rules[].fullDescription.text` and `results[].message.text`                                                    |
+| `finding.severity`                                              | `results[].level`                                                                                                          |
+| `finding.status`                                                | `results[].properties.securityskills.status`                                                                               |
+| `finding.cwe`                                                   | `tool.driver.rules[].relationships` when supported, and `properties.securityskills.cwe`                                    |
+| `finding.framework_refs`                                        | `tool.driver.rules[].properties.securityskills.framework_refs`                                                             |
+| `finding.evidence`                                              | `results[].locations` plus `properties.securityskills.evidence`                                                            |
+| `finding.references`                                            | `tool.driver.rules[].helpUri` or `tool.driver.rules[].properties.securityskills.references`                                |
+| `finding.remediations`                                          | `tool.driver.rules[].help.text` and `properties.securityskills.remediations`, including each remediation's `test_strategy` |
 
 ## Severity
 
 SARIF `level` has fewer values than the normalized contract. Use this mapping:
 
 | Normalized severity | SARIF level |
-|---|---|
-| `critical` | `error` |
-| `high` | `error` |
-| `medium` | `warning` |
-| `low` | `note` |
-| `info` | `note` |
+| ------------------- | ----------- |
+| `critical`          | `error`     |
+| `high`              | `error`     |
+| `medium`            | `warning`   |
+| `low`               | `note`      |
+| `info`              | `note`      |
 
 Keep the original severity in
 `results[].properties.securityskills.severity` so downstream systems can

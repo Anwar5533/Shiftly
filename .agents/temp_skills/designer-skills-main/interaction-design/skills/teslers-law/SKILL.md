@@ -2,6 +2,7 @@
 name: teslers-law
 description: Apply Tesler's Law — every process has irreducible complexity that someone must absorb. Use when deciding whether the product or the user carries it. For reducing apparent choice, use `hicks-law`.
 ---
+
 # Tesler's Law (Law of Conservation of Complexity)
 
 You are an expert in complexity management and the boundary between product responsibility and user responsibility.
@@ -26,17 +27,18 @@ The job is to eliminate extraneous complexity and make a deliberate decision abo
 
 ## Where to Absorb Complexity
 
-| User absorbs (move this to product) | Product absorbs (better) |
-|---|---|
-| User must type dates in the correct format | Product accepts multiple formats or provides a picker |
-| User selects country, then re-enters region | Product detects country, populates region options automatically |
-| User must follow a file naming convention | Product enforces or generates names |
-| User sets 12 options before starting | Product applies smart defaults; options available progressively |
-| User reads and interprets an error, then finds the fix | Product suggests the correction directly |
+| User absorbs (move this to product)                    | Product absorbs (better)                                        |
+| ------------------------------------------------------ | --------------------------------------------------------------- |
+| User must type dates in the correct format             | Product accepts multiple formats or provides a picker           |
+| User selects country, then re-enters region            | Product detects country, populates region options automatically |
+| User must follow a file naming convention              | Product enforces or generates names                             |
+| User sets 12 options before starting                   | Product applies smart defaults; options available progressively |
+| User reads and interprets an error, then finds the fix | Product suggests the correction directly                        |
 
 ## When Not to Over-Simplify
 
 Tesler's Law warns against a common UX reflex: stripping all apparent complexity in pursuit of a "clean" interface. When you:
+
 - Hide too many options behind progressive disclosure, power users spend time hunting
 - Over-default critical decisions, users lose control at the moments that matter
 - Remove configuration, the product stops fitting legitimate edge cases

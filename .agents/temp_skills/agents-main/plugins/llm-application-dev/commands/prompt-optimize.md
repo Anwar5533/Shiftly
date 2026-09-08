@@ -1,6 +1,6 @@
 ---
-description: "Optimize prompts for production with CoT, few-shot, and constitutional AI patterns"
-argument-hint: "<prompt-text-or-file>"
+description: 'Optimize prompts for production with CoT, few-shot, and constitutional AI patterns'
+argument-hint: '<prompt-text-or-file>'
 ---
 
 # Prompt Optimization
@@ -591,12 +591,12 @@ analysis:
     performance: X%
 
 improvements_applied:
-  - technique: "Chain-of-Thought"
-    impact: "+25% reasoning accuracy"
-  - technique: "Few-Shot Learning"
-    impact: "+30% task adherence"
-  - technique: "Constitutional AI"
-    impact: "-40% harmful outputs"
+  - technique: 'Chain-of-Thought'
+    impact: '+25% reasoning accuracy'
+  - technique: 'Few-Shot Learning'
+    impact: '+30% task adherence'
+  - technique: 'Constitutional AI'
+    impact: '-40% harmful outputs'
 
 performance_projection:
   success_rate: X% → Y%
@@ -605,21 +605,21 @@ performance_projection:
   safety: X/10 → Y/10
 
 testing_recommendations:
-  method: "LLM-as-judge with human validation"
+  method: 'LLM-as-judge with human validation'
   test_cases: 20
-  ab_test_duration: "48h"
-  metrics: ["accuracy", "satisfaction", "cost"]
+  ab_test_duration: '48h'
+  metrics: ['accuracy', 'satisfaction', 'cost']
 
 deployment_strategy:
-  model: "GPT-5.4 for quality, Claude 4.6 for safety"
+  model: 'GPT-5.4 for quality, Claude 4.6 for safety'
   temperature: 0.7
   max_tokens: 2000
-  monitoring: "Track success, latency, feedback"
+  monitoring: 'Track success, latency, feedback'
 
 next_steps:
-  immediate: ["Test with samples", "Validate safety"]
-  short_term: ["A/B test", "Collect feedback"]
-  long_term: ["Fine-tune", "Develop variants"]
+  immediate: ['Test with samples', 'Validate safety']
+  short_term: ['A/B test', 'Collect feedback']
+  long_term: ['Fine-tune', 'Develop variants']
 ```
 
 ### Usage Guidelines

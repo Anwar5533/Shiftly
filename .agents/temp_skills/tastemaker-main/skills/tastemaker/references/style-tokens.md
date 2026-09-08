@@ -6,13 +6,13 @@ Use this only when the user has no references to ground on. The goal is to pick 
 
 Read the user's description of what they're building and match it against these keyword clusters. Most requests contain enough signal (industry, audience, tone words) to classify without asking.
 
-| Mood | Idea signals (industry / audience / tone words) |
-|---|---|
-| **Premium / confident** | fintech, banking, investing, B2B, SaaS, analytics, enterprise, professional tools, legal, insurance, "for teams," admin/ops dashboard |
-| **Warm / approachable** | wellness, health, therapy, coaching, community, parenting, nonprofit, education (general audience), recipes/food, hobby, marketplace for individuals |
-| **Technical / builder-facing** | developer tool, API, CLI, infra, devops, database, monitoring, open source, engineering/ops platform, terminal-adjacent |
-| **Playful / consumer social** | game, gaming, creator tools, youth/teen audience, dating, music/streaming, meme, social app, anything explicitly "fun" |
-| **Elegant / editorial** | publishing, magazine, blog, portfolio, luxury/fashion, jewelry, art gallery, boutique, agency site, anything explicitly "premium but soft" rather than "premium but corporate" |
+| Mood                           | Idea signals (industry / audience / tone words)                                                                                                                                |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Premium / confident**        | fintech, banking, investing, B2B, SaaS, analytics, enterprise, professional tools, legal, insurance, "for teams," admin/ops dashboard                                          |
+| **Warm / approachable**        | wellness, health, therapy, coaching, community, parenting, nonprofit, education (general audience), recipes/food, hobby, marketplace for individuals                           |
+| **Technical / builder-facing** | developer tool, API, CLI, infra, devops, database, monitoring, open source, engineering/ops platform, terminal-adjacent                                                        |
+| **Playful / consumer social**  | game, gaming, creator tools, youth/teen audience, dating, music/streaming, meme, social app, anything explicitly "fun"                                                         |
+| **Elegant / editorial**        | publishing, magazine, blog, portfolio, luxury/fashion, jewelry, art gallery, boutique, agency site, anything explicitly "premium but soft" rather than "premium but corporate" |
 
 If the request already states or implies the mood directly (e.g. "premium fintech tool for freelancers," "playful app for teens"), use that instead of re-deriving from the table — the user already answered the question.
 
@@ -36,27 +36,29 @@ If a generated palette genuinely doesn't fit after a couple of tries (a specific
 
 Each mood has a font character that pairs with its generated palette. Use these pairings (all Google Fonts, so no licensing question); the hex values under each mood below are **reference anchors** that show the intended character of the mood, not the palette to ship.
 
-| Mood | Type pairing (heading + body) | Alt |
-|---|---|---|
-| Premium / confident | Unbounded + Albert Sans | Inter + Inter, tight heading tracking |
-| Warm / approachable | Zain + Nunito | Epilogue + Baskervville (softer, editorial) |
-| Technical / builder | Archivo + IBM Plex Sans (mono reserved for code/data) | IBM Plex Sans + IBM Plex Mono-for-data |
-| Playful / consumer | Urbanist + Open Sans | Fredoka + Nunito |
-| Elegant / editorial | Gloock + Inter | EB Garamond + DM Mono (accents) |
+| Mood                | Type pairing (heading + body)                         | Alt                                         |
+| ------------------- | ----------------------------------------------------- | ------------------------------------------- |
+| Premium / confident | Unbounded + Albert Sans                               | Inter + Inter, tight heading tracking       |
+| Warm / approachable | Zain + Nunito                                         | Epilogue + Baskervville (softer, editorial) |
+| Technical / builder | Archivo + IBM Plex Sans (mono reserved for code/data) | IBM Plex Sans + IBM Plex Mono-for-data      |
+| Playful / consumer  | Urbanist + Open Sans                                  | Fredoka + Nunito                            |
+| Elegant / editorial | Gloock + Inter                                        | EB Garamond + DM Mono (accents)             |
 
 ### Reference anchors (the character each mood aims for, not fixed palettes to ship)
 
-The hex values below are what the generator's mood ranges were tuned to produce the *character* of. Read them to understand each mood's intended feel; do not paste them as the project palette (that is what the generator is for). Each still uses the five-role model (Text / Background / Primary / Secondary / Accent), previewable via `realtimecolors.com/?colors=text-bg-primary-secondary-accent&fonts=Heading-Body`.
+The hex values below are what the generator's mood ranges were tuned to produce the _character_ of. Read them to understand each mood's intended feel; do not paste them as the project palette (that is what the generator is for). Each still uses the five-role model (Text / Background / Primary / Secondary / Accent), previewable via `realtimecolors.com/?colors=text-bg-primary-secondary-accent&fonts=Heading-Body`.
 
 ### Premium / confident (fintech, B2B SaaS, professional tools)
+
 - **Palette**: Text `#050315` · Background `#FBFBFE` · Primary `#2F27CE` · Secondary `#DEDCFF` · Accent `#433BFF`
   Preview: `realtimecolors.com/?colors=050315-fbfbfe-2f27ce-dedcff-433bff&fonts=Inter-Inter`
 - **Type**: Unbounded (headings) + Albert Sans (body) — a bold geometric display keeps it confident without tipping playful. Safer fallback if the display face reads too loud for the product: Inter (headings) + Inter (body), tight tracking on headings.
 - **Shape**: flat or hairline-bordered, minimal shadow, 4-8px radius.
 - **Avoid**: gradients as a crutch, more than one saturated color, drop shadows for depth.
-- **Dark mode**: Text `#F2F1FB` · Background `#0A0A12` · Primary `#5850E0` · Secondary `#17162A` · Accent `#8F87FF` — verified clean (`check_contrast.py --palette ...` exits 0). Primary is lightened from the light-mode `#2F27CE` because button-label contrast isn't the issue here (the light-mode indigo already clears 9.12:1 with white text, independent of page background) — the issue is *visibility*: `#2F27CE` only hits 2.16:1 against the dark `#0A0A12` background, under the 3:1 UI-component floor, so it visually disappears as a button fill. `#5850E0` clears 3.42:1 and still reads as the same indigo family.
+- **Dark mode**: Text `#F2F1FB` · Background `#0A0A12` · Primary `#5850E0` · Secondary `#17162A` · Accent `#8F87FF` — verified clean (`check_contrast.py --palette ...` exits 0). Primary is lightened from the light-mode `#2F27CE` because button-label contrast isn't the issue here (the light-mode indigo already clears 9.12:1 with white text, independent of page background) — the issue is _visibility_: `#2F27CE` only hits 2.16:1 against the dark `#0A0A12` background, under the 3:1 UI-component floor, so it visually disappears as a button fill. `#5850E0` clears 3.42:1 and still reads as the same indigo family.
 
 ### Warm / approachable (consumer, community, wellness)
+
 - **Palette**: Text `#2B2118` · Background `#FBF7F0` · Primary `#B85A38` · Secondary `#F0E4D3` · Accent `#7A8C6E`
   Preview: `realtimecolors.com/?colors=2b2118-fbf7f0-b85a38-f0e4d3-7a8c6e&fonts=Zain-Nunito`
   (Primary darkened from an earlier `#C96F4A` terracotta draft — that shade only cleared 3.59:1 with white button labels, below the 4.5:1 AA floor; `#B85A38` clears 4.61:1 while staying in the same terracotta family.)
@@ -66,6 +68,7 @@ The hex values below are what the generator's mood ranges were tuned to produce 
 - **Dark mode**: Text `#F5EFE6` · Background `#14100C` · Primary `#B85A38` (unchanged — already clears both the label and visibility floors against the dark background, checked directly rather than assumed) · Secondary `#241C15` · Accent `#9BAF8E`. Verified clean.
 
 ### Technical / builder-facing (dev tools, infra, CLI-adjacent products)
+
 - **Palette**: Text `#E6E6EA` · Background `#0B0D12` · Primary `#047857` · Secondary `#161A21` · Accent `#34D399`
   Preview: `realtimecolors.com/?colors=e6e6ea-0b0d12-047857-161a21-34d399&fonts=Archivo-IBMPlexSans`
   (Primary darkened from an earlier `#10B981` — that brighter emerald only cleared 2.54:1 with white button labels, well below AA; `#047857` clears 5.48:1 and still reads as "terminal green" against the near-black background. Keep the brighter `#34D399` as Accent, used sparingly for highlights rather than solid button fills.)
@@ -75,6 +78,7 @@ The hex values below are what the generator's mood ranges were tuned to produce 
 - **Dark mode**: this mood is dark-mode-native (per the mood's own "dark mode by default" convention) — no separate light companion is provided here. If a project genuinely needs a light variant of this mood, treat it as a fresh derivation (swap Background/Text, re-pick a Primary that clears both floors against a light surface) rather than assuming a naive invert of these values will pass — run `scripts/check_contrast.py` on whatever comes out, same as any other new palette.
 
 ### Playful / consumer social (games, creator tools, youth-oriented)
+
 - **Palette**: Text `#14042B` · Background `#FFFFFF` · Primary `#4361EE` · Secondary `#7209B7` · Accent `#F72585`
   Extended gradient stops (for hero backgrounds/illustration fills, not flat UI roles): `#3A0CA3`, `#4CC9F0`
   Preview: `realtimecolors.com/?colors=14042b-ffffff-4361ee-7209b7-f72585&fonts=Urbanist-OpenSans`
@@ -85,6 +89,7 @@ The hex values below are what the generator's mood ranges were tuned to produce 
 - **Dark mode**: Text `#F2EEFB` · Background `#0D0620` (deep violet-black, keeps the family's hue rather than going neutral gray) · Primary `#4361EE` (unchanged — clears both floors as-is) · Secondary `#2A0F52` · Accent `#F72585` (unchanged). Verified clean.
 
 ### Elegant / editorial (publishing, portfolio, luxury/boutique, agency)
+
 - **Palette**: Text `#211F1C` · Background `#F7F4EE` · Primary `#2F2A24` · Secondary `#E8E1D3` · Accent `#B5762C`
   Preview: `realtimecolors.com/?colors=211f1c-f7f4ee-2f2a24-e8e1d3-b5762c&fonts=Gloock-Inter`
 - **Type**: Gloock (headings, serif display) + Inter (body) — classic editorial pairing, serif carries the "considered" feel while the sans body stays fast to read. Alt with a technical edge: EB Garamond (headings) + DM Mono (small caps/accents, e.g. bylines, dates).
@@ -116,6 +121,7 @@ Both come back as the same triadic warm-orange family — a genuine light/dark c
 **Verify both, not just the one you happened to look at.** Run `scripts/check_contrast.py --matrix` against each mode's full role set before considering the style genuinely locked. A palette that's clean in light mode and unchecked in dark mode is not "dark mode done," it's dark mode assumed.
 
 **Implementation pattern:**
+
 - Define both role sets as CSS custom properties, one set per mode, swapped via a `data-theme="light"`/`data-theme="dark"` attribute on `<html>` (a class works too; the attribute is more common). Every component reads `var(--text)`, `var(--bg)`, etc. — never a hardcoded hex — so the swap is a single attribute change, not a re-render.
 - Default from `prefers-color-scheme` on first load (`@media (prefers-color-scheme: dark)` sets the initial attribute, or a small inline script reads `matchMedia` before first paint to avoid a flash of the wrong theme).
 - An explicit user toggle overrides the system default and persists (`localStorage`), read back on load ahead of the `prefers-color-scheme` check so a returning user's choice sticks.
@@ -147,14 +153,32 @@ So for a CJK project, the `.tastemaker/style-lock.md` Typography section records
 **It is not on Google Fonts** — this is a real difference from every other font in this file, which loads via a no-license-question Google Fonts `<link>`. Pretendard loads from its own CDN instead:
 
 ```html
-<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+<link
+  rel="stylesheet"
+  as="style"
+  crossorigin
+  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"
+/>
 ```
 
 ```css
 body {
-  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
-    Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-family:
+    'Pretendard Variable',
+    Pretendard,
+    -apple-system,
+    BlinkMacSystemFont,
+    system-ui,
+    Roboto,
+    'Helvetica Neue',
+    'Segoe UI',
+    'Apple SD Gothic Neo',
+    'Noto Sans KR',
+    'Malgun Gothic',
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Segoe UI Symbol',
+    sans-serif;
 }
 ```
 
@@ -188,20 +212,20 @@ Product names, numerals, and any deliberately-Latin UI strings inside otherwise-
 
 Built on a 4px base unit (Tailwind's default, and half of the 8px grid Material Design and Apple's HIG both standardize on — halving cleanly is what makes 4px/8px multiples the industry default rather than an arbitrary choice). Named steps, each with a role, not just a number:
 
-| Token | Value | Use for |
-|---|---|---|
-| `space-1` | 4px | Hairline gaps: icon-to-label, a badge's internal padding, the tightest relationship on the page |
-| `space-2` | 8px | Tightly related elements: a label and its value, stacked lines of related text |
-| `space-3` | 12px | Compact component internals: a dense table cell, an app-shell nav row (see `references/component-patterns.md`'s App shell density note — this is the floor for that context, not a violation of it) |
-| `space-4` | 16px | Standard component padding: a button's internal padding, a compact stat tile |
-| `space-6` | 24px | Group separation: gap between a card's internal sections (heading / body / footer), minimum internal padding for a **content card** (pricing tier, feature card, testimonial) |
-| `space-8` | 32px | Spacious card padding for a card carrying real weight (a highlighted pricing tier, a hero showcase panel); gap between distinct groups within a section |
-| `space-12` | 48px | Small section padding (a compact/dense-mood project); gap between major elements within a hero |
-| `space-16` | 64px | Default section padding (top/bottom) for most moods; the floor for a landing page's *lightest* connective sections (a logo strip, a quick transition band) |
-| `space-24` | 96px | Section padding for a section carrying real weight; the floor, not the ceiling, for a landing page's core sections |
-| `space-32` | 128px | Generous section padding for a landing page's pivotal sections (the hero, the primary proof/demo section) |
-| `space-40` | 160px | Near the top of the range for a section meant to be the page's single strongest beat |
-| `space-48` | 192px | The observed ceiling on real, well-separated landing pages — reach for it on the one section that most needs to dominate the page, not as a default |
+| Token      | Value | Use for                                                                                                                                                                                             |
+| ---------- | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `space-1`  | 4px   | Hairline gaps: icon-to-label, a badge's internal padding, the tightest relationship on the page                                                                                                     |
+| `space-2`  | 8px   | Tightly related elements: a label and its value, stacked lines of related text                                                                                                                      |
+| `space-3`  | 12px  | Compact component internals: a dense table cell, an app-shell nav row (see `references/component-patterns.md`'s App shell density note — this is the floor for that context, not a violation of it) |
+| `space-4`  | 16px  | Standard component padding: a button's internal padding, a compact stat tile                                                                                                                        |
+| `space-6`  | 24px  | Group separation: gap between a card's internal sections (heading / body / footer), minimum internal padding for a **content card** (pricing tier, feature card, testimonial)                       |
+| `space-8`  | 32px  | Spacious card padding for a card carrying real weight (a highlighted pricing tier, a hero showcase panel); gap between distinct groups within a section                                             |
+| `space-12` | 48px  | Small section padding (a compact/dense-mood project); gap between major elements within a hero                                                                                                      |
+| `space-16` | 64px  | Default section padding (top/bottom) for most moods; the floor for a landing page's _lightest_ connective sections (a logo strip, a quick transition band)                                          |
+| `space-24` | 96px  | Section padding for a section carrying real weight; the floor, not the ceiling, for a landing page's core sections                                                                                  |
+| `space-32` | 128px | Generous section padding for a landing page's pivotal sections (the hero, the primary proof/demo section)                                                                                           |
+| `space-40` | 160px | Near the top of the range for a section meant to be the page's single strongest beat                                                                                                                |
+| `space-48` | 192px | The observed ceiling on real, well-separated landing pages — reach for it on the one section that most needs to dominate the page, not as a default                                                 |
 
 Skip the gaps between named steps deliberately — 20px, 28px, 40px, 56px are legal but should be rare, reached for only when a specific alignment genuinely needs it, not a default choice. A project that uses six different arbitrary values between 16 and 32 reads as unintentional the same way mixed radius values do.
 
@@ -246,6 +270,7 @@ Pick one radius scale and stick to it project-wide (e.g. 4/8/16px for sm/md/lg) 
 Once a project's spacing decisions are made, record the actual tokens used (not just "8px grid") in `.tastemaker/style-lock.md`'s Density & spacing section — see `references/style-lock-format.md` — so the second screen reuses the same scale instead of re-deriving it.
 
 ## Contrast floor
+
 Whatever palette gets chosen — including the reference anchors above — verify with `scripts/check_contrast.py <hex1> <hex2>` (or `--palette text=.. bg=.. primary=.. accent=..` for all the pairings that matter at once) rather than eyeballing it. Two separate checks matter, not just one:
 
 1. **Body text vs. background** — 4.5:1 minimum (WCAG AA). This is the pairing people usually remember to check.

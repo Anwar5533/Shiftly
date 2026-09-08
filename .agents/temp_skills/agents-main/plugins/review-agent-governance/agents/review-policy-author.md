@@ -64,7 +64,7 @@ When writing a review-governance policy:
    post / merge / close actions only.
 
 4. **Gate branches by name, not by path.** Use `context.target_branch in
-   ["main", ...]` not `context.resource_path starts with "refs/heads/main"`.
+["main", ...]` not `context.resource_path starts with "refs/heads/main"`.
    Branch names are what humans reason about.
 
 5. **Include the notification surfaces.** Slack and Discord webhooks are

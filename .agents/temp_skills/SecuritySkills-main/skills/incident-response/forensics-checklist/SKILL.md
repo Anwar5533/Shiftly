@@ -12,14 +12,14 @@ role: [soc-analyst, security-engineer]
 phase: [respond]
 frameworks: [NIST-SP-800-86, RFC-3227]
 difficulty: advanced
-time_estimate: "30-60min"
-version: "1.0.0"
+time_estimate: '30-60min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 context: fork
 injection-hardened: true
-argument-hint: "[target-file-or-directory]"
+argument-hint: '[target-file-or-directory]'
 ---
 
 # Digital Forensics Evidence Collection -- NIST SP 800-86 / RFC 3227
@@ -93,6 +93,7 @@ CUSTODY LOG:
 ```
 
 **Chain of custody principles (NIST SP 800-86 Section 3.2):**
+
 - Document who collected the evidence, when, where, and how
 - Record every transfer of evidence between individuals or storage locations
 - Use tamper-evident bags or containers for physical media
@@ -105,15 +106,15 @@ RFC 3227 Section 2.1 defines the order of volatility -- evidence sources ranked 
 
 **RFC 3227 Order of Volatility:**
 
-| Priority | Evidence Source | Volatility | Collection Window | Tool Examples |
-|----------|---------------|------------|-------------------|---------------|
-| 1 | **Registers, cache** | Nanoseconds | Lost on context switch or power loss | Hardware debuggers, crash dumps (rarely collected outside specialized investigations) |
-| 2 | **Routing table, ARP cache, process table, kernel statistics, memory** | Seconds to minutes | Lost on reboot or process termination | `netstat`, `arp -a`, `ps aux`, `/proc`, WinPmem, LiME, DumpIt, Volatility |
-| 3 | **Temporary file systems** | Minutes to hours | Lost on reboot or cleanup | `/tmp`, `%TEMP%`, pagefile, swap partition |
-| 4 | **Disk** | Persistent until overwritten | Stable unless wiped or reimaged | dc3dd, FTK Imager, ewfacquire, `dd` |
-| 5 | **Remote logging and monitoring data** | Persistent until rotation | Subject to log rotation policies | SIEM export, CloudTrail, syslog server, ELK/Splunk |
-| 6 | **Physical configuration, network topology** | Stable | Changes with infrastructure modifications | Network diagrams, switch/router configs, CMDB |
-| 7 | **Archival media** | Long-term | Stable unless damaged or degaussed | Tape backups, offline backups, cold storage |
+| Priority | Evidence Source                                                        | Volatility                   | Collection Window                         | Tool Examples                                                                         |
+| -------- | ---------------------------------------------------------------------- | ---------------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------- |
+| 1        | **Registers, cache**                                                   | Nanoseconds                  | Lost on context switch or power loss      | Hardware debuggers, crash dumps (rarely collected outside specialized investigations) |
+| 2        | **Routing table, ARP cache, process table, kernel statistics, memory** | Seconds to minutes           | Lost on reboot or process termination     | `netstat`, `arp -a`, `ps aux`, `/proc`, WinPmem, LiME, DumpIt, Volatility             |
+| 3        | **Temporary file systems**                                             | Minutes to hours             | Lost on reboot or cleanup                 | `/tmp`, `%TEMP%`, pagefile, swap partition                                            |
+| 4        | **Disk**                                                               | Persistent until overwritten | Stable unless wiped or reimaged           | dc3dd, FTK Imager, ewfacquire, `dd`                                                   |
+| 5        | **Remote logging and monitoring data**                                 | Persistent until rotation    | Subject to log rotation policies          | SIEM export, CloudTrail, syslog server, ELK/Splunk                                    |
+| 6        | **Physical configuration, network topology**                           | Stable                       | Changes with infrastructure modifications | Network diagrams, switch/router configs, CMDB                                         |
+| 7        | **Archival media**                                                     | Long-term                    | Stable unless damaged or degaussed        | Tape backups, offline backups, cold storage                                           |
 
 ### Step 3: Volatile Data Capture
 
@@ -124,6 +125,7 @@ Capture volatile data BEFORE any containment action that would alter system stat
 Memory is the single most valuable volatile evidence source. It contains running processes, network connections, encryption keys, malware that exists only in memory, and fragments of user activity.
 
 **Linux memory acquisition:**
+
 ```
 # Using LiME (Linux Memory Extractor)
 sudo insmod lime-$(uname -r).ko "path=/evidence/[hostname]_memory_[YYYYMMDD_HHMM].lime format=lime"
@@ -133,6 +135,7 @@ sha256sum /evidence/[hostname]_memory_[YYYYMMDD_HHMM].lime > /evidence/[hostname
 ```
 
 **Windows memory acquisition:**
+
 ```
 # Using WinPmem
 winpmem_mini_x64.exe E:\evidence\[hostname]_memory_[YYYYMMDD_HHMM].raw
@@ -145,6 +148,7 @@ certutil -hashfile E:\evidence\[hostname]_memory_[YYYYMMDD_HHMM].raw SHA256
 ```
 
 **Virtual machine memory:**
+
 ```
 # VMware: Suspend VM and collect .vmem and .vmsn files
 # Hyper-V: Create checkpoint, export .bin memory file
@@ -157,6 +161,7 @@ certutil -hashfile E:\evidence\[hostname]_memory_[YYYYMMDD_HHMM].raw SHA256
 Capture the following before any containment action alters system state:
 
 **Network state:**
+
 ```
 # Active connections
 netstat -anop (Windows) / ss -tunaop (Linux)
@@ -175,6 +180,7 @@ netstat -tlnp (Linux) / netstat -bno (Windows)
 ```
 
 **Process state:**
+
 ```
 # Running processes with full command lines
 tasklist /v /fo csv (Windows) / ps auxwww (Linux)
@@ -190,6 +196,7 @@ listdlls.exe (Windows, Sysinternals) / cat /proc/[pid]/maps (Linux)
 ```
 
 **User and session state:**
+
 ```
 # Logged-in users
 query user (Windows) / w (Linux)
@@ -222,6 +229,7 @@ ls -latr /tmp /var/tmp /dev/shm
 Create a forensically sound disk image -- a bit-for-bit copy that preserves all data including deleted files, slack space, and unallocated areas.
 
 **Forensic imaging principles:**
+
 - Always write to a SEPARATE destination drive -- never write to the evidence drive
 - Use write blockers (hardware or software) when connecting evidence drives
 - Create a full bitstream image, not a logical copy
@@ -229,6 +237,7 @@ Create a forensically sound disk image -- a bit-for-bit copy that preserves all 
 - Image the entire disk, not individual partitions
 
 **Linux disk imaging with dc3dd:**
+
 ```
 # Full disk image with built-in hashing
 dc3dd if=/dev/sda of=/evidence/[hostname]_disk_[YYYYMMDD].dd hash=sha256 log=/evidence/[hostname]_disk_[YYYYMMDD].log
@@ -238,17 +247,20 @@ dc3dd if=/evidence/[hostname]_disk_[YYYYMMDD].dd hash=sha256 < compare against o
 ```
 
 **Linux disk imaging with ewfacquire (E01 format with compression):**
+
 ```
 ewfacquire /dev/sda -t /evidence/[hostname]_disk_[YYYYMMDD] -C [case number] -D [description] -e [examiner] -f encase6 -c deflate:best
 ```
 
 **Windows disk imaging with FTK Imager:**
+
 ```
 # FTK Imager CLI
 ftkimager.exe \\.\PhysicalDrive0 E:\evidence\[hostname]_disk_[YYYYMMDD] --e01 --compress 6 --frag 2G --verify
 ```
 
 **Evidence integrity verification:**
+
 ```
 Evidence Integrity Record:
 - Evidence ID:          [EVD-NNNN]
@@ -269,19 +281,20 @@ Preserve logs before rotation policies destroy them. Export and hash logs from e
 
 **Priority log sources:**
 
-| Log Source | Evidence Value | Retention Risk |
-|------------|---------------|----------------|
-| Authentication logs (Windows Security, `/var/log/auth.log`) | Login attempts, credential use, privilege escalation | Rotation typically 7-30 days |
-| Web server access/error logs | Attack vectors, reconnaissance, exploitation attempts | Rotation typically 7-14 days |
-| Firewall / IDS / IPS logs | Network-level attack evidence, blocked/allowed connections | Varies by policy |
-| DNS query logs | C2 communication, data exfiltration via DNS tunneling | Often not retained |
-| SIEM / centralized logging | Correlated events across sources | Retention policy dependent |
-| Cloud provider audit logs (CloudTrail, Azure Activity, GCP Audit) | API calls, resource modifications, IAM changes | 90 days default (CloudTrail); may require explicit retention |
-| Email server logs | Phishing delivery, BEC evidence, forwarding rule creation | Varies |
-| VPN and remote access logs | Unauthorized remote access evidence | Rotation typically 30 days |
-| Endpoint detection (EDR) telemetry | Process execution, file creation, network connections | Retention varies by vendor |
+| Log Source                                                        | Evidence Value                                             | Retention Risk                                               |
+| ----------------------------------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------------ |
+| Authentication logs (Windows Security, `/var/log/auth.log`)       | Login attempts, credential use, privilege escalation       | Rotation typically 7-30 days                                 |
+| Web server access/error logs                                      | Attack vectors, reconnaissance, exploitation attempts      | Rotation typically 7-14 days                                 |
+| Firewall / IDS / IPS logs                                         | Network-level attack evidence, blocked/allowed connections | Varies by policy                                             |
+| DNS query logs                                                    | C2 communication, data exfiltration via DNS tunneling      | Often not retained                                           |
+| SIEM / centralized logging                                        | Correlated events across sources                           | Retention policy dependent                                   |
+| Cloud provider audit logs (CloudTrail, Azure Activity, GCP Audit) | API calls, resource modifications, IAM changes             | 90 days default (CloudTrail); may require explicit retention |
+| Email server logs                                                 | Phishing delivery, BEC evidence, forwarding rule creation  | Varies                                                       |
+| VPN and remote access logs                                        | Unauthorized remote access evidence                        | Rotation typically 30 days                                   |
+| Endpoint detection (EDR) telemetry                                | Process execution, file creation, network connections      | Retention varies by vendor                                   |
 
 **Log export procedure:**
+
 ```
 1. Export raw logs to write-protected storage
 2. Compute SHA-256 hash of each exported log file
@@ -294,6 +307,7 @@ Preserve logs before rotation policies destroy them. Export and hash logs from e
 Cloud environments require different acquisition techniques because direct hardware access is not available.
 
 **AWS:**
+
 ```
 # Create EBS volume snapshot (preserves disk state)
 aws ec2 create-snapshot --volume-id vol-XXXX --description "Forensic snapshot IR-YYYY-NNNN"
@@ -313,6 +327,7 @@ aws ec2 describe-instances --instance-ids i-XXXX --output json > instance_meta_[
 ```
 
 **Azure:**
+
 ```
 # Create managed disk snapshot
 az snapshot create --resource-group [RG] --source [disk-id] --name forensic-snap-[YYYYMMDD]
@@ -324,6 +339,7 @@ az monitor activity-log list --start-time YYYY-MM-DDT00:00:00Z --end-time YYYY-M
 ```
 
 **GCP:**
+
 ```
 # Create persistent disk snapshot
 gcloud compute disks snapshot [disk-name] --zone [zone] --snapshot-names forensic-snap-[YYYYMMDD]
@@ -333,6 +349,7 @@ gcloud logging read 'timestamp>="YYYY-MM-DDT00:00:00Z" AND timestamp<="YYYY-MM-D
 ```
 
 **Cloud forensic considerations:**
+
 - Snapshots are not bitstream images -- they capture allocated blocks only, not unallocated space or slack
 - Enable VPC Flow Logs, CloudTrail (with log file validation), and audit logging BEFORE incidents occur
 - Cloud provider logs are the primary evidence source; without pre-enabled logging, critical evidence may not exist
@@ -343,13 +360,13 @@ gcloud logging read 'timestamp>="YYYY-MM-DDT00:00:00Z" AND timestamp<="YYYY-MM-D
 
 ## 4. Findings Classification
 
-| Severity | Label | Definition | Evidence Handling |
-|----------|-------|------------|-------------------|
-| P0 | Critical | Evidence of active compromise, data exfiltration, or system destruction. Immediate preservation required. | Full volatile + disk acquisition. Legal hold. External forensics engagement if needed. |
-| P1 | High | Evidence of unauthorized access or malware presence. Significant investigation value. | Full volatile + disk acquisition. Prioritize within 4 hours. |
-| P2 | Medium | Evidence of suspicious activity requiring further analysis. Investigation value probable. | Targeted acquisition (specific logs, memory). Prioritize within 24 hours. |
-| P3 | Low | Supplementary evidence that may support investigation but is not primary. | Log preservation. Disk imaging if convenient. |
-| P4 | Informational | Contextual information (network topology, configuration baselines) supporting analysis. | Document and preserve digitally. |
+| Severity | Label         | Definition                                                                                                | Evidence Handling                                                                      |
+| -------- | ------------- | --------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| P0       | Critical      | Evidence of active compromise, data exfiltration, or system destruction. Immediate preservation required. | Full volatile + disk acquisition. Legal hold. External forensics engagement if needed. |
+| P1       | High          | Evidence of unauthorized access or malware presence. Significant investigation value.                     | Full volatile + disk acquisition. Prioritize within 4 hours.                           |
+| P2       | Medium        | Evidence of suspicious activity requiring further analysis. Investigation value probable.                 | Targeted acquisition (specific logs, memory). Prioritize within 24 hours.              |
+| P3       | Low           | Supplementary evidence that may support investigation but is not primary.                                 | Log preservation. Disk imaging if convenient.                                          |
+| P4       | Informational | Contextual information (network topology, configuration baselines) supporting analysis.                   | Document and preserve digitally.                                                       |
 
 ---
 
@@ -359,48 +376,56 @@ Produce the evidence collection report with these exact sections:
 
 ```markdown
 ## Forensic Evidence Collection Report: [Incident ID]
+
 **Date:** [YYYY-MM-DD]
 **Skill:** forensics-checklist v1.0.0
 **Frameworks:** NIST SP 800-86, RFC 3227
 **Examiner:** [Name or "AI-assisted -- human examiner required for court-admissible evidence"]
 
 ### Collection Summary
+
 [3-5 sentences. State what evidence was collected, from which systems,
 the order of collection, and any evidence that could not be obtained.]
 
 ### Evidence Inventory
-| Evidence ID | Type | Source System | Collection Time (UTC) | SHA-256 Hash | Examiner | Storage Location |
-|---|---|---|---|---|---|---|
-| EVD-0001 | Memory dump | [hostname] | [timestamp] | [hash] | [name] | [location] |
-| EVD-0002 | Disk image (E01) | [hostname] | [timestamp] | [hash] | [name] | [location] |
-| EVD-0003 | Log export | [source] | [timestamp] | [hash] | [name] | [location] |
+
+| Evidence ID | Type             | Source System | Collection Time (UTC) | SHA-256 Hash | Examiner | Storage Location |
+| ----------- | ---------------- | ------------- | --------------------- | ------------ | -------- | ---------------- |
+| EVD-0001    | Memory dump      | [hostname]    | [timestamp]           | [hash]       | [name]   | [location]       |
+| EVD-0002    | Disk image (E01) | [hostname]    | [timestamp]           | [hash]       | [name]   | [location]       |
+| EVD-0003    | Log export       | [source]      | [timestamp]           | [hash]       | [name]   | [location]       |
 
 ### Volatility Order Compliance
-| RFC 3227 Priority | Evidence Source | Collected | Notes |
-|---|---|---|---|
-| 1 | Registers/cache | [Yes/No/N/A] | [Notes] |
-| 2 | Routing/ARP/process table/memory | [Yes/No] | [Notes] |
-| 3 | Temporary file systems | [Yes/No] | [Notes] |
-| 4 | Disk | [Yes/No] | [Notes] |
-| 5 | Remote logging data | [Yes/No] | [Notes] |
-| 6 | Physical configuration | [Yes/No] | [Notes] |
-| 7 | Archival media | [Yes/No/N/A] | [Notes] |
+
+| RFC 3227 Priority | Evidence Source                  | Collected    | Notes   |
+| ----------------- | -------------------------------- | ------------ | ------- |
+| 1                 | Registers/cache                  | [Yes/No/N/A] | [Notes] |
+| 2                 | Routing/ARP/process table/memory | [Yes/No]     | [Notes] |
+| 3                 | Temporary file systems           | [Yes/No]     | [Notes] |
+| 4                 | Disk                             | [Yes/No]     | [Notes] |
+| 5                 | Remote logging data              | [Yes/No]     | [Notes] |
+| 6                 | Physical configuration           | [Yes/No]     | [Notes] |
+| 7                 | Archival media                   | [Yes/No/N/A] | [Notes] |
 
 ### Chain of Custody
+
 [Include chain of custody form for each evidence item]
 
 ### Integrity Verification
-| Evidence ID | Acquisition Hash | Verification Hash | Match |
-|---|---|---|---|
-| EVD-0001 | [hash] | [hash] | [YES/NO] |
+
+| Evidence ID | Acquisition Hash | Verification Hash | Match    |
+| ----------- | ---------------- | ----------------- | -------- |
+| EVD-0001    | [hash]           | [hash]            | [YES/NO] |
 
 ### Evidence Gaps
+
 [List any evidence that could not be collected and the reason]
 
 ### Cloud Evidence (if applicable)
-| Cloud Provider | Resource | Evidence Type | Collected | Notes |
-|---|---|---|---|---|
-| [AWS/Azure/GCP] | [Resource ID] | [Snapshot/Logs/Config] | [Yes/No] | [Notes] |
+
+| Cloud Provider  | Resource      | Evidence Type          | Collected | Notes   |
+| --------------- | ------------- | ---------------------- | --------- | ------- |
+| [AWS/Azure/GCP] | [Resource ID] | [Snapshot/Logs/Config] | [Yes/No]  | [Notes] |
 ```
 
 ---

@@ -54,19 +54,19 @@ depending on mutable titles.
 
 ## Mapping From Normalized Findings
 
-| Normalized field | Tracker handoff field |
-|---|---|
-| `run.id`, `run.target`, `run.source_ref` | `source.run_id`, `source.target`, `source.source_ref` |
-| `skill.name`, `skill.version` | `source.skill_name`, `source.skill_version` |
-| `finding.id` | `work_items[].source_finding_id` |
-| `finding.fingerprint` | `work_items[].source_finding_fingerprint` and `tracker_fields.defectdojo.unique_id_from_tool` |
-| `finding.title` | `work_items[].title` |
-| `finding.description` | `work_items[].description` and tracker description bodies |
-| `finding.severity` | `work_items[].severity` and tracker priority/severity fields |
-| `finding.evidence` | `work_items[].evidence` and tracker description bodies |
-| `finding.references`, `finding.cwe`, `finding.framework_refs` | `work_items[].references`, labels, and tracker description bodies |
-| `finding.remediations[0].guidance` | `work_items[].remediation.guidance` |
-| `finding.remediations[0].test_strategy.summary` | `work_items[].remediation.validation` |
+| Normalized field                                              | Tracker handoff field                                                                         |
+| ------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `run.id`, `run.target`, `run.source_ref`                      | `source.run_id`, `source.target`, `source.source_ref`                                         |
+| `skill.name`, `skill.version`                                 | `source.skill_name`, `source.skill_version`                                                   |
+| `finding.id`                                                  | `work_items[].source_finding_id`                                                              |
+| `finding.fingerprint`                                         | `work_items[].source_finding_fingerprint` and `tracker_fields.defectdojo.unique_id_from_tool` |
+| `finding.title`                                               | `work_items[].title`                                                                          |
+| `finding.description`                                         | `work_items[].description` and tracker description bodies                                     |
+| `finding.severity`                                            | `work_items[].severity` and tracker priority/severity fields                                  |
+| `finding.evidence`                                            | `work_items[].evidence` and tracker description bodies                                        |
+| `finding.references`, `finding.cwe`, `finding.framework_refs` | `work_items[].references`, labels, and tracker description bodies                             |
+| `finding.remediations[0].guidance`                            | `work_items[].remediation.guidance`                                                           |
+| `finding.remediations[0].test_strategy.summary`               | `work_items[].remediation.validation`                                                         |
 
 Owner and SLA are not present in the normalized finding contract. A handoff
 producer must add them from routing rules, service ownership metadata, severity
@@ -79,12 +79,12 @@ Use the normalized `severity` value as the canonical severity. Tracker-specific
 fields may require translation:
 
 | Normalized severity | DefectDojo severity | Jira priority | Linear priority |
-|---|---|---|---|
-| `critical` | `Critical` | `Highest` | `1` |
-| `high` | `High` | `High` | `2` |
-| `medium` | `Medium` | `Medium` | `3` |
-| `low` | `Low` | `Low` | `4` |
-| `info` | `Info` | `Lowest` | `0` |
+| ------------------- | ------------------- | ------------- | --------------- |
+| `critical`          | `Critical`          | `Highest`     | `1`             |
+| `high`              | `High`              | `High`        | `2`             |
+| `medium`            | `Medium`            | `Medium`      | `3`             |
+| `low`               | `Low`               | `Low`         | `4`             |
+| `info`              | `Info`              | `Lowest`      | `0`             |
 
 Keep the original normalized severity in `work_items[].severity` even when a
 tracker has fewer or differently named priority levels.
@@ -95,48 +95,48 @@ tracker has fewer or differently named priority levels.
 
 Map a work item to DefectDojo finding import fields:
 
-| Handoff field | DefectDojo field |
-|---|---|
-| `title` | `title` |
-| `severity` | `severity` |
-| `description` plus evidence | `description` |
-| `remediation.guidance` | `mitigation` |
+| Handoff field                                       | DefectDojo field      |
+| --------------------------------------------------- | --------------------- |
+| `title`                                             | `title`               |
+| `severity`                                          | `severity`            |
+| `description` plus evidence                         | `description`         |
+| `remediation.guidance`                              | `mitigation`          |
 | `source_finding_fingerprint` or `source_finding_id` | `unique_id_from_tool` |
-| `source.target` or affected asset | `component_name` |
-| CWE reference, when present | `cwe` |
-| `references` | `references` |
-| `labels` | `tags` |
-| `sla.due_at` | `due_date` |
+| `source.target` or affected asset                   | `component_name`      |
+| CWE reference, when present                         | `cwe`                 |
+| `references`                                        | `references`          |
+| `labels`                                            | `tags`                |
+| `sla.due_at`                                        | `due_date`            |
 
 ### Jira
 
 Map a work item to Jira issue import fields:
 
-| Handoff field | Jira field |
-|---|---|
-| `title` | `summary` |
-| `description`, evidence, remediation, validation | `description` |
-| Handoff policy | `issue_type`, usually `Bug`, `Task`, or `Security Finding` |
-| `severity` | `priority` |
-| `owner.id` | `assignee` |
-| `sla.due_at` | `due_date` |
-| `labels` | `labels` |
-| Security classification policy | `security_level` |
+| Handoff field                                    | Jira field                                                 |
+| ------------------------------------------------ | ---------------------------------------------------------- |
+| `title`                                          | `summary`                                                  |
+| `description`, evidence, remediation, validation | `description`                                              |
+| Handoff policy                                   | `issue_type`, usually `Bug`, `Task`, or `Security Finding` |
+| `severity`                                       | `priority`                                                 |
+| `owner.id`                                       | `assignee`                                                 |
+| `sla.due_at`                                     | `due_date`                                                 |
+| `labels`                                         | `labels`                                                   |
+| Security classification policy                   | `security_level`                                           |
 
 ### Linear
 
 Map a work item to Linear issue fields:
 
-| Handoff field | Linear field |
-|---|---|
-| `title` | `title` |
+| Handoff field                                    | Linear field  |
+| ------------------------------------------------ | ------------- |
+| `title`                                          | `title`       |
 | `description`, evidence, remediation, validation | `description` |
-| `severity` | `priority` |
-| `owner.id` | `assignee_id` |
-| Owner routing | `team_key` |
-| `sla.due_at` | `due_date` |
-| `labels` | `label_names` |
-| Handoff workflow policy | `state_name` |
+| `severity`                                       | `priority`    |
+| `owner.id`                                       | `assignee_id` |
+| Owner routing                                    | `team_key`    |
+| `sla.due_at`                                     | `due_date`    |
+| `labels`                                         | `label_names` |
+| Handoff workflow policy                          | `state_name`  |
 
 ## Description Body
 

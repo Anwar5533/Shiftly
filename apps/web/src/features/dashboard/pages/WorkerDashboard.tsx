@@ -52,13 +52,20 @@ export default function WorkerDashboard(): React.ReactElement {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+      <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div>
-          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
             <h1 className="text-3xl font-black tracking-tight text-foreground">
-              Welcome back, <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">{profile?.firstName || user?.email?.split('@')[0] || 'Worker'}</span>
+              Welcome back,{' '}
+              <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+                {profile?.firstName || user?.email?.split('@')[0] || 'Worker'}
+              </span>
             </h1>
-            <p className="mt-1 text-muted-foreground font-medium">
+            <p className="mt-1 font-medium text-muted-foreground">
               Here is what is happening with your shifts today.
             </p>
           </motion.div>
@@ -87,16 +94,20 @@ export default function WorkerDashboard(): React.ReactElement {
           variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
           whileHover={{ scale: 1.02, y: -4 }}
           transition={{ type: 'spring', stiffness: 300 }}
-          className="glass-panel p-6 rounded-2xl relative overflow-hidden group"
+          className="glass-panel group relative overflow-hidden rounded-2xl p-6"
         >
-          <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-primary/10 blur-2xl group-hover:bg-primary/20 transition-colors"></div>
-          <div className="flex items-center gap-5 relative z-10">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 text-primary shadow-inner border border-primary/10">
+          <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-primary/10 blur-2xl transition-colors group-hover:bg-primary/20"></div>
+          <div className="relative z-10 flex items-center gap-5">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-primary/10 bg-gradient-to-br from-primary/20 to-primary/5 text-primary shadow-inner">
               <IndianRupee className="h-7 w-7" />
             </div>
             <div>
-              <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Total Earnings</p>
-              <h3 className="text-3xl font-black text-foreground mt-1">₹{profile?.totalEarnings || 0}</h3>
+              <p className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                Total Earnings
+              </p>
+              <h3 className="mt-1 text-3xl font-black text-foreground">
+                ₹{profile?.totalEarnings || 0}
+              </h3>
             </div>
           </div>
         </motion.div>
@@ -105,16 +116,20 @@ export default function WorkerDashboard(): React.ReactElement {
           variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
           whileHover={{ scale: 1.02, y: -4 }}
           transition={{ type: 'spring', stiffness: 300 }}
-          className="glass-panel p-6 rounded-2xl relative overflow-hidden group"
+          className="glass-panel group relative overflow-hidden rounded-2xl p-6"
         >
-          <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-accent/10 blur-2xl group-hover:bg-accent/20 transition-colors"></div>
-          <div className="flex items-center gap-5 relative z-10">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-accent/20 to-accent/5 text-accent shadow-inner border border-accent/10">
+          <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-accent/10 blur-2xl transition-colors group-hover:bg-accent/20"></div>
+          <div className="relative z-10 flex items-center gap-5">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-accent/10 bg-gradient-to-br from-accent/20 to-accent/5 text-accent shadow-inner">
               <Briefcase className="h-7 w-7" />
             </div>
             <div>
-              <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Active Applications</p>
-              <h3 className="text-3xl font-black text-foreground mt-1">{pendingApplications.length}</h3>
+              <p className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                Active Applications
+              </p>
+              <h3 className="mt-1 text-3xl font-black text-foreground">
+                {pendingApplications.length}
+              </h3>
             </div>
           </div>
         </motion.div>
@@ -123,16 +138,18 @@ export default function WorkerDashboard(): React.ReactElement {
           variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
           whileHover={{ scale: 1.02, y: -4 }}
           transition={{ type: 'spring', stiffness: 300 }}
-          className="glass-panel p-6 rounded-2xl relative overflow-hidden group"
+          className="glass-panel group relative overflow-hidden rounded-2xl p-6"
         >
-          <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-blue-500/10 blur-2xl group-hover:bg-blue-500/20 transition-colors"></div>
-          <div className="flex items-center gap-5 relative z-10">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-500/5 text-blue-500 shadow-inner border border-blue-500/10">
+          <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-blue-500/10 blur-2xl transition-colors group-hover:bg-blue-500/20"></div>
+          <div className="relative z-10 flex items-center gap-5">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-500/10 bg-gradient-to-br from-blue-500/20 to-blue-500/5 text-blue-500 shadow-inner">
               <Calendar className="h-7 w-7" />
             </div>
             <div>
-              <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Upcoming Shifts</p>
-              <h3 className="text-3xl font-black text-foreground mt-1">{upcomingShifts.length}</h3>
+              <p className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                Upcoming Shifts
+              </p>
+              <h3 className="mt-1 text-3xl font-black text-foreground">{upcomingShifts.length}</h3>
             </div>
           </div>
         </motion.div>

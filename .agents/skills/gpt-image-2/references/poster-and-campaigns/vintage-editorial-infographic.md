@@ -12,12 +12,12 @@
 
 特征（与现有 poster / infographics 模板的区别）：
 
-| 模板 | 风格 |
-|---|---|
-| `editorial-cover.md`（已有） | 现代杂志封面 |
-| `infographics/legend-heavy-infographic.md`（已有） | 高密度科普图（现代或自然） |
-| `infographics/bento-grid-infographic.md`（已有） | 便当格模块化（现代） |
-| **本模板**（新增） | **复古档案 / 蓝图 / 老报纸 / 博物馆教育海报** |
+| 模板                                               | 风格                                          |
+| -------------------------------------------------- | --------------------------------------------- |
+| `editorial-cover.md`（已有）                       | 现代杂志封面                                  |
+| `infographics/legend-heavy-infographic.md`（已有） | 高密度科普图（现代或自然）                    |
+| `infographics/bento-grid-infographic.md`（已有）   | 便当格模块化（现代）                          |
+| **本模板**（新增）                                 | **复古档案 / 蓝图 / 老报纸 / 博物馆教育海报** |
 
 **关键词**：1940s 风格、aged paper、ink linework、engraved portrait、navy + charcoal、measurement ticks、formula、archival stamp。
 
@@ -163,7 +163,10 @@
       "signal distortion sketches labeled thermal noise / cross talk / distortion",
       "error-correction binary pipeline from original message to recovered message"
     ],
-    "bottomDecor": ["small waveform legend with sine wave, digital signal, and noise", "archival stamp or footer on lower right"]
+    "bottomDecor": [
+      "small waveform legend with sine wave, digital signal, and noise",
+      "archival stamp or footer on lower right"
+    ]
   },
   "color": {
     "background": "{argument name=\"paper color\" default=\"warm ivory paper\"}",
@@ -258,7 +261,11 @@
 {
   "type": "museum exhibition panel infographic",
   "language": "bilingual (English + 主体语言)",
-  "extra_sections": ["Acknowledgments / 致谢", "Further Reading / 延伸阅读", "QR code square (museum app)"],
+  "extra_sections": [
+    "Acknowledgments / 致谢",
+    "Further Reading / 延伸阅读",
+    "QR code square (museum app)"
+  ],
   "must_keep": ["所有标注双语对照", "底部 acknowledgments / 资料来源 必须出现"]
 }
 ```

@@ -31,23 +31,23 @@ Use whole numbers from 1 to 10.
 
 Controls compositional departure from familiar patterns.
 
-| Band | Behavior |
-|---|---|
-| 1–3 | Stable grids, symmetry, familiar navigation, low surprise |
-| 4–6 | One or two asymmetric moves, varied section rhythm, controlled novelty |
-| 7–8 | Strong art direction, off-grid moments, multiple layout families |
+| Band | Behavior                                                               |
+| ---- | ---------------------------------------------------------------------- |
+| 1–3  | Stable grids, symmetry, familiar navigation, low surprise              |
+| 4–6  | One or two asymmetric moves, varied section rhythm, controlled novelty |
+| 7–8  | Strong art direction, off-grid moments, multiple layout families       |
 | 9–10 | Experimental composition; use only when comprehension and brand permit |
 
 ### Motion Intensity
 
 Controls how much meaning is carried through time.
 
-| Band | Behavior |
-|---|---|
-| 1–2 | Static; state feedback only |
-| 3–4 | Hover, focus, short entry transitions |
-| 5–7 | Sequenced reveals, state choreography, restrained scroll response |
-| 8–10 | Cinematic transitions, pinning, scrubbing, spatial storytelling |
+| Band | Behavior                                                          |
+| ---- | ----------------------------------------------------------------- |
+| 1–2  | Static; state feedback only                                       |
+| 3–4  | Hover, focus, short entry transitions                             |
+| 5–7  | Sequenced reveals, state choreography, restrained scroll response |
+| 8–10 | Cinematic transitions, pinning, scrubbing, spatial storytelling   |
 
 Every animation must communicate hierarchy, feedback, causality, or narrative. Honor reduced motion whenever motion exceeds simple state feedback.
 
@@ -55,21 +55,21 @@ Every animation must communicate hierarchy, feedback, causality, or narrative. H
 
 Controls useful information per viewport, not visual clutter.
 
-| Band | Behavior |
-|---|---|
-| 1–3 | Gallery-like, one dominant idea, generous pauses |
-| 4–6 | Balanced marketing/product density |
-| 7–8 | Analytical, operational, comparison-heavy |
+| Band | Behavior                                                                     |
+| ---- | ---------------------------------------------------------------------------- |
+| 1–3  | Gallery-like, one dominant idea, generous pauses                             |
+| 4–6  | Balanced marketing/product density                                           |
+| 7–8  | Analytical, operational, comparison-heavy                                    |
 | 9–10 | Cockpit-like; requires strong grouping, scanning, and progressive disclosure |
 
 ### Asset Dependence
 
 Controls how much the result relies on real imagery, screenshots, illustration, identity assets, or generated visual references.
 
-| Band | Behavior |
-|---|---|
-| 1–3 | Typography, data, or interface structure can carry the artifact |
-| 4–6 | A few key visuals materially improve recognition or explanation |
+| Band | Behavior                                                                  |
+| ---- | ------------------------------------------------------------------------- |
+| 1–3  | Typography, data, or interface structure can carry the artifact           |
+| 4–6  | A few key visuals materially improve recognition or explanation           |
 | 7–10 | The product, brand, campaign, or story fails without high-fidelity assets |
 
 At 7+, inventory assets before layout. Do not hide missing assets with decorative CSS.
@@ -78,28 +78,28 @@ At 7+, inventory assets before layout. Do not hide missing assets with decorativ
 
 Controls how strictly existing identity and interaction language must be preserved.
 
-| Band | Behavior |
-|---|---|
-| 1–3 | New or intentionally exploratory identity |
-| 4–6 | Adapt recognizable cues while allowing meaningful evolution |
-| 7–8 | Preserve core assets, tokens, voice, and signature patterns |
+| Band | Behavior                                                                       |
+| ---- | ------------------------------------------------------------------------------ |
+| 1–3  | New or intentionally exploratory identity                                      |
+| 4–6  | Adapt recognizable cues while allowing meaningful evolution                    |
+| 7–8  | Preserve core assets, tokens, voice, and signature patterns                    |
 | 9–10 | Extension-level fidelity; new work should appear native to the existing system |
 
 ## 3. Presets
 
 Treat these as starting points, not mandatory values.
 
-| Brief | Variance | Motion | Density | Assets | Fidelity |
-|---|---:|---:|---:|---:|---:|
-| Mainstream SaaS landing | 6 | 5 | 4 | 6 | 5 |
-| Creative studio / campaign | 8 | 7 | 3 | 8 | 4 |
-| Developer tool landing | 6 | 5 | 5 | 6 | 6 |
-| Data dashboard | 4 | 3 | 8 | 3 | 7 |
-| Public-sector service | 3 | 2 | 6 | 3 | 9 |
-| Editorial presentation | 7 | 5 | 4 | 7 | 5 |
-| Existing-product extension | match | match | match | match | 10 |
-| Redesign · Preserve | current + 1 max | current + 1 max | match | match | 9 |
-| Redesign · Overhaul | 6–8 | 4–7 | match content | 6–9 | 5–7 |
+| Brief                      |        Variance |          Motion |       Density | Assets | Fidelity |
+| -------------------------- | --------------: | --------------: | ------------: | -----: | -------: |
+| Mainstream SaaS landing    |               6 |               5 |             4 |      6 |        5 |
+| Creative studio / campaign |               8 |               7 |             3 |      8 |        4 |
+| Developer tool landing     |               6 |               5 |             5 |      6 |        6 |
+| Data dashboard             |               4 |               3 |             8 |      3 |        7 |
+| Public-sector service      |               3 |               2 |             6 |      3 |        9 |
+| Editorial presentation     |               7 |               5 |             4 |      7 |        5 |
+| Existing-product extension |           match |           match |         match |  match |       10 |
+| Redesign · Preserve        | current + 1 max | current + 1 max |         match |  match |        9 |
+| Redesign · Overhaul        |             6–8 |             4–7 | match content |    6–9 |      5–7 |
 
 ## 4. Resolve Conflicts
 

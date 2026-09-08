@@ -1,6 +1,6 @@
 ---
-description: "Orchestrate end-to-end feature development from requirements to deployment"
-argument-hint: "<feature description> [--methodology tdd|bdd|ddd] [--complexity simple|medium|complex]"
+description: 'Orchestrate end-to-end feature development from requirements to deployment'
+argument-hint: '<feature description> [--methodology tdd|bdd|ddd] [--complexity simple|medium|complex]'
 ---
 
 # Feature Development Orchestrator

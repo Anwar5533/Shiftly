@@ -21,12 +21,12 @@ each term from parameter count and dtype, then sum.
 
 `params × bytes/param`, by dtype:
 
-| dtype | bytes/param |
-|---|---|
-| fp32 | 4 |
-| bf16 / fp16 | 2 |
-| int8 | 1 |
-| int4 (QLoRA NF4) | 0.5 |
+| dtype            | bytes/param |
+| ---------------- | ----------- |
+| fp32             | 4           |
+| bf16 / fp16      | 2           |
+| int8             | 1           |
+| int4 (QLoRA NF4) | 0.5         |
 
 A 70B model in bf16 is ~140GB — already over the pool before
 anything else loads. The same model in 4-bit (QLoRA) is ~35GB,
@@ -40,9 +40,9 @@ parameter; LoRA and QLoRA carry it only for the adapter parameters,
 which is why this term is negligible for them regardless of base
 model size.
 
-| Optimizer | bytes/param (trainable only) |
-|---|---|
-| AdamW, fp32 states | 8 (4B momentum + 4B variance) |
+| Optimizer                  | bytes/param (trainable only)       |
+| -------------------------- | ---------------------------------- |
+| AdamW, fp32 states         | 8 (4B momentum + 4B variance)      |
 | AdamW 8-bit (bitsandbytes) | ≈2 (quantized momentum + variance) |
 
 `adamw_8bit` is the Unsloth default for a reason on a 128GB
@@ -87,12 +87,12 @@ in the worksheet unless an unusually high rank is in play.
 Known-working combinations on a single Spark, to sanity check a new
 plan against rather than trusting the formula in isolation:
 
-| Model class | Method | Observed total | Notes |
-|---|---|---|---|
-| 70B | QLoRA | ≈40GB | 30–48h for 3 epochs; the reference point for "70B fits via QLoRA, not bf16." |
+| Model class             | Method            | Observed total                                                              | Notes                                                                                                       |
+| ----------------------- | ----------------- | --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| 70B                     | QLoRA             | ≈40GB                                                                       | 30–48h for 3 epochs; the reference point for "70B fits via QLoRA, not bf16."                                |
 | a ~120B-class MoE model | NVFP4-native LoRA | ≈68GB (per Unsloth's official DGX Spark tutorial, unsloth.ai docs, 2025-12) | Community recipe (`nvfp4-lora-spark`); experimental, not the default assumption for other 100B+ MoE models. |
-| 27B | LoRA | fits at pack ≤1024 | The LoRA ceiling on a single Spark — larger dense models need multi-Spark or a smaller method. |
-| 9B | Full fine-tune | fits comfortably | The full-FT ceiling — above this, full FT needs LoRA/QLoRA or multi-Spark instead. |
+| 27B                     | LoRA              | fits at pack ≤1024                                                          | The LoRA ceiling on a single Spark — larger dense models need multi-Spark or a smaller method.              |
+| 9B                      | Full fine-tune    | fits comfortably                                                            | The full-FT ceiling — above this, full FT needs LoRA/QLoRA or multi-Spark instead.                          |
 
 Treat "ceiling" entries as the largest class that fit in practice,
 not a hard architectural limit — a smaller batch, shorter packing,

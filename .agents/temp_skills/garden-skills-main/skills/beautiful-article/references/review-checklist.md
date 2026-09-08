@@ -5,14 +5,14 @@
 
 ## 各阶段质检方式（铁律）
 
-| 阶段 | 质检方式 | 产物 |
-|---|---|---|
-| **Phase 1 Source（默认）** | 主 Agent 内联 5 条 checklist（见 `source-to-markdown.md`） | 无文件 |
-| Phase 1 Source（仅复杂/低置信源） | Source Reviewer SubAgent（对照 `original.*` diff） | `review/source-review.md` |
-| **Phase 2 Plan / Checkpoint 1 前** | **主 Agent 内联自查（禁开 SubAgent）** | **无文件** |
-| **Phase 4 First Spread / Checkpoint 2 前** | First Spread Reviewer SubAgent | `review/first-spread-review.md` |
-| **Phase 5 每个 Section** | Section Reviewer SubAgent | **以消息返回 pass/fail + 修复点，不写文件** |
-| **Phase 6 终审 / Checkpoint 3 前** | Editorial + Visual + Technical Reviewer SubAgent | `review/final-review.md` |
+| 阶段                                       | 质检方式                                                   | 产物                                        |
+| ------------------------------------------ | ---------------------------------------------------------- | ------------------------------------------- |
+| **Phase 1 Source（默认）**                 | 主 Agent 内联 5 条 checklist（见 `source-to-markdown.md`） | 无文件                                      |
+| Phase 1 Source（仅复杂/低置信源）          | Source Reviewer SubAgent（对照 `original.*` diff）         | `review/source-review.md`                   |
+| **Phase 2 Plan / Checkpoint 1 前**         | **主 Agent 内联自查（禁开 SubAgent）**                     | **无文件**                                  |
+| **Phase 4 First Spread / Checkpoint 2 前** | First Spread Reviewer SubAgent                             | `review/first-spread-review.md`             |
+| **Phase 5 每个 Section**                   | Section Reviewer SubAgent                                  | **以消息返回 pass/fail + 修复点，不写文件** |
+| **Phase 6 终审 / Checkpoint 3 前**         | Editorial + Visual + Technical Reviewer SubAgent           | `review/final-review.md`                    |
 
 拿到结论后**先按 fail 项把产出改完，再向用户汇报**。直接拿结论汇报但不修复 = 违规。
 

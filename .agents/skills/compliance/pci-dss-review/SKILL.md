@@ -12,14 +12,14 @@ role: [vciso, security-engineer]
 phase: [assess, operate]
 frameworks: [PCI-DSS-v4.0]
 difficulty: advanced
-time_estimate: "90-180min"
-version: "1.0.0"
+time_estimate: '90-180min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 context: fork
 injection-hardened: true
-argument-hint: "[scope-description]"
+argument-hint: '[scope-description]'
 ---
 
 # PCI DSS v4.0 Compliance Review
@@ -41,6 +41,7 @@ If a target is provided via arguments, focus the review on: $ARGUMENTS
 PCI DSS v4.0, published March 2022 by the PCI Security Standards Council, is the current version of the Payment Card Industry Data Security Standard. It replaced v3.2.1, with v3.2.1 retirement on March 31, 2024. PCI DSS v4.0 introduced 64 new requirements, many of which were best practices until March 31, 2025, when they became mandatory.
 
 Key changes in v4.0:
+
 - **Customized Approach**: Alternative to the traditional Defined Approach, allowing organizations to meet security objectives with controls tailored to their environment
 - **Targeted Risk Analysis**: Two types defined — targeted risk analysis for each requirement specifying flexibility (12.3.1) and targeted risk analysis for requirements allowing variable frequency (12.3.2)
 - **Authentication enhancements**: Multi-factor authentication (MFA) required for all access into the CDE (Req 8.4.2), not just remote access
@@ -51,17 +52,17 @@ Key changes in v4.0:
 
 ### Validation Types
 
-| Validation Type | Who Completes | Used By |
-|----------------|---------------|---------|
-| **ROC** (Report on Compliance) | QSA or ISA | Level 1 merchants, all Level 1 service providers |
-| **SAQ A** | Merchant | Card-not-present, all payment processing fully outsourced |
-| **SAQ A-EP** | Merchant | E-commerce merchants partially outsourcing payment processing |
-| **SAQ B** | Merchant | Imprint-only or standalone dial-out terminals |
-| **SAQ B-IP** | Merchant | Standalone PTS POI devices with IP connection |
-| **SAQ C** | Merchant | Payment application systems connected to the internet |
-| **SAQ C-VT** | Merchant | Virtual terminal on isolated computing device |
-| **SAQ D** | Merchant or SP | All others not qualifying for above SAQs |
-| **SAQ P2PE** | Merchant | Hardware payment terminals in a validated P2PE solution |
+| Validation Type                | Who Completes  | Used By                                                       |
+| ------------------------------ | -------------- | ------------------------------------------------------------- |
+| **ROC** (Report on Compliance) | QSA or ISA     | Level 1 merchants, all Level 1 service providers              |
+| **SAQ A**                      | Merchant       | Card-not-present, all payment processing fully outsourced     |
+| **SAQ A-EP**                   | Merchant       | E-commerce merchants partially outsourcing payment processing |
+| **SAQ B**                      | Merchant       | Imprint-only or standalone dial-out terminals                 |
+| **SAQ B-IP**                   | Merchant       | Standalone PTS POI devices with IP connection                 |
+| **SAQ C**                      | Merchant       | Payment application systems connected to the internet         |
+| **SAQ C-VT**                   | Merchant       | Virtual terminal on isolated computing device                 |
+| **SAQ D**                      | Merchant or SP | All others not qualifying for above SAQs                      |
+| **SAQ P2PE**                   | Merchant       | Hardware payment terminals in a validated P2PE solution       |
 
 ---
 
@@ -94,14 +95,14 @@ Key changes in v4.0:
 
 Identify all locations where cardholder data exists:
 
-| Data Element | Classification | Storage Permitted | Protection Required |
-|-------------|---------------|-------------------|-------------------|
-| Primary Account Number (PAN) | Cardholder Data | Yes (if protected) | Render unreadable per Req 3.5.1 |
-| Cardholder Name | Cardholder Data | Yes | Protected per Req 3 if stored with PAN |
-| Service Code | Cardholder Data | Yes | Protected per Req 3 if stored with PAN |
-| Expiration Date | Cardholder Data | Yes | Protected per Req 3 if stored with PAN |
-| Full Track Data (CAV2/CVC2/CVV2/CID) | Sensitive Auth Data | **No** (post-authorization) | Must not be stored post-authorization (Req 3.3.1) |
-| PIN / PIN Block | Sensitive Auth Data | **No** (post-authorization) | Must not be stored post-authorization (Req 3.3.2, 3.3.3) |
+| Data Element                         | Classification      | Storage Permitted           | Protection Required                                      |
+| ------------------------------------ | ------------------- | --------------------------- | -------------------------------------------------------- |
+| Primary Account Number (PAN)         | Cardholder Data     | Yes (if protected)          | Render unreadable per Req 3.5.1                          |
+| Cardholder Name                      | Cardholder Data     | Yes                         | Protected per Req 3 if stored with PAN                   |
+| Service Code                         | Cardholder Data     | Yes                         | Protected per Req 3 if stored with PAN                   |
+| Expiration Date                      | Cardholder Data     | Yes                         | Protected per Req 3 if stored with PAN                   |
+| Full Track Data (CAV2/CVC2/CVV2/CID) | Sensitive Auth Data | **No** (post-authorization) | Must not be stored post-authorization (Req 3.3.1)        |
+| PIN / PIN Block                      | Sensitive Auth Data | **No** (post-authorization) | Must not be stored post-authorization (Req 3.3.2, 3.3.3) |
 
 #### 1.2 CDE Scope Definition
 
@@ -133,6 +134,7 @@ Evaluate and document applicable scope reduction techniques:
 #### 1.4 Scope Validation (Req 12.5.2)
 
 PCI DSS v4.0 requires scope confirmation at least every 12 months and upon significant changes. Verify:
+
 - Scope documentation exists and is current
 - All data flows are identified and documented
 - All in-scope system components are identified
@@ -147,6 +149,7 @@ For each requirement, assess: (a) whether controls exist, (b) whether they meet 
 #### Requirement 1: Install and Maintain Network Security Controls
 
 Key sub-requirements:
+
 - **1.1.1**: Roles and responsibilities documented, assigned, understood
 - **1.2.1**: Network security controls (NSCs) configured and maintained; inbound and outbound traffic restricted to only that which is necessary
 - **1.2.5**: All services, protocols, and ports allowed are identified, approved, and have defined business need
@@ -162,6 +165,7 @@ Key sub-requirements:
 #### Requirement 2: Apply Secure Configurations to All System Components
 
 Key sub-requirements:
+
 - **2.1.1**: Roles and responsibilities documented
 - **2.2.1**: Configuration standards developed for all system component types, addressing all known vulnerabilities, consistent with industry-hardening standards (CIS, NIST, vendor)
 - **2.2.2**: Vendor default accounts managed (disabled or changed)
@@ -176,6 +180,7 @@ Key sub-requirements:
 #### Requirement 3: Protect Stored Account Data
 
 Key sub-requirements:
+
 - **3.1.1**: Roles and responsibilities documented
 - **3.2.1**: Data retention and disposal policies limit storage amount and retention time; quarterly process to identify/delete excess data
 - **3.3.1**: SAD not retained after authorization (full track data)
@@ -193,6 +198,7 @@ Key sub-requirements:
 #### Requirement 4: Protect Cardholder Data with Strong Cryptography During Transmission
 
 Key sub-requirements:
+
 - **4.1.1**: Roles and responsibilities documented
 - **4.2.1**: Strong cryptography and security protocols (TLS 1.2+, IPsec) implemented for PAN transmission over open, public networks
 - **4.2.1.1**: Trusted keys and certificates managed; inventory maintained
@@ -202,6 +208,7 @@ Key sub-requirements:
 #### Requirement 5: Protect All Systems and Networks from Malicious Software
 
 Key sub-requirements:
+
 - **5.1.1**: Roles and responsibilities documented
 - **5.2.1**: Anti-malware solution deployed on all system components except those identified as not at risk (with periodic evaluation per 5.2.3)
 - **5.2.2**: Anti-malware solution detects all known types of malware; removes, blocks, or contains
@@ -218,6 +225,7 @@ Key sub-requirements:
 #### Requirement 6: Develop and Maintain Secure Systems and Software
 
 Key sub-requirements:
+
 - **6.1.1**: Roles and responsibilities documented
 - **6.2.1**: Bespoke and custom software developed securely (OWASP, CERT, SANS)
 - **6.2.2**: Software development personnel trained in relevant secure coding techniques at least every 12 months
@@ -235,6 +243,7 @@ Key sub-requirements:
 #### Requirement 7: Restrict Access to System Components and Cardholder Data by Business Need to Know
 
 Key sub-requirements:
+
 - **7.1.1**: Roles and responsibilities documented
 - **7.2.1**: Access control model defined covering all system components
 - **7.2.2**: Access assigned based on job classification and function (role-based access control)
@@ -248,6 +257,7 @@ Key sub-requirements:
 #### Requirement 8: Identify Users and Authenticate Access to System Components
 
 Key sub-requirements:
+
 - **8.1.1**: Roles and responsibilities documented
 - **8.2.1**: All users assigned unique ID before access
 - **8.2.2**: Group, shared, or generic accounts used only when necessary with explicit management and accountability
@@ -270,6 +280,7 @@ Key sub-requirements:
 #### Requirement 9: Restrict Physical Access to Cardholder Data
 
 Key sub-requirements:
+
 - **9.1.1**: Roles and responsibilities documented
 - **9.2.1-9.2.4**: Physical access controls for CDE (entry controls, access mechanisms, visitor management)
 - **9.3.1-9.3.4**: Physical access for personnel and visitors authorized and managed
@@ -282,6 +293,7 @@ Key sub-requirements:
 #### Requirement 10: Log and Monitor All Access to System Components and Cardholder Data
 
 Key sub-requirements:
+
 - **10.1.1**: Roles and responsibilities documented
 - **10.2.1**: Audit logs enabled and active for all system components and cardholder data
 - **10.2.1.1-10.2.1.7**: Specific events logged (individual user access, actions by admins, access to audit logs, invalid access attempts, changes to ID/auth, initialization/stopping of audit logs, creation/deletion of system-level objects)
@@ -302,6 +314,7 @@ Key sub-requirements:
 #### Requirement 11: Test Security of Systems and Networks Regularly
 
 Key sub-requirements:
+
 - **11.1.1**: Roles and responsibilities documented
 - **11.2.1**: Authorized and unauthorized wireless access points managed (wireless scans quarterly or automated monitoring)
 - **11.2.2**: Wireless access point inventory maintained
@@ -325,6 +338,7 @@ Key sub-requirements:
 #### Requirement 12: Support Information Security with Organizational Policies and Programs
 
 Key sub-requirements:
+
 - **12.1.1**: Overall information security policy established, published, maintained, disseminated
 - **12.1.2**: Information security policy reviewed at least once every 12 months and updated
 - **12.1.3**: Security policy clearly defines information security roles and responsibilities for all personnel
@@ -391,13 +405,13 @@ Note: Not all requirements support the Customized Approach. Requirements with "T
 
 ## Findings Classification
 
-| Classification | Definition | Compliance Impact |
-|---------------|------------|-------------------|
-| **Requirement Not in Place** | Control does not exist or fails to meet the defined/customized approach testing procedures | Non-compliant; must be remediated before AOC can be issued |
-| **Requirement in Place with CCW** | Original requirement not met but compensating control worksheet addresses the risk | Compliant with documented compensating control |
-| **Requirement in Place** | Control exists and meets all testing procedures | Compliant |
-| **Not Applicable** | Requirement does not apply due to technology or scope (e.g., no wireless = 11.2.x N/A) | Documented N/A with justification |
-| **Not Tested** | Requirement not evaluated during this review | Not validated; cannot be marked compliant |
+| Classification                    | Definition                                                                                 | Compliance Impact                                          |
+| --------------------------------- | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------- |
+| **Requirement Not in Place**      | Control does not exist or fails to meet the defined/customized approach testing procedures | Non-compliant; must be remediated before AOC can be issued |
+| **Requirement in Place with CCW** | Original requirement not met but compensating control worksheet addresses the risk         | Compliant with documented compensating control             |
+| **Requirement in Place**          | Control exists and meets all testing procedures                                            | Compliant                                                  |
+| **Not Applicable**                | Requirement does not apply due to technology or scope (e.g., no wireless = 11.2.x N/A)     | Documented N/A with justification                          |
+| **Not Tested**                    | Requirement not evaluated during this review                                               | Not validated; cannot be marked compliant                  |
 
 ---
 
@@ -407,6 +421,7 @@ Note: Not all requirements support the Customized Approach. Requirements with "T
 # PCI DSS v4.0 Compliance Review Report
 
 ## Executive Summary
+
 - **Organization**: [name]
 - **Merchant Level / Service Provider Level**: [Level 1-4 / SP Level]
 - **Validation Type**: [ROC / SAQ type]
@@ -419,6 +434,7 @@ Note: Not all requirements support the Customized Approach. Requirements with "T
 - **Not Applicable**: [count]
 
 ## Scope Definition
+
 - **Cardholder data flows**: [documented flows]
 - **CDE boundaries**: [network segments, system components]
 - **Scope reduction methods**: [tokenization, P2PE, segmentation, outsourcing]
@@ -427,42 +443,49 @@ Note: Not all requirements support the Customized Approach. Requirements with "T
 
 ## Requirement Assessment Summary
 
-| Req | Title | Sub-Reqs Assessed | In Place | Not in Place | CCW | N/A |
-|-----|-------|--------------------|----------|-------------|-----|-----|
-| 1 | Network Security Controls | [count] | [count] | [count] | [count] | [count] |
-| 2 | Secure Configurations | ... | ... | ... | ... | ... |
-| ... | ... | ... | ... | ... | ... | ... |
-| 12 | Organizational Policies | ... | ... | ... | ... | ... |
+| Req | Title                     | Sub-Reqs Assessed | In Place | Not in Place | CCW     | N/A     |
+| --- | ------------------------- | ----------------- | -------- | ------------ | ------- | ------- |
+| 1   | Network Security Controls | [count]           | [count]  | [count]      | [count] | [count] |
+| 2   | Secure Configurations     | ...               | ...      | ...          | ...     | ...     |
+| ... | ...                       | ...               | ...      | ...          | ...     | ...     |
+| 12  | Organizational Policies   | ...               | ...      | ...          | ...     | ...     |
 
 ## Detailed Findings
 
 ### Requirement [N]: [Title]
 
-| Sub-Req | Status | Finding | Evidence | Remediation |
-|---------|--------|---------|----------|-------------|
+| Sub-Req | Status                  | Finding          | Evidence            | Remediation     |
+| ------- | ----------------------- | ---------------- | ------------------- | --------------- |
 | [N.x.x] | [In Place/Not in Place] | [finding detail] | [evidence reviewed] | [action needed] |
 
 ## New v4.0 Requirements Status
+
 [Assessment of all 64 new requirements, particularly those mandatory since March 31, 2025]
 
 ## Compensating Control Worksheets
+
 [For each CCW: original requirement, constraint, compensating control, risk analysis]
 
 ## Targeted Risk Analyses
+
 [Documentation of all TRAs performed per 12.3.1 and 12.3.2]
 
 ## Remediation Roadmap
 
 ### Critical (0-30 days)
+
 [Requirements Not in Place with highest risk]
 
 ### High (31-60 days)
+
 [Remaining Requirements Not in Place]
 
 ### Medium (61-90 days)
+
 [Compensating control improvements, process gaps]
 
 ### Low (91-180 days)
+
 [Optimization, automation, program maturity]
 ```
 
@@ -500,10 +523,10 @@ Maintain an Information Security Policy:                Requirement 12
 
 ### Key v4.0 Timeline
 
-| Milestone | Date |
-|-----------|------|
-| PCI DSS v4.0 published | March 2022 |
-| v3.2.1 retired | March 31, 2024 |
+| Milestone                                      | Date           |
+| ---------------------------------------------- | -------------- |
+| PCI DSS v4.0 published                         | March 2022     |
+| v3.2.1 retired                                 | March 31, 2024 |
 | Future-dated new requirements become mandatory | March 31, 2025 |
 
 ---

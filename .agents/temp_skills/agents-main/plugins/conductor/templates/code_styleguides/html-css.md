@@ -296,7 +296,7 @@ Web standards for semantic markup, maintainable styling, and accessibility.
 }
 
 /* Hide from screen readers */
-[aria-hidden="true"] {
+[aria-hidden='true'] {
   /* Decorative content */
 }
 ```
@@ -315,11 +315,7 @@ Web standards for semantic markup, maintainable styling, and accessibility.
 
 <!-- Complex images -->
 <figure>
-  <img
-    src="flowchart.png"
-    alt="User registration process"
-    aria-describedby="flowchart-desc"
-  />
+  <img src="flowchart.png" alt="User registration process" aria-describedby="flowchart-desc" />
   <figcaption id="flowchart-desc">
     Step 1: Enter email. Step 2: Verify email. Step 3: Create password.
   </figcaption>
@@ -484,9 +480,9 @@ h1 {
 .page-layout {
   display: grid;
   grid-template-areas:
-    "header header"
-    "sidebar main"
-    "footer footer";
+    'header header'
+    'sidebar main'
+    'footer footer';
   grid-template-columns: 250px 1fr;
   grid-template-rows: auto 1fr auto;
   min-height: 100vh;

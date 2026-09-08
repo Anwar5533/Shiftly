@@ -11,8 +11,8 @@ role: [soc-analyst]
 phase: [detect, respond, recover]
 frameworks: [MITRE-ATT&CK-v16, NIST-SP-800-61r2, Lockheed-Martin-Cyber-Kill-Chain]
 difficulty: intermediate
-time_estimate: "varies by engagement"
-version: "1.0.0"
+time_estimate: 'varies by engagement'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
@@ -55,11 +55,11 @@ Each engagement type defines a skill sequence. Run the skills in order — each 
 alert-triage → log-analysis → cve-triage
 ```
 
-| Step | Skill | Purpose |
-|------|-------|---------|
-| 1 | `alert-triage` | Classify the alert: review detection logic, validate the triggering event against raw telemetry, check for known false positive patterns, and assign an initial severity. This step determines whether work continues or the alert is closed. |
-| 2 | `log-analysis` | Correlate the alert with surrounding log data — authentication logs, network flows, endpoint telemetry, DNS queries. Build context around the triggering event to determine scope and intent. |
-| 3 | `cve-triage` | If the alert involves exploitation of a vulnerability, assess the CVE: is the vulnerable version present, is the exploit public, is the asset internet-facing, and what is the business criticality of the affected system. |
+| Step | Skill          | Purpose                                                                                                                                                                                                                                       |
+| ---- | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | `alert-triage` | Classify the alert: review detection logic, validate the triggering event against raw telemetry, check for known false positive patterns, and assign an initial severity. This step determines whether work continues or the alert is closed. |
+| 2    | `log-analysis` | Correlate the alert with surrounding log data — authentication logs, network flows, endpoint telemetry, DNS queries. Build context around the triggering event to determine scope and intent.                                                 |
+| 3    | `cve-triage`   | If the alert involves exploitation of a vulnerability, assess the CVE: is the vulnerable version present, is the exploit public, is the asset internet-facing, and what is the business criticality of the affected system.                   |
 
 **Deliverable:** Alert disposition (true positive / false positive / benign true positive), IOC list if applicable, escalation decision with justification.
 
@@ -75,11 +75,11 @@ alert-triage → log-analysis → cve-triage
 detection-engineering → log-analysis → siem-rules
 ```
 
-| Step | Skill | Purpose |
-|------|-------|---------|
-| 1 | `detection-engineering` | Formulate the hunting hypothesis: which ATT&CK technique, what data sources are available, what does the expected adversary behavior look like in telemetry. Define success criteria before querying a single log. |
-| 2 | `log-analysis` | Execute the hunt: query available data sources against the hypothesis. Look for statistical anomalies, rare process executions, unusual network connections, or access patterns that deviate from baseline. Document findings whether positive or negative. |
-| 3 | `siem-rules` | Convert confirmed hunting findings into durable detection rules. Every successful hunt should produce at least one new detection. Every unsuccessful hunt should document what was searched and why — this prevents duplicate hunts. |
+| Step | Skill                   | Purpose                                                                                                                                                                                                                                                     |
+| ---- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | `detection-engineering` | Formulate the hunting hypothesis: which ATT&CK technique, what data sources are available, what does the expected adversary behavior look like in telemetry. Define success criteria before querying a single log.                                          |
+| 2    | `log-analysis`          | Execute the hunt: query available data sources against the hypothesis. Look for statistical anomalies, rare process executions, unusual network connections, or access patterns that deviate from baseline. Document findings whether positive or negative. |
+| 3    | `siem-rules`            | Convert confirmed hunting findings into durable detection rules. Every successful hunt should produce at least one new detection. Every unsuccessful hunt should document what was searched and why — this prevents duplicate hunts.                        |
 
 **Deliverable:** Threat hunt report (hypothesis, data sources queried, findings, new detections created or recommended).
 
@@ -95,12 +95,12 @@ detection-engineering → log-analysis → siem-rules
 ir-playbook → containment → forensics-checklist → post-incident-review
 ```
 
-| Step | Skill | Purpose |
-|------|-------|---------|
-| 1 | `ir-playbook` | Activate the correct playbook based on incident type (credential compromise, malware execution, data exfiltration, lateral movement, ransomware). If no playbook exists for this scenario, generate one from the framework templates. |
-| 2 | `containment` | Execute containment actions: isolate affected hosts, disable compromised accounts, block C2 infrastructure, revoke sessions. Containment always precedes deep investigation — stop the bleeding first. |
-| 3 | `forensics-checklist` | Collect and preserve evidence: memory dumps, disk images, log exports, network captures. Build the incident timeline from earliest indicator to detection. Identify patient zero and determine full blast radius. |
-| 4 | `post-incident-review` | Conduct the blameless retrospective: what happened, when was it detected, how long did containment take, what controls failed, what controls worked, and what changes are required. Map findings to ATT&CK techniques for detection gap analysis. |
+| Step | Skill                  | Purpose                                                                                                                                                                                                                                           |
+| ---- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | `ir-playbook`          | Activate the correct playbook based on incident type (credential compromise, malware execution, data exfiltration, lateral movement, ransomware). If no playbook exists for this scenario, generate one from the framework templates.             |
+| 2    | `containment`          | Execute containment actions: isolate affected hosts, disable compromised accounts, block C2 infrastructure, revoke sessions. Containment always precedes deep investigation — stop the bleeding first.                                            |
+| 3    | `forensics-checklist`  | Collect and preserve evidence: memory dumps, disk images, log exports, network captures. Build the incident timeline from earliest indicator to detection. Identify patient zero and determine full blast radius.                                 |
+| 4    | `post-incident-review` | Conduct the blameless retrospective: what happened, when was it detected, how long did containment take, what controls failed, what controls worked, and what changes are required. Map findings to ATT&CK techniques for detection gap analysis. |
 
 **Deliverable:** Incident report (timeline, IOCs, root cause, scope of impact), updated detection rules, remediation actions completed and pending.
 
@@ -118,11 +118,11 @@ ir-playbook → containment → forensics-checklist → post-incident-review
 detection-engineering → siem-rules → alert-triage
 ```
 
-| Step | Skill | Purpose |
-|------|-------|---------|
-| 1 | `detection-engineering` | Audit existing detection coverage: map current rules to ATT&CK techniques, identify gaps in data source coverage, review false positive rates by rule. Prioritize improvements by technique prevalence in real-world intrusions. |
-| 2 | `siem-rules` | Write, tune, or refactor detection rules. For new rules: define logic, test against historical data, set appropriate thresholds. For existing rules with high false positive rates: add exclusions, refine logic, or split into separate rules for different contexts. |
-| 3 | `alert-triage` | Validate the updated rules by running them against known-good and known-bad datasets. Confirm that true positives still fire, false positives are reduced, and alert fidelity meets the team's SLA for analyst review time. |
+| Step | Skill                   | Purpose                                                                                                                                                                                                                                                                |
+| ---- | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | `detection-engineering` | Audit existing detection coverage: map current rules to ATT&CK techniques, identify gaps in data source coverage, review false positive rates by rule. Prioritize improvements by technique prevalence in real-world intrusions.                                       |
+| 2    | `siem-rules`            | Write, tune, or refactor detection rules. For new rules: define logic, test against historical data, set appropriate thresholds. For existing rules with high false positive rates: add exclusions, refine logic, or split into separate rules for different contexts. |
+| 3    | `alert-triage`          | Validate the updated rules by running them against known-good and known-bad datasets. Confirm that true positives still fire, false positives are reduced, and alert fidelity meets the team's SLA for analyst review time.                                            |
 
 **Deliverable:** Updated detection rule set, ATT&CK coverage heatmap (before/after), false positive rate metrics (before/after).
 

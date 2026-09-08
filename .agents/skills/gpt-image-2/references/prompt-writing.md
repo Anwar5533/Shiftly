@@ -76,7 +76,7 @@ references/
 
 每个具体模板文件建议遵循以下结构：
 
-```markdown
+````markdown
 # 模板名称
 
 ## 适用范围
@@ -90,9 +90,11 @@ references/
 📖 描述
 
 📝 提示词
+
 ```json
 { ... }
 ```
+````
 
 ### 参数策略
 
@@ -105,7 +107,8 @@ references/
 ## 变体 2
 
 ## 避免事项
-```
+
+````
 
 说明：
 
@@ -130,7 +133,7 @@ references/
   "details": {},
   "constraints": {}
 }
-```
+````
 
 ## 字段职责
 
@@ -269,7 +272,13 @@ references/
 
 ```json
 {
-  "subject": { "primary": "", "secondary": "", "mood": "", "style": "", "aspect_ratio_per_panel": "" },
+  "subject": {
+    "primary": "",
+    "secondary": "",
+    "mood": "",
+    "style": "",
+    "aspect_ratio_per_panel": ""
+  },
   "vehicle_or_actor": { "design": "", "scale": "" },
   "layout": {
     "grid": { "rows": 0, "columns": 0, "count": 0 },
@@ -314,7 +323,15 @@ references/
 ```json
 {
   "subject": {
-    "character": { "gender": "", "age": "", "identity": "", "hair": "", "undersuit": "", "armor_or_outfit": "", "helmet_or_headpiece": "" },
+    "character": {
+      "gender": "",
+      "age": "",
+      "identity": "",
+      "hair": "",
+      "undersuit": "",
+      "armor_or_outfit": "",
+      "helmet_or_headpiece": ""
+    },
     "environment": { "location": "", "background_elements": "" }
   },
   "layout": {
@@ -348,15 +365,17 @@ references/
   "style": { "overall": "", "rendering": "", "mood": "" },
   "layout": {
     "sections_count": 0,
-    "sections": [{
-      "title": "",
-      "position": "",
-      "theme_color": "(必填) 该 panel 的主题色，必须 panel 间各不相同",
-      "symbol": "",
-      "constellation": "",
-      "labels": [],
-      "character": { "pose": "", "outfit": "", "background": "" }
-    }]
+    "sections": [
+      {
+        "title": "",
+        "position": "",
+        "theme_color": "(必填) 该 panel 的主题色，必须 panel 间各不相同",
+        "symbol": "",
+        "constellation": "",
+        "labels": [],
+        "character": { "pose": "", "outfit": "", "background": "" }
+      }
+    ]
   }
 }
 ```
@@ -397,16 +416,44 @@ references/
 {
   "destination": { "name": "", "duration": "1 day", "theme": "" },
   "headline": { "main": "", "tagline": "", "divider": "" },
-  "style": { "overall": "", "left_panel_look": "", "right_panel_look": "", "color_palette": "", "atmosphere": "" },
+  "style": {
+    "overall": "",
+    "left_panel_look": "",
+    "right_panel_look": "",
+    "color_palette": "",
+    "atmosphere": ""
+  },
   "layout": {
     "format": "vertical 2:3 poster, split into two equal vertical columns",
-    "left_panel": { "type": "itinerary card", "header": [], "stop_count": 5, "stop_design": [], "border": "" },
-    "right_panel": { "type": "painted map scene", "background": "", "path": "", "marker_design": "", "compass_rose": "", "stats_box": "" },
+    "left_panel": {
+      "type": "itinerary card",
+      "header": [],
+      "stop_count": 5,
+      "stop_design": [],
+      "border": ""
+    },
+    "right_panel": {
+      "type": "painted map scene",
+      "background": "",
+      "path": "",
+      "marker_design": "",
+      "compass_rose": "",
+      "stats_box": ""
+    },
     "alignment_rule": "(必填) 左右编号 / 名称 / 顺序必须严格对齐"
   },
   "stops": {
     "count": 5,
-    "items": [{ "number": 1, "name": "", "time": "", "description": "", "left_vignette": "", "right_scene": "" }]
+    "items": [
+      {
+        "number": 1,
+        "name": "",
+        "time": "",
+        "description": "",
+        "left_vignette": "",
+        "right_scene": ""
+      }
+    ]
   },
   "footer_box": { "compass_rose": "", "stats_box": { "design": "", "stats": [] } }
 }
@@ -431,14 +478,16 @@ references/
     "gutter": "",
     "overall_aspect_ratio": "",
     "panel_aspect_ratio": "",
-    "quadrants": [{
-      "position": "top-left",
-      "theme": "(必填) 该格的行业 / 主题，如 'Travel' / 'Skincare'",
-      "subject": "",
-      "elements": [],
-      "text_labels": [],
-      "style": "(必填) 该格的视觉风格，与其它格不同"
-    }]
+    "quadrants": [
+      {
+        "position": "top-left",
+        "theme": "(必填) 该格的行业 / 主题，如 'Travel' / 'Skincare'",
+        "subject": "",
+        "elements": [],
+        "text_labels": [],
+        "style": "(必填) 该格的视觉风格，与其它格不同"
+      }
+    ]
   },
   "global_style": "把所有格统一的元素（如统一字体 / 统一边框）",
   "constraints": { "must_keep": ["每格内容彼此独立、无叙事关联"] }

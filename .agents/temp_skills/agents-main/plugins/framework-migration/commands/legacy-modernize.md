@@ -1,6 +1,6 @@
 ---
-description: "Orchestrate legacy system modernization using the strangler fig pattern with gradual component replacement"
-argument-hint: "<legacy codebase path or description> [--strategy parallel-systems|big-bang|by-feature|database-first|api-first]"
+description: 'Orchestrate legacy system modernization using the strangler fig pattern with gradual component replacement'
+argument-hint: '<legacy codebase path or description> [--strategy parallel-systems|big-bang|by-feature|database-first|api-first]'
 ---
 
 # Legacy Code Modernization Workflow

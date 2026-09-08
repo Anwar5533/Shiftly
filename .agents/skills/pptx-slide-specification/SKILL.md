@@ -1,6 +1,6 @@
 ---
 name: pptx-slide-specification
-description: "Use when authoring or repairing a coordinate-explicit JSON specification for an editable PPTX deck."
+description: 'Use when authoring or repairing a coordinate-explicit JSON specification for an editable PPTX deck.'
 ---
 
 # PPTX Slide Specification

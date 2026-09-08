@@ -48,7 +48,7 @@ docker run --runtime=nvidia --gpus all -it --rm \
   nvcr.io/nvidia/pytorch:25.09-py3
 ```
 
-`unsloth/unsloth:dgxspark-latest` is a *moving* tag by
+`unsloth/unsloth:dgxspark-latest` is a _moving_ tag by
 contrast — resolve and pin its digest before running it for
 anything reproducible; the bare tag is a discovery step only,
 not the default invocation. Full pull-inspect-pin sequence and
@@ -139,15 +139,15 @@ Full table with wheel URLs, build flags, the sm_121 vs sm_121a
 distinction, and the dated known-good version matrix:
 `references/stack-matrix.md`.
 
-| Component | Status |
-|---|---|
-| PyTorch | ✅ official cu130 aarch64 wheels |
-| bitsandbytes | ✅ works out of the box |
-| Triton | ✅ needs the `TRITON_PTXAS_PATH` parameter set |
-| flash-attn | ❌ skip pip build; NGC bundles a working one — see `spark-training-gotchas` G2 |
-| xformers | source build only (`TORCH_CUDA_ARCH_LIST=12.1`) |
-| vLLM | nightly wheels only |
-| TransformerEngine / NVFP4 train | container-only |
+| Component                       | Status                                                                         |
+| ------------------------------- | ------------------------------------------------------------------------------ |
+| PyTorch                         | ✅ official cu130 aarch64 wheels                                               |
+| bitsandbytes                    | ✅ works out of the box                                                        |
+| Triton                          | ✅ needs the `TRITON_PTXAS_PATH` parameter set                                 |
+| flash-attn                      | ❌ skip pip build; NGC bundles a working one — see `spark-training-gotchas` G2 |
+| xformers                        | source build only (`TORCH_CUDA_ARCH_LIST=12.1`)                                |
+| vLLM                            | nightly wheels only                                                            |
+| TransformerEngine / NVFP4 train | container-only                                                                 |
 
 Everything else — Unsloth, Axolotl, TRL, PEFT — installs
 cleanly through the container-first path above. LLaMA-Factory
@@ -173,13 +173,13 @@ True 13.0
 If it prints `False` instead, don't jump straight to a wheel
 reinstall — ABI mismatch is one cause among several:
 
-| Hypothesis | Quick check |
-|---|---|
-| Runtime/flags | `nvidia-smi` fails in-container too |
-| Device visibility | `echo $CUDA_VISIBLE_DEVICES` |
-| Permissions | `ls -l /dev/nvidia*` |
-| CUDA init state | wedged process; retry fresh shell/container |
-| ABI mismatch (usual culprit) | `torch.version.cuda` not `13.x` |
+| Hypothesis                   | Quick check                                 |
+| ---------------------------- | ------------------------------------------- |
+| Runtime/flags                | `nvidia-smi` fails in-container too         |
+| Device visibility            | `echo $CUDA_VISIBLE_DEVICES`                |
+| Permissions                  | `ls -l /dev/nvidia*`                        |
+| CUDA init state              | wedged process; retry fresh shell/container |
+| ABI mismatch (usual culprit) | `torch.version.cuda` not `13.x`             |
 
 Check `nvidia-smi` first — if it doesn't show the GPU, it's one
 of the first three, not ABI. Reinstall a wheel only once ABI is

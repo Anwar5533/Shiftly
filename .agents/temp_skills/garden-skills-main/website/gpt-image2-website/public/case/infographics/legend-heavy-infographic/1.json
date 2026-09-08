@@ -33,13 +33,7 @@
     ]
   },
   "section_block_style": {
-    "components": [
-      "编号",
-      "中文短标题",
-      "英文一行",
-      "1–2 个小图标",
-      "2 行内说明"
-    ],
+    "components": ["编号", "中文短标题", "英文一行", "1–2 个小图标", "2 行内说明"],
     "alignment": "围绕地球两侧交替排布，奇数左偶数右，线宽统一"
   },
   "footer": {
@@ -47,14 +41,7 @@
     "core_message_en": "Climate change reshapes agroecosystems and markets together — not one headline number."
   },
   "constraints": {
-    "must_keep": [
-      "中央主体为唯一视觉焦散点",
-      "编号 01–12 连续不跳号",
-      "英文为副文，中文字号略大"
-    ],
-    "avoid": [
-      "与教科书无关的装饰插画",
-      "单块内超过三行小字"
-    ]
+    "must_keep": ["中央主体为唯一视觉焦散点", "编号 01–12 连续不跳号", "英文为副文，中文字号略大"],
+    "avoid": ["与教科书无关的装饰插画", "单块内超过三行小字"]
   }
 }

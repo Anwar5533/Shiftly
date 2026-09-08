@@ -43,7 +43,9 @@ export function FlickerNumber({
   }, [base, amplitude, intervalMs]);
   return (
     <span className={className} style={{ fontVariantNumeric: 'tabular-nums' }}>
-      {prefix}{v.toFixed(decimals)}{suffix}
+      {prefix}
+      {v.toFixed(decimals)}
+      {suffix}
     </span>
   );
 }

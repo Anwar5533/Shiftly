@@ -57,7 +57,7 @@ type Query {
 const resolvers = {
   Query: {
     order: async (_, { id }, context) => {
-      return await Order.findById(id);  // No authorization check
+      return await Order.findById(id); // No authorization check
     },
   },
 };
@@ -72,7 +72,7 @@ const resolvers = {
     order: async (_, { id }, context) => {
       const order = await Order.findById(id);
       if (!order || order.userId !== context.user.id) {
-        throw new ForbiddenError("Not authorized");
+        throw new ForbiddenError('Not authorized');
       }
       return order;
     },
@@ -84,13 +84,13 @@ const resolvers = {
 
 BOLA and BFLA (API5:2023) are frequently confused. The distinction is critical for accurate findings:
 
-| Aspect | BOLA (API1) | BFLA (API5) |
-|--------|-------------|-------------|
-| **What is bypassed** | Object-level access (horizontal) | Function-level access (vertical) |
-| **Attack vector** | Manipulate resource identifier to access another user's object | Call an endpoint intended for a different role or privilege level |
-| **Example** | Regular user accesses `GET /api/orders/9999` belonging to another user | Regular user calls `DELETE /api/admin/users/42` intended for admins |
-| **Authorization gap** | Missing ownership/relationship check on the data object | Missing role/permission check on the operation itself |
-| **CWE** | CWE-639 (User-Controlled Key) | CWE-285 (Improper Authorization) |
+| Aspect                | BOLA (API1)                                                            | BFLA (API5)                                                         |
+| --------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| **What is bypassed**  | Object-level access (horizontal)                                       | Function-level access (vertical)                                    |
+| **Attack vector**     | Manipulate resource identifier to access another user's object         | Call an endpoint intended for a different role or privilege level   |
+| **Example**           | Regular user accesses `GET /api/orders/9999` belonging to another user | Regular user calls `DELETE /api/admin/users/42` intended for admins |
+| **Authorization gap** | Missing ownership/relationship check on the data object                | Missing role/permission check on the operation itself               |
+| **CWE**               | CWE-639 (User-Controlled Key)                                          | CWE-285 (Improper Authorization)                                    |
 
 Both can coexist in a single endpoint. An endpoint may lack both a role check (BFLA) and an ownership check (BOLA).
 
@@ -132,10 +132,10 @@ token_data = jwt.decode(token, options={"verify_signature": False})
 // VULNERABLE: No rate limiting on authentication endpoint
 app.post('/api/v1/auth/login', async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
-  if (user && await bcrypt.compare(req.body.password, user.password)) {
+  if (user && (await bcrypt.compare(req.body.password, user.password))) {
     return res.json({ token: generateJWT(user) });
   }
-  return res.status(401).json({ error: "Invalid credentials" });
+  return res.status(401).json({ error: 'Invalid credentials' });
 });
 ```
 
@@ -146,7 +146,7 @@ paths:
     get:
       parameters:
         - name: api_key
-          in: query  # Should be in header
+          in: query # Should be in header
 ```
 
 ### Remediation Guidance
@@ -204,9 +204,9 @@ const UserType = new GraphQLObjectType({
   fields: {
     id: { type: GraphQLID },
     email: { type: GraphQLString },
-    passwordHash: { type: GraphQLString },  // Should never be exposed
+    passwordHash: { type: GraphQLString }, // Should never be exposed
     role: { type: GraphQLString },
-    ssn: { type: GraphQLString },            // Requires field-level auth
+    ssn: { type: GraphQLString }, // Requires field-level auth
   },
 });
 ```
@@ -436,8 +436,8 @@ CORS(app, origins="*", supports_credentials=True)  # Allows any origin with cred
 app.use((err, req, res, next) => {
   res.status(500).json({
     error: err.message,
-    stack: err.stack,       // Exposes internal details
-    query: err.sql,         // Exposes database queries
+    stack: err.stack, // Exposes internal details
+    query: err.sql, // Exposes database queries
   });
 });
 ```
@@ -541,7 +541,7 @@ response = requests.get("https://third-party-api.com/data", verify=False)
 // VULNERABLE: Upstream API data rendered without escaping
 const enrichmentData = await fetch('https://enrichment-api.com/user/' + userId);
 const data = await enrichmentData.json();
-res.send(`<div class="bio">${data.biography}</div>`);  // Stored XSS via third party
+res.send(`<div class="bio">${data.biography}</div>`); // Stored XSS via third party
 ```
 
 ### Remediation Guidance

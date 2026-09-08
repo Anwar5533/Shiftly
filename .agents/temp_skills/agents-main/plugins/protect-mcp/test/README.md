@@ -32,16 +32,16 @@ test/
 Requires `node` (>= 18), `npx`, and `python3`. Fetches `protect-mcp` and
 `@veritasacta/verify` from npm on first run. Runs eight tests:
 
-| # | Scenario | Expected exit |
-|---|----------|----------------|
-| 1 | `PreToolUse` on `Read`                         | 0 (permit)  |
-| 2 | `PreToolUse` on `Bash git status`              | 0 (permit)  |
-| 3 | `PreToolUse` on `Bash rm -rf /`                | 2 (forbid)  |
-| 4 | `PreToolUse` on `Write`                        | 2 (forbid)  |
-| 5 | `PostToolUse` signing produces a receipt file  | 0 (success) |
-| 6 | Produced receipt conforms to the schema        | 0 (valid)   |
-| 7 | `@veritasacta/verify` accepts the receipt      | 0 (valid)   |
-| 8 | Tampered receipt is rejected                   | 1 (tampered)|
+| #   | Scenario                                      | Expected exit |
+| --- | --------------------------------------------- | ------------- |
+| 1   | `PreToolUse` on `Read`                        | 0 (permit)    |
+| 2   | `PreToolUse` on `Bash git status`             | 0 (permit)    |
+| 3   | `PreToolUse` on `Bash rm -rf /`               | 2 (forbid)    |
+| 4   | `PreToolUse` on `Write`                       | 2 (forbid)    |
+| 5   | `PostToolUse` signing produces a receipt file | 0 (success)   |
+| 6   | Produced receipt conforms to the schema       | 0 (valid)     |
+| 7   | `@veritasacta/verify` accepts the receipt     | 0 (valid)     |
+| 8   | Tampered receipt is rejected                  | 1 (tampered)  |
 
 Test 8 is the critical regression guard: flipping the `decision` field in a
 signed receipt must invalidate the Ed25519 signature, so `@veritasacta/verify`
@@ -81,14 +81,14 @@ intent is obvious from `ls fixtures/`.
 
 ## Exit codes
 
-| Script             | Exit | Meaning |
-|--------------------|------|---------|
-| `run-tests.sh`     | 0    | All tests passed |
-| `run-tests.sh`     | 1    | One or more tests failed |
-| `run-tests.sh`     | 77   | Required tool missing (skipped in CI) |
-| `verify-fixtures.sh` | 0  | All fixtures valid |
-| `verify-fixtures.sh` | 1  | Fixture malformed |
-| `verify-fixtures.sh` | 77 | `python3` missing (skipped) |
+| Script               | Exit | Meaning                               |
+| -------------------- | ---- | ------------------------------------- |
+| `run-tests.sh`       | 0    | All tests passed                      |
+| `run-tests.sh`       | 1    | One or more tests failed              |
+| `run-tests.sh`       | 77   | Required tool missing (skipped in CI) |
+| `verify-fixtures.sh` | 0    | All fixtures valid                    |
+| `verify-fixtures.sh` | 1    | Fixture malformed                     |
+| `verify-fixtures.sh` | 77   | `python3` missing (skipped)           |
 
 77 is the autotools convention for "skip this test" and is interpreted as a
 skip by most CI frameworks.

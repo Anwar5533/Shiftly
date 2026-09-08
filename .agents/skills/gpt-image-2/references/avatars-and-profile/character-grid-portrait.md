@@ -90,12 +90,7 @@
       "服装与场景高度匹配",
       "细分隔线清晰"
     ],
-    "avoid": [
-      "四格像四个不同人",
-      "服装与场景明显错配",
-      "网格线过粗破坏视觉",
-      "每格风格漂移"
-    ]
+    "avoid": ["四格像四个不同人", "服装与场景明显错配", "网格线过粗破坏视觉", "每格风格漂移"]
   }
 }
 ```
@@ -128,15 +123,15 @@
     "format": "3x3 grid",
     "panel_count": 9,
     "panels": [
-      {"expression": "眨眼", "action": "扶眼镜", "outfit": "绿色毛衣"},
-      {"expression": "坏笑", "action": "拉低墨镜", "outfit": "红皮衣"},
-      {"expression": "思考", "action": "手指点下巴", "outfit": "黄色卫衣"},
-      {"expression": "大笑", "action": "趴在洞边", "outfit": "黑白条纹衫"},
-      {"expression": "微笑", "action": "竖大拇指", "outfit": "橘色衬衫"},
-      {"expression": "淡定", "action": "喝珍奶", "outfit": "蓝色毛衣"},
-      {"expression": "开心", "action": "挥手", "outfit": "紫色马甲 + 白衬衫"},
-      {"expression": "笑到闭眼", "action": "抱臂", "outfit": "粉色开衫"},
-      {"expression": "搞怪", "action": "戳脸颊", "outfit": "蓝绿色毛衣"}
+      { "expression": "眨眼", "action": "扶眼镜", "outfit": "绿色毛衣" },
+      { "expression": "坏笑", "action": "拉低墨镜", "outfit": "红皮衣" },
+      { "expression": "思考", "action": "手指点下巴", "outfit": "黄色卫衣" },
+      { "expression": "大笑", "action": "趴在洞边", "outfit": "黑白条纹衫" },
+      { "expression": "微笑", "action": "竖大拇指", "outfit": "橘色衬衫" },
+      { "expression": "淡定", "action": "喝珍奶", "outfit": "蓝色毛衣" },
+      { "expression": "开心", "action": "挥手", "outfit": "紫色马甲 + 白衬衫" },
+      { "expression": "笑到闭眼", "action": "抱臂", "outfit": "粉色开衫" },
+      { "expression": "搞怪", "action": "戳脸颊", "outfit": "蓝绿色毛衣" }
     ]
   },
   "constraints": {
@@ -160,9 +155,7 @@
   "layout": {
     "format": "3x3 grid",
     "panel_count": 9,
-    "items": [
-      "汉朝 / 唐朝 / 宋朝 / 元朝 / 明朝 / 清朝 / 民国 / 建国初 / 现代"
-    ]
+    "items": ["汉朝 / 唐朝 / 宋朝 / 元朝 / 明朝 / 清朝 / 民国 / 建国初 / 现代"]
   },
   "constraints": {
     "must_feel": "九格是同一人，仅服饰、配饰、背景与时代相符"

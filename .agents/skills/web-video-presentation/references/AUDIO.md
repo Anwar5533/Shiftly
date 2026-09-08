@@ -12,10 +12,10 @@ Auto 模式会自动按 step 播放并自动推进——录屏可以一镜到底
 合成器是 **provider-agnostic** 的：runner 本身不绑定任何 TTS 后端，每个
 后端是 `scripts/tts-providers/<name>.sh` 一个文件。**内置 2 个 provider**：
 
-| Provider | 默认 | 何时用 |
-|---|---|---|
-| `minimax` | ✓ | 中文口播首选（用 `mmx-cli`，要 MiniMax API key） |
-| `openai`  | —— | 多数 agent 已有 `OPENAI_API_KEY`；curl-based、响应快 |
+| Provider  | 默认 | 何时用                                               |
+| --------- | ---- | ---------------------------------------------------- |
+| `minimax` | ✓    | 中文口播首选（用 `mmx-cli`，要 MiniMax API key）     |
+| `openai`  | ——   | 多数 agent 已有 `OPENAI_API_KEY`；curl-based、响应快 |
 
 换 / 加 provider 见
 [`scripts/tts-providers/README.md`](../templates/scripts/tts-providers/README.md)
@@ -116,12 +116,12 @@ OPENAI_TTS_MODEL=tts-1-hd PRESENTATION_TTS=openai \
 
 可选 env：
 
-| 变量 | 默认 | 作用 |
-|---|---|---|
-| `OPENAI_API_KEY` | —— **必须** | API key |
-| `OPENAI_BASE_URL` | `https://api.openai.com/v1` | 切代理 / Azure-OpenAI |
-| `OPENAI_TTS_MODEL` | `tts-1` | `tts-1` 快 / `tts-1-hd` 高质量约 2× 价 |
-| `--voice=` / `PRESENTATION_TTS_VOICE` | `alloy` | 可选 alloy / echo / fable / onyx / nova / shimmer |
+| 变量                                  | 默认                        | 作用                                              |
+| ------------------------------------- | --------------------------- | ------------------------------------------------- |
+| `OPENAI_API_KEY`                      | —— **必须**                 | API key                                           |
+| `OPENAI_BASE_URL`                     | `https://api.openai.com/v1` | 切代理 / Azure-OpenAI                             |
+| `OPENAI_TTS_MODEL`                    | `tts-1`                     | `tts-1` 快 / `tts-1-hd` 高质量约 2× 价            |
+| `--voice=` / `PRESENTATION_TTS_VOICE` | `alloy`                     | 可选 alloy / echo / fable / onyx / nova / shimmer |
 
 `tts_check` 会检查 curl / jq / `OPENAI_API_KEY` 三件套，缺哪个报哪个。
 
@@ -142,11 +142,11 @@ npm run synthesize-audio -- --provider=edge-tts
 
 如果用户的 TTS 完全自研，**按三函数契约**写一个 `<name>.sh` 即可：
 
-| 函数 | 必需 | 作用 |
-|---|---|---|
-| `tts_synthesize <text> <out_path> [<voice>]` | ✓ | 把一段文字写成 mp3 到指定路径 |
-| `tts_check` | 可选 | 启动时校验环境（CLI / key / auth），未就绪 return 非零 |
-| `tts_install_help` | 可选 | `tts_check` 失败时打印怎么修 |
+| 函数                                         | 必需 | 作用                                                   |
+| -------------------------------------------- | ---- | ------------------------------------------------------ |
+| `tts_synthesize <text> <out_path> [<voice>]` | ✓    | 把一段文字写成 mp3 到指定路径                          |
+| `tts_check`                                  | 可选 | 启动时校验环境（CLI / key / auth），未就绪 return 非零 |
+| `tts_install_help`                           | 可选 | `tts_check` 失败时打印怎么修                           |
 
 抄 `openai.sh`（HTTP-based）或 `minimax.sh`（CLI-based）起手最快。
 详细规范在 `scripts/tts-providers/README.md`。
@@ -206,11 +206,11 @@ done
 
 合成完成后，**不需要任何额外配置**——脚手架的 `App.tsx` 已经接好：
 
-| 模式 | 触发方式 | 行为 |
-|---|---|---|
-| **Manual**（默认） | 直接打开页面 | 不播音频，点击 / 方向键推进 |
-| **Audio**（半自动） | URL `?audio=1` 或按 `M` 键 | 进入 step 自动播音频，但你手动推进（点鼠标） |
-| **Auto**（全自动） | URL `?auto=1` 或按两次 `M` 键 | 进入 step 播音频 → 播完自动 next() → 进下个 step → ... |
+| 模式                | 触发方式                      | 行为                                                   |
+| ------------------- | ----------------------------- | ------------------------------------------------------ |
+| **Manual**（默认）  | 直接打开页面                  | 不播音频，点击 / 方向键推进                            |
+| **Audio**（半自动） | URL `?audio=1` 或按 `M` 键    | 进入 step 自动播音频，但你手动推进（点鼠标）           |
+| **Auto**（全自动）  | URL `?auto=1` 或按两次 `M` 键 | 进入 step 播音频 → 播完自动 next() → 进下个 step → ... |
 
 Auto 模式首次需要按一次 `Space` 启动（绕过浏览器自动播放限制），之后
 全自动跑。**录屏时打开屏幕录制 → 按 Space → 整片自动跑完 → stop**。
@@ -229,42 +229,42 @@ Auto 模式首次需要按一次 `Space` 启动（绕过浏览器自动播放限
 
 通用：
 
-| 现象 | 原因 / 修法 |
-|---|---|
-| `chapter id "X" registered but no matching folder found` | 章节文件夹应命名为 `NN-<id>`；id 必须等于 chapters.ts 里注册的 |
-| `narrations.ts in X must export an array named "narrations"` | 该章节的 narrations.ts 没 export 名为 narrations 的数组 |
-| `TTS provider 'X' not found` | `scripts/tts-providers/X.sh` 不存在；列出来看哪些可用，或抄 README 加一个 |
-| `provider 'X' does not define tts_synthesize` | 你的 `<X>.sh` 没定义必需的函数。看 README 的契约部分 |
-| 中间断了几条没合成 | `npm run synthesize-audio` 重跑 —— 已存在文件会跳过 |
-| 浏览器没播音频 | Auto / Audio 模式下首次需要用户手势——确认你按了 SPACE 启动 Auto，或者点过页面 |
-| 音频 404 但 Auto 模式还能跑 | 找不到 mp3 时 useAudioPlayer 退化到字数估时（4 字/秒），保证预览不中断 |
+| 现象                                                         | 原因 / 修法                                                                   |
+| ------------------------------------------------------------ | ----------------------------------------------------------------------------- |
+| `chapter id "X" registered but no matching folder found`     | 章节文件夹应命名为 `NN-<id>`；id 必须等于 chapters.ts 里注册的                |
+| `narrations.ts in X must export an array named "narrations"` | 该章节的 narrations.ts 没 export 名为 narrations 的数组                       |
+| `TTS provider 'X' not found`                                 | `scripts/tts-providers/X.sh` 不存在；列出来看哪些可用，或抄 README 加一个     |
+| `provider 'X' does not define tts_synthesize`                | 你的 `<X>.sh` 没定义必需的函数。看 README 的契约部分                          |
+| 中间断了几条没合成                                           | `npm run synthesize-audio` 重跑 —— 已存在文件会跳过                           |
+| 浏览器没播音频                                               | Auto / Audio 模式下首次需要用户手势——确认你按了 SPACE 启动 Auto，或者点过页面 |
+| 音频 404 但 Auto 模式还能跑                                  | 找不到 mp3 时 useAudioPlayer 退化到字数估时（4 字/秒），保证预览不中断        |
 
 minimax 专属：
 
-| 现象 | 原因 / 修法 |
-|---|---|
-| `mmx: command not found` | `npm install -g mmx-cli`；npm 全局 bin 不在 PATH 时 `npm config get prefix` 看一下 |
-| `mmx is not authenticated` | `mmx auth login --api-key sk-xxxxx` 重新登录 |
-| 中文音色不自然 | mmx 默认音色未必最佳；查 `mmx speech --help` 看 `--voice` 可选项，传 `--voice=<id>` |
-| 整段合成被截断 | 单段过长（mmx 默认上限约 5000 字符）。在 narrations.ts 里把这条拆成两条（也意味着该 step 应该拆成两个 step） |
+| 现象                       | 原因 / 修法                                                                                                  |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `mmx: command not found`   | `npm install -g mmx-cli`；npm 全局 bin 不在 PATH 时 `npm config get prefix` 看一下                           |
+| `mmx is not authenticated` | `mmx auth login --api-key sk-xxxxx` 重新登录                                                                 |
+| 中文音色不自然             | mmx 默认音色未必最佳；查 `mmx speech --help` 看 `--voice` 可选项，传 `--voice=<id>`                          |
+| 整段合成被截断             | 单段过长（mmx 默认上限约 5000 字符）。在 narrations.ts 里把这条拆成两条（也意味着该 step 应该拆成两个 step） |
 
 openai 专属：
 
-| 现象 | 原因 / 修法 |
-|---|---|
-| `OPENAI_API_KEY is not set` | `export OPENAI_API_KEY=sk-...`，或者把它加到 shell rc / `.env` |
-| 全部段 FAILED + key 是对的 | 多半 model / voice 名字错。`--voice=alloy` 试默认值；`OPENAI_TTS_MODEL=tts-1` 试默认模型；用 `bash -x scripts/synthesize-audio.sh` 看请求体 |
-| 走代理 / 走 Azure-OpenAI | `export OPENAI_BASE_URL=https://your-proxy/v1` |
-| HD 太慢 | 改成 `OPENAI_TTS_MODEL=tts-1`（默认）；HD 大约慢 2 倍 |
-| 中文音色不像真人 | OpenAI 6 种音色都是英语偏向；中文角色用 `minimax` 更合适 |
+| 现象                        | 原因 / 修法                                                                                                                                 |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `OPENAI_API_KEY is not set` | `export OPENAI_API_KEY=sk-...`，或者把它加到 shell rc / `.env`                                                                              |
+| 全部段 FAILED + key 是对的  | 多半 model / voice 名字错。`--voice=alloy` 试默认值；`OPENAI_TTS_MODEL=tts-1` 试默认模型；用 `bash -x scripts/synthesize-audio.sh` 看请求体 |
+| 走代理 / 走 Azure-OpenAI    | `export OPENAI_BASE_URL=https://your-proxy/v1`                                                                                              |
+| HD 太慢                     | 改成 `OPENAI_TTS_MODEL=tts-1`（默认）；HD 大约慢 2 倍                                                                                       |
+| 中文音色不像真人            | OpenAI 6 种音色都是英语偏向；中文角色用 `minimax` 更合适                                                                                    |
 
 换其它（自定义）provider 之后：
 
-| 现象 | 原因 / 修法 |
-|---|---|
-| `<X>_API_KEY not set` | 你的 provider 需要 API key，但 env 里没设。`export <X>_API_KEY=...` 或写到 `.env` 再 `set -a; source .env; set +a` |
-| 合成的 mp3 浏览器播不了 | 检查 provider 是否真的出了 mp3（不是 wav / opus / aac）。`file public/audio/*/*.mp3` 看 magic header |
-| 一切看起来都对，但全部 FAILED | `bash -x scripts/synthesize-audio.sh` 看每段实际调了什么 |
+| 现象                          | 原因 / 修法                                                                                                        |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `<X>_API_KEY not set`         | 你的 provider 需要 API key，但 env 里没设。`export <X>_API_KEY=...` 或写到 `.env` 再 `set -a; source .env; set +a` |
+| 合成的 mp3 浏览器播不了       | 检查 provider 是否真的出了 mp3（不是 wav / opus / aac）。`file public/audio/*/*.mp3` 看 magic header               |
+| 一切看起来都对，但全部 FAILED | `bash -x scripts/synthesize-audio.sh` 看每段实际调了什么                                                           |
 
 ---
 

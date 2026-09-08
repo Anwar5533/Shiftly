@@ -75,11 +75,11 @@
   "steps": {
     "count": "{argument name=\"step count\" default=\"5\"}",
     "items": [
-      {"id": 1, "scene": "{argument name=\"step 1\" default=\"番茄切块，鸡蛋打散\"}"},
-      {"id": 2, "scene": "{argument name=\"step 2\" default=\"热油下鸡蛋，炒到半熟盛出\"}"},
-      {"id": 3, "scene": "{argument name=\"step 3\" default=\"加油下番茄，炒到出汁\"}"},
-      {"id": 4, "scene": "{argument name=\"step 4\" default=\"倒回鸡蛋，加盐少许糖\"}"},
-      {"id": 5, "scene": "{argument name=\"step 5\" default=\"翻炒均匀，撒葱花出锅\"}"}
+      { "id": 1, "scene": "{argument name=\"step 1\" default=\"番茄切块，鸡蛋打散\"}" },
+      { "id": 2, "scene": "{argument name=\"step 2\" default=\"热油下鸡蛋，炒到半熟盛出\"}" },
+      { "id": 3, "scene": "{argument name=\"step 3\" default=\"加油下番茄，炒到出汁\"}" },
+      { "id": 4, "scene": "{argument name=\"step 4\" default=\"倒回鸡蛋，加盐少许糖\"}" },
+      { "id": 5, "scene": "{argument name=\"step 5\" default=\"翻炒均匀，撒葱花出锅\"}" }
     ],
     "step_block_style": "编号 + 插图 + 1 句说明"
   },
@@ -99,12 +99,7 @@
       "食材列表与步骤呼应",
       "成品图视觉抢眼"
     ],
-    "avoid": [
-      "步骤说明超过 15 字",
-      "插图与文字脱节",
-      "色板出现非食物自然色",
-      "字体多种类"
-    ]
+    "avoid": ["步骤说明超过 15 字", "插图与文字脱节", "色板出现非食物自然色", "字体多种类"]
   }
 }
 ```
@@ -135,10 +130,10 @@
   "steps": {
     "count": 4,
     "items": [
-      {"id": 1, "scene": "打开充电盒"},
-      {"id": 2, "scene": "手机蓝牙开启"},
-      {"id": 3, "scene": "选择 'AURORA Pro'"},
-      {"id": 4, "scene": "听到提示音即配对成功"}
+      { "id": 1, "scene": "打开充电盒" },
+      { "id": 2, "scene": "手机蓝牙开启" },
+      { "id": 3, "scene": "选择 'AURORA Pro'" },
+      { "id": 4, "scene": "听到提示音即配对成功" }
     ]
   },
   "final_dish": { "enabled": false },
@@ -164,11 +159,11 @@
   "steps": {
     "count": 5,
     "items": [
-      {"id": 1, "scene": "洁面"},
-      {"id": 2, "scene": "化妆水"},
-      {"id": 3, "scene": "精华"},
-      {"id": 4, "scene": "面霜"},
-      {"id": 5, "scene": "防晒"}
+      { "id": 1, "scene": "洁面" },
+      { "id": 2, "scene": "化妆水" },
+      { "id": 3, "scene": "精华" },
+      { "id": 4, "scene": "面霜" },
+      { "id": 5, "scene": "防晒" }
     ]
   },
   "style": {

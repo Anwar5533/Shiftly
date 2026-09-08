@@ -12,8 +12,8 @@
   --ink-300: #b5ad9f;
   --ink-200: #d9d2c2;
   --ink-100: #ebe5d6;
-  --ink-50:  #f4efe6;
-  --paper:   #f4efe6;
+  --ink-50: #f4efe6;
+  --paper: #f4efe6;
   --paper-2: #ebe5d6;
 
   /* === single bold accent === */
@@ -54,7 +54,8 @@
 
   /* === type === */
   --font-display: 'Instrument Serif', 'Source Serif Pro', 'Songti SC', serif;
-  --font-sans: 'Plus Jakarta Sans', 'PingFang SC', 'Hiragino Sans GB', system-ui, -apple-system, sans-serif;
+  --font-sans:
+    'Plus Jakarta Sans', 'PingFang SC', 'Hiragino Sans GB', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', 'Menlo', monospace;
 
   /* === spacing scale (4px base) === */

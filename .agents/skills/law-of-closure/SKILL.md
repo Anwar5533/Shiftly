@@ -2,6 +2,7 @@
 name: law-of-closure
 description: Apply the Law of Closure — the eye completes implied shapes from partial forms. Use when reducing visual weight by dropping borders or letting negative space suggest structure. For explicit containers, use `law-of-common-region`.
 ---
+
 # Law of Closure
 
 You are an expert in visual perception and the cognitive patterns that let users interpret incomplete visual information as whole shapes.
@@ -21,6 +22,7 @@ The mind prefers complete, familiar shapes. When presented with an incomplete fo
 ### Icons and symbols
 
 Many standard icons rely on closure:
+
 - A circle with a gap reads as a ring or progress indicator
 - An incomplete checkbox border still reads as a square
 - Bracket-style frames with open ends still read as contained groups
@@ -31,6 +33,7 @@ Icons do not need to be fully enclosed to be recognised. Over-specifying all edg
 ### Implied containers and boundaries
 
 Full borders add visual weight. Closure allows lighter alternatives that communicate the same grouping:
+
 - **Single-edge dividers**: a horizontal rule above a section implies the section boundary without enclosing it
 - **Corner accents**: placing a visual element only at corners implies a bounding rectangle between them
 - **Fading backgrounds**: a section background that fades to transparent at the edge — the mind closes the container where the color ends
@@ -41,6 +44,7 @@ This is how modern UI surfaces feel open and uncluttered while still communicati
 ### Grid and layout structure
 
 A well-executed grid does not need explicit rules. Users perceive the columns through alignment:
+
 - Consistently left-aligned elements imply a vertical grid line without drawing it
 - Consistent vertical rhythm implies a horizontal grid
 - The grid is felt as a structure, not drawn as one
@@ -60,6 +64,7 @@ The mind cannot close a shape it cannot isolate. Reduce surrounding noise before
 ## When to Use Explicit Boundaries Instead
 
 Closure is appropriate when the boundary is supplementary — grouping that reinforces other signals. Use explicit closure (a full border or filled background) when:
+
 - The container boundary is the primary grouping signal, not supplementary
 - The element is interactive and the boundary defines its hit area
 - The design will render in contexts where whitespace or spacing may collapse (email, dense data tables)

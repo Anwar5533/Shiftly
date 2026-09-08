@@ -121,11 +121,7 @@
       "头像、昵称、认证标、handle 都必须正确呈现",
       "正文文字必须清晰可读"
     ],
-    "avoid": [
-      "看起来像图片拼接而不是真实 UI",
-      "比例错误导致像桌面网页",
-      "头像与昵称配不上"
-    ]
+    "avoid": ["看起来像图片拼接而不是真实 UI", "比例错误导致像桌面网页", "头像与昵称配不上"]
   }
 }
 ```
@@ -172,11 +168,7 @@
   "interaction_bar": "点赞、收藏、评论、分享，全部带数字",
   "comments_preview": {
     "count": 3,
-    "messages": [
-      "想要详细攻略！",
-      "这条路线我也走过，超出片",
-      "求穿搭链接 🔗"
-    ]
+    "messages": ["想要详细攻略！", "这条路线我也走过，超出片", "求穿搭链接 🔗"]
   },
   "constraints": {
     "must_feel": "像真实小红书图文笔记，而不是海报"
@@ -207,7 +199,9 @@
       "text": "{argument name=\"announcement text\" default=\"Today we're introducing Claude Opus 4.7 — our most capable model yet for coding and complex reasoning.\"}",
       "media_grid": {
         "count": 1,
-        "images": ["产品发布主视觉，带 '{argument name=\"product name\" default=\"Claude Opus 4.7\"}' 大字"]
+        "images": [
+          "产品发布主视觉，带 '{argument name=\"product name\" default=\"Claude Opus 4.7\"}' 大字"
+        ]
       }
     },
     "metadata": {

@@ -54,7 +54,4 @@ export interface DocsManifest {
   generated_at: string;
 }
 
-export type Route =
-  | { name: 'home' }
-  | { name: 'case'; id: string }
-  | { name: 'skills' };
+export type Route = { name: 'home' } | { name: 'case'; id: string } | { name: 'skills' };

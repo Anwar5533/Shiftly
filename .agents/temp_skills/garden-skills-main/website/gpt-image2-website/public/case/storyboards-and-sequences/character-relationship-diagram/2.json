@@ -9,10 +9,7 @@
     "count": "8",
     "user_list": "Sam Altman、Jensen Huang、Sundar Pichai、Tim Cook、Elon Musk、Mark Zuckerberg、Bill Gates、Warren Buffett",
     "card_design": {
-      "components": [
-        "Q 版大头",
-        "仅姓氏英文大写+中文职务玩笑标签"
-      ],
+      "components": ["Q 版大头", "仅姓氏英文大写+中文职务玩笑标签"],
       "shape": "圆角方形"
     }
   },
@@ -65,9 +62,6 @@
       "注记合法合规，不暗示未经证实丑闻",
       "线不穿过头像中央"
     ],
-    "avoid": [
-      "信息过载，单卡文字过多",
-      "真实公司财报或股价数字"
-    ]
+    "avoid": ["信息过载，单卡文字过多", "真实公司财报或股价数字"]
   }
 }

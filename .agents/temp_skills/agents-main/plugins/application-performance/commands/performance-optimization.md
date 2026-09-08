@@ -1,6 +1,6 @@
 ---
-description: "Orchestrate end-to-end application performance optimization from profiling to monitoring"
-argument-hint: "<application or service> [--focus latency|throughput|cost|balanced] [--depth quick-wins|comprehensive|enterprise]"
+description: 'Orchestrate end-to-end application performance optimization from profiling to monitoring'
+argument-hint: '<application or service> [--focus latency|throughput|cost|balanced] [--depth quick-wins|comprehensive|enterprise]'
 ---
 
 # Performance Optimization Orchestrator

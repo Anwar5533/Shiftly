@@ -36,8 +36,8 @@ module.exports = function (file, api) {
   root
     .find(j.CallExpression, {
       callee: {
-        type: "MemberExpression",
-        property: { name: "setState" },
+        type: 'MemberExpression',
+        property: { name: 'setState' },
       },
     })
     .forEach((path) => {
@@ -64,7 +64,7 @@ function ExpensiveComponent({ items, filter }) {
 
   // Memoize callback to prevent child re-renders
   const handleClick = useCallback((id) => {
-    console.log("Clicked:", id);
+    console.log('Clicked:', id);
   }, []); // No dependencies, never changes
 
   return <List items={filteredItems} onClick={handleClick} />;
@@ -72,20 +72,18 @@ function ExpensiveComponent({ items, filter }) {
 
 // Child component with memo
 const List = React.memo(({ items, onClick }) => {
-  return items.map((item) => (
-    <Item key={item.id} item={item} onClick={onClick} />
-  ));
+  return items.map((item) => <Item key={item.id} item={item} onClick={onClick} />);
 });
 ```
 
 ### Code Splitting
 
 ```javascript
-import { lazy, Suspense } from "react";
+import { lazy, Suspense } from 'react';
 
 // Lazy load components
-const Dashboard = lazy(() => import("./Dashboard"));
-const Settings = lazy(() => import("./Settings"));
+const Dashboard = lazy(() => import('./Dashboard'));
+const Settings = lazy(() => import('./Settings'));
 
 function App() {
   return (

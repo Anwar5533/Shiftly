@@ -71,7 +71,6 @@ def process_request():
 - Use batch span processor
 - Check exporter configuration
 
-
 ## Related Skills
 
 - `prometheus-configuration` - For metrics

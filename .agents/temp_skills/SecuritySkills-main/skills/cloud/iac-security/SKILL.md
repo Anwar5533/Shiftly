@@ -12,13 +12,13 @@ role: [cloud-security-engineer, security-engineer, devsecops]
 phase: [build, review]
 frameworks: [OWASP-IaC-Security, SLSA-v1.0, CIS-Benchmarks]
 difficulty: intermediate
-time_estimate: "45-90min"
-version: "1.0.0"
+time_estimate: '45-90min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 injection-hardened: true
-argument-hint: "[target-file-or-directory]"
+argument-hint: '[target-file-or-directory]'
 ---
 
 # Infrastructure as Code Security Review
@@ -98,7 +98,6 @@ For detailed tool-specific rule sets, detection patterns, vulnerable code exampl
 
 ---
 
-
 ---
 
 ### Step 10: Compile Assessment Report
@@ -111,13 +110,13 @@ Produce the final report using the structure defined in the Output Format sectio
 
 Before applying or proposing infrastructure changes, classify each remediation path using [Security Fixer Policy](../../../docs/fixer-policy.md). Include the policy review gate, reviewer evidence, and rollback guidance in the remediation plan.
 
-| Severity | Definition | Examples |
-|----------|-----------|----------|
-| **Critical** | Immediate exploitability, data exposure, or credential compromise | Hardcoded secrets, public S3 buckets with data, unrestricted ingress on all ports, `*:*` IAM policies, public database endpoints |
-| **High** | Significant misconfiguration that enables attack paths | Missing encryption at rest, security groups open on admin ports, unpinned module sources from public registries, local state files |
-| **Medium** | Control gap reducing defense-in-depth | Missing logging, no CMK encryption (provider-managed only), unpinned provider versions, missing backup retention |
-| **Low** | Hardening opportunity or best-practice deviation | IMDSv1 not disabled, EBS not optimized, missing tags, no VPC for Lambda |
-| **Informational** | Observation with no direct security impact | Deprecated resource types, naming inconsistencies, module structure recommendations |
+| Severity          | Definition                                                        | Examples                                                                                                                           |
+| ----------------- | ----------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| **Critical**      | Immediate exploitability, data exposure, or credential compromise | Hardcoded secrets, public S3 buckets with data, unrestricted ingress on all ports, `*:*` IAM policies, public database endpoints   |
+| **High**          | Significant misconfiguration that enables attack paths            | Missing encryption at rest, security groups open on admin ports, unpinned module sources from public registries, local state files |
+| **Medium**        | Control gap reducing defense-in-depth                             | Missing logging, no CMK encryption (provider-managed only), unpinned provider versions, missing backup retention                   |
+| **Low**           | Hardening opportunity or best-practice deviation                  | IMDSv1 not disabled, EBS not optimized, missing tags, no VPC for Lambda                                                            |
+| **Informational** | Observation with no direct security impact                        | Deprecated resource types, naming inconsistencies, module structure recommendations                                                |
 
 ---
 
@@ -185,41 +184,41 @@ Before applying or proposing infrastructure changes, classify each remediation p
 
 ### OWASP IaC Security Cheat Sheet -- Categories
 
-| Category | Description |
-|----------|-------------|
-| Secrets Management | Hardcoded credentials, insecure secret references, missing rotation |
-| Access Control | Overly permissive IAM, missing conditions, public principals |
-| Encryption | Missing encryption at rest and in transit, weak algorithms, provider-managed vs. CMK |
-| Network Security | Unrestricted ingress/egress, missing segmentation, public exposure |
-| Logging | Missing audit trails, disabled monitoring, insufficient retention |
-| Resource Configuration | Missing hardening settings, insecure defaults, deprecated configurations |
+| Category               | Description                                                                          |
+| ---------------------- | ------------------------------------------------------------------------------------ |
+| Secrets Management     | Hardcoded credentials, insecure secret references, missing rotation                  |
+| Access Control         | Overly permissive IAM, missing conditions, public principals                         |
+| Encryption             | Missing encryption at rest and in transit, weak algorithms, provider-managed vs. CMK |
+| Network Security       | Unrestricted ingress/egress, missing segmentation, public exposure                   |
+| Logging                | Missing audit trails, disabled monitoring, insufficient retention                    |
+| Resource Configuration | Missing hardening settings, insecure defaults, deprecated configurations             |
 
 ### SLSA v1.0 -- Relevant Requirements for IaC
 
-| Requirement | IaC Application |
-|-------------|----------------|
+| Requirement      | IaC Application                                                         |
+| ---------------- | ----------------------------------------------------------------------- |
 | Source integrity | Module sources pinned to immutable references (commit SHA, version tag) |
-| Build integrity | IaC plans generated in CI, not applied manually |
-| Provenance | State files track who applied what changes |
-| Dependencies | Provider and module versions locked, lock file committed |
+| Build integrity  | IaC plans generated in CI, not applied manually                         |
+| Provenance       | State files track who applied what changes                              |
+| Dependencies     | Provider and module versions locked, lock file committed                |
 
 ### Checkov / tfsec / KICS Rule Equivalents
 
 This skill applies checks equivalent to the following high-impact rules:
 
-| Tool | Rule | Description |
-|------|------|-------------|
-| Checkov | CKV_AWS_17 | RDS not publicly accessible |
-| Checkov | CKV_AWS_19 | S3 server-side encryption |
-| Checkov | CKV_AWS_24 | No SSH from 0.0.0.0/0 |
-| Checkov | CKV_AWS_79 | IMDSv2 required |
-| Checkov | CKV_SECRET_* | Hardcoded secrets |
-| Checkov | CKV_TF_1 | Module source pinning |
-| tfsec | aws-iam-no-policy-wildcards | No wildcard IAM |
-| tfsec | aws-s3-no-public-access-with-acl | No public S3 ACL |
-| tfsec | aws-vpc-no-public-ingress-sgr | No public SG ingress |
-| KICS | 3406e4d3 | S3 public ACL |
-| KICS | 5b4f3042 | Unrestricted security group |
+| Tool    | Rule                             | Description                 |
+| ------- | -------------------------------- | --------------------------- |
+| Checkov | CKV_AWS_17                       | RDS not publicly accessible |
+| Checkov | CKV_AWS_19                       | S3 server-side encryption   |
+| Checkov | CKV_AWS_24                       | No SSH from 0.0.0.0/0       |
+| Checkov | CKV_AWS_79                       | IMDSv2 required             |
+| Checkov | CKV_SECRET_*                     | Hardcoded secrets           |
+| Checkov | CKV_TF_1                         | Module source pinning       |
+| tfsec   | aws-iam-no-policy-wildcards      | No wildcard IAM             |
+| tfsec   | aws-s3-no-public-access-with-acl | No public S3 ACL            |
+| tfsec   | aws-vpc-no-public-ingress-sgr    | No public SG ingress        |
+| KICS    | 3406e4d3                         | S3 public ACL               |
+| KICS    | 5b4f3042                         | Unrestricted security group |
 
 ---
 

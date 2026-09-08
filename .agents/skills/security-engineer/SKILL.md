@@ -11,8 +11,8 @@ role: [security-engineer]
 phase: [protect, detect, respond]
 frameworks: [OWASP-ASVS, CWE-Top-25, SLSA-v1.0, CIS-Benchmarks]
 difficulty: intermediate
-time_estimate: "varies by engagement"
-version: "1.0.0"
+time_estimate: 'varies by engagement'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
@@ -55,11 +55,11 @@ Each engagement type defines a skill sequence. Run the skills in order — each 
 secure-code-review → dependency-scanning → sast-config
 ```
 
-| Step | Skill | Purpose |
-|------|-------|---------|
-| 1 | `secure-code-review` | Manual review of the code change for security vulnerabilities: injection flaws, broken authentication, insecure deserialization, SSRF, path traversal, and logic bugs that automated tools miss. Focus on code that handles user input, authentication, authorization, and data access. |
-| 2 | `dependency-scanning` | Scan third-party dependencies for known vulnerabilities. Check for pinned versions, verify the dependency is actively maintained, and confirm no transitive dependencies introduce risk. Every external library is attack surface. |
-| 3 | `sast-config` | Configure or tune static analysis tooling to cover the patterns identified in manual review. If the manual review found a class of bug, SAST should be configured to catch future instances automatically. The goal is to make manual review findings self-correcting. |
+| Step | Skill                 | Purpose                                                                                                                                                                                                                                                                                 |
+| ---- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | `secure-code-review`  | Manual review of the code change for security vulnerabilities: injection flaws, broken authentication, insecure deserialization, SSRF, path traversal, and logic bugs that automated tools miss. Focus on code that handles user input, authentication, authorization, and data access. |
+| 2    | `dependency-scanning` | Scan third-party dependencies for known vulnerabilities. Check for pinned versions, verify the dependency is actively maintained, and confirm no transitive dependencies introduce risk. Every external library is attack surface.                                                      |
+| 3    | `sast-config`         | Configure or tune static analysis tooling to cover the patterns identified in manual review. If the manual review found a class of bug, SAST should be configured to catch future instances automatically. The goal is to make manual review findings self-correcting.                  |
 
 **Deliverable:** Code review report with findings classified by CWE, dependency audit results, updated SAST configuration, and remediation guidance for each finding.
 
@@ -75,11 +75,11 @@ secure-code-review → dependency-scanning → sast-config
 pipeline-security → secrets-management → container-security
 ```
 
-| Step | Skill | Purpose |
-|------|-------|---------|
-| 1 | `pipeline-security` | Assess the full build and deployment pipeline: source integrity (signed commits, branch protection), build isolation (ephemeral runners, no shared state), artifact integrity (signing, provenance), and deployment controls (approval gates, rollback capability). Map findings to SLSA levels. |
-| 2 | `secrets-management` | Audit how secrets are stored, rotated, and accessed across the pipeline. Check for hardcoded credentials in code, configuration, CI variables, and container images. Verify vault integration, rotation policies, and least-privilege access to secret stores. |
-| 3 | `container-security` | If the pipeline produces container images: scan base images for vulnerabilities, verify minimal image construction (no build tools in production images), check for running as root, validate image signing, and review registry access controls. |
+| Step | Skill                | Purpose                                                                                                                                                                                                                                                                                          |
+| ---- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1    | `pipeline-security`  | Assess the full build and deployment pipeline: source integrity (signed commits, branch protection), build isolation (ephemeral runners, no shared state), artifact integrity (signing, provenance), and deployment controls (approval gates, rollback capability). Map findings to SLSA levels. |
+| 2    | `secrets-management` | Audit how secrets are stored, rotated, and accessed across the pipeline. Check for hardcoded credentials in code, configuration, CI variables, and container images. Verify vault integration, rotation policies, and least-privilege access to secret stores.                                   |
+| 3    | `container-security` | If the pipeline produces container images: scan base images for vulnerabilities, verify minimal image construction (no build tools in production images), check for running as root, validate image signing, and review registry access controls.                                                |
 
 **Deliverable:** Pipeline security assessment report with SLSA level mapping, secrets audit findings, container image hardening recommendations, and prioritized remediation plan.
 
@@ -95,11 +95,11 @@ pipeline-security → secrets-management → container-security
 cve-triage → patch-prioritization → scanner-tuning
 ```
 
-| Step | Skill | Purpose |
-|------|-------|---------|
-| 1 | `cve-triage` | Assess the vulnerability: is the affected component present in the environment, is the vulnerable version deployed, is the exploit public, is the asset internet-facing, and what is the business criticality of affected systems. Not every critical CVE is critical to this organization. |
-| 2 | `patch-prioritization` | Rank confirmed vulnerabilities by risk-adjusted priority: exploitability (EPSS score, known exploitation in the wild), exposure (internet-facing vs. internal), asset criticality (revenue-generating vs. development), and patch complexity (simple update vs. breaking change requiring testing). |
-| 3 | `scanner-tuning` | After remediation, tune the scanning configuration: add checks for the vulnerability class if not already covered, suppress confirmed false positives with documented justification, and adjust scan frequency for high-risk asset categories. |
+| Step | Skill                  | Purpose                                                                                                                                                                                                                                                                                             |
+| ---- | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | `cve-triage`           | Assess the vulnerability: is the affected component present in the environment, is the vulnerable version deployed, is the exploit public, is the asset internet-facing, and what is the business criticality of affected systems. Not every critical CVE is critical to this organization.         |
+| 2    | `patch-prioritization` | Rank confirmed vulnerabilities by risk-adjusted priority: exploitability (EPSS score, known exploitation in the wild), exposure (internet-facing vs. internal), asset criticality (revenue-generating vs. development), and patch complexity (simple update vs. breaking change requiring testing). |
+| 3    | `scanner-tuning`       | After remediation, tune the scanning configuration: add checks for the vulnerability class if not already covered, suppress confirmed false positives with documented justification, and adjust scan frequency for high-risk asset categories.                                                      |
 
 **Deliverable:** Vulnerability response report with triage decisions, prioritized remediation plan with SLA targets, and updated scanner configuration.
 
@@ -115,11 +115,11 @@ cve-triage → patch-prioritization → scanner-tuning
 iam-review → firewall-review → container-security
 ```
 
-| Step | Skill | Purpose |
-|------|-------|---------|
-| 1 | `iam-review` | Review identity and access management configuration: overprivileged roles, unused service accounts, missing MFA enforcement, cross-account trust relationships, and policy conditions. IAM is the control plane — if IAM is wrong, everything downstream is exposed. |
-| 2 | `firewall-review` | Assess network security controls: security group rules, NACLs, WAF configurations, and network segmentation. Look for overly permissive ingress rules, unrestricted egress, and missing segmentation between environments (prod/staging/dev). |
-| 3 | `container-security` | If the infrastructure runs containers: review orchestrator configuration (Kubernetes RBAC, pod security standards, network policies), node security, runtime protection, and image provenance verification. |
+| Step | Skill                | Purpose                                                                                                                                                                                                                                                              |
+| ---- | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | `iam-review`         | Review identity and access management configuration: overprivileged roles, unused service accounts, missing MFA enforcement, cross-account trust relationships, and policy conditions. IAM is the control plane — if IAM is wrong, everything downstream is exposed. |
+| 2    | `firewall-review`    | Assess network security controls: security group rules, NACLs, WAF configurations, and network segmentation. Look for overly permissive ingress rules, unrestricted egress, and missing segmentation between environments (prod/staging/dev).                        |
+| 3    | `container-security` | If the infrastructure runs containers: review orchestrator configuration (Kubernetes RBAC, pod security standards, network policies), node security, runtime protection, and image provenance verification.                                                          |
 
 **Deliverable:** Infrastructure security assessment with findings mapped to CIS Benchmarks, remediation actions with owners and target dates, and configuration hardening recommendations.
 

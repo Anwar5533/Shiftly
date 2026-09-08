@@ -56,7 +56,6 @@ curl http://localhost:9090/api/v1/status/config
 curl 'http://localhost:9090/api/v1/query?query=up'
 ```
 
-
 ## Related Skills
 
 - `grafana-dashboards` - For visualization

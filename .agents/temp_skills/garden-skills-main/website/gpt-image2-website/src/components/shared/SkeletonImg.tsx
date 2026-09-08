@@ -25,13 +25,7 @@ interface SkeletonImgProps extends ImgHTMLAttributes<HTMLImageElement> {
  * Must be placed inside a `position: relative` parent so the absolutely
  * positioned skeleton can stretch to cover it.
  */
-export function SkeletonImg({
-  accent,
-  className,
-  onLoad,
-  onError,
-  ...rest
-}: SkeletonImgProps) {
+export function SkeletonImg({ accent, className, onLoad, onError, ...rest }: SkeletonImgProps) {
   const [loaded, setLoaded] = useState(false);
   const ref = useRef<HTMLImageElement>(null);
 

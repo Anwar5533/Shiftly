@@ -24,6 +24,7 @@ git merge --no-verify feature-branch
 ```
 
 This allows:
+
 - Unformatted code to enter the repository
 - Linting errors to bypass checks
 - Security scanning to be skipped
@@ -63,18 +64,18 @@ Add the following to your project's `.claude/settings.json`:
 
 ### Exit Codes
 
-| Code | Meaning |
-|------|---------|
-| 0 | Allow the tool call to proceed |
-| 1 | Error (tool call still proceeds, warning shown) |
-| 2 | Block the tool call entirely |
+| Code | Meaning                                         |
+| ---- | ----------------------------------------------- |
+| 0    | Allow the tool call to proceed                  |
+| 1    | Error (tool call still proceeds, warning shown) |
+| 2    | Block the tool call entirely                    |
 
 ## Blocked Flags
 
-| Flag | Purpose | Why Blocked |
-|------|---------|-------------|
-| `--no-verify` | Skips pre-commit and commit-msg hooks | Bypasses linting, formatting, testing, security checks |
-| `--no-gpg-sign` | Skips GPG commit signing | Bypasses commit signing policy |
+| Flag            | Purpose                               | Why Blocked                                            |
+| --------------- | ------------------------------------- | ------------------------------------------------------ |
+| `--no-verify`   | Skips pre-commit and commit-msg hooks | Bypasses linting, formatting, testing, security checks |
+| `--no-gpg-sign` | Skips GPG commit signing              | Bypasses commit signing policy                         |
 
 ## Installation
 

@@ -1,6 +1,6 @@
 ---
-description: "Review existing UI for issues and improvements"
-argument-hint: "[file-path|component-name]"
+description: 'Review existing UI for issues and improvements'
+argument-hint: '[file-path|component-name]'
 ---
 
 # Design Review

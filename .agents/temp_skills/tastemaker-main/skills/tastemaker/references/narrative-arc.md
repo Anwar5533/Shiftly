@@ -13,22 +13,22 @@ This is not a taste preference. It's grounded in real, established frameworks:
 Six beats, adapted from StoryBrand/PAS into what a page actually builds:
 
 1. **Hook** (the hero) — the promise, sized and scoped per `references/hero-guidelines.md`.
-2. **Problem / stakes** — what's actually broken or at risk. Specific to *this* product, never generic ("teams struggle with X" is not a story beat — it's a placeholder for one). This is StoryBrand's Problem plus a dose of Failure: what happens if nothing changes.
-3. **Solution / mechanism** — how the product actually solves it, *shown* per the show-don't-tell table in `references/component-patterns.md`, not just asserted. This is StoryBrand's Guide moment — the product demonstrates it understands the problem and has the authority to fix it.
+2. **Problem / stakes** — what's actually broken or at risk. Specific to _this_ product, never generic ("teams struggle with X" is not a story beat — it's a placeholder for one). This is StoryBrand's Problem plus a dose of Failure: what happens if nothing changes.
+3. **Solution / mechanism** — how the product actually solves it, _shown_ per the show-don't-tell table in `references/component-patterns.md`, not just asserted. This is StoryBrand's Guide moment — the product demonstrates it understands the problem and has the authority to fix it.
 4. **How it works** — the concrete steps or flow. StoryBrand's Plan: keep it simple, a handful of steps, not an exhaustive manual.
 5. **Proof** — real evidence: logos, a testimonial, real numbers. Honest per the existing no-invented-metrics rule (`references/anti-slop-checklist.md` gate 45) — a fabricated proof beat is worse than no proof beat. Also has its own visual-density floor: a label + description + small icon in a bordered box is not enough to carry a proof beat — see `references/component-patterns.md`'s show-don't-tell section for the specific floor.
 6. **Close / CTA** — the ask, tied back to the hook's promise. StoryBrand's Success: what the visitor's world looks like after they act.
 
 ## Mapping beats to archetypes (the arc picks the job; the catalog still picks the look)
 
-| Beat | Typical archetypes (from `component-catalog.md`) | Notes |
-|---|---|---|
-| Hook | Any `H#` hero | Governed by `hero-guidelines.md`, not re-litigated here. |
-| Problem / stakes | A section built from prose + a supporting visual (an `F#` band showing the *broken* state, a before/after), or folded into the hero's subhead for a short arc | Rarely needs its own dedicated archetype — often the shortest, sharpest beat on the page. Resist turning it into a wall of text just because it doesn't map to a named archetype. |
-| Solution / mechanism | `F1` alternating bands, `F2` bento tiles, `F5` annotated capture | Pick per the show-don't-tell table — this beat exists specifically to *show* the fix. |
-| How it works | `F4` numbered step sequence, `F3` spec sheet, `F6` spec sheet for technical detail | Keep it simple — 3-5 steps, not an exhaustive walkthrough. |
-| Proof | `P1` logo wall, `P2` pull-quote, `P3` single quote, `P4` stat strip | Every number and quote real, per gate 45. |
-| Close | `C1` inline form, `C2` statement + action, `C4` sticky bar | Echo the hook's actual promise, don't introduce a new pitch here. |
+| Beat                 | Typical archetypes (from `component-catalog.md`)                                                                                                              | Notes                                                                                                                                                                             |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Hook                 | Any `H#` hero                                                                                                                                                 | Governed by `hero-guidelines.md`, not re-litigated here.                                                                                                                          |
+| Problem / stakes     | A section built from prose + a supporting visual (an `F#` band showing the _broken_ state, a before/after), or folded into the hero's subhead for a short arc | Rarely needs its own dedicated archetype — often the shortest, sharpest beat on the page. Resist turning it into a wall of text just because it doesn't map to a named archetype. |
+| Solution / mechanism | `F1` alternating bands, `F2` bento tiles, `F5` annotated capture                                                                                              | Pick per the show-don't-tell table — this beat exists specifically to _show_ the fix.                                                                                             |
+| How it works         | `F4` numbered step sequence, `F3` spec sheet, `F6` spec sheet for technical detail                                                                            | Keep it simple — 3-5 steps, not an exhaustive walkthrough.                                                                                                                        |
+| Proof                | `P1` logo wall, `P2` pull-quote, `P3` single quote, `P4` stat strip                                                                                           | Every number and quote real, per gate 45.                                                                                                                                         |
+| Close                | `C1` inline form, `C2` statement + action, `C4` sticky bar                                                                                                    | Echo the hook's actual promise, don't introduce a new pitch here.                                                                                                                 |
 
 ## Minimum section count: 4-5
 
@@ -54,4 +54,4 @@ If a section on the page doesn't serve one of these — or a deliberately stated
 
 ## Recording the arc
 
-State the beat sequence out loud at Step 2.5, alongside the macrostructure and archetype rotation: *"Arc: Hook (H2 split demo) → Problem (prose + before/after) → Solution (F1 bands) → How it works (F4 steps) → Proof (P4 stat strip) → Close (C2 statement). No beats skipped."* Note it in the build stamp the same way the structural picks are recorded (see `references/diversification.md`) so a later `audit` pass (per `references/verbs/audit.md`) can check the arc held together, not just that the structure varied.
+State the beat sequence out loud at Step 2.5, alongside the macrostructure and archetype rotation: _"Arc: Hook (H2 split demo) → Problem (prose + before/after) → Solution (F1 bands) → How it works (F4 steps) → Proof (P4 stat strip) → Close (C2 statement). No beats skipped."_ Note it in the build stamp the same way the structural picks are recorded (see `references/diversification.md`) so a later `audit` pass (per `references/verbs/audit.md`) can check the arc held together, not just that the structure varied.

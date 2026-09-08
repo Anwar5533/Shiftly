@@ -36,19 +36,19 @@ helm install prometheus prometheus-community/kube-prometheus-stack \
 ### Docker Compose
 
 ```yaml
-version: "3.8"
+version: '3.8'
 services:
   prometheus:
     image: prom/prometheus:v3.2
     ports:
-      - "9090:9090"
+      - '9090:9090'
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus-data:/prometheus
     command:
-      - "--config.file=/etc/prometheus/prometheus.yml"
-      - "--storage.tsdb.path=/prometheus"
-      - "--storage.tsdb.retention.time=30d"
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=30d'
 
 volumes:
   prometheus-data:
@@ -63,8 +63,8 @@ global:
   scrape_interval: 15s
   evaluation_interval: 15s
   external_labels:
-    cluster: "production"
-    region: "us-west-2"
+    cluster: 'production'
+    region: 'us-west-2'
 
 # Alertmanager configuration
 alerting:
@@ -80,25 +80,25 @@ rule_files:
 # Scrape configurations
 scrape_configs:
   # Prometheus itself
-  - job_name: "prometheus"
+  - job_name: 'prometheus'
     static_configs:
-      - targets: ["localhost:9090"]
+      - targets: ['localhost:9090']
 
   # Node exporters
-  - job_name: "node-exporter"
+  - job_name: 'node-exporter'
     static_configs:
       - targets:
-          - "node1:9100"
-          - "node2:9100"
-          - "node3:9100"
+          - 'node1:9100'
+          - 'node2:9100'
+          - 'node3:9100'
     relabel_configs:
       - source_labels: [__address__]
         target_label: instance
-        regex: "([^:]+)(:[0-9]+)?"
-        replacement: "${1}"
+        regex: '([^:]+)(:[0-9]+)?'
+        replacement: '${1}'
 
   # Kubernetes pods with annotations
-  - job_name: "kubernetes-pods"
+  - job_name: 'kubernetes-pods'
     kubernetes_sd_configs:
       - role: pod
     relabel_configs:
@@ -109,8 +109,7 @@ scrape_configs:
         action: replace
         target_label: __metrics_path__
         regex: (.+)
-      - source_labels:
-          [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+      - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
         action: replace
         regex: ([^:]+)(?::\d+)?;(\d+)
         replacement: $1:$2
@@ -123,13 +122,13 @@ scrape_configs:
         target_label: pod
 
   # Application metrics
-  - job_name: "my-app"
+  - job_name: 'my-app'
     static_configs:
       - targets:
-          - "app1.example.com:9090"
-          - "app2.example.com:9090"
-    metrics_path: "/metrics"
-    scheme: "https"
+          - 'app1.example.com:9090'
+          - 'app2.example.com:9090'
+    metrics_path: '/metrics'
+    scheme: 'https'
     tls_config:
       ca_file: /etc/prometheus/ca.crt
       cert_file: /etc/prometheus/client.crt
@@ -144,19 +143,19 @@ scrape_configs:
 
 ```yaml
 scrape_configs:
-  - job_name: "static-targets"
+  - job_name: 'static-targets'
     static_configs:
-      - targets: ["host1:9100", "host2:9100"]
+      - targets: ['host1:9100', 'host2:9100']
         labels:
-          env: "production"
-          region: "us-west-2"
+          env: 'production'
+          region: 'us-west-2'
 ```
 
 ### File-based Service Discovery
 
 ```yaml
 scrape_configs:
-  - job_name: "file-sd"
+  - job_name: 'file-sd'
     file_sd_configs:
       - files:
           - /etc/prometheus/targets/*.json
@@ -182,16 +181,14 @@ scrape_configs:
 
 ```yaml
 scrape_configs:
-  - job_name: "kubernetes-services"
+  - job_name: 'kubernetes-services'
     kubernetes_sd_configs:
       - role: service
     relabel_configs:
-      - source_labels:
-          [__meta_kubernetes_service_annotation_prometheus_io_scrape]
+      - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scrape]
         action: keep
         regex: true
-      - source_labels:
-          [__meta_kubernetes_service_annotation_prometheus_io_scheme]
+      - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scheme]
         action: replace
         target_label: __scheme__
         regex: (https?)
@@ -267,8 +264,8 @@ groups:
         labels:
           severity: critical
         annotations:
-          summary: "Service {{ $labels.instance }} is down"
-          description: "{{ $labels.job }} has been down for more than 1 minute"
+          summary: 'Service {{ $labels.instance }} is down'
+          description: '{{ $labels.job }} has been down for more than 1 minute'
 
       - alert: HighErrorRate
         expr: job:http_requests_error_rate:percentage > 5
@@ -276,8 +273,8 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "High error rate for {{ $labels.job }}"
-          description: "Error rate is {{ $value }}% (threshold: 5%)"
+          summary: 'High error rate for {{ $labels.job }}'
+          description: 'Error rate is {{ $value }}% (threshold: 5%)'
 
       - alert: HighLatency
         expr: job:http_request_duration:p95 > 1
@@ -285,8 +282,8 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "High latency for {{ $labels.job }}"
-          description: "P95 latency is {{ $value }}s (threshold: 1s)"
+          summary: 'High latency for {{ $labels.job }}'
+          description: 'P95 latency is {{ $value }}s (threshold: 1s)'
 
   - name: resources
     interval: 1m
@@ -297,8 +294,8 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "High CPU usage on {{ $labels.instance }}"
-          description: "CPU usage is {{ $value }}%"
+          summary: 'High CPU usage on {{ $labels.instance }}'
+          description: 'CPU usage is {{ $value }}%'
 
       - alert: HighMemoryUsage
         expr: instance:node_memory:utilization > 85
@@ -306,8 +303,8 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "High memory usage on {{ $labels.instance }}"
-          description: "Memory usage is {{ $value }}%"
+          summary: 'High memory usage on {{ $labels.instance }}'
+          description: 'Memory usage is {{ $value }}%'
 
       - alert: DiskSpaceLow
         expr: instance:node_disk:utilization > 90
@@ -315,8 +312,8 @@ groups:
         labels:
           severity: critical
         annotations:
-          summary: "Low disk space on {{ $labels.instance }}"
-          description: "Disk usage is {{ $value }}%"
+          summary: 'Low disk space on {{ $labels.instance }}'
+          description: 'Disk usage is {{ $value }}%'
 ```
 
 ## Validation

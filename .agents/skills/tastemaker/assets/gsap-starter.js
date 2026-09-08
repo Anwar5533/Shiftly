@@ -20,20 +20,24 @@
     </script>
 */
 (function (global) {
-  "use strict";
+  'use strict';
 
   function init(options) {
     var opts = Object.assign(
-      { duration: 0.22, distance: 16, ease: "power3.out", staggerStep: 0.06 },
-      options || {}
+      { duration: 0.22, distance: 16, ease: 'power3.out', staggerStep: 0.06 },
+      options || {},
     );
 
-    if (typeof gsap === "undefined") {
-      console.warn("TastemakerMotion.init: GSAP is not loaded. Include gsap.min.js (and ScrollTrigger) before this script.");
+    if (typeof gsap === 'undefined') {
+      console.warn(
+        'TastemakerMotion.init: GSAP is not loaded. Include gsap.min.js (and ScrollTrigger) before this script.',
+      );
       return;
     }
-    if (typeof ScrollTrigger === "undefined") {
-      console.warn("TastemakerMotion.init: ScrollTrigger is not loaded. Motion will fall back to entrance-only (no scroll-triggering).");
+    if (typeof ScrollTrigger === 'undefined') {
+      console.warn(
+        'TastemakerMotion.init: ScrollTrigger is not loaded. Motion will fall back to entrance-only (no scroll-triggering).',
+      );
     } else {
       gsap.registerPlugin(ScrollTrigger);
     }
@@ -45,16 +49,16 @@
 
     mm.add(
       {
-        motionOK: "(prefers-reduced-motion: no-preference)",
-        reduceMotion: "(prefers-reduced-motion: reduce)",
+        motionOK: '(prefers-reduced-motion: no-preference)',
+        reduceMotion: '(prefers-reduced-motion: reduce)',
       },
       function (context) {
         var reduce = context.conditions.reduceMotion;
         var duration = reduce ? 0.01 : opts.duration;
         var distance = reduce ? 0 : opts.distance;
 
-        document.querySelectorAll("[data-reveal]").forEach(function (el) {
-          var isGroup = el.hasAttribute("data-reveal-group");
+        document.querySelectorAll('[data-reveal]').forEach(function (el) {
+          var isGroup = el.hasAttribute('data-reveal-group');
           var targets = isGroup ? el.children : el;
 
           gsap.set(targets, { opacity: 0, y: distance });
@@ -69,21 +73,24 @@
             tween.stagger = reduce ? 0 : opts.staggerStep;
           }
 
-          if (typeof ScrollTrigger !== "undefined") {
-            gsap.to(targets, Object.assign({}, tween, {
-              scrollTrigger: {
-                trigger: el,
-                start: "top 85%",
-                once: true,
-              },
-            }));
+          if (typeof ScrollTrigger !== 'undefined') {
+            gsap.to(
+              targets,
+              Object.assign({}, tween, {
+                scrollTrigger: {
+                  trigger: el,
+                  start: 'top 85%',
+                  once: true,
+                },
+              }),
+            );
           } else {
             gsap.to(targets, tween);
           }
         });
-      }
+      },
     );
   }
 
   global.TastemakerMotion = { init: init };
-})(typeof window !== "undefined" ? window : this);
+})(typeof window !== 'undefined' ? window : this);

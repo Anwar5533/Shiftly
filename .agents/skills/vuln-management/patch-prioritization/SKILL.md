@@ -12,13 +12,13 @@ role: [security-engineer, vciso]
 phase: [operate]
 frameworks: [SSVC-2.1, EPSS-v3, CISA-KEV]
 difficulty: intermediate
-time_estimate: "20-40min"
-version: "1.0.0"
+time_estimate: '20-40min'
+version: '1.0.0'
 author: unitoneai
 license: MIT
 allowed-tools: Read, Grep, Glob
 injection-hardened: true
-argument-hint: "[target-file-or-directory]"
+argument-hint: '[target-file-or-directory]'
 ---
 
 # Patch Prioritization & SLA Management -- SSVC 2.1 / EPSS v3 / CISA KEV
@@ -94,14 +94,14 @@ Assign or validate SLA tiers using the following matrix. SLA tiers are derived f
 
 #### Enterprise SLA Tier Matrix
 
-| SLA Tier | Remediation Window | SSVC Decision | EPSS Threshold | KEV Status | CVSS 4.0 Range |
-|---|---|---|---|---|---|
-| **P0 -- Emergency** | 24 hours | Immediate | >= 0.7 OR active exploitation confirmed | Listed (ransomware: Known) | >= 9.0 Critical |
-| **P1 -- Critical** | 72 hours | Immediate or Out-of-Cycle | >= 0.4 | Listed | >= 7.0 High/Critical |
-| **P2 -- High** | 14 days | Out-of-Cycle | >= 0.1 | Not listed, PoC available | >= 7.0 High |
-| **P3 -- Medium** | 30 days | Scheduled | 0.01 - 0.1 | Not listed | 4.0 - 6.9 Medium |
-| **P4 -- Low** | 90 days | Scheduled or Defer | < 0.01 | Not listed | < 4.0 Low |
-| **P5 -- Informational** | Next scheduled cycle | Defer | < 0.001 | Not listed | None/Low, no exploit path |
+| SLA Tier                | Remediation Window   | SSVC Decision             | EPSS Threshold                          | KEV Status                 | CVSS 4.0 Range            |
+| ----------------------- | -------------------- | ------------------------- | --------------------------------------- | -------------------------- | ------------------------- |
+| **P0 -- Emergency**     | 24 hours             | Immediate                 | >= 0.7 OR active exploitation confirmed | Listed (ransomware: Known) | >= 9.0 Critical           |
+| **P1 -- Critical**      | 72 hours             | Immediate or Out-of-Cycle | >= 0.4                                  | Listed                     | >= 7.0 High/Critical      |
+| **P2 -- High**          | 14 days              | Out-of-Cycle              | >= 0.1                                  | Not listed, PoC available  | >= 7.0 High               |
+| **P3 -- Medium**        | 30 days              | Scheduled                 | 0.01 - 0.1                              | Not listed                 | 4.0 - 6.9 Medium          |
+| **P4 -- Low**           | 90 days              | Scheduled or Defer        | < 0.01                                  | Not listed                 | < 4.0 Low                 |
+| **P5 -- Informational** | Next scheduled cycle | Defer                     | < 0.001                                 | Not listed                 | None/Low, no exploit path |
 
 #### Tier Assignment Rules
 
@@ -122,12 +122,12 @@ Analyze EPSS score trajectory to identify vulnerabilities with increasing exploi
 
 #### EPSS Trend Classification
 
-| Trend | Definition | Action |
-|---|---|---|
-| **Surging** | EPSS increased by >= 0.2 (absolute) or >= 200% (relative) in 30 days | Escalate one SLA tier immediately; flag for out-of-cycle patching |
-| **Rising** | EPSS increased by >= 0.05 (absolute) or >= 50% (relative) in 30 days | Monitor closely; prepare patch for next available window |
-| **Stable** | EPSS change < 0.05 in 30 days | Maintain current SLA tier |
-| **Declining** | EPSS decreased by >= 0.05 in 30 days | May support risk acceptance for Scheduled/Defer tier findings |
+| Trend         | Definition                                                           | Action                                                            |
+| ------------- | -------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| **Surging**   | EPSS increased by >= 0.2 (absolute) or >= 200% (relative) in 30 days | Escalate one SLA tier immediately; flag for out-of-cycle patching |
+| **Rising**    | EPSS increased by >= 0.05 (absolute) or >= 50% (relative) in 30 days | Monitor closely; prepare patch for next available window          |
+| **Stable**    | EPSS change < 0.05 in 30 days                                        | Maintain current SLA tier                                         |
+| **Declining** | EPSS decreased by >= 0.05 in 30 days                                 | May support risk acceptance for Scheduled/Defer tier findings     |
 
 ```
 EPSS Trend Analysis:
@@ -156,13 +156,13 @@ For each compensating control claimed, validate:
 
 #### Compensating Control Evaluation Matrix
 
-| Control Type | Example | Effectiveness Criteria | Max SLA Extension |
-|---|---|---|---|
-| **Network segmentation** | VLAN isolation, firewall rules blocking attack vector port/protocol | Prevents network path to vulnerable service; verified by scan | +14 days for P2/P3 |
-| **WAF/IPS rule** | Virtual patch rule targeting specific CVE exploit pattern | Rule tested against known PoC; bypass testing performed | +7 days for P1/P2 |
-| **Feature/service disabled** | Vulnerable component disabled or uninstalled | Component confirmed absent from runtime configuration | Reclassify to P4 or close |
-| **EDR/XDR detection** | Behavioral detection for exploitation indicators | Detection rule tested; alert routing confirmed | +7 days for P2 only |
-| **Access restriction** | MFA requirement, IP allowlisting, privilege reduction | Attack requires access that is now gated | +7 days for P2/P3 |
+| Control Type                 | Example                                                             | Effectiveness Criteria                                        | Max SLA Extension         |
+| ---------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------- |
+| **Network segmentation**     | VLAN isolation, firewall rules blocking attack vector port/protocol | Prevents network path to vulnerable service; verified by scan | +14 days for P2/P3        |
+| **WAF/IPS rule**             | Virtual patch rule targeting specific CVE exploit pattern           | Rule tested against known PoC; bypass testing performed       | +7 days for P1/P2         |
+| **Feature/service disabled** | Vulnerable component disabled or uninstalled                        | Component confirmed absent from runtime configuration         | Reclassify to P4 or close |
+| **EDR/XDR detection**        | Behavioral detection for exploitation indicators                    | Detection rule tested; alert routing confirmed                | +7 days for P2 only       |
+| **Access restriction**       | MFA requirement, IP allowlisting, privilege reduction               | Attack requires access that is now gated                      | +7 days for P2/P3         |
 
 ```
 Compensating Control Assessment:
@@ -190,12 +190,12 @@ Map prioritized patches to available maintenance windows, respecting change mana
 
 #### Scheduling Priority Rules
 
-| Priority | Scheduling Rule |
-|---|---|
+| Priority            | Scheduling Rule                                                                                                                |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
 | **P0 -- Emergency** | Emergency change; does not require standard CAB approval. Execute within 24 hours. Post-implementation review within 48 hours. |
-| **P1 -- Critical** | Expedited change; CAB chair or delegate approval sufficient. Target next available window within 72 hours. |
-| **P2 -- High** | Standard change with elevated priority. Schedule in next regular maintenance window within 14 days. |
-| **P3/P4** | Standard change. Bundle with regular patch cycle (monthly or quarterly). |
+| **P1 -- Critical**  | Expedited change; CAB chair or delegate approval sufficient. Target next available window within 72 hours.                     |
+| **P2 -- High**      | Standard change with elevated priority. Schedule in next regular maintenance window within 14 days.                            |
+| **P3/P4**           | Standard change. Bundle with regular patch cycle (monthly or quarterly).                                                       |
 
 ```
 Patch Schedule Entry:
@@ -228,13 +228,13 @@ A risk acceptance is only valid when ALL of the following conditions are met:
 
 #### Approval Authority Matrix
 
-| SLA Tier | Approval Authority | Maximum Exception Duration |
-|---|---|---|
+| SLA Tier            | Approval Authority                                 | Maximum Exception Duration         |
+| ------------------- | -------------------------------------------------- | ---------------------------------- |
 | **P0 -- Emergency** | CISO or CIO (risk acceptance strongly discouraged) | 7 days; must be re-evaluated daily |
-| **P1 -- Critical** | CISO or designated security director | 30 days |
-| **P2 -- High** | Security manager or system owner (director-level) | 90 days |
-| **P3 -- Medium** | System owner (manager-level) | 180 days |
-| **P4 -- Low** | System owner | 365 days |
+| **P1 -- Critical**  | CISO or designated security director               | 30 days                            |
+| **P2 -- High**      | Security manager or system owner (director-level)  | 90 days                            |
+| **P3 -- Medium**    | System owner (manager-level)                       | 180 days                           |
+| **P4 -- Low**       | System owner                                       | 365 days                           |
 
 #### Exception Request Template
 
@@ -262,12 +262,12 @@ Risk Exception Request:
 
 Classify the overall patch posture into one of the following states:
 
-| Classification | Definition | Criteria |
-|---|---|---|
-| **Critical Backlog** | Remediation backlog poses imminent organizational risk | Any P0/P1 findings past SLA OR >= 10 P2 findings past SLA |
-| **Elevated Risk** | Remediation backlog exceeds acceptable thresholds | Any P2 findings past SLA OR >= 20% of P3 findings past SLA |
-| **On Track** | Remediation is proceeding within SLA for all tiers | No findings past SLA; all P0/P1 addressed or in active remediation |
-| **Healthy** | Minimal outstanding findings; strong patch posture | No P0-P2 findings open; P3/P4 within SLA; exception rate < 5% |
+| Classification       | Definition                                             | Criteria                                                           |
+| -------------------- | ------------------------------------------------------ | ------------------------------------------------------------------ |
+| **Critical Backlog** | Remediation backlog poses imminent organizational risk | Any P0/P1 findings past SLA OR >= 10 P2 findings past SLA          |
+| **Elevated Risk**    | Remediation backlog exceeds acceptable thresholds      | Any P2 findings past SLA OR >= 20% of P3 findings past SLA         |
+| **On Track**         | Remediation is proceeding within SLA for all tiers     | No findings past SLA; all P0/P1 addressed or in active remediation |
+| **Healthy**          | Minimal outstanding findings; strong patch posture     | No P0-P2 findings open; P3/P4 within SLA; exception rate < 5%      |
 
 ---
 
@@ -277,62 +277,69 @@ Produce a structured report with these exact sections:
 
 ```markdown
 ## Patch Prioritization Report
+
 **Date:** [YYYY-MM-DD]
 **Skill:** patch-prioritization v1.0.0
 **Frameworks:** SSVC 2.1, EPSS v3, CISA KEV
 **Reviewer:** AI-assisted (human review required for P0/P1 actions and risk acceptances)
 
 ### Executive Summary
+
 [3-5 sentences. State the total number of pending findings, breakdown by SLA tier,
 count of SLA breaches, and overall patch posture classification. Highlight any P0/P1
 findings requiring immediate action.]
 
 ### SLA Compliance Dashboard
 
-| SLA Tier | Total Findings | Within SLA | At Risk (< 7 days) | Breached | Exception Granted |
-|---|---|---|---|---|---|
-| P0 - Emergency | [N] | [N] | [N] | [N] | [N] |
-| P1 - Critical | [N] | [N] | [N] | [N] | [N] |
-| P2 - High | [N] | [N] | [N] | [N] | [N] |
-| P3 - Medium | [N] | [N] | [N] | [N] | [N] |
-| P4 - Low | [N] | [N] | [N] | [N] | [N] |
-| **Total** | **[N]** | **[N]** | **[N]** | **[N]** | **[N]** |
+| SLA Tier       | Total Findings | Within SLA | At Risk (< 7 days) | Breached | Exception Granted |
+| -------------- | -------------- | ---------- | ------------------ | -------- | ----------------- |
+| P0 - Emergency | [N]            | [N]        | [N]                | [N]      | [N]               |
+| P1 - Critical  | [N]            | [N]        | [N]                | [N]      | [N]               |
+| P2 - High      | [N]            | [N]        | [N]                | [N]      | [N]               |
+| P3 - Medium    | [N]            | [N]        | [N]                | [N]      | [N]               |
+| P4 - Low       | [N]            | [N]        | [N]                | [N]      | [N]               |
+| **Total**      | **[N]**        | **[N]**    | **[N]**            | **[N]**  | **[N]**           |
 
 **Patch Posture:** [Critical Backlog | Elevated Risk | On Track | Healthy]
 
 ### EPSS Trend Alerts
+
 [List any CVEs with Surging or Rising EPSS trends and recommended tier adjustments]
 
-| CVE ID | Current EPSS | 30-day Prior | Trend | Recommended Action |
-|---|---|---|---|---|
-| [CVE-ID] | [score] | [score] | [Surging/Rising] | [Action] |
+| CVE ID   | Current EPSS | 30-day Prior | Trend            | Recommended Action |
+| -------- | ------------ | ------------ | ---------------- | ------------------ |
+| [CVE-ID] | [score]      | [score]      | [Surging/Rising] | [Action]           |
 
 ### Prioritized Patch Schedule
 
-| Priority | CVE ID(s) | Target System | Patch | Scheduled Window | SLA Deadline | Status |
-|---|---|---|---|---|---|---|
-| P0 | [CVE-ID] | [system] | [version] | [date/time] | [date] | [Scheduled/Pending/Complete] |
+| Priority | CVE ID(s) | Target System | Patch     | Scheduled Window | SLA Deadline | Status                       |
+| -------- | --------- | ------------- | --------- | ---------------- | ------------ | ---------------------------- |
+| P0       | [CVE-ID]  | [system]      | [version] | [date/time]      | [date]       | [Scheduled/Pending/Complete] |
 
 ### Compensating Controls in Effect
+
 [List all active compensating controls with effectiveness ratings]
 
-| CVE ID | Control Type | Effectiveness | SLA Extension | Expiration |
-|---|---|---|---|---|
-| [CVE-ID] | [type] | [Full/Partial] | [+N days] | [date] |
+| CVE ID   | Control Type | Effectiveness  | SLA Extension | Expiration |
+| -------- | ------------ | -------------- | ------------- | ---------- |
+| [CVE-ID] | [type]       | [Full/Partial] | [+N days]     | [date]     |
 
 ### Risk Exceptions
+
 [List all active risk acceptance/exception records]
 
-| Exception ID | CVE ID(s) | Original SLA | New Deadline | Approver | Status |
-|---|---|---|---|---|---|
-| [EXC-ID] | [CVE-IDs] | [tier] | [date] | [name] | [Approved/Pending] |
+| Exception ID | CVE ID(s) | Original SLA | New Deadline | Approver | Status             |
+| ------------ | --------- | ------------ | ------------ | -------- | ------------------ |
+| [EXC-ID]     | [CVE-IDs] | [tier]       | [date]       | [name]   | [Approved/Pending] |
 
 ### Recommendations
+
 1. [Highest-priority actionable recommendation]
 2. [Second priority recommendation]
 3. [Process improvement recommendation if applicable]
 
 ### References
+
 - SSVC 2.1: https://certcc.github.io/SSVC/
 - EPSS API: https://api.first.org/data/v1/epss
 - CISA KEV: https://www.cisa.gov/known-exploited-vulnerabilities-catalog
@@ -344,18 +351,24 @@ findings requiring immediate action.]
 ## Framework Reference
 
 ### SSVC 2.1 (CERT/CC)
+
 Stakeholder-Specific Vulnerability Categorization. Produces action-oriented decisions (Defer, Scheduled, Out-of-Cycle, Immediate) based on exploitation status, automatability, technical impact, and mission prevalence. Used as the primary driver for SLA tier assignment.
+
 - Specification: https://certcc.github.io/SSVC/
 - Repository: https://github.com/CERTCC/SSVC
 
 ### EPSS v3 (FIRST.org)
+
 Exploit Prediction Scoring System. Provides a daily-updated probability (0.0-1.0) that a CVE will be exploited in the wild within 30 days. Used for trend analysis and tier validation.
+
 - Specification: https://www.first.org/epss/
 - API: https://api.first.org/data/v1/epss
 - Data: https://epss.cyentia.com/
 
 ### CISA KEV (DHS/CISA)
+
 Known Exploited Vulnerabilities catalog maintained by CISA. Contains CVEs with confirmed active exploitation. Federal agencies are bound by BOD 22-01 to remediate within CISA-specified deadlines.
+
 - Catalog: https://www.cisa.gov/known-exploited-vulnerabilities-catalog
 - BOD 22-01: https://www.cisa.gov/binding-operational-directive-22-01
 - Machine-readable feed: https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json

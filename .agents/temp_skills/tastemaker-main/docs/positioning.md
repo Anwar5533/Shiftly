@@ -10,16 +10,16 @@ Decided 2026-07-26, resolving [#51](https://github.com/codeswithroh/tastemaker/i
 
 ## Why this way and not taste-skill's breadth-for-scale play
 
-taste-skill gives away a whole family of specialized variants for free because their core skill is dial-tuned, not generative — `brutalist-skill` has to be its own file because nothing in their system *derives* brutalist from first principles. Breadth of free variants is genuinely their main lever for installs and sponsorship visibility, because there's no other axis of value to hold back.
+taste-skill gives away a whole family of specialized variants for free because their core skill is dial-tuned, not generative — `brutalist-skill` has to be its own file because nothing in their system _derives_ brutalist from first principles. Breadth of free variants is genuinely their main lever for installs and sponsorship visibility, because there's no other axis of value to hold back.
 
 tastemaker isn't built that way. The core engine already generates aesthetic variety (five moods → a fresh, contrast-verified palette every run, not a fixed swatch) and structural variety (macrostructures + component catalog + diversification, enforced so two builds don't repeat) from one system, not a pile of separately-authored variant files. That means:
 
-- The free core is *already* differentiated and complete on its own — it doesn't need free variant breadth to be worth installing.
+- The free core is _already_ differentiated and complete on its own — it doesn't need free variant breadth to be worth installing.
 - A paid variant pack has something real to sell: not "five more markdown files copy-pasting the same rules with different adjectives" (taste-skill's actual structural weakness — a contrast bug fixed in one variant and forgotten in five others), but a **thin override layer on the shared engine** (see the architecture recommendation on #51: `references/modes/*.md`, each overriding specific dials — accent aggressiveness, radius, motion energy, density — against the one underlying system). That's a genuinely better engineering shape than taste-skill's flat duplication, and it's what makes the paid pack a real product instead of gatekeeping content that should've been free.
 
 ## What this means for #50 (multi-skill repo restructure)
 
-**No restructure needed, and not for the reason #50 originally considered.** The public multi-skill folder layout (`skills/<name>/SKILL.md` per variant, discoverable via `npx skills add`) exists to serve *free* variants through the same public installer. Since the aesthetic variants are paid, they don't ship through the public MIT repo's skill-installer path at all — they're a separate purchased artifact (however that pack gets distributed once built), not another folder in `skills/`. The public repo stays exactly the shape it is today: one free skill, `skills/tastemaker/`.
+**No restructure needed, and not for the reason #50 originally considered.** The public multi-skill folder layout (`skills/<name>/SKILL.md` per variant, discoverable via `npx skills add`) exists to serve _free_ variants through the same public installer. Since the aesthetic variants are paid, they don't ship through the public MIT repo's skill-installer path at all — they're a separate purchased artifact (however that pack gets distributed once built), not another folder in `skills/`. The public repo stays exactly the shape it is today: one free skill, `skills/tastemaker/`.
 
 If that ever changes — a free variant gets added for a genuinely different reason (not scale-driving breadth, but something like a real compatibility need) — revisit the multi-skill layout question then, on its own merits, not as a side effect of this decision.
 
