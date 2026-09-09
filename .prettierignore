@@ -7,3 +7,4 @@ coverage/
 .turbo/
 scratch/
 pnpm-lock.yaml
+.agents/

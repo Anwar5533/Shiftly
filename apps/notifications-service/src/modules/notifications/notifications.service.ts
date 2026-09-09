@@ -32,12 +32,12 @@ export class NotificationsService {
       // which would then broadcast to WebSockets.
 
       // Email dispatch via AWS SES
-      if (payload.type === 'EMAIL' && payload.title) {
+      if (payload.channel === 'EMAIL' && payload.title) {
         await this.sesClient.send(
           new SendEmailCommand({
             Destination: { ToAddresses: ['test@shiftly.com'] }, // Mock target
             Message: {
-              Body: { Text: { Data: String(payload.message) } },
+              Body: { Text: { Data: String(payload.body) } },
               Subject: { Data: String(payload.title) },
             },
             Source: process.env.AWS_SES_FROM_EMAIL || 'noreply@shiftly.com',
@@ -46,10 +46,10 @@ export class NotificationsService {
       }
 
       // SMS dispatch via AWS SNS
-      if (payload.type === 'SMS') {
+      if (payload.channel === 'SMS') {
         await this.snsClient.send(
           new PublishCommand({
-            Message: String(payload.message),
+            Message: String(payload.body),
             TopicArn: process.env.AWS_SNS_SMS_TOPIC_ARN,
           }),
         );
