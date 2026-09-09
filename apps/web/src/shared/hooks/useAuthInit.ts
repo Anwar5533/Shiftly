@@ -9,8 +9,7 @@
 import { useEffect } from 'react';
 import { useAppDispatch } from '@/app/store';
 import { setUser, clearUser, setLoading } from '@/features/auth/store/authSlice';
-import { setAccessToken, refreshAuthToken } from '@/shared/lib/api';
-import api from '@/shared/lib/api';
+import { refreshAuthToken } from '@/shared/lib/api';
 import { jwtDecode } from '@/features/auth/utils/jwt';
 import type { JwtPayload } from '@shiftly/shared-types';
 
