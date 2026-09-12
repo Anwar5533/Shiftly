@@ -49,6 +49,11 @@
       "cache": false,
       "persistent": true
     },
+    "start": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "persistent": true
+    },
     "test": {
       "dependsOn": ["^build", "db:generate"],
       "inputs": ["$TURBO_DEFAULT$"],

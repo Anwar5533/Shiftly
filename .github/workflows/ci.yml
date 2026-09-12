@@ -72,8 +72,8 @@ jobs:
           JWT_ACCESS_SECRET: test-access-secret-12345
           JWT_REFRESH_SECRET: test-refresh-secret-12345
         run: |
-          pnpm turbo run dev --filter="!@shiftly/web" &
-          npx wait-on http://localhost:3000/health/live -t 60000
+          pnpm turbo run start --filter="!@shiftly/web" &
+          npx wait-on http://localhost:3000/health/live -t 120000
 
       - name: Run E2E Tests
         env:
