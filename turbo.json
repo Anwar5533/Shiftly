@@ -21,7 +21,11 @@
     "SEARCH_URL",
     "PAYMENTS_URL",
     "DOCUMENTS_URL",
-    "NOTIFICATIONS_URL"
+    "NOTIFICATIONS_URL",
+    "AWS_S3_BUCKET",
+    "AWS_SES_FROM_EMAIL",
+    "OPENSEARCH_ENDPOINT",
+    "OPENAI_API_KEY"
   ],
   "tasks": {
     "build": {
