@@ -71,7 +71,10 @@ export default function JobDetailPage(): React.ReactElement {
         jobId: id,
         coverLetter: 'Interested in this role',
       });
-      await queryClient.invalidateQueries({ queryKey: ['worker-applications'] });
+      // Do not await invalidateQueries to prevent blocking the UI update
+      // if React Query suspends on inactive queries.
+      void queryClient.invalidateQueries({ queryKey: ['worker-applications'] });
+
       setApplySuccess(true);
       setApplicationStatus('PENDING'); // Optimistic update
       setApplicationId(response.id);
@@ -95,10 +98,14 @@ export default function JobDetailPage(): React.ReactElement {
 
     try {
       await applicationsApi.withdrawApplication(applicationId);
-      await queryClient.invalidateQueries({ queryKey: ['worker-applications'] });
-      await queryClient.invalidateQueries({ queryKey: ['jobs'] });
+      void queryClient.invalidateQueries({ queryKey: ['worker-applications'] });
+      void queryClient.invalidateQueries({ queryKey: ['jobs'] });
+
+      setApplySuccess(false);
       setApplicationStatus('WITHDRAWN');
-    } catch (_error) {
+      setApplicationId(null);
+      setIsCancelModalOpen(false);
+    } catch (_error: any) {
       console.error('Failed to withdraw application', _error);
       let errorMsg = 'Failed to withdraw application. Please try again later.';
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
