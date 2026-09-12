@@ -77,15 +77,15 @@ jobs:
           AWS_SES_FROM_EMAIL: test@example.com
           OPENSEARCH_ENDPOINT: http://localhost:9200
           OPENAI_API_KEY: sk-test-key
-          IDENTITY_URL: http://localhost:3001
-          USER_URL: http://localhost:3002
-          JOBS_URL: http://localhost:3003
-          APPLICATIONS_URL: http://localhost:3004
-          ANALYTICS_URL: http://localhost:3005
-          SEARCH_URL: http://localhost:3006
-          PAYMENTS_URL: http://localhost:3007
-          DOCUMENTS_URL: http://localhost:3008
-          NOTIFICATIONS_URL: http://localhost:3009
+          IDENTITY_URL: http://localhost:3003
+          USER_URL: http://localhost:3004
+          JOBS_URL: http://localhost:3005
+          APPLICATIONS_URL: http://localhost:3006
+          ANALYTICS_URL: http://localhost:3007
+          SEARCH_URL: http://localhost:3008
+          PAYMENTS_URL: http://localhost:3009
+          DOCUMENTS_URL: http://localhost:3010
+          NOTIFICATIONS_URL: http://localhost:3011
         run: |
           pnpm turbo run start --filter="!@shiftly/web" &
           npx wait-on http://localhost:3000/health/live -t 120000
