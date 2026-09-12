@@ -281,9 +281,6 @@ model User {
   kycDocuments             KycDocument[]
   kycRequest               KycRequest?
   referralCode             ReferralCode?
-  referredBy               String?                   @db.Uuid
-  referrer                 User?                     @relation("Referrals", fields: [referredBy], references: [id])
-  referrals                User[]                    @relation("Referrals")
   subscription             Subscription?
   auditLogs                AuditLog[]
   reviewsGiven             Review[]                  @relation("ReviewsGiven")

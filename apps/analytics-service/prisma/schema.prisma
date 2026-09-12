@@ -281,9 +281,6 @@ model User {
   kycDocuments             KycDocument[]
   kycRequest               KycRequest?
   referralCode             ReferralCode?
-  referredBy               String?                   @db.Uuid
-  referrer                 User?                     @relation("Referrals", fields: [referredBy], references: [id])
-  referrals                User[]                    @relation("Referrals")
   subscription             Subscription?
   auditLogs                AuditLog[]
   reviewsGiven             Review[]                  @relation("ReviewsGiven")
@@ -595,7 +592,7 @@ model JobApplication {
   @@index([jobId, status])
   @@index([workerId, status, appliedAt(sort: Desc)])
   @@map("job_applications")
-  @@schema("applications")
+  @@schema("jobs")
 }
 
 model Shift {
