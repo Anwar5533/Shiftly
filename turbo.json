@@ -12,7 +12,16 @@
     "JWT_ACCESS_SECRET",
     "JWT_REFRESH_SECRET",
     "VITE_API_URL",
-    "VITE_WS_URL"
+    "VITE_WS_URL",
+    "IDENTITY_URL",
+    "USER_URL",
+    "JOBS_URL",
+    "APPLICATIONS_URL",
+    "ANALYTICS_URL",
+    "SEARCH_URL",
+    "PAYMENTS_URL",
+    "DOCUMENTS_URL",
+    "NOTIFICATIONS_URL"
   ],
   "tasks": {
     "build": {
