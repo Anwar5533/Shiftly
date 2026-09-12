@@ -69,8 +69,17 @@ jobs:
           DATABASE_URL: postgresql://user:pass@localhost:5432/shiftly
           REDIS_HOST: localhost
           REDIS_PORT: 6379
-          JWT_ACCESS_SECRET: test-access-secret-12345
-          JWT_REFRESH_SECRET: test-refresh-secret-12345
+          JWT_ACCESS_SECRET: test-access-secret-must-be-32-chars-long
+          JWT_REFRESH_SECRET: test-refresh-secret-must-be-32-chars-long
+          IDENTITY_URL: http://localhost:3001
+          USER_URL: http://localhost:3002
+          JOBS_URL: http://localhost:3003
+          APPLICATIONS_URL: http://localhost:3004
+          ANALYTICS_URL: http://localhost:3005
+          SEARCH_URL: http://localhost:3006
+          PAYMENTS_URL: http://localhost:3007
+          DOCUMENTS_URL: http://localhost:3008
+          NOTIFICATIONS_URL: http://localhost:3009
         run: |
           pnpm turbo run start --filter="!@shiftly/web" &
           npx wait-on http://localhost:3000/health/live -t 120000
