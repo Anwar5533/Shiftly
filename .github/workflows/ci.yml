@@ -38,7 +38,7 @@ jobs:
           KAFKA_BROKER_ID: 1
           KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
           KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-          KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+          KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://127.0.0.1:9092
           KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
           KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
           KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
@@ -87,13 +87,13 @@ jobs:
 
       - name: Install dependencies
         env:
-          DATABASE_URL: postgresql://user:pass@localhost:5432/shiftly
+          DATABASE_URL: postgresql://user:pass@127.0.0.1:5432/shiftly
         run: pnpm install
         
       - name: Run lint, test, build
         env:
-          DATABASE_URL: postgresql://user:pass@localhost:5432/shiftly
-          REDIS_HOST: localhost
+          DATABASE_URL: postgresql://user:pass@127.0.0.1:5432/shiftly
+          REDIS_HOST: 127.0.0.1
           REDIS_PORT: 6379
         run: |
           pnpm audit --prod
@@ -106,15 +106,15 @@ jobs:
       - name: Run Backend & E2E Tests
         env:
           NODE_ENV: test
-          DATABASE_URL: postgresql://user:pass@localhost:5432/shiftly
-          REDIS_HOST: localhost
+          DATABASE_URL: postgresql://user:pass@127.0.0.1:5432/shiftly
+          REDIS_HOST: 127.0.0.1
           REDIS_PORT: 6379
-          KAFKA_BROKERS: localhost:9092
+          KAFKA_BROKERS: 127.0.0.1:9092
           JWT_ACCESS_SECRET: test-access-secret-must-be-32-chars-long
           JWT_REFRESH_SECRET: test-refresh-secret-must-be-32-chars-long
           AWS_S3_BUCKET: test-bucket
           AWS_SES_FROM_EMAIL: test@example.com
-          OPENSEARCH_ENDPOINT: http://localhost:9200
+          OPENSEARCH_ENDPOINT: http://127.0.0.1:9200
           OPENAI_API_KEY: sk-test-key
           IDENTITY_URL: http://127.0.0.1:3003
           USER_URL: http://127.0.0.1:3004
