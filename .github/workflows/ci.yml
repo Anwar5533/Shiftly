@@ -64,7 +64,7 @@ jobs:
       - name: Install Playwright Browsers
         run: pnpm --filter @shiftly/web exec playwright install --with-deps
 
-      - name: Start Backend Services
+      - name: Run Backend & E2E Tests
         env:
           NODE_ENV: test
           DATABASE_URL: postgresql://user:pass@localhost:5432/shiftly
@@ -87,13 +87,11 @@ jobs:
           DOCUMENTS_URL: http://localhost:3010
           NOTIFICATIONS_URL: http://localhost:3011
         run: |
+          pnpm turbo run db:migrate:deploy
+          pnpm turbo run db:seed
           pnpm turbo run start --filter="!@shiftly/web" &
-          npx wait-on http://localhost:3000/health/live -t 120000
-
-      - name: Run E2E Tests
-        env:
-          DATABASE_URL: postgresql://user:pass@localhost:5432/shiftly
-        run: pnpm turbo run test:e2e
+          npx wait-on tcp:3000 tcp:3003 tcp:3004 tcp:3005 tcp:3006 tcp:3007 tcp:3008 tcp:3009 tcp:3010 tcp:3011 -t 120000
+          pnpm turbo run test:e2e
 
   docker-build:
     name: Docker Build
