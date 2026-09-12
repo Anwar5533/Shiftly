@@ -62,7 +62,7 @@ jobs:
           pnpm turbo run test -- --coverage
 
       - name: Install Playwright Browsers
-        run: pnpm --filter web exec playwright install --with-deps
+        run: pnpm --filter @shiftly/web exec playwright install --with-deps
 
       - name: Start Backend Services
         env:
@@ -72,7 +72,7 @@ jobs:
           JWT_ACCESS_SECRET: test-access-secret-12345
           JWT_REFRESH_SECRET: test-refresh-secret-12345
         run: |
-          pnpm turbo run dev --filter=!web &
+          pnpm turbo run dev --filter="!@shiftly/web" &
           npx wait-on http://localhost:3000/health/live -t 60000
 
       - name: Run E2E Tests
