@@ -21,6 +21,8 @@ export default function JobDetailPage(): React.ReactElement {
   const [applySuccess, setApplySuccess] = useState(false);
   const user = useAppSelector((state) => state.auth.user);
 
+  const isAuthLoading = useAppSelector((state) => state.auth.isLoading);
+
   const [applicationStatus, setApplicationStatus] = useState<string | null>(null);
   const [applicationId, setApplicationId] = useState<string | null>(null);
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
@@ -67,6 +69,11 @@ export default function JobDetailPage(): React.ReactElement {
     setIsApplying(true);
     setApplyError(null);
     try {
+      if (!user) {
+        void navigate('/login', { state: { returnTo: `/jobs/${id}` } });
+        return;
+      }
+
       const response = await applicationsApi.applyToJob({
         jobId: id,
         coverLetter: 'Interested in this role',
@@ -101,9 +108,10 @@ export default function JobDetailPage(): React.ReactElement {
       void queryClient.invalidateQueries({ queryKey: ['worker-applications'] });
       void queryClient.invalidateQueries({ queryKey: ['jobs'] });
 
-      setApplySuccess(false);
+      // Keep applySuccess true since the application still exists, just update its status
+      setApplySuccess(true);
       setApplicationStatus('WITHDRAWN');
-      setApplicationId(null);
+      // Do not clear applicationId
       setIsCancelModalOpen(false);
     } catch (_error: any) {
       console.error('Failed to withdraw application', _error);
@@ -172,10 +180,10 @@ export default function JobDetailPage(): React.ReactElement {
                   onClick={() => {
                     void handleApply();
                   }}
-                  disabled={isApplying}
+                  disabled={isApplying || isAuthLoading}
                   className="h-12 w-full rounded-lg bg-primary px-8 font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 disabled:opacity-50 md:w-auto"
                 >
-                  {isApplying ? 'Applying...' : 'Apply for this Job'}
+                  {isApplying ? 'Applying...' : isAuthLoading ? 'Loading...' : 'Apply for this Job'}
                 </button>
               ) : (
                 <div className="flex w-full flex-col items-center justify-center gap-3 sm:flex-row md:w-auto md:justify-end">

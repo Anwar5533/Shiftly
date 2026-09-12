@@ -17,6 +17,8 @@ test.describe('Application Cancellation Workflow', () => {
     await expect(employerPage).toHaveURL(/.*dashboard/, { timeout: 15000 });
 
     // --- 2. Worker Logs In ---
+    workerPage.on('console', (msg) => console.log('WORKER CONSOLE:', msg.text()));
+    workerPage.on('pageerror', (err) => console.log('WORKER ERROR:', err.message));
     await workerPage.goto('/login');
     await workerPage.click('text=Email');
     await workerPage.fill('input[type="email"]', 'worker@shiftly.local');
