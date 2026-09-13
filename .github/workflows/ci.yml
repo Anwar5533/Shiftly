@@ -166,14 +166,14 @@ jobs:
           file: ./Dockerfile
           build-args: APP_NAME=${{ matrix.app }}
           push: false
-          platforms: linux/amd64,linux/arm64
+          load: true
+          platforms: linux/amd64
           tags: ghcr.io/your-org/${{ matrix.app }}:latest
-          outputs: type=oci,dest=/tmp/${{ matrix.app }}.tar
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          input: /tmp/${{ matrix.app }}.tar
+          image-ref: 'ghcr.io/your-org/${{ matrix.app }}:latest'
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
