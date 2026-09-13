@@ -168,11 +168,12 @@ jobs:
           push: false
           platforms: linux/amd64,linux/arm64
           tags: ghcr.io/your-org/${{ matrix.app }}:latest
+          outputs: type=oci,dest=/tmp/${{ matrix.app }}.tar
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'ghcr.io/your-org/${{ matrix.app }}:latest'
+          input: /tmp/${{ matrix.app }}.tar
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
