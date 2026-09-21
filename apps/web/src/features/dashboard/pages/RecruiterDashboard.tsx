@@ -144,36 +144,52 @@ export default function RecruiterDashboard(): React.ReactElement {
             <h2 className="text-lg font-semibold text-foreground">Pipeline Overview</h2>
           </div>
           <div className="flex h-[300px] items-end justify-around gap-4 pb-4">
-            <div className="group relative h-[80%] w-1/4 rounded-t-lg bg-muted/50 transition-all hover:bg-muted">
-              <div className="absolute -top-8 w-full text-center text-sm font-semibold">
-                Sourced
-              </div>
-              <div className="absolute bottom-4 w-full text-center text-lg font-bold">120</div>
-            </div>
-            <div className="group relative h-[60%] w-1/4 rounded-t-lg bg-primary/20 transition-all hover:bg-primary/30">
-              <div className="absolute -top-8 w-full text-center text-sm font-semibold">
-                Screened
-              </div>
-              <div className="absolute bottom-4 w-full text-center text-lg font-bold text-primary">
-                85
-              </div>
-            </div>
-            <div className="group relative h-[40%] w-1/4 rounded-t-lg bg-accent/20 transition-all hover:bg-accent/30">
-              <div className="absolute -top-8 w-full text-center text-sm font-semibold">
-                Interviewing
-              </div>
-              <div className="absolute bottom-4 w-full text-center text-lg font-bold text-accent-foreground">
-                32
-              </div>
-            </div>
-            <div className="group relative h-[20%] w-1/4 rounded-t-lg bg-green-500/20 transition-all hover:bg-green-500/30">
-              <div className="absolute -top-8 w-full text-center text-sm font-semibold">
-                Offered
-              </div>
-              <div className="absolute bottom-4 w-full text-center text-lg font-bold text-green-600">
-                12
-              </div>
-            </div>
+            {[
+              {
+                label: 'Sourced',
+                count: stats?.totalApplications || 0,
+                bgClass: 'bg-blue-500/20 hover:bg-blue-500/30',
+                textClass: 'text-blue-600 dark:text-blue-400',
+              },
+              {
+                label: 'Screened',
+                count: Math.floor((stats?.totalApplications || 0) * 0.7),
+                bgClass: 'bg-purple-500/20 hover:bg-purple-500/30',
+                textClass: 'text-purple-600 dark:text-purple-400',
+              },
+              {
+                label: 'Interviewing',
+                count: Math.floor((stats?.totalApplications || 0) * 0.3),
+                bgClass: 'bg-orange-500/20 hover:bg-orange-500/30',
+                textClass: 'text-orange-600 dark:text-orange-400',
+              },
+              {
+                label: 'Offered',
+                count: stats?.placements || 0,
+                bgClass: 'bg-green-500/20 hover:bg-green-500/30',
+                textClass: 'text-green-600 dark:text-green-400',
+              },
+            ].map((stage, index, arr) => {
+              const maxCount = Math.max(1, ...arr.map((s) => s.count)); // at least 1 to avoid NaN division
+              const heightPercent = Math.max((stage.count / maxCount) * 100, 20); // at least 20% height
+
+              return (
+                <div
+                  key={stage.label}
+                  className={`group relative w-1/4 rounded-t-lg transition-all ${stage.bgClass}`}
+                  style={{ height: `${heightPercent}%` }}
+                >
+                  <div className="absolute -top-8 w-full text-center text-sm font-semibold text-foreground">
+                    {stage.label}
+                  </div>
+                  <div
+                    className={`absolute bottom-4 w-full text-center text-lg font-bold ${stage.textClass}`}
+                  >
+                    {stage.count}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </motion.div>
 

@@ -1,0 +1,182 @@
+
+> @shiftly/web@0.1.0 test
+> vitest run --coverage
+
+
+ RUN  v5.0.0 /Users/anwarkornipalli/Desktop/Shiftly/apps/web
+      Coverage enabled with v8
+
+ ✓ src/features/auth/pages/LoginPage.spec.tsx (14 tests) 1326ms
+ ✓ src/features/auth/pages/RegisterPage.spec.tsx (7 tests) 702ms
+ ✓ src/features/auth/pages/OtpPage.spec.tsx (12 tests) 538ms
+ ✓ src/features/dashboard/pages/WorkerDashboard.spec.tsx (4 tests) 176ms
+ ✓ src/features/admin/pages/FinancialsPage.spec.tsx (1 test) 31ms
+ ✓ src/layouts/DashboardLayout.spec.tsx (1 test) 37ms
+ ✓ src/features/admin/pages/UsersManagementPage.spec.tsx (1 test) 35ms
+ ✓ src/features/jobs/pages/RequisitionsPage.spec.tsx (1 test) 41ms
+ ✓ src/features/applications/pages/ApplicantsPage.spec.tsx (1 test) 43ms
+ ✓ src/app/App.spec.tsx (1 test) 32ms
+ ✓ src/features/wallet/pages/WalletPage.spec.tsx (1 test) 18ms
+ ✓ src/features/dashboard/pages/AdminDashboard.spec.tsx (1 test) 33ms
+ ✓ src/features/dashboard/pages/RecruiterDashboard.spec.tsx (1 test) 35ms
+ ✓ src/features/onboarding/pages/OnboardingPage.spec.tsx (1 test) 31ms
+ ✓ src/features/jobs/pages/PostJobPage.spec.tsx (1 test) 32ms
+ ✓ src/features/settings/pages/SettingsPage.spec.tsx (1 test) 31ms
+ ✓ src/features/messaging/pages/MessagesPage.spec.tsx (1 test) 31ms
+ ✓ src/features/dashboard/pages/EmployerDashboard.spec.tsx (1 test) 29ms
+ ✓ src/features/timesheets/pages/TimesheetsPage.spec.tsx (1 test) 29ms
+ ✓ src/features/jobs/pages/JobsListPage.spec.tsx (1 test) 26ms
+ ✓ src/features/candidates/pages/CandidatesPage.spec.tsx (1 test) 24ms
+ ✓ src/features/applications/pages/MyApplicationsPage.spec.tsx (1 test) 24ms
+ ✓ src/features/jobs/pages/ManageJobsPage.spec.tsx (1 test) 23ms
+ ✓ src/layouts/AuthLayout.spec.tsx (1 test) 21ms
+ ✓ src/features/profile/pages/ProfilePage.spec.tsx (1 test) 19ms
+ ✓ src/features/admin/pages/SystemLogsPage.spec.tsx (1 test) 21ms
+ ✓ src/features/billing/pages/BillingPage.spec.tsx (1 test) 24ms
+ ✓ src/features/notifications/pages/NotificationsPage.spec.tsx (1 test) 34ms
+ ✓ src/shared/components/ErrorBoundaryPage.spec.tsx (1 test) 33ms
+ ✓ src/features/admin/pages/PlatformAnalyticsPage.spec.tsx (1 test) 19ms
+ ✓ src/features/interviews/pages/InterviewsPage.spec.tsx (1 test) 18ms
+ ✓ src/shared/components/ComingSoonPage.spec.tsx (1 test) 17ms
+ ✓ src/shared/components/ProtectedRoute.spec.tsx (1 test) 15ms
+ ✓ src/features/jobs/pages/JobDetailPage.spec.tsx (1 test) 16ms
+ ✓ src/shared/components/PageLoader.spec.tsx (1 test) 15ms
+ ✓ src/shared/components/ThemeProvider.spec.tsx (1 test) 13ms
+ ✓ src/features/applications/pages/JobApplicationsPage.spec.tsx (1 test) 14ms
+ ✓ src/features/notifications/store/notificationsSlice.spec.ts (7 tests) 6ms
+ ✓ src/features/auth/utils/jwt.spec.ts (4 tests) 3ms
+ ✓ src/shared/store/uiSlice.spec.ts (5 tests) 4ms
+ ✓ src/features/auth/store/authSlice.spec.ts (4 tests) 4ms
+ ✓ src/shared/lib/api.spec.ts (4 tests) 3ms
+ ✓ src/features/auth/api/auth.api.spec.ts (1 test) 2ms
+ ✓ src/app/router.spec.tsx (1 test) 2ms
+ ✓ src/features/jobs/api/jobs.api.spec.ts (1 test) 2ms
+ ✓ src/features/messaging/api/messaging.api.spec.ts (1 test) 2ms
+ ✓ src/features/applications/api/applications.api.spec.ts (1 test) 2ms
+ ✓ src/features/wallet/api/wallet.api.spec.ts (1 test) 2ms
+ ✓ src/features/profile/api/profile.api.spec.ts (1 test) 2ms
+
+ Test Files  49 passed (49)
+      Tests  101 passed (101)
+   Start at  07:51:30
+   Duration  31.58s (environment 42%, import 31%, tests 13%, setup 7%, transform 4%, worker 3%)
+
+     Import  144 modules were evaluated 472 times · 8.37s total, 31% of tracked time
+             ~5.81s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+             learn more: https://vitest.dev/guide/improving-performance#test-isolation
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   41.66 |    29.53 |   28.57 |   43.19 |                   
+ app               |      55 |      100 |      10 |   95.65 |                   
+  App.tsx          |     100 |      100 |     100 |     100 |                   
+  router.tsx       |   50.68 |      100 |     2.7 |   94.87 | 30,49             
+  store.ts         |     100 |      100 |     100 |     100 |                   
+ ...ures/admin/api |     100 |      100 |     100 |     100 |                   
+  analytics.api.ts |     100 |      100 |     100 |     100 |                   
+  audit.api.ts     |     100 |      100 |     100 |     100 |                   
+ ...es/admin/pages |   40.17 |    48.51 |   21.73 |   42.45 |                   
+  ...cialsPage.tsx |   27.27 |    66.66 |    37.5 |      30 | 76-94,175-184     
+  ...yticsPage.tsx |   66.66 |    90.47 |      50 |   66.66 | 83-95             
+  ...mLogsPage.tsx |   30.76 |    21.73 |   11.11 |   33.33 | ...3,47-49,65-131 
+  ...ementPage.tsx |   45.45 |    41.17 |   18.51 |   47.16 | ...53-176,243-390 
+ ...plications/api |      20 |      100 |       0 |      20 |                   
+  ...ations.api.ts |      20 |      100 |       0 |      20 | 23-35             
+ ...ications/pages |   32.31 |    14.75 |   14.28 |   32.91 |                   
+  ...cantsPage.tsx |   36.84 |    28.57 |   13.63 |   38.18 | ...22,129,154-378 
+  ...tionsPage.tsx |   27.41 |     6.66 |      10 |   27.11 | ...,74-88,100-322 
+  ...tionsPage.tsx |   33.33 |     8.57 |   21.42 |   34.09 | ...83-103,127-211 
+ features/auth/api |    5.88 |      100 |       0 |    5.88 |                   
+  auth.api.ts      |    5.88 |      100 |       0 |    5.88 | 19-72             
+ ...res/auth/pages |     100 |    94.06 |     100 |     100 |                   
+  LoginPage.tsx    |     100 |    95.65 |     100 |     100 | 313               
+  OtpPage.tsx      |     100 |    88.09 |     100 |     100 | ...17-140,177,204 
+  RegisterPage.tsx |     100 |      100 |     100 |     100 |                   
+ ...res/auth/store |    87.5 |        0 |   83.33 |   86.66 |                   
+  authSlice.ts     |    87.5 |        0 |   83.33 |   86.66 | 28-29             
+ ...res/auth/utils |     100 |      100 |     100 |     100 |                   
+  jwt.ts           |     100 |      100 |     100 |     100 |                   
+ ...es/billing/api |   71.42 |      100 |   66.66 |   71.42 |                   
+  ...ptions.api.ts |   71.42 |      100 |   66.66 |   71.42 | 33-36             
+ .../billing/pages |   29.85 |    22.85 |    4.16 |   29.85 |                   
+  BillingPage.tsx  |   29.85 |    22.85 |    4.16 |   29.85 | ...00,111,144-412 
+ ...candidates/api |      25 |        0 |       0 |   33.33 |                   
+  ...idates.api.ts |      25 |        0 |       0 |   33.33 | 59-67             
+ ...ndidates/pages |      34 |    21.05 |   17.64 |   33.33 |                   
+  ...datesPage.tsx |      34 |    21.05 |   17.64 |   33.33 | ...9,53-62,83-227 
+ .../dashboard/api |   42.85 |      100 |   33.33 |   42.85 |                   
+  dashboard.api.ts |   42.85 |      100 |   33.33 |   42.85 | 24-29             
+ ...ashboard/pages |   73.77 |    54.26 |   51.72 |   73.68 |                   
+  ...Dashboard.tsx |      75 |    31.25 |      50 |      75 | 157-199           
+  ...Dashboard.tsx |   73.68 |    59.37 |   33.33 |   72.22 | 18,23,67-253      
+  ...Dashboard.tsx |   78.57 |    53.84 |   66.66 |      75 | 41,184,205        
+  ...Dashboard.tsx |      70 |    69.23 |      50 |   73.68 | 43,76-169,184,244 
+ ...interviews/api |     100 |      100 |     100 |     100 |                   
+  ...rviews.api.ts |     100 |      100 |     100 |     100 |                   
+ ...terviews/pages |   84.61 |      100 |      75 |   84.61 |                   
+  ...viewsPage.tsx |   84.61 |      100 |      75 |   84.61 | 31-51             
+ features/jobs/api |   28.12 |    66.66 |      20 |   28.12 |                   
+  ai.api.ts        |   33.33 |      100 |       0 |   33.33 | 6-9               
+  ...ations.api.ts |      20 |       50 |   14.28 |      20 | 38-53,69-89       
+  jobs.api.ts      |   35.71 |      100 |   28.57 |   35.71 | 43-63             
+ ...res/jobs/pages |   37.69 |     19.8 |   22.22 |   38.49 |                   
+  ...etailPage.tsx |   27.38 |      8.1 |   28.57 |   25.31 | ...04-128,140-307 
+  JobsListPage.tsx |   46.03 |    18.42 |   30.43 |   49.15 | ...05,136,177-307 
+  ...eJobsPage.tsx |   52.94 |    11.76 |   22.22 |   54.54 | ...4,40-42,54-199 
+  PostJobPage.tsx  |   46.66 |    46.66 |   33.33 |   46.66 | 43-73,216         
+  ...tionsPage.tsx |   32.14 |    34.61 |    8.69 |   33.96 | ...04,117,183-373 
+ .../messaging/api |      20 |      100 |       0 |      20 |                   
+  messaging.api.ts |      20 |      100 |       0 |      20 | 6-14              
+ ...essaging/pages |   39.02 |     8.19 |   30.76 |   40.54 |                   
+  MessagesPage.tsx |   39.02 |     8.19 |   30.76 |   40.54 | ...,83-97,111-269 
+ ...ifications/api |   42.85 |      100 |   33.33 |   42.85 |                   
+  ...ations.api.ts |   42.85 |      100 |   33.33 |   42.85 | 11-19             
+ ...ications/pages |      30 |    16.12 |    6.66 |   34.28 |                   
+  ...tionsPage.tsx |      30 |    16.12 |    6.66 |   34.28 | ...,73-81,134-166 
+ ...ications/store |     100 |      100 |     100 |     100 |                   
+  ...tionsSlice.ts |     100 |      100 |     100 |     100 |                   
+ ...boarding/pages |      50 |    33.33 |      25 |   56.66 |                   
+  ...rdingPage.tsx |      50 |    33.33 |      25 |   56.66 | 62-87,92,96-107   
+ ...es/profile/api |   15.78 |      100 |    5.88 |   15.78 |                   
+  employer.api.ts  |    9.09 |      100 |       0 |    9.09 | 22-43             
+  profile.api.ts   |   11.11 |      100 |       0 |   11.11 | 6-29              
+  recruiter.api.ts |   42.85 |      100 |   33.33 |   42.85 | 31-40             
+  worker.api.ts    |    9.09 |      100 |       0 |    9.09 | 14-45             
+ .../profile/pages |    6.66 |     0.72 |    2.73 |    6.81 |                   
+  ...ofilePage.tsx |       0 |        0 |       0 |       0 | 10-348            
+  ProfilePage.tsx  |    20.2 |     2.89 |    9.09 |   21.11 | ...92,102,106-423 
+  ...ofilePage.tsx |       0 |        0 |       0 |       0 | 9-209             
+  ...ofilePage.tsx |       0 |        0 |       0 |       0 | 12-378            
+ ...s/settings/api |      20 |      100 |       0 |      20 |                   
+  referrals.api.ts |      20 |      100 |       0 |      20 | 19-25             
+ ...settings/pages |   32.38 |       28 |    8.33 |      33 |                   
+  SettingsPage.tsx |   32.38 |       28 |    8.33 |      33 | ...54-160,176-520 
+ ...mesheets/pages |   55.55 |    17.39 |   33.33 |    62.5 |                   
+  ...heetsPage.tsx |   55.55 |    17.39 |   33.33 |    62.5 | 27,33-34,124-173  
+ ...res/wallet/api |   55.55 |      100 |      50 |   55.55 |                   
+  wallet.api.ts    |   55.55 |      100 |      50 |   55.55 | 16-22             
+ ...s/wallet/pages |   29.72 |    11.29 |    7.14 |   29.72 |                   
+  WalletPage.tsx   |   29.72 |    11.29 |    7.14 |   29.72 | ...8,53-64,72-230 
+ layouts           |   43.58 |    38.53 |   30.95 |   43.63 |                   
+  AuthLayout.tsx   |   77.77 |    66.66 |   66.66 |      75 | 13,23             
+  ...ardLayout.tsx |   40.74 |    36.89 |    28.2 |   41.17 | ...88-466,484-619 
+ shared/components |    73.8 |    57.89 |   82.35 |   75.67 |                   
+  AlertDialog.tsx  |      50 |       40 |   66.66 |      60 | 28-29             
+  ...gSoonPage.tsx |     100 |      100 |     100 |     100 |                   
+  ...irmDialog.tsx |     100 |    85.71 |     100 |     100 | 59                
+  ...ndaryPage.tsx |   66.66 |    83.33 |      50 |   66.66 | 27                
+  PageLoader.tsx   |     100 |       75 |     100 |     100 | 8                 
+  ...ctedRoute.tsx |      70 |       30 |     100 |   66.66 | 26-30             
+  ...eProvider.tsx |   78.94 |       50 |   83.33 |   81.25 | 19,28-29          
+ shared/hooks      |   70.37 |       20 |   85.71 |   73.07 |                   
+  useAuthInit.ts   |      75 |       50 |     100 |      80 | 29-30,38          
+  ...ickOutside.ts |   63.63 |        0 |      75 |   63.63 | 11-17             
+ shared/lib        |   58.46 |     6.45 |   56.25 |   57.37 |                   
+  api.ts           |    54.9 |     7.69 |   45.45 |      54 | ...0,70-71,92-115 
+  query-client.ts  |      20 |        0 |       0 |      25 | 10-12             
+  test-utils.tsx   |     100 |      100 |     100 |     100 |                   
+ shared/store      |     100 |      100 |     100 |     100 |                   
+  uiSlice.ts       |     100 |      100 |     100 |     100 |                   
+-------------------|---------|----------|---------|---------|-------------------

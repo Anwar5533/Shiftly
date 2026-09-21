@@ -333,4 +333,82 @@ describe('AuthService', () => {
       });
     });
   });
+
+  describe('updatePassword', () => {
+    it('should throw UnauthorizedException if user not found', async () => {
+      prisma.user.findUnique.mockResolvedValue(null);
+      await expect(service.updatePassword('user-1', 'old', 'new')).rejects.toThrow(
+        UnauthorizedException,
+      );
+    });
+
+    it('should throw BadRequestException if current password is wrong', async () => {
+      prisma.user.findUnique.mockResolvedValue({ id: 'user-1', passwordHash: 'hash' });
+      (bcrypt.compare as jest.Mock).mockResolvedValue(false);
+      await expect(service.updatePassword('user-1', 'wrong-old', 'new')).rejects.toThrow(
+        BadRequestException,
+      );
+    });
+
+    it('should update password successfully', async () => {
+      prisma.user.findUnique.mockResolvedValue({ id: 'user-1', passwordHash: 'hash' });
+      (bcrypt.compare as jest.Mock).mockResolvedValue(true);
+      (bcrypt.hash as jest.Mock).mockResolvedValue('new-hash');
+
+      await service.updatePassword('user-1', 'correct-old', 'new');
+      expect(prisma.user.update).toHaveBeenCalledWith({
+        where: { id: 'user-1' },
+        data: { passwordHash: 'new-hash' },
+      });
+    });
+  });
+
+  describe('verifyPhone', () => {
+    it('should throw BadRequestException if OTP is invalid', async () => {
+      redis.exists.mockResolvedValue(0);
+      redis.get.mockResolvedValue('654321');
+      redis.incr.mockResolvedValue(1);
+
+      await expect(service.verifyPhone('user-1', '+1234567890', '123456')).rejects.toThrow(
+        BadRequestException,
+      );
+    });
+
+    it('should verify phone successfully and update user', async () => {
+      redis.exists.mockResolvedValue(0);
+      redis.get.mockResolvedValue('123456');
+
+      await service.verifyPhone('user-1', '+1234567890', '123456');
+
+      expect(prisma.user.update).toHaveBeenCalledWith({
+        where: { id: 'user-1' },
+        data: { phone: '+1234567890', isPhoneVerified: true },
+      });
+      expect(redis.del).toHaveBeenCalledWith('otp:+1234567890');
+    });
+  });
+
+  describe('verifyEmail', () => {
+    it('should throw BadRequestException if OTP is expired', async () => {
+      redis.exists.mockResolvedValue(0);
+      redis.get.mockResolvedValue(null);
+
+      await expect(service.verifyEmail('user-1', 'test@example.com', '123456')).rejects.toThrow(
+        BadRequestException,
+      );
+    });
+
+    it('should verify email successfully and update user', async () => {
+      redis.exists.mockResolvedValue(0);
+      redis.get.mockResolvedValue('123456');
+
+      await service.verifyEmail('user-1', 'test@example.com', '123456');
+
+      expect(prisma.user.update).toHaveBeenCalledWith({
+        where: { id: 'user-1' },
+        data: { email: 'test@example.com', isEmailVerified: true },
+      });
+      expect(redis.del).toHaveBeenCalledWith('otp:test@example.com');
+    });
+  });
 });

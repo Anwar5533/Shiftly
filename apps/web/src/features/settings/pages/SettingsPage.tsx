@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Bell, Lock, User, CreditCard, Shield, Gift, Copy, Check } from 'lucide-react';
 import { useAppSelector } from '@/app/store';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { referralsApi } from '../api/referrals.api';
+import { authApi } from '@/features/auth/api/auth.api';
 import { AlertDialog } from '../../../shared/components/AlertDialog';
 
 export default function SettingsPage(): React.ReactElement {
@@ -21,6 +22,94 @@ export default function SettingsPage(): React.ReactElement {
     push: false,
     marketing: false,
   });
+
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const [showOtpModal, setShowOtpModal] = useState(false);
+  const [otpType, setOtpType] = useState<'email' | 'phone'>('email');
+  const [otpString, setOtpString] = useState('');
+  const [isEmailVerifiedLocally, setIsEmailVerifiedLocally] = useState(false);
+  const [isPhoneVerifiedLocally, setIsPhoneVerifiedLocally] = useState(false);
+
+  const updatePasswordMutation = useMutation({
+    mutationFn: authApi.updatePassword,
+    onSuccess: () => {
+      setAlertTitle('Success');
+      setAlertMessage('Password updated successfully!');
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+    },
+    onError: (error: any) => {
+      setAlertTitle('Error');
+      setAlertMessage(error?.response?.data?.message || 'Failed to update password');
+    },
+  });
+
+  const sendEmailOtpMutation = useMutation({
+    mutationFn: authApi.sendEmailOtp,
+    onSuccess: () => {
+      setOtpType('email');
+      setOtpString('');
+      setShowOtpModal(true);
+    },
+    onError: (error: any) => {
+      setAlertTitle('Error');
+      setAlertMessage(error?.response?.data?.message || 'Failed to send OTP');
+    },
+  });
+
+  const sendPhoneOtpMutation = useMutation({
+    mutationFn: authApi.resendOtp,
+    onSuccess: () => {
+      setOtpType('phone');
+      setOtpString('');
+      setShowOtpModal(true);
+    },
+    onError: (error: any) => {
+      setAlertTitle('Error');
+      setAlertMessage(error?.response?.data?.message || 'Failed to send OTP');
+    },
+  });
+
+  const verifyEmailMutation = useMutation({
+    mutationFn: authApi.verifyEmail,
+    onSuccess: () => {
+      setAlertTitle('Success');
+      setAlertMessage('Email verified successfully!');
+      setShowOtpModal(false);
+      setIsEmailVerifiedLocally(true);
+    },
+    onError: (error: any) => {
+      setAlertTitle('Error');
+      setAlertMessage(error?.response?.data?.message || 'Invalid OTP');
+    },
+  });
+
+  const verifyPhoneMutation = useMutation({
+    mutationFn: authApi.verifyPhone,
+    onSuccess: () => {
+      setAlertTitle('Success');
+      setAlertMessage('Phone verified successfully!');
+      setShowOtpModal(false);
+      setIsPhoneVerifiedLocally(true);
+    },
+    onError: (error: any) => {
+      setAlertTitle('Error');
+      setAlertMessage(error?.response?.data?.message || 'Invalid OTP');
+    },
+  });
+
+  const handleVerifyOtpSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (otpType === 'email') {
+      verifyEmailMutation.mutate({ email, otp: otpString });
+    } else {
+      verifyPhoneMutation.mutate({ phone, otp: otpString });
+    }
+  };
 
   const { data: refCode } = useQuery({
     queryKey: ['referral-code'],
@@ -63,8 +152,12 @@ export default function SettingsPage(): React.ReactElement {
 
   const handleChangePassword = (e: React.FormEvent) => {
     e.preventDefault();
-    setAlertTitle('Success');
-    setAlertMessage('Password updated successfully!');
+    if (newPassword !== confirmPassword) {
+      setAlertTitle('Error');
+      setAlertMessage('New passwords do not match.');
+      return;
+    }
+    updatePasswordMutation.mutate({ currentPassword, newPassword });
   };
 
   return (
@@ -104,13 +197,32 @@ export default function SettingsPage(): React.ReactElement {
                   </h3>
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
-                      <label className="mb-1 block text-sm font-medium text-muted-foreground">
-                        Email
-                      </label>
+                      <div className="mb-1 flex items-center justify-between">
+                        <label className="block text-sm font-medium text-muted-foreground">
+                          Email
+                        </label>
+                        {!isEmailVerifiedLocally ? (
+                          <button
+                            type="button"
+                            onClick={() => sendEmailOtpMutation.mutate({ email })}
+                            disabled={sendEmailOtpMutation.isPending || !email}
+                            className="text-xs font-medium text-primary hover:underline disabled:opacity-50"
+                          >
+                            {sendEmailOtpMutation.isPending ? 'Sending...' : 'Verify'}
+                          </button>
+                        ) : (
+                          <span className="flex items-center gap-1 text-xs font-medium text-green-500">
+                            <Check className="h-3 w-3" /> Verified
+                          </span>
+                        )}
+                      </div>
                       <input
                         type="email"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) => {
+                          setEmail(e.target.value);
+                          if (isEmailVerifiedLocally) setIsEmailVerifiedLocally(false);
+                        }}
                         className="w-full rounded-md border border-input bg-background p-2.5 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                       />
                       <p className="mt-1 text-xs text-muted-foreground">
@@ -118,13 +230,32 @@ export default function SettingsPage(): React.ReactElement {
                       </p>
                     </div>
                     <div>
-                      <label className="mb-1 block text-sm font-medium text-muted-foreground">
-                        Phone Number
-                      </label>
+                      <div className="mb-1 flex items-center justify-between">
+                        <label className="block text-sm font-medium text-muted-foreground">
+                          Phone Number
+                        </label>
+                        {!isPhoneVerifiedLocally ? (
+                          <button
+                            type="button"
+                            onClick={() => sendPhoneOtpMutation.mutate({ phone })}
+                            disabled={sendPhoneOtpMutation.isPending || !phone}
+                            className="text-xs font-medium text-primary hover:underline disabled:opacity-50"
+                          >
+                            {sendPhoneOtpMutation.isPending ? 'Sending...' : 'Verify'}
+                          </button>
+                        ) : (
+                          <span className="flex items-center gap-1 text-xs font-medium text-green-500">
+                            <Check className="h-3 w-3" /> Verified
+                          </span>
+                        )}
+                      </div>
                       <input
                         type="tel"
                         value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
+                        onChange={(e) => {
+                          setPhone(e.target.value);
+                          if (isPhoneVerifiedLocally) setIsPhoneVerifiedLocally(false);
+                        }}
                         className="w-full rounded-md border border-input bg-background p-2.5 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                       />
                     </div>
@@ -253,26 +384,33 @@ export default function SettingsPage(): React.ReactElement {
                     <input
                       type="password"
                       required
+                      value={currentPassword}
+                      onChange={(e) => setCurrentPassword(e.target.value)}
                       placeholder="Current Password"
                       className="w-full rounded-md border border-input bg-background p-2.5 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                     <input
                       type="password"
                       required
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
                       placeholder="New Password"
                       className="w-full rounded-md border border-input bg-background p-2.5 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                     <input
                       type="password"
                       required
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
                       placeholder="Confirm New Password"
                       className="w-full rounded-md border border-input bg-background p-2.5 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                     <button
                       type="submit"
-                      className="w-full rounded-lg bg-primary px-4 py-2 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                      disabled={updatePasswordMutation.isPending}
+                      className="w-full rounded-lg bg-primary px-4 py-2 font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
                     >
-                      Update Password
+                      {updatePasswordMutation.isPending ? 'Updating...' : 'Update Password'}
                     </button>
                   </form>
                 </div>
@@ -358,6 +496,50 @@ export default function SettingsPage(): React.ReactElement {
         title={alertTitle}
         description={alertMessage || ''}
       />
+
+      {showOtpModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
+          <div className="w-full max-w-sm rounded-2xl border border-border bg-card p-6 shadow-xl">
+            <h3 className="mb-2 text-lg font-bold text-foreground">
+              Verify {otpType === 'email' ? 'Email' : 'Phone'}
+            </h3>
+            <p className="mb-4 text-sm text-muted-foreground">
+              We sent a verification code to your {otpType}. Please enter it below.
+            </p>
+            <form onSubmit={handleVerifyOtpSubmit}>
+              <input
+                type="text"
+                required
+                maxLength={6}
+                placeholder="6-digit code"
+                value={otpString}
+                onChange={(e) => setOtpString(e.target.value)}
+                className="mb-4 w-full rounded-md border border-input bg-background p-3 text-center font-mono text-lg tracking-[0.5em] text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+              />
+              <div className="flex justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => setShowOtpModal(false)}
+                  className="rounded-lg px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={
+                    verifyEmailMutation.isPending ||
+                    verifyPhoneMutation.isPending ||
+                    otpString.length < 6
+                  }
+                  className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 disabled:opacity-50"
+                >
+                  Verify
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

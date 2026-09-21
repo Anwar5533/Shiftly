@@ -141,7 +141,7 @@ export default function JobDetailPage(): React.ReactElement {
     return (
       <div className="mx-auto max-w-4xl px-4 py-16 text-center">
         <button
-          className="mx-auto mb-6 flex cursor-pointer items-center rounded-md border-none bg-transparent px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+          className="mx-auto mb-6 flex cursor-pointer items-center rounded-md border-none bg-transparent px-4 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 ease-out hover:bg-muted hover:text-foreground active:scale-95"
           onClick={() => navigate(-1)}
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
@@ -157,7 +157,7 @@ export default function JobDetailPage(): React.ReactElement {
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
       <button
-        className="-ml-4 mb-6 flex cursor-pointer items-center rounded-md border-none bg-transparent px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+        className="-ml-4 mb-6 flex cursor-pointer items-center rounded-md border-none bg-transparent px-4 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 ease-out hover:bg-muted hover:text-foreground active:scale-95"
         onClick={() => navigate(-1)}
       >
         <ArrowLeft className="mr-2 h-4 w-4" />
@@ -181,7 +181,7 @@ export default function JobDetailPage(): React.ReactElement {
                     void handleApply();
                   }}
                   disabled={isApplying || isAuthLoading}
-                  className="h-12 w-full rounded-lg bg-primary px-8 font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 disabled:opacity-50 md:w-auto"
+                  className="h-12 w-full rounded-lg bg-primary px-8 font-medium text-primary-foreground shadow-sm transition-all duration-200 ease-out hover:bg-primary/90 active:scale-[0.98] disabled:opacity-50 md:w-auto"
                 >
                   {isApplying ? 'Applying...' : isAuthLoading ? 'Loading...' : 'Apply for this Job'}
                 </button>
@@ -219,7 +219,7 @@ export default function JobDetailPage(): React.ReactElement {
                     !applicationStatus) && (
                     <button
                       onClick={() => setIsCancelModalOpen(true)}
-                      className="flex items-center gap-2 rounded-full border border-destructive bg-destructive/10 px-4 py-2 text-sm font-medium text-destructive transition-colors hover:bg-destructive hover:text-destructive-foreground"
+                      className="flex items-center gap-2 rounded-full border border-destructive bg-destructive/10 px-4 py-2 text-sm font-medium text-destructive transition-all duration-200 ease-out hover:bg-destructive hover:text-destructive-foreground active:scale-95"
                     >
                       Cancel Application
                     </button>

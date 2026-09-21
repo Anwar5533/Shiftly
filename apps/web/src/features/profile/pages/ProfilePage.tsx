@@ -1,13 +1,108 @@
-import React from 'react';
-import { useAppSelector } from '@/app/store';
+import React, { useState } from 'react';
+import { useAppSelector, useAppDispatch } from '@/app/store';
 import { Navigate } from 'react-router-dom';
-import { Shield, CheckCircle2, Key, Mail, Phone, Activity, Clock, User } from 'lucide-react';
+import {
+  Shield,
+  CheckCircle2,
+  Key,
+  Mail,
+  Phone,
+  Activity,
+  Clock,
+  User,
+  X,
+  Loader2,
+} from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { authApi } from '@/features/auth/api/auth.api';
+import { updateUser } from '@/features/auth/store/authSlice';
 import WorkerProfilePage from './WorkerProfilePage';
 import EmployerProfilePage from './EmployerProfilePage';
 import RecruiterProfilePage from './RecruiterProfilePage';
 
 export default function ProfilePage(): React.ReactElement {
   const { user } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [isVerifyPhoneModalOpen, setIsVerifyPhoneModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccessToast, setShowSuccessToast] = useState('');
+
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [phoneInput, setPhoneInput] = useState('');
+  const [otpInput, setOtpInput] = useState('');
+  const [phoneStep, setPhoneStep] = useState<1 | 2>(1);
+  const [modalError, setModalError] = useState('');
+
+  const handlePasswordUpdate = async () => {
+    if (newPassword !== confirmPassword) {
+      setModalError('Passwords do not match');
+      return;
+    }
+    if (newPassword.length < 8) {
+      setModalError('Password must be at least 8 characters');
+      return;
+    }
+    setModalError('');
+    setIsSubmitting(true);
+    try {
+      await authApi.updatePassword({ currentPassword, newPassword });
+      setIsPasswordModalOpen(false);
+      setShowSuccessToast('Password updated successfully');
+      setTimeout(() => setShowSuccessToast(''), 3000);
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+    } catch (err: any) {
+      setModalError(err.response?.data?.message || 'Failed to update password');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleSendOtp = async () => {
+    if (!phoneInput) {
+      setModalError('Phone number is required');
+      return;
+    }
+    setModalError('');
+    setIsSubmitting(true);
+    try {
+      await authApi.resendOtp({ phone: phoneInput });
+      setPhoneStep(2);
+      setShowSuccessToast('Verification code sent');
+      setTimeout(() => setShowSuccessToast(''), 3000);
+    } catch (err: any) {
+      setModalError(err.response?.data?.message || 'Failed to send OTP');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleVerifyPhone = async () => {
+    if (!otpInput || otpInput.length !== 6) {
+      setModalError('Please enter a valid 6-digit code');
+      return;
+    }
+    setModalError('');
+    setIsSubmitting(true);
+    try {
+      await authApi.verifyPhone({ phone: phoneInput, otp: otpInput });
+      dispatch(updateUser({ phone: phoneInput, isPhoneVerified: true }));
+      setIsVerifyPhoneModalOpen(false);
+      setShowSuccessToast('Phone verified successfully');
+      setTimeout(() => setShowSuccessToast(''), 3000);
+      setPhoneInput('');
+      setOtpInput('');
+      setPhoneStep(1);
+    } catch (err: any) {
+      setModalError(err.response?.data?.message || 'Failed to verify phone');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   if (!user) {
     return <Navigate to="/auth/login" />;
@@ -129,8 +224,11 @@ export default function ProfilePage(): React.ReactElement {
                       Verified
                     </span>
                   ) : (
-                    <button className="text-sm font-medium text-primary hover:underline">
-                      Add Phone
+                    <button
+                      onClick={() => setIsVerifyPhoneModalOpen(true)}
+                      className="text-sm font-medium text-primary hover:underline"
+                    >
+                      Add / Verify Phone
                     </button>
                   )}
                 </div>
@@ -145,7 +243,10 @@ export default function ProfilePage(): React.ReactElement {
                       <p className="text-sm text-muted-foreground">Last changed recently</p>
                     </div>
                   </div>
-                  <button className="shrink-0 rounded-md border border-border bg-background px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-muted">
+                  <button
+                    onClick={() => setIsPasswordModalOpen(true)}
+                    className="shrink-0 rounded-md border border-border bg-background px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                  >
                     Update
                   </button>
                 </div>
@@ -185,6 +286,218 @@ export default function ProfilePage(): React.ReactElement {
             </div>
           </div>
         </div>
+        {/* Modals and Toasts */}
+        <AnimatePresence>
+          {showSuccessToast && (
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 50 }}
+              className="fixed bottom-6 right-6 z-50 rounded-xl border border-success bg-success/10 px-4 py-3 font-medium text-success shadow-xl backdrop-blur-md"
+            >
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="h-5 w-5" />
+                {showSuccessToast}
+              </div>
+            </motion.div>
+          )}
+
+          {isPasswordModalOpen && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsPasswordModalOpen(false)}
+                className="absolute inset-0 bg-background/80 backdrop-blur-sm"
+              />
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                className="relative z-10 w-full max-w-md overflow-hidden rounded-2xl border border-border bg-card shadow-2xl"
+              >
+                <div className="flex items-center justify-between border-b border-border/50 px-6 py-4">
+                  <h3 className="text-lg font-semibold text-foreground">Update Password</h3>
+                  <button
+                    onClick={() => setIsPasswordModalOpen(false)}
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
+                </div>
+                <div className="p-6">
+                  {modalError && (
+                    <div className="mb-4 rounded-lg border border-destructive/20 bg-destructive/10 p-3 text-sm text-destructive">
+                      {modalError}
+                    </div>
+                  )}
+                  <div className="space-y-4">
+                    <div>
+                      <label className="mb-1.5 block text-sm font-medium text-foreground">
+                        Current Password
+                      </label>
+                      <input
+                        type="password"
+                        value={currentPassword}
+                        onChange={(e) => setCurrentPassword(e.target.value)}
+                        placeholder="••••••••"
+                        className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-1.5 block text-sm font-medium text-foreground">
+                        New Password
+                      </label>
+                      <input
+                        type="password"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        placeholder="••••••••"
+                        className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-1.5 block text-sm font-medium text-foreground">
+                        Confirm New Password
+                      </label>
+                      <input
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        placeholder="••••••••"
+                        className={`w-full rounded-lg border bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring ${confirmPassword && confirmPassword !== newPassword ? 'border-destructive focus:ring-destructive/30' : 'border-input'}`}
+                      />
+                      {confirmPassword && confirmPassword !== newPassword && (
+                        <p className="mt-1.5 text-xs text-destructive">
+                          Password is not matching with the new password
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="mt-6 flex justify-end gap-3">
+                    <button
+                      onClick={() => {
+                        setIsPasswordModalOpen(false);
+                        setModalError('');
+                      }}
+                      className="rounded-lg px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={handlePasswordUpdate}
+                      disabled={isSubmitting}
+                      className="flex min-w-[120px] items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-md disabled:opacity-70 disabled:hover:shadow-none"
+                    >
+                      {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Save Changes'}
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          )}
+
+          {isVerifyPhoneModalOpen && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsVerifyPhoneModalOpen(false)}
+                className="absolute inset-0 bg-background/80 backdrop-blur-sm"
+              />
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                className="relative z-10 w-full max-w-md overflow-hidden rounded-2xl border border-border bg-card shadow-2xl"
+              >
+                <div className="flex items-center justify-between border-b border-border/50 px-6 py-4">
+                  <h3 className="text-lg font-semibold text-foreground">Verify Phone Number</h3>
+                  <button
+                    onClick={() => setIsVerifyPhoneModalOpen(false)}
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
+                </div>
+                <div className="p-6">
+                  {modalError && (
+                    <div className="mb-4 rounded-lg border border-destructive/20 bg-destructive/10 p-3 text-sm text-destructive">
+                      {modalError}
+                    </div>
+                  )}
+                  {phoneStep === 1 ? (
+                    <div className="space-y-4">
+                      <p className="text-sm text-muted-foreground">
+                        We will send a one-time verification code to your phone number.
+                      </p>
+                      <div>
+                        <label className="mb-1.5 block text-sm font-medium text-foreground">
+                          Phone Number
+                        </label>
+                        <input
+                          type="tel"
+                          value={phoneInput}
+                          onChange={(e) => setPhoneInput(e.target.value)}
+                          placeholder="+1 (555) 000-0000"
+                          className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                        />
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      <p className="text-sm text-muted-foreground">
+                        Enter the 6-digit code sent to {phoneInput}.
+                      </p>
+                      <div>
+                        <label className="mb-1.5 block text-sm font-medium text-foreground">
+                          Verification Code
+                        </label>
+                        <input
+                          type="text"
+                          value={otpInput}
+                          onChange={(e) => setOtpInput(e.target.value)}
+                          placeholder="123456"
+                          maxLength={6}
+                          className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm tracking-widest ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                        />
+                      </div>
+                    </div>
+                  )}
+                  <div className="mt-6 flex justify-end gap-3">
+                    <button
+                      onClick={() => {
+                        setIsVerifyPhoneModalOpen(false);
+                        setModalError('');
+                        setPhoneStep(1);
+                        setPhoneInput('');
+                        setOtpInput('');
+                      }}
+                      className="rounded-lg px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={phoneStep === 1 ? handleSendOtp : handleVerifyPhone}
+                      disabled={isSubmitting}
+                      className="flex min-w-[120px] items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-md disabled:opacity-70 disabled:hover:shadow-none"
+                    >
+                      {isSubmitting ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      ) : phoneStep === 1 ? (
+                        'Send Code'
+                      ) : (
+                        'Verify Code'
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
       </div>
     );
   }

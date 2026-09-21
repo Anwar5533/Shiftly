@@ -1,6 +1,7 @@
 import {
   Controller,
   Post,
+  Patch,
   Body,
   HttpCode,
   HttpStatus,
@@ -24,6 +25,8 @@ import { SendOtpDto } from './dto/send-otp.dto';
 import { VerifyOtpDto } from './dto/verify-otp.dto';
 import { RegisterEmailDto } from './dto/register-email.dto';
 import { LoginEmailDto } from './dto/login-email.dto';
+import { UpdatePasswordDto } from './dto/update-password.dto';
+import { VerifyPhoneDto } from './dto/verify-phone.dto';
 import { Public } from '../../shared/decorators/public.decorator';
 import { CurrentUser } from '../../shared/decorators/current-user.decorator';
 import { JwtPayload } from '@shiftly/shared-types';
@@ -142,6 +145,84 @@ export class AuthController {
     );
     res.cookie('refresh_token', result.refreshToken, this.getCookieOptions());
     return { accessToken: result.accessToken, expiresIn: result.expiresIn };
+  }
+
+  // ─── Account Settings ─────────────────────────────────────────────────────
+
+  @Patch('password')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiBearerAuth('JWT')
+  @ApiOperation({ summary: 'Update user password' })
+  async updatePassword(
+    @CurrentUser() user: JwtPayload,
+    @Body() dto: UpdatePasswordDto,
+    @Req() req: Request,
+  ): Promise<void> {
+    await this.authService.updatePassword(
+      user.sub,
+      dto.currentPassword,
+      dto.newPassword,
+      req.headers['x-request-id'] as string,
+      req.headers['x-correlation-id'] as string,
+    );
+  }
+
+  @Patch('phone/verify')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiBearerAuth('JWT')
+  @ApiOperation({ summary: 'Verify a new phone number for the logged-in user' })
+  async verifyPhone(
+    @CurrentUser() user: JwtPayload,
+    @Body() dto: VerifyPhoneDto,
+    @Req() req: Request,
+  ): Promise<void> {
+    await this.authService.verifyPhone(
+      user.sub,
+      dto.phone,
+      dto.otp,
+      req.headers['x-request-id'] as string,
+      req.headers['x-correlation-id'] as string,
+    );
+  }
+
+  @Post('email/otp/send')
+  @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth('JWT')
+  @Throttle({ default: { limit: 3, ttl: 60000 } })
+  @ApiOperation({ summary: 'Send OTP to a new email address for verification' })
+  async sendEmailOtp(
+    @CurrentUser() user: JwtPayload,
+    @Body('email') email: string,
+    @Req() req: Request,
+  ): Promise<{ message: string; expiresIn: number }> {
+    await this.authService.sendEmailOtp(
+      email,
+      req.headers['x-request-id'] as string,
+      req.headers['x-correlation-id'] as string,
+    );
+    return {
+      message: 'Email OTP sent successfully',
+      expiresIn: 300,
+    };
+  }
+
+  @Patch('email/verify')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiBearerAuth('JWT')
+  @ApiOperation({ summary: 'Verify a new email address for the logged-in user' })
+  async verifyEmail(
+    @CurrentUser() user: JwtPayload,
+    @Body('email') email: string,
+    @Body('otp') otp: string,
+    @Req() req: Request,
+  ): Promise<void> {
+    await this.authService.verifyEmail(
+      user.sub,
+      email,
+      otp,
+      req.headers['x-request-id'] as string,
+      req.headers['x-correlation-id'] as string,
+    );
   }
 
   // ─── Token Management ─────────────────────────────────────────────────────

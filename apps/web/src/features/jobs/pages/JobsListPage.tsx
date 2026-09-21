@@ -19,8 +19,10 @@ const AiMatchBadge = ({ jobId }: { jobId: string }) => {
   if (isLoading || !data) return null;
 
   let colorClass = 'bg-primary/10 text-primary border-primary/20';
-  if (data.score >= 90) colorClass = 'bg-green-500/10 text-green-500 border-green-500/20';
-  else if (data.score < 75) colorClass = 'bg-amber-500/10 text-amber-500 border-amber-500/20';
+  if (data.score >= 90)
+    colorClass = 'bg-emerald-500/15 text-emerald-600 border-emerald-500/20 dark:text-emerald-400';
+  else if (data.score < 75)
+    colorClass = 'bg-amber-500/15 text-amber-600 border-amber-500/20 dark:text-amber-400';
 
   return (
     <div
@@ -285,7 +287,7 @@ export default function JobsListPage(): React.ReactElement {
                 show: {
                   opacity: 1,
                   transition: {
-                    staggerChildren: 0.1,
+                    staggerChildren: 0.05,
                   },
                 },
               }}
@@ -302,9 +304,10 @@ export default function JobsListPage(): React.ReactElement {
                     },
                   }}
                   whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.98 }}
                   key={job.id}
                   onClick={() => navigate(`/jobs/${job.id}`)}
-                  className="group relative cursor-pointer overflow-hidden rounded-xl border border-border bg-card p-6 shadow-sm transition-all hover:border-primary/50 hover:shadow-brand"
+                  className="group relative cursor-pointer overflow-hidden rounded-xl border border-border bg-card p-6 shadow-sm transition-[border-color,box-shadow,transform] duration-200 ease-out hover:border-primary/50 hover:shadow-brand"
                 >
                   <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                     <div>
@@ -345,7 +348,7 @@ export default function JobsListPage(): React.ReactElement {
                     <span className="text-xs font-medium text-muted-foreground">
                       Posted {new Date(job.createdAt).toLocaleDateString()}
                     </span>
-                    <button className="h-9 rounded-md bg-primary/10 px-4 font-semibold text-primary transition-all duration-300 hover:bg-primary hover:text-primary-foreground">
+                    <button className="h-9 rounded-md bg-primary/10 px-4 font-semibold text-primary transition-colors duration-200 ease-out hover:bg-primary hover:text-primary-foreground active:scale-95">
                       View Details
                     </button>
                   </div>

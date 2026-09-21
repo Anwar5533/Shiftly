@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars -- TODO(RC3): */
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '@/app/store';
 import { clearUser } from '@/features/auth/store/authSlice';
@@ -37,6 +37,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { workerApi } from '@/features/profile/api/worker.api';
 import { employerApi } from '@/features/profile/api/employer.api';
 import { recruiterApi } from '@/features/profile/api/recruiter.api';
+import { useOnClickOutside } from '@/shared/hooks/useOnClickOutside';
 
 export function DashboardLayout(): React.ReactElement {
   const navigate = useNavigate();
@@ -48,6 +49,16 @@ export function DashboardLayout(): React.ReactElement {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+
+  const notificationsRef = useRef<HTMLDivElement>(null);
+  const profileRef = useRef<HTMLDivElement>(null);
+
+  const closeNotifications = React.useCallback(() => setIsNotificationsOpen(false), []);
+  const closeProfile = React.useCallback(() => setIsProfileDropdownOpen(false), []);
+
+  useOnClickOutside(notificationsRef, closeNotifications);
+  useOnClickOutside(profileRef, closeProfile);
+
   const allowedPortals = React.useMemo(() => {
     switch (user?.role) {
       case 'ADMIN':
@@ -468,7 +479,7 @@ export function DashboardLayout(): React.ReactElement {
           </div>
 
           <div className="flex items-center space-x-3">
-            <div className="relative">
+            <div className="relative" ref={notificationsRef}>
               <button
                 onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
                 className="relative rounded-full p-2.5 text-muted-foreground transition-all hover:bg-muted hover:text-foreground focus:outline-none"
@@ -484,7 +495,7 @@ export function DashboardLayout(): React.ReactElement {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
                     transition={{ duration: 0.15, type: 'spring', stiffness: 400, damping: 30 }}
-                    className="absolute right-0 z-50 mt-2 w-80 overflow-hidden rounded-2xl border border-border/50 bg-card/80 py-2 shadow-2xl backdrop-blur-xl"
+                    className="absolute right-0 z-50 mt-2 w-80 overflow-hidden rounded-2xl border border-border bg-card py-2 shadow-2xl"
                   >
                     <div className="flex items-center justify-between border-b border-border/50 px-5 py-4">
                       <h3 className="font-semibold text-foreground">Notifications</h3>
@@ -493,8 +504,8 @@ export function DashboardLayout(): React.ReactElement {
                       </span>
                     </div>
 
-                    <div className="custom-scrollbar max-h-72 overflow-y-auto">
-                      <div className="group cursor-pointer border-b border-border/30 px-5 py-4 transition-colors hover:bg-muted/50">
+                    <div className="custom-scrollbar max-h-72 overflow-y-auto px-2">
+                      <div className="group mb-1 cursor-pointer rounded-xl px-3 py-3 transition-colors hover:bg-muted">
                         <p className="text-sm font-medium text-foreground transition-colors group-hover:text-primary">
                           Your shift was approved
                         </p>
@@ -502,7 +513,7 @@ export function DashboardLayout(): React.ReactElement {
                           Amazon Fulfillment • 2 hours ago
                         </p>
                       </div>
-                      <div className="group cursor-pointer border-b border-border/30 px-5 py-4 transition-colors hover:bg-muted/50">
+                      <div className="group mb-1 cursor-pointer rounded-xl px-3 py-3 transition-colors hover:bg-muted">
                         <p className="text-sm font-medium text-foreground transition-colors group-hover:text-primary">
                           New job match: Forklift Operator
                         </p>
@@ -529,7 +540,7 @@ export function DashboardLayout(): React.ReactElement {
             </div>
 
             {/* Profile Dropdown */}
-            <div className="relative ml-2">
+            <div className="relative ml-2" ref={profileRef}>
               <button
                 onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
                 className="flex items-center gap-3 rounded-full py-1 pl-1 pr-3 transition-colors hover:bg-muted/50 focus:outline-none"
@@ -559,7 +570,7 @@ export function DashboardLayout(): React.ReactElement {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
                     transition={{ duration: 0.15, type: 'spring', stiffness: 400, damping: 30 }}
-                    className="absolute right-0 z-50 mt-2 w-64 rounded-2xl border border-border/50 bg-card/80 py-2 shadow-2xl backdrop-blur-xl"
+                    className="absolute right-0 z-50 mt-2 w-64 rounded-2xl border border-border bg-card py-2 shadow-2xl"
                   >
                     <div className="mb-2 border-b border-border/50 px-5 py-4">
                       <div className="flex items-center gap-3">

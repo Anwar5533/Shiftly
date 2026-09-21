@@ -35,9 +35,9 @@ interface OtpVerifyResult extends TokenSet {
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
-  private readonly OTP_KEY = (phone: string) => `otp:${phone}`;
-  private readonly OTP_ATTEMPTS_KEY = (phone: string) => `otp:attempts:${phone}`;
-  private readonly LOCKOUT_KEY = (phone: string) => `otp:lockout:${phone}`;
+  private readonly OTP_KEY = (phoneOrEmail: string) => `otp:${phoneOrEmail}`;
+  private readonly OTP_ATTEMPTS_KEY = (phoneOrEmail: string) => `otp:attempts:${phoneOrEmail}`;
+  private readonly LOCKOUT_KEY = (phoneOrEmail: string) => `otp:lockout:${phoneOrEmail}`;
 
   constructor(
     private readonly prisma: PrismaService,
@@ -50,8 +50,21 @@ export class AuthService {
   // ─── OTP ───────────────────────────────────────────────────────────────────
 
   async sendOtp(phone: string, requestId?: string, correlationId?: string): Promise<void> {
+    await this.generateAndSendOtp(phone, 'phone', requestId, correlationId);
+  }
+
+  async sendEmailOtp(email: string, requestId?: string, correlationId?: string): Promise<void> {
+    await this.generateAndSendOtp(email, 'email', requestId, correlationId);
+  }
+
+  private async generateAndSendOtp(
+    contact: string,
+    type: 'phone' | 'email',
+    requestId?: string,
+    correlationId?: string,
+  ): Promise<void> {
     // Check lockout
-    const isLocked = await this.redis.exists(this.LOCKOUT_KEY(phone));
+    const isLocked = await this.redis.exists(this.LOCKOUT_KEY(contact));
     if (isLocked) {
       throw new BadRequestException(
         'Too many OTP attempts. Please wait 15 minutes before requesting a new OTP.',
@@ -67,31 +80,39 @@ export class AuthService {
     const expirySeconds = this.config.get<number>('app.otpExpireSeconds', 300);
 
     // Store OTP in Redis
-    await this.redis.set(this.OTP_KEY(phone), otp, expirySeconds);
+    await this.redis.set(this.OTP_KEY(contact), otp, expirySeconds);
 
     // Store in DB for audit trail
     await this.prisma.otpToken.create({
       data: {
-        phone,
+        phone: contact, // Using phone column for both phone and email for audit trail
         code: await bcrypt.hash(otp, 10),
         expiresAt: new Date(Date.now() + expirySeconds * 1000),
       },
     });
 
     if (isDev) {
-      this.logger.debug(`[DEV ONLY] Generated OTP for ${phone} is: ${otp}. SMS emission skipped.`);
+      this.logger.debug(`[DEV ONLY] Generated OTP for ${contact} is: ${otp}. Emission skipped.`);
     } else {
-      // Emit event for SMS sending (handled by NotificationsModule)
-      this.eventEmitter.emit('notification.send-sms', {
-        phone,
-        message: `Your SHIFTLY verification code is: ${otp}. Valid for 5 minutes. Do not share this code.`,
-      });
+      if (type === 'phone') {
+        this.eventEmitter.emit('notification.send-sms', {
+          phone: contact,
+          message: `Your SHIFTLY verification code is: ${otp}. Valid for 5 minutes. Do not share this code.`,
+        });
+      } else {
+        this.eventEmitter.emit('notification.send-email', {
+          email: contact,
+          subject: 'SHIFTLY Verification Code',
+          body: `Your verification code is: ${otp}. Valid for 5 minutes. Do not share this code.`,
+        });
+      }
     }
 
     this.logger.log(
       JSON.stringify({
         event: 'AUTH_OTP_SENT',
-        phone: `${phone.slice(0, 6)}****`,
+        contact: type === 'phone' ? `${contact.slice(0, 6)}****` : contact,
+        type,
         isStatic: isDev && enableStaticOtp,
         requestId,
         correlationId,
@@ -327,6 +348,131 @@ export class AuthService {
     );
 
     return this.generateTokens(user, ipAddress, userAgent);
+  }
+
+  // ─── Account Settings ──────────────────────────────────────────────────────
+
+  async updatePassword(
+    userId: string,
+    currentPassword: string,
+    newPassword: string,
+    requestId?: string,
+    correlationId?: string,
+  ): Promise<void> {
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+    if (!user) {
+      throw new UnauthorizedException('User not found.');
+    }
+
+    if (user.passwordHash) {
+      const isPasswordValid = await bcrypt.compare(currentPassword, user.passwordHash);
+      if (!isPasswordValid) {
+        throw new BadRequestException('Incorrect current password.');
+      }
+    }
+
+    const passwordHash = await bcrypt.hash(newPassword, 12);
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { passwordHash },
+    });
+
+    this.logger.log(
+      JSON.stringify({
+        event: 'AUTH_PASSWORD_UPDATED',
+        userId,
+        requestId,
+        correlationId,
+        timestamp: new Date().toISOString(),
+      }),
+    );
+  }
+
+  async verifyPhone(
+    userId: string,
+    phone: string,
+    otp: string,
+    requestId?: string,
+    correlationId?: string,
+  ): Promise<void> {
+    await this.verifyContactOtp(phone, otp);
+
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { phone, isPhoneVerified: true },
+    });
+
+    this.logger.log(
+      JSON.stringify({
+        event: 'AUTH_PHONE_VERIFIED',
+        userId,
+        phone,
+        requestId,
+        correlationId,
+        timestamp: new Date().toISOString(),
+      }),
+    );
+  }
+
+  async verifyEmail(
+    userId: string,
+    email: string,
+    otp: string,
+    requestId?: string,
+    correlationId?: string,
+  ): Promise<void> {
+    await this.verifyContactOtp(email, otp);
+
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { email, isEmailVerified: true },
+    });
+
+    this.logger.log(
+      JSON.stringify({
+        event: 'AUTH_EMAIL_VERIFIED',
+        userId,
+        email,
+        requestId,
+        correlationId,
+        timestamp: new Date().toISOString(),
+      }),
+    );
+  }
+
+  private async verifyContactOtp(contact: string, otp: string): Promise<void> {
+    // Check lockout
+    const isLocked = await this.redis.exists(this.LOCKOUT_KEY(contact));
+    if (isLocked) {
+      throw new BadRequestException('Account temporarily locked due to too many failed attempts.');
+    }
+
+    // Validate OTP from Redis
+    const storedOtp = await this.redis.get(this.OTP_KEY(contact));
+    if (!storedOtp) {
+      throw new BadRequestException('OTP has expired. Please request a new one.');
+    }
+
+    if (storedOtp !== otp) {
+      // Increment attempt counter
+      const attempts = await this.redis.incr(this.OTP_ATTEMPTS_KEY(contact));
+      const maxAttempts = this.config.get<number>('app.otpMaxAttempts', 5);
+
+      if (attempts >= maxAttempts) {
+        await this.redis.set(this.LOCKOUT_KEY(contact), '1', 900); // 15 min lockout
+        await this.redis.del(this.OTP_KEY(contact));
+        await this.redis.del(this.OTP_ATTEMPTS_KEY(contact));
+        throw new BadRequestException('Too many failed attempts. Account locked for 15 minutes.');
+      }
+
+      throw new BadRequestException(`Invalid OTP. ${maxAttempts - attempts} attempts remaining.`);
+    }
+
+    // Clear OTP + attempt counters
+    await Promise.all([
+      this.redis.del(this.OTP_KEY(contact)),
+      this.redis.del(this.OTP_ATTEMPTS_KEY(contact)),
+    ]);
   }
 
   // ─── Token Management ──────────────────────────────────────────────────────

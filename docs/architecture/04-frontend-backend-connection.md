@@ -1,0 +1,27 @@
+# 04 Frontend to Backend Integration
+
+The connection between the React frontend and the NestJS microservices is strictly mediated by the API Gateway. The frontend never communicates directly with a microservice or database.
+
+## Architecture and Routing
+
+![Mermaid Diagram](https://mermaid.ink/svg/eyJjb2RlIjoiZmxvd2NoYXJ0IExSXG4gICAgc3ViZ3JhcGggRnJvbnRlbmQgW2FwcHMvd2ViIChSZWFjdC9WaXRlKV1cbiAgICAgICAgVUlbVUkgQ29tcG9uZW50c10gLS0+IFJlZHV4W1JlZHV4IFN0b3JlXVxuICAgICAgICBVSSAtLT4gUmVhY3RRdWVyeVtSZWFjdCBRdWVyeV1cbiAgICAgICAgUmVhY3RRdWVyeSAtLT4gQXhpb3NbQXhpb3MgSW5zdGFuY2VdXG4gICAgICAgIFJlZHV4IC0tPiBBeGlvc1xuICAgIGVuZFxuXG4gICAgQXhpb3MgLS0gXCJSRVNUIC8gSFRUUFMgKEpXVClcIiAtLT4gR2F0ZXdheVxuXG4gICAgc3ViZ3JhcGggQVBJIEdhdGV3YXkgW2FwcHMvYXBpLWdhdGV3YXldXG4gICAgICAgIEdhdGV3YXlbTmVzdEpTIEdhdGV3YXldXG4gICAgICAgIEF1dGhHdWFyZFtKV1QgQXV0aCBHdWFyZF1cbiAgICAgICAgUmF0ZUxpbWl0ZXJbVGhyb3R0bGVyIEd1YXJkXVxuICAgICAgICBcbiAgICAgICAgR2F0ZXdheSAtLT4gQXV0aEd1YXJkXG4gICAgICAgIEF1dGhHdWFyZCAtLT4gUmF0ZUxpbWl0ZXJcbiAgICBlbmRcblxuICAgIHN1YmdyYXBoIEJhY2tlbmQgTWljcm9zZXJ2aWNlc1xuICAgICAgICBSYXRlTGltaXRlciAtLSBcIkhUVFAgUHJveHlcIiAtLT4gSURbSWRlbnRpdHkgU2VydmljZV1cbiAgICAgICAgUmF0ZUxpbWl0ZXIgLS0gXCJIVFRQIFByb3h5XCIgLS0+IFVzZXJbVXNlciBTZXJ2aWNlXVxuICAgICAgICBSYXRlTGltaXRlciAtLSBcIkhUVFAgUHJveHlcIiAtLT4gSm9ic1tKb2JzIFNlcnZpY2VdXG4gICAgZW5kIiwibWVybWFpZCI6eyJ0aGVtZSI6ImRlZmF1bHQifX0=)
+
+## Frontend State Management & API Requests
+
+The frontend uses a dual-state management approach to optimize data fetching and application state:
+
+1. **React Query (`@tanstack/react-query`)**: Handles all "Server State". Used for fetching, caching, synchronizing, and updating asynchronous data (e.g., fetching a list of jobs, fetching a user profile).
+2. **Redux Toolkit**: Handles "Client State". Used for global UI state, complex multi-step forms, or persistent auth state that doesn't map directly to a single API endpoint.
+
+### Example: Fetching Job Details
+
+![Mermaid Diagram](https://mermaid.ink/svg/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gIHBhcnRpY2lwYW50IENvbXBvbmVudCBhcyBKb2JEZXRhaWxQYWdlLnRzeFxuICBwYXJ0aWNpcGFudCBSUSBhcyBSZWFjdCBRdWVyeSAodXNlUXVlcnkpXG4gIHBhcnRpY2lwYW50IEF4aW9zIGFzIEF4aW9zIENsaWVudCAod2l0aCBJbnRlcmNlcHRvcnMpXG4gIHBhcnRpY2lwYW50IEdhdGV3YXkgYXMgQVBJIEdhdGV3YXlcbiAgcGFydGljaXBhbnQgU2VydmljZSBhcyBKb2JzIFNlcnZpY2VcblxuICBDb21wb25lbnQtPj5SUTogdXNlSm9iRGV0YWlscyhqb2JJZClcbiAgXG4gIGFsdCBEYXRhIGluIENhY2hlICYgRnJlc2hcbiAgICBSUS0tPj5Db21wb25lbnQ6IFJldHVybnMgY2FjaGVkIGRhdGEgaW1tZWRpYXRlbHlcbiAgZWxzZSBDYWNoZSBTdGFsZSBvciBFbXB0eVxuICAgIFJRLT4+QXhpb3M6IEdFVCAvYXBpL3YxL2pvYnMve2pvYklkfVxuICAgIEF4aW9zLT4+QXhpb3M6IEludGVyY2VwdG9yIGF0dGFjaGVzIEJlYXJlciBUb2tlblxuICAgIEF4aW9zLT4+R2F0ZXdheTogRm9yd2FyZCBSZXF1ZXN0XG4gICAgXG4gICAgR2F0ZXdheS0+PkdhdGV3YXk6IFZhbGlkYXRlcyBKV1QgKEF1dGhHdWFyZClcbiAgICBHYXRld2F5LT4+U2VydmljZTogUHJveHkgUmVxdWVzdCB0byBKb2JzIFNlcnZpY2VcbiAgICBcbiAgICBTZXJ2aWNlLS0+PkdhdGV3YXk6IDIwMCBPSyAoSm9iIEpTT04pXG4gICAgR2F0ZXdheS0tPj5BeGlvczogMjAwIE9LIChKb2IgSlNPTilcbiAgICBBeGlvcy0tPj5SUTogRGF0YSBSZXNwb25zZVxuICAgIFJRLT4+UlE6IFVwZGF0ZXMgQ2FjaGVcbiAgICBSUS0tPj5Db21wb25lbnQ6IFRyaWdnZXJzIFJlLXJlbmRlciB3aXRoIERhdGFcbiAgZW5kIiwibWVybWFpZCI6eyJ0aGVtZSI6ImRlZmF1bHQifX0=)
+
+## Authentication Flow
+
+Authentication utilizes stateless JWTs (JSON Web Tokens) with a short-lived Access Token and a long-lived Refresh Token.
+
+1. **Login**: User posts credentials to `/auth/login` (Identity Service via Gateway).
+2. **Response**: Receives `accessToken` (stored in memory/Redux) and `refreshToken` (stored in `HttpOnly` secure cookie).
+3. **Requests**: Axios interceptors automatically attach the `accessToken` as a Bearer token in the `Authorization` header.
+4. **Token Refresh**: If a request fails with `401 Unauthorized`, the Axios interceptor intercepts the error, calls `/auth/refresh` using the `HttpOnly` cookie, receives a new `accessToken`, and transparently retries the original failed request.

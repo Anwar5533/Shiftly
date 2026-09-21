@@ -24,6 +24,11 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
       state.isLoading = false;
     },
+    updateUser(state, action: PayloadAction<Partial<JwtPayload>>) {
+      if (state.user) {
+        state.user = { ...state.user, ...action.payload };
+      }
+    },
     clearUser(state) {
       state.user = null;
       state.isAuthenticated = false;
@@ -35,7 +40,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { setUser, clearUser, setLoading } = authSlice.actions;
+export const { setUser, updateUser, clearUser, setLoading } = authSlice.actions;
 
 // Thunk to handle login success
 import type { Dispatch } from '@reduxjs/toolkit';

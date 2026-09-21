@@ -54,4 +54,24 @@ export const authApi = {
   logout: async (): Promise<void> => {
     await api.delete<ApiResponse<void>>('/auth/session');
   },
+
+  updatePassword: async (data: {
+    currentPassword?: string;
+    newPassword: string;
+  }): Promise<void> => {
+    await api.patch<ApiResponse<void>>('/auth/password', data);
+  },
+
+  verifyPhone: async (data: { phone: string; otp: string }): Promise<void> => {
+    await api.patch<ApiResponse<void>>('/auth/phone/verify', data);
+  },
+
+  sendEmailOtp: async (data: { email: string }): Promise<{ message: string }> => {
+    const res = await api.post<ApiResponse<{ message: string }>>('/auth/email/otp/send', data);
+    return res.data.data;
+  },
+
+  verifyEmail: async (data: { email: string; otp: string }): Promise<void> => {
+    await api.patch<ApiResponse<void>>('/auth/email/verify', data);
+  },
 };

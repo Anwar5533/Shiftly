@@ -1,0 +1,1125 @@
+ DEPRECATED  `test.poolOptions` was removed in Vitest 4. All previous `poolOptions` are now top-level options. Please, refer to the migration guide: https://v4.vitest.dev/guide/migration#pool-rework
+
+ RUN  v5.0.0 /Users/anwarkornipalli/Desktop/Shiftly/apps/web
+
+ ❯ src/features/auth/pages/OtpPage.spec.tsx (12 tests | 4 failed) 1354ms
+   ❯ OtpPage (12)
+     ✓ redirects to login if no phone or email in state 16ms
+     ✓ renders correctly with phone state 13ms
+     ✓ allows typing numeric OTP and auto-focuses next input 40ms
+     ✓ handles backspace to focus previous input 12ms
+     × handles paste event correctly 16ms
+     ✓ handles paste with invalid characters 8ms
+     ✓ submits automatically or via button and navigates based on role 69ms
+     ✓ navigates to register if isNewUser is true 62ms
+     × navigates based on other roles 77ms
+     × displays server error 1009ms
+     × handles countdown timer and resend OTP 26ms
+     ✓ navigates back to login 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/auth/pages/OtpPage.spec.tsx > OtpPage > handles paste event correctly
+AssertionError: expected "vi.fn()" to be called at least once
+ ❯ src/features/auth/pages/OtpPage.spec.tsx:117:39
+    115|     fireEvent.paste(inputs[0], pasteEvent);
+    116|
+    117|     expect(pasteEvent.preventDefault).toHaveBeenCalled();
+       |                                       ^
+    118|     expect(inputs[0]).toHaveValue('1');
+    119|     expect(inputs[5]).toHaveValue('6');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  src/features/auth/pages/OtpPage.spec.tsx > OtpPage > navigates based on other roles
+TestingLibraryElementError: Found multiple elements with the text of: /OTP Verification form/i
+
+Here are the matching elements:
+
+Ignored nodes: comments, script, style
+[36m<form[39m
+  [33maria-label[39m=[32m"OTP Verification form"[39m
+  [33mclass[39m=[32m"space-y-6"[39m
+[36m>[39m
+  [36m<div[39m
+    [33mclass[39m=[32m"flex justify-between gap-2"[39m
+  [36m>[39m
+    [36m<input[39m
+      [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+      [33minputmode[39m=[32m"numeric"[39m
+      [33mmaxlength[39m=[32m"1"[39m
+      [33mpattern[39m=[32m"\\d*"[39m
+      [33mtype[39m=[32m"text"[39m
+      [33mvalue[39m=[32m"1"[39m
+    [36m/>[39m
+    [36m<input[39m
+      [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+      [33minputmode[39m=[32m"numeric"[39m
+      [33mmaxlength[39m=[32m"1"[39m
+      [33mpattern[39m=[32m"\\d*"[39m
+      [33mtype[39m=[32m"text"[39m
+      [33mvalue[39m=[32m"2"[39m
+    [36m/>[39m
+    [36m<input[39m
+      [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+      [33minputmode[39m=[32m"numeric"[39m
+      [33mmaxlength[39m=[32m"1"[39m
+      [33mpattern[39m=[32m"\\d*"[39m
+      [33mtype[39m=[32m"text"[39m
+      [33mvalue[39m=[32m"3"[39m
+    [36m/>[39m
+    [36m<input[39m
+      [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+      [33minputmode[39m=[32m"numeric"[39m
+      [33mmaxlength[39m=[32m"1"[39m
+      [33mpattern[39m=[32m"\\d*"[39m
+      [33mtype[39m=[32m"text"[39m
+      [33mvalue[39m=[32m"4"[39m
+    [36m/>[39m
+    [36m<input[39m
+      [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+      [33minputmode[39m=[32m"numeric"[39m
+      [33mmaxlength[39m=[32m"1"[39m
+      [33mpattern[39m=[32m"\\d*"[39m
+      [33mtype[39m=[32m"text"[39m
+      [33mvalue[39m=[32m"5"[39m
+    [36m/>[39m
+    [36m<input[39m
+      [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+      [33minputmode[39m=[32m"numeric"[39m
+      [33mmaxlength[39m=[32m"1"[39m
+      [33mpattern[39m=[32m"\\d*"[39m
+      [33mtype[39m=[32m"text"[39m
+      [33mvalue[39m=[32m"6"[39m
+    [36m/>[39m
+  [36m</div>[39m
+  [36m<button[39m
+    [33mclass[39m=[32m"flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-brand transition-all hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-lg active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"[39m
+    [33mtype[39m=[32m"submit"[39m
+  [36m>[39m
+    [0mVerify & Continue[0m
+    [36m<svg[39m
+      [33mclass[39m=[32m"lucide lucide-arrow-right h-4 w-4"[39m
+      [33mfill[39m=[32m"none"[39m
+      [33mheight[39m=[32m"24"[39m
+      [33mstroke[39m=[32m"currentColor"[39m
+      [33mstroke-linecap[39m=[32m"round"[39m
+      [33mstroke-linejoin[39m=[32m"round"[39m
+      [33mstroke-width[39m=[32m"2"[39m
+      [33mviewBox[39m=[32m"0 0 24 24"[39m
+      [33mwidth[39m=[32m"24"[39m
+      [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+    [36m>[39m
+      [36m<path[39m
+        [33md[39m=[32m"M5 12h14"[39m
+      [36m/>[39m
+      [36m<path[39m
+        [33md[39m=[32m"m12 5 7 7-7 7"[39m
+      [36m/>[39m
+    [36m</svg>[39m
+  [36m</button>[39m
+[36m</form>[39m
+
+Ignored nodes: comments, script, style
+[36m<form[39m
+  [33maria-label[39m=[32m"OTP Verification form"[39m
+  [33mclass[39m=[32m"space-y-6"[39m
+[36m>[39m
+  [36m<div[39m
+    [33mclass[39m=[32m"flex justify-between gap-2"[39m
+  [36m>[39m
+    [36m<input[39m
+      [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+      [33minputmode[39m=[32m"numeric"[39m
+      [33mmaxlength[39m=[32m"1"[39m
+      [33mpattern[39m=[32m"\\d*"[39m
+      [33mtype[39m=[32m"text"[39m
+      [33mvalue[39m=[32m""[39m
+    [36m/>[39m
+    [36m<input[39m
+      [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+      [33minputmode[39m=[32m"numeric"[39m
+      [33mmaxlength[39m=[32m"1"[39m
+      [33mpattern[39m=[32m"\\d*"[39m
+      [33mtype[39m=[32m"text"[39m
+      [33mvalue[39m=[32m""[39m
+    [36m/>[39m
+    [36m<input[39m
+      [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+      [33minputmode[39m=[32m"numeric"[39m
+      [33mmaxlength[39m=[32m"1"[39m
+      [33mpattern[39m=[32m"\\d*"[39m
+      [33mtype[39m=[32m"text"[39m
+      [33mvalue[39m=[32m""[39m
+    [36m/>[39m
+    [36m<input[39m
+      [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+      [33minputmode[39m=[32m"numeric"[39m
+      [33mmaxlength[39m=[32m"1"[39m
+      [33mpattern[39m=[32m"\\d*"[39m
+      [33mtype[39m=[32m"text"[39m
+      [33mvalue[39m=[32m""[39m
+    [36m/>[39m
+    [36m<input[39m
+      [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+      [33minputmode[39m=[32m"numeric"[39m
+      [33mmaxlength[39m=[32m"1"[39m
+      [33mpattern[39m=[32m"\\d*"[39m
+      [33mtype[39m=[32m"text"[39m
+      [33mvalue[39m=[32m""[39m
+    [36m/>[39m
+    [36m<input[39m
+      [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+      [33minputmode[39m=[32m"numeric"[39m
+      [33mmaxlength[39m=[32m"1"[39m
+      [33mpattern[39m=[32m"\\d*"[39m
+      [33mtype[39m=[32m"text"[39m
+      [33mvalue[39m=[32m""[39m
+    [36m/>[39m
+  [36m</div>[39m
+  [36m<button[39m
+    [33mclass[39m=[32m"flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-brand transition-all hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-lg active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"[39m
+    [33mdisabled[39m=[32m""[39m
+    [33mtype[39m=[32m"submit"[39m
+  [36m>[39m
+    [0mVerify & Continue[0m
+    [36m<svg[39m
+      [33mclass[39m=[32m"lucide lucide-arrow-right h-4 w-4"[39m
+      [33mfill[39m=[32m"none"[39m
+      [33mheight[39m=[32m"24"[39m
+      [33mstroke[39m=[32m"currentColor"[39m
+      [33mstroke-linecap[39m=[32m"round"[39m
+      [33mstroke-linejoin[39m=[32m"round"[39m
+      [33mstroke-width[39m=[32m"2"[39m
+      [33mviewBox[39m=[32m"0 0 24 24"[39m
+      [33mwidth[39m=[32m"24"[39m
+      [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+    [36m>[39m
+      [36m<path[39m
+        [33md[39m=[32m"M5 12h14"[39m
+      [36m/>[39m
+      [36m<path[39m
+        [33md[39m=[32m"m12 5 7 7-7 7"[39m
+      [36m/>[39m
+    [36m</svg>[39m
+  [36m</button>[39m
+[36m</form>[39m
+
+(If this is intentional, then use the `*AllBy*` variant of the query (like `queryAllByText`, `getAllByText`, or `findAllByText`)).
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"space-y-6"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"space-y-2"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"mb-4 flex items-center text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-arrow-left mr-1 h-3 w-3"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"24"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"24"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"m12 19-7-7 7-7"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M19 12H5"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [0mBack to login[0m
+        [36m</button>[39m
+        [36m<h1[39m
+          [33mclass[39m=[32m"text-2xl font-bold tracking-tight text-foreground"[39m
+        [36m>[39m
+          [0mVerify your identity[0m
+        [36m</h1>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"text-sm text-muted-foreground"[39m
+        [36m>[39m
+          [0mWe sent a 6-digit code to[0m
+          [0m [0m
+          [36m<span[39m
+            [33mclass[39m=[32m"font-semibold text-foreground"[39m
+          [36m>[39m
+            [0m+919876543210[0m
+          [36m</span>[39m
+        [36m</p>[39m
+      [36m</div>[39m
+      [36m<form[39m
+        [33maria-label[39m=[32m"OTP Verification form"[39m
+        [33mclass[39m=[32m"space-y-6"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex justify-between gap-2"[39m
+        [36m>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+            [33minputmode[39m=[32m"numeric"[39m
+            [33mmaxlength[39m=[32m"1"[39m
+            [33mpattern[39m=[32m"\\d*"[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m"1"[39m
+          [36m/>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+            [33minputmode[39m=[32m"numeric"[39m
+            [33mmaxlength[39m=[32m"1"[39m
+            [33mpattern[39m=[32m"\\d*"[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m"2"[39m
+          [36m/>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+            [33minputmode[39m=[32m"numeric"[39m
+            [33mmaxlength[39m=[32m"1"[39m
+            [33mpattern[39m=[32m"\\d*"[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m"3"[39m
+          [36m/>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+            [33minputmode[39m=[32m"numeric"[39m
+            [33mmaxlength[39m=[32m"1"[39m
+            [33mpattern[39m=[32m"\\d*"[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m"4"[39m
+          [36m/>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+            [33minputmode[39m=[32m"numeric"[39m
+            [33mmaxlength[39m=[32m"1"[39m
+            [33mpattern[39m=[32m"\\d*"[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m"5"[39m
+          [36m/>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+            [33minputmode[39m=[32m"numeric"[39m
+            [33mmaxlength[39m=[32m"1"[39m
+            [33mpattern[39m=[32m"\\d*"[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m"6"[39m
+          [36m/>[39m
+        [36m</div>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-brand transition-all hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-lg active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"[39m
+          [33mtype[39m=[32m"submit"[39m
+        [36m>[39m
+          [0mVerify & Continue[0m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-arrow-right h-4 w-4"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"24"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"24"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M5 12h14"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"m12 5 7 7-7 7"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+        [36m</button>[39m
+      [36m</form>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"text-center text-sm"[39m
+      [36m>[39m
+        [36m<span[39m
+          [33mclass[39m=[32m"text-muted-foreground"[39m
+        [36m>[39m
+          [0mDidn't receive the code? [0m
+        [36m</span>[39m
+        [36m<span[39m
+          [33mclass[39m=[32m"font-medium text-foreground"[39m
+        [36m>[39m
+          [0mResend in [0m
+          [0m30[0m
+          [0ms[0m
+        [36m</span>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"space-y-6"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"space-y-2"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"mb-4 flex items-center text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-arrow-left mr-1 h-3 w-3"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"24"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"24"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"m12 19-7-7 7-7"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M19 12H5"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [0mBack to login[0m
+        [36m</button>[39m
+        [36m<h1[39m
+          [33mclass[39m=[32m"text-2xl font-bold tracking-tight text-foreground"[39m
+        [36m>[39m
+          [0mVerify your identity[0m
+        [36m</h1>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"text-sm text-muted-foreground"[39m
+        [36m>[39m
+          [0mWe sent a 6-digit code to[0m
+          [0m [0m
+          [36m<span[39m
+            [33mclass[39m=[32m"font-semibold text-foreground"[39m
+          [36m>[39m
+            [0m+919876543210[0m
+          [36m</span>[39m
+        [36m</p>[39m
+      [36m</div>[39m
+      [36m<form[39m
+        [33maria-label[39m=[32m"OTP Verification form"[39m
+        [33mclass[39m=[32m"space-y-6"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex justify-between gap-2"[39m
+        [36m>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+            [33minputmode[39m=[32m"numeric"[39m
+            [33mmaxlength[39m=[32m"1"[39m
+            [33mpattern[39m=[32m"\\d*"[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+            [33minputmode[39m=[32m"numeric"[39m
+            [33mmaxlength[39m=[32m"1"[39m
+            [33mpattern[39m=[32m"\\d*"[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+            [33minputmode[39m=[32m"numeric"[39m
+            [33mmaxlength[39m=[32m"1"[39m
+            [33mpattern[39m=[32m"\\d*"[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+            [33minputmode[39m=[32m"numeric"[39m
+            [33mmaxlength[39m=[32m"1"[39m
+            [33mpattern[39m=[32m"\\d*"[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+            [33minputmode[39m=[32m"numeric"[39m
+            [33mmaxlength[39m=[32m"1"[39m
+            [33mpattern[39m=[32m"\\d*"[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+            [33minputmode[39m=[32m"numeric"[39m
+            [33mmaxlength[39m=[32m"1"[39m
+            [33mpattern[39m=[32m"\\d*"[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+        [36m</div>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-brand transition-all hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-lg active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"[39m
+          [33mdisabled[39m=[32m""[39m
+          [33mtype[39m=[32m"submit"[39m
+        [36m>[39m
+          [0mVerify & Continue[0m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-arrow-right h-4 w-4"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"24"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"24"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M5 12h14"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"m12 5 7 7-7 7"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+        [36m</button>[39m
+      [36m</form>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"text-center text-sm"[39m
+      [36m>[39m
+        [36m<span[39m
+          [33mclass[39m=[32m"text-muted-foreground"[39m
+        [36m>[39m
+          [0mDidn't receive the code? [0m
+        [36m</span>[39m
+        [36m<span[39m
+          [33mclass[39m=[32m"font-medium text-foreground"[39m
+        [36m>[39m
+          [0mResend in [0m
+          [0m30[0m
+          [0ms[0m
+        [36m</span>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError ../../node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ getElementError ../../node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:20:35
+ ❯ getMultipleElementsFoundError ../../node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:23:10
+ ❯ ../../node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:55:13
+ ❯ ../../node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/features/auth/pages/OtpPage.spec.tsx:203:29
+    201|     customRender(<OtpPage />);
+    202|     fireEvent.paste(screen.getAllByRole('textbox')[0], { clipboardData…
+    203|     fireEvent.submit(screen.getByLabelText(/OTP Verification form/i));
+       |                             ^
+    204|     await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith('/da…
+    205|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  src/features/auth/pages/OtpPage.spec.tsx > OtpPage > displays server error
+TestingLibraryElementError: Unable to find an element with the text: Invalid OTP. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"space-y-6"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"space-y-2"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"mb-4 flex items-center text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-arrow-left mr-1 h-3 w-3"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"24"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"24"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"m12 19-7-7 7-7"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M19 12H5"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [0mBack to login[0m
+        [36m</button>[39m
+        [36m<h1[39m
+          [33mclass[39m=[32m"text-2xl font-bold tracking-tight text-foreground"[39m
+        [36m>[39m
+          [0mVerify your identity[0m
+        [36m</h1>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"text-sm text-muted-foreground"[39m
+        [36m>[39m
+          [0mWe sent a 6-digit code to[0m
+          [0m [0m
+          [36m<span[39m
+            [33mclass[39m=[32m"font-semibold text-foreground"[39m
+          [36m>[39m
+            [0m+919876543210[0m
+          [36m</span>[39m
+        [36m</p>[39m
+      [36m</div>[39m
+      [36m<form[39m
+        [33maria-label[39m=[32m"OTP Verification form"[39m
+        [33mclass[39m=[32m"space-y-6"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex justify-between gap-2"[39m
+        [36m>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+            [33minputmode[39m=[32m"numeric"[39m
+            [33mmaxlength[39m=[32m"1"[39m
+            [33mpattern[39m=[32m"\\d*"[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m"1"[39m
+          [36m/>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+            [33minputmode[39m=[32m"numeric"[39m
+            [33mmaxlength[39m=[32m"1"[39m
+            [33mpattern[39m=[32m"\\d*"[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m"2"[39m
+          [36m/>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+            [33minputmode[39m=[32m"numeric"[39m
+            [33mmaxlength[39m=[32m"1"[39m
+            [33mpattern[39m=[32m"\\d*"[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m"3"[39m
+          [36m/>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+            [33minputmode[39m=[32m"numeric"[39m
+            [33mmaxlength[39m=[32m"1"[39m
+            [33mpattern[39m=[32m"\\d*"[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m"4"[39m
+          [36m/>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+            [33minputmode[39m=[32m"numeric"[39m
+            [33mmaxlength[39m=[32m"1"[39m
+            [33mpattern[39m=[32m"\\d*"[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m"5"[39m
+          [36m/>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+            [33minputmode[39m=[32m"numeric"[39m
+            [33mmaxlength[39m=[32m"1"[39m
+            [33mpattern[39m=[32m"\\d*"[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m"6"[39m
+          [36m/>[39m
+        [36m</div>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-brand transition-all hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-lg active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"[39m
+          [33mtype[39m=[32m"submit"[39m
+        [36m>[39m
+          [0mVerify & Continue[0m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-arrow-right h-4 w-4"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"24"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"24"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M5 12h14"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"m12 5 7 7-7 7"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+        [36m</button>[39m
+      [36m</form>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"text-center text-sm"[39m
+      [36m>[39m
+        [36m<span[39m
+          [33mclass[39m=[32m"text-muted-foreground"[39m
+        [36m>[39m
+          [0mDidn't receive the code? [0m
+        [36m</span>[39m
+        [36m<span[39m
+          [33mclass[39m=[32m"font-medium text-foreground"[39m
+        [36m>[39m
+          [0mResend in [0m
+          [0m29[0m
+          [0ms[0m
+        [36m</span>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+
+Ignored nodes: comments, script, style
+[36m<html>[39m
+  [36m<head />[39m
+  [36m<body>[39m
+    [36m<div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"space-y-6"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"space-y-2"[39m
+        [36m>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"mb-4 flex items-center text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33mclass[39m=[32m"lucide lucide-arrow-left mr-1 h-3 w-3"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"24"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"24"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"m12 19-7-7 7-7"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M19 12H5"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [0mBack to login[0m
+          [36m</button>[39m
+          [36m<h1[39m
+            [33mclass[39m=[32m"text-2xl font-bold tracking-tight text-foreground"[39m
+          [36m>[39m
+            [0mVerify your identity[0m
+          [36m</h1>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"text-sm text-muted-foreground"[39m
+          [36m>[39m
+            [0mWe sent a 6-digit code to[0m
+            [0m [0m
+            [36m<span[39m
+              [33mclass[39m=[32m"font-semibold text-foreground"[39m
+            [36m>[39m
+              [0m+919876543210[0m
+            [36m</span>[39m
+          [36m</p>[39m
+        [36m</div>[39m
+        [36m<form[39m
+          [33maria-label[39m=[32m"OTP Verification form"[39m
+          [33mclass[39m=[32m"space-y-6"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"flex justify-between gap-2"[39m
+          [36m>[39m
+            [36m<input[39m
+              [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+              [33minputmode[39m=[32m"numeric"[39m
+              [33mmaxlength[39m=[32m"1"[39m
+              [33mpattern[39m=[32m"\\d*"[39m
+              [33mtype[39m=[32m"text"[39m
+              [33mvalue[39m=[32m"1"[39m
+            [36m/>[39m
+            [36m<input[39m
+              [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+              [33minputmode[39m=[32m"numeric"[39m
+              [33mmaxlength[39m=[32m"1"[39m
+              [33mpattern[39m=[32m"\\d*"[39m
+              [33mtype[39m=[32m"text"[39m
+              [33mvalue[39m=[32m"2"[39m
+            [36m/>[39m
+            [36m<input[39m
+              [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+              [33minputmode[39m=[32m"numeric"[39m
+              [33mmaxlength[39m=[32m"1"[39m
+              [33mpattern[39m=[32m"\\d*"[39m
+              [33mtype[39m=[32m"text"[39m
+              [33mvalue[39m=[32m"3"[39m
+            [36m/>[39m
+            [36m<input[39m
+              [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+              [33minputmode[39m=[32m"numeric"[39m
+              [33mmaxlength[39m=[32m"1"[39m
+              [33mpattern[39m=[32m"\\d*"[39m
+              [33mtype[39m=[32m"text"[39m
+              [33mvalue[39m=[32m"4"[39m
+            [36m/>[39m
+            [36m<input[39m
+              [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+              [33minputmode[39m=[32m"numeric"[39m
+              [33mmaxlength[39m=[32m"1"[39m
+              [33mpattern[39m=[32m"\\d*"[39m
+              [33mtype[39m=[32m"text"[39m
+              [33mvalue[39m=[32m"5"[39m
+            [36m/>[39m
+            [36m<input[39m
+              [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+              [33minputmode[39m=[32m"numeric"[39m
+              [33mmaxlength[39m=[32m"1"[39m
+              [33mpattern[39m=[32m"\\d*"[39m
+              [33mtype[39m=[32m"text"[39m
+              [33mvalue[39m=[32m"6"[39m
+            [36m/>[39m
+          [36m</div>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-brand transition-all hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-lg active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"[39m
+            [33mtype[39m=[32m"submit"[39m
+          [36m>[39m
+            [0mVerify & Continue[0m
+            [36m<svg[39m
+              [33mclass[39m=[32m"lucide lucide-arrow-right h-4 w-4"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"24"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"24"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M5 12h14"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"m12 5 7 7-7 7"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+        [36m</form>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"text-center text-sm"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"text-muted-foreground"[39m
+          [36m>[39m
+            [0mDidn't receive the code? [0m
+          [36m</span>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"font-medium text-foreground"[39m
+          [36m>[39m
+            [0mResend in [0m
+            [0m29[0m
+            [0ms[0m
+          [36m</span>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</body>[39m
+[36m</html>[39m
+ ❯ Proxy.waitForWrapper ../../node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ src/features/auth/pages/OtpPage.spec.tsx:230:11
+    228|     fireEvent.submit(screen.getByLabelText(/OTP Verification form/i));
+    229|
+    230|     await waitFor(() => {
+       |           ^
+    231|       expect(screen.getByText('Invalid OTP')).toBeInTheDocument();
+    232|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  src/features/auth/pages/OtpPage.spec.tsx > OtpPage > handles countdown timer and resend OTP
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name `/resend otp/i`
+
+Here are the accessible roles:
+
+  button:
+
+  Name "Back to login":
+  [36m<button[39m
+    [33mclass[39m=[32m"mb-4 flex items-center text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"[39m
+  [36m/>[39m
+
+  Name "Verify & Continue":
+  [36m<button[39m
+    [33mclass[39m=[32m"flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-brand transition-all hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-lg active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"[39m
+    [33mdisabled[39m=[32m""[39m
+    [33mtype[39m=[32m"submit"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  heading:
+
+  Name "Verify your identity":
+  [36m<h1[39m
+    [33mclass[39m=[32m"text-2xl font-bold tracking-tight text-foreground"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"text-sm text-muted-foreground"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  form:
+
+  Name "OTP Verification form":
+  [36m<form[39m
+    [33maria-label[39m=[32m"OTP Verification form"[39m
+    [33mclass[39m=[32m"space-y-6"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  textbox:
+
+  Name "":
+  [36m<input[39m
+    [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+    [33minputmode[39m=[32m"numeric"[39m
+    [33mmaxlength[39m=[32m"1"[39m
+    [33mpattern[39m=[32m"\\d*"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<input[39m
+    [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+    [33minputmode[39m=[32m"numeric"[39m
+    [33mmaxlength[39m=[32m"1"[39m
+    [33mpattern[39m=[32m"\\d*"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<input[39m
+    [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+    [33minputmode[39m=[32m"numeric"[39m
+    [33mmaxlength[39m=[32m"1"[39m
+    [33mpattern[39m=[32m"\\d*"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<input[39m
+    [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+    [33minputmode[39m=[32m"numeric"[39m
+    [33mmaxlength[39m=[32m"1"[39m
+    [33mpattern[39m=[32m"\\d*"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<input[39m
+    [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+    [33minputmode[39m=[32m"numeric"[39m
+    [33mmaxlength[39m=[32m"1"[39m
+    [33mpattern[39m=[32m"\\d*"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  Name "":
+  [36m<input[39m
+    [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+    [33minputmode[39m=[32m"numeric"[39m
+    [33mmaxlength[39m=[32m"1"[39m
+    [33mpattern[39m=[32m"\\d*"[39m
+    [33mtype[39m=[32m"text"[39m
+    [33mvalue[39m=[32m""[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"space-y-6"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"space-y-2"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"mb-4 flex items-center text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-arrow-left mr-1 h-3 w-3"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"24"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"24"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"m12 19-7-7 7-7"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M19 12H5"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [0mBack to login[0m
+        [36m</button>[39m
+        [36m<h1[39m
+          [33mclass[39m=[32m"text-2xl font-bold tracking-tight text-foreground"[39m
+        [36m>[39m
+          [0mVerify your identity[0m
+        [36m</h1>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"text-sm text-muted-foreground"[39m
+        [36m>[39m
+          [0mWe sent a 6-digit code to[0m
+          [0m [0m
+          [36m<span[39m
+            [33mclass[39m=[32m"font-semibold text-foreground"[39m
+          [36m>[39m
+            [0m+919876543210[0m
+          [36m</span>[39m
+        [36m</p>[39m
+      [36m</div>[39m
+      [36m<form[39m
+        [33maria-label[39m=[32m"OTP Verification form"[39m
+        [33mclass[39m=[32m"space-y-6"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex justify-between gap-2"[39m
+        [36m>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+            [33minputmode[39m=[32m"numeric"[39m
+            [33mmaxlength[39m=[32m"1"[39m
+            [33mpattern[39m=[32m"\\d*"[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+            [33minputmode[39m=[32m"numeric"[39m
+            [33mmaxlength[39m=[32m"1"[39m
+            [33mpattern[39m=[32m"\\d*"[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+            [33minputmode[39m=[32m"numeric"[39m
+            [33mmaxlength[39m=[32m"1"[39m
+            [33mpattern[39m=[32m"\\d*"[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+            [33minputmode[39m=[32m"numeric"[39m
+            [33mmaxlength[39m=[32m"1"[39m
+            [33mpattern[39m=[32m"\\d*"[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+            [33minputmode[39m=[32m"numeric"[39m
+            [33mmaxlength[39m=[32m"1"[39m
+            [33mpattern[39m=[32m"\\d*"[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+          [36m<input[39m
+            [33mclass[39m=[32m"input-glow h-14 w-12 rounded-lg border border-input bg-background text-center text-xl font-bold text-foreground transition-all focus:border-ring focus:outline-none"[39m
+            [33minputmode[39m=[32m"numeric"[39m
+            [33mmaxlength[39m=[32m"1"[39m
+            [33mpattern[39m=[32m"\\d*"[39m
+            [33mtype[39m=[32m"text"[39m
+            [33mvalue[39m=[32m""[39m
+          [36m/>[39m
+        [36m</div>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-brand transition-all hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-lg active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"[39m
+          [33mdisabled[39m=[32m""[39m
+          [33mtype[39m=[32m"submit"[39m
+        [36m>[39m
+          [0mVerify & Continue[0m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-arrow-right h-4 w-4"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"24"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"24"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M5 12h14"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"m12 5 7 7-7 7"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+        [36m</button>[39m
+      [36m</form>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"text-center text-sm"[39m
+      [36m>[39m
+        [36m<span[39m
+          [33mclass[39m=[32m"text-muted-foreground"[39m
+        [36m>[39m
+          [0mDidn't receive the code? [0m
+        [36m</span>[39m
+        [36m<span[39m
+          [33mclass[39m=[32m"font-medium text-foreground"[39m
+        [36m>[39m
+          [0mResend in [0m
+          [0m29[0m
+          [0ms[0m
+        [36m</span>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError ../../node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ ../../node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ ../../node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ ../../node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/features/auth/pages/OtpPage.spec.tsx:248:19
+    246|     });
+    247|
+    248|     expect(screen.getByRole('button', { name: /resend otp/i })).toBeIn…
+       |                   ^
+    249|
+    250|     const resendBtn = screen.getByRole('button', { name: /resend otp/i…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 8 passed (12)
+   Start at  07:37:30
+   Duration  2.21s (tests 64%, environment 19%, import 11%, transform 4%, setup 2%)
+
