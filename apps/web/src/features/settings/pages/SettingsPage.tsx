@@ -42,9 +42,10 @@ export default function SettingsPage(): React.ReactElement {
       setNewPassword('');
       setConfirmPassword('');
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       setAlertTitle('Error');
-      setAlertMessage(error?.response?.data?.message || 'Failed to update password');
+      const e = error as { response?: { data?: { message?: string } } };
+      setAlertMessage(e.response?.data?.message || 'Failed to update password');
     },
   });
 
@@ -55,9 +56,10 @@ export default function SettingsPage(): React.ReactElement {
       setOtpString('');
       setShowOtpModal(true);
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       setAlertTitle('Error');
-      setAlertMessage(error?.response?.data?.message || 'Failed to send OTP');
+      const e = error as { response?: { data?: { message?: string } } };
+      setAlertMessage(e.response?.data?.message || 'Failed to send OTP');
     },
   });
 
@@ -68,9 +70,10 @@ export default function SettingsPage(): React.ReactElement {
       setOtpString('');
       setShowOtpModal(true);
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       setAlertTitle('Error');
-      setAlertMessage(error?.response?.data?.message || 'Failed to send OTP');
+      const e = error as { response?: { data?: { message?: string } } };
+      setAlertMessage(e.response?.data?.message || 'Failed to send OTP');
     },
   });
 
@@ -82,9 +85,10 @@ export default function SettingsPage(): React.ReactElement {
       setShowOtpModal(false);
       setIsEmailVerifiedLocally(true);
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       setAlertTitle('Error');
-      setAlertMessage(error?.response?.data?.message || 'Invalid OTP');
+      const e = error as { response?: { data?: { message?: string } } };
+      setAlertMessage(e.response?.data?.message || 'Invalid OTP');
     },
   });
 
@@ -96,9 +100,10 @@ export default function SettingsPage(): React.ReactElement {
       setShowOtpModal(false);
       setIsPhoneVerifiedLocally(true);
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       setAlertTitle('Error');
-      setAlertMessage(error?.response?.data?.message || 'Invalid OTP');
+      const e = error as { response?: { data?: { message?: string } } };
+      setAlertMessage(e.response?.data?.message || 'Invalid OTP');
     },
   });
 

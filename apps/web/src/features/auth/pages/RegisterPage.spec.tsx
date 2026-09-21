@@ -8,7 +8,7 @@ import { authApi } from '../api/auth.api';
 // Mock react-router-dom
 const mockNavigate = vi.fn();
 vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual<any>('react-router-dom');
+  const actual = await vi.importActual<typeof import('react-router-dom')>('react-router-dom');
   return {
     ...actual,
     useNavigate: () => mockNavigate,
@@ -24,11 +24,12 @@ vi.mock('../api/auth.api', () => ({
 
 // Mock framer-motion AnimatePresence and motion to avoid animation delays
 vi.mock('framer-motion', async () => {
-  const actual = await vi.importActual<any>('framer-motion');
+  const actual = await vi.importActual<typeof import('framer-motion')>('framer-motion');
   return {
     ...actual,
     motion: {
       ...actual.motion,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       form: ({ children, ...props }: any) => <form {...props}>{children}</form>,
     },
   };

@@ -3,7 +3,6 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { DashboardLayout } from './DashboardLayout';
 import { render as customRender } from '@/shared/lib/test-utils';
-import { authApi } from '@/features/auth/api/auth.api';
 
 // Mock dependencies
 vi.mock('@/features/auth/api/auth.api', () => ({
@@ -39,7 +38,7 @@ describe('DashboardLayout', () => {
 
     const notifBtn = document.querySelector(
       'header button.relative.rounded-full.p-2\\.5',
-    ) as HTMLButtonElement;
+    );
     expect(notifBtn).toBeInTheDocument();
 
     await user.click(notifBtn);
@@ -62,12 +61,12 @@ describe('DashboardLayout', () => {
 
     const notifBtn = document.querySelector(
       'header button.relative.rounded-full.p-2\\.5',
-    ) as HTMLButtonElement;
+    );
     await user.click(notifBtn);
     expect(screen.getByText('2 New')).toBeInTheDocument();
 
     // Click on the main content area (outside the dropdown)
-    const mainContent = document.querySelector('main') as HTMLElement;
+    const mainContent = document.querySelector('main');
     await user.click(mainContent);
 
     // It should close
@@ -82,7 +81,7 @@ describe('DashboardLayout', () => {
 
     expect(screen.queryByText('View Profile')).not.toBeInTheDocument();
 
-    const profileBtn = screen.getByText('U').closest('button') as HTMLButtonElement;
+    const profileBtn = screen.getByText('U').closest('button');
     expect(profileBtn).toBeInTheDocument();
 
     await user.click(profileBtn);
@@ -91,7 +90,7 @@ describe('DashboardLayout', () => {
     expect(screen.getByText('Sign Out')).toBeInTheDocument();
 
     // Click outside to close
-    const mainContent = document.querySelector('main') as HTMLElement;
+    const mainContent = document.querySelector('main');
     await user.click(mainContent);
 
     await waitFor(() => {

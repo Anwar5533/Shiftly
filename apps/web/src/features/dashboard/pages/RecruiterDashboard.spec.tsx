@@ -16,6 +16,7 @@ describe('RecruiterDashboard', () => {
     vi.clearAllMocks();
 
     // Default mock response
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (recruiterApi.getDashboardStats as any).mockResolvedValue({
       placements: 5,
       totalApplications: 100,

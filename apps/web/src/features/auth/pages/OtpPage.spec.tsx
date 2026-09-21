@@ -6,10 +6,10 @@ import OtpPage from './OtpPage';
 import { authApi } from '../api/auth.api';
 
 const mockNavigate = vi.fn();
-let mockLocationState: any = { phone: '+919876543210' };
+let mockLocationState: { phone?: string; email?: string } | null = { phone: '+919876543210' };
 
 vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual<any>('react-router-dom');
+  const actual = await vi.importActual<typeof import('react-router-dom')>('react-router-dom');
   return {
     ...actual,
     useNavigate: () => mockNavigate,
@@ -38,6 +38,7 @@ vi.mock('../utils/jwt', () => ({
 }));
 
 describe('OtpPage', () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let user: ReturnType<typeof userEvent.setup>;
 
   beforeEach(() => {
@@ -63,7 +64,7 @@ describe('OtpPage', () => {
     expect(screen.getByText('+919876543210')).toBeInTheDocument();
   });
 
-  it('allows typing numeric OTP and auto-focuses next input', async () => {
+  it('allows typing numeric OTP and auto-focuses next input', () => {
     customRender(<OtpPage />);
 
     const inputs = screen.getAllByRole('textbox');
@@ -84,7 +85,7 @@ describe('OtpPage', () => {
     expect(document.activeElement).toBe(inputs[2]);
   });
 
-  it('handles backspace to focus previous input', async () => {
+  it('handles backspace to focus previous input', () => {
     customRender(<OtpPage />);
     const inputs = screen.getAllByRole('textbox');
 
@@ -102,7 +103,7 @@ describe('OtpPage', () => {
     expect(document.activeElement).toBe(inputs[1]);
   });
 
-  it('handles paste event correctly', async () => {
+  it('handles paste event correctly', () => {
     customRender(<OtpPage />);
     const inputs = screen.getAllByRole('textbox');
 
@@ -120,7 +121,7 @@ describe('OtpPage', () => {
     expect(document.activeElement).toBe(inputs[5]); // focus goes to index Math.min(pastedLength, 5) which is 5
   });
 
-  it('handles paste with invalid characters', async () => {
+  it('handles paste with invalid characters', () => {
     customRender(<OtpPage />);
     const inputs = screen.getAllByRole('textbox');
 

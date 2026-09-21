@@ -28,7 +28,8 @@ vi.mock('../utils/jwt', () => ({
 vi.mock('framer-motion', async () => {
   const actual = await vi.importActual('framer-motion');
   return {
-    ...(actual as any),
+    ...(actual as typeof import('framer-motion')),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     AnimatePresence: ({ children }: any) => <>{children}</>,
   };
 });
@@ -276,6 +277,7 @@ describe('LoginPage', () => {
       accessToken: 'user.token.here',
       user: {
         id: '1',
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         role: 'USER' as any,
         email: 'test@example.com',
         phone: '',

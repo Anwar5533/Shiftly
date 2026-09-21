@@ -55,8 +55,9 @@ export default function ProfilePage(): React.ReactElement {
       setCurrentPassword('');
       setNewPassword('');
       setConfirmPassword('');
-    } catch (err: any) {
-      setModalError(err.response?.data?.message || 'Failed to update password');
+    } catch (err: unknown) {
+      const e = err as { response?: { data?: { message?: string } } };
+      setModalError(e.response?.data?.message || 'Failed to update password');
     } finally {
       setIsSubmitting(false);
     }
@@ -74,8 +75,9 @@ export default function ProfilePage(): React.ReactElement {
       setPhoneStep(2);
       setShowSuccessToast('Verification code sent');
       setTimeout(() => setShowSuccessToast(''), 3000);
-    } catch (err: any) {
-      setModalError(err.response?.data?.message || 'Failed to send OTP');
+    } catch (err: unknown) {
+      const e = err as { response?: { data?: { message?: string } } };
+      setModalError(e.response?.data?.message || 'Failed to send OTP');
     } finally {
       setIsSubmitting(false);
     }
@@ -97,8 +99,9 @@ export default function ProfilePage(): React.ReactElement {
       setPhoneInput('');
       setOtpInput('');
       setPhoneStep(1);
-    } catch (err: any) {
-      setModalError(err.response?.data?.message || 'Failed to verify phone');
+    } catch (err: unknown) {
+      const e = err as { response?: { data?: { message?: string } } };
+      setModalError(e.response?.data?.message || 'Failed to verify phone');
     } finally {
       setIsSubmitting(false);
     }
