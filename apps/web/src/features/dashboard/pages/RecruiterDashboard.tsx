@@ -169,7 +169,7 @@ export default function RecruiterDashboard(): React.ReactElement {
                 bgClass: 'bg-green-500/20 hover:bg-green-500/30',
                 textClass: 'text-green-600 dark:text-green-400',
               },
-            ].map((stage, index, arr) => {
+            ].map((stage, _index, arr) => {
               const maxCount = Math.max(1, ...arr.map((s) => s.count)); // at least 1 to avoid NaN division
               const heightPercent = Math.max((stage.count / maxCount) * 100, 20); // at least 20% height
 
