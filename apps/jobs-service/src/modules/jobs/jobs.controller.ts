@@ -28,16 +28,23 @@ export class JobsController {
 
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('EMPLOYER', 'WORKER')
+  @Roles('EMPLOYER')
   createJob(@CurrentUser('sub') userId: string, @Body() createJobDto: CreateJobDto) {
     return this.jobsService.createJob(userId, createJobDto);
   }
 
   @Get('my-jobs')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('EMPLOYER', 'WORKER')
+  @Roles('EMPLOYER')
   getMyJobs(@CurrentUser('sub') userId: string, @Query() query: PaginationDto) {
     return this.jobsService.getMyJobs(userId, query.page, query.limit);
+  }
+
+  @Get('stats')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN')
+  getStats() {
+    return this.jobsService.getStats();
   }
 
   @Get('search')
@@ -56,14 +63,14 @@ export class JobsController {
 
   @Patch(':id/close')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('EMPLOYER', 'WORKER', 'RECRUITER')
+  @Roles('EMPLOYER', 'RECRUITER')
   closeJob(@CurrentUser('sub') userId: string, @Param('id') jobId: string) {
     return this.jobsService.closeJob(userId, jobId);
   }
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('EMPLOYER', 'WORKER')
+  @Roles('EMPLOYER')
   updateJob(
     @Param('id') id: string,
     @CurrentUser('sub') userId: string,
@@ -74,7 +81,7 @@ export class JobsController {
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('EMPLOYER', 'WORKER')
+  @Roles('EMPLOYER')
   deleteJob(@Param('id') id: string, @CurrentUser('sub') userId: string) {
     return this.jobsService.deleteJob(userId, id);
   }

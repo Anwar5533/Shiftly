@@ -15,35 +15,35 @@ export class EmployersController {
 
   @Get('profile')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('EMPLOYER', 'WORKER')
+  @Roles('EMPLOYER')
   getProfile(@CurrentUser('sub') userId: string) {
     return this.employersService.getProfile(userId);
   }
 
   @Get('dashboard')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('EMPLOYER', 'WORKER')
+  @Roles('EMPLOYER')
   getDashboardStats(@CurrentUser('sub') userId: string) {
     return this.employersService.getDashboardStats(userId);
   }
 
   @Patch('profile')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('EMPLOYER', 'WORKER')
+  @Roles('EMPLOYER')
   updateProfile(@CurrentUser('sub') userId: string, @Body() updateDto: UpdateEmployerProfileDto) {
     return this.employersService.updateProfile(userId, updateDto);
   }
 
   @Get('departments')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('EMPLOYER', 'WORKER')
+  @Roles('EMPLOYER')
   getDepartments(@CurrentUser('sub') userId: string) {
     return this.employersService.getDepartments(userId);
   }
 
   @Post('departments')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('EMPLOYER', 'WORKER')
+  @Roles('EMPLOYER')
   addDepartment(@CurrentUser('sub') userId: string, @Body() departmentDto: AddDepartmentDto) {
     return this.employersService.addDepartment(userId, departmentDto);
   }

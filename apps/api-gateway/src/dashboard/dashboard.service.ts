@@ -214,8 +214,8 @@ export class DashboardService {
       [
         {
           name: 'userStats',
-          url: `${process.env.USER_URL}/api/v1/admin/users/stats`,
-          fallback: { totalUsers: 0 },
+          url: `${process.env.USER_URL}/api/v1/admin/stats`,
+          fallback: { activeUsers: 0, totalUsers: 0 },
         },
         {
           name: 'jobStats',
@@ -223,24 +223,28 @@ export class DashboardService {
           fallback: { totalActiveJobs: 0, totalCompletedShifts: 0 },
         },
         {
-          name: 'analyticsSummary',
-          url: `${process.env.ANALYTICS_URL}/api/v1/analytics/summary`,
-          fallback: { totalPlatformRevenue: 0, recentActivity: [] },
+          name: 'analyticsStats',
+          url: `${process.env.ANALYTICS_URL}/api/v1/analytics/stats`,
+          fallback: { grossPaymentVolume: 0, totalPlatformRevenue: 0, recentActivity: [] },
         },
       ],
       headers,
     );
 
-    const userStats = values[0] as { totalUsers?: number };
+    const userStats = values[0] as { activeUsers?: number; totalUsers?: number };
     const jobStats = values[1] as { totalActiveJobs?: number; totalCompletedShifts?: number };
-    const analytics = values[2] as { totalPlatformRevenue?: number; recentActivity?: unknown[] };
+    const analytics = values[2] as {
+      grossPaymentVolume?: number;
+      totalPlatformRevenue?: number;
+      recentActivity?: unknown[];
+    };
 
     return {
       stats: {
-        totalUsers: userStats.totalUsers ?? 0,
+        totalUsers: userStats.totalUsers ?? userStats.activeUsers ?? 0,
         totalActiveJobs: jobStats.totalActiveJobs ?? 0,
         totalCompletedShifts: jobStats.totalCompletedShifts ?? 0,
-        totalPlatformRevenue: analytics.totalPlatformRevenue ?? 0,
+        totalPlatformRevenue: analytics.totalPlatformRevenue ?? analytics.grossPaymentVolume ?? 0,
       },
       recentActivity: analytics.recentActivity ?? [],
       degraded,

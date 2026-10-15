@@ -286,4 +286,20 @@ export class JobsService {
       },
     };
   }
+
+  async getStats() {
+    const [totalActiveJobs, totalCompletedShifts] = await Promise.all([
+      this.prisma.job.count({
+        where: { status: JobStatus.PUBLISHED, deletedAt: null },
+      }),
+      this.prisma.shift.count({
+        where: { status: 'COMPLETED' },
+      }),
+    ]);
+
+    return {
+      totalActiveJobs,
+      totalCompletedShifts,
+    };
+  }
 }

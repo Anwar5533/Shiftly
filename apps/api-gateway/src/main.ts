@@ -18,6 +18,7 @@ import { TokenDenylistService } from './auth/token-denylist.service';
  */
 const ROUTE_TABLE: ReadonlyArray<readonly [prefix: string, envVar: string]> = [
   ['/api/v1/auth', 'IDENTITY_URL'],
+  ['/api/v1/admin', 'USER_URL'],
   ['/api/v1/workers', 'USER_URL'],
   ['/api/v1/employers', 'USER_URL'],
   ['/api/v1/recruiters', 'USER_URL'],

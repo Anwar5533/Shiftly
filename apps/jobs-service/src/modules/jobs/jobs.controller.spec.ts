@@ -57,4 +57,17 @@ describe('JobsController', () => {
       expect(jobsService.closeJob).toHaveBeenCalledWith('user-1', 'job-1');
     });
   });
+
+  describe('getStats', () => {
+    it('should call getStats', async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      jobsService.getStats = jest
+        .fn()
+        .mockResolvedValue({ totalActiveJobs: 5, totalCompletedShifts: 10 });
+      const result = await controller.getStats();
+      expect(result).toEqual({ totalActiveJobs: 5, totalCompletedShifts: 10 });
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      expect(jobsService.getStats).toHaveBeenCalled();
+    });
+  });
 });
