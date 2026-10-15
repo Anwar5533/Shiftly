@@ -11,6 +11,7 @@ import { CreateApplicationDto } from './dto/create-application.dto';
 import { UpdateApplicationStatusDto } from './dto/update-application-status.dto';
 import { Prisma } from '@prisma/client-applications-service';
 import { KafkaTopics, ApplicationApprovedEventSchema } from '@shiftly/shared-events';
+import { randomUUID } from 'node:crypto';
 
 @Injectable()
 export class ApplicationsService {
@@ -74,7 +75,25 @@ export class ApplicationsService {
         },
       });
 
-      // TODO: Emit event to jobs-service to increment application count
+      // Transactional Outbox event for Kafka event distribution (ARCH-002)
+      await tx.outboxEvent.create({
+        data: {
+          topic: KafkaTopics.Applications,
+          payload: {
+            id: randomUUID(),
+            timestamp: new Date().toISOString(),
+            version: '1.0',
+            type: 'job.application.created',
+            payload: {
+              applicationId: application.id,
+              jobId: createDto.jobId,
+              workerId: workerProfileId,
+              employerId: jobEmployerId,
+            },
+          },
+        },
+      });
+
       this.eventEmitter.emit('job.application.created', { jobId: createDto.jobId });
 
       return application;
@@ -254,7 +273,24 @@ export class ApplicationsService {
         },
       });
 
-      // TODO: Emit event to jobs-service to decrement application count
+      // Transactional Outbox event for Kafka event distribution (ARCH-002)
+      await tx.outboxEvent.create({
+        data: {
+          topic: KafkaTopics.Applications,
+          payload: {
+            id: randomUUID(),
+            timestamp: new Date().toISOString(),
+            version: '1.0',
+            type: 'job.application.withdrawn',
+            payload: {
+              applicationId,
+              jobId: application.jobId,
+              workerId: application.workerId,
+            },
+          },
+        },
+      });
+
       this.eventEmitter.emit('job.application.withdrawn', { jobId: application.jobId });
 
       return updated;

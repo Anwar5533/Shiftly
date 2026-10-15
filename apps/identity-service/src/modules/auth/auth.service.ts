@@ -507,13 +507,21 @@ export class AuthService {
     }
 
     if (session.isRevoked) {
-      // Token reuse detected! Revoke the compromised session.
-      // (In production with token families, we would revoke the whole family.
-      // Revoking all user sessions causes flaky E2E tests when run concurrently).
-      await this.prisma.session.update({
-        where: { id: session.id },
+      // SECURITY (SEC-006): Token reuse detected! Revoke all sessions for this user family.
+      await this.prisma.session.updateMany({
+        where: { userId: session.userId },
         data: { isRevoked: true, revokedAt: new Date() },
       });
+
+      // Add user to Redis denylist to invalidate active access tokens
+      try {
+        await this.redis.set(`denylist:user:${session.userId}`, '1', 900);
+      } catch (error) {
+        this.logger.warn(
+          `Failed to set user denylist in Redis: ${error instanceof Error ? error.message : String(error)}`,
+        );
+      }
+
       this.logger.warn(
         JSON.stringify({
           event: 'AUTH_TOKEN_REUSE_DETECTED',
@@ -578,6 +586,15 @@ export class AuthService {
       where: { refreshTokenJti: hashedJti },
       data: { isRevoked: true, revokedAt: new Date() },
     });
+
+    // SECURITY (SEC-004): Add sessionId to Redis denylist to immediately invalidate active access tokens
+    try {
+      await this.redis.set(`denylist:session:${sessionId}`, '1', 900);
+    } catch (error) {
+      this.logger.warn(
+        `Failed to set session denylist in Redis: ${error instanceof Error ? error.message : String(error)}`,
+      );
+    }
 
     this.logger.log(
       JSON.stringify({

@@ -3,6 +3,13 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 import { PrismaService } from '../database/prisma.service';
 import { KafkaService } from '../kafka/kafka.service';
 
+interface RawOutboxEvent {
+  id: string;
+  topic: string;
+  payload: unknown;
+  retryCount: number;
+}
+
 @Injectable()
 export class OutboxService {
   private readonly logger = new Logger(OutboxService.name);
@@ -22,45 +29,64 @@ export class OutboxService {
     this.isProcessing = true;
 
     try {
-      const events = await this.prisma.outboxEvent.findMany({
-        where: { published: false },
-        take: 50,
-        orderBy: { createdAt: 'asc' },
-      });
+      await this.prisma.$transaction(async (tx) => {
+        // SECURITY / CONCURRENCY (ARCH-003): Use FOR UPDATE SKIP LOCKED to prevent
+        // duplicate delivery across concurrent replicas and exponential backoff to avoid head-of-line blocking.
+        const events = await tx.$queryRaw<RawOutboxEvent[]>`
+          SELECT id, topic, payload, "retryCount"
+          FROM "payments"."outbox_events"
+          WHERE "published" = false
+            AND COALESCE("retryCount", 0) < 5
+            AND ("lastRetryAt" IS NULL OR "lastRetryAt" < NOW() - (INTERVAL '1 second' * (5 * POWER(2, COALESCE("retryCount", 0)))))
+          ORDER BY "createdAt" ASC
+          LIMIT 50
+          FOR UPDATE SKIP LOCKED
+        `;
 
-      if (events.length === 0) {
-        return;
-      }
-
-      this.logger.debug(`Found ${events.length} unpublished outbox events`);
-
-      for (const event of events) {
-        try {
-          // payload is stored as Json in Prisma — cast required for kafkajs publish
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- Prisma Json type requires cast
-          const payload = event.payload as any;
-          await this.kafkaService.publish(event.topic, payload);
-
-          await this.prisma.outboxEvent.update({
-            where: { id: event.id },
-            data: {
-              published: true,
-              publishedAt: new Date(),
-            },
-          });
-
-          this.logger.debug(`Successfully published outbox event ${event.id}`);
-        } catch (error: unknown) {
-          this.logger.error(`Failed to publish outbox event ${event.id}`, error);
-
-          await this.prisma.outboxEvent.update({
-            where: { id: event.id },
-            data: {
-              error: (error instanceof Error ? error.message : String(error)) || 'Unknown error',
-            },
-          });
+        if (!events || events.length === 0) {
+          return;
         }
-      }
+
+        this.logger.debug(`Found ${events.length} unpublished outbox events`);
+
+        for (const event of events) {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            const payload =
+              typeof event.payload === 'string' ? JSON.parse(event.payload) : event.payload;
+
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+            await this.kafkaService.publish(event.topic, payload);
+
+            await tx.outboxEvent.update({
+              where: { id: event.id },
+              data: {
+                published: true,
+                publishedAt: new Date(),
+                error: null,
+              },
+            });
+
+            this.logger.debug(`Successfully published outbox event ${event.id}`);
+          } catch (error: unknown) {
+            const errorMsg = error instanceof Error ? error.message : String(error);
+            const currentRetries = event.retryCount ?? 0;
+            this.logger.error(
+              `Failed to publish outbox event ${event.id} (attempt ${currentRetries + 1}/5): ${errorMsg}`,
+              error instanceof Error ? error.stack : undefined,
+            );
+
+            await tx.outboxEvent.update({
+              where: { id: event.id },
+              data: {
+                retryCount: currentRetries + 1,
+                lastRetryAt: new Date(),
+                error: errorMsg,
+              },
+            });
+          }
+        }
+      });
     } catch (error) {
       this.logger.error('Error processing outbox events', error);
     } finally {

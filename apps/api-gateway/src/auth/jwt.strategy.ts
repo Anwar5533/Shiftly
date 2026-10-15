@@ -4,6 +4,8 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
 import { AuthenticatedUser } from '../shared/types/authenticated-request';
 
+import { TokenDenylistService } from './token-denylist.service';
+
 /** Claims the identity-service puts in an access token. */
 interface AccessTokenPayload {
   sub: string;
@@ -20,7 +22,10 @@ interface AccessTokenPayload {
 export class JwtStrategy extends PassportStrategy(Strategy) {
   private static readonly logger = new Logger(JwtStrategy.name);
 
-  constructor(configService: ConfigService) {
+  constructor(
+    configService: ConfigService,
+    private readonly tokenDenylistService: TokenDenylistService,
+  ) {
     // SECURITY: Fallback dev secret intentionally removed (CRITICAL-03).
     // JWT_ACCESS_SECRET MUST be set in the environment. The strategy fails at
     // construction if it is absent, preventing the gateway from accepting
@@ -51,10 +56,20 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
    * Runs only after the signature and expiry have been verified. Identity is
    * taken exclusively from the verified claims — never from request headers.
    */
-  validate(payload: AccessTokenPayload): AuthenticatedUser {
+  async validate(payload: AccessTokenPayload): Promise<AuthenticatedUser> {
     if (!payload.sub || !payload.role) {
       JwtStrategy.logger.warn('Rejected token with missing sub/role claim');
       throw new UnauthorizedException('Malformed access token');
+    }
+
+    if (payload.sessionId || payload.sub) {
+      const isRevoked = await this.tokenDenylistService.isRevoked(payload.sessionId, payload.sub);
+      if (isRevoked) {
+        JwtStrategy.logger.warn(
+          `Rejected revoked access token for user ${payload.sub} (session ${payload.sessionId ?? 'unknown'})`,
+        );
+        throw new UnauthorizedException('Token has been revoked. Please log in again.');
+      }
     }
 
     return {

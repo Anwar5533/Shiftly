@@ -10,6 +10,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import type { Socket } from 'node:net';
 import { v4 as uuidv4 } from 'uuid';
 import { AppModule } from './app.module';
+import { TokenDenylistService } from './auth/token-denylist.service';
 
 /**
  * Path prefix → downstream env var. Ordered longest-first at match time so
@@ -126,9 +127,54 @@ async function bootstrap(): Promise<void> {
   };
   const apiProxy = createProxyMiddleware(proxyOptions);
 
-  // Only proxy paths that have a known target; everything else (health,
-  // dashboard aggregation, Swagger) is served by the gateway itself.
-  app.use((req: Request, res: Response, next: NextFunction) => {
+  const tokenDenylistService = app.get(TokenDenylistService);
+
+  // Check Redis token denylist for revoked access tokens before proxying or local routing
+  app.use(async (req: Request, res: Response, next: NextFunction) => {
+    const authHeader = req.headers.authorization;
+    if (authHeader && typeof authHeader === 'string' && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.slice(7).trim();
+      if (token) {
+        try {
+          const parts = token.split('.');
+          if (parts.length === 3) {
+            const payload = JSON.parse(Buffer.from(parts[1], 'base64url').toString('utf8')) as {
+              sub?: string;
+              sessionId?: string;
+            };
+
+            if (payload && (payload.sessionId || payload.sub)) {
+              const isRevoked = await tokenDenylistService.isRevoked(
+                payload.sessionId,
+                payload.sub,
+              );
+              if (isRevoked) {
+                const requestId = (req.headers['x-request-id'] as string) ?? uuidv4();
+                res.writeHead(401, {
+                  'Content-Type': 'application/json',
+                  'X-Request-ID': requestId,
+                });
+                res.end(
+                  JSON.stringify({
+                    success: false,
+                    error: {
+                      code: 'UNAUTHORIZED',
+                      message: 'Token has been revoked. Please log in again.',
+                      statusCode: 401,
+                    },
+                    meta: { timestamp: new Date().toISOString(), requestId },
+                  }),
+                );
+                return;
+              }
+            }
+          }
+        } catch {
+          // If token decoding fails, let downstream authentication or guards handle validation
+        }
+      }
+    }
+
     if (resolveTarget(req.url ?? '')) {
       void apiProxy(req, res, next);
       return;

@@ -316,10 +316,33 @@ describe('AuthService', () => {
       const result = await service.refreshTokens('test-refresh-token');
       expect(result.accessToken).toBe('test-jwt-token');
     });
+
+    it('should revoke all user sessions and set redis denylist on token reuse', async () => {
+      jwt.verify.mockReturnValue({ sessionId: 'compromised-session' });
+
+      prisma.session.findFirst.mockResolvedValue({
+        id: 'sess-comp',
+        userId: 'user-compromised',
+        isRevoked: true,
+        expiresAt: new Date(Date.now() + 10000),
+        user: { id: 'user-compromised', status: 'ACTIVE' },
+      });
+
+      await expect(service.refreshTokens('compromised-token')).rejects.toThrow(
+        UnauthorizedException,
+      );
+
+      expect(prisma.session.updateMany).toHaveBeenCalledWith({
+        where: { userId: 'user-compromised' },
+        data: { isRevoked: true, revokedAt: expect.any(Date) },
+      });
+
+      expect(redis.set).toHaveBeenCalledWith('denylist:user:user-compromised', '1', 900);
+    });
   });
 
   describe('logout', () => {
-    it('should revoke all refresh tokens for user', async () => {
+    it('should revoke all refresh tokens for user and denylist session in redis', async () => {
       // eslint-disable-next-line @typescript-eslint/no-require-imports -- TODO(RC3): Address type safety
       const crypto = require('crypto');
 
@@ -328,9 +351,10 @@ describe('AuthService', () => {
 
       expect(prisma.session.updateMany).toHaveBeenCalledWith({
         where: { refreshTokenJti: hashedJti },
-
         data: { isRevoked: true, revokedAt: expect.any(Date) },
       });
+
+      expect(redis.set).toHaveBeenCalledWith('denylist:session:user-1', '1', 900);
     });
   });
 

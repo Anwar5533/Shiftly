@@ -102,6 +102,8 @@ model OutboxEvent {
   createdAt   DateTime @default(now())
   publishedAt DateTime?
   error       String?
+  retryCount  Int       @default(0)
+  lastRetryAt DateTime?
 
   @@map("outbox_events")
   @@schema("identity")

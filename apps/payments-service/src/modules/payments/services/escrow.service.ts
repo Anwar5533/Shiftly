@@ -76,7 +76,6 @@ export class EscrowService {
       where: { id: workerWallet.id },
       data: {
         balance: {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- Prisma type resolution issue
           increment: escrow.amount,
         },
       },
