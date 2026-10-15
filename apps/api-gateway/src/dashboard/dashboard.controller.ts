@@ -6,9 +6,7 @@ import {
   Req,
   UnauthorizedException,
   UseGuards,
-  UseInterceptors,
 } from '@nestjs/common';
-import { CacheInterceptor } from '@nestjs/cache-manager';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { DashboardService } from './dashboard.service';
@@ -17,7 +15,6 @@ import { ADMIN_ROLES, AuthenticatedRequest } from '../shared/types/authenticated
 @ApiTags('Dashboard')
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
-@UseInterceptors(CacheInterceptor)
 @Controller('dashboard')
 export class DashboardController {
   private readonly logger = new Logger(DashboardController.name);

@@ -30,4 +30,15 @@ export class WalletsController {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
     return this.walletsService.withdraw(req.user.id, amount);
   }
+
+  @Post('verify')
+  async verifyPayment(
+    @Request() req: any,
+    @Body('orderId') orderId: string,
+    @Body('paymentId') paymentId: string,
+    @Body('signature') signature: string,
+  ) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type safety
+    return this.walletsService.verifyPayment(req.user.id, orderId, paymentId, signature);
+  }
 }

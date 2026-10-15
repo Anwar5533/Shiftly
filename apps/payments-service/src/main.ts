@@ -17,6 +17,7 @@ import { LoggingInterceptor } from './shared/interceptors/logging.interceptor';
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     bufferLogs: true,
+    rawBody: true,
   });
 
   app.set('trust proxy', 1);

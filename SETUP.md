@@ -51,7 +51,7 @@ _(You should see `postgres` on port `5433`, `kafka` on ports `9092` and `29092`,
 
 ### 4. Initialize the Databases
 
-The Postgres container is configured to automatically create the isolated databases (`shiftly_identity`, `shiftly_users`, `shiftly_jobs`, `shiftly_applications`).
+The Postgres container is configured to automatically create and initialize the unified multi-schema database (`shiftly`) with all required schemas and extensions.
 
 Push the Prisma schemas to create the tables in your local databases:
 

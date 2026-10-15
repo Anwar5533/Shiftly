@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars -- TODO(RC3): Address type safety */
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../../../infrastructure/database/prisma.service';
 import { TopupWalletDto } from '../dto/topup-wallet.dto';
 import { WithdrawFundsDto } from '../dto/withdraw-funds.dto';
-import { TransactionType, TransactionStatus } from '@prisma/client-payments-service';
+import { TransactionType, TransactionStatus, Prisma } from '@prisma/client-payments-service';
 
 @Injectable()
 export class WalletService {
@@ -39,65 +38,124 @@ export class WalletService {
   }
 
   async topup(userId: string, topupDto: TopupWalletDto) {
-    const wallet = await this.getBalance(userId);
+    if (topupDto.amount <= 0) {
+      throw new BadRequestException('Top up amount must be greater than 0');
+    }
 
-    // Mocking an external payment gateway call here
-    // In production, this would initialize a Razorpay/Stripe session
+    const wallet = await this.getBalance(userId);
+    const orderId = `order_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+
+    // Create PENDING transaction for payment gateway session.
+    // Wallet balance is NOT incremented until verified payment is captured/webhook received.
     const transaction = await this.prisma.transaction.create({
       data: {
         walletId: wallet.id,
         amount: topupDto.amount,
         type: TransactionType.TOPUP,
-        status: TransactionStatus.COMPLETED, // Mocking successful payment
-        referenceId: `TOPUP-${Date.now()}`,
-        description: `Wallet top up of ${topupDto.amount}`,
-        currency: 'INR',
+        status: TransactionStatus.PENDING,
+        referenceId: orderId,
+        description: `Wallet top up of ${topupDto.amount} ${topupDto.currency || 'INR'}`,
+        currency: topupDto.currency || 'INR',
       },
     });
 
-    // Update wallet balance
-    await this.prisma.wallet.update({
-      where: { id: wallet.id },
-      data: {
-        balance: {
-          increment: topupDto.amount,
+    return {
+      ...transaction,
+      orderId,
+    };
+  }
+
+  async fulfillTopup(
+    orderIdOrRef: string,
+    externalTxnId: string,
+    metadata?: Record<string, unknown>,
+  ) {
+    const transaction = await this.prisma.transaction.findFirst({
+      where: {
+        OR: [{ referenceId: orderIdOrRef }, { id: orderIdOrRef }],
+      },
+    });
+
+    if (!transaction) {
+      return null;
+    }
+
+    // Idempotent fulfillment: already completed transactions must not be credited again
+    if (transaction.status === TransactionStatus.COMPLETED) {
+      return transaction;
+    }
+
+    return this.prisma.$transaction(async (tx) => {
+      await tx.wallet.update({
+        where: { id: transaction.walletId },
+        data: {
+          balance: {
+            increment: transaction.amount,
+          },
         },
-      },
-    });
+      });
 
-    return transaction;
+      const updatedTx = await tx.transaction.update({
+        where: { id: transaction.id },
+        data: {
+          status: TransactionStatus.COMPLETED,
+          externalTxnId,
+          metadata: metadata ? (metadata as Prisma.InputJsonValue) : undefined,
+        },
+      });
+
+      return updatedTx;
+    });
   }
 
   async withdraw(userId: string, withdrawDto: WithdrawFundsDto) {
-    const wallet = await this.getBalance(userId);
-
-    if (Number(wallet.balance) < withdrawDto.amount) {
-      throw new BadRequestException('Insufficient balance');
+    if (withdrawDto.amount <= 0) {
+      throw new BadRequestException('Withdraw amount must be greater than 0');
     }
 
-    // Mocking withdrawal processing
-    const transaction = await this.prisma.transaction.create({
-      data: {
-        walletId: wallet.id,
-        amount: withdrawDto.amount,
-        type: TransactionType.WITHDRAWAL,
-        status: TransactionStatus.PENDING,
-        referenceId: `WD-${Date.now()}`,
-        description: `Wallet withdrawal of ${withdrawDto.amount}`,
-        currency: 'INR',
-      },
-    });
+    return this.prisma.$transaction(async (tx) => {
+      // Row-level lock to prevent concurrent overdraft race conditions
+      const wallets = await tx.$queryRaw<
+        Array<{ id: string; balance: Prisma.Decimal; userId: string }>
+      >`
+        SELECT id, balance, "userId"
+        FROM payments.wallets
+        WHERE "userId" = ${userId}::uuid
+        FOR UPDATE
+      `;
 
-    // Deduct from wallet immediately
-    await this.prisma.wallet.update({
-      where: { id: wallet.id },
-      data: {
-        balance: {
-          decrement: withdrawDto.amount,
+      const wallet = wallets[0];
+      if (!wallet) {
+        throw new NotFoundException('Wallet not found');
+      }
+
+      if (Number(wallet.balance) < withdrawDto.amount) {
+        throw new BadRequestException('Insufficient balance');
+      }
+
+      const transaction = await tx.transaction.create({
+        data: {
+          walletId: wallet.id,
+          amount: withdrawDto.amount,
+          type: TransactionType.WITHDRAWAL,
+          status: TransactionStatus.PENDING,
+          referenceId: `WD-${Date.now()}`,
+          description: `Wallet withdrawal of ${withdrawDto.amount}`,
+          currency: 'INR',
         },
-      },
-    });
+      });
 
-    return transaction;
+      // Deduct from wallet atomically under lock
+      await tx.wallet.update({
+        where: { id: wallet.id },
+        data: {
+          balance: {
+            decrement: withdrawDto.amount,
+          },
+        },
+      });
+
+      return transaction;
+    });
   }
 }
