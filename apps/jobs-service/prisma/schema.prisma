@@ -49,6 +49,14 @@ enum ShiftStatus {
   @@schema("jobs")
 }
 
+enum TimesheetStatus {
+  PENDING
+  SUBMITTED
+  APPROVED
+  REJECTED
+  @@schema("jobs")
+}
+
 // ─── JOBS SCHEMA ─────────────────────────────────────────────────────────────
 
 model Job {
@@ -114,12 +122,33 @@ model Shift {
   updatedAt        DateTime    @updatedAt
 
   job Job @relation(fields: [jobId], references: [id])
+  timesheet Timesheet?
 
   @@index([jobId])
   @@index([workerId])
   @@index([status])
   @@index([scheduledStart, scheduledEnd])
   @@map("shifts")
+  @@schema("jobs")
+}
+
+model Timesheet {
+  id              String          @id @default(uuid()) @db.Uuid
+  shiftId         String          @unique @db.Uuid
+  status          TimesheetStatus @default(PENDING)
+  hoursWorked     Decimal         @db.Decimal(6, 2)
+  notes           String?
+  submittedAt     DateTime?
+  approvedAt      DateTime?
+  rejectedAt      DateTime?
+  rejectionReason String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  shift Shift @relation(fields: [shiftId], references: [id], onDelete: Cascade)
+
+  @@index([status])
+  @@map("timesheets")
   @@schema("jobs")
 }
 

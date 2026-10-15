@@ -96,22 +96,54 @@ export class KafkaConsumerService implements OnModuleInit, OnModuleDestroy {
                 const lock = await tx.escrowLock.findUnique({ where: { id: escrowLock.id } });
                 if (!lock || lock.status !== 'LOCKED') return;
 
+                // Resolve worker's User.id from payload.workerId (which is WorkerProfile.id)
+                let resolvedUserId = payload.workerId;
+                const workerProfile = await tx.workerProfile.findUnique({
+                  where: { id: payload.workerId },
+                  select: { userId: true },
+                });
+                if (workerProfile?.userId) {
+                  resolvedUserId = workerProfile.userId;
+                }
+
+                // Locate or create worker wallet using resolved User.id
+                let workerWallet = await tx.wallet.findUnique({
+                  where: { userId: resolvedUserId },
+                });
+
+                if (!workerWallet) {
+                  workerWallet = await tx.wallet.create({
+                    data: {
+                      userId: resolvedUserId,
+                      balance: 0,
+                      escrowBalance: 0,
+                      currency: lock.currency || 'INR',
+                    },
+                  });
+                }
+
+                // Atomically mark escrow released, credit worker wallet, and record payout transaction
                 await tx.escrowLock.update({
                   where: { id: lock.id },
                   data: { status: 'RELEASED', releasedAt: new Date() },
                 });
 
-                const workerWallet = await tx.wallet.findUnique({
-                  where: { userId: payload.workerId },
+                await tx.wallet.update({
+                  where: { id: workerWallet.id },
+                  data: { balance: { increment: lock.amount } },
                 });
 
-                if (workerWallet) {
-                  await tx.wallet.update({
-                    where: { id: workerWallet.id },
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- Prisma Decimal type
-                    data: { balance: { increment: lock.amount } },
-                  });
-                }
+                await tx.transaction.create({
+                  data: {
+                    walletId: workerWallet.id,
+                    amount: lock.amount,
+                    type: 'ESCROW_RELEASE',
+                    status: 'COMPLETED',
+                    referenceId: `ESCROW-PAYOUT-${lock.id}`,
+                    description: `Escrow payout for shift ${payload.shiftId}`,
+                    currency: lock.currency || 'INR',
+                  },
+                });
               });
 
               this.logger.log(
