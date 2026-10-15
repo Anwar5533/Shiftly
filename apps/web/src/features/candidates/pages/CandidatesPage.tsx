@@ -78,6 +78,7 @@ export default function CandidatesPage(): React.ReactElement {
           <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
           <input
             type="text"
+            aria-label="Search candidates by title, skill, or keyword"
             placeholder="Search by job title, skill, or keyword..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -88,12 +89,14 @@ export default function CandidatesPage(): React.ReactElement {
           <MapPin className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
           <input
             type="text"
+            aria-label="Filter candidates by location"
             placeholder="Location..."
             className="w-full rounded-lg border border-input bg-background py-2.5 pl-10 pr-4 text-sm text-foreground transition-all focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
         <button
           onClick={() => setSearchQuery(searchQuery)} // triggers re-search
+          aria-label="Search candidates"
           className="flex shrink-0 items-center justify-center gap-2 rounded-lg bg-primary px-6 py-2.5 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
         >
           Search
@@ -165,12 +168,14 @@ export default function CandidatesPage(): React.ReactElement {
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() => openModal(candidate, 'message')}
+                    aria-label={`Send message to ${candidate.name}`}
                     className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-primary/10 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/20"
                   >
                     <MessageSquare className="h-4 w-4" /> Message
                   </button>
                   <button
                     onClick={() => handleDownloadResume(candidate)}
+                    aria-label={`Download resume of ${candidate.name}`}
                     className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-muted py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted/80"
                   >
                     <Download className="h-4 w-4" /> Resume
@@ -186,14 +191,20 @@ export default function CandidatesPage(): React.ReactElement {
       {modalType === 'message' &&
         selectedCandidate &&
         createPortal(
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="message-candidate-dialog-title"
+          >
             <div className="w-full max-w-md rounded-2xl border border-border bg-card shadow-2xl">
               <div className="flex items-center justify-between border-b border-border p-5">
-                <h2 className="text-lg font-semibold text-foreground">
+                <h2 id="message-candidate-dialog-title" className="text-lg font-semibold text-foreground">
                   Message {selectedCandidate.name}
                 </h2>
                 <button
                   onClick={closeModal}
+                  aria-label="Close message dialog"
                   className="rounded-md p-1.5 text-muted-foreground hover:bg-muted"
                 >
                   <X className="h-5 w-5" />
@@ -201,8 +212,11 @@ export default function CandidatesPage(): React.ReactElement {
               </div>
               <div className="space-y-4 p-5">
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-foreground">Message</label>
+                  <label htmlFor="candidate-message-textarea" className="mb-1 block text-sm font-medium text-foreground">
+                    Message
+                  </label>
                   <textarea
+                    id="candidate-message-textarea"
                     className="w-full resize-none rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     rows={5}
                     placeholder={`Hi ${selectedCandidate.name}, I'm interested in discussing a potential opportunity...`}

@@ -1,4 +1,14 @@
-import { Controller, Get, Patch, Post, Delete, Body, Param, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Patch,
+  Post,
+  Delete,
+  Body,
+  Param,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
 import { WorkersService } from './workers.service';
 import { UpdateWorkerProfileDto } from './dto/update-worker-profile.dto';
@@ -12,6 +22,13 @@ import { Public } from '../../shared/decorators/public.decorator';
 @Controller({ path: 'workers', version: '1' })
 export class WorkersController {
   constructor(private readonly workersService: WorkersService) {}
+
+  @Get()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('EMPLOYER', 'RECRUITER', 'ADMIN', 'SUPER_ADMIN')
+  searchWorkers(@Query('query') query?: string) {
+    return this.workersService.searchWorkers(query);
+  }
 
   @Get('profile')
   @UseGuards(JwtAuthGuard, RolesGuard)

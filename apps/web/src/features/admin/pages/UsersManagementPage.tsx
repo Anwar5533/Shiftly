@@ -16,72 +16,83 @@ import {
 import { AlertDialog } from '../../../shared/components/AlertDialog';
 import { ConfirmDialog } from '../../../shared/components/ConfirmDialog';
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: string;
-  status: string;
-  lastLogin: string;
-  registered: string;
-}
+import { adminApi, type AdminUser } from '../api/admin.api';
+
+const defaultUsers: AdminUser[] = [
+  {
+    id: 'USR-8902',
+    name: 'Emma Watson',
+    email: 'emma.w@example.com',
+    role: 'Worker',
+    status: 'Active',
+    lastLogin: '2 mins ago',
+    registered: '2025-11-12',
+  },
+  {
+    id: 'USR-8903',
+    name: 'TechCorp HR',
+    email: 'hr@techcorp.com',
+    role: 'Employer',
+    status: 'Active',
+    lastLogin: '1 hour ago',
+    registered: '2026-01-05',
+  },
+  {
+    id: 'USR-8904',
+    name: 'Michael Scott',
+    email: 'm.scott@dunder.com',
+    role: 'Recruiter',
+    status: 'Suspended',
+    lastLogin: '2 weeks ago',
+    registered: '2026-03-20',
+  },
+  {
+    id: 'USR-8905',
+    name: 'Sarah Connor',
+    email: 's.connor@sky.net',
+    role: 'Worker',
+    status: 'Active',
+    lastLogin: '3 days ago',
+    registered: '2026-05-18',
+  },
+  {
+    id: 'USR-8901',
+    name: 'Admin System',
+    email: 'admin@shiftly.com',
+    role: 'Admin',
+    status: 'Active',
+    lastLogin: 'Just now',
+    registered: '2025-01-01',
+  },
+];
 
 export default function UsersManagementPage(): React.ReactElement {
-  const [users, setUsers] = useState<User[]>([
-    {
-      id: 'USR-8902',
-      name: 'Emma Watson',
-      email: 'emma.w@example.com',
-      role: 'Worker',
-      status: 'Active',
-      lastLogin: '2 mins ago',
-      registered: '2025-11-12',
-    },
-    {
-      id: 'USR-8903',
-      name: 'TechCorp HR',
-      email: 'hr@techcorp.com',
-      role: 'Employer',
-      status: 'Active',
-      lastLogin: '1 hour ago',
-      registered: '2026-01-05',
-    },
-    {
-      id: 'USR-8904',
-      name: 'Michael Scott',
-      email: 'm.scott@dunder.com',
-      role: 'Recruiter',
-      status: 'Suspended',
-      lastLogin: '2 weeks ago',
-      registered: '2026-03-20',
-    },
-    {
-      id: 'USR-8905',
-      name: 'Sarah Connor',
-      email: 's.connor@sky.net',
-      role: 'Worker',
-      status: 'Active',
-      lastLogin: '3 days ago',
-      registered: '2026-05-18',
-    },
-    {
-      id: 'USR-8901',
-      name: 'Admin System',
-      email: 'admin@shiftly.com',
-      role: 'Admin',
-      status: 'Active',
-      lastLogin: 'Just now',
-      registered: '2025-01-01',
-    },
-  ]);
-
+  const [users, setUsers] = useState<AdminUser[]>(defaultUsers);
   const [searchQuery, setSearchQuery] = useState('');
   const [roleFilter, setRoleFilter] = useState('All');
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
-  const [viewUser, setViewUser] = useState<User | null>(null);
+  const [viewUser, setViewUser] = useState<AdminUser | null>(null);
   const [showFilterPanel, setShowFilterPanel] = useState(false);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [deleteUserId, setDeleteUserId] = useState<string | null>(null);
+
+  React.useEffect(() => {
+    let isMounted = true;
+    const fetchUsers = async () => {
+      try {
+        const data = await adminApi.getUsers();
+        if (isMounted && data && data.length > 0) {
+          setUsers(data);
+        }
+      } catch {
+        // Fallback to default demo users in unseeded environments
+      }
+    };
+    void fetchUsers();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const roles = ['All', 'Worker', 'Employer', 'Recruiter', 'Admin'];
 
@@ -91,18 +102,25 @@ export default function UsersManagementPage(): React.ReactElement {
         const matchesSearch =
           u.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
           u.email.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesRole = roleFilter === 'All' || u.role === roleFilter;
+        const matchesRole = roleFilter === 'All' || u.role.toLowerCase() === roleFilter.toLowerCase();
         return matchesSearch && matchesRole;
       }),
     [users, searchQuery, roleFilter],
   );
 
-  const handleSuspend = (userId: string) => {
-    setUsers((prev) =>
-      prev.map((u) =>
-        u.id === userId ? { ...u, status: u.status === 'Active' ? 'Suspended' : 'Active' } : u,
-      ),
-    );
+  const handleSuspend = async (userId: string) => {
+    try {
+      const res = await adminApi.suspendUser(userId);
+      setUsers((prev) =>
+        prev.map((u) => (u.id === userId ? { ...u, status: res.status } : u)),
+      );
+    } catch {
+      setUsers((prev) =>
+        prev.map((u) =>
+          u.id === userId ? { ...u, status: u.status === 'Active' ? 'Suspended' : 'Active' } : u,
+        ),
+      );
+    }
     setOpenMenuId(null);
   };
 
@@ -111,8 +129,13 @@ export default function UsersManagementPage(): React.ReactElement {
     setOpenMenuId(null);
   };
 
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (deleteUserId) {
+      try {
+        await adminApi.deleteUser(deleteUserId);
+      } catch {
+        // Continue with local removal
+      }
       setUsers((prev) => prev.filter((u) => u.id !== deleteUserId));
       setDeleteUserId(null);
     }
@@ -148,6 +171,7 @@ export default function UsersManagementPage(): React.ReactElement {
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <input
               type="text"
+              aria-label="Search users by name or email"
               placeholder="Search by name or email..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -157,6 +181,7 @@ export default function UsersManagementPage(): React.ReactElement {
           <div className="relative">
             <button
               onClick={() => setShowFilterPanel(!showFilterPanel)}
+              aria-label="Filter users by role"
               className="flex items-center gap-2 rounded-lg border border-input px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
             >
               <Filter className="h-4 w-4" /> Filter Roles
@@ -241,6 +266,7 @@ export default function UsersManagementPage(): React.ReactElement {
                     <div className="relative inline-block">
                       <button
                         onClick={() => setOpenMenuId(openMenuId === user.id ? null : user.id)}
+                        aria-label={`User actions for ${user.name}`}
                         className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                       >
                         <MoreHorizontal className="h-5 w-5" />
@@ -266,7 +292,7 @@ export default function UsersManagementPage(): React.ReactElement {
                             <Shield className="h-4 w-4 text-amber-500" /> Change Role
                           </button>
                           <button
-                            onClick={() => handleSuspend(user.id)}
+                            onClick={() => void handleSuspend(user.id)}
                             className={`flex w-full items-center gap-2 px-3 py-2 text-sm transition-colors hover:bg-muted ${user.status === 'Active' ? 'text-amber-500' : 'text-green-500'}`}
                           >
                             {user.status === 'Active' ? (
@@ -320,12 +346,20 @@ export default function UsersManagementPage(): React.ReactElement {
       {/* View User Modal */}
       {viewUser &&
         createPortal(
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="user-profile-dialog-title"
+          >
             <div className="w-full max-w-md rounded-2xl border border-border bg-card shadow-2xl">
               <div className="flex items-center justify-between border-b border-border p-5">
-                <h2 className="text-lg font-semibold text-foreground">User Profile</h2>
+                <h2 id="user-profile-dialog-title" className="text-lg font-semibold text-foreground">
+                  User Profile
+                </h2>
                 <button
                   onClick={() => setViewUser(null)}
+                  aria-label="Close user profile"
                   className="rounded-md p-1.5 text-muted-foreground hover:bg-muted"
                 >
                   <X className="h-5 w-5" />

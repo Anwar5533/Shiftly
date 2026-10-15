@@ -174,6 +174,7 @@ export default function JobsListPage(): React.ReactElement {
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
             <input
               type="text"
+              aria-label="Search jobs by keyword"
               placeholder="Search jobs..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -182,6 +183,7 @@ export default function JobsListPage(): React.ReactElement {
           </div>
           <button
             onClick={() => setIsMobileFiltersOpen(true)}
+            aria-label="Open filter options"
             className="flex h-10 items-center gap-2 rounded-md border border-input bg-card px-4 py-2 font-medium text-foreground shadow-sm transition-colors hover:bg-muted lg:hidden"
           >
             <Filter className="h-4 w-4" />
@@ -223,6 +225,7 @@ export default function JobsListPage(): React.ReactElement {
                   <h2 className="text-xl font-bold text-foreground">Filters</h2>
                   <button
                     onClick={() => setIsMobileFiltersOpen(false)}
+                    aria-label="Close filters"
                     className="-mr-2 rounded-full p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                   >
                     <X className="h-5 w-5" />

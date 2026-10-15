@@ -57,9 +57,24 @@ const SystemLogsPage = lazy(() => import('@/features/admin/pages/SystemLogsPage'
 const FinancialsPage = lazy(() => import('@/features/admin/pages/FinancialsPage'));
 const HelpCenterPage = lazy(() => import('@/features/help/pages/HelpCenterPage'));
 
-const wrap = (Component: any) => (
+import { useAppSelector } from '@/app/store';
+import type { UserRole } from '@shiftly/shared-types';
+
+function DashboardRedirect(): React.ReactElement {
+  const { user } = useAppSelector((state) => state.auth);
+  const portal = user?.role ? user.role.toLowerCase() : 'worker';
+  return <Navigate to={`/dashboard/${portal}`} replace />;
+}
+
+const wrap = (Component: any, roles?: UserRole[]) => (
   <Suspense fallback={<PageLoader fullScreen={false} />}>
-    <Component />
+    {roles ? (
+      <ProtectedRoute roles={roles}>
+        <Component />
+      </ProtectedRoute>
+    ) : (
+      <Component />
+    )}
   </Suspense>
 );
 
@@ -90,39 +105,66 @@ export const router = createBrowserRouter([
     ),
     errorElement: <ErrorBoundaryPage />,
     children: [
-      { path: '/', element: <Navigate to="/dashboard" replace /> },
-      { path: '/dashboard', element: <Navigate to="/dashboard/worker" replace /> },
-      { path: '/dashboard/worker', element: wrap(WorkerDashboard) },
-      { path: '/dashboard/employer', element: wrap(EmployerDashboard) },
-      { path: '/dashboard/recruiter', element: wrap(RecruiterDashboard) },
-      { path: '/dashboard/admin', element: wrap(AdminDashboard) },
+      { path: '/', element: <DashboardRedirect /> },
+      { path: '/dashboard', element: <DashboardRedirect /> },
+      { path: '/dashboard/worker', element: wrap(WorkerDashboard, ['WORKER', 'SUPER_ADMIN']) },
+      {
+        path: '/dashboard/employer',
+        element: wrap(EmployerDashboard, ['EMPLOYER', 'SUPER_ADMIN']),
+      },
+      {
+        path: '/dashboard/recruiter',
+        element: wrap(RecruiterDashboard, ['RECRUITER', 'SUPER_ADMIN']),
+      },
+      { path: '/dashboard/admin', element: wrap(AdminDashboard, ['ADMIN', 'SUPER_ADMIN']) },
       { path: '/jobs', element: wrap(JobsListPage) },
       { path: '/jobs/:id', element: wrap(JobDetailPage) },
-      { path: '/shifts/:id', element: wrap(ActiveShiftPage) },
-      { path: '/jobs/:id/applications', element: wrap(JobApplicationsPage) },
-      { path: '/jobs/post', element: wrap(PostJobPage) },
-      { path: '/jobs/manage', element: wrap(ManageJobsPage) },
-      { path: '/jobs/requisitions', element: wrap(RequisitionsPage) },
-      { path: '/applications/my', element: wrap(MyApplicationsPage) },
-      { path: '/applicants', element: wrap(ApplicantsPage) },
-      { path: '/candidates', element: wrap(CandidatesPage) },
+      { path: '/shifts/:id', element: wrap(ActiveShiftPage, ['WORKER', 'SUPER_ADMIN']) },
+      {
+        path: '/jobs/:id/applications',
+        element: wrap(JobApplicationsPage, ['EMPLOYER', 'RECRUITER', 'SUPER_ADMIN']),
+      },
+      { path: '/jobs/post', element: wrap(PostJobPage, ['EMPLOYER', 'RECRUITER', 'SUPER_ADMIN']) },
+      {
+        path: '/jobs/manage',
+        element: wrap(ManageJobsPage, ['EMPLOYER', 'RECRUITER', 'SUPER_ADMIN']),
+      },
+      {
+        path: '/jobs/requisitions',
+        element: wrap(RequisitionsPage, ['EMPLOYER', 'RECRUITER', 'SUPER_ADMIN']),
+      },
+      { path: '/applications/my', element: wrap(MyApplicationsPage, ['WORKER', 'SUPER_ADMIN']) },
+      {
+        path: '/applicants',
+        element: wrap(ApplicantsPage, ['EMPLOYER', 'RECRUITER', 'SUPER_ADMIN']),
+      },
+      {
+        path: '/candidates',
+        element: wrap(CandidatesPage, ['EMPLOYER', 'RECRUITER', 'SUPER_ADMIN']),
+      },
       { path: '/interviews', element: wrap(InterviewsPage) },
-      { path: '/timesheets', element: wrap(TimesheetsPage) },
-      { path: '/billing', element: wrap(BillingPage) },
-      { path: '/admin/users', element: wrap(UsersManagementPage) },
-      { path: '/admin/analytics', element: wrap(PlatformAnalyticsPage) },
-      { path: '/admin/logs', element: wrap(SystemLogsPage) },
-      { path: '/admin/financials', element: wrap(FinancialsPage) },
+      { path: '/timesheets', element: wrap(TimesheetsPage, ['WORKER', 'SUPER_ADMIN']) },
+      { path: '/billing', element: wrap(BillingPage, ['EMPLOYER', 'RECRUITER', 'SUPER_ADMIN']) },
+      { path: '/admin/users', element: wrap(UsersManagementPage, ['ADMIN', 'SUPER_ADMIN']) },
+      {
+        path: '/admin/analytics',
+        element: wrap(PlatformAnalyticsPage, ['ADMIN', 'SUPER_ADMIN']),
+      },
+      { path: '/admin/logs', element: wrap(SystemLogsPage, ['ADMIN', 'SUPER_ADMIN']) },
+      { path: '/admin/financials', element: wrap(FinancialsPage, ['ADMIN', 'SUPER_ADMIN']) },
       { path: '/messages', element: wrap(MessagesPage) },
       { path: '/chat', element: wrap(MessagingPage) },
-      { path: '/timesheet-approvals', element: wrap(TimesheetApprovalPage) },
+      {
+        path: '/timesheet-approvals',
+        element: wrap(TimesheetApprovalPage, ['EMPLOYER', 'RECRUITER', 'SUPER_ADMIN']),
+      },
       { path: '/profile/:role/:id', element: wrap(ProfilePage) },
       { path: '/wallet', element: wrap(WalletPage) },
       { path: '/verification', element: wrap(VerificationPage) },
       { path: '/settings', element: wrap(SettingsPage) },
       { path: '/notifications', element: wrap(NotificationsPage) },
       { path: '/help', element: wrap(HelpCenterPage) },
-      { path: '*', element: <Navigate to="/dashboard" replace /> },
+      { path: '*', element: <DashboardRedirect /> },
     ],
   },
 ]);

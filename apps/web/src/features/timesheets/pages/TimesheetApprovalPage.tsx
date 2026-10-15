@@ -111,6 +111,7 @@ export function TimesheetApprovalPage() {
                             void rejectMutation.mutate({ id: ts.id, reason });
                           }
                         }}
+                        aria-label={`Reject timesheet for ${ts.shift.worker.user.email}`}
                         className="rounded-lg border border-border px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-muted"
                       >
                         Reject
@@ -119,6 +120,7 @@ export function TimesheetApprovalPage() {
                         onClick={() => {
                           void approveMutation.mutate(ts.id);
                         }}
+                        aria-label={`Approve timesheet for ${ts.shift.worker.user.email}`}
                         className="rounded-lg bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
                       >
                         Approve

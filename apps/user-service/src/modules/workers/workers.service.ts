@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
+import { Prisma } from '@prisma/client-user-service';
 import { PrismaService } from '../../infrastructure/database/prisma.service';
 import { UpdateWorkerProfileDto } from './dto/update-worker-profile.dto';
 import { AddWorkerSkillDto } from './dto/add-worker-skill.dto';
@@ -149,5 +150,44 @@ export class WorkersService {
     if (profile.hourlyRate) score += 1;
 
     return Math.round((score / totalFields) * 100);
+  }
+
+  async searchWorkers(query?: string) {
+    const where: Prisma.WorkerProfileWhereInput = {
+      deletedAt: null,
+    };
+    if (query && query.trim()) {
+      where.OR = [
+        { firstName: { contains: query.trim(), mode: 'insensitive' } },
+        { lastName: { contains: query.trim(), mode: 'insensitive' } },
+        { bio: { contains: query.trim(), mode: 'insensitive' } },
+        { skills: { some: { skill: { name: { contains: query.trim(), mode: 'insensitive' } } } } },
+      ];
+    }
+
+    const profiles = await this.prisma.workerProfile.findMany({
+      where,
+      include: {
+        skills: {
+          include: { skill: true },
+        },
+      },
+      take: 20,
+    });
+
+    return profiles.map((p) => {
+      const loc = p.location as { city?: string; country?: string } | null;
+      const locationStr = loc?.city ? `${loc.city}, ${loc.country ?? 'IN'}` : 'Remote';
+      return {
+        id: p.userId,
+        name: `${p.firstName} ${p.lastName}`.trim(),
+        title: p.bio || 'Verified Specialist',
+        location: locationStr,
+        experience: `${p.experienceYears || 1} years`,
+        skills: p.skills.map((s) => s.skill.name),
+        status: p.availability === 'FULL_TIME' ? 'Actively Looking' : 'Open to Offers',
+        rating: Number(p.rating) || 4.8,
+      };
+    });
   }
 }

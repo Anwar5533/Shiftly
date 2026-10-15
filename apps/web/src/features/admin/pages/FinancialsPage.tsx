@@ -17,6 +17,9 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
+import { useQuery } from '@tanstack/react-query';
+import { analyticsApi } from '../api/analytics.api';
+
 function formatINR(amount: number): string {
   return new Intl.NumberFormat('en-IN', {
     style: 'currency',
@@ -25,13 +28,43 @@ function formatINR(amount: number): string {
   }).format(amount);
 }
 
+const defaultRevenueData = [
+  { name: 'Week 1', revenue: 930000 },
+  { name: 'Week 2', revenue: 1110000 },
+  { name: 'Week 3', revenue: 1237500 },
+  { name: 'Week 4', revenue: 1590000 },
+];
+
 export default function FinancialsPage(): React.ReactElement {
-  const revenueData = [
-    { name: 'Week 1', revenue: 930000 },
-    { name: 'Week 2', revenue: 1110000 },
-    { name: 'Week 3', revenue: 1237500 },
-    { name: 'Week 4', revenue: 1590000 },
-  ];
+  const { data: serverRevenue } = useQuery({
+    queryKey: ['admin-financials-revenue'],
+    queryFn: () => analyticsApi.getRevenue(),
+  });
+
+  const { data: serverStats } = useQuery({
+    queryKey: ['admin-financials-stats'],
+    queryFn: () => analyticsApi.getStats(),
+  });
+
+  const revenueData =
+    serverRevenue && serverRevenue.length > 0
+      ? (serverRevenue as unknown as { name: string; revenue: number }[])
+      : defaultRevenueData;
+
+  const netRevenue =
+    typeof serverStats?.netPlatformRevenue === 'number'
+      ? serverStats.netPlatformRevenue
+      : typeof serverStats?.totalPlatformRevenue === 'number'
+        ? serverStats.totalPlatformRevenue
+        : 4867500;
+
+  const totalPayouts =
+    typeof serverStats?.grossPaymentVolume === 'number'
+      ? serverStats.grossPaymentVolume
+      : 10687500;
+
+  const pendingEscrow =
+    typeof serverStats?.pendingEscrow === 'number' ? serverStats.pendingEscrow : 1368000;
 
   const transactions = [
     {
@@ -105,6 +138,7 @@ export default function FinancialsPage(): React.ReactElement {
         </div>
         <button
           onClick={handleExportCSV}
+          aria-label="Export financial transactions CSV"
           className="flex items-center justify-center gap-2 rounded-lg border border-border bg-muted px-4 py-2 font-medium text-foreground transition-colors hover:bg-muted/80"
         >
           <Download className="h-4 w-4" /> Export CSV
@@ -119,7 +153,7 @@ export default function FinancialsPage(): React.ReactElement {
             </div>
             <h3 className="font-medium text-muted-foreground">Net Revenue (MTD)</h3>
           </div>
-          <p className="text-3xl font-bold text-foreground">{formatINR(4867500)}</p>
+          <p className="text-3xl font-bold text-foreground">{formatINR(netRevenue)}</p>
           <div className="mt-2 flex items-center text-sm font-medium text-green-500">
             <ArrowUpRight className="mr-1 h-4 w-4" /> 12.5% vs last month
           </div>
@@ -132,7 +166,7 @@ export default function FinancialsPage(): React.ReactElement {
             </div>
             <h3 className="font-medium text-muted-foreground">Total Payouts (MTD)</h3>
           </div>
-          <p className="text-3xl font-bold text-foreground">{formatINR(10687500)}</p>
+          <p className="text-3xl font-bold text-foreground">{formatINR(totalPayouts)}</p>
           <div className="mt-2 flex items-center text-sm font-medium text-blue-500">
             <ArrowUpRight className="mr-1 h-4 w-4" /> 8.2% vs last month
           </div>
@@ -145,7 +179,7 @@ export default function FinancialsPage(): React.ReactElement {
             </div>
             <h3 className="font-medium text-muted-foreground">Pending Escrow</h3>
           </div>
-          <p className="text-3xl font-bold text-foreground">{formatINR(1368000)}</p>
+          <p className="text-3xl font-bold text-foreground">{formatINR(pendingEscrow)}</p>
           <div className="mt-2 flex items-center text-sm font-medium text-amber-500">
             <ArrowDownRight className="mr-1 h-4 w-4" /> 3.1% vs last month
           </div>

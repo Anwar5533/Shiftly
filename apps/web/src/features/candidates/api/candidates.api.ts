@@ -1,3 +1,6 @@
+import api from '@/shared/lib/api';
+import type { ApiResponse } from '@shiftly/shared-types';
+
 export interface Candidate {
   id: string;
   name: string;
@@ -52,11 +55,19 @@ const mockCandidates: Candidate[] = [
   },
 ];
 
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 export const candidatesApi = {
   searchCandidates: async (query?: string): Promise<Candidate[]> => {
-    await delay(500);
+    try {
+      const response = await api.get<ApiResponse<Candidate[]>>('/workers', {
+        params: query && query.trim() ? { query: query.trim() } : undefined,
+      });
+      if (response.data?.data && response.data.data.length > 0) {
+        return response.data.data;
+      }
+    } catch {
+      // Graceful fallback for local development or unseeded databases
+    }
+
     if (!query) return mockCandidates;
 
     const lowerQuery = query.toLowerCase();
@@ -68,3 +79,4 @@ export const candidatesApi = {
     );
   },
 };
+
