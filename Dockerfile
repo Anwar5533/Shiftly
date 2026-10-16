@@ -1,7 +1,7 @@
 # ─── BASE ──────────────────────────────────────────────────────────────────────
 FROM node:20-alpine AS base
-# Add libc6-compat for turbo and Prisma compatibility on alpine
-RUN apk add --no-cache libc6-compat
+# Update OS packages and add libc6-compat for turbo and Prisma compatibility on alpine
+RUN apk update && apk upgrade --no-cache && apk add --no-cache libc6-compat
 RUN corepack enable pnpm
 
 # ─── STAGE 1 (Prune) ──────────────────────────────────────────────────────────
@@ -44,6 +44,10 @@ WORKDIR /app
 ARG APP_NAME
 
 ENV NODE_ENV=production
+
+# Update OS packages and remove unused package managers and build tools from runner image
+RUN apk update && apk upgrade --no-cache \
+    && rm -rf /usr/local/lib/node_modules/npm /usr/local/bin/npm /usr/local/bin/npx /usr/local/bin/corepack /usr/local/bin/yarn /usr/local/bin/yarnpkg /opt/yarn* /root/.npm /root/.pnpm-store
 
 # Create a non-root user for security
 RUN addgroup --system --gid 1001 nestjs \

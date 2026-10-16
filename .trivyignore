@@ -1,0 +1,38 @@
+# Shiftly Trivy Ignore List
+
+# @nestjs/microservices:
+# CVE-2026-102281: Remote process termination via deeply nested microservice message pattern (fix available only in Nest v11/v12; Shiftly uses Nest v10)
+CVE-2026-102281
+
+# CVE-2026-40879: DoS via Recursive handleData in JsonSocket TCP transport (Shiftly uses Kafka transport; fix available in Nest v11)
+CVE-2026-40879
+
+# OpenSSL vulnerabilities (also mitigated via apk upgrade in Dockerfile)
+CVE-2026-14456
+CVE-2026-45447
+
+# Preinstalled Node/NPM build tool dependencies (mitigated by removing npm from runtime runner image)
+CVE-2024-21538
+CVE-2025-64756
+CVE-2026-9496
+CVE-2026-13149
+CVE-2026-14257
+CVE-2026-23745
+CVE-2026-23950
+CVE-2026-24842
+CVE-2026-26960
+CVE-2026-26996
+CVE-2026-27903
+CVE-2026-27904
+CVE-2026-29786
+CVE-2026-31802
+CVE-2026-48815
+CVE-2026-59873
+CVE-2026-59874
+CVE-2026-69152
+CVE-2026-69192
+CVE-2026-73566
+CVE-2026-102276
+CVE-2026-102278
+CVE-2026-106445
+CVE-2026-106446
