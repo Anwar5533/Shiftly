@@ -9,5 +9,10 @@ CREATE TABLE IF NOT EXISTS "applications"."outbox_events" (
   "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
   "publishedAt" TIMESTAMP(3),
   "error" TEXT,
+  "retryCount" INTEGER NOT NULL DEFAULT 0,
+  "lastRetryAt" TIMESTAMP(3),
   CONSTRAINT "outbox_events_pkey" PRIMARY KEY ("id")
 );
+ALTER TABLE "applications"."outbox_events" ADD COLUMN IF NOT EXISTS "retryCount" INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE "applications"."outbox_events" ADD COLUMN IF NOT EXISTS "lastRetryAt" TIMESTAMP(3);
+

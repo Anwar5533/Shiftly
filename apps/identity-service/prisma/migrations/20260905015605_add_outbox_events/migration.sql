@@ -18,7 +18,7 @@ ALTER TABLE "identity"."users" DROP COLUMN "referredBy";
 DROP TABLE "identity"."push_tokens";
 
 -- CreateTable
-CREATE TABLE "identity"."outbox_events" (
+CREATE TABLE IF NOT EXISTS "identity"."outbox_events" (
     "id" TEXT NOT NULL,
     "topic" TEXT NOT NULL,
     "payload" JSONB NOT NULL,
@@ -26,6 +26,11 @@ CREATE TABLE "identity"."outbox_events" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "publishedAt" TIMESTAMP(3),
     "error" TEXT,
+    "retryCount" INTEGER NOT NULL DEFAULT 0,
+    "lastRetryAt" TIMESTAMP(3),
 
     CONSTRAINT "outbox_events_pkey" PRIMARY KEY ("id")
 );
+ALTER TABLE "identity"."outbox_events" ADD COLUMN IF NOT EXISTS "retryCount" INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE "identity"."outbox_events" ADD COLUMN IF NOT EXISTS "lastRetryAt" TIMESTAMP(3);
+

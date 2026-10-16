@@ -1023,6 +1023,8 @@ model IdentityOutboxEvent {
   createdAt   DateTime @default(now())
   publishedAt DateTime?
   error       String?
+  retryCount  Int       @default(0)
+  lastRetryAt DateTime?
 
   @@map("outbox_events")
   @@schema("identity")
@@ -1036,6 +1038,8 @@ model JobsOutboxEvent {
   createdAt   DateTime @default(now())
   publishedAt DateTime?
   error       String?
+  retryCount  Int       @default(0)
+  lastRetryAt DateTime?
 
   @@map("outbox_events")
   @@schema("jobs")
@@ -1049,6 +1053,8 @@ model ApplicationsOutboxEvent {
   createdAt   DateTime @default(now())
   publishedAt DateTime?
   error       String?
+  retryCount  Int       @default(0)
+  lastRetryAt DateTime?
 
   @@map("outbox_events")
   @@schema("applications")
@@ -1062,6 +1068,8 @@ model UsersOutboxEvent {
   createdAt   DateTime @default(now())
   publishedAt DateTime?
   error       String?
+  retryCount  Int       @default(0)
+  lastRetryAt DateTime?
 
   @@map("outbox_events")
   @@schema("users")

@@ -101,7 +101,15 @@ export class ApplicationsService {
   }
 
   async checkApplicationStatus(userId: string, jobId: string) {
-    const workerProfileId = await this.getWorkerId(userId);
+    let workerProfileId: string;
+    try {
+      workerProfileId = await this.getWorkerId(userId);
+    } catch {
+      return {
+        applied: false,
+      };
+    }
+
     const existingApp = await this.prisma.jobApplication.findUnique({
       where: {
         jobId_workerId: {
