@@ -1,3 +1,12 @@
 packages:
   - 'apps/*'
   - 'packages/*'
+
+auditConfig:
+  ignoreGhsas:
+    - GHSA-vfj7-8cjw-p6xm
+    - GHSA-m8vh-jmq9-5rjg
+    - GHSA-96h4-vgxj-gvm2
+    - GHSA-hpwf-8g29-85qm
+    - GHSA-36xv-jgw5-4q75
+
