@@ -44,7 +44,8 @@ jobs:
           if [ -f ~/.kube/config ]; then
             echo "Applying manifests to Kubernetes cluster..."
             kubectl apply -k infrastructure/k8s/overlays/dev
-            kubectl set image deployment/api-gateway api-gateway=ghcr.io/${{ github.repository_owner }}/api-gateway:ci-${{ github.sha }} -n dev || true
+            REPO_OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+            kubectl set image deployment/api-gateway api-gateway=ghcr.io/${REPO_OWNER}/api-gateway:ci-${{ github.sha }} -n dev || true
             kubectl rollout status deployment/api-gateway -n dev --timeout=60s || true
           else
             echo "ℹ️ Manifests validated successfully via Kustomize. (Configure KUBECONFIG in repository secrets to deploy to a live cluster.)"
@@ -81,7 +82,8 @@ jobs:
           if [ -f ~/.kube/config ]; then
             echo "Applying manifests to Kubernetes cluster..."
             kubectl apply -k infrastructure/k8s/overlays/uat
-            kubectl set image deployment/api-gateway api-gateway=ghcr.io/${{ github.repository_owner }}/api-gateway:ci-${{ github.sha }} -n uat || true
+            REPO_OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+            kubectl set image deployment/api-gateway api-gateway=ghcr.io/${REPO_OWNER}/api-gateway:ci-${{ github.sha }} -n uat || true
             kubectl rollout status deployment/api-gateway -n uat --timeout=60s || true
           else
             echo "ℹ️ Manifests validated successfully via Kustomize. (Configure KUBECONFIG in repository secrets to deploy to a live cluster.)"
@@ -118,7 +120,8 @@ jobs:
           if [ -f ~/.kube/config ]; then
             echo "Applying manifests to Kubernetes cluster..."
             kubectl apply -k infrastructure/k8s/overlays/mo
-            kubectl set image deployment/api-gateway api-gateway=ghcr.io/${{ github.repository_owner }}/api-gateway:ci-${{ github.sha }} -n mo || true
+            REPO_OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+            kubectl set image deployment/api-gateway api-gateway=ghcr.io/${REPO_OWNER}/api-gateway:ci-${{ github.sha }} -n mo || true
             kubectl rollout status deployment/api-gateway -n mo --timeout=60s || true
           else
             echo "ℹ️ Manifests validated successfully via Kustomize. (Configure KUBECONFIG in repository secrets to deploy to a live cluster.)"
@@ -155,7 +158,8 @@ jobs:
           if [ -f ~/.kube/config ]; then
             echo "Applying manifests to Kubernetes cluster..."
             kubectl apply -k infrastructure/k8s/overlays/prod
-            kubectl set image deployment/api-gateway api-gateway=ghcr.io/${{ github.repository_owner }}/api-gateway:ci-${{ github.sha }} -n prod || true
+            REPO_OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+            kubectl set image deployment/api-gateway api-gateway=ghcr.io/${REPO_OWNER}/api-gateway:ci-${{ github.sha }} -n prod || true
             kubectl rollout status deployment/api-gateway -n prod --timeout=60s || true
           else
             echo "ℹ️ Manifests validated successfully via Kustomize. (Configure KUBECONFIG in repository secrets to deploy to a live cluster.)"
