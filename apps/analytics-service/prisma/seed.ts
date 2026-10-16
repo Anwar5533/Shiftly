@@ -78,16 +78,26 @@ async function main() {
     where: { userId: employerUser.id },
   });
   if (!employerProfile) {
-    employerProfile = await prisma.employerProfile.create({
-      data: {
-        userId: employerUser.id,
-        companyName: 'Tech Innovators Inc.',
-        industry: 'Technology',
-        location: { city: 'Bangalore', country: 'India' },
-        isVerified: true,
-      },
-    });
-    console.log('Created Employer Profile');
+    try {
+      employerProfile = await prisma.employerProfile.create({
+        data: {
+          userId: employerUser.id,
+          companyName: 'Tech Innovators Inc.',
+          industry: 'Technology',
+          location: { city: 'Bangalore', country: 'India' },
+          isVerified: true,
+        },
+      });
+      console.log('Created Employer Profile');
+    } catch (err: any) {
+      if (err.code === 'P2002') {
+        employerProfile = await prisma.employerProfile.findUnique({
+          where: { userId: employerUser.id },
+        });
+      } else {
+        throw err;
+      }
+    }
   }
 
   // Create Worker Profile
@@ -96,16 +106,26 @@ async function main() {
     where: { userId: workerUser.id },
   });
   if (!workerProfile) {
-    workerProfile = await prisma.workerProfile.create({
-      data: {
-        userId: workerUser.id,
-        firstName: 'John',
-        lastName: 'Doe',
-        location: { city: 'Bangalore', country: 'India' },
-        isVerified: true,
-      },
-    });
-    console.log('Created Worker Profile');
+    try {
+      workerProfile = await prisma.workerProfile.create({
+        data: {
+          userId: workerUser.id,
+          firstName: 'John',
+          lastName: 'Doe',
+          location: { city: 'Bangalore', country: 'India' },
+          isVerified: true,
+        },
+      });
+      console.log('Created Worker Profile');
+    } catch (err: any) {
+      if (err.code === 'P2002') {
+        workerProfile = await prisma.workerProfile.findUnique({
+          where: { userId: workerUser.id },
+        });
+      } else {
+        throw err;
+      }
+    }
   }
 
   // Create Recruiter Profile
@@ -114,61 +134,90 @@ async function main() {
     where: { userId: recruiterUser.id },
   });
   if (!recruiterProfile) {
-    recruiterProfile = await prisma.recruiterProfile.create({
-      data: {
-        userId: recruiterUser.id,
-        firstName: 'Alice',
-        lastName: 'Smith',
-        agencyName: 'Top Talent Agency',
-        specialisations: ['IT', 'Engineering'],
-        isVerified: true,
-      },
-    });
-    console.log('Created Recruiter Profile');
+    try {
+      recruiterProfile = await prisma.recruiterProfile.create({
+        data: {
+          userId: recruiterUser.id,
+          firstName: 'Alice',
+          lastName: 'Smith',
+          agencyName: 'Top Talent Agency',
+          specialisations: ['IT', 'Engineering'],
+          isVerified: true,
+        },
+      });
+      console.log('Created Recruiter Profile');
+    } catch (err: any) {
+      if (err.code === 'P2002') {
+        recruiterProfile = await prisma.recruiterProfile.findUnique({
+          where: { userId: recruiterUser.id },
+        });
+      } else {
+        throw err;
+      }
+    }
   }
 
   // Create Sample Job
-  const existingJob = await prisma.job.findFirst({
-    where: { employerId: employerProfile.id },
-  });
-  let job;
-  if (!existingJob) {
-    job = await prisma.job.create({
-      data: {
-        employerId: employerProfile.id,
-        title: 'Senior Frontend Developer',
-        description: 'Looking for an experienced React developer to join our team.',
-        jobType: JobType.PERMANENT,
-        status: 'PUBLISHED',
-        location: { city: 'Bangalore', country: 'India' },
-        isRemote: true,
-        salaryMin: 1500000,
-        salaryMax: 2500000,
-        salaryCurrency: 'INR',
-        salaryPeriod: SalaryPeriod.ANNUAL,
-        startDate: new Date(),
-        publishedAt: new Date(),
-      },
-    });
-    console.log('Created Sample Job');
-  } else {
-    job = existingJob;
+  let job = employerProfile
+    ? await prisma.job.findFirst({
+        where: { employerId: employerProfile.id },
+      })
+    : null;
+  if (!job && employerProfile) {
+    try {
+      job = await prisma.job.create({
+        data: {
+          employerId: employerProfile.id,
+          title: 'Senior Frontend Developer',
+          description: 'Looking for an experienced React developer to join our team.',
+          jobType: JobType.PERMANENT,
+          status: 'PUBLISHED',
+          location: { city: 'Bangalore', country: 'India' },
+          isRemote: true,
+          salaryMin: 1500000,
+          salaryMax: 2500000,
+          salaryCurrency: 'INR',
+          salaryPeriod: SalaryPeriod.ANNUAL,
+          startDate: new Date(),
+          publishedAt: new Date(),
+        },
+      });
+      console.log('Created Sample Job');
+    } catch (err: any) {
+      if (err.code === 'P2002') {
+        job = await prisma.job.findFirst({
+          where: { employerId: employerProfile.id },
+        });
+      } else {
+        throw err;
+      }
+    }
   }
 
   // Create Sample Application
-  const existingApp = await prisma.jobApplication.findFirst({
-    where: { jobId: job.id, workerId: workerProfile.id },
-  });
-  if (!existingApp) {
-    await prisma.jobApplication.create({
-      data: {
-        jobId: job.id,
-        workerId: workerProfile.id,
-        status: 'PENDING',
-        coverLetter: 'I am very interested in this role and have 5 years of experience in React.',
-      },
-    });
-    console.log('Created Sample Application');
+  if (job && workerProfile) {
+    try {
+      const existingApp = await prisma.jobApplication.findFirst({
+        where: { jobId: job.id, workerId: workerProfile.id },
+      });
+      if (!existingApp) {
+        await prisma.jobApplication.create({
+          data: {
+            jobId: job.id,
+            workerId: workerProfile.id,
+            status: 'PENDING',
+            coverLetter: 'I am very interested in this role and have 5 years of experience in React.',
+          },
+        });
+        console.log('Created Sample Application');
+      }
+    } catch (err: any) {
+      if (err.code === 'P2002') {
+        console.log('Sample Application already exists (concurrent seed)');
+      } else {
+        throw err;
+      }
+    }
   }
 
   console.log('Seed completed successfully!');

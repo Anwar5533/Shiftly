@@ -126,8 +126,8 @@ jobs:
           DOCUMENTS_URL: http://127.0.0.1:3010
           NOTIFICATIONS_URL: http://127.0.0.1:3011
         run: |
-          pnpm turbo run db:migrate:deploy
-          pnpm turbo run db:seed
+          pnpm run db:migrate:deploy
+          pnpm run db:seed
           pnpm turbo run start --filter="!@shiftly/web" &
           npx wait-on tcp:3000 tcp:3003 tcp:3004 tcp:3005 tcp:3006 tcp:3007 tcp:3008 tcp:3009 tcp:3010 tcp:3011 -t 120000
           pnpm turbo run test:e2e
