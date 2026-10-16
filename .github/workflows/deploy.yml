@@ -24,10 +24,10 @@ jobs:
         run: |
           echo "Deploying to DEV environment..."
           echo "Image tag: ci-${{ github.sha }}"
-          
+
           # Kubernetes Deployment
-          kubectl apply -k infrastructure/k8s/overlays/${{ github.ref_name == 'main' && 'prod' || 'dev' }}
-          kubectl set image deployment/api-gateway api-gateway=ghcr.io/your-org/api-gateway:ci-${{ github.sha }} -n dev
+          kubectl apply -k infrastructure/k8s/overlays/dev
+          kubectl set image deployment/api-gateway api-gateway=ghcr.io/${{ github.repository_owner }}/api-gateway:ci-${{ github.sha }} -n dev
           kubectl rollout status deployment/api-gateway -n dev
 
   # ─── Deploy to UAT ──────────────────────────────────────────────────────────
@@ -41,10 +41,10 @@ jobs:
         run: |
           echo "Deploying to UAT environment..."
           echo "Image tag: ci-${{ github.sha }}"
-          
+
           # Kubernetes Deployment
           kubectl apply -k infrastructure/k8s/overlays/uat
-          kubectl set image deployment/api-gateway api-gateway=ghcr.io/your-org/api-gateway:ci-${{ github.sha }} -n uat
+          kubectl set image deployment/api-gateway api-gateway=ghcr.io/${{ github.repository_owner }}/api-gateway:ci-${{ github.sha }} -n uat
           kubectl rollout status deployment/api-gateway -n uat
 
   # ─── Deploy to MO (Model Office) ────────────────────────────────────────────
@@ -58,10 +58,10 @@ jobs:
         run: |
           echo "Deploying to MO environment..."
           echo "Image tag: ci-${{ github.sha }}"
-          
+
           # Kubernetes Deployment
           kubectl apply -k infrastructure/k8s/overlays/mo
-          kubectl set image deployment/api-gateway api-gateway=ghcr.io/your-org/api-gateway:ci-${{ github.sha }} -n mo
+          kubectl set image deployment/api-gateway api-gateway=ghcr.io/${{ github.repository_owner }}/api-gateway:ci-${{ github.sha }} -n mo
           kubectl rollout status deployment/api-gateway -n mo
 
   # ─── Deploy to PROD ─────────────────────────────────────────────────────────
@@ -75,8 +75,8 @@ jobs:
         run: |
           echo "Deploying to PROD environment..."
           echo "Image tag: ci-${{ github.sha }}"
-          
+
           # Kubernetes Deployment
           kubectl apply -k infrastructure/k8s/overlays/prod
-          kubectl set image deployment/api-gateway api-gateway=ghcr.io/your-org/api-gateway:ci-${{ github.sha }} -n prod
+          kubectl set image deployment/api-gateway api-gateway=ghcr.io/${{ github.repository_owner }}/api-gateway:ci-${{ github.sha }} -n prod
           kubectl rollout status deployment/api-gateway -n prod

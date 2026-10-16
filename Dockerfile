@@ -60,7 +60,7 @@ COPY --from=installer --chown=nestjs:nestjs /app/apps/${APP_NAME}/node_modules .
 # Ensure internal packages exist if symlinked
 COPY --from=installer --chown=nestjs:nestjs /app/packages ./packages
 
-# Copy prisma folder for migrations
+# Copy prisma folder if present
 COPY --from=installer --chown=nestjs:nestjs /app/apps/${APP_NAME}/prisma ./prisma
 
-CMD ["sh", "-c", "if [ -f \"prisma/schema.prisma\" ]; then npx prisma migrate deploy; fi && node dist/main.js"]
+CMD ["node", "dist/main.js"]

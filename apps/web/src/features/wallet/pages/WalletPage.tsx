@@ -188,8 +188,6 @@ export default function WalletPage() {
                         <p className="font-medium text-foreground">{tx.description}</p>
                         <p className="mt-0.5 flex items-center gap-1 text-sm text-muted-foreground">
                           <Clock className="h-3 w-3" />
-                          @typescript-eslint/no-unsafe-member-access -- TODO(RC3): Address type
-                          safety
                           {format(new Date(tx.createdAt), 'MMM d, h:mm a')}
                         </p>
                       </div>

@@ -64,3 +64,6 @@ test_job_applications.js
 test_my_applications.js
 apps/identity-service/test-db.js
 apps/analytics-service/test.ts
+
+# Internal audit reports
+audit/
